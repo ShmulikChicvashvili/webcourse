@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="main_theme">
-        
-        <item name="android:background">#4DB8FF</item>
-        
-        
-    </style>
-</resources>
