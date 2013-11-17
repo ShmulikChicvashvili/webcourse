@@ -1,5 +1,5 @@
-package com.technion.coolie.guyeran;
+package com.technion.coolie.techtrade;
 
-public class Activity {
+public class MainActivity {
 
 }
