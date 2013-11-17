@@ -1,5 +1,7 @@
 package com.technion.coolie.joinin;
 
-public class MainActivity {
+import com.technion.coolie.CoolieActivity;
+
+public class MainActivity extends CoolieActivity {
 
 }

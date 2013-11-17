@@ -1,0 +1,190 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/skel_drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- The main content view -->
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/skel_main_screen"
+    android:scrollbars="none"
+	style="@style/main_theme"
+    android:layout_height="match_parent" >
+    <TableLayout 
+    android:id="@+id/skel_tableLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    >
+    <!-- text most used -->
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:text="Most Used..."
+            android:layout_width="wrap_content"
+            style="@style/title" />
+    </TableRow>
+    <!-- line -->
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"		
+         >
+       <View
+        android:layout_height="2dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:background="#006CB3"
+         />   
+	  </TableRow>
+	  
+ 	 <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+		android:paddingTop="8dp"   >	
+		     
+ 	   <ViewStub android:id="@+id/skel_btn1"
+ 	    android:layout="@layout/big_button_layout"
+ 	    android:inflatedId="@+id/skel_bigbtn1layout"
+		android:layout_width="0dp"
+		android:layout_weight="6"
+ 	    />
+	   <View
+        android:layout_height="match_parent"
+        android:layout_width="0dp"  
+        android:layout_weight="1"           
+         /> 
+         
+       <ViewStub android:id="@+id/skel_btn2"
+ 	    android:layout="@layout/big_button_layout"
+ 	    android:inflatedId="@+id/skel_bigbtn2layout"
+		android:layout_width="0dp"
+		android:layout_weight="6"
+ 	    />
+       <View
+        android:layout_height="match_parent"
+        android:layout_width="0dp"  
+        android:layout_weight="1"              
+         /> 
+       <ViewStub android:id="@+id/skel_btn3"
+ 	    android:layout="@layout/big_button_layout"
+ 	    android:inflatedId="@+id/skel_bigbtn3layout"
+		android:layout_width="0dp"
+		android:layout_weight="6"
+ 	    />
+       
+       <View
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"              
+         />		
+ 	    
+       	  <ViewStub android:id="@+id/skel_btn4"
+ 	    android:layout="@layout/big_button_layout"
+ 	    android:inflatedId="@+id/skel_bigbtn4layout"
+		android:layout_width="0dp"
+		android:layout_weight="6"
+ 	    />
+ 	    
+	</TableRow>
+		 
+ 	  <TableRow
+        android:id="@+id/skel_tableRow4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dip" >
+        <TextView
+            android:text="Apps"
+            style="@style/title" />     
+    </TableRow>
+ 
+    <!-- line -->
+    <TableRow
+        android:id="@+id/skel_tableRow5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"		
+         >
+       <View
+        android:layout_height="2dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:background="#006CB3"
+         />    
+	  </TableRow>
+		
+	 <TableRow
+        android:id="@+id/skel_tableRow6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+		android:paddingTop="8dp"   >	
+            
+       	<ViewStub android:id="@+id/skel_btn5"
+ 	    android:layout="@layout/small_button_layout"
+ 	    android:inflatedId="@+id/skel_smallbtn5layout"
+		android:layout_width="0dp"
+		android:layout_weight="6"
+ 	    />	
+ 	          
+       <View
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"      
+         />
+       
+      <ViewStub android:id="@+id/skel_btn6"
+ 	    android:layout="@layout/small_button_layout"
+ 	    android:inflatedId="@+id/skel_smallbtn6layout"
+		android:layout_width="0dp"
+		android:layout_weight="6"
+ 	    />	
+ 	    
+      <View
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+         />
+      
+      <ViewStub android:id="@+id/skel_btn7"
+ 	    android:layout="@layout/small_button_layout"
+ 	    android:inflatedId="@+id/skel_smallbtn7layout"
+		android:layout_width="0dp"
+		android:layout_weight="6"
+ 	    />
+
+	   <View
+        android:layout_height="match_parent"
+        android:layout_width="0dp"    
+        android:layout_weight="1"   
+         />
+	                     
+          <ViewStub android:id="@+id/skel_btn8"
+ 	    android:layout="@layout/small_button_layout"
+ 	    android:inflatedId="@+id/skel_smallbtn8layout"
+		android:layout_width="0dp"
+		android:layout_weight="6"
+ 	    />
+          
+        <View
+        android:layout_height="match_parent"
+        android:layout_width="0dp"    
+        android:layout_weight="7"   
+         />
+ 	    
+	</TableRow>	
+	</TableLayout>
+</ScrollView>
+
+    <!-- The navigation drawer -->
+
+    <ListView
+        android:id="@+id/skel_left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:background="#111"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>
