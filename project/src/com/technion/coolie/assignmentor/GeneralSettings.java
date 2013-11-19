@@ -22,8 +22,8 @@ public class GeneralSettings extends PreferenceActivity implements OnSharedPrefe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.asm_preferences);
-		PreferenceManager.setDefaultValues(this, R.xml.asm_preferences, false);
+		addPreferencesFromResource(R.xml.am_preferences);
+		PreferenceManager.setDefaultValues(this, R.xml.am_preferences, false);
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPrefs.registerOnSharedPreferenceChangeListener(this);
 		getActionBar().setSubtitle("Settings");

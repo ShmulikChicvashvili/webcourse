@@ -1,0 +1,41 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/am_settings"
+        android:title="@string/action_settings" />
+    
+    <item
+        android:id="@+id/action_new_task"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:icon="@drawable/am_new_task"
+        android:title="@string/action_new_task" />
+    
+    <item
+        android:id="@+id/action_sort_by_due_date"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_sort_by_due_date" />
+    
+    <item
+        android:id="@+id/action_sort_by_diff"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_sort_by_diff" />
+    
+    <item
+        android:id="@+id/action_sort_by_imp"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_sort_by_imp" />
+    
+    <item
+        android:id="@+id/action_sort_by_prog"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_sort_by_prog" />
+    
+</menu>

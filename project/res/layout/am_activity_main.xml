@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+	android:padding="8dp"
+    tools:context=".MainActivity" >
+    
+    <ImageSwitcher 
+   	    android:id="@+id/am_technion_tasks_progress_emo_switcher"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:layout_alignParentLeft="true"
+        android:layout_alignBaseline="@+id/am_technion_tasks_progress_bar" />
+        
+   	<ProgressBar
+   	    android:id="@+id/am_technion_tasks_progress_bar"
+   	    android:max="100"
+   	    android:layout_width="match_parent"
+   	    android:layout_height="40dp"
+   	    android:layout_toRightOf="@+id/am_technion_tasks_progress_emo_switcher"
+   	    android:layout_marginBottom="10dp"
+   	    style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+   	    android:progressDrawable="@drawable/am_progress_bar" />
+
+   	<TextView 
+        android:id="@+id/am_technion_tasks_progress_percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="7dp"
+        android:layout_alignParentRight="true"
+        android:text="@string/technion_tasks_progress_percent" />
+   	
+    <com.technion.coolie.assignmentor.EnhancedListView 
+        android:id="@+id/am_technion_tasks_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/am_technion_tasks_progress_bar"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="8dp" />
+
+</RelativeLayout>

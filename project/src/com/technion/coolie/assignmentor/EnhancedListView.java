@@ -344,8 +344,8 @@ public class EnhancedListView extends ListView {
 
         // Initialize undo popup
         LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View undoView = inflater.inflate(R.layout.asm_undo_popup, null);
-        mUndoButton = (Button)undoView.findViewById(R.id.undo);
+        View undoView = inflater.inflate(R.layout.am_undo_popup, null);
+        mUndoButton = (Button)undoView.findViewById(R.id.am_undo);
         mUndoButton.setOnClickListener(new UndoClickListener());
         mUndoButton.setOnTouchListener(new OnTouchListener() {
             @Override
@@ -356,7 +356,7 @@ public class EnhancedListView extends ListView {
                 return false;
             }
         });
-        mUndoPopupTextView = (TextView)undoView.findViewById(R.id.text);
+        mUndoPopupTextView = (TextView)undoView.findViewById(R.id.am_text);
 
         mUndoPopup = new PopupWindow(undoView);
         mUndoPopup.setAnimationStyle(R.style.fade_animation);

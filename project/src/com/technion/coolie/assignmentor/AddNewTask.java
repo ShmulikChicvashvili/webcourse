@@ -34,14 +34,14 @@ public class AddNewTask extends FragmentActivity implements View.OnClickListener
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.asm_activity_add_new_task);
+		setContentView(R.layout.am_activity_add_new_task);
 		
 		getActionBar().hide();
 		
-		taskName = (EditText) findViewById(R.id.new_task_name_edittext);
-		courseName = (EditText) findViewById(R.id.new_task_course_name_edittext);
-		courseId = (EditText) findViewById(R.id.new_task_course_id_edittext);
-		dueDate = (TextView) findViewById(R.id.new_task_due_date_textview);
+		taskName = (EditText) findViewById(R.id.am_new_task_name_edittext);
+		courseName = (EditText) findViewById(R.id.am_new_task_course_name_edittext);
+		courseId = (EditText) findViewById(R.id.am_new_task_course_id_edittext);
+		dueDate = (TextView) findViewById(R.id.am_new_task_due_date_textview);
 		
 		final Calendar c = Calendar.getInstance();
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -70,10 +70,10 @@ public class AddNewTask extends FragmentActivity implements View.OnClickListener
 			}
 		});
 		
-		buttonAdd = (Button) findViewById(R.id.new_task_button_add);
+		buttonAdd = (Button) findViewById(R.id.am_new_task_button_add);
 		buttonAdd.setOnClickListener(this);
 		
-		buttonCancel = (Button) findViewById(R.id.new_task_button_cancel);
+		buttonCancel = (Button) findViewById(R.id.am_new_task_button_cancel);
 		buttonCancel.setOnClickListener(this);
 		
 	}
@@ -86,7 +86,7 @@ public class AddNewTask extends FragmentActivity implements View.OnClickListener
 		
 		switch(v.getId()) {
 		
-			case R.id.new_task_button_add:
+			case R.id.am_new_task_button_add:
 				String[] newTasksInfo = new String[4];
 				newTasksInfo[0] = taskName.getText().toString();
 				newTasksInfo[1] = courseName.getText().toString();
@@ -97,7 +97,7 @@ public class AddNewTask extends FragmentActivity implements View.OnClickListener
 				finish();
 				break;
 				
-			case R.id.new_task_button_cancel:
+			case R.id.am_new_task_button_cancel:
 				setResult(RESULT_CANCELED, resultIntent);
 				finish();
 				break;

@@ -47,14 +47,14 @@ public class MainActivity extends CoolieActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.asm_activity_main);
+		setContentView(R.layout.am_activity_main);
 		
-		PreferenceManager.setDefaultValues(this, R.xml.asm_preferences, false);
+		PreferenceManager.setDefaultValues(this, R.xml.am_preferences, false);
 		
-		mProgressBar = (ProgressBar) findViewById(R.id.technion_tasks_progress_bar);
-		progressPercent = (TextView) findViewById(R.id.technion_tasks_progress_percent);
+		mProgressBar = (ProgressBar) findViewById(R.id.am_technion_tasks_progress_bar);
+		progressPercent = (TextView) findViewById(R.id.am_technion_tasks_progress_percent);
 		
-		mListView = (EnhancedListView) findViewById(R.id.technion_tasks_listview);
+		mListView = (EnhancedListView) findViewById(R.id.am_technion_tasks_listview);
 		mAdapter = new MyAdapter(this);
 		mListView.setAdapter(mAdapter);
 		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -109,7 +109,7 @@ public class MainActivity extends CoolieActivity {
 			}
 		});
 		
-		mListView.setSwipingLayout(R.id.list_item_layout);
+		mListView.setSwipingLayout(R.id.am_list_item_layout);
 		mListView.setUndoStyle(EnhancedListView.UndoStyle.SINGLE_POPUP);
 		mListView.setUndoHideDelay(3000);
 		mListView.enableSwipeToDismiss();
@@ -150,7 +150,7 @@ public class MainActivity extends CoolieActivity {
 		
 		Intent myIntent;
 		ActivityOptions opts = ActivityOptions.makeCustomAnimation(MainActivity.this, 
-				R.anim.asm_fade_in, R.anim.asm_hold);
+				R.anim.am_fade_in, R.anim.am_hold);
 		
 		switch(item.getItemId()) {
 		
@@ -187,7 +187,7 @@ public class MainActivity extends CoolieActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		
-		getMenuInflater().inflate(R.menu.asm_main, menu);
+		getMenuInflater().inflate(R.menu.am_main, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -226,7 +226,7 @@ public class MainActivity extends CoolieActivity {
 			fadeIn.setDuration(1000);
 			fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
 			fadeOut.setDuration(1000);
-			mSwitcher = (ImageSwitcher) findViewById(R.id.technion_tasks_progress_emo_switcher);
+			mSwitcher = (ImageSwitcher) findViewById(R.id.am_technion_tasks_progress_emo_switcher);
 			mSwitcher.setInAnimation(fadeIn);
 			mSwitcher.setOutAnimation(fadeOut);
 			mSwitcher.setFactory(this);
@@ -244,15 +244,15 @@ public class MainActivity extends CoolieActivity {
 			Integer percentDone = getPercentDone();
 			progressPercent.setText(percentDone.toString() + "%");
 			mProgressBar.setProgress(percentDone);
-			int imageResource = R.drawable.asm_progress0;
-			if (percentDone >= 12 && percentDone < 25) imageResource = R.drawable.asm_progress25;
-			else if (percentDone >= 25 && percentDone < 40) imageResource = R.drawable.asm_progress12;
-			else if (percentDone >= 40 && percentDone < 50) imageResource = R.drawable.asm_progress40;
-			else if (percentDone >= 50 && percentDone < 62) imageResource = R.drawable.asm_progress50;
-			else if (percentDone >= 62 && percentDone < 75) imageResource = R.drawable.asm_progress62;
-			else if (percentDone >= 75 && percentDone < 90) imageResource = R.drawable.asm_progress75;
-			else if (percentDone >= 90 && percentDone < 100) imageResource = R.drawable.asm_progress90;
-			else if (percentDone == 100) imageResource = R.drawable.asm_progress100;
+			int imageResource = R.drawable.am_progress0;
+			if (percentDone >= 12 && percentDone < 25) imageResource = R.drawable.am_progress25;
+			else if (percentDone >= 25 && percentDone < 40) imageResource = R.drawable.am_progress12;
+			else if (percentDone >= 40 && percentDone < 50) imageResource = R.drawable.am_progress40;
+			else if (percentDone >= 50 && percentDone < 62) imageResource = R.drawable.am_progress50;
+			else if (percentDone >= 62 && percentDone < 75) imageResource = R.drawable.am_progress62;
+			else if (percentDone >= 75 && percentDone < 90) imageResource = R.drawable.am_progress75;
+			else if (percentDone >= 90 && percentDone < 100) imageResource = R.drawable.am_progress90;
+			else if (percentDone == 100) imageResource = R.drawable.am_progress100;
 			mSwitcher.setImageResource(imageResource);
 			
 		}
@@ -287,12 +287,12 @@ public class MainActivity extends CoolieActivity {
 			ViewHolder holder;
 			
 			if (null == view) {
-				view = inflater.inflate(R.layout.asm_list_item, parent, false);
+				view = inflater.inflate(R.layout.am_list_item, parent, false);
 				holder = new ViewHolder();
-				holder.courseName = (TextView) view.findViewById(R.id.list_item_course_name);
-				holder.courseId = (TextView) view.findViewById(R.id.list_item_course_id);
-				holder.taskName = (TextView) view.findViewById(R.id.list_item_task);
-				holder.dueDate = (TextView) view.findViewById(R.id.list_item_due_date);
+				holder.courseName = (TextView) view.findViewById(R.id.am_list_item_course_name);
+				holder.courseId = (TextView) view.findViewById(R.id.am_list_item_course_id);
+				holder.taskName = (TextView) view.findViewById(R.id.am_list_item_task);
+				holder.dueDate = (TextView) view.findViewById(R.id.am_list_item_due_date);
 				view.setTag(holder);
 			}
 			else {

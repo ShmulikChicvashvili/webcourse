@@ -30,7 +30,7 @@ public class TaskSettings extends PreferenceActivity implements OnSharedPreferen
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.asm_task_preferences);
+		addPreferencesFromResource(R.xml.am_task_preferences);
 		
 		PreferenceCategory preferenceCategory = (PreferenceCategory) findPreference("task_pref_properties_title");
 		
@@ -60,7 +60,7 @@ public class TaskSettings extends PreferenceActivity implements OnSharedPreferen
 		preferenceCategory.addPreference(progressPref);
 		
 		
-		PreferenceManager.setDefaultValues(this, R.xml.asm_preferences, false);
+		PreferenceManager.setDefaultValues(this, R.xml.am_preferences, false);
 		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 		sharedPrefs.registerOnSharedPreferenceChangeListener(this);
 		

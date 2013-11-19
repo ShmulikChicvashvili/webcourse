@@ -19,8 +19,8 @@
     
     <!-- ######################## AsignMentor animation style ######################## -->
     <style name="fade_animation">
-		<item name="@android:windowEnterAnimation">@anim/asm_popup_show</item>
-		<item name="@android:windowExitAnimation">@anim/asm_popup_hide</item>
+		<item name="@android:windowEnterAnimation">@anim/am_popup_show</item>
+		<item name="@android:windowExitAnimation">@anim/am_popup_hide</item>
 	</style>
     <!-- ############################################################################# -->
 
