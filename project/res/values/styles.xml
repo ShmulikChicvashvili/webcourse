@@ -16,5 +16,12 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <!-- ######################## AsignMentor animation style ######################## -->
+    <style name="fade_animation">
+		<item name="@android:windowEnterAnimation">@anim/asm_popup_show</item>
+		<item name="@android:windowExitAnimation">@anim/asm_popup_hide</item>
+	</style>
+    <!-- ############################################################################# -->
 
 </resources>

@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.technion.coolie.R;
 import com.technion.coolie.skeleton.MyPreferencesScreen;
 
 import android.content.Intent;
