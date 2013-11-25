@@ -5,13 +5,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Intent;
@@ -21,7 +21,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class AddNewTask extends FragmentActivity implements View.OnClickListener {
+public class AddNewTask extends CoolieActivity implements View.OnClickListener {
 	
 	EditText taskName, courseName, courseId;
 	TextView dueDate;
@@ -35,8 +35,6 @@ public class AddNewTask extends FragmentActivity implements View.OnClickListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.am_activity_add_new_task);
-		
-		getActionBar().hide();
 		
 		taskName = (EditText) findViewById(R.id.am_new_task_name_edittext);
 		courseName = (EditText) findViewById(R.id.am_new_task_course_name_edittext);
@@ -103,7 +101,6 @@ public class AddNewTask extends FragmentActivity implements View.OnClickListener
 				break;
 		}
 	}
-	
 }
 
 class DatePickerFragment extends DialogFragment

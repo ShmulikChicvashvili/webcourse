@@ -1,15 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:id="@+id/am_action_settings"
+        android:orderInCategory="1"
         android:showAsAction="always"
         android:icon="@drawable/am_settings"
         android:title="@string/action_settings" />
     
     <item
-        android:id="@+id/action_new_task"
-        android:orderInCategory="100"
+        android:id="@+id/am_action_new_task"
+        android:orderInCategory="2"
         android:showAsAction="always"
         android:icon="@drawable/am_new_task"
         android:title="@string/action_new_task" />

@@ -9,6 +9,8 @@
         android:targetSdkVersion="19" />
     
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -31,14 +33,19 @@
             android:label="@string/app_name" >
         </activity>
         
+        <!-- ########################## AsignMentor activities ########################## -->
         <activity
             android:theme="@style/Theme.AppCompat.Light"            
             android:name="com.technion.coolie.assignmentor.MainActivity"
             android:label="@string/app_name" >
+           <!--  <intent-filter>
+                <action android:name="com.technion.coolie.assignmentor.DATA_FETCHED" />
+            </intent-filter> -->
+            
         </activity>
-        <!-- ########################## AsignMentor activities ########################## -->
         <activity
             android:name="com.technion.coolie.assignmentor.GeneralSettings"
+            android:theme="@style/Theme.AppCompat.Light"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
@@ -52,6 +59,7 @@
         
         <activity
             android:name="com.technion.coolie.assignmentor.TaskSettings"
+            android:theme="@style/Theme.AppCompat.Light"
             android:label="@string/app_name" >
             
             <meta-data 
@@ -61,12 +69,16 @@
         
         <activity
             android:name="com.technion.coolie.assignmentor.AddNewTask"
+            android:theme="@style/Theme.AppCompat.Light"
             android:label="@string/app_name" >
             
             <meta-data 
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.coolie.assignmentor.MainActivity" />
         </activity>
+        
+        <service android:name="com.technion.coolie.assignmentor.TaskParser"
+     	    android:exported="false" />
         <!-- ############################################################################ -->
         
         <activity

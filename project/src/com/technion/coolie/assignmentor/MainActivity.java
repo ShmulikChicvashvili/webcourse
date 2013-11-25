@@ -1,16 +1,22 @@
 package com.technion.coolie.assignmentor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
 import android.app.ActionBar.OnNavigationListener;
+import android.app.ActivityOptions;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,9 +39,15 @@ import com.technion.coolie.R;
 import com.technion.coolie.assignmentor.EnhancedListView.Undoable;
 
 public class MainActivity extends CoolieActivity {
-	private static final int NEW_TASK_REQUEST = 3535;
 	
-	MyAdapter mAdapter;
+
+	public static final String AM_TAG = "AssignMentor";
+	private static final int NEW_TASK_REQUEST = 3535;
+	public static final String COURSE_LIST = "CourseList";
+	public static final String DATA_FETCHED = "com.technion.coolie.assignmentor.DATA_FETCHED";
+	
+	public static MyAdapter mAdapter;
+	private BroadcastReceiver mReceiver;
 	EnhancedListView mListView;
 	SpinnerAdapter mSpinnerAdapter;
 	OnNavigationListener mOnNavigationListener;
@@ -43,13 +55,33 @@ public class MainActivity extends CoolieActivity {
 	ProgressBar mProgressBar;
 	TextView progressPercent;
 	
+	// Temporary list to hold course ids.
+	ArrayList<String> courseList = new ArrayList<String>();
+	
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.am_activity_main);
 		
-		PreferenceManager.setDefaultValues(this, R.xml.am_preferences, false);
+//		PreferenceManager.setDefaultValues(this, R.xml.am_preferences, false);
+		
+		// Set a receiver to get broadcasts from the update service whenever its done.
+		mReceiver = new BroadcastReceiver() {
+			
+			@Override
+			public void onReceive(Context c, Intent i) {
+				Log.i(AM_TAG, "broadcast received!");
+				String action = i.getAction();
+				if (action.equals(DATA_FETCHED)) {
+					Log.i(MainActivity.AM_TAG, "broadcast DATA_FETCHED received!");
+					mAdapter.updateView();
+				}
+			}
+		};
+		IntentFilter intentFilter = new IntentFilter(DATA_FETCHED);
+		registerReceiver(mReceiver, intentFilter);
 		
 		mProgressBar = (ProgressBar) findViewById(R.id.am_technion_tasks_progress_bar);
 		progressPercent = (TextView) findViewById(R.id.am_technion_tasks_progress_percent);
@@ -115,10 +147,29 @@ public class MainActivity extends CoolieActivity {
 		mListView.enableSwipeToDismiss();
 		mListView.setSwipeDirection(EnhancedListView.SwipeDirection.BOTH);
 		
-		String url = "http://webcourse.cs.technion.ac.il/234107/Winter2013-2014/en/hw.html";
-		String url2 = "http://webcourse.cs.technion.ac.il/236523/Winter2013-2014/en/hw.html";
-		String url3 = "http://webcourse.cs.technion.ac.il/236343/Winter2013-2014/en/hw.html";
-		TaskParser mParser = new TaskParser(url3, mAdapter);
+		
+		// Setting a temporary course list to fetch from the web.
+		// This list is passed to the service in the intent's extra data.
+		// Start the update service by pressing 'Sort by progress' on the overflow menu.
+		courseList.add("234107");
+		courseList.add("234114");
+		courseList.add("236523");
+		courseList.add("236350");
+		courseList.add("236360");
+		
+	}
+	
+	@Override
+	protected void onPause() {
+		unregisterReceiver(mReceiver);
+		super.onPause();
+	}
+	
+	@Override
+	protected void onResume() {
+		IntentFilter intentFilter = new IntentFilter(DATA_FETCHED);
+		registerReceiver(mReceiver, intentFilter);
+		super.onResume();
 	}
 	
 	@Override
@@ -154,12 +205,12 @@ public class MainActivity extends CoolieActivity {
 		
 		switch(item.getItemId()) {
 		
-			case R.id.action_settings:
+			case R.id.am_action_settings:
 				myIntent = new Intent(MainActivity.this, GeneralSettings.class);
 				startActivity(myIntent,opts.toBundle());
 				break;
 				
-			case R.id.action_new_task:
+			case R.id.am_action_new_task:
 				myIntent = new Intent(this, AddNewTask.class);
 				startActivityForResult(myIntent, NEW_TASK_REQUEST, opts.toBundle());
 				break;
@@ -177,7 +228,10 @@ public class MainActivity extends CoolieActivity {
 				break;
 				
 			case R.id.action_sort_by_prog:
-				Toast.makeText(this, "Sorting By Progress Level", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(this, "Sorting By Progress Level", Toast.LENGTH_SHORT).show();
+				Intent serviceIntent = new Intent(this, TaskParser.class);
+				serviceIntent.putStringArrayListExtra(COURSE_LIST, courseList);
+				startService(serviceIntent);
 				break;
 		}
 		
@@ -186,7 +240,7 @@ public class MainActivity extends CoolieActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		
+
 		getMenuInflater().inflate(R.menu.am_main, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -209,19 +263,19 @@ public class MainActivity extends CoolieActivity {
 			numOfDoneTasks = 0;
 			
 			myItems = new ArrayList<TasksInfo>();
-			String taskName = "H.W ";
-			String courseName = "Android Project ";
-			String courseId = "236503 ";
-			String dueDate = "Due Date ";
-			
-			for(int i=0; i<9; i++) {
-				Integer j = i + 1;
-				String index = j.toString();
-				
-				TasksInfo newTask = new TasksInfo(new SpannableString(taskName + index), courseName + index, courseId + index, dueDate + index);
-				myItems.add(newTask);
-				totalNumOfTasks++;
-			}
+//			String taskName = "H.W ";
+//			String courseName = "Android Project ";
+//			String courseId = "236503 ";
+//			String dueDate = "Due Date ";
+//			
+//			for(int i=0; i<9; i++) {
+//				Integer j = i + 1;
+//				String index = j.toString();
+//				
+//				TasksInfo newTask = new TasksInfo(new SpannableString(taskName + index), courseName + index, courseId + index, dueDate + index);
+//				myItems.add(newTask);
+//				totalNumOfTasks++;
+//			}
 			fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
 			fadeIn.setDuration(1000);
 			fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
@@ -254,7 +308,6 @@ public class MainActivity extends CoolieActivity {
 			else if (percentDone >= 90 && percentDone < 100) imageResource = R.drawable.am_progress90;
 			else if (percentDone == 100) imageResource = R.drawable.am_progress100;
 			mSwitcher.setImageResource(imageResource);
-			
 		}
 		
 		private Integer getPercentDone() {
@@ -315,6 +368,7 @@ public class MainActivity extends CoolieActivity {
 			updateProgress();
 		}
 		
+		// Used to insert tasks manually.
 		public void insert(int position, SpannableString taskName, String courseName, 
 				String courseId, String dueDate, boolean isDone) {
 			
@@ -331,6 +385,23 @@ public class MainActivity extends CoolieActivity {
 				myItems.add(newTask);
 			}
 			totalNumOfTasks++;
+			notifyDataSetChanged();
+			updateProgress();
+		}
+		
+		// Used to insert new fetched tasks from web.
+		// *NO* call to notifyDataSetChanged() since this method is being called from
+		// a service running on thread different than the UI thread, hence, calling
+		// notifyDataSetChange() is not allowed.
+		public void insertFetched(List<TasksInfo> fetchedTasks) {
+			Log.i(AM_TAG, "insertFetched -> fetchedTasks size: " + String.valueOf(fetchedTasks.size()));
+			Log.i(AM_TAG, "insertFetched -> myItems size (before adding): " + String.valueOf(myItems.size()));
+			myItems.addAll(fetchedTasks);
+			Log.i(AM_TAG, "insertFetched -> myItems size (after adding): " + String.valueOf(myItems.size()));
+			totalNumOfTasks = totalNumOfTasks + fetchedTasks.size();
+		}
+		
+		public void updateView() {
 			notifyDataSetChanged();
 			updateProgress();
 		}
@@ -355,12 +426,39 @@ public class MainActivity extends CoolieActivity {
 			notifyDataSetChanged();
 			updateProgress();
 		}
+		
+		public ArrayList<TasksInfo> getList() {
+			return myItems;
+		}
 
 		class ViewHolder {
 			TextView courseName, courseId, taskName, dueDate;
 		}
 	}
 
+	// Turn BootReceiver class on\off.
+	private void changeBootReceiverState(boolean enabled) {
+		ComponentName receiver = new ComponentName(this, BootReceiver.class);
+		PackageManager pm = this.getPackageManager();
+		if (enabled) {
+			pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, 
+					PackageManager.DONT_KILL_APP);
+		} else {
+			pm.setComponentEnabledSetting(receiver, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, 
+					PackageManager.DONT_KILL_APP);
+		}
+	}
+	
+	// A class that receives broadcasts after device boot, and sets an alarm for updates checking.
+	class BootReceiver extends BroadcastReceiver {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+//			settings = getSharedPreferences(AM_PREFS, 0);
+//			int freq = settings.getInt(UPDATES_KEY, 0);
+//			setUpdatesFrequency(freq);
+		}
+	}
 }
 
 class TasksInfo {
@@ -378,5 +476,52 @@ class TasksInfo {
 	public String[] getStringArrInfo() {
 		return new String[] { taskName.toString(), courseName, courseId, dueDate };
 	}
+	
+	// Eclipse Auto-Generated functions hashCode() and equals()
+	// Used to compare new fetched tasks against tasks in the list.
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((courseId == null) ? 0 : courseId.hashCode());
+		result = prime * result
+				+ ((courseName == null) ? 0 : courseName.hashCode());
+		result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
+		result = prime * result
+				+ ((taskName == null) ? 0 : taskName.hashCode());
+		return result;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TasksInfo other = (TasksInfo) obj;
+		if (courseId == null) {
+			if (other.courseId != null)
+				return false;
+		} else if (!courseId.equals(other.courseId))
+			return false;
+		if (courseName == null) {
+			if (other.courseName != null)
+				return false;
+		} else if (!courseName.equals(other.courseName))
+			return false;
+		if (dueDate == null) {
+			if (other.dueDate != null)
+				return false;
+		} else if (!dueDate.equals(other.dueDate))
+			return false;
+		if (taskName == null) {
+			if (other.taskName != null)
+				return false;
+		} else if (!(taskName.toString()).equals(other.taskName.toString()))
+			return false;
+		return true;
+	}
 }
-
