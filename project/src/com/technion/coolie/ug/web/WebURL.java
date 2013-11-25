@@ -23,8 +23,11 @@ public class WebURL {
 	final static String RISHUM_COURSE_PAGE = "2|http://ug.technion.ac.il/rishum/mikdet.php?MK=~~&SEM=~~";
 
 	public static void buildURL(String URL, List<String> parameters) {
-		URL.substring(URL.indexOf("http"));
+		String str = URL.substring(0, URL.indexOf("|"));
+		int paramNum = Integer.parseInt(str);
+		// if(parameters.size()!=paramNum)
+		// AppUtils.
+		URL = URL.substring(URL.indexOf("http"));
 
 	}
-
 }
