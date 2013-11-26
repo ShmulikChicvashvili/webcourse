@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
@@ -128,14 +127,15 @@ public class MainActivity extends CoolieActivity {
 			@Override
 			public Undoable onDismiss(EnhancedListView listView,final int position) {
 				final TasksInfo removedItem = (TasksInfo) mAdapter.getItem(position);
-				final boolean isDone = removedItem.isDone;
+//				final boolean isDone = removedItem.isDone;
 				mAdapter.remove(position);
 				return new EnhancedListView.Undoable() {
 					
 					@Override
 					public void undo() {
-						String[] info = removedItem.getStringArrInfo();
-						mAdapter.insert(position, new SpannableString(info[0]), info[1], info[2], info[3], isDone);
+//						String[] info = removedItem.getStringArrInfo();
+//						mAdapter.insert(position, new SpannableString(info[0]), info[1], info[2], info[3], isDone);
+						mAdapter.insert(position, removedItem);
 					}
 				};
 			}
@@ -184,10 +184,16 @@ public class MainActivity extends CoolieActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == NEW_TASK_REQUEST) {
 			if (resultCode == RESULT_OK) {
-				String[] newTasksInfo = data.getStringArrayExtra("newTasksInfo");
-				mAdapter.insert(-1,new SpannableString(newTasksInfo[0]), newTasksInfo[1],
-						newTasksInfo[2], newTasksInfo[3], false);
-				
+				String[] info = data.getStringArrayExtra("newTasksInfo");
+				TasksInfo newTask = new TasksInfo(new SpannableString(info[0]), info[1], info[2], info[3]);
+				int[] properties = data.getIntArrayExtra("newTasksProperties");
+				newTask.difficulty = properties[0];
+				newTask.importance = properties[1];
+				// Progress is not set for manually added new tasks, so set it to 0.
+				newTask.progress = 0;
+				mAdapter.insert(-1, newTask);
+//				mAdapter.insert(-1,new SpannableString(newTasksInfo[0]), newTasksInfo[1],
+//						newTasksInfo[2], newTasksInfo[3], false);
 				Toast.makeText(this, "New Task Added!", Toast.LENGTH_SHORT).show();
 			} else {
 				Toast.makeText(this, "No New Task!", Toast.LENGTH_SHORT).show();
@@ -364,20 +370,18 @@ public class MainActivity extends CoolieActivity {
 			if (myItems.get(position).isDone) numOfDoneTasks--;
 			totalNumOfTasks--;
 			myItems.remove(position);
-			notifyDataSetChanged();
-			updateProgress();
+			updateView();
 		}
 		
 		// Used to insert tasks manually.
-		public void insert(int position, SpannableString taskName, String courseName, 
-				String courseId, String dueDate, boolean isDone) {
+		public void insert(int position, TasksInfo newTask) {
 			
-			TasksInfo newTask = new TasksInfo(new SpannableString(taskName), courseName, courseId, dueDate);
+//			TasksInfo newTask = new TasksInfo(new SpannableString(taskName), courseName, courseId, dueDate);
 			if (position >= 0) {
 				// Task is re-added (user deleted and then pressed undo) to its original position.
-				if (isDone) { 
-					newTask.taskName.setSpan(new StrikethroughSpan(), 0, newTask.taskName.length(), 0);
-					newTask.isDone = true;
+				if (newTask.isDone) { 
+//					newTask.taskName.setSpan(new StrikethroughSpan(), 0, newTask.taskName.length(), 0);
+//					newTask.isDone = true;
 					numOfDoneTasks++;
 				}
 				myItems.add(position, newTask);
@@ -385,8 +389,7 @@ public class MainActivity extends CoolieActivity {
 				myItems.add(newTask);
 			}
 			totalNumOfTasks++;
-			notifyDataSetChanged();
-			updateProgress();
+			updateView();
 		}
 		
 		// Used to insert new fetched tasks from web.
@@ -411,8 +414,7 @@ public class MainActivity extends CoolieActivity {
 			myItems.get(position).taskName.setSpan(new StrikethroughSpan(), 0, 
 					myItems.get(position).taskName.length(), 0);
 			numOfDoneTasks++;
-			notifyDataSetChanged();
-			updateProgress();
+			updateView();
 		}
 		
 		public void markAsUndone(int position) {
@@ -423,8 +425,7 @@ public class MainActivity extends CoolieActivity {
 				myItems.get(position).taskName.removeSpan(st);
 			}
 			numOfDoneTasks--;
-			notifyDataSetChanged();
-			updateProgress();
+			updateView();
 		}
 		
 		public ArrayList<TasksInfo> getList() {
@@ -465,6 +466,8 @@ class TasksInfo {
 	SpannableString taskName;
 	String courseId, courseName, dueDate;
 	Boolean isDone = false;
+	int difficulty, importance, progress;
+	
 	
 	public TasksInfo(SpannableString taskName, String courseName, String courseId, String dueDate) {
 		this.taskName = taskName;

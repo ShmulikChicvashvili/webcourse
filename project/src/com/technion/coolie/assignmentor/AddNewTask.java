@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 public class AddNewTask extends CoolieActivity implements View.OnClickListener {
@@ -26,6 +27,7 @@ public class AddNewTask extends CoolieActivity implements View.OnClickListener {
 	EditText taskName, courseName, courseId;
 	TextView dueDate;
 	Button buttonAdd, buttonCancel;
+	RatingBar difficultyRB, importanceRB;
 	
 	private OnDateSetListener mDateListener;
 	
@@ -40,6 +42,8 @@ public class AddNewTask extends CoolieActivity implements View.OnClickListener {
 		courseName = (EditText) findViewById(R.id.am_new_task_course_name_edittext);
 		courseId = (EditText) findViewById(R.id.am_new_task_course_id_edittext);
 		dueDate = (TextView) findViewById(R.id.am_new_task_due_date_textview);
+		difficultyRB = (RatingBar) findViewById(R.id.am_new_task_difficulty_rating_bar);
+		importanceRB = (RatingBar) findViewById(R.id.am_new_task_importance_rating_bar);
 		
 		final Calendar c = Calendar.getInstance();
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -91,6 +95,10 @@ public class AddNewTask extends CoolieActivity implements View.OnClickListener {
 				newTasksInfo[2] = courseId.getText().toString();
 				newTasksInfo[3] = dueDate.getText().toString();
 				resultIntent.putExtra("newTasksInfo", newTasksInfo);
+				int[] newTasksProperties = new int[2];
+				newTasksProperties[0] = (int) difficultyRB.getRating();
+				newTasksProperties[1] = (int) importanceRB.getRating();
+				resultIntent.putExtra("newTasksProperties", newTasksProperties);
 				setResult(RESULT_OK, resultIntent);
 				finish();
 				break;

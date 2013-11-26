@@ -105,6 +105,9 @@ public class TaskParser extends IntentService {
     			}
     			Log.i(MainActivity.AM_TAG, "Last due date found: " + dueDate);
     			TasksInfo newTask = new TasksInfo(new SpannableString(taskName), courseName, courseId, dueDate);
+    			newTask.difficulty = 0;
+    			newTask.importance = 0;
+    			newTask.progress = 0;
     			fetchedTasks.add(newTask);
     		}
     		populateList();
