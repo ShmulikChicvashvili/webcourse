@@ -90,7 +90,7 @@ public class MainActivity extends CoolieActivity {
 
 		@Override
 		public long getItemId(int position) {
-			return 0; // TODO: maybe change for something else.
+			return 0; // TODO: maybe change to something else.
 		}
 
 		@Override
