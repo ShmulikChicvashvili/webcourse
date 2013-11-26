@@ -1,6 +1,5 @@
 package com.technion.coolie.letmein;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,7 +29,7 @@ public class MainActivity extends CoolieActivity {
 
 		inviteList = (ListView) findViewById(R.id.lmi_invite_list_view);
 
-		inviteList.setAdapter(new MyAdapter(MainActivity.this));
+		inviteList.setAdapter(new WelcomeInvitationAdapter(MainActivity.this));
 	}
 
 	@Override
@@ -43,39 +43,38 @@ public class MainActivity extends CoolieActivity {
 	private static class Invite {
 		public String name;
 		public String timeOfArrival;
+		public String imageIndex; // TODO: this is "id" in gilad terms.
 
-		public Invite(String name, String timeOfArrival) {
+		public Invite(String name, String timeOfArrival, String imageIndex) {
 			this.name = name;
 			this.timeOfArrival = timeOfArrival;
+			this.imageIndex = imageIndex;
 		}
 	}
 
-	public static class MyAdapter extends BaseAdapter {
+	public static class WelcomeInvitationAdapter extends BaseAdapter {
 
 		private Context context;
-		private List<Invite> invites = initInvites(); // TODO: change to the
-														// real deal.
+		private List<Invite> invites = initInvites();
 
 		private static List<Invite> initInvites() {
-			List<Invite> invites = new ArrayList<Invite>();
-			List<Invite> sample = Arrays.asList(
-					new Invite("Osher", "Yesterday"), new Invite("Gilad",
-							"Never"), new Invite("Yaniv", "Always"));
-
-			for (int i = 0; i < 100; ++i) {
-				invites.addAll(sample);
-			}
-
-			return invites;
+			return Arrays.asList(
+					new Invite("Dad", "Arriving in 8 hours", String
+							.valueOf(R.drawable.lmi_dad)),
+					new Invite("My best friend", "Tommorow 18:00", String
+							.valueOf(R.drawable.lmi_winger)),
+					new Invite("Abed", "October 19", String
+							.valueOf(R.drawable.lmi_abed)));
 		}
 
-		public MyAdapter(Context context) {
+		public WelcomeInvitationAdapter(Context context) {
 			this.context = context;
 		}
 
 		private class ViewHolder {
 			public TextView name;
 			public TextView timeOfArrival;
+			public ImageView image;
 		}
 
 		@Override
@@ -90,7 +89,7 @@ public class MainActivity extends CoolieActivity {
 
 		@Override
 		public long getItemId(int position) {
-			return 0; // TODO: maybe change to something else.
+			return 0;
 		}
 
 		@Override
@@ -106,6 +105,8 @@ public class MainActivity extends CoolieActivity {
 				holder.name = (TextView) $.findViewById(R.id.lmi_contact_name);
 				holder.timeOfArrival = (TextView) $
 						.findViewById(R.id.lmi_contact_time_of_arrival);
+				holder.image = (ImageView) $
+						.findViewById(R.id.lmi_contact_image);
 				$.setTag(holder);
 			} else {
 				$ = convertView;
@@ -116,6 +117,7 @@ public class MainActivity extends CoolieActivity {
 
 			holder.name.setText(i.name);
 			holder.timeOfArrival.setText(i.timeOfArrival);
+			holder.image.setImageResource(Integer.parseInt(i.imageIndex));
 
 			return $;
 		}
