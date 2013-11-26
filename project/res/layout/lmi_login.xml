@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" 
+>
+
+
+<!-- Login Form -->
+
+
+    <!-- Username Label -->
+ <TextView
+     android:id="@+id/txtUser"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+	 android:layout_alignParentTop="True"
+     android:text="Username" />
+
+ <EditText
+     android:id="@+id/btnUser"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginBottom="20dip"
+     android:layout_marginTop="5dip"
+     android:singleLine="true" 
+ 	 android:layout_below="@+id/txtUser"    
+ />
+
+ <!-- Password Label -->
+ <TextView
+     android:id="@+id/txtPassword"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:text="Password"
+     android:layout_below="@+id/btnUser" 
+  />
+
+ <EditText
+     android:id="@+id/btnPassword"
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="5dip"
+     android:password="true"
+     android:singleLine="true"
+     android:layout_below="@+id/txtPassword" 
+  />
+
+
+ 	<!-- Login button -->
+	<Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login" 
+     	android:layout_below="@+id/btnPassword"   
+     />
+	
+	
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnLogin"
+        android:layout_alignLeft="@+id/btnLogin"
+        android:layout_alignParentLeft="true"
+        android:text="Get a password - TODO LINK"  
+        android:enabled="True"
+        >
+
+    </TextView>
+    
+	<TextView
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/btnLogin"
+	    android:layout_alignRight="@+id/btnLogin"
+	    android:enabled="True"
+	    android:text="Privacy - TODO LINK" 
+	>
+
+	</TextView>
+	    
+</RelativeLayout>
+<!-- Login Form Ends -->
+
+
