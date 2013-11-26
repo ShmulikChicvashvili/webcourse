@@ -13,9 +13,11 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <!--	Change "com.technion.coolie.letmein.MainActivity" to "com.technion.coolie.skeleton.MainActivity"
+        		Also, remove comment from below. -->
         <activity
             android:theme="@style/Theme.AppCompat.Light"
-            android:name="com.technion.coolie.skeleton.MainActivity"
+            android:name="com.technion.coolie.letmein.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,11 +43,13 @@
             android:label="@string/app_name" >
         </activity>
         
+        <!--
         <activity
             android:theme="@style/Theme.AppCompat.Light"            
             android:name="com.technion.coolie.letmein.MainActivity"
             android:label="@string/app_name" >
         </activity>
+        -->
         
         <activity
             android:theme="@style/Theme.AppCompat.Light"            
