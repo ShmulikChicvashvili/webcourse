@@ -7,6 +7,8 @@ import java.util.List;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -30,6 +32,14 @@ public class MainActivity extends CoolieActivity {
 		inviteList.setAdapter(new MyAdapter(MainActivity.this));
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.lmi_menu, menu);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
 	private static class Invite {
 		public String name;
 		public String timeOfArrival;
@@ -48,13 +58,14 @@ public class MainActivity extends CoolieActivity {
 
 		private static List<Invite> initInvites() {
 			List<Invite> invites = new ArrayList<Invite>();
-			List<Invite> sample = Arrays.asList(new Invite("Osher", "Yesterday"), new Invite(
-					"Gilad", "Never"), new Invite("Yaniv", "Always"));
+			List<Invite> sample = Arrays.asList(
+					new Invite("Osher", "Yesterday"), new Invite("Gilad",
+							"Never"), new Invite("Yaniv", "Always"));
 
 			for (int i = 0; i < 100; ++i) {
 				invites.addAll(sample);
 			}
-			
+
 			return invites;
 		}
 
