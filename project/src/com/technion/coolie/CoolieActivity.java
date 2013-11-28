@@ -23,6 +23,11 @@ import android.view.ViewStub;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+/* CoolieActivity
+* A general activity that contains initlization and configurations of the Navigation drawer
+* and the ActionBar.
+* All the activities have to extend com.technion.coolie.CoolieActivity.
+*/
 public abstract class CoolieActivity extends ActionBarActivity {
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
@@ -83,6 +88,7 @@ public abstract class CoolieActivity extends ActionBarActivity {
     public void onRestoreInstanceState(Bundle savedInstanceState) {
     }
     
+	
 	@Override
 	public View findViewById(int id) {
 		if(mainLayout!=null)
@@ -95,14 +101,13 @@ public abstract class CoolieActivity extends ActionBarActivity {
 	}
 	
 	
-	
+	// Init the ActionBar with Settings and About buttons.
 	private boolean handleActionBar(Menu menu)
     {
         MenuItem settings = menu.add("Settings");
         settings.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         settings.setOnMenuItemClickListener(new OnMenuItemClickListener()
         {
-			
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				Intent intent = new Intent(CoolieActivity.this, MyPreferencesScreen.class);
@@ -125,6 +130,7 @@ public abstract class CoolieActivity extends ActionBarActivity {
         return true;
     }
 	
+	// creates the NavigationBar. Currently contains sample data.
 	private void createNavBar()
 	{
 		List<Map<String, String>> data = GetSampleData();
