@@ -7,7 +7,8 @@ import com.technion.coolie.R;
 
 public class InvitationListActivity extends CoolieActivity {
 
-	protected void onCreate(Bundle savedInstanceState) {
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lmi_activity_invitation_list);
 	}

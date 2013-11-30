@@ -9,11 +9,10 @@ import android.view.ViewGroup;
 import com.technion.coolie.R;
 
 public class EmptyInvitationListFragment extends Fragment {
-	
+
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.lmi_empty_invitation_list,
-				container, false);
+	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+			final Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.lmi_empty_invitation_list, container, false);
 	}
 }

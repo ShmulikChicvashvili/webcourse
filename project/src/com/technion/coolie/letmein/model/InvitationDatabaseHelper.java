@@ -11,12 +11,13 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.technion.coolie.letmein.Consts;
 
 public class InvitationDatabaseHelper extends OrmLiteSqliteOpenHelper {
-	private static final String DATABASE_NAME = "invitations.db";
+	private static final String DATABASE_NAME = Consts.DB_PREFIX + "invitations.db";
 	private static final int DATABASE_VERSION = 1;
 
-	private final String LOG_TAG = getClass().getSimpleName();
+	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
 
 	// The DAO objects we use to access the invitations table
 	private Dao<Invitation, Long> dao = null;
