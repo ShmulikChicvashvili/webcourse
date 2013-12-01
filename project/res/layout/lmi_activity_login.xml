@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/lmi_layout_margin" >
+
+    <EditText
+        android:id="@+id/lmi_edit_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="True"
+        android:hint="@string/lmi_username_hint"
+        android:singleLine="true" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/lmi_edit_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lmi_edit_username"
+        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:hint="@string/lmi_password_hint"
+        android:inputType="textPassword"
+        android:singleLine="true" />
+
+    <Button
+        android:id="@+id/lmi_login_exec_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lmi_edit_password"
+        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:text="@string/lmi_login" />
+
+    <TextView
+        android:id="@+id/lmi_get_a_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/lmi_login_exec_button"
+        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:text="@string/lmi_get_a_password_link" >
+    </TextView>
+
+    <TextView
+        android:id="@+id/lmi_privacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/lmi_login_exec_button"
+        android:layout_below="@id/lmi_login_exec_button"
+        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:text="@string/lmi_privacy" >
+    </TextView>
+
+</RelativeLayout>

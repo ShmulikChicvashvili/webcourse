@@ -1,19 +1,16 @@
 package com.technion.coolie.letmein;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -21,6 +18,8 @@ import com.technion.coolie.R;
 public class MainActivity extends CoolieActivity {
 
 	private ListView inviteList;
+	private Button loginButton;
+	private boolean isLoggedIn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +28,65 @@ public class MainActivity extends CoolieActivity {
 
 		inviteList = (ListView) findViewById(R.id.lmi_invite_list_view);
 
-		inviteList.setAdapter(new WelcomeInvitationAdapter(MainActivity.this));
+		loginButton = (Button) findViewById(R.id.lmi_login_button);
+		loginButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(MainActivity.this, LoginActivity.class));
+			}
+		});
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		new UpdateInvitationsTask().execute();
+	}
+
+	private class UpdateInvitationsTask extends
+			AsyncTask<Void, Void, InvitationListAdapter> {
+		@Override
+		protected InvitationListAdapter doInBackground(Void... params) {
+			InvitationListAdapter $ = new InvitationListAdapter(
+					MainActivity.this);
+
+			// For better performance:
+			isLoggedIn = isLoggedIn || isUserLoggedIn();
+
+			if (isLoggedIn) {
+				// TODO: change to the real deal:
+				$.setInvitations(new ArrayList<Invite>());
+			} else {
+				$.setInvitations(InvitationListAdapter.mockupData());
+			}
+
+			return $;
+		}
+
+		@Override
+		protected void onPostExecute(InvitationListAdapter adapter) {
+			inviteList.setAdapter(adapter);
+
+			if (isLoggedIn) {
+				loginButton.setVisibility(View.GONE);
+			}
+		}
+
+	}
+
+	private boolean isUserLoggedIn() {
+		// TODO: change to a real check.
+		return getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE)
+				.getBoolean(Consts.IS_LOGGED_IN, false);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.lmi_menu, menu);
-
+		getMenuInflater().inflate(R.menu.lmi_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	private static class Invite {
+	static class Invite {
 		public String name;
 		public String timeOfArrival;
 		public String imageIndex; // TODO: this is "id" in gilad terms.
@@ -52,75 +98,11 @@ public class MainActivity extends CoolieActivity {
 		}
 	}
 
-	public static class WelcomeInvitationAdapter extends BaseAdapter {
-
-		private Context context;
-		private List<Invite> invites = initInvites();
-
-		private static List<Invite> initInvites() {
-			return Arrays.asList(
-					new Invite("Dad", "Arriving in 8 hours", String
-							.valueOf(R.drawable.lmi_dad)),
-					new Invite("My best friend", "Tommorow 18:00", String
-							.valueOf(R.drawable.lmi_winger)),
-					new Invite("Abed", "October 19", String
-							.valueOf(R.drawable.lmi_abed)));
-		}
-
-		public WelcomeInvitationAdapter(Context context) {
-			this.context = context;
-		}
-
-		private class ViewHolder {
-			public TextView name;
-			public TextView timeOfArrival;
-			public ImageView image;
-		}
-
-		@Override
-		public int getCount() {
-			return invites.size();
-		}
-
-		@Override
-		public Object getItem(int position) {
-			return invites.get(position);
-		}
-
-		@Override
-		public long getItemId(int position) {
-			return 0;
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View $;
-			ViewHolder holder;
-
-			if (convertView == null) {
-				LayoutInflater inflater = LayoutInflater.from(context);
-				$ = inflater.inflate(R.layout.lmi_invite, null);
-
-				holder = new ViewHolder();
-				holder.name = (TextView) $.findViewById(R.id.lmi_contact_name);
-				holder.timeOfArrival = (TextView) $
-						.findViewById(R.id.lmi_contact_time_of_arrival);
-				holder.image = (ImageView) $
-						.findViewById(R.id.lmi_contact_image);
-				$.setTag(holder);
-			} else {
-				$ = convertView;
-				holder = (ViewHolder) $.getTag();
-			}
-
-			Invite i = (Invite) getItem(position);
-
-			holder.name.setText(i.name);
-			holder.timeOfArrival.setText(i.timeOfArrival);
-			holder.image.setImageResource(Integer.parseInt(i.imageIndex));
-
-			return $;
-		}
+	public void inviteNewFriend() {
+		startActivity(new Intent(MainActivity.this, InvitationActivity.class));
 	}
 
+	public void emptyStateListAction(View v) {
+		inviteNewFriend();
+	}
 }
