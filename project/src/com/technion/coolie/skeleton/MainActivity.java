@@ -1,5 +1,8 @@
 package com.technion.coolie.skeleton;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +21,8 @@ public class MainActivity extends CoolieActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.skel_activity_main); 
-
+        setContentView(R.layout.skel_activity_main);
+        
         ViewStub btn;
 		LinearLayout buttonLayout;
         for(int i=1; i<=10; i++)
