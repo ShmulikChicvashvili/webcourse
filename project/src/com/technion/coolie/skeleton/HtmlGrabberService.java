@@ -19,7 +19,7 @@ public class HtmlGrabberService extends IntentService {
 	public static final String RESULT = "result";
 	public static final String URL = "url";
 	public static final String ACCOUNT = "account";
-	public static final String NOTIFICATION = "com.technion.coolie";
+	public static final String NOTIFICATION = "com.technion.coolie.HtmlGrabber";
 	
 	public HtmlGrabberService() {
 		super("HtmlGrabber");
