@@ -143,7 +143,6 @@ public abstract class CoolieActivity extends ActionBarActivity {
 	                R.string.drawer_close  /* "close drawer" description */
 	                ) {
 	        };
-
 	        // Set the drawer toggle as the DrawerListener
 	        mDrawerLayout.setDrawerListener(mDrawerToggle);
 	        getActionBar().setDisplayHomeAsUpEnabled(true);

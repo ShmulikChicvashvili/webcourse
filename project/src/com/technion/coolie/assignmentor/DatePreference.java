@@ -64,7 +64,7 @@ public class DatePreference extends DialogPreference implements
       cal.setTime(date);
       return cal;
     } catch (java.text.ParseException e) {
-    	Log.i("TasksList", "DatePreference -> getDate -> java.text.ParseException");
+    	Log.i(MainActivity.AM_TAG, "DatePreference -> getDate -> java.text.ParseException");
     	
     	return defaultCalendar();
     }

@@ -78,6 +78,8 @@ public class AddNewTask extends CoolieActivity implements View.OnClickListener {
 		buttonCancel = (Button) findViewById(R.id.am_new_task_button_cancel);
 		buttonCancel.setOnClickListener(this);
 		
+		getActionBar().setSubtitle("AssignMentor - Add New Task");
+		
 	}
 
 

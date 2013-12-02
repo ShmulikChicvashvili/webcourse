@@ -1,18 +1,22 @@
 package com.technion.coolie.assignmentor;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar.OnNavigationListener;
 import android.app.ActivityOptions;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
@@ -28,7 +32,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
@@ -36,23 +39,26 @@ import android.widget.ViewSwitcher;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.assignmentor.EnhancedListView.Undoable;
+import com.technion.coolie.assignmentor.TaskSettings.TaskSettingsFragment;
 
-public class MainActivity extends CoolieActivity {
+public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemClickListener {
 	
 
-	public static final String AM_TAG = "AssignMentor";
 	private static final int NEW_TASK_REQUEST = 3535;
+	private static final int TASK_SETTINGS_REQUEST = 4545;
+	
+	public static final String AM_TAG = "AssignMentor";
 	public static final String COURSE_LIST = "CourseList";
 	public static final String DATA_FETCHED = "com.technion.coolie.assignmentor.DATA_FETCHED";
 	
 	public static MyAdapter mAdapter;
-	private BroadcastReceiver mReceiver;
-	EnhancedListView mListView;
-	SpinnerAdapter mSpinnerAdapter;
-	OnNavigationListener mOnNavigationListener;
 	
-	ProgressBar mProgressBar;
-	TextView progressPercent;
+	private AlarmManager alarmMgr;
+	private PendingIntent alarmIntent;
+	private BroadcastReceiver mReceiver;
+	private EnhancedListView mListView;
+	private ProgressBar mProgressBar;
+	private TextView progressPercent;
 	
 	// Temporary list to hold course ids.
 	ArrayList<String> courseList = new ArrayList<String>();
@@ -64,7 +70,16 @@ public class MainActivity extends CoolieActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.am_activity_main);
 		
-//		PreferenceManager.setDefaultValues(this, R.xml.am_preferences, false);
+		// Set the default values for the general settings. 
+		PreferenceManager.setDefaultValues(this, R.xml.am_preferences, false);
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs.getBoolean(GeneralSettings.KEY_GS_CALENDAR_SYNC, false);
+		prefs.getString(GeneralSettings.KEY_GS_UPDATES_FREQ, "Never");
+		prefs.getString(GeneralSettings.KEY_GS_REMINDER, "No Reminder");
+		
+		
+//		Log.i(AM_TAG, "Default prefs -> sync: " + String.valueOf(sync) + " updates: " + updatesFreq
+//				+ " reminder: " + reminder);
 		
 		// Set a receiver to get broadcasts from the update service whenever its done.
 		mReceiver = new BroadcastReceiver() {
@@ -111,12 +126,16 @@ public class MainActivity extends CoolieActivity {
 				// Setting a scale up animation upon long click on an item.
 				ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(
 	                    view, 0, 0, view.getWidth(), view.getHeight());
-				String taskName = ((TasksInfo)mAdapter.getItem(position)).taskName.toString();
-				String courseName = ((TasksInfo)mAdapter.getItem(position)).courseName;
+				
+				// Write the clicked tasks info to the shared preference.
+				prepareTaskPreference(position);
+				
+				// Add the clicked task position in the list as an extra data. this data is used when the
+				// activity is finished to update the view (handled in onActivityResult()).
 				Intent myIntent = new Intent(getApplicationContext(), TaskSettings.class);
-				myIntent.putExtra("taskName", taskName);
-				myIntent.putExtra("courseName", courseName);
-				startActivity(myIntent, opts.toBundle());
+				myIntent.putExtra("position", position);
+				startActivityForResult(myIntent, TASK_SETTINGS_REQUEST, opts.toBundle());
+				Log.i(AM_TAG, "Long click on item: " + String.valueOf(position));
 				return true;
 			}
 		});
@@ -133,20 +152,18 @@ public class MainActivity extends CoolieActivity {
 					
 					@Override
 					public void undo() {
-//						String[] info = removedItem.getStringArrInfo();
-//						mAdapter.insert(position, new SpannableString(info[0]), info[1], info[2], info[3], isDone);
 						mAdapter.insert(position, removedItem);
 					}
 				};
 			}
 		});
 		
+		// Set swipe-to-delete configuration. 
 		mListView.setSwipingLayout(R.id.am_list_item_layout);
 		mListView.setUndoStyle(EnhancedListView.UndoStyle.SINGLE_POPUP);
 		mListView.setUndoHideDelay(3000);
 		mListView.enableSwipeToDismiss();
 		mListView.setSwipeDirection(EnhancedListView.SwipeDirection.BOTH);
-		
 		
 		// Setting a temporary course list to fetch from the web.
 		// This list is passed to the service in the intent's extra data.
@@ -157,6 +174,20 @@ public class MainActivity extends CoolieActivity {
 		courseList.add("236350");
 		courseList.add("236360");
 		
+	}
+	
+	private void prepareTaskPreference(int position) {
+		TasksInfo task = (TasksInfo) mAdapter.getItem(position);
+		SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+		SharedPreferences.Editor editor = sharedPrefs.edit();
+		editor.putString(TaskSettingsFragment.KEY_TS_TASK_NAME, task.taskName.toString());
+		editor.putString(TaskSettingsFragment.KEY_TS_COURSE_NAME, task.courseName);
+		editor.putString(TaskSettingsFragment.KEY_TS_COURSE_ID, task.courseId);
+		editor.putString(TaskSettingsFragment.KEY_TS_DUE_DATE, task.dueDate);
+		editor.putInt(TaskSettingsFragment.KEY_TS_DIFFICULTY, task.difficulty);
+		editor.putInt(TaskSettingsFragment.KEY_TS_IMPORTANCE, task.importance);
+		editor.putInt(TaskSettingsFragment.KEY_TS_PROGRESS, task.progress);
+		editor.commit();
 	}
 	
 	@Override
@@ -192,11 +223,17 @@ public class MainActivity extends CoolieActivity {
 				// Progress is not set for manually added new tasks, so set it to 0.
 				newTask.progress = 0;
 				mAdapter.insert(-1, newTask);
-//				mAdapter.insert(-1,new SpannableString(newTasksInfo[0]), newTasksInfo[1],
-//						newTasksInfo[2], newTasksInfo[3], false);
 				Toast.makeText(this, "New Task Added!", Toast.LENGTH_SHORT).show();
 			} else {
 				Toast.makeText(this, "No New Task!", Toast.LENGTH_SHORT).show();
+			}
+		} else if (requestCode == TASK_SETTINGS_REQUEST) {
+			if (resultCode == RESULT_OK) {
+				int position = data.getIntExtra("position", -1);
+				mAdapter.updateTaskFromSharedPrefs(position);
+				Log.i(AM_TAG, "Result OK from tasks settings at position: " + String.valueOf(position));
+			} else {
+				
 			}
 		}
 	}
@@ -205,21 +242,21 @@ public class MainActivity extends CoolieActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
-		Intent myIntent;
-		ActivityOptions opts = ActivityOptions.makeCustomAnimation(MainActivity.this, 
-				R.anim.am_fade_in, R.anim.am_hold);
+//		Intent myIntent;
+//		ActivityOptions opts = ActivityOptions.makeCustomAnimation(MainActivity.this, 
+//				R.anim.am_fade_in, R.anim.am_hold);
 		
 		switch(item.getItemId()) {
 		
-			case R.id.am_action_settings:
-				myIntent = new Intent(MainActivity.this, GeneralSettings.class);
-				startActivity(myIntent,opts.toBundle());
-				break;
-				
-			case R.id.am_action_new_task:
-				myIntent = new Intent(this, AddNewTask.class);
-				startActivityForResult(myIntent, NEW_TASK_REQUEST, opts.toBundle());
-				break;
+//			case R.id.am_action_settings:
+//				myIntent = new Intent(MainActivity.this, GeneralSettings.class);
+//				startActivity(myIntent,opts.toBundle());
+//				break;
+//				
+//			case R.id.am_action_new_task:
+//				myIntent = new Intent(this, AddNewTask.class);
+//				startActivityForResult(myIntent, NEW_TASK_REQUEST, opts.toBundle());
+//				break;
 				
 			case R.id.action_sort_by_due_date:
 				Toast.makeText(this, "Sorting By Due Date", Toast.LENGTH_SHORT).show();
@@ -248,7 +285,42 @@ public class MainActivity extends CoolieActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 
 		getMenuInflater().inflate(R.menu.am_main, menu);
+		// Giving the settings button item some random id number.
+		int settingsButtonId = 509;
+		MenuItem settingsButton = menu.add(0, settingsButtonId, 0, "Settings");
+		settingsButton.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		settingsButton.setIcon(R.drawable.am_settings);
+		settingsButton.setOnMenuItemClickListener(this);
+		
+		// Giving the new task button some random id number.
+		int newTaskButtonId = 547;
+		MenuItem newTaskButton = menu.add(0, newTaskButtonId, 0, "New Task");
+		newTaskButton.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		newTaskButton.setIcon(R.drawable.am_new_task);
+		newTaskButton.setOnMenuItemClickListener(this);
 		return super.onCreateOptionsMenu(menu);
+	}
+	
+	// Handle clicks on menu items such as 'Settings' and 'New Task'
+	@Override
+	public boolean onMenuItemClick(MenuItem item) {
+		
+		Intent myIntent;
+		switch (item.getItemId()) {
+		
+		// 'Settings' button clicked.
+		case 509:
+			myIntent = new Intent(MainActivity.this, GeneralSettings.class);
+			startActivity(myIntent);
+			break;
+			
+		// 'New Task' button clicked.
+		case 547:
+			myIntent = new Intent(this, AddNewTask.class);
+			startActivityForResult(myIntent, NEW_TASK_REQUEST);
+			break;
+		}
+		return true;
 	}
 	
 	class MyAdapter extends BaseAdapter implements ViewSwitcher.ViewFactory {
@@ -269,19 +341,19 @@ public class MainActivity extends CoolieActivity {
 			numOfDoneTasks = 0;
 			
 			myItems = new ArrayList<TasksInfo>();
-//			String taskName = "H.W ";
-//			String courseName = "Android Project ";
-//			String courseId = "236503 ";
-//			String dueDate = "Due Date ";
-//			
-//			for(int i=0; i<9; i++) {
-//				Integer j = i + 1;
-//				String index = j.toString();
-//				
-//				TasksInfo newTask = new TasksInfo(new SpannableString(taskName + index), courseName + index, courseId + index, dueDate + index);
-//				myItems.add(newTask);
-//				totalNumOfTasks++;
-//			}
+			String taskName = "H.W ";
+			String courseName = "Android Project ";
+			String courseId = "236503 ";
+			String dueDate = "Due Date ";
+			
+			for(int i=0; i<9; i++) {
+				Integer j = i + 1;
+				String index = j.toString();
+				
+				TasksInfo newTask = new TasksInfo(new SpannableString(taskName + index), courseName + index, courseId + index, dueDate + index);
+				myItems.add(newTask);
+				totalNumOfTasks++;
+			}
 			fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
 			fadeIn.setDuration(1000);
 			fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
@@ -376,12 +448,9 @@ public class MainActivity extends CoolieActivity {
 		// Used to insert tasks manually.
 		public void insert(int position, TasksInfo newTask) {
 			
-//			TasksInfo newTask = new TasksInfo(new SpannableString(taskName), courseName, courseId, dueDate);
 			if (position >= 0) {
 				// Task is re-added (user deleted and then pressed undo) to its original position.
 				if (newTask.isDone) { 
-//					newTask.taskName.setSpan(new StrikethroughSpan(), 0, newTask.taskName.length(), 0);
-//					newTask.isDone = true;
 					numOfDoneTasks++;
 				}
 				myItems.add(position, newTask);
@@ -395,7 +464,7 @@ public class MainActivity extends CoolieActivity {
 		// Used to insert new fetched tasks from web.
 		// *NO* call to notifyDataSetChanged() since this method is being called from
 		// a service running on thread different than the UI thread, hence, calling
-		// notifyDataSetChange() is not allowed.
+		// notifyDataSetChange() will throw an exception.
 		public void insertFetched(List<TasksInfo> fetchedTasks) {
 			Log.i(AM_TAG, "insertFetched -> fetchedTasks size: " + String.valueOf(fetchedTasks.size()));
 			Log.i(AM_TAG, "insertFetched -> myItems size (before adding): " + String.valueOf(myItems.size()));
@@ -431,13 +500,72 @@ public class MainActivity extends CoolieActivity {
 		public ArrayList<TasksInfo> getList() {
 			return myItems;
 		}
+		
+		public void setProperties(int position, int difficulty, int importance, int progress) {
+			myItems.get(position).difficulty = difficulty;
+			myItems.get(position).importance = importance;
+			myItems.get(position).progress = progress;
+		}
+		
+		public void updateTaskFromSharedPrefs(int position) {
+			TasksInfo task = myItems.get(position);
+			
+			SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
+			task.taskName = new SpannableString(sharedPrefs.getString(TaskSettingsFragment.KEY_TS_TASK_NAME , "??!"));
+			task.courseName = sharedPrefs.getString(TaskSettingsFragment.KEY_TS_COURSE_NAME, "??!");
+			task.courseId = sharedPrefs.getString(TaskSettingsFragment.KEY_TS_COURSE_ID, "??!");
+			task.dueDate = sharedPrefs.getString(TaskSettingsFragment.KEY_TS_DUE_DATE, "??!");
+			task.difficulty = sharedPrefs.getInt(TaskSettingsFragment.KEY_TS_DIFFICULTY, 0);
+			task.importance = sharedPrefs.getInt(TaskSettingsFragment.KEY_TS_IMPORTANCE, 0);
+			task.progress = sharedPrefs.getInt(TaskSettingsFragment.KEY_TS_PROGRESS, 0);
+			
+			updateView();
+		}
 
 		class ViewHolder {
 			TextView courseName, courseId, taskName, dueDate;
 		}
 	}
+	
+	public void setUpdatesFrequency(String freq) {
+		
+		if (freq.equals("Never")) {
+			// cancel alarm if it exists. 
+			if (alarmMgr != null) {
+				alarmMgr.cancel(alarmIntent);
+			}
+			// turn off boot receiver.
+			changeBootReceiverState(false);
+		} else {
+			alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+			Intent intent = new Intent(this, TaskParser.class);
+			alarmIntent = PendingIntent.getService(this, 0, intent, 0);
+			
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTimeInMillis(System.currentTimeMillis());
+			// Set the updates check to 7:00 am every day.
+			calendar.set(Calendar.HOUR_OF_DAY, 7);
+			calendar.set(Calendar.MINUTE, 0);
+			int hours = 0;
+			if (freq.equals("8 Hours")) hours = 8;
+			else if (freq.equals("12 Hours")) hours = 12;
+			else if (freq.equals("1 Day")) hours = 24;
+			else if (freq.equals("2 Days")) hours = 48;
+			else if (freq.equals("3 Days")) hours = 72;			
+			else if (freq.equals("4 Days")) hours = 96;
+			else if (freq.equals("5 Days")) hours = 120;
+			else if (freq.equals("1 Week")) hours = 168;
+			
+			// Set repeating alarm.
+			alarmMgr.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 
+					1000*60*60*hours, alarmIntent);
+			
+			// turn on boot receiver.
+			changeBootReceiverState(true);
+		}
+	}
 
-	// Turn BootReceiver class on\off.
+	// Turn BootReceiver on\off.
 	private void changeBootReceiverState(boolean enabled) {
 		ComponentName receiver = new ComponentName(this, BootReceiver.class);
 		PackageManager pm = this.getPackageManager();
@@ -455,9 +583,9 @@ public class MainActivity extends CoolieActivity {
 		
 		@Override
 		public void onReceive(Context context, Intent intent) {
-//			settings = getSharedPreferences(AM_PREFS, 0);
-//			int freq = settings.getInt(UPDATES_KEY, 0);
-//			setUpdatesFrequency(freq);
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+			String freq = prefs.getString(GeneralSettings.KEY_GS_UPDATES_FREQ, "Never");
+			setUpdatesFrequency(freq);
 		}
 	}
 }
@@ -478,6 +606,10 @@ class TasksInfo {
 	
 	public String[] getStringArrInfo() {
 		return new String[] { taskName.toString(), courseName, courseId, dueDate };
+	}
+	
+	public int[] getIntArrInfo() {
+		return new int[] { difficulty, importance, progress };
 	}
 	
 	// Eclipse Auto-Generated functions hashCode() and equals()

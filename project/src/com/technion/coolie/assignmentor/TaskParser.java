@@ -114,6 +114,8 @@ public class TaskParser extends IntentService {
     	} catch (Exception e) {
 			e.printStackTrace();
 			Log.i(MainActivity.AM_TAG, "Caught IOException while trying to get data from web");
+			if (fetchedTasks.size() > 0) 
+				populateList();
 		}
     }
     

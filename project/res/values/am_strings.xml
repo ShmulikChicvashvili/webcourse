@@ -16,30 +16,32 @@
     <string name="pref_sync">Sync with Google Calendar</string>
     <string name="pref_updates_freq">Updates Frequency</string>
     <string name="pref_updates_freq_sum">Once a Day</string>
-    <string name="pref_updates_dialog_title">Updates Frequency</string>
+    <string name="pref_updates_dialog_title">Look For Updates Every</string>
     <string-array name="pref_updates_dialog_values">
-	    <item>3 Times a Day</item>
-	    <item>2 Times a Day</item>
-	    <item>Once a Day</item>
-	    <item>Every 2 Days</item>
-	    <item>Every 3 Days</item>
-	    <item>Every 4 Days</item>
-	    <item>Every 5 Days</item>
-	    <item>Once a Week</item>
+        <item>Never</item>
+	    <item>8 Hours</item>
+	    <item>12 Hours</item>
+	    <item>1 Day</item>
+	    <item>2 Days</item>
+	    <item>3 Days</item>
+	    <item>4 Days</item>
+	    <item>5 Days</item>
+	    <item>1 Week</item>
 	</string-array>
-	<string name="pref_updates_default_value">Once a Day</string>
+	<string name="pref_updates_default_value">Never</string>
 	
     <string name="pref_reminder">Set reminder for new Tasks</string>
     <string name="pref_reminder_sum">1 Day Before Due Day</string>
     <string name="pref_reminder_dialog_title">New Tasks Reminder</string>
     <string-array name="pref_reminder_dialog_values">
+        <item>No Reminder</item>
 	    <item>Morning Of Due Date</item>
 	    <item>1 Day Before</item>
 	    <item>2 Days Before</item>
 	    <item>3 Days Before</item>
 	    <item>4 Days Before</item>
 	</string-array>
-	<string name="pref_reminder_default_value">1 Day Before</string>
+	<string name="pref_reminder_default_value">No Reminder</string>
     
     <string name="pref_sync_title">Sync</string>
     <string name="pref_reminder_title">Reminders</string>
