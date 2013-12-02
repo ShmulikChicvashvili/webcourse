@@ -15,7 +15,7 @@ import android.os.Bundle;
  * <pre>
  * <b>usage example:</b>
  * <code>
- * HtmlGrabber hg = new HtmlGrabber(getAppContext())
+ * HtmlGrabber hg = new HtmlGrabber(getApplicationContext())
  * {
  *		@Override
  *		public void handleResult(String result, CoolieStatus status) {
@@ -87,7 +87,7 @@ public abstract class HtmlGrabber {
 
 	protected void finalize() throws Throwable
 	{
-		//mContext.unregisterReceiver(receiver);
+		mContext.unregisterReceiver(receiver);
 	}
 
 }

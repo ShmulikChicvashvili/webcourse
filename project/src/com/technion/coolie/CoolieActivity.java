@@ -1,5 +1,6 @@
 package com.technion.coolie;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import android.view.ActionProvider;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.SubMenu;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -40,6 +42,18 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		try {
+			ViewConfiguration config = ViewConfiguration.get(this);
+			Field menuKeyField = ViewConfiguration.class
+			.getDeclaredField("sHasPermanentMenuKey");
+			if (menuKeyField != null) {
+			menuKeyField.setAccessible(true);
+			menuKeyField.setBoolean(config, false);
+			}
+			} catch (Exception e) {
+			e.printStackTrace();
+			}
+	
 		super.setContentView(R.layout.skel_navigation_drawer);
 		createNavBar();
 	}
