@@ -1,6 +1,8 @@
 package com.technion.coolie.ug.Enums;
 
-public enum Faculty {
+import java.io.Serializable;
+
+public enum Faculty implements Serializable {
 	AE, ARCHITECTURE, BIOLOGY, BM, BIOTECH, CHEMENG, CHEMISTRY, CEE, CS, EDU, EE, HUMANITIES, IE, MATERIALS, MATH, MEENG, MD, PHYS
 };
 

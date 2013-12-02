@@ -1,13 +1,38 @@
 package com.technion.coolie.ug.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import com.technion.coolie.ug.Enums.Faculty;
 
-public class Course {
+//Notes : faculty can be decided by the first two numbers of the
+// course id.
+
+public class Course implements Serializable {
+
+	// The key\id fields: courseNumber + semester
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1920752343710817619L;
+
+	private Semester semester; // can be a string in the db
+	private String courseNumber;
 
 	private String name;
+
+	private String points;
+	private String description;
+
+	private Faculty faculty;// can be a string in the db.
+
+	private Date moedA;
+	private Date moedB;
+
+	private List<String> prerequisites;// kda-mim
+	private List<RegistrationGroup> registrationGroups;
 
 	public Course(String courseNumber, String name, String points,
 			String description, Semester semester, Faculty faculty, Date moedA,
@@ -25,19 +50,6 @@ public class Course {
 		this.prerequisites = prerequisites;
 		this.registrationGroups = registrationGroups;
 	}
-
-	private String points;
-	private String description;
-
-	private Semester semester;
-	private Faculty faculty; // by the first two numbers of the course id.
-	private Date moedA;
-	private Date moedB;
-
-	private List<String> prerequisites;
-	private List<RegistrationGroup> registrationGroups;
-
-	private String courseNumber;
 
 	public String getCourseNumber() {
 		return courseNumber;

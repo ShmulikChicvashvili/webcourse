@@ -1,10 +1,34 @@
 package com.technion.coolie.ug.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.technion.coolie.ug.Enums.DayOfWeek;
 
-public class GroupInfo {
+public class GroupInfo implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3880934967869395104L;
+
+	private String id;
+	private String lecturerName;
+	private DayOfWeek day;
+	private Date startingHour;
+	private Date endingHour;
+	private String place;
+
+	public GroupInfo(String id, String lecturerName, DayOfWeek day,
+			Date startingHour, Date endingHour, String place) {
+		super();
+		this.id = id;
+		this.lecturerName = lecturerName;
+		this.day = day;
+		this.startingHour = startingHour;
+		this.endingHour = endingHour;
+		this.place = place;
+	}
 
 	public String getId() {
 		return id;
@@ -54,21 +78,4 @@ public class GroupInfo {
 		this.place = place;
 	}
 
-	public GroupInfo(String id, String lecturerName, DayOfWeek day,
-			Date startingHour, Date endingHour, String place) {
-		super();
-		this.id = id;
-		this.lecturerName = lecturerName;
-		this.day = day;
-		this.startingHour = startingHour;
-		this.endingHour = endingHour;
-		this.place = place;
-	}
-
-	private String id;
-	private String lecturerName;
-	private DayOfWeek day;
-	private Date startingHour;
-	private Date endingHour;
-	private String place;
 }

@@ -1,5 +1,7 @@
 package com.technion.coolie.ug.Enums;
 
-public enum DayOfWeek {
+import java.io.Serializable;
+
+public enum DayOfWeek implements Serializable {
 	SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
 };

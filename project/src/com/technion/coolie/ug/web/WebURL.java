@@ -1,13 +1,9 @@
 package com.technion.coolie.ug.web;
 
-import java.util.List;
-
 /**
  * list of all needed URLs for the ug project. For each URL, there are different
- * number of parameters. To use the URL call
- * buildURL(chosenURL,listOfParameters).
+ * number of parameters.
  * 
- * @author happyfeet
  * 
  */
 public class WebURL {
@@ -20,14 +16,6 @@ public class WebURL {
 	/**
 	 * 1-course number 2-semester year and part of the year (like 201301)
 	 */
-	final static String RISHUM_COURSE_PAGE = "2|http://ug.technion.ac.il/rishum/mikdet.php?MK=~~&SEM=~~";
+	final static String RISHUM_COURSE_PAGE = "http://ug.technion.ac.il/rishum/mikdet.php?MK=(?)&SEM=(?)";
 
-	public static void buildURL(String URL, List<String> parameters) {
-		String str = URL.substring(0, URL.indexOf("|"));
-		int paramNum = Integer.parseInt(str);
-		// if(parameters.size()!=paramNum)
-		// AppUtils.
-		URL = URL.substring(URL.indexOf("http"));
-
-	}
 }

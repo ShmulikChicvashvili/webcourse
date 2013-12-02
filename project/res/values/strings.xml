@@ -6,4 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <string name="serach_course_hint">הכנס קורס</string>
+    <string name="search_end_results">סוף תוצאות</string>
 </resources>

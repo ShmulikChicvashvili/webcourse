@@ -1,8 +1,15 @@
 package com.technion.coolie.ug.model;
 
+import java.io.Serializable;
+
 import com.technion.coolie.ug.Enums.SemesterSeason;
 
-public class Semester {
+public class Semester implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7728978870620022481L;
 
 	public int getYear() {
 		return year;

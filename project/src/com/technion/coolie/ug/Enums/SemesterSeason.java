@@ -1,5 +1,7 @@
 package com.technion.coolie.ug.Enums;
 
-public enum SemesterSeason {
+import java.io.Serializable;
+
+public enum SemesterSeason implements Serializable {
 	WINTER, AUTUMN, SUMMER
 };

@@ -1,8 +1,19 @@
 package com.technion.coolie.ug.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RegistrationGroup {
+public class RegistrationGroup implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6751987554460660402L;
+
+	private String groupId;
+	private List<GroupInfo> lectures;
+	private List<GroupInfo> tutorials;
+	private int freePlaces;
 
 	public RegistrationGroup(String groupId, List<GroupInfo> lectures,
 			List<GroupInfo> tutorials, int freePlaces) {
@@ -12,11 +23,6 @@ public class RegistrationGroup {
 		this.tutorials = tutorials;
 		this.freePlaces = freePlaces;
 	}
-
-	private String groupId;
-	private List<GroupInfo> lectures;
-	private List<GroupInfo> tutorials;
-	private int freePlaces;
 
 	public String getGroupId() {
 		return groupId;
