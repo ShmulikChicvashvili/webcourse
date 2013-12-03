@@ -21,8 +21,6 @@ import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -36,6 +34,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.assignmentor.EnhancedListView.Undoable;
@@ -43,7 +43,6 @@ import com.technion.coolie.assignmentor.TaskSettings.TaskSettingsFragment;
 
 public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemClickListener {
 	
-
 	private static final int NEW_TASK_REQUEST = 3535;
 	private static final int TASK_SETTINGS_REQUEST = 4545;
 	
@@ -63,8 +62,6 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 	// Temporary list to hold course ids.
 	ArrayList<String> courseList = new ArrayList<String>();
 	
-	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -76,10 +73,6 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		prefs.getBoolean(GeneralSettings.KEY_GS_CALENDAR_SYNC, false);
 		prefs.getString(GeneralSettings.KEY_GS_UPDATES_FREQ, "Never");
 		prefs.getString(GeneralSettings.KEY_GS_REMINDER, "No Reminder");
-		
-		
-//		Log.i(AM_TAG, "Default prefs -> sync: " + String.valueOf(sync) + " updates: " + updatesFreq
-//				+ " reminder: " + reminder);
 		
 		// Set a receiver to get broadcasts from the update service whenever its done.
 		mReceiver = new BroadcastReceiver() {
@@ -242,22 +235,9 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
-//		Intent myIntent;
-//		ActivityOptions opts = ActivityOptions.makeCustomAnimation(MainActivity.this, 
-//				R.anim.am_fade_in, R.anim.am_hold);
 		
 		switch(item.getItemId()) {
 		
-//			case R.id.am_action_settings:
-//				myIntent = new Intent(MainActivity.this, GeneralSettings.class);
-//				startActivity(myIntent,opts.toBundle());
-//				break;
-//				
-//			case R.id.am_action_new_task:
-//				myIntent = new Intent(this, AddNewTask.class);
-//				startActivityForResult(myIntent, NEW_TASK_REQUEST, opts.toBundle());
-//				break;
-				
 			case R.id.action_sort_by_due_date:
 				Toast.makeText(this, "Sorting By Due Date", Toast.LENGTH_SHORT).show();
 				break;
@@ -277,14 +257,13 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 				startService(serviceIntent);
 				break;
 		}
-		
 		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
-		getMenuInflater().inflate(R.menu.am_main, menu);
+		getSupportMenuInflater().inflate(R.menu.am_main, menu);
 		// Giving the settings button item some random id number.
 		int settingsButtonId = 509;
 		MenuItem settingsButton = menu.add(0, settingsButtonId, 0, "Settings");

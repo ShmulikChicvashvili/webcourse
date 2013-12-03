@@ -5,10 +5,12 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="9"
         android:targetSdkVersion="19" />
     
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
@@ -17,8 +19,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+        <!-- Skeleton -->
         <activity
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/Theme.Sherlock.Light"
             android:name="com.technion.coolie.skeleton.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
@@ -28,14 +32,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/Theme.AppCompat.Light"            
-            android:name="com.technion.coolie.skeleton.MyPreferencesScreen"
+            android:theme="@style/Theme.Sherlock.Light"            
+            android:name="com.technion.coolie.skeleton.PreferencesScreen"
             android:label="@string/app_name" >
         </activity>
         
-        <!-- ################################ AsignMentor  ################################ -->
+        <service android:name="com.technion.coolie.skeleton.HtmlGrabberService" >
+        </service>
+        
+        <!-- Assign Mentor -->
         <activity
-            android:theme="@style/Theme.AppCompat.Light"            
+            android:theme="@style/Theme.Sherlock.Light"            
             android:name="com.technion.coolie.assignmentor.MainActivity"
             android:label="@string/app_name" >
            <!--  <intent-filter>
@@ -45,7 +52,7 @@
         
         <activity
             android:name="com.technion.coolie.assignmentor.GeneralSettings"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/Theme.Sherlock.Light"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
@@ -59,7 +66,7 @@
         
         <activity
             android:name="com.technion.coolie.assignmentor.TaskSettings"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/Theme.Sherlock.Light"
             android:label="@string/app_name" >
             
             <meta-data 
@@ -69,7 +76,7 @@
         
         <activity
             android:name="com.technion.coolie.assignmentor.AddNewTask"
-            android:theme="@style/Theme.AppCompat.Light"
+            android:theme="@style/Theme.Sherlock.Light"
             android:label="@string/app_name" >
             
             <meta-data 
@@ -86,58 +93,66 @@
 	       		 <action android:name="android.intent.action.BOOT_COMPLETED"/>
 	   		</intent-filter>
 		</receiver>
-        <!-- ############################################################################ -->
-        
+
+        <!-- Join In -->
         <activity
-            android:theme="@style/Theme.AppCompat.Light"            
+            android:theme="@style/Theme.Sherlock.Light"      
             android:name="com.technion.coolie.joinin.MainActivity"
             android:label="@string/app_name" >
         </activity>
         
+        <!-- Let Me In -->
         <activity
-            android:theme="@style/Theme.AppCompat.Light"            
+            android:theme="@style/Theme.Sherlock.Light"            
             android:name="com.technion.coolie.letmein.MainActivity"
             android:label="@string/app_name" >
         </activity>
         
+        <!-- Studdy Buddy -->
         <activity
-            android:theme="@style/Theme.AppCompat.Light"            
+            android:theme="@style/Theme.Sherlock.Light"            
             android:name="com.technion.coolie.studdybuddy.MainActivity"
             android:label="@string/app_name" >
         </activity>
         
+        <!-- Tech Library -->
         <activity
-            android:theme="@style/Theme.AppCompat.Light"            
+            android:theme="@style/Theme.Sherlock.Light"            
             android:name="com.technion.coolie.techlibrary.MainActivity"
             android:label="@string/app_name" >
         </activity>
         
+        <!-- TechPark -->
         <activity
-            android:theme="@style/Theme.AppCompat.Light"            
+            android:theme="@style/Theme.Sherlock.Light"            
             android:name="com.technion.coolie.techpark.MainActivity"
             android:label="@string/app_name" >
         </activity>
         
+        <!-- TechTrade -->
         <activity
-            android:theme="@style/Theme.AppCompat.Light"            
+            android:theme="@style/Theme.Sherlock.Light"            
             android:name="com.technion.coolie.techtrade.MainActivity"
             android:label="@string/app_name" >
         </activity>
         
+        <!-- TecMind -->
         <activity
-            android:theme="@style/Theme.AppCompat.Light"            
+            android:theme="@style/Theme.Sherlock.Light"            
             android:name="com.technion.coolie.tecmind.MainActivity"
             android:label="@string/app_name" >
         </activity>
         
+        <!-- Teletech -->
         <activity
-            android:theme="@style/Theme.AppCompat.Light"            
+            android:theme="@style/Theme.Sherlock.Light"            
             android:name="com.technion.coolie.teletech.MainActivity"
             android:label="@string/app_name" >
         </activity>
         
+        <!-- UG -->
         <activity
-            android:theme="@style/Theme.AppCompat.Light"            
+            android:theme="@style/Theme.Sherlock.Light"            
             android:name="com.technion.coolie.ug.MainActivity"
             android:label="@string/app_name" >
         </activity>
