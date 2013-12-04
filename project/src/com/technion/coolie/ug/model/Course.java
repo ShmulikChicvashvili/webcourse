@@ -131,4 +131,16 @@ public class Course implements Serializable {
 		this.registrationGroups = registrationGroups;
 	}
 
+	public CourseKey getCourseKey() {
+		return new CourseKey(courseNumber, semester);
+	}
+
+	public boolean hasFreePlaces() {
+		int sum = 0;
+		for (RegistrationGroup group : registrationGroups) {
+			sum += Math.abs(group.getFreePlaces());
+		}
+		return sum > 0;
+	}
+
 }

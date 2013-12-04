@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
@@ -26,8 +25,15 @@ import android.widget.Toast;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.MainActivity;
+import com.technion.coolie.ug.Enums.Faculty;
+import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.db.UGDatabase;
+import com.technion.coolie.ug.gui.searchCourses.SearchResultsAdapter.CourseHolder;
 import com.technion.coolie.ug.model.Course;
+import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.SearchFilters;
+import com.technion.coolie.ug.model.Semester;
+import com.tecnion.coolie.ug.utils.NavigationUtils;
 import com.tecnion.coolie.ug.utils.SerializeIO;
 
 /**
@@ -42,6 +48,8 @@ public class SearchActivity extends CoolieActivity {
 	Context context;
 	SearchResultsAdapter searchAdapter;
 	ArrayAdapter<String> autoCompleteAdapter;
+	String lastQuery; // TODO decide on this
+	SearchFilters filters;
 	final static String LAST_SEARCH_FILE = "com.technion.coolie.ug.files.lastSearch";
 
 	@Override
@@ -50,18 +58,36 @@ public class SearchActivity extends CoolieActivity {
 		setContentView(R.layout.search_screen_layout);
 		context = this;
 
+		init();
+		updateAutoCompleteDisplay();
+		updateCoursesResultsDisplay();
+	}
+
+	public void init() {
+		// undependent
 		initFiles();
 		initLayout();
 		initAutoComplete();
 
-		// initPreferences(); TODO
+		// file dependent
+		initFilters();
 
-		setInitialCourseList();
+		// filter dependent
+		setInitialCourseLists();
+
+		// course dependent
 		setInitialAdapters();
+	}
 
-		updateAutoCompleteDisplay(); // update to all the courses matching the
-										// preferences.
-		updateCoursesResultsDisplay();
+	/**
+	 * requires filter file to be available to initialize the filters.
+	 */
+	private void initFilters() {
+
+		// TODO get the saved filter file to initialize
+
+		filters = new SearchFilters(new Semester(2013, SemesterSeason.WINTER),
+				false, Faculty.ALL_FACULTIES);
 
 	}
 
@@ -86,16 +112,20 @@ public class SearchActivity extends CoolieActivity {
 	private void setInitialAdapters() {
 		autoCompleteAdapter = new ArrayAdapter<String>(this,
 				R.layout.auto_complete_item_row, courseNameList);
-		// TODO initialize to the last search.
+
+		List<Course> lastSearch = Collections.emptyList();
+
 		try {
-			searchAdapter = new SearchResultsAdapter(this,
-					(List<Course>) SerializeIO.load(this, LAST_SEARCH_FILE),
-					new onClickResult());
+			lastSearch = (List<Course>) SerializeIO
+					.load(this, LAST_SEARCH_FILE);
 		} catch (IOException e) {
-			Log.e(MainActivity.DEBUG_TAG, "error ", e);
+			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
 		} catch (ClassNotFoundException e) {
-			Log.e(MainActivity.DEBUG_TAG, "error ", e);
+			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
 		}
+
+		searchAdapter = new SearchResultsAdapter(this, lastSearch,
+				new onClickResult());
 
 	}
 
@@ -103,46 +133,44 @@ public class SearchActivity extends CoolieActivity {
 	 * sets the courses list with all the courses that match the search
 	 * preferences! Can get the last search in this method and display it.
 	 */
-	private void setInitialCourseList() {
-		// TODO get all the courses names that match the preferences
-		courseNameList = UGDatabase.INSTANCE.getCoursesNames();
-		// TODO get all the courses that match the pre-set preferences
-		courseList = UGDatabase.INSTANCE.getCourses();
+	private void setInitialCourseLists() {
+		courseList = filters.filter(UGDatabase.INSTANCE.getCourses(), "");
+		courseNameList = coursesToNames(courseList);
+
+		Log.d(MainActivity.DEBUG_TAG, "initial courses are of size "
+				+ courseList.size());
+
+	}
+
+	private List<String> coursesToNames(List<Course> courses) {
+		List<String> names = new ArrayList<String>();
+		for (Course course : courses) {
+			names.add(course.getName() + " " + course.getCourseNumber());
+		}
+		return names;
+
 	}
 
 	private void onSearchPressed(String query) {
-		// get from array all the matching courses matching query
-		List<Course> queryList = new ArrayList<Course>(courseList);
-		filterIncludingString(queryList, query);
+		lastQuery = query;
+		// get all the matching courses matching the query and the filters
+		List<Course> queryList = filters.filter(courseList, query);
 
 		Log.d(MainActivity.DEBUG_TAG,
 				"results found of size " + queryList.size());
 
-		// set the adapter with the courses
+		// set the adapter with the matching courses
 		searchAdapter = new SearchResultsAdapter(this, queryList,
 				new onClickResult());
+
 		updateCoursesResultsDisplay();
 
-		// TODO if(queryList.size()==1)
-		// goToCourse(queryList.get(0));
-
-		// TODO if(queryList.size()==0)
-		// emphasize that there are no results
-
-	}
-
-	private void filterIncludingString(List<Course> list, String query) {
-
-		Iterator<Course> iterator = list.iterator();
-		while (iterator.hasNext()) {
-			Course course = iterator.next();
-			if (isSubstring(query, course.getName() + course.getPoints()))
-				iterator.remove();
+		if (queryList.size() == 1) {
+			NavigationUtils.goToCourseDisplay(queryList.get(0).getCourseKey(),
+					context);
 		}
-	}
+		// if (queryList.size() == 0)..... TODO do something when no results
 
-	private boolean isSubstring(String query, String string) {
-		return string.indexOf(query) == -1;
 	}
 
 	private void updateCoursesResultsDisplay() {
@@ -199,7 +227,7 @@ public class SearchActivity extends CoolieActivity {
 		});
 	}
 
-	static class onClickResult implements OnClickListener {
+	class onClickResult implements OnClickListener {
 
 		String name;
 		String courseNumber; // TODO use these
@@ -208,6 +236,11 @@ public class SearchActivity extends CoolieActivity {
 		public void onClick(View v) {
 			Toast.makeText(v.getContext(), "view   was pressed",
 					Toast.LENGTH_LONG).show();
+			CourseHolder holder = (CourseHolder) v.getTag(); // Check this
+																// holder theory
+																// TODO
+			NavigationUtils.goToCourseDisplay(new CourseKey(holder.number
+					.getText().toString(), filters.getSemester()), context);
 
 		}
 	}
@@ -216,9 +249,9 @@ public class SearchActivity extends CoolieActivity {
 	protected void onDestroy() {
 		try {
 			SerializeIO.save(this, LAST_SEARCH_FILE,
-					(Serializable) searchAdapter.results);
+					(Serializable) searchAdapter.results); // save lastQuery?
 		} catch (IOException e) {
-			Log.e(MainActivity.DEBUG_TAG, "error ", e);
+			Log.e(MainActivity.DEBUG_TAG, "save error ", e);
 		}
 		super.onDestroy();
 	}

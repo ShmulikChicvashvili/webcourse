@@ -56,7 +56,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Course> {
 		holder.number.setText(course.getCourseNumber());
 		holder.name.setText(course.getName());
 		holder.points.setText(course.getPoints());
-		// TODO set color according to availabilty
+		// TODO set some color according to availabilty
 
 		row.setOnClickListener(listener);
 

@@ -3,7 +3,7 @@ package com.technion.coolie.ug.Enums;
 import java.io.Serializable;
 
 public enum Faculty implements Serializable {
-	AE, ARCHITECTURE, BIOLOGY, BM, BIOTECH, CHEMENG, CHEMISTRY, CEE, CS, EDU, EE, HUMANITIES, IE, MATERIALS, MATH, MEENG, MD, PHYS
+	AE, ARCHITECTURE, BIOLOGY, BM, BIOTECH, CHEMENG, CHEMISTRY, CEE, CS, EDU, EE, HUMANITIES, IE, MATERIALS, MATH, MEENG, MD, PHYS, ALL_FACULTIES
 };
 
 // AE = Aerospace Engineering

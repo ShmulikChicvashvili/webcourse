@@ -1,42 +1,34 @@
 package com.technion.coolie.ug.model;
 
-import com.technion.coolie.ug.Enums.SemesterSeason;
+import java.io.Serializable;
 
-public class CourseKey {
+public class CourseKey implements Serializable {
 
-	public CourseKey(String id, int year, SemesterSeason ss) {
+	public CourseKey(String id, Semester semester) {
 		super();
-		this.id = id;
-		this.year = year;
-		this.ss = ss;
+		this.number = id;
+		this.semester = semester;
 	}
 
-	private String id;
-	private int year;
-	private SemesterSeason ss;
+	private String number;
+	private Semester semester;
 
-	public String getId() {
-		return id;
+	public String getNumber() {
+		return number;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
-	public int getYear() {
-		return year;
+	public Semester getSemester() {
+		return semester;
 	}
 
-	public void setYear(int year) {
-		this.year = year;
+	public void setSemester(Semester semester) {
+		this.semester = semester;
 	}
 
-	public SemesterSeason getSs() {
-		return ss;
-	}
-
-	public void setSs(SemesterSeason ss) {
-		this.ss = ss;
-	}
+	private static final long serialVersionUID = 939036143890035323L;
 
 }

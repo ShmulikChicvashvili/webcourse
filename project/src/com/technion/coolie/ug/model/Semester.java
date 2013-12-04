@@ -6,11 +6,6 @@ import com.technion.coolie.ug.Enums.SemesterSeason;
 
 public class Semester implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7728978870620022481L;
-
 	public int getYear() {
 		return year;
 	}
@@ -35,4 +30,6 @@ public class Semester implements Serializable {
 
 	int year;
 	SemesterSeason ss;
+
+	private static final long serialVersionUID = 7728978870620022481L;
 }
