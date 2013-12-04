@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/lmi_layout_margin" >
+
+    <ImageView
+        android:id="@+id/lmi_friend_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/lmi_contact_image"
+        android:src="@drawable/lmi_facebook_man" />
+
+    <AutoCompleteTextView
+        android:id="@+id/lmi_friend_name_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/lmi_friend_image"
+        android:layout_marginRight="@dimen/lmi_components_margin"
+        android:layout_toLeftOf="@+id/lmi_friend_image"
+        android:completionThreshold="1"
+        android:ems="10"
+        android:hint="@string/lmi_friend_name"
+        android:inputType="textPersonName" >
+
+        <requestFocus />
+    </AutoCompleteTextView>
+
+    <EditText
+        android:id="@+id/lmi_friend_cellphone_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lmi_friend_name_edit"
+        android:layout_marginRight="@dimen/lmi_components_margin"
+        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:layout_toLeftOf="@+id/lmi_friend_image"
+        android:ems="10"
+        android:hint="@string/lmi_friend_cellphone_number"
+        android:imeOptions="actionNext"
+        android:inputType="phone"
+        android:maxLength="10" />
+
+    <EditText
+        android:id="@+id/lmi_friend_car_number_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lmi_friend_cellphone_edit"
+        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:ems="10"
+        android:hint="@string/lmi_friend_car_number"
+        android:imeOptions="actionNext"
+        android:inputType="number"
+        android:maxLength="8" />
+
+    <AutoCompleteTextView
+        android:id="@+id/lmi_friend_car_company_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lmi_friend_car_number_edit"
+        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:completionThreshold="1"
+        android:ems="10"
+        android:hint="@string/lmi_friend_car_company"
+        android:imeOptions="actionNext"
+        android:inputType="text" >
+    </AutoCompleteTextView>
+
+    <AutoCompleteTextView
+        android:id="@+id/lmi_friend_car_color_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lmi_friend_car_company_edit"
+        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:completionThreshold="1"
+        android:ems="10"
+        android:hint="@string/lmi_friend_car_color_edit"
+        android:imeOptions="actionNext"
+        android:inputType="text"
+        android:singleLine="true" >
+    </AutoCompleteTextView>
+
+    <!--
+    <TextView
+        android:id="@+id/lmi_date_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lmi_friend_car_color_edit"
+        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:clickable="true"
+        android:ems="10"
+        android:onClick="showDatePickerDialog"
+        android:text="asd" />
+
+    <TextView
+        android:id="@+id/lmi_time_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lmi_date_picker"
+        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:clickable="true"
+        android:ems="10"
+        android:text="asd"
+        android:onClick="showTimePickerDialog" />
+    -->
+
+    <EditText
+        android:id="@+id/lmi_date_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lmi_friend_car_color_edit"
+        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:onClick="showDatePickerDialog" />
+
+    <EditText
+        android:id="@+id/lmi_time_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lmi_date_picker"
+        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:clickable="true"
+        android:ems="10"
+        android:focusable="false"
+        android:onClick="showTimePickerDialog" />
+
+</RelativeLayout>

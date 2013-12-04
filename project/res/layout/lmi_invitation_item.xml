@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/lmi_contact"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
     <ImageView
         android:id="@+id/lmi_contact_image"
@@ -12,7 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/lmi_facebook_man"
-        android:contentDescription="The contact's image" />
+        android:contentDescription="@string/lmi_contact_image" />
 
     <TextView
         android:id="@+id/lmi_contact_name"
@@ -20,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/lmi_contact_image"
-        android:text="Large Text"
+        android:text="@string/lmi_friend_name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -30,7 +29,7 @@
         android:layout_below="@id/lmi_contact_name"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/lmi_contact_image"
-        android:text="Medium Text"
+        android:text="@string/lmi_contact_time_of_arrival"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>
