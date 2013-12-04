@@ -122,6 +122,7 @@
         android:clickable="true"
         android:ems="10"
         android:focusable="false"
+        android:inputType="datetime"
         android:onClick="showDatePickerDialog" />
 
     <EditText
@@ -134,6 +135,7 @@
         android:clickable="true"
         android:ems="10"
         android:focusable="false"
+        android:inputType="datetime"
         android:onClick="showTimePickerDialog" />
 
 </RelativeLayout>

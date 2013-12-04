@@ -44,7 +44,7 @@ public abstract class AbstractInvitationAdapter extends BaseAdapter {
 			$ = convertView;
 			holder = (ViewHolder) $.getTag();
 		} else {
-			$ = LayoutInflater.from(context).inflate(R.layout.lmi_invite, null);
+			$ = LayoutInflater.from(context).inflate(R.layout.lmi_invitation_item, null);
 			holder = initViewHolder($);
 			$.setTag(holder);
 		}
