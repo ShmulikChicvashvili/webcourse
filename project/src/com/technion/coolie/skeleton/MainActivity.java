@@ -16,11 +16,11 @@ import com.technion.coolie.R;
 import com.technion.coolie.CoolieActivity;
 
 public class MainActivity extends CoolieActivity {
-    @Override
+	@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.skel_activity_main);
-                
+        
         ViewStub btn;
 		LinearLayout buttonLayout;
         for(int i=1; i<=10; i++)
@@ -62,5 +62,5 @@ public class MainActivity extends CoolieActivity {
         		desc = getString(HelpFunctions.findResourceByName("module"+i+"_long_description", R.string.class));
         	((TextView)(buttonLayout.findViewById(R.id.skel_news_text))).setText(desc);
         }
-    }    
+    }
 }
