@@ -15,7 +15,7 @@ import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.InvitationDatabaseHelper;
 import com.technion.coolie.letmein.model.adapters.BaseInvitationAdapter;
-import com.technion.coolie.letmein.model.adapters.InvititationAdapter;
+import com.technion.coolie.letmein.model.adapters.InvitationAdapter;
 import com.technion.coolie.letmein.model.adapters.MockInvitationAdapter;
 
 public class MainActivity extends CoolieActivity implements InvitationListFragment.AdapterSupplier,
@@ -75,7 +75,7 @@ public class MainActivity extends CoolieActivity implements InvitationListFragme
 		@Override
 		protected BaseInvitationAdapter doInBackground(final Void... params) {
 			if (isLoggedIn)
-				return new InvititationAdapter(MainActivity.this, getHelper());
+				return new InvitationAdapter(MainActivity.this, getHelper());
 
 			return new MockInvitationAdapter(MainActivity.this);
 		}
