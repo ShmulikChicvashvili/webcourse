@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -65,6 +66,9 @@ public class FullContactInformation extends SherlockFragment {
 			updateContactInformationView(mCurrentPosition);
 	}
 
+	/**
+	 * @param position
+	 */
 	public void updateContactInformationView(int position) {
 		ContactInformation currentContact = TeletechManager.getContacts().get(
 				position);
@@ -73,13 +77,13 @@ public class FullContactInformation extends SherlockFragment {
 		updatePhoneNumbers(currentContact);
 
 		updateAdditionalData(currentContact);
-
-		RadioButton star = (RadioButton) getActivity().findViewById(
+		
+		CheckBox star = (CheckBox) getActivity().findViewById(
 				com.technion.coolie.R.id.addToFavorite);
 		// should find the contact in the DB and check if he is in the favorite
 		// DB, if so, check the contact
 		if (star.isChecked())
-			star.setSelected(true);
+			star.setChecked(true);
 
 		mCurrentPosition = position;
 
@@ -99,7 +103,8 @@ public class FullContactInformation extends SherlockFragment {
 
 		TextView officeHours = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.personalOfficeHourInfo);
-		officeHours.setText(currentContact.officeHours().toString());
+		officeHours.setText(currentContact.officeHours() == null ? new OfficeHour().toString() : 
+			currentContact.officeHours().toString());
 
 		TextView website = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.websiteInfo);

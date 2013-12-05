@@ -9,7 +9,7 @@ public class ContactsTest {
 	public ContactsTest() {
 		ContactInformation contact01 = new ContactInformation("Ben", "Lev",
 				Position.Student, "CS", new OfficeLocation(), "0524406323",
-				"sbenlev@t2.technion.ac.il", null, null, null);
+				"sbenlev@t2.technion.ac.il", null, null, "http://www.google.com");
 		ContactInformation contact02 = new ContactInformation("Argaman",
 				"Aloni", Position.Student, "CS", new OfficeLocation(),
 				"0525856563", "sargaman@t2.technion.ac.il", null, null, null);

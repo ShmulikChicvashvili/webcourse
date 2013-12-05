@@ -21,6 +21,8 @@ public class ContactsAdapter extends ArrayAdapter<ContactInformation> {
 	private List<ContactInformation> contacts;
 	private Context context;
 
+	public static int indexSelected;
+
 	private class ContactTag {
 
 		public TextView firstName;
@@ -61,6 +63,12 @@ public class ContactsAdapter extends ArrayAdapter<ContactInformation> {
 				.toString());
 		tag.comma.setText(",");
 		tag.faculty.setText(contacts.get(position).faculty());
+		if (position == indexSelected)
+			result.setBackgroundColor(result.getResources().getColor(
+					android.R.color.holo_blue_light));
+		else
+			result.setBackgroundColor(result.getResources().getColor(
+					android.R.color.background_light));
 		return result;
 	}
 

@@ -31,6 +31,20 @@ public class ContactSummaryFragment extends SherlockListFragment {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
+	 */
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		int layout = com.technion.coolie.R.layout.teletech_contact_list;
+		contacts = TeletechManager.getContacts();
+		setListAdapter(new ContactsAdapter(getSherlockActivity(), layout,
+				contacts));
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see
 	 * com.actionbarsherlock.app.SherlockListFragment#onAttach(android.app.Activity
 	 * )
@@ -48,28 +62,15 @@ public class ContactSummaryFragment extends SherlockListFragment {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
-	 */
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		int layout = com.technion.coolie.R.layout.contacts_list;
-		contacts = TeletechManager.getContacts();
-		setListAdapter(new ContactsAdapter(getSherlockActivity(), layout,
-				contacts));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see android.support.v4.app.Fragment#onStart()
 	 */
 	@Override
 	public void onStart() {
 		super.onStart();
 		if (getFragmentManager().findFragmentById(
-				com.technion.coolie.R.id.summary_fragment) != null)
+				com.technion.coolie.R.id.summary_fragment) != null){
 			getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+		}
 	}
 
 	/*
@@ -84,7 +85,9 @@ public class ContactSummaryFragment extends SherlockListFragment {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 		mCallback.onContactSelected(position);
+		Log.d("item clicked", "the item that was clicked is: " + position);
 		getListView().setItemChecked(position, true);
+		ContactsAdapter.indexSelected = position;
 	}
 
 }

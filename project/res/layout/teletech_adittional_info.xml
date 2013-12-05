@@ -24,7 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/profilePicture"
-            android:layout_toRightOf="@+id/personalMailInfo"
+            android:layout_toRightOf="@+id/profilePicture"
+            android:layout_marginLeft="16dp"
             android:text="Argaman"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
@@ -82,7 +83,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
-            android:background="#38c0f4" />
+            android:background="@color/blue_holo_light" />
 
         <TextView
             android:id="@+id/mobileHeadline"
@@ -95,7 +96,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textStyle="bold" />
 
-        <EditText
+        <TextView
             android:id="@+id/personalPhoneInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -104,7 +105,7 @@
             android:layout_marginTop="16dp"
             android:layout_toRightOf="@id/mobileHeadline"
             android:background="@null"
-            android:inputType="phone"
+            android:clickable="true"
             android:onClick="onPhoneNumberClicked"
             android:text="052-5856563"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -120,7 +121,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textStyle="bold" />
 
-        <EditText
+        <TextView
             android:id="@+id/personalPhoneInfo1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -128,7 +129,7 @@
             android:layout_below="@+id/personalPhoneInfo"
             android:layout_marginTop="16dp"
             android:background="@null"
-            android:inputType="phone"
+            android:clickable="true"
             android:onClick="onPhoneNumberClicked"
             android:text="052-4406323"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -138,13 +139,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/profilePicture"
-            android:layout_below="@+id/personalPhoneInfo1"
+            android:layout_below="@+id/officephoneHeadline"
             android:layout_marginTop="16dp"
             android:text="HOME:"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textStyle="bold" />
 
-        <EditText
+        <TextView
             android:id="@+id/personalPhoneInfo2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -152,7 +153,7 @@
             android:layout_below="@+id/personalPhoneInfo1"
             android:layout_marginTop="16dp"
             android:background="@null"
-            android:inputType="phone"
+            android:clickable="true"
             android:onClick="onPhoneNumberClicked"
             android:text="052-5856562"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -162,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/profilePicture"
-            android:layout_below="@+id/personalPhoneInfo2"
+            android:layout_below="@+id/homephoneHeadline"
             android:layout_marginTop="16dp"
             android:text="EMAIL"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -177,9 +178,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
-            android:background="#38c0f4" />
+            android:background="@color/blue_holo_light" />
 
-        <EditText
+        <TextView
             android:id="@+id/personalMailInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -187,7 +188,7 @@
             android:layout_below="@+id/ruleLine2"
             android:layout_marginTop="16dp"
             android:background="@null"
-            android:inputType="textEmailAddress"
+            android:clickable="true"
             android:onClick="onEmailClicked"
             android:text="argaman.aloni@gmail.com"
             android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -212,9 +213,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
-            android:background="#38c0f4" />
+            android:background="@color/blue_holo_light" />
 
-        <EditText
+        <TextView
             android:id="@+id/personalOfficeInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -222,7 +223,6 @@
             android:layout_below="@+id/ruleLine3"
             android:layout_marginTop="16dp"
             android:background="@null"
-            android:inputType="text"
             android:text="Taub 305"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -246,9 +246,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
-            android:background="#38c0f4" />
+            android:background="@color/blue_holo_light" />
 
-        <EditText
+        <TextView
             android:id="@+id/personalOfficeHourInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -256,7 +256,6 @@
             android:layout_below="@+id/ruleLine4"
             android:layout_marginTop="16dp"
             android:background="@null"
-            android:inputType="text"
             android:text="Monday 16:00 - 18:00"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -280,9 +279,9 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
-            android:background="#38c0f4" />
+            android:background="@color/blue_holo_light" />
 
-        <EditText
+        <TextView
             android:id="@+id/websiteInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -290,8 +289,9 @@
             android:layout_below="@+id/ruleLine5"
             android:layout_marginTop="16dp"
             android:background="@null"
-            android:inputType="textUri"
             android:text="http://www.google.com"
+            android:clickable="true"
+            android:onClick="onWebsiteClicked"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <CheckBox
