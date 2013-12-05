@@ -51,6 +51,7 @@ public class SearchActivity extends CoolieActivity {
 	String lastQuery; // TODO decide on this
 	SearchFilters filters;
 	final static String LAST_SEARCH_FILE = "com.technion.coolie.ug.files.lastSearch";
+	final static String LAST_FILTER = "com.technion.coolie.ug.files.lastFilter";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

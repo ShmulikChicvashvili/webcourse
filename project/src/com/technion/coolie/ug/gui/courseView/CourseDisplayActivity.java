@@ -52,6 +52,8 @@ public class CourseDisplayActivity extends CoolieActivity {
 			finish();
 		}
 
+		// THIS KEY DOEANT MATCH TODO not found in DB
+
 		courseToView = UGDatabase.INSTANCE.getCourseByKey(key);
 		if (courseToView == null) {
 			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE  , exisiting");
