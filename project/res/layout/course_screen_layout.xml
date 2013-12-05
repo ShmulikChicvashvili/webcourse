@@ -18,7 +18,7 @@
 
     
     <TextView
-    android:id="@+id/android:course_name"
+    android:id="@+id/course_screen_name"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text=""

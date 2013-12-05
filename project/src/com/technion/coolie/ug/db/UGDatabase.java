@@ -29,13 +29,6 @@ public enum UGDatabase {
 	private UGDatabase() {
 		// initialize lists and student info, from DB TODO
 
-		allCoursesNames = new ArrayList<String>(Arrays.asList(
-				"אנליזה נומרית 20134 ", "מבוא למבני נתונים 26666",
-				"נושאים מתקדמים בפיצוחים 23013", "תורת הכיף 20313",
-				"שמחת חנוכיה 32322", "שמחה בבקבוק 21233", "שמחה בבקבוק 21233",
-				"שמחה בבקבוק 21233", "שמחה בבקבוק 21233", "שמחה בבקבוק 21233",
-				"שמחה בבקבוק 21233"));
-
 		groups = new ArrayList<RegistrationGroup>(Arrays.asList(
 				new RegistrationGroup(1, Arrays.asList(new Meeting("2",
 						"מר חביבי לחם", DayOfWeek.SUNDAY, new Date(), null,
@@ -49,8 +42,8 @@ public enum UGDatabase {
 				"הרג אותי", new Semester(2013, SemesterSeason.WINTER),
 				Faculty.HUMANITIES, new Date(112000), new Date(112005), null,
 				null, null), new Course("012932", "קורס בחידוד עפרונות", 5.0f,
-				"ההרגשה היא אושר צרוף!!!", new Semester(2011,
-						SemesterSeason.SUMMER), Faculty.ARCHITECTURE, new Date(
+				"ההרגשה היא אושר צרוף!!!", new Semester(2013,
+						SemesterSeason.WINTER), Faculty.ARCHITECTURE, new Date(
 						12030), new Date(2313132), null, null, groups)));
 
 		currentStudent = null;
@@ -69,7 +62,7 @@ public enum UGDatabase {
 	}
 
 	public List<Course> getCourses() {
-		allCourses.addAll(allCourses); // TODO delete this
+
 		return allCourses;
 	}
 

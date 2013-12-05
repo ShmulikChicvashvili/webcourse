@@ -5,7 +5,7 @@ import java.io.Serializable;
 import android.content.Context;
 import android.content.Intent;
 
-import com.technion.coolie.ug.gui.courseView.CourseDisplayActivity;
+import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayActivity;
 import com.technion.coolie.ug.model.CourseKey;
 
 /**

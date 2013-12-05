@@ -20,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -146,7 +145,7 @@ public class SearchActivity extends CoolieActivity {
 	private List<String> coursesToNames(List<Course> courses) {
 		List<String> names = new ArrayList<String>();
 		for (Course course : courses) {
-			names.add(course.getName() + " " + course.getCourseNumber());
+			names.add(course.getCourseNumber() + " " + course.getName());
 		}
 		return names;
 
@@ -160,17 +159,17 @@ public class SearchActivity extends CoolieActivity {
 		Log.d(MainActivity.DEBUG_TAG,
 				"results found of size " + queryList.size());
 
+		if (queryList.size() == 1) {
+			NavigationUtils.goToCourseDisplay(queryList.get(0).getCourseKey(),
+					context);
+			return;
+		}
+
 		// set the adapter with the matching courses
 		searchAdapter = new SearchResultsAdapter(this, queryList,
 				new onClickResult());
 
 		updateCoursesResultsDisplay();
-
-		if (queryList.size() == 1) {
-			NavigationUtils.goToCourseDisplay(queryList.get(0).getCourseKey(),
-					context);
-		}
-		// if (queryList.size() == 0)..... TODO do something when no results
 
 	}
 
@@ -199,8 +198,6 @@ public class SearchActivity extends CoolieActivity {
 					public boolean onEditorAction(TextView v, int actionId,
 							KeyEvent event) {
 						if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-							Toast.makeText(context, "ON SEARCH handler",
-									Toast.LENGTH_SHORT).show();
 							autocompletetextview.dismissDropDown();
 							onSearchPressed(v.getText().toString());
 							return true;
@@ -217,12 +214,13 @@ public class SearchActivity extends CoolieActivity {
 
 				String courseString = ((TextView) parent.getChildAt(position))
 						.getText().toString();
-				autocompletetextview.dismissDropDown();
-				onSearchPressed(courseString);
 
-				Toast.makeText(context,
-						"course " + courseString + " was pressed",
-						Toast.LENGTH_LONG).show();
+				autocompletetextview.dismissDropDown();
+				autocompletetextview.setText("");
+
+				String courseNumber = courseString.split(" ")[0];
+				NavigationUtils.goToCourseDisplay(new CourseKey(courseNumber,
+						filters.getSemester()), context);
 
 			}
 		});
@@ -230,16 +228,9 @@ public class SearchActivity extends CoolieActivity {
 
 	class onClickResult implements OnClickListener {
 
-		String name;
-		String courseNumber; // TODO use these
-
 		@Override
 		public void onClick(View v) {
-			Toast.makeText(v.getContext(), "view   was pressed",
-					Toast.LENGTH_LONG).show();
-			CourseHolder holder = (CourseHolder) v.getTag(); // Check this
-																// holder theory
-																// TODO
+			CourseHolder holder = (CourseHolder) v.getTag();
 			NavigationUtils.goToCourseDisplay(new CourseKey(holder.number
 					.getText().toString(), filters.getSemester()), context);
 

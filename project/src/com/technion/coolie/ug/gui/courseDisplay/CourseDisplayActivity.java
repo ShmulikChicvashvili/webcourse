@@ -1,8 +1,9 @@
-package com.technion.coolie.ug.gui.courseView;
+package com.technion.coolie.ug.gui.courseDisplay;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -34,7 +35,8 @@ public class CourseDisplayActivity extends CoolieActivity {
 	}
 
 	private void updateCourseDisplay() {
-		// TODO Auto-generated method stub
+		TextView nameTextView = (TextView) findViewById(R.id.course_screen_name);
+		nameTextView.setText(courseToView.getName());
 
 	}
 
@@ -51,8 +53,6 @@ public class CourseDisplayActivity extends CoolieActivity {
 			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE EXTRAS , exisiting");
 			finish();
 		}
-
-		// THIS KEY DOEANT MATCH TODO not found in DB
 
 		courseToView = UGDatabase.INSTANCE.getCourseByKey(key);
 		if (courseToView == null) {
