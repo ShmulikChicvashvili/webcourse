@@ -14,9 +14,6 @@ import com.j256.ormlite.table.TableUtils;
 import com.technion.coolie.letmein.Consts;
 
 public class InvitationDatabaseHelper extends OrmLiteSqliteOpenHelper {
-	private static final String DATABASE_NAME = Consts.DB_PREFIX + "invitations.db";
-	private static final int DATABASE_VERSION = 1;
-
 	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
 
 	// The DAO objects we use to access the invitations table
@@ -24,14 +21,14 @@ public class InvitationDatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private RuntimeExceptionDao<Invitation, Long> runtimeDao = null;
 
 	public InvitationDatabaseHelper(final Context context) {
-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		super(context, Contract.DATABASE_NAME, null, Contract.DATABASE_VERSION);
 	}
 
 	@Override
 	public void onCreate(final SQLiteDatabase db, final ConnectionSource connectionSource) {
 		try {
 			Log.i(LOG_TAG, "onCreate(): Creating database");
-			TableUtils.createTable(connectionSource, Invitation.class);
+			TableUtils.createTableIfNotExists(connectionSource, Invitation.class);
 		} catch (final SQLException e) {
 			Log.e(LOG_TAG, "onCreate(): Can't create database", e);
 			throw new RuntimeException(e);

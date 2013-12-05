@@ -1,8 +1,10 @@
 package com.technion.coolie.letmein.model.adapters;
 
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +58,9 @@ public abstract class BaseInvitationAdapter extends BaseAdapter {
 	private void setViewFromInvitation(final ViewHolder holder, final Invitation invitation) {
 		final ContactView cv = getContactViewById(invitation.getContactId());
 		holder.Name.setText(cv.ContactName);
-		holder.TimeOfArrival.setText(invitation.getDate().toString());
+		holder.TimeOfArrival.setText("Arriving "
+				+ DateUtils.getRelativeTimeSpanString(invitation.getDate().getTime(),
+						new Date().getTime(), DateUtils.MINUTE_IN_MILLIS));
 		holder.Image.setImageResource(cv.ContactImageId);
 	}
 

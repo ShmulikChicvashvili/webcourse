@@ -1,7 +1,7 @@
 package com.technion.coolie.letmein.model.adapters;
 
 import java.util.Arrays;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,17 +16,22 @@ public class MockInvitationAdapter extends BaseInvitationAdapter {
 	private static final Map<String, ContactView> mockContactViewsById = initContactViews();
 
 	private static List<Invitation> initInvitations() {
+		final Calendar c = Calendar.getInstance();
+
 		final Invitation dad = new Invitation();
 		dad.setContactId("dad");
-		dad.setDate(new Date());
+		c.add(Calendar.HOUR_OF_DAY, 9);
+		dad.setDate(c.getTime());
 
 		final Invitation friend = new Invitation();
 		friend.setContactId("friend");
-		friend.setDate(new Date());
+		c.add(Calendar.DAY_OF_YEAR, 2);
+		friend.setDate(c.getTime());
 
 		final Invitation abed = new Invitation();
 		abed.setContactId("abed");
-		abed.setDate(new Date());
+		c.add(Calendar.WEEK_OF_YEAR, 1);
+		abed.setDate(c.getTime());
 
 		return Arrays.asList(dad, friend, abed);
 	}
