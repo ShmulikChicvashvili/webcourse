@@ -85,7 +85,7 @@ public class SearchActivity extends CoolieActivity {
 
 	private void setInitialAdapters() {
 		autoCompleteAdapter = new ArrayAdapter<String>(this,
-				R.layout.auto_complete_item_row, courseNameList);
+				R.layout.ug_auto_complete_item_row, courseNameList);
 		// TODO initialize to the last search.
 		try {
 			searchAdapter = new SearchResultsAdapter(this,

@@ -1,7 +1,6 @@
 package com.technion.coolie.ug.model;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class Student {
