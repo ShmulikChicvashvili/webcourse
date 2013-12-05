@@ -11,7 +11,7 @@ import android.content.Context;
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.Invitation;
 
-public class MockInvitationAdapter extends AbstractInvitationAdapter {
+public class MockInvitationAdapter extends BaseInvitationAdapter {
 	private static final List<Invitation> mockInvitations = initInvitations();
 	private static final Map<String, ContactView> mockContactViewsById = initContactViews();
 
