@@ -14,26 +14,23 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.InvitationDatabaseHelper;
-import com.technion.coolie.letmein.model.adapters.AbstractInvitationAdapter;
+import com.technion.coolie.letmein.model.adapters.BaseInvitationAdapter;
 import com.technion.coolie.letmein.model.adapters.InvititationAdapter;
 import com.technion.coolie.letmein.model.adapters.MockInvitationAdapter;
 
-public class MainActivity extends CoolieActivity implements
-		InvitationListFragment.AdapterSupplier,
+public class MainActivity extends CoolieActivity implements InvitationListFragment.AdapterSupplier,
 		EmptyInvitationListFragment.OnNewInvitationListener {
 
-	private final String LOG_TAG = Consts.LOG_PREFIX
-			+ getClass().getSimpleName();
+	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
 	private InvitationDatabaseHelper databaseHelper = null;
-	private AbstractInvitationAdapter invitationAdapter;
+	private BaseInvitationAdapter invitationAdapter;
 
 	private Button loginButton;
 	private boolean isLoggedIn;
 
 	private InvitationDatabaseHelper getHelper() {
 		if (databaseHelper == null)
-			databaseHelper = OpenHelperManager.getHelper(this,
-					InvitationDatabaseHelper.class);
+			databaseHelper = OpenHelperManager.getHelper(this, InvitationDatabaseHelper.class);
 
 		return databaseHelper;
 	}
@@ -64,7 +61,7 @@ public class MainActivity extends CoolieActivity implements
 	@Override
 	protected void onStart() {
 		super.onStart();
-		
+
 		// For better performance:
 		isLoggedIn = isLoggedIn || isUserLoggedIn();
 
@@ -74,10 +71,9 @@ public class MainActivity extends CoolieActivity implements
 		new UpdateInvitationsTask().execute();
 	}
 
-	private class UpdateInvitationsTask extends
-			AsyncTask<Void, Void, AbstractInvitationAdapter> {
+	private class UpdateInvitationsTask extends AsyncTask<Void, Void, BaseInvitationAdapter> {
 		@Override
-		protected AbstractInvitationAdapter doInBackground(final Void... params) {
+		protected BaseInvitationAdapter doInBackground(final Void... params) {
 			if (isLoggedIn)
 				return new InvititationAdapter(MainActivity.this, getHelper());
 
@@ -85,36 +81,31 @@ public class MainActivity extends CoolieActivity implements
 		}
 
 		@Override
-		protected void onPostExecute(final AbstractInvitationAdapter adapter) {
+		protected void onPostExecute(final BaseInvitationAdapter adapter) {
 			invitationAdapter = adapter;
 
-			Fragment fragment;
-			// TODO: use isEmpty()
-			if (adapter.getCount() == 0)
-				fragment = new EmptyInvitationListFragment();
-			else
-				fragment = new InvitationListFragment();
+			final Fragment fragment = adapter.isEmpty() ? new EmptyInvitationListFragment()
+					: new InvitationListFragment();
 
 			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.lmi_invitation_list_container, fragment)
-					.commit();
+					.replace(R.id.lmi_invitation_list_container, fragment).commit();
 		}
 	}
 
 	private boolean isUserLoggedIn() {
 		Log.i(LOG_TAG, "Checking for user login");
 		// TODO: change to a real check.
-		return getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE)
-				.getBoolean(Consts.IS_LOGGED_IN, false);
+		return getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE).getBoolean(
+				Consts.IS_LOGGED_IN, false);
 	}
 
 	@Override
-	public void newInvitation() {
+	public void onNewInvitation() {
 		startActivity(new Intent(MainActivity.this, InvitationActivity.class));
 	}
 
 	@Override
-	public AbstractInvitationAdapter getAdapter() {
+	public BaseInvitationAdapter getAdapter() {
 		return invitationAdapter;
 	}
 }

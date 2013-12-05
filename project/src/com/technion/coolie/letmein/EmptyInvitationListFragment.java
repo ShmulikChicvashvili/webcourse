@@ -13,20 +13,19 @@ import com.technion.coolie.R;
 public class EmptyInvitationListFragment extends Fragment {
 
 	public interface OnNewInvitationListener {
-		public void newInvitation();
+		public void onNewInvitation();
 	}
 
 	private OnNewInvitationListener activity;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.lmi_empty_invitation_item,
-				container, false);
+	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+			final Bundle savedInstanceState) {
+		final View view = inflater.inflate(R.layout.lmi_empty_invitation_item, container, false);
 		view.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
-				activity.newInvitation();
+			public void onClick(final View v) {
+				activity.onNewInvitation();
 			}
 		});
 
@@ -34,15 +33,13 @@ public class EmptyInvitationListFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
+	public void onAttach(final Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof OnNewInvitationListener) {
+		if (activity instanceof OnNewInvitationListener)
 			this.activity = (OnNewInvitationListener) activity;
-		} else {
-			throw new ClassCastException(activity.toString()
-					+ " must implemenet "
-					+ "EmptyInvitationListFragment.OnNewInvitationListener");
-		}
+		else
+			throw new ClassCastException(activity.toString() + " must implemenet "
+					+ OnNewInvitationListener.class.getName());
 	}
 }

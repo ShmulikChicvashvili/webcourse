@@ -9,36 +9,33 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.technion.coolie.R;
-import com.technion.coolie.letmein.model.adapters.AbstractInvitationAdapter;
+import com.technion.coolie.letmein.model.adapters.BaseInvitationAdapter;
 
 public class InvitationListFragment extends Fragment {
 
 	public interface AdapterSupplier {
-		public AbstractInvitationAdapter getAdapter();
+		public BaseInvitationAdapter getAdapter();
 	}
 
 	private AdapterSupplier activity;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.lmi_invitation_list, container,
-				false);
+	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+			final Bundle savedInstanceState) {
+		final View view = inflater.inflate(R.layout.lmi_invitation_list, container, false);
 		((ListView) view).setAdapter(activity.getAdapter());
 
 		return view;
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
+	public void onAttach(final Activity activity) {
 		super.onAttach(activity);
 
-		if (activity instanceof AdapterSupplier) {
+		if (activity instanceof AdapterSupplier)
 			this.activity = (AdapterSupplier) activity;
-		} else {
-			throw new ClassCastException(activity.toString()
-					+ " must implemenet "
-					+ "InvitationListFragment.AdapterSupplier");
-		}
+		else
+			throw new ClassCastException(activity.toString() + " must implemenet "
+					+ AdapterSupplier.class.getName());
 	}
 }

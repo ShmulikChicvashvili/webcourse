@@ -13,10 +13,10 @@ import android.widget.TextView;
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.Invitation;
 
-public abstract class AbstractInvitationAdapter extends BaseAdapter {
+public abstract class BaseInvitationAdapter extends BaseAdapter {
 	private final Context context;
 
-	public AbstractInvitationAdapter(final Context context) {
+	public BaseInvitationAdapter(final Context context) {
 		this.context = context;
 	}
 

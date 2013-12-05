@@ -11,7 +11,7 @@ import com.technion.coolie.letmein.Consts;
 import com.technion.coolie.letmein.model.Invitation;
 import com.technion.coolie.letmein.model.InvitationDatabaseHelper;
 
-public class InvititationAdapter extends AbstractInvitationAdapter {
+public class InvititationAdapter extends BaseInvitationAdapter {
 	private static final long NUM_ITEMS_TO_LOAD = 20;
 	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
 	private final List<Invitation> invitations;
