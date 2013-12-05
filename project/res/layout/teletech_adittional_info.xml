@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/profilePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/default_profile" />
+
+        <TextView
+            android:id="@+id/privateName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/profilePicture"
+            android:layout_toRightOf="@+id/personalMailInfo"
+            android:text="Argaman"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/addLastName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/privateName"
+            android:layout_alignBottom="@+id/privateName"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/privateName"
+            android:text="Aloni"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/addPosition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/privateName"
+            android:layout_below="@+id/privateName"
+            android:layout_marginTop="8dp"
+            android:text="Student"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/addfaculty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/addPosition"
+            android:layout_below="@+id/addPosition"
+            android:layout_marginTop="8dp"
+            android:text="Computer Science"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/PhoneHeadLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePicture"
+            android:layout_below="@+id/profilePicture"
+            android:layout_marginTop="16dp"
+            android:text="PHONE"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/ruleLine1"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/PhoneHeadLine"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:background="#38c0f4" />
+
+        <TextView
+            android:id="@+id/mobileHeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePicture"
+            android:layout_below="@+id/ruleLine1"
+            android:layout_marginTop="16dp"
+            android:text="MOBILE:"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/personalPhoneInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ruleLine1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_toRightOf="@id/mobileHeadline"
+            android:background="@null"
+            android:inputType="phone"
+            android:onClick="onPhoneNumberClicked"
+            android:text="052-5856563"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/officephoneHeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePicture"
+            android:layout_below="@+id/mobileHeadline"
+            android:layout_marginTop="16dp"
+            android:text="OFFICE:"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/personalPhoneInfo1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/personalPhoneInfo"
+            android:layout_below="@+id/personalPhoneInfo"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:inputType="phone"
+            android:onClick="onPhoneNumberClicked"
+            android:text="052-4406323"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/homephoneHeadline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePicture"
+            android:layout_below="@+id/personalPhoneInfo1"
+            android:layout_marginTop="16dp"
+            android:text="HOME:"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/personalPhoneInfo2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/personalPhoneInfo"
+            android:layout_below="@+id/personalPhoneInfo1"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:inputType="phone"
+            android:onClick="onPhoneNumberClicked"
+            android:text="052-5856562"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/emailHeadLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePicture"
+            android:layout_below="@+id/personalPhoneInfo2"
+            android:layout_marginTop="16dp"
+            android:text="EMAIL"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/ruleLine2"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/emailHeadLine"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:background="#38c0f4" />
+
+        <EditText
+            android:id="@+id/personalMailInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePicture"
+            android:layout_below="@+id/ruleLine2"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:inputType="textEmailAddress"
+            android:onClick="onEmailClicked"
+            android:text="argaman.aloni@gmail.com"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/officeHeadLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePicture"
+            android:layout_below="@+id/personalMailInfo"
+            android:layout_marginTop="16dp"
+            android:text="OFFICE"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/ruleLine3"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/officeHeadLine"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:background="#38c0f4" />
+
+        <EditText
+            android:id="@+id/personalOfficeInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePicture"
+            android:layout_below="@+id/ruleLine3"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:inputType="text"
+            android:text="Taub 305"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/officeHourHeadLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePicture"
+            android:layout_below="@+id/personalOfficeInfo"
+            android:layout_marginTop="16dp"
+            android:text="OFFICE HOURS"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/ruleLine4"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/officeHourHeadLine"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:background="#38c0f4" />
+
+        <EditText
+            android:id="@+id/personalOfficeHourInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePicture"
+            android:layout_below="@+id/ruleLine4"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:inputType="text"
+            android:text="Monday 16:00 - 18:00"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/websiteHeadLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePicture"
+            android:layout_below="@+id/personalOfficeHourInfo"
+            android:layout_marginTop="16dp"
+            android:text="WEBSITE"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/ruleLine5"
+            android:layout_width="fill_parent"
+            android:layout_height="2dip"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/websiteHeadLine"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="4dp"
+            android:background="#38c0f4" />
+
+        <EditText
+            android:id="@+id/websiteInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profilePicture"
+            android:layout_below="@+id/ruleLine5"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:inputType="textUri"
+            android:text="http://www.google.com"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <CheckBox
+            android:id="@+id/addToFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/addLastName"
+            android:layout_alignBottom="@+id/addLastName"
+            android:layout_marginRight="8dp"
+            android:layout_alignParentRight="true"
+            android:button="@android:drawable/btn_star"
+            android:onClick="OnAddToFavoriteChecked" />
+
+    </RelativeLayout>
+
+</ScrollView>
