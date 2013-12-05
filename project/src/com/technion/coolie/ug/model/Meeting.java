@@ -5,7 +5,7 @@ import java.util.Date;
 
 import com.technion.coolie.ug.Enums.DayOfWeek;
 
-public class GroupInfo implements Serializable {
+public class Meeting implements Serializable {
 
 	/**
 	 * 
@@ -19,7 +19,7 @@ public class GroupInfo implements Serializable {
 	private Date endingHour;
 	private String place;
 
-	public GroupInfo(String id, String lecturerName, DayOfWeek day,
+	public Meeting(String id, String lecturerName, DayOfWeek day,
 			Date startingHour, Date endingHour, String place) {
 		super();
 		this.id = id;

@@ -15,6 +15,7 @@ public class MainActivity extends CoolieActivity {
 		super.onCreate(savedInstanceState);
 
 		startActivity(new Intent(this, SearchActivity.class));
+//		startActivity(new Intent(this, GradesSheetActivity.class));
 
 	}
 

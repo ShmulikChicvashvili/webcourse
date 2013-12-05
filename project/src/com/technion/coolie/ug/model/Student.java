@@ -1,12 +1,12 @@
 package com.technion.coolie.ug.model;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 public class Student {
 
 	public Student(String id, String name, double avg, double points,
-			Date registrationDate, List<Payment> payments,
+			Calendar registrationDate, List<Payment> payments,
 			List<AccomplishedCourse> accomplishedCourses, List<Exam> exams,
 			List<Exam> tests, List<CourseKey> registeredCourses,
 			List<CourseKey> basket, List<CourseKey> trackList) {
@@ -29,7 +29,7 @@ public class Student {
 	private String name;
 	private double avg;
 	private double points;
-	private Date registrationDate;
+	private Calendar registrationDate;
 
 	private List<Payment> payments;
 	private List<AccomplishedCourse> accomplishedCourses;
@@ -72,11 +72,11 @@ public class Student {
 		this.points = points;
 	}
 
-	public Date getRegistrationDate() {
+	public Calendar getRegistrationDate() {
 		return registrationDate;
 	}
 
-	public void setRegistrationDate(Date registrationDate) {
+	public void setRegistrationDate(Calendar registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 

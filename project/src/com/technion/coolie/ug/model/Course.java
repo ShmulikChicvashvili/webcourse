@@ -23,7 +23,7 @@ public class Course implements Serializable {
 
 	private String name;
 
-	private String points;
+	private float points;
 	private String description;
 
 	private Faculty faculty;// can be a string in the db.
@@ -31,12 +31,13 @@ public class Course implements Serializable {
 	private Date moedA;
 	private Date moedB;
 
-	private List<String> prerequisites;// kda-mim
+	private List<List<String>> prerequisites; // קדם
+	private List<List<String>> attachedCourses; // צמוד
 	private List<RegistrationGroup> registrationGroups;
 
-	public Course(String courseNumber, String name, String points,
+	public Course(String courseNumber, String name, float points,
 			String description, Semester semester, Faculty faculty, Date moedA,
-			Date moedB, List<String> prerequisites,
+			Date moedB, List<List<String>> prerequisites,List<List<String>> attachedCourses,
 			List<RegistrationGroup> registrationGroups) {
 		super();
 		this.courseNumber = courseNumber;
@@ -48,6 +49,7 @@ public class Course implements Serializable {
 		this.moedA = moedA;
 		this.moedB = moedB;
 		this.prerequisites = prerequisites;
+		this.attachedCourses = attachedCourses;
 		this.registrationGroups = registrationGroups;
 	}
 
@@ -67,11 +69,11 @@ public class Course implements Serializable {
 		this.name = name;
 	}
 
-	public String getPoints() {
+	public float getPoints() {
 		return points;
 	}
 
-	public void setPoints(String points) {
+	public void setPoints(float points) {
 		this.points = points;
 	}
 
@@ -115,12 +117,20 @@ public class Course implements Serializable {
 		this.moedB = moedB;
 	}
 
-	public List<String> getPrerequisites() {
+	public List<List<String>> getPrerequisites() {
 		return prerequisites;
 	}
 
-	public void setPrerequisites(List<String> prerequisites) {
+	public void setPrerequisites(List<List<String>> prerequisites) {
 		this.prerequisites = prerequisites;
+	}
+	
+	public List<List<String>> getAttachedCourses() {
+		return attachedCourses;
+	}
+
+	public void setAttachedCourses(List<List<String>> attachedCourses) {
+		this.attachedCourses = attachedCourses;
 	}
 
 	public List<RegistrationGroup> getRegistrationGroups() {

@@ -8,4 +8,11 @@
     <string name="drawer_close">close</string>
     <string name="serach_course_hint">הכנס קורס</string>
     <string name="search_end_results">סוף תוצאות</string>
+
+    <!-- GradesSheet activity -->
+    <string name="title_activity_grades_sheet">GradesSheetActivity</string>
+    <string name="course_name">שם מקצוע</string>
+    <string name="points">נקודות</string>
+    <string name="grade">ציון</string>
+
 </resources>
