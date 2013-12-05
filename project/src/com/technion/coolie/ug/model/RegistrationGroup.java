@@ -10,13 +10,13 @@ public class RegistrationGroup implements Serializable {
 	 */
 	private static final long serialVersionUID = -6751987554460660402L;
 
-	private String groupId;
-	private List<GroupInfo> lectures;
-	private List<GroupInfo> tutorials;
+	private int groupId;
+	private List<Meeting> lectures;
+	private List<Meeting> tutorials;
 	private int freePlaces;
 
-	public RegistrationGroup(String groupId, List<GroupInfo> lectures,
-			List<GroupInfo> tutorials, int freePlaces) {
+	public RegistrationGroup(int groupId, List<Meeting> lectures,
+			List<Meeting> tutorials, int freePlaces) {
 		super();
 		this.groupId = groupId;
 		this.lectures = lectures;
@@ -24,27 +24,27 @@ public class RegistrationGroup implements Serializable {
 		this.freePlaces = freePlaces;
 	}
 
-	public String getGroupId() {
+	public int getGroupId() {
 		return groupId;
 	}
 
-	public void setGroupId(String groupId) {
+	public void setGroupId(int groupId) {
 		this.groupId = groupId;
 	}
 
-	public List<GroupInfo> getLectures() {
+	public List<Meeting> getLectures() {
 		return lectures;
 	}
 
-	public void setLectures(List<GroupInfo> lectures) {
+	public void setLectures(List<Meeting> lectures) {
 		this.lectures = lectures;
 	}
 
-	public List<GroupInfo> getTutorials() {
+	public List<Meeting> getTutorials() {
 		return tutorials;
 	}
 
-	public void setTutorials(List<GroupInfo> tutorials) {
+	public void setTutorials(List<Meeting> tutorials) {
 		this.tutorials = tutorials;
 	}
 
