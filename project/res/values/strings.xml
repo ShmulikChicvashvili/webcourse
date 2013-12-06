@@ -7,6 +7,8 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
     <string name="lmi_search">Search</string>
+    <string name="lmi_search_label">LetMeInSearch</string>
+    <string name="lmi_search_hint">Type Friend\'s name</string>
     <string name="lmi_login_to_use">Login to use</string>
     <string name="lmi_get_a_password_link"><a href="http://www.stackoverflow.com">Get a password</a></string>
     <string name="lmi_privacy">Privacy</string>

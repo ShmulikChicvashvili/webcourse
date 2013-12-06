@@ -1,12 +1,18 @@
 package com.technion.coolie.letmein;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -53,6 +59,7 @@ public class InvitationActivity extends CoolieActivity implements
 				return false;
 			}
 		});
+
 
 		friendCarNumberEdit = (EditText) findViewById(R.id.lmi_friend_car_number_edit);
 
@@ -110,13 +117,51 @@ public class InvitationActivity extends CoolieActivity implements
 		@Override
 		protected ArrayAdapter<String> doInBackground(Void... params) {
 			// TODO: change to the real deal:
-			List<String> friendNames = Arrays.asList("osher", "gilad", "yaniv",
+			/*List<String> friendNames = Arrays.asList("osher", "gilad", "yaniv",
 					"osher2", "osher3", "osher4", "osher5", "osher6", "osher7",
 					"osher8", "osher9", "osher10", "osher11", "osher12",
-					"osher13");
+					"osher13");*/
+			
+			ArrayList<String> friendNames = new ArrayList<String>();
+			ContentResolver contentResolver = getContentResolver();
+			String whereName = ContactsContract.Data.MIMETYPE + " = ?";
+		    String[] whereNameParams = new String[] { ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE };
+		    Cursor nameCur = contentResolver.query(ContactsContract.Data.CONTENT_URI, null, whereName, whereNameParams, ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
+		    while (nameCur.moveToNext()) {
+		    	friendNames.add(nameCur.getString(nameCur.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME)));
+		    }
+		    nameCur.close();
 
 			return new ArrayAdapter<String>(InvitationActivity.this,
 					DROP_DOWN_LAYOUT_INDEX, friendNames);
+			
+			/*
+			// Gets the URI of the db
+			Uri uri = ContactsContract.Contacts.CONTENT_URI;
+			// What to grab from the db
+			String[] projection = new String[] {
+			        ContactsContract.Contacts._ID,
+			        ContactsContract.Contacts.DISPLAY_NAME,
+			        ContactsContract.Contacts.PHOTO_ID
+			};
+
+			String sortOrder = ContactsContract.Contacts.DISPLAY_NAME + " COLLATE LOCALIZED ASC";
+
+			Cursor cursor = managedQuery(uri, projection, null, null, sortOrder);
+
+			String[] fields = new String[] {
+			        ContactsContract.Data.DISPLAY_NAME
+			};
+
+			int[] values = { 
+			        R.id.contactEntryText
+			};
+
+			return new ArrayAdapter<String>(this,R.layout.lmi_contact_entry,R.id.lmi_contactEntryText,
+			
+			return new SimpleCursorAdapter(this, R.layout.contact_entry, cursor,
+			        fields, values);
+			*/
 		}
 
 		@Override

@@ -1,5 +1,6 @@
 package com.technion.coolie.letmein;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -9,7 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.widget.SearchView;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -33,6 +38,44 @@ public class MainActivity extends CoolieActivity implements InvitationListFragme
 			databaseHelper = OpenHelperManager.getHelper(this, InvitationDatabaseHelper.class);
 
 		return databaseHelper;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    MenuInflater inflater = this.getSupportMenuInflater();
+	    inflater.inflate(R.menu.lmi_menu, menu);
+
+	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.lmi_search).getActionView();
+        if (null != searchView )
+        {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            searchView.setIconifiedByDefault(false);   
+        }
+
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() 
+        {
+            public boolean onQueryTextChange(String newText) 
+            {
+                // this is your adapter that will be filtered
+                //adapter.getFilter().filter(newText);
+            	Toast.makeText(MainActivity.this, "Gilad FIX ME!!(" + newText + ")", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            public boolean onQueryTextSubmit(String query) 
+            {
+                // this is your adapter that will be filtered
+                //adapter.getFilter().filter(query);
+                Toast.makeText(MainActivity.this, "Gilad FIX ME!!(" + query + ")", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+        searchView.setQueryHint(getResources().getString(R.string.lmi_search_hint));
+
+        return super.onCreateOptionsMenu(menu);
+        
 	}
 
 	@Override
