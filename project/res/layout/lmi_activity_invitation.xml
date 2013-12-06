@@ -68,8 +68,7 @@
         android:ems="10"
         android:hint="@string/lmi_friend_car_company"
         android:imeOptions="actionNext"
-        android:inputType="text" >
-    </AutoCompleteTextView>
+        android:inputType="text" />
 
     <AutoCompleteTextView
         android:id="@+id/lmi_friend_car_color_edit"
@@ -83,34 +82,7 @@
         android:hint="@string/lmi_friend_car_color_edit"
         android:imeOptions="actionNext"
         android:inputType="text"
-        android:singleLine="true" >
-    </AutoCompleteTextView>
-
-    <!--
-    <TextView
-        android:id="@+id/lmi_date_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/lmi_friend_car_color_edit"
-        android:layout_marginTop="@dimen/lmi_components_margin"
-        android:clickable="true"
-        android:ems="10"
-        android:onClick="showDatePickerDialog"
-        android:text="asd" />
-
-    <TextView
-        android:id="@+id/lmi_time_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/lmi_date_picker"
-        android:layout_marginTop="@dimen/lmi_components_margin"
-        android:clickable="true"
-        android:ems="10"
-        android:text="asd"
-        android:onClick="showTimePickerDialog" />
-    -->
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/lmi_date_picker"
