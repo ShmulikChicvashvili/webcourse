@@ -5,7 +5,6 @@
     android:orientation="vertical" >
 
     <include
-
         android:id="@+id/list_item_section_text"
         layout="@android:layout/preference_category" />
 
