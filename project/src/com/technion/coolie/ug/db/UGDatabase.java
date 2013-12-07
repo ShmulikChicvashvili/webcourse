@@ -3,6 +3,7 @@ package com.technion.coolie.ug.db;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -40,11 +41,11 @@ public enum UGDatabase {
 		allCourses = new ArrayList<Course>(Arrays.asList(new Course("213245",
 				"מבוא לבינה מלאכותית במודלים מתקדמים ביותר 4", 2.0f,
 				"הרג אותי", new Semester(2013, SemesterSeason.WINTER),
-				Faculty.HUMANITIES, new Date(112000), new Date(112005), null,
+				Faculty.HUMANITIES, new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014, 2, 11), null,
 				null, null), new Course("012932", "קורס בחידוד עפרונות", 5.0f,
 				"ההרגשה היא אושר צרוף!!!", new Semester(2013,
-						SemesterSeason.WINTER), Faculty.ARCHITECTURE, new Date(
-						12030), new Date(2313132), null, null, groups)));
+						SemesterSeason.WINTER), Faculty.ARCHITECTURE, new GregorianCalendar(2014, 2, 11),
+						new GregorianCalendar(2014, 2, 11), null, null, groups)));
 
 		currentStudent = null;
 		coursesHash = new LinkedHashMap<CourseKey, Course>();

@@ -1,22 +1,26 @@
 package com.technion.coolie.ug;
 
-import android.content.Intent;
+import java.util.ArrayList;
+
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import com.technion.coolie.CoolieActivity;
-import com.technion.coolie.ug.gui.searchCourses.SearchActivity;
+import com.technion.coolie.R;
 
 public class MainActivity extends CoolieActivity {
 
-	public final static String DEBUG_TAG = "coolie.technion.ug";
+	public static final String DEBUG_TAG = "DEBUG";
 
+	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-
-		startActivity(new Intent(this, SearchActivity.class));
-//		startActivity(new Intent(this, GradesSheetActivity.class));
-
+	protected void onCreate(Bundle savedInstanceState) 
+	{
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.try2);
+		
+		//startActivity(new Intent(this, SearchActivity.class));
 	}
-
+ 
 }
