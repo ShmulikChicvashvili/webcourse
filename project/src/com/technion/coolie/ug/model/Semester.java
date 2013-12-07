@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.technion.coolie.ug.Enums.SemesterSeason;
 
-public class Semester implements Serializable {
+public class Semester implements Serializable , Comparable<Semester> {
 
 	public int getYear() {
 		return year;
@@ -56,5 +56,14 @@ public class Semester implements Serializable {
 		if (year != other.year)
 			return false;
 		return true;
+	}
+	
+	@Override
+	public int compareTo(Semester another) {
+		if (another==null || this.ss == null || another.ss == null) return 0;
+		if (this.year != another.year) 
+			return this.year - another.year;
+		else 
+			return this.ss.ordinal() - another.ss.ordinal(); 
 	}
 }
