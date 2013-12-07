@@ -7,8 +7,8 @@ import java.util.List;
 import com.technion.coolie.ug.Enums.DayOfWeek;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 
-import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +36,6 @@ public class AcademicCalendarListFragment extends ListFragment {
     	add(new AcademicCalendarEvent(DayOfWeek.SUNDAY, new GregorianCalendar(2013, 11, 16),"אין לימודים"));
     	add(new AcademicCalendarEvent(DayOfWeek.SUNDAY, new GregorianCalendar(2013, 11, 17),"תחילת בחינות ס' חורף"));
     	add(new AcademicCalendarEvent(DayOfWeek.SUNDAY, new GregorianCalendar(2013, 11, 18),"סיום בחינות ס' חורף"));
-    	   
     	}};
  
     @Override

@@ -1,13 +1,10 @@
 package com.technion.coolie.ug;
 
-import java.util.ArrayList;
-
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import com.technion.coolie.CoolieActivity;
-import com.technion.coolie.R;
+import com.technion.coolie.ug.gradessheet.GradesSheetActivity;
 
 public class MainActivity extends CoolieActivity {
 
@@ -18,9 +15,10 @@ public class MainActivity extends CoolieActivity {
 	protected void onCreate(Bundle savedInstanceState) 
 	{
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ug_main_screen_tablet_vertical);
+//        setContentView(R.layout.ug_main_screen_tablet_vertical);
 		
-		//startActivity(new Intent(this, SearchActivity.class));
+//		startActivity(new Intent(this, SearchActivity.class));
+		startActivity(new Intent(this, GradesSheetActivity.class));
 	}
  
 }
