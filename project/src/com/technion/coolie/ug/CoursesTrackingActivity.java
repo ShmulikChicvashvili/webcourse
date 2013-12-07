@@ -29,7 +29,7 @@ public class CoursesTrackingActivity extends CoolieActivity {
 	protected void onCreate(Bundle savedInstanceState) 
 	{
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.try1);
+        setContentView(R.layout.ug_tracking_list);
         
         
         final Button registrationButton = (Button) findViewById(R.id.ug_button_registrate);
