@@ -19,7 +19,7 @@
    	    android:layout_height="40dp"
    	    android:layout_toRightOf="@+id/am_technion_tasks_progress_emo_switcher"
    	    android:layout_marginBottom="10dp"
-   	    style="@android:style/Widget.DeviceDefault.ProgressBar.Horizontal"
+   	    style="@style/Widget.Sherlock.ProgressBar.Horizontal"
    	    android:progressDrawable="@drawable/am_progress_bar" />
 
    	<TextView 
@@ -34,7 +34,7 @@
         android:id="@+id/am_technion_tasks_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/am_technion_tasks_progress_bar"
+        android:layout_below="@+id/am_technion_tasks_progress_emo_switcher"
         android:divider="@android:color/transparent"
         android:dividerHeight="8dp" />
 

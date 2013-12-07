@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
@@ -10,6 +10,5 @@
 	<classpathentry exported="true" kind="lib" path="/TasksList/libs/aniqroid.jar"/>
 	<classpathentry exported="true" kind="lib" path="/TasksList/libs/jsoup-1.7.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="/TasksList/libs/nineoldandroids-2.4.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Lior/Downloads/yossi_gil-coolie-cca9dbeac9e2/actionbarsherlock/bin/actionbarsherlock.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

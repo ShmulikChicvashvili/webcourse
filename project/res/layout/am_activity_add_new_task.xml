@@ -110,7 +110,7 @@
 		        android:text="@string/new_task_due_date_title" />
 		    
 		    <TextView
-		        style="@android:style/Widget.Holo.Light.Spinner"
+		        style="@style/Sherlock.__Widget.Holo.Spinner"
 		        android:id="@+id/am_new_task_due_date_textview"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
