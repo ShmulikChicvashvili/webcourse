@@ -18,7 +18,7 @@ public class MainActivity extends CoolieActivity {
 	protected void onCreate(Bundle savedInstanceState) 
 	{
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.try2);
+        setContentView(R.layout.ug_main_screen_tablet_vertical);
 		
 		//startActivity(new Intent(this, SearchActivity.class));
 	}
