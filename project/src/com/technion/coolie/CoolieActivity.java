@@ -1,25 +1,26 @@
 package com.technion.coolie;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.technion.coolie.R;
-import com.technion.coolie.skeleton.PreferencesScreen;
-
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
-
 import android.view.ActionProvider;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.SubMenu;
@@ -29,6 +30,13 @@ import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.technion.coolie.skeleton.CoolieModuleManager;
+import com.technion.coolie.skeleton.PreferencesScreen;
 
 public abstract class CoolieActivity extends SherlockFragmentActivity {
 	private DrawerLayout mDrawerLayout;
@@ -41,7 +49,8 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		restoreModulesManager();
 		try {
 			ViewConfiguration config = ViewConfiguration.get(this);
 			Field menuKeyField = ViewConfiguration.class
@@ -462,4 +471,76 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 			}
 		};
 	}
+	
+
+	@Override
+	protected void onDestroy() {
+		serializeModulesManager();
+		super.onDestroy();
+	}
+	
+	/* used to save all the data relevant for the module,
+	 * so next run we get them again and display them.
+	 * data saved includes name, feeds, usageCount, ...
+	 * called in onDestroy.
+	 */
+	private void serializeModulesManager(){
+		try {
+			FileOutputStream fos = openFileOutput("modules.ser", Context.MODE_PRIVATE);
+			ObjectOutputStream out = new ObjectOutputStream(fos);
+			out.writeObject(CoolieModuleManager.values());
+			out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/* used to restore all the data relevant for the module,
+	 * so we display the updated data...
+	 * data includes name, feeds, usageCount, ...
+	 * called in onCreate.
+	 */
+
+	private void restoreModulesManager(){
+		FileInputStream fileIn;
+		CoolieModuleManager[] arr = null;
+		try {
+			
+			fileIn = openFileInput("modules.ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			arr = (CoolieModuleManager[]) in.readObject();
+			
+			for(CoolieModuleManager c : arr){
+				CoolieModuleManager.valueOf(c.name()).serilize(c);
+			}
+			
+			in.close();
+			fileIn.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (StreamCorruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+	}
+	
+	
 }
+
