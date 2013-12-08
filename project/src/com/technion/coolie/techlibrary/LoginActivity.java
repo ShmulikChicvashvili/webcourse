@@ -14,7 +14,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.R;
+import com.technion.coolie.skeleton.CoolieStatus;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -202,9 +204,23 @@ public class LoginActivity extends Activity {
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
-			mAuthTask = new UserLoginTask();
 			
-			mAuthTask.execute((Void) null);
+			//code example for using html grabber!
+			//TODO: change code and use it.
+			HtmlGrabber hg = new HtmlGrabber(getApplicationContext())
+			 {
+					@Override
+					public void handleResult(String result,
+							CoolieStatus status) {
+						// TODO Auto-generated method stub
+						mAuthTask = new UserLoginTask(result);	
+						mAuthTask.execute((Void) null);
+							
+					}
+			 };
+			 String userAuthUrl = userAuthUrl_id + mUserId
+						+ userAuthUrl_pass + mPassword;
+			 hg.getHtmlSource(userAuthUrl, HtmlGrabber.Account.NONE);
 		}
 		
 	}
@@ -261,10 +277,11 @@ public class LoginActivity extends Activity {
 	private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 		public UserInfo user = null;
 		private boolean mHasError;
-		private String xml;
+		private String result;
 		
-		public UserLoginTask() {
+		public UserLoginTask(String result) {
 			super();
+			this.result = result;
 			mHasError = false;
 		}
 		
@@ -281,16 +298,10 @@ public class LoginActivity extends Activity {
 				SAXParser sp = spf.newSAXParser();
 				XMLReader xr = sp.getXMLReader();
 
-				/** Send URL to parse XML Tags */
-				String userAuthUrl = userAuthUrl_id + mUserId
-						+ userAuthUrl_pass + mPassword;
-				URL sourceUrl = new URL(userAuthUrl);
-
 				/** Create handler to handle XML Tags ( extends DefaultHandler ) */
 
 				xr.setContentHandler(userXMLHandler);
-				xml = convertStreamToString(sourceUrl.openStream());
-				xr.parse(new InputSource(new StringReader(xml)));
+				xr.parse(new InputSource(new StringReader(result)));
 				
 
 			} catch (Exception e) {

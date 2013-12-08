@@ -3,7 +3,12 @@ package com.technion.coolie.techlibrary;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -238,6 +243,20 @@ public class LibraryCardActivity extends FragmentActivity {
 			mGetBooksInfoTask = null;
 			// showProgress(false);
 
+			//sorting loanlist according to duedate
+			Collections.sort(loansList, new Comparator<LoanElement>() {
+			    public int compare(LoanElement c1, LoanElement c2) {
+			    	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			    	int res=7;
+			        try {
+						res = formatter.parse(c1.dueDate).compareTo(formatter.parse(c2.dueDate));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} // use your logic
+			        return res;
+			    }
+			}); 
 			globalLoansList = loansList;
 			globalHoldsList = holdsList;
 			// TODO: what happens if list is empty?
