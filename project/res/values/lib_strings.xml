@@ -1,0 +1,28 @@
+<resources>
+	<!-- Strings related to main lib activity -->
+    <string name="library">TechLibrary</string>
+    
+
+    <!-- Strings related to login -->
+    <string name="title_activity_login">Sign in</string>
+    
+    <string name="prompt_id">Id</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in"><b>Sign in</b></string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_forgot_password">Recover lost password</string>
+    <string name="action_logout">Logout</string>
+    <string name="login_progress_signing_in">Signing in&#8230;</string>
+    <string name="login_no_connection">No connection</string>
+    <string name="error_invalid_id">This id number is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    
+    <!-- Strings related to profile -->
+    <string name="title_activity_profile">Profile</string>
+    <string name="profileMessage">Your Profile:</string>
+    <string name="profileFields">First Name:\nLast Name:\nId:\nAddress:\nEmail:\nPhone Number:\nHome Library:\nEducation Status:</string>
+    
+
+</resources>

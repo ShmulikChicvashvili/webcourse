@@ -72,6 +72,34 @@
             android:name="com.technion.coolie.techlibrary.MainActivity"
             android:label="@string/app_name" >
         </activity>
+        <activity
+            android:name="com.technion.coolie.techlibrary.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName="com.technion.coolie.techlibrary.MainActivity"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.techlibrary.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.technion.coolie.techlibrary.ProfileActivity"
+            android:label="@string/title_activity_profile" 
+            android:parentActivityName="com.technion.coolie.techlibrary.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.techlibrary.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.technion.coolie.techlibrary.LibraryCardActivity"
+            android:label="@string/title_activity_library_card"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:parentActivityName="com.technion.coolie.techlibrary.MainActivity" 
+            >
+            <meta-data
+             
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.techlibrary.MainActivity" />
+        </activity>
         
         <!-- TechPark -->
         <activity

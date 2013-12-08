@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/lib_loans_item" >
+    
+    <ImageView
+        android:id="@+id/lib_book_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="30dp"
+        android:maxWidth="30dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/lib_placeholder_book" />
+    
+     <TextView
+        android:id="@+id/lib_book_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/lib_book_image"
+        android:layout_toRightOf="@id/lib_book_image" 
+        android:gravity="center_vertical"
+        android:text="Numerical methods"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/lib_book_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_book_name"
+        android:layout_toRightOf="@id/lib_book_image"
+        android:text="by Dahlquist, Germund"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/lib_book_duedate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_book_author"
+        android:layout_toRightOf="@id/lib_book_image"
+        android:text="Due Date: 08.12.2013"
+        android:textSize="15sp" />
+    
+    <TextView
+        android:id="@+id/lib_book_library"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_book_duedate"
+        android:layout_toRightOf="@id/lib_book_image"
+        android:text="Computer Science library"
+        android:textSize="15sp" />
+
+</RelativeLayout>
+
+    
+    

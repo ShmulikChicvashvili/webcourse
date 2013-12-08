@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:visibility="gone">
+
+        <TextView android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/multipane_half_padding"
+            android:layout_marginTop="@dimen/multipane_half_padding"
+            android:text="Loans" />
+
+        <FrameLayout android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/multipane_half_padding"
+            android:background="@drawable/grey_frame">
+            <fragment android:name="com.technion.coolie.techlibrary.LoansFragment"
+                android:id="@+id/loans_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </LinearLayout>
+    
+    <LinearLayout android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/multipane_half_padding"
+            android:layout_marginTop="@dimen/multipane_half_padding"
+            android:text="Requests" />
+
+        <FrameLayout android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/multipane_half_padding"
+            android:background="@drawable/grey_frame">
+            <fragment android:name="com.technion.coolie.techlibrary.HoldsFragment"
+                android:id="@+id/holds_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </LinearLayout>
+    
+    
+    
+    
+</LinearLayout>

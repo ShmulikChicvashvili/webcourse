@@ -43,6 +43,7 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		super.onCreate(savedInstanceState);
 
 		try {
+			
 			ViewConfiguration config = ViewConfiguration.get(this);
 			Field menuKeyField = ViewConfiguration.class
 			.getDeclaredField("sHasPermanentMenuKey");
