@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="#FFFFFF" >
+    
+    <LinearLayout
+	    android:layout_width="0dp"
+	    android:layout_height="fill_parent"
+	    android:layout_weight="5" >
+	    
+	    <TextView
+	        android:id="@+id/ug_academic_calendar_fragment_event"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:gravity="right"
+	        android:layout_gravity="right"
+	        android:padding="5dip"
+	        />
+	 </LinearLayout>
+	 <LinearLayout
+		    android:layout_width="0dp"
+		    android:layout_height="fill_parent"
+		    android:layout_weight="3" >
+	    <TextView
+	        android:id="@+id/ug_academic_calendar_fragment_date"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:padding="5dip"
+	        android:gravity="right"
+	        android:layout_gravity="right"
+	        
+	        /> 
+	  </LinearLayout>
+	 
+	 
+	 
+
+</LinearLayout>

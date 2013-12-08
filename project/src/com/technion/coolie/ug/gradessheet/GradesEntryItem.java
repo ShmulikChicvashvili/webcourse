@@ -18,4 +18,9 @@ public class GradesEntryItem implements Item{
 		return false;
 	}
 
+	@Override
+	public boolean isFooter() {
+		return false;
+	}
+
 }

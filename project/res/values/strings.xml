@@ -14,5 +14,10 @@
     <string name="course_name">שם מקצוע</string>
     <string name="points">נקודות</string>
     <string name="grade">ציון</string>
+    <string name="average">ממוצע</string>
+    <string name="success_percentage">אחוז הצלחות</string>
+    <string name="accumulated_points">נקודות מצטברות</string>
+    <string name="semester_points">סה\"כ נקודות</string>
+    <string name="semester_avg">ממוצע</string>
 
 </resources>

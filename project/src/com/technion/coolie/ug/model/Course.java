@@ -1,7 +1,7 @@
 package com.technion.coolie.ug.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import com.technion.coolie.ug.Enums.Faculty;
@@ -28,16 +28,16 @@ public class Course implements Serializable {
 
 	private Faculty faculty;// can be a string in the db.
 
-	private Date moedA;
-	private Date moedB;
+	private Calendar moedA;
+	private Calendar moedB;
 
 	private List<List<String>> prerequisites; // קדם
 	private List<List<String>> attachedCourses; // צמוד
 	private List<RegistrationGroup> registrationGroups;
 
 	public Course(String courseNumber, String name, float points,
-			String description, Semester semester, Faculty faculty, Date moedA,
-			Date moedB, List<List<String>> prerequisites,List<List<String>> attachedCourses,
+			String description, Semester semester, Faculty faculty, Calendar moedA,
+			Calendar moedB, List<List<String>> prerequisites,List<List<String>> attachedCourses,
 			List<RegistrationGroup> registrationGroups) {
 		super();
 		this.courseNumber = courseNumber;
@@ -52,6 +52,8 @@ public class Course implements Serializable {
 		this.attachedCourses = attachedCourses;
 		this.registrationGroups = registrationGroups;
 	}
+	
+	
 
 	public String getCourseNumber() {
 		return courseNumber;
@@ -101,19 +103,19 @@ public class Course implements Serializable {
 		this.faculty = faculty;
 	}
 
-	public Date getMoedA() {
+	public Calendar getMoedA() {
 		return moedA;
 	}
 
-	public void setMoedA(Date moedA) {
+	public void setMoedA(Calendar moedA) {
 		this.moedA = moedA;
 	}
 
-	public Date getMoedB() {
+	public Calendar getMoedB() {
 		return moedB;
 	}
 
-	public void setMoedB(Date moedB) {
+	public void setMoedB(Calendar moedB) {
 		this.moedB = moedB;
 	}
 
