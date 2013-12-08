@@ -38,23 +38,23 @@ public enum UGDatabase {
 						"פרופ יוסי מצליח", DayOfWeek.SUNDAY, new Date(), null,
 						"טאוב 5")), null, 20)));
 
-		allCourses = new ArrayList<Course>(Arrays.asList(new Course("213245",
-				"מבוא לבינה מלאכותית במודלים מתקדמים ביותר 4", 2.0f,
-				"הרג אותי", new Semester(2013, SemesterSeason.WINTER),
-				Faculty.HUMANITIES, new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014, 2, 11), null,
-				null, null), new Course("012932", "קורס בחידוד עפרונות", 5.0f,
-				"ההרגשה היא אושר צרוף!!!", new Semester(2013,
-						SemesterSeason.WINTER), Faculty.ARCHITECTURE, new GregorianCalendar(2014, 2, 11),
-						new GregorianCalendar(2014, 2, 11), null, null, groups)));
+		allCourses = new ArrayList<Course>(
+				Arrays.asList(new Course("213245",
+						"מבוא לבינה מלאכותית במודלים מתקדמים ביותר 4", 2.0f,
+						"הרג אותי", new Semester(2013, SemesterSeason.WINTER),
+						Faculty.HUMANITIES, new GregorianCalendar(2014, 2, 11),
+						new GregorianCalendar(2014, 2, 11), null, null, null),
+						new Course("012932", "קורס בחידוד עפרונות", 5.0f,
+								"ההרגשה היא אושר צרוף!!!", new Semester(2013,
+										SemesterSeason.WINTER),
+								Faculty.ARCHITECTURE, new GregorianCalendar(
+										2014, 2, 11), new GregorianCalendar(
+										2014, 2, 11), null, null, groups)));
 
 		currentStudent = null;
 		coursesHash = new LinkedHashMap<CourseKey, Course>();
-		coursesHash.put(allCourses.get(0).getCourseKey(), allCourses.get(0));
-		coursesHash.put(allCourses.get(1).getCourseKey(), allCourses.get(1)); // TODO
-																				// make
-																				// this
-																				// a
-																				// method
+		for (Course course : allCourses)
+			coursesHash.put(course.getCourseKey(), course);
 
 	}
 

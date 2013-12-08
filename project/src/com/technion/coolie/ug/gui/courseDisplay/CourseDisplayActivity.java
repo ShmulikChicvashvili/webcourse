@@ -37,6 +37,12 @@ public class CourseDisplayActivity extends CoolieActivity {
 	private void updateCourseDisplay() {
 		TextView nameTextView = (TextView) findViewById(R.id.course_screen_name);
 		nameTextView.setText(courseToView.getName());
+		TextView pointsTextView = (TextView) findViewById(R.id.course_screen_points);
+		pointsTextView.setText("" + courseToView.getPoints());
+		TextView numberTextView = (TextView) findViewById(R.id.course_screen_number);
+		numberTextView.setText("" + courseToView.getCourseNumber());
+		TextView descTextView = (TextView) findViewById(R.id.course_screen_description);
+		descTextView.setText(courseToView.getDescription());
 
 	}
 

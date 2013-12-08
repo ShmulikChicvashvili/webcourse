@@ -10,8 +10,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -94,7 +96,7 @@ public class SearchActivity extends CoolieActivity {
 	private void initFiles() {
 		try {
 			SerializeIO.createFile(this, LAST_SEARCH_FILE,
-					(Serializable) Collections.EMPTY_LIST);
+					(Serializable) new ArrayList<Course>());
 		} catch (Exception e) {
 			Log.e(MainActivity.DEBUG_TAG, "massive error!", e);
 		}
@@ -106,6 +108,20 @@ public class SearchActivity extends CoolieActivity {
 		autocompletetextview.requestFocus();
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
+		// each touch of the main layout will close any open softkeyboard!.
+		OnTouchListener otl = new OnTouchListener() {
+
+			public boolean onTouch(View v, MotionEvent event) {
+				InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+						0);
+				return false; // necessary for not consuming the event
+			}
+		};
+
+		findViewById(R.id.search_screen_main).setOnTouchListener(otl);
+		findViewById(R.id.search_list_view).setOnTouchListener(otl);
 
 	}
 

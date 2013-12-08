@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#200f" >
@@ -8,6 +9,7 @@
 <LinearLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id = "@+id/search_screen_main"
     android:orientation="vertical"
     android:layout_marginRight="10dp"
 	android:layout_marginLeft="10dp"
@@ -60,9 +62,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
         android:layout_marginTop="10dp"
-        android:background="#301f" >
+        android:background="#301f" 
+        android:drawSelectorOnTop ="true"/>
 
-     </ListView> 
 
     
     <TextView
