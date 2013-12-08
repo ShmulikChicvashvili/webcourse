@@ -191,6 +191,8 @@ public class SearchActivity extends CoolieActivity {
 	public void initAutoComplete() {
 		final AutoCompleteTextView autocompletetextview = (AutoCompleteTextView) findViewById(R.id.autocompletetextview);
 		autocompletetextview.setThreshold(1);
+		autocompletetextview.setTextColor(getResources().getColor(
+				R.color.abs__background_holo_dark));
 
 		autocompletetextview
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -241,7 +243,8 @@ public class SearchActivity extends CoolieActivity {
 	protected void onDestroy() {
 		try {
 			SerializeIO.save(this, LAST_SEARCH_FILE,
-					(Serializable) searchAdapter.results); // save lastQuery?
+					(Serializable) searchAdapter.results);
+			// save filters TODO
 		} catch (IOException e) {
 			Log.e(MainActivity.DEBUG_TAG, "save error ", e);
 		}

@@ -29,10 +29,10 @@
    		 android:background="#ffff"
     	 >
         
-            <View
+            <Spinner
                  android:layout_width="0dp"
 			android:layout_height="match_parent" 
-			android:layout_weight="4"/>
+			android:layout_weight="6"/>
         
 	        <AutoCompleteTextView
 			android:id="@+id/autocompletetextview"
@@ -43,7 +43,8 @@
 			android:background="#FFF"
 			android:imeOptions="actionSearch"
 			android:inputType="text"
-			android:layout_weight="32"/>
+			android:layout_weight="32"
+			/>
 
 	        <View
 	       		android:layout_width="0dp"
