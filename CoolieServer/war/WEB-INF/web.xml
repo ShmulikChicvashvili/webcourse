@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+
+	<servlet>
+		<servlet-name>Joinin</servlet-name>
+		<servlet-class>com.technion.coolieserver.servlets.Joinin
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Joinin</servlet-name>
+		<url-pattern>/Joinin</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Parkion</servlet-name>
+		<servlet-class>com.technion.coolieserver.servlets.Parkion
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Parkion</servlet-name>
+		<url-pattern>/Parkion</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Techoins</servlet-name>
+		<servlet-class>com.technion.coolieserver.servlets.Techoins
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Techoins</servlet-name>
+		<url-pattern>/Techoins</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Teletech</servlet-name>
+		<servlet-class>com.technion.coolieserver.servlets.Teletech
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Teletech</servlet-name>
+		<url-pattern>/Teletech</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>UG</servlet-name>
+		<servlet-class>com.technion.coolieserver.servlets.UG</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>UG</servlet-name>
+		<url-pattern>/UG</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Techmine</servlet-name>
+		<servlet-class>com.technion.coolieserver.servlets.Techmine
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Techmine</servlet-name>
+		<url-pattern>/Techmine</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GradesSheet</servlet-name>
+		<servlet-class>com.technion.coolieserver.servlets.GradesSheet
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>GradesSheet</servlet-name>
+		<url-pattern>/GradesSheet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Parkion</servlet-name>
+		<servlet-class>com.technion.coolieserver.servlets.Parkion
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Parkion</servlet-name>
+		<url-pattern>/Parkion</url-pattern>
+	</servlet-mapping>
+
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>profile</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
+	<filter>
+		<filter-name>ObjectifyFilter</filter-name>
+		<filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ObjectifyFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+</web-app>
