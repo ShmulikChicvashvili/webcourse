@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -24,19 +23,24 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NavUtils;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.techlibrary.BookItems.HoldElement;
 import com.technion.coolie.techlibrary.BookItems.LoanElement;
 
-public class LibraryCardActivity extends FragmentActivity {
+public class LibraryCardActivity extends CoolieActivity {
 
 	// Shared pref - file
 	private static final String SHARED_PREF = "lib_pref";
@@ -48,15 +52,21 @@ public class LibraryCardActivity extends FragmentActivity {
 	private static final int LOGGIN_CODE = 7;
 	// shared pref
 	private SharedPreferences mSharedPref;
+	private SharedPreferences.Editor mSharedPrefEditor;
 	// UI references.
-	private LoansFragment mLoansFragment;
-	private HoldsFragment mHoldsFragment;
+	private LoansFragment mLoansFragment = null;
+	private HoldsFragment mHoldsFragment = null;
+	private FragmentManager mFragmentManager;
+	private ViewPager mViewPager;
+	private ActionBar mActionBar;
 
 	// Keep track of the login task to ensure we can cancel it if requested.
 	private GetBooksInfoTask mGetBooksInfoTask = null;
 
 	private ArrayList<LoanElement> globalLoansList = null;
 	private ArrayList<HoldElement> globalHoldsList = null;
+	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,14 +75,31 @@ public class LibraryCardActivity extends FragmentActivity {
 
 		// Show the Up button in the action bar.
 		setupActionBar();
+		mFragmentManager = getSupportFragmentManager();
+		//getting shared prefs
+		mSharedPref = getSharedPreferences(SHARED_PREF, 0);
+		mSharedPrefEditor = mSharedPref.edit();
+		if(mFragmentManager.getFragments() != null){
+			mLoansFragment = (LoansFragment) mFragmentManager
+					.findFragmentById(R.id.loans_fragment);
+			mHoldsFragment = (HoldsFragment) mFragmentManager
+					.findFragmentById(R.id.holds_fragment);
+		} else {
+			mViewPager = (ViewPager) findViewById(R.id.pager);
+	        mViewPager.setOnPageChangeListener(onPageChangeListener);
+	        mViewPager.setAdapter(new ViewPagerAdapter(mFragmentManager));
+	        addActionBarTabs();
+		}
+        
 
-		FragmentManager fmg = getSupportFragmentManager();
-		Log.d("L.card:", "number of fragments?="
-				+ ((Integer) fmg.getFragments().size()).toString());
-		mLoansFragment = (LoansFragment) fmg
-				.findFragmentById(R.id.loans_fragment);
-		mHoldsFragment = (HoldsFragment) fmg
-				.findFragmentById(R.id.holds_fragment); // null?
+		
+		//Log.d("L.card:", mFragmentManager.toString());
+//		Log.d("L.card:", "number of fragments?="
+//				+ ((Integer) fmg.getFragments().size()).toString());
+//		mLoansFragment = (LoansFragment) fmg
+//				.findFragmentById(R.id.loans_fragment);
+//		mHoldsFragment = (HoldsFragment) fmg
+//				.findFragmentById(R.id.holds_fragment); 
 
 		globalLoansList = new ArrayList<BookItems.LoanElement>();
 		globalHoldsList = new ArrayList<BookItems.HoldElement>();
@@ -88,7 +115,7 @@ public class LibraryCardActivity extends FragmentActivity {
 		switch (requestCode) {
 		case (LOGGIN_CODE): {
 			if (resultCode != LoginActivity.RESULT_OK) {
-				// TODO: generate error in login? maybe login was canceled?
+				finish();
 			} else {
 				mGetBooksInfoTask = new GetBooksInfoTask();
 				mGetBooksInfoTask.execute();
@@ -103,39 +130,122 @@ public class LibraryCardActivity extends FragmentActivity {
 	 */
 	private void setupActionBar() {
 
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.library_card, menu);
+		super.onCreateOptionsMenu(menu);
+		
+		//TODO: change order of menu items!
+		MenuItem logout = menu.add("Logout");
+		logout.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		logout.setOnMenuItemClickListener(new OnMenuItemClickListener()
+        {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				mSharedPrefEditor.putBoolean(LOGGED_IN, false);
+				mSharedPrefEditor.commit();
+				finish(); //work?
+				return true; //????
+			}
+		});
+		MenuItem profile = menu.add("Profile");
+		profile.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		profile.setOnMenuItemClickListener(new OnMenuItemClickListener()
+        {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(LibraryCardActivity.this, ProfileActivity.class);
+				startActivity(intent);
+				return true;
+			}
+		});
 		return true;
 	}
+	
+	/***********************************************************
+	 * action bar tabs, viewpager stuff
+	 ***********************************************************/
+	
+    private ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		case R.id.action_logout:
-			SharedPreferences.Editor editor = mSharedPref.edit();
-			editor.putBoolean(LOGGED_IN, false);
-			editor.commit();
-			finish();
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+		@Override
+        public void onPageSelected(int position) {
+            super.onPageSelected(position);
+            mActionBar.setSelectedNavigationItem(position);
+        }
+    };
+ 
+    private void addActionBarTabs() {
+        mActionBar = getSupportActionBar();
+        String[] tabs = { "Loans", "Requests", "Wish List?" };
+        for (String tabTitle : tabs) {
+            ActionBar.Tab tab = mActionBar.newTab().setText(tabTitle)
+                    .setTabListener(tabListener);
+            mActionBar.addTab(tab);
+        }
+        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+    }
+ 
+    private ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+        @Override
+        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+            mViewPager.setCurrentItem(tab.getPosition());
+        }
+ 
+        @Override
+        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+        }
+ 
+        @Override
+        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+        }
+    };
+    
+    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
+    	 
+        private final int PAGES = 2;
+     
+        public ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+     
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+            //TODO: read fragment in develope.android, new instance all the time?
+                case 0:
+                	if(mLoansFragment == null) {
+                		mLoansFragment = new LoansFragment();
+                	}
+                    return mLoansFragment;
+                case 1:
+                	if(mHoldsFragment == null) {
+                		mHoldsFragment = new HoldsFragment();
+                	}
+                    return mHoldsFragment;
+//                case 2:
+//                	if(mHoldsFragment == null) {
+//                		mHoldsFragment = new HoldsFragment();
+//                	}
+//                    return mHoldsFragment;
+                default:
+                    throw new IllegalArgumentException("The item position should be less or equal to:" + PAGES);
+            }
+        }
+     
+        @Override
+        public int getCount() {
+            return PAGES;
+        }
+    }
+    
+    /***********************************************************
+	 * END OF action bar tabs, viewpager stuff 
+	 ***********************************************************/
 
 	/**
 	 * getting loans list for fragment
@@ -200,7 +310,6 @@ public class LibraryCardActivity extends FragmentActivity {
 				XMLReader xr = sp.getXMLReader();
 
 				/** Send URL to parse XML Tags */
-				mSharedPref = getSharedPreferences(SHARED_PREF, 0);
 				String id = mSharedPref.getString(USER_ID, NA);
 				// no shared pref exists?
 				if (id == null || id.equals(NA)) {

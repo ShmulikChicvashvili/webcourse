@@ -92,7 +92,6 @@
         <activity
             android:name="com.technion.coolie.techlibrary.LibraryCardActivity"
             android:label="@string/title_activity_library_card"
-            android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName="com.technion.coolie.techlibrary.MainActivity" 
             >
             <meta-data

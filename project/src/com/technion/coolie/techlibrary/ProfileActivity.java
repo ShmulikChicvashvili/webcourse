@@ -1,6 +1,10 @@
 package com.technion.coolie.techlibrary;
 
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.techlibrary.LibraryCardActivity;
 
@@ -8,12 +12,11 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.support.v4.app.NavUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
-public class ProfileActivity extends Activity {
+public class ProfileActivity extends CoolieActivity{
 	//code for login activity intent
 	private static final int LOGGIN_CODE = 7;
 	
@@ -23,6 +26,7 @@ public class ProfileActivity extends Activity {
 	private static final String SHARED_PREF = "lib_pref";
 
 	private SharedPreferences mSharedPref;
+	private Editor mSharedPrefEditor;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,7 @@ public class ProfileActivity extends Activity {
 		setContentView(R.layout.lib_activity_profile);
 		
 		mSharedPref = getSharedPreferences(SHARED_PREF,0);
+		mSharedPrefEditor = mSharedPref.edit();
 		// login?
 		Intent intent = new Intent(this,
 				LoginActivity.class);
@@ -66,33 +71,22 @@ public class ProfileActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.profile, menu);
+		super.onCreateOptionsMenu(menu);
+		
+		//TODO: change order of menu items!
+		MenuItem logout = menu.add("Logout");
+		logout.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		logout.setOnMenuItemClickListener(new OnMenuItemClickListener()
+        {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				mSharedPrefEditor.putBoolean(LOGGED_IN, false);
+				mSharedPrefEditor.commit();
+				finish(); //work?
+				return true; //????
+			}
+		});
 		return true;
 	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			// TODO: If Settings has multiple levels, Up should navigate up
-			// that hierarchy.
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		case R.id.action_logout:
-			SharedPreferences.Editor editor = mSharedPref.edit();
-			editor.putBoolean(LOGGED_IN, false);
-			editor.commit();
-			finish();
-			return true; //????
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 }
+	

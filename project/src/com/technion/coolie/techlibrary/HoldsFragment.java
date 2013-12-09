@@ -3,6 +3,7 @@ package com.technion.coolie.techlibrary;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.actionbarsherlock.app.SherlockFragment;
 import com.technion.coolie.R;
 import com.technion.coolie.techlibrary.BookItems.HoldElement;
 import com.technion.coolie.techlibrary.BookItems.LoanElement;
@@ -19,7 +20,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class HoldsFragment extends Fragment {
+public class HoldsFragment extends SherlockFragment {
 	private ListView mListView;
 	private TextView mEmptyView;
 	

@@ -292,6 +292,9 @@ public class LoginActivity extends Activity {
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
+			if(result.contains("<error>Error in Verification</error>")) {
+				return false;
+			}
 			UserInfoXMLHandler userXMLHandler = new UserInfoXMLHandler();
 			try {
 				SAXParserFactory spf = SAXParserFactory.newInstance();
@@ -365,7 +368,7 @@ public class LoginActivity extends Activity {
 				finish();
 			} else if(mHasError) {
 				toastConnectionError();
-			} else {
+			} else { //!success
 				mPasswordView
 						.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();
