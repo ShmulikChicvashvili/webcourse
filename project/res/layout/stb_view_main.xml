@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e3e3e3"
+    android:orientation="vertical"
+    android:weightSum="100" >
+
+    <ImageView
+        android:id="@+id/graph_view"
+        style="@style/stb_nowCardStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/stb_graph" />
+
+     <com.technion.coolie.studybuddy.Views.NowLayout
+        android:id="@+id/course_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="@integer/stb_num_of_columns" >
+      </com.technion.coolie.studybuddy.Views.NowLayout>
+
+</LinearLayout>
