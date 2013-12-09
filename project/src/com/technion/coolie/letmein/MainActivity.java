@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -32,33 +31,29 @@ public class MainActivity extends DatabaseActivity implements
 	private boolean isAddInvitationItemVisible = false;
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = this.getSupportMenuInflater();
+	public boolean onCreateOptionsMenu(final Menu menu) {
+		final MenuInflater inflater = this.getSupportMenuInflater();
 		inflater.inflate(R.menu.lmi_menu, menu);
 
 		menu.findItem(R.id.lmi_add_invitation).setVisible(isAddInvitationItemVisible);
 
-		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-		SearchView searchView = (SearchView) menu.findItem(R.id.lmi_search).getActionView();
+		final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		final SearchView searchView = (SearchView) menu.findItem(R.id.lmi_search).getActionView();
 		if (null != searchView) {
 			searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 			searchView.setIconifiedByDefault(false);
 		}
 
-		SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
-			public boolean onQueryTextChange(String newText) {
-				// this is your adapter that will be filtered
-				// adapter.getFilter().filter(newText);
-				Toast.makeText(MainActivity.this, "Gilad FIX ME!!(" + newText + ")",
-						Toast.LENGTH_SHORT).show();
+		final SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextChange(final String newText) {
+				getAdapter().getFilter().filter(newText);
 				return true;
 			}
 
-			public boolean onQueryTextSubmit(String query) {
-				// this is your adapter that will be filtered
-				// adapter.getFilter().filter(query);
-				Toast.makeText(MainActivity.this, "Gilad FIX ME!!(" + query + ")",
-						Toast.LENGTH_SHORT).show();
+			@Override
+			public boolean onQueryTextSubmit(final String query) {
+				getAdapter().getFilter().filter(query);
 				return true;
 			}
 		};
@@ -69,7 +64,7 @@ public class MainActivity extends DatabaseActivity implements
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.lmi_add_invitation:
 			onNewInvitation();
