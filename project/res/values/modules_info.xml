@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="am_name">Assign Mentor</string>
+    <string name="ji_name">Join In</string>
+    <string name="lmi_name">Let Me In</string>
+    <string name="stb_name">Study Buddy</string>
+    <string name="lib_name">Tech Library</string>
+    <string name="park_name">Tech Park</string>
+    <string name="trad_name">Tech Trade</string>
+    <string name="mind_name">Tec Mind</string>
+    <string name="tele_name">TeleTech</string>
+    <string name="ug_name">UG</string>
+    <string name="skel_name">Skeleton</string>
+
+    <string-array name="modules">
+        <item name="skeletonActivity">skeletonActivity</item>
+        <item name="techLibraryActivity">techLibraryActivity</item>
+        
+    </string-array>
+
+    <string name="am_description">This is module 1 description, it describes what the module does.</string>
+    <string name="ji_description">This is module 2 <b>dynamic</b> description, announcements will appear here.</string>
+    <string name="lmi_description">This is module 3 <b>dynamic</b> description, announcements will appear here.</string>
+    <string name="stb_description">This is module 4 description, it describes what the module does.</string>
+    <string name="lib_description">This is module 5 description, it describes what the module does.</string>
+    <string name="park_description">This is module 6 description, it describes what the module does.</string>
+    <string name="trad_description">This is module 7 description, it describes what the module does.</string>
+    <string name="mind_description">This is module 8 description, it describes what the module does.</string>
+    <string name="tele_description">This is module 9 description, it describes what the module does.</string>
+    <string name="ug_description">This is module 10 description, it describes what the module does.</string>
+    <string name="skel_description">Skeleton desc</string>
+</resources>
