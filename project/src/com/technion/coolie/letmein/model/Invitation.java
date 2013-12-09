@@ -18,25 +18,25 @@ public class Invitation {
 	private long id;
 
 	@DatabaseField
-	private String contactId;
-
-	@DatabaseField
 	private Date date;
 
 	@DatabaseField
 	private Status status;
 
 	@DatabaseField
-	private String friendName;
+	private String contactId;
 
 	@DatabaseField
-	private String friendCellphone;
+	private String contactName;
+
+	@DatabaseField
+	private String contactPhoneNumber;
 
 	@DatabaseField
 	private String carNumber;
 
 	@DatabaseField
-	private String carCompany;
+	private String carManufacturer;
 
 	@DatabaseField
 	private String carColor;
@@ -56,7 +56,7 @@ public class Invitation {
 		return contactId;
 	}
 
-	public void setContactId(final String contactId) {
+	private void setContactId(final String contactId) {
 		this.contactId = contactId;
 	}
 
@@ -64,7 +64,7 @@ public class Invitation {
 		return date;
 	}
 
-	public void setDate(final Date date) {
+	private void setDate(final Date date) {
 		this.date = date;
 	}
 
@@ -72,48 +72,115 @@ public class Invitation {
 		return status;
 	}
 
-	public void setStatus(final Status status) {
+	private void setStatus(final Status status) {
 		this.status = status;
 	}
 
-	public String getFriendName() {
-		return friendName;
+	public String getContactName() {
+		return contactName;
 	}
 
-	public void setFriendName(String friendName) {
-		this.friendName = friendName;
+	private void setContactName(final String contactName) {
+		this.contactName = contactName;
 	}
 
-	public String getFriendCellphone() {
-		return friendCellphone;
+	public String getContactPhoneNumber() {
+		return contactPhoneNumber;
 	}
 
-	public void setFriendCellphone(String friendCellphone) {
-		this.friendCellphone = friendCellphone;
+	private void setContactPhoneNumber(final String contactPhoneNumber) {
+		this.contactPhoneNumber = contactPhoneNumber;
 	}
 
 	public String getCarNumber() {
 		return carNumber;
 	}
 
-	public void setCarNumber(String carNumber) {
+	private void setCarNumber(final String carNumber) {
 		this.carNumber = carNumber;
 	}
 
 	public String getCarCompany() {
-		return this.carCompany;
+		return this.carManufacturer;
 	}
 
-	public void setCarCompany(String carCompany) {
-		this.carCompany = carCompany;
+	private void setCarManufacturer(final String carManufacturer) {
+		this.carManufacturer = carManufacturer;
 	}
 
 	public String getCarColor() {
 		return carColor;
 	}
 
-	public void setCarColor(String carColor) {
+	private void setCarColor(final String carColor) {
 		this.carColor = carColor;
+	}
+
+	public static Builder builder() {
+		return new Builder();
+	}
+
+	public static Builder builder(final Invitation i) {
+		return new Builder(i);
+	}
+
+	public static class Builder {
+		private final Invitation invitation;
+
+		private Builder() {
+			invitation = new Invitation();
+		}
+
+		private Builder(final Invitation i) {
+			if (i == null)
+				throw new IllegalArgumentException("Passed null invitation to builder");
+
+			invitation = i;
+		}
+
+		public Builder contactId(final String contactId) {
+			invitation.setContactId(contactId);
+			return this;
+		}
+
+		public Builder date(final Date date) {
+			invitation.setDate(date);
+			return this;
+		}
+
+		public Builder status(final Status status) {
+			invitation.setStatus(status);
+			return this;
+		}
+
+		public Builder contactName(final String contactName) {
+			invitation.setContactName(contactName);
+			return this;
+		}
+
+		public Builder contactPhoneNumber(final String contactPhoneNumber) {
+			invitation.setContactPhoneNumber(contactPhoneNumber);
+			return this;
+		}
+
+		public Builder carNumber(final String carNumber) {
+			invitation.setCarNumber(carNumber);
+			return this;
+		}
+
+		public Builder carManufacturer(final String carManufacturer) {
+			invitation.setCarManufacturer(carManufacturer);
+			return this;
+		}
+
+		public Builder carColor(final String carColor) {
+			invitation.setCarColor(carColor);
+			return this;
+		}
+
+		public Invitation build() {
+			return invitation;
+		}
 	}
 
 }

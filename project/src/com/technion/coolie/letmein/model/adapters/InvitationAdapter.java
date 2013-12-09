@@ -20,8 +20,8 @@ public class InvitationAdapter extends BaseInvitationAdapter {
 
 	private List<Invitation> getInvitations(final InvitationDatabaseHelper databaseHelper) {
 		try {
-			return databaseHelper.getDataDao().queryBuilder().orderBy("date", true)
-					.limit(NUM_ITEMS_TO_LOAD).query();
+			return databaseHelper.getDataDao().queryBuilder()
+					.orderBy(Contract.Invitation.DATE, true).limit(NUM_ITEMS_TO_LOAD).query();
 		} catch (final SQLException e) {
 			Log.e(LOG_TAG, "getInvitations(): Couldn't read invitations", e);
 			throw new RuntimeException(e);
@@ -35,7 +35,7 @@ public class InvitationAdapter extends BaseInvitationAdapter {
 	}
 
 	@Override
-	protected List<Invitation> getInvitationList() {
+	protected List<Invitation> getFullDataset() {
 		return invitations;
 	}
 
@@ -46,7 +46,7 @@ public class InvitationAdapter extends BaseInvitationAdapter {
 		try {
 			i = databaseHelper.getDataDao().queryBuilder().where()
 					.eq(Contract.Invitation.CONTACT_ID, contactId).queryForFirst();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			Log.e(LOG_TAG,
 					"getContactViewById(String contactId): Couldn't get invitation by contactId", e);
 			throw new RuntimeException(e);
@@ -54,7 +54,7 @@ public class InvitationAdapter extends BaseInvitationAdapter {
 
 		final ContactView $ = new ContactView();
 
-		$.ContactName = i.getFriendName();
+		$.ContactName = i.getContactName();
 		$.ContactImageId = R.drawable.lmi_facebook_man;
 
 		return $;

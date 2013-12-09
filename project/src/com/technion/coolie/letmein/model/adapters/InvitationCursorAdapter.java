@@ -22,18 +22,18 @@ public class InvitationCursorAdapter extends BaseInvitationAdapter {
 	private final Context context;
 
 	private Invitation invitationFromCursor(final Cursor c) throws ParseException {
-		final Invitation i = new Invitation();
+		final Invitation.Builder builder = Invitation.builder();
 
 		// TODO:: Figure how is date actually formatted (currently, not sure...)
-		i.setDate(DateFormat.getDateFormat(context).parse(
+		builder.date(DateFormat.getDateFormat(context).parse(
 				c.getString(c.getColumnIndex(Contract.Invitation.DATE))));
 
-		i.setContactId(c.getString(c.getColumnIndex(Contract.Invitation.CONTACT_ID)));
+		builder.contactId(c.getString(c.getColumnIndex(Contract.Invitation.CONTACT_ID)));
 
-		i.setStatus(Enum.valueOf(Invitation.Status.class,
+		builder.status(Enum.valueOf(Invitation.Status.class,
 				c.getString(c.getColumnIndex(Contract.Invitation.STATUS))));
 
-		return i;
+		return builder.build();
 	}
 
 	private List<Invitation> getInvitations() {
@@ -64,7 +64,7 @@ public class InvitationCursorAdapter extends BaseInvitationAdapter {
 	}
 
 	@Override
-	protected List<Invitation> getInvitationList() {
+	protected List<Invitation> getFullDataset() {
 		return invitations;
 	}
 

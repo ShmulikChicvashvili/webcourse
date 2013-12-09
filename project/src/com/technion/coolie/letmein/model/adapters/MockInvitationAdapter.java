@@ -18,20 +18,15 @@ public class MockInvitationAdapter extends BaseInvitationAdapter {
 	private static List<Invitation> initInvitations() {
 		final Calendar c = Calendar.getInstance();
 
-		final Invitation dad = new Invitation();
-		dad.setContactId("dad");
 		c.add(Calendar.HOUR_OF_DAY, 9);
-		dad.setDate(c.getTime());
+		final Invitation dad = Invitation.builder().contactId("dad").date(c.getTime()).build();
 
-		final Invitation friend = new Invitation();
-		friend.setContactId("friend");
 		c.add(Calendar.DAY_OF_YEAR, 2);
-		friend.setDate(c.getTime());
+		final Invitation friend = Invitation.builder().contactId("friend").date(c.getTime())
+				.build();
 
-		final Invitation abed = new Invitation();
-		abed.setContactId("abed");
 		c.add(Calendar.WEEK_OF_YEAR, 1);
-		abed.setDate(c.getTime());
+		final Invitation abed = Invitation.builder().contactId("abed").date(c.getTime()).build();
 
 		return Arrays.asList(dad, friend, abed);
 	}
@@ -62,7 +57,7 @@ public class MockInvitationAdapter extends BaseInvitationAdapter {
 	}
 
 	@Override
-	protected List<Invitation> getInvitationList() {
+	protected List<Invitation> getFullDataset() {
 		return mockInvitations;
 	}
 

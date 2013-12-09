@@ -17,19 +17,18 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
 
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.Invitation;
 import com.technion.coolie.letmein.model.Invitation.Status;
-import com.technion.coolie.letmein.model.InvitationBuilder;
 
 public class InvitationActivity extends DatabaseActivity implements CalendarSupplier {
 
 	private static final int DROP_DOWN_LAYOUT_INDEX = android.R.layout.simple_dropdown_item_1line;
 
-	private Calendar calendar = Calendar.getInstance();
+	private final Calendar calendar = Calendar.getInstance();
 
 	private AutoCompleteTextView friendNameEdit;
 	private EditText friendCellphoneEdit;
@@ -40,7 +39,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	private TextView timePicker;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lmi_activity_invitation);
 
@@ -48,10 +47,9 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		friendCellphoneEdit = (EditText) findViewById(R.id.lmi_friend_cellphone_edit);
 		friendNameEdit.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_NEXT) {
+			public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_NEXT)
 					friendCellphoneEdit.setText(getFriendCellPhoneNumber());
-				}
 
 				return false;
 			}
@@ -74,9 +72,9 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				DROP_DOWN_LAYOUT_INDEX, getResources().getStringArray(R.array.lmi_car_colors)));
 		friendCarColorEdit.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_NEXT) {
-					InputMethodManager inputMethodManager = (InputMethodManager) InvitationActivity.this
+					final InputMethodManager inputMethodManager = (InputMethodManager) InvitationActivity.this
 							.getSystemService(Activity.INPUT_METHOD_SERVICE);
 					inputMethodManager.hideSoftInputFromWindow(InvitationActivity.this
 							.getCurrentFocus().getWindowToken(), 0);
@@ -87,12 +85,12 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		});
 	}
 
-	public void showTimePickerDialog(View v) {
+	public void showTimePickerDialog(final View v) {
 		new TimePickerFragment().show(getSupportFragmentManager(),
 				TimePickerFragment.class.getSimpleName());
 	}
 
-	public void showDatePickerDialog(View v) {
+	public void showDatePickerDialog(final View v) {
 		new DatePickerFragment().show(getSupportFragmentManager(),
 				DatePickerFragment.class.getSimpleName());
 	}
@@ -105,7 +103,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 
 	private class AutoCompletionGatheringTask extends AsyncTask<Void, Void, ArrayAdapter<String>> {
 		@Override
-		protected ArrayAdapter<String> doInBackground(Void... params) {
+		protected ArrayAdapter<String> doInBackground(final Void... params) {
 			// TODO: change to the real deal:
 			/*
 			 * List<String> friendNames = Arrays.asList("osher", "gilad",
@@ -114,18 +112,17 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 			 * "osher13");
 			 */
 
-			ArrayList<String> friendNames = new ArrayList<String>();
-			ContentResolver contentResolver = getContentResolver();
-			String whereName = ContactsContract.Data.MIMETYPE + " = ?";
-			String[] whereNameParams = new String[] { ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE };
-			Cursor nameCur = contentResolver.query(ContactsContract.Data.CONTENT_URI, null,
+			final ArrayList<String> friendNames = new ArrayList<String>();
+			final ContentResolver contentResolver = getContentResolver();
+			final String whereName = ContactsContract.Data.MIMETYPE + " = ?";
+			final String[] whereNameParams = new String[] { ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE };
+			final Cursor nameCur = contentResolver.query(ContactsContract.Data.CONTENT_URI, null,
 					whereName, whereNameParams,
 					ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
-			while (nameCur.moveToNext()) {
+			while (nameCur.moveToNext())
 				friendNames
 						.add(nameCur.getString(nameCur
 								.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME)));
-			}
 			nameCur.close();
 
 			return new ArrayAdapter<String>(InvitationActivity.this, DROP_DOWN_LAYOUT_INDEX,
@@ -160,18 +157,17 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		}
 
 		@Override
-		protected void onPostExecute(ArrayAdapter<String> adapter) {
+		protected void onPostExecute(final ArrayAdapter<String> adapter) {
 			friendNameEdit.setAdapter(adapter);
 		}
 
 	}
 
 	private String getFriendCellPhoneNumber() {
-		String friendName = friendNameEdit.getText().toString();
+		final String friendName = friendNameEdit.getText().toString();
 
-		if ("".equals(friendName)) {
+		if ("".equals(friendName))
 			return "";
-		}
 
 		/*
 		 * TODO: change to the real deal, means, trying to find cellphone number
@@ -181,7 +177,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
+	public void onSaveInstanceState(final Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 
 		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_name_edit),
@@ -200,7 +196,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	}
 
 	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
+	public void onRestoreInstanceState(final Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 
 		friendNameEdit.setText(savedInstanceState.getCharSequence(String
@@ -214,7 +210,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		friendCarColorEdit.setText(savedInstanceState.getCharSequence(String
 				.valueOf(R.id.lmi_friend_car_color_edit)));
 
-		int[] arr = savedInstanceState.getIntArray(Consts.CALENDAR_INFO);
+		final int[] arr = savedInstanceState.getIntArray(Consts.CALENDAR_INFO);
 		setYear(arr[0]);
 		setMonth(arr[1]);
 		setDay(arr[2]);
@@ -224,23 +220,23 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		setTime(calendar);
 	}
 
-	public void setYear(int year) {
+	public void setYear(final int year) {
 		calendar.set(Calendar.YEAR, year);
 	}
 
-	public void setMonth(int month) {
+	public void setMonth(final int month) {
 		calendar.set(Calendar.MONTH, month);
 	}
 
-	public void setDay(int day) {
+	public void setDay(final int day) {
 		calendar.set(Calendar.DAY_OF_MONTH, day);
 	}
 
-	public void setHour(int hour) {
+	public void setHour(final int hour) {
 		calendar.set(Calendar.HOUR_OF_DAY, hour);
 	}
 
-	public void setMinute(int minute) {
+	public void setMinute(final int minute) {
 		calendar.set(Calendar.MINUTE, minute);
 	}
 
@@ -270,7 +266,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	}
 
 	@Override
-	public void setDate(Calendar calendar) {
+	public void setDate(final Calendar calendar) {
 		this.calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
 		this.calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
 		this.calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
@@ -280,51 +276,49 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	}
 
 	@Override
-	public void setTime(Calendar calendar) {
+	public void setTime(final Calendar calendar) {
 		this.calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
 		this.calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
-		String fixedHour = (getHour() < 10 ? "0" : "") + getHour();
-		String fixedMinute = (getMinute() < 10 ? "0" : "") + getMinute();
+		final String fixedHour = (getHour() < 10 ? "0" : "") + getHour();
+		final String fixedMinute = (getMinute() < 10 ? "0" : "") + getMinute();
 		timePicker.setText(getString(R.string.lmi_time_of_arrival) + ":\n" + fixedHour + ":"
 				+ fixedMinute);
 	}
 
-	public void executeInvitation(View v) {
-		String friendName = friendNameEdit.getText().toString();
-		String friendCellphone = friendCellphoneEdit.getText().toString();
-		String carNumber = friendCarNumberEdit.getText().toString();
-		String carCompany = friendCarCompanyEdit.getText().toString();
-		String carColor = friendCarColorEdit.getText().toString();
+	public void executeInvitation(final View v) {
+		final String friendName = friendNameEdit.getText().toString();
+		final String friendCellphone = friendCellphoneEdit.getText().toString();
+		final String carNumber = friendCarNumberEdit.getText().toString();
+		final String carCompany = friendCarCompanyEdit.getText().toString();
+		final String carColor = friendCarColorEdit.getText().toString();
 
-		if (isUserForgotAField(friendName, carNumber, carCompany, carColor)) {
+		if (isUserForgotAField(friendName, carNumber, carCompany, carColor))
 			return;
-		}
 
-		Invitation i = new InvitationBuilder().setContactId(friendName).setDate(calendar.getTime())
-				.setStatus(Status.CREATED).setFriendName(friendName)
-				.setFriendCellphone(friendCellphone).setCarNumber(carNumber)
-				.setCarCompany(carCompany).setCarColor(carColor).build();
+		final Invitation i = Invitation.builder().contactId(friendName)
+				.date(calendar.getTime()).status(Status.CREATED).contactName(friendName)
+				.contactPhoneNumber(friendCellphone).carNumber(carNumber)
+				.carManufacturer(carCompany).carColor(carColor).build();
 
 		getHelper().getDataDao().create(i);
 
 		finish();
 	}
 
-	private boolean isUserForgotAField(String friendName, String carNumber, String carCompany,
-			String carColor) {
-		if ("".equals(friendName)) {
+	private boolean isUserForgotAField(final String friendName, final String carNumber,
+			final String carCompany, final String carColor) {
+		if ("".equals(friendName))
 			Toast.makeText(getApplicationContext(), "insert name", Toast.LENGTH_SHORT).show();
-		} else if ("".equals(carNumber)) {
+		else if ("".equals(carNumber))
 			Toast.makeText(getApplicationContext(), "insert car number", Toast.LENGTH_SHORT).show();
-		} else if ("".equals(carCompany)) {
+		else if ("".equals(carCompany))
 			Toast.makeText(getApplicationContext(), "insert car company", Toast.LENGTH_SHORT)
 					.show();
-		} else if ("".equals(carColor)) {
+		else if ("".equals(carColor))
 			Toast.makeText(getApplicationContext(), "insert car color", Toast.LENGTH_SHORT).show();
-		} else {
+		else
 			return false;
-		}
 
 		return true;
 	}

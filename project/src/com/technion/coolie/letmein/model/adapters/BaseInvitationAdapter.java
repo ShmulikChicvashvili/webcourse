@@ -1,6 +1,7 @@
 package com.technion.coolie.letmein.model.adapters;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
@@ -9,20 +10,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.Invitation;
 
-public abstract class BaseInvitationAdapter extends BaseAdapter {
+public abstract class BaseInvitationAdapter extends BaseAdapter implements Filterable {
 	private final Context context;
+	private List<Invitation> displayedDataset;
+
+	private List<Invitation> getDisplayedDataset() {
+		if (displayedDataset == null)
+			displayedDataset = getFullDataset();
+
+		return displayedDataset;
+	}
+
+	private void setDisplayedDataset(final List<Invitation> dataset) {
+		displayedDataset = dataset;
+	}
 
 	public BaseInvitationAdapter(final Context context) {
 		this.context = context;
 	}
 
-	protected abstract List<Invitation> getInvitationList();
+	protected abstract List<Invitation> getFullDataset();
 
 	protected static class ContactView {
 		public String ContactName;
@@ -74,16 +89,50 @@ public abstract class BaseInvitationAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return getInvitationList().size();
+		return getDisplayedDataset().size();
 	}
 
 	@Override
 	public Invitation getItem(final int position) {
-		return getInvitationList().get(position);
+		return getDisplayedDataset().get(position);
 	}
 
 	@Override
 	public long getItemId(final int position) {
 		return getItem(position).getId();
+	}
+
+	@Override
+	public Filter getFilter() {
+		return new Filter() {
+			@SuppressWarnings("unchecked")
+			@Override
+			protected void publishResults(final CharSequence constraint, final FilterResults results) {
+				setDisplayedDataset((List<Invitation>) results.values);
+				notifyDataSetChanged();
+			}
+
+			@Override
+			protected FilterResults performFiltering(final CharSequence constraint) {
+				final FilterResults $ = new FilterResults();
+
+				if (constraint == null || constraint.length() <= 0) {
+					$.values = getFullDataset();
+					$.count = getFullDataset().size();
+
+					return $;
+				}
+
+				final List<Invitation> filtered = new LinkedList<Invitation>();
+				for (final Invitation i : getFullDataset())
+					if (i.getContactName().startsWith(constraint.toString()))
+						filtered.add(i);
+
+				$.values = filtered;
+				$.count = filtered.size();
+
+				return $;
+			}
+		};
 	}
 }
