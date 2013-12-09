@@ -3,6 +3,7 @@ package com.technion.coolie.letmein;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
+import com.technion.coolie.letmein.scapping.Scrapper;
 
 public class LoginActivity extends CoolieActivity {
 
@@ -55,7 +57,7 @@ public class LoginActivity extends CoolieActivity {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
-					login();
+					startLogin();
 				}
 
 				return false;
@@ -93,7 +95,7 @@ public class LoginActivity extends CoolieActivity {
 		loginButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				login();
+				startLogin();
 			}
 		});
 		loginButton.setEnabled(false);
@@ -104,7 +106,7 @@ public class LoginActivity extends CoolieActivity {
 				&& !"".equals(passwordEditText.getText().toString()));
 	}
 
-	private void login() {
+	private void startLogin() {
 		String username = usernameEditText.getText().toString();
 		String password = passwordEditText.getText().toString();
 
@@ -115,14 +117,38 @@ public class LoginActivity extends CoolieActivity {
 			 */
 			return;
 		}
-
-		saveLoginData(username, password);
-
-		// TODO: change to real login.
-		finish();
+		
+		(new AsyncTask<String, Void, Boolean>() {
+			@Override
+			protected Boolean doInBackground(String... params) {
+		        return Scrapper.CheckLogin(params[0], params[1]);
+			}
+			
+			@Override
+	        protected void onPostExecute(Boolean result) {
+				LoginActivity.this.endLogin(result);
+	        }
+			
+		}).execute(username, password);
+		
+		
 		Toast.makeText(getApplicationContext(),
 				"Login with username " + username + " and password " + password, Toast.LENGTH_SHORT)
 				.show();
+	}
+	private void endLogin(Boolean loginSuccess) {
+		if (loginSuccess)
+		{
+			String username = usernameEditText.getText().toString();
+			String password = passwordEditText.getText().toString();
+			saveLoginData(username, password);
+	
+			Toast.makeText(getApplicationContext(),"Login successfull, user and password saved",Toast.LENGTH_SHORT).show();
+			finish();
+		}
+		else{
+			Toast.makeText(getApplicationContext(),"Login FAILED",Toast.LENGTH_LONG).show();
+		}
 	}
 
 	private void saveLoginData(String username, String password) {
@@ -164,5 +190,6 @@ public class LoginActivity extends CoolieActivity {
 		passwordEditText.setText(savedInstanceState.getCharSequence(String
 				.valueOf(R.id.lmi_edit_password)));
 	}
-
+	
 }
+
