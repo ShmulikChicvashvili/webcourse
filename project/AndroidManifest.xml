@@ -38,7 +38,7 @@
         <service android:name="com.technion.coolie.skeleton.HtmlGrabberService" >
         </service>
         
-        <!-- Assign Mentor -->
+        <!-- AssignMentor -->
         <activity
             android:theme="@style/Theme.Sherlock.Light"            
             android:name="com.technion.coolie.assignmentor.MainActivity"
