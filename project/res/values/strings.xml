@@ -11,8 +11,10 @@
     <string name="lmi_search_hint">Type Friend\'s name</string>
     <string name="lmi_login_to_use">Login to use</string>
     <string name="lmi_get_a_password_link"><a href="http://www.stackoverflow.com">Get a password</a></string>
-    <string name="lmi_privacy">Privacy</string>
+    <string name="lmi_privacy_title">Privacy</string>
     <string name="lmi_privacy_message">Who does it better than us?</string>
+    <string name="lmi_login_failed_title">Login failed</string>
+    <string name="lmi_login_failed_message">Login failed, check user and password</string>
     <string name="lmi_username">Username</string>
     <string name="lmi_username_hint">Type in your username..</string>
     <string name="lmi_password_hint">Type in your password..</string>

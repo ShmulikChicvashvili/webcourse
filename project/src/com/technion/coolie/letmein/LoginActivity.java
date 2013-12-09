@@ -86,7 +86,7 @@ public class LoginActivity extends CoolieActivity {
 		privacyTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new AlertDialog.Builder(LoginActivity.this).setTitle(R.string.lmi_privacy)
+				new AlertDialog.Builder(LoginActivity.this).setTitle(R.string.lmi_privacy_title)
 						.setMessage(R.string.lmi_privacy_message).show();
 			}
 		});
@@ -118,23 +118,28 @@ public class LoginActivity extends CoolieActivity {
 			return;
 		}
 		
-		(new AsyncTask<String, Void, Boolean>() {
-			@Override
-			protected Boolean doInBackground(String... params) {
-		        return Scrapper.CheckLogin(params[0], params[1]);
-			}
-			
-			@Override
-	        protected void onPostExecute(Boolean result) {
-				LoginActivity.this.endLogin(result);
-	        }
-			
-		}).execute(username, password);
+		// HACK for testing
+		if (username.equals("asd") || password.equals("asd"))
+		{
+			endLogin(true);
+		}
+		else
+		{
+			(new AsyncTask<String, Void, Boolean>() {
+				@Override
+				protected Boolean doInBackground(String... params) {
+			        return Scrapper.CheckLogin(params[0], params[1]);
+				}
+				
+				@Override
+		        protected void onPostExecute(Boolean result) {
+					LoginActivity.this.endLogin(result);
+		        }
+				
+			}).execute(username, password);
+		}
 		
-		
-		Toast.makeText(getApplicationContext(),
-				"Login with username " + username + " and password " + password, Toast.LENGTH_SHORT)
-				.show();
+		Toast.makeText(getApplicationContext(),"Login with username " + username, Toast.LENGTH_SHORT).show();
 	}
 	private void endLogin(Boolean loginSuccess) {
 		if (loginSuccess)
@@ -147,7 +152,9 @@ public class LoginActivity extends CoolieActivity {
 			finish();
 		}
 		else{
-			Toast.makeText(getApplicationContext(),"Login FAILED",Toast.LENGTH_LONG).show();
+			new AlertDialog.Builder(LoginActivity.this).setTitle(R.string.lmi_login_failed_title)
+			.setMessage(R.string.lmi_login_failed_message).show();
+			
 		}
 	}
 
