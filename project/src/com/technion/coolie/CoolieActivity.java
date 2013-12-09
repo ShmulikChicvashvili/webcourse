@@ -23,7 +23,6 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.ActionProvider;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -46,15 +45,12 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	ActionBarDrawerToggle mDrawerToggle;
 	View mainLayout;
 	View innerNavBar;
-	int mainLayoutRootId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		//restoreModulesManager();
-		
-		//Always add overflow button
+		restoreModulesManager();
 		try {
 			ViewConfiguration config = ViewConfiguration.get(this);
 			Field menuKeyField = ViewConfiguration.class
@@ -104,11 +100,6 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 	@Override
 	public void setContentView(int layoutResID) {
-		
-		LayoutInflater inf = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = inf.inflate(layoutResID, null);
-		mainLayoutRootId = v.getId();
-		
 		ViewStub vs = (ViewStub) super.findViewById(R.id.skel_layout_container);
 		vs.setLayoutResource(layoutResID);
 		mainLayout = vs.inflate();
@@ -125,10 +116,6 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	// Searches for the view in child views context and main context.
 	@Override
 	public View findViewById(int id) {
-		if (id == mainLayoutRootId)
-		{
-			return mainLayout;
-		}
 		if (mainLayout != null) {
 			if (mainLayout.findViewById(id) == null)
 				return super.findViewById(id);
@@ -230,43 +217,43 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	List<Map<String, String>> GetSampleData() {
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 		Map map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module1);
+		map.put("moduleIcon", R.drawable.am_icon);
 		map.put("moduleName", "module 1");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module2);
+		map.put("moduleIcon", R.drawable.ji_icon);
 		map.put("moduleName", "module 2");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module3);
+		map.put("moduleIcon", R.drawable.lmi_icon);
 		map.put("moduleName", "module 3");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module4);
+		map.put("moduleIcon", R.drawable.stb_icon);
 		map.put("moduleName", "module 4");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module5);
+		map.put("moduleIcon", R.drawable.lib_icon);
 		map.put("moduleName", "module 5");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module6);
+		map.put("moduleIcon", R.drawable.park_icon);
 		map.put("moduleName", "module 6");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module7);
+		map.put("moduleIcon", R.drawable.trad_icon);
 		map.put("moduleName", "module 7");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module8);
+		map.put("moduleIcon", R.drawable.mind_icon);
 		map.put("moduleName", "module 8");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module9);
+		map.put("moduleIcon", R.drawable.tele_icon);
 		map.put("moduleName", "module 9");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module10);
+		map.put("moduleIcon", R.drawable.ug_icon);
 		map.put("moduleName", "module 10");
 		list.add(map);
 
