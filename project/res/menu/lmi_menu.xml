@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
- <item android:id="@+id/lmi_search"
-          android:title="@string/lmi_search"
-          android:icon="@drawable/lmi_ic_action_search"
-          android:showAsAction="collapseActionView|ifRoom"
-          android:actionViewClass="com.actionbarsherlock.widget.SearchView" />
-    
+
+    <item
+        android:id="@+id/lmi_search"
+        android:actionViewClass="com.actionbarsherlock.widget.SearchView"
+        android:icon="@drawable/lmi_ic_action_search"
+        android:showAsAction="collapseActionView|ifRoom"
+        android:title="@string/lmi_search"/>
+    <item
+        android:id="@+id/lmi_add_invitation"
+        android:icon="@drawable/lmi_ic_action_new"
+        android:showAsAction="always"
+        android:title="@string/lmi_add_invitation"/>
+
 </menu>

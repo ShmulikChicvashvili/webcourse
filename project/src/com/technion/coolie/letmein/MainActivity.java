@@ -14,57 +14,69 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.adapters.BaseInvitationAdapter;
 import com.technion.coolie.letmein.model.adapters.InvitationAdapter;
 import com.technion.coolie.letmein.model.adapters.MockInvitationAdapter;
 
-public class MainActivity extends DatabaseActivity implements InvitationListFragment.AdapterSupplier,
-		EmptyInvitationListFragment.OnNewInvitationListener {
+public class MainActivity extends DatabaseActivity implements
+		InvitationListFragment.AdapterSupplier {
 
 	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
 	private BaseInvitationAdapter invitationAdapter;
 
 	private Button loginButton;
 	private boolean isLoggedIn;
-	
+	private boolean isAddInvitationItemVisible = false;
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = this.getSupportMenuInflater();
-	    inflater.inflate(R.menu.lmi_menu, menu);
+		MenuInflater inflater = this.getSupportMenuInflater();
+		inflater.inflate(R.menu.lmi_menu, menu);
 
-	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.lmi_search).getActionView();
-        if (null != searchView )
-        {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            searchView.setIconifiedByDefault(false);   
-        }
+		menu.findItem(R.id.lmi_add_invitation).setVisible(isAddInvitationItemVisible);
 
-        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() 
-        {
-            public boolean onQueryTextChange(String newText) 
-            {
-                // this is your adapter that will be filtered
-                //adapter.getFilter().filter(newText);
-            	Toast.makeText(MainActivity.this, "Gilad FIX ME!!(" + newText + ")", Toast.LENGTH_SHORT).show();
-                return true;
-            }
+		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		SearchView searchView = (SearchView) menu.findItem(R.id.lmi_search).getActionView();
+		if (null != searchView) {
+			searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+			searchView.setIconifiedByDefault(false);
+		}
 
-            public boolean onQueryTextSubmit(String query) 
-            {
-                // this is your adapter that will be filtered
-                //adapter.getFilter().filter(query);
-                Toast.makeText(MainActivity.this, "Gilad FIX ME!!(" + query + ")", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        };
-        searchView.setOnQueryTextListener(queryTextListener);
-        searchView.setQueryHint(getResources().getString(R.string.lmi_search_hint));
+		SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+			public boolean onQueryTextChange(String newText) {
+				// this is your adapter that will be filtered
+				// adapter.getFilter().filter(newText);
+				Toast.makeText(MainActivity.this, "Gilad FIX ME!!(" + newText + ")",
+						Toast.LENGTH_SHORT).show();
+				return true;
+			}
 
-        return super.onCreateOptionsMenu(menu);
-        
+			public boolean onQueryTextSubmit(String query) {
+				// this is your adapter that will be filtered
+				// adapter.getFilter().filter(query);
+				Toast.makeText(MainActivity.this, "Gilad FIX ME!!(" + query + ")",
+						Toast.LENGTH_SHORT).show();
+				return true;
+			}
+		};
+		searchView.setOnQueryTextListener(queryTextListener);
+		searchView.setQueryHint(getResources().getString(R.string.lmi_search_hint));
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.lmi_add_invitation:
+			onNewInvitation();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -88,8 +100,11 @@ public class MainActivity extends DatabaseActivity implements InvitationListFrag
 		// For better performance:
 		isLoggedIn = isLoggedIn || isUserLoggedIn();
 
-		if (isLoggedIn)
+		if (isLoggedIn) {
 			loginButton.setVisibility(View.GONE);
+			isAddInvitationItemVisible = true;
+			supportInvalidateOptionsMenu();
+		}
 
 		new UpdateInvitationsTask().execute();
 	}
@@ -122,7 +137,6 @@ public class MainActivity extends DatabaseActivity implements InvitationListFrag
 				Consts.IS_LOGGED_IN, false);
 	}
 
-	@Override
 	public void onNewInvitation() {
 		startActivity(new Intent(MainActivity.this, InvitationActivity.class));
 	}
