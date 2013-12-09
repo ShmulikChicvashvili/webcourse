@@ -1,11 +1,20 @@
 package com.technion.coolie;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -26,6 +35,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.technion.coolie.skeleton.CoolieModuleManager;
 import com.technion.coolie.skeleton.PreferencesScreen;
 
 public abstract class CoolieActivity extends SherlockFragmentActivity {
@@ -37,39 +47,40 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	View innerNavBar;
 
 	@Override
-	protected void onCreate(final Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		restoreModulesManager();
 		try {
-			final ViewConfiguration config = ViewConfiguration.get(this);
-			final Field menuKeyField = ViewConfiguration.class
-					.getDeclaredField("sHasPermanentMenuKey");
+			ViewConfiguration config = ViewConfiguration.get(this);
+			Field menuKeyField = ViewConfiguration.class
+			.getDeclaredField("sHasPermanentMenuKey");
 			if (menuKeyField != null) {
-				menuKeyField.setAccessible(true);
-				menuKeyField.setBoolean(config, false);
+			menuKeyField.setAccessible(true);
+			menuKeyField.setBoolean(config, false);
 			}
-		} catch (final Exception e) {
+			} catch (Exception e) {
 			e.printStackTrace();
-		}
-
+			}
+	
 		super.setContentView(R.layout.skel_navigation_drawer);
 		createNavBar();
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(final Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
 		return handleActionBar(menu);
 	}
 
 	@Override
-	protected void onPostCreate(final Bundle savedInstanceState) {
+	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
 		mDrawerToggle.syncState();
 	}
 
 	@Override
-	public void onConfigurationChanged(final Configuration newConfig) {
+	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
@@ -79,30 +90,32 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		// Pass the event to ActionBarDrawerToggle, if it returns
 		// true, then it has handled the app icon touch event
 
-		if (mDrawerToggle.onOptionsItemSelected(getMenuItem(item)))
+		if (mDrawerToggle.onOptionsItemSelected(getMenuItem(item))) {
 			return true;
+		}
+		// Handle your other action bar items...
 
 		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
-	public void setContentView(final int layoutResID) {
-		final ViewStub vs = (ViewStub) super.findViewById(R.id.skel_layout_container);
+	public void setContentView(int layoutResID) {
+		ViewStub vs = (ViewStub) super.findViewById(R.id.skel_layout_container);
 		vs.setLayoutResource(layoutResID);
 		mainLayout = vs.inflate();
 	}
 
 	@Override
-	public void onSaveInstanceState(final Bundle savedInstanceState) {
+	public void onSaveInstanceState(Bundle savedInstanceState) {
 	}
 
 	@Override
-	public void onRestoreInstanceState(final Bundle savedInstanceState) {
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
 	}
 
 	// Searches for the view in child views context and main context.
 	@Override
-	public View findViewById(final int id) {
+	public View findViewById(int id) {
 		if (mainLayout != null) {
 			if (mainLayout.findViewById(id) == null)
 				return super.findViewById(id);
@@ -122,24 +135,25 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	}
 
 	// Adds "About" and "Settings" buttons in the ActionBar
-	private boolean handleActionBar(final Menu menu) {
-		final MenuItem settings = menu.add("Settings");
+	private boolean handleActionBar(Menu menu) {
+		MenuItem settings = menu.add("Settings");
 		settings.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 		settings.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
-			public boolean onMenuItemClick(final MenuItem item) {
-				final Intent intent = new Intent(CoolieActivity.this, PreferencesScreen.class);
+			public boolean onMenuItemClick(MenuItem item) {
+				Intent intent = new Intent(CoolieActivity.this,
+						PreferencesScreen.class);
 				startActivity(intent);
 				return false;
 			}
 		});
 
-		final MenuItem about = menu.add("About");
+		MenuItem about = menu.add("About");
 		about.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 		about.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
 			@Override
-			public boolean onMenuItemClick(final MenuItem item) {
+			public boolean onMenuItemClick(MenuItem item) {
 				// TODO open about screen
 				return false;
 			}
@@ -149,14 +163,17 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 	// Creates the NavigationDrawer and sets the modules list content.
 	private void createNavBar() {
-		final List<Map<String, String>> data = GetSampleData();
-		mDrawerLayout = (DrawerLayout) super.findViewById(R.id.skel_drawer_layout);
+		List<Map<String, String>> data = GetSampleData();
+		mDrawerLayout = (DrawerLayout) super
+				.findViewById(R.id.skel_drawer_layout);
 		mDrawerView = (LinearLayout) super.findViewById(R.id.skel_left_drawer);
 
-		final SimpleAdapter adapter = new SimpleAdapter(this, data, R.layout.skel_listitem_row,
-				new String[] { "moduleIcon", "moduleName" }, new int[] { R.id.skel_moduleIcon,
+		SimpleAdapter adapter = new SimpleAdapter(this, data,
+				R.layout.skel_listitem_row, new String[] { "moduleIcon",
+						"moduleName" }, new int[] { R.id.skel_moduleIcon,
 						R.id.skel_moduleName });
-		mDrawerModulesList = ((ListView) mDrawerView.findViewById(R.id.skel_modules_left_list));
+		mDrawerModulesList = ((ListView) mDrawerView
+				.findViewById(R.id.skel_modules_left_list));
 		mDrawerModulesList.setAdapter(adapter);
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
@@ -166,7 +183,7 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		R.string.drawer_close /* "close drawer" description */
 		) {
 			@Override
-			public void onDrawerOpened(final View drawerView) {
+			public void onDrawerOpened(View drawerView) {
 				drawerView.requestFocus();
 				super.onDrawerOpened(drawerView);
 			}
@@ -189,53 +206,54 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	 *            the NavigationDrawer.
 	 * @return reference to your inner navigation view.
 	 */
-	protected View addInnerNavigationDrawer(final int layoutResID) {
-		final ViewStub vs = (ViewStub) super.findViewById(R.id.skel_inner_module_nav_container);
+	protected View addInnerNavigationDrawer(int layoutResID) {
+		ViewStub vs = (ViewStub) super
+				.findViewById(R.id.skel_inner_module_nav_container);
 		vs.setLayoutResource(layoutResID);
 		innerNavBar = vs.inflate();
 		return innerNavBar;
 	}
 
 	List<Map<String, String>> GetSampleData() {
-		final List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("moduleIcon", String.valueOf(R.drawable.skel_module1));
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		Map map = new HashMap();
+		map.put("moduleIcon", R.drawable.skel_module1);
 		map.put("moduleName", "module 1");
 		list.add(map);
-		map = new HashMap<String, String>();
-		map.put("moduleIcon", String.valueOf(R.drawable.skel_module2));
+		map = new HashMap();
+		map.put("moduleIcon", R.drawable.skel_module2);
 		map.put("moduleName", "module 2");
 		list.add(map);
-		map = new HashMap<String, String>();
-		map.put("moduleIcon", String.valueOf(R.drawable.skel_module3));
+		map = new HashMap();
+		map.put("moduleIcon", R.drawable.skel_module3);
 		map.put("moduleName", "module 3");
 		list.add(map);
-		map = new HashMap<String, String>();
-		map.put("moduleIcon", String.valueOf(R.drawable.skel_module4));
+		map = new HashMap();
+		map.put("moduleIcon", R.drawable.skel_module4);
 		map.put("moduleName", "module 4");
 		list.add(map);
-		map = new HashMap<String, String>();
-		map.put("moduleIcon", String.valueOf(R.drawable.skel_module5));
+		map = new HashMap();
+		map.put("moduleIcon", R.drawable.skel_module5);
 		map.put("moduleName", "module 5");
 		list.add(map);
-		map = new HashMap<String, String>();
-		map.put("moduleIcon", String.valueOf(R.drawable.skel_module6));
+		map = new HashMap();
+		map.put("moduleIcon", R.drawable.skel_module6);
 		map.put("moduleName", "module 6");
 		list.add(map);
-		map = new HashMap<String, String>();
-		map.put("moduleIcon", String.valueOf(R.drawable.skel_module7));
+		map = new HashMap();
+		map.put("moduleIcon", R.drawable.skel_module7);
 		map.put("moduleName", "module 7");
 		list.add(map);
-		map = new HashMap<String, String>();
-		map.put("moduleIcon", String.valueOf(R.drawable.skel_module8));
+		map = new HashMap();
+		map.put("moduleIcon", R.drawable.skel_module8);
 		map.put("moduleName", "module 8");
 		list.add(map);
-		map = new HashMap<String, String>();
-		map.put("moduleIcon", String.valueOf(R.drawable.skel_module9));
+		map = new HashMap();
+		map.put("moduleIcon", R.drawable.skel_module9);
 		map.put("moduleName", "module 9");
 		list.add(map);
-		map = new HashMap<String, String>();
-		map.put("moduleIcon", String.valueOf(R.drawable.skel_module10));
+		map = new HashMap();
+		map.put("moduleIcon", R.drawable.skel_module10);
 		map.put("moduleName", "module 10");
 		list.add(map);
 
@@ -249,7 +267,6 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 				return item.getItemId();
 			}
 
-			@Override
 			public boolean isEnabled() {
 				return true;
 			}
@@ -350,106 +367,180 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 			}
 
 			@Override
-			public android.view.MenuItem setActionProvider(final ActionProvider actionProvider) {
+			public android.view.MenuItem setActionProvider(
+					ActionProvider actionProvider) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setActionView(final View view) {
+			public android.view.MenuItem setActionView(View view) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setActionView(final int resId) {
+			public android.view.MenuItem setActionView(int resId) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setAlphabeticShortcut(final char alphaChar) {
+			public android.view.MenuItem setAlphabeticShortcut(char alphaChar) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setCheckable(final boolean checkable) {
+			public android.view.MenuItem setCheckable(boolean checkable) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setChecked(final boolean checked) {
+			public android.view.MenuItem setChecked(boolean checked) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setEnabled(final boolean enabled) {
+			public android.view.MenuItem setEnabled(boolean enabled) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setIcon(final Drawable icon) {
+			public android.view.MenuItem setIcon(Drawable icon) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setIcon(final int iconRes) {
+			public android.view.MenuItem setIcon(int iconRes) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setIntent(final Intent intent) {
+			public android.view.MenuItem setIntent(Intent intent) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setNumericShortcut(final char numericChar) {
+			public android.view.MenuItem setNumericShortcut(char numericChar) {
 				return null;
 			}
 
 			@Override
 			public android.view.MenuItem setOnActionExpandListener(
-					final OnActionExpandListener listener) {
+					OnActionExpandListener listener) {
 				return null;
 			}
 
 			@Override
 			public android.view.MenuItem setOnMenuItemClickListener(
-					final OnMenuItemClickListener menuItemClickListener) {
+					OnMenuItemClickListener menuItemClickListener) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setShortcut(final char numericChar, final char alphaChar) {
+			public android.view.MenuItem setShortcut(char numericChar,
+					char alphaChar) {
 				return null;
 			}
 
 			@Override
-			public void setShowAsAction(final int actionEnum) {
+			public void setShowAsAction(int actionEnum) {
 
 			}
 
 			@Override
-			public android.view.MenuItem setShowAsActionFlags(final int actionEnum) {
+			public android.view.MenuItem setShowAsActionFlags(int actionEnum) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setTitle(final CharSequence title) {
+			public android.view.MenuItem setTitle(CharSequence title) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setTitle(final int title) {
+			public android.view.MenuItem setTitle(int title) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setTitleCondensed(final CharSequence title) {
+			public android.view.MenuItem setTitleCondensed(CharSequence title) {
 				return null;
 			}
 
 			@Override
-			public android.view.MenuItem setVisible(final boolean visible) {
+			public android.view.MenuItem setVisible(boolean visible) {
 				return null;
 			}
 		};
 	}
+	
+
+	@Override
+	protected void onDestroy() {
+		serializeModulesManager();
+		super.onDestroy();
+	}
+	
+	/* used to save all the data relevant for the module,
+	 * so next run we get them again and display them.
+	 * data saved includes name, feeds, usageCount, ...
+	 * called in onDestroy.
+	 */
+	private void serializeModulesManager(){
+		try {
+			FileOutputStream fos = openFileOutput("modules.ser", Context.MODE_PRIVATE);
+			ObjectOutputStream out = new ObjectOutputStream(fos);
+			out.writeObject(CoolieModuleManager.values());
+			out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/* used to restore all the data relevant for the module,
+	 * so we display the updated data...
+	 * data includes name, feeds, usageCount, ...
+	 * called in onCreate.
+	 */
+
+	private void restoreModulesManager(){
+		FileInputStream fileIn;
+		CoolieModuleManager[] arr = null;
+		try {
+			
+			fileIn = openFileInput("modules.ser");
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			arr = (CoolieModuleManager[]) in.readObject();
+			
+			for(CoolieModuleManager c : arr){
+				CoolieModuleManager.valueOf(c.name()).serilize(c);
+			}
+			
+			in.close();
+			fileIn.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (StreamCorruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+	}
+	
+	
 }
+
