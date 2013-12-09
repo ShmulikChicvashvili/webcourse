@@ -6,8 +6,10 @@ import java.util.Comparator;
 import com.technion.coolie.R;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -77,11 +79,23 @@ public class RecentlyUsedAdapter extends BaseAdapter {
 			holder = (ViewHolder) v.getTag();
 		}
 
-		CoolieModule curr = modules[position];
+		final CoolieModule curr = modules[position];
 		holder.title.setText(curr.getName(mContext));
 		holder.desc.setText(curr.getDescription(mContext));
 		holder.icon.setImageResource(curr.getPhotoRes());
+		
+		v.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+		           Intent intent = new Intent(mContext, curr.getActivity());
+		           mContext.startActivity(intent);
+				
+			}
+		});
 		return v;
 	}
+	
+	
 
 }
