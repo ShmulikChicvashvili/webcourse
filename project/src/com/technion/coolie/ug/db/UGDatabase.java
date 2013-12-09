@@ -24,6 +24,8 @@ public enum UGDatabase {
 	private List<RegistrationGroup> groups; // TODO delete this.
 	private List<Course> allCourses;
 	private List<String> allCoursesNames;
+	private Semester[] currentSemesters;
+	private SemesterSeason currentSeason;
 
 	private LinkedHashMap<CourseKey, Course> coursesHash;
 
@@ -51,6 +53,15 @@ public enum UGDatabase {
 										2014, 2, 11), new GregorianCalendar(
 										2014, 2, 11), null, null, groups)));
 
+		currentSeason = SemesterSeason.WINTER;
+		currentSemesters = new Semester[3];
+		currentSemesters[SemesterSeason.SPRING.getIdx()] = new Semester(2012,
+				SemesterSeason.SPRING);
+		currentSemesters[SemesterSeason.SUMMER.getIdx()] = new Semester(2012,
+				SemesterSeason.SUMMER);
+		currentSemesters[SemesterSeason.WINTER.getIdx()] = new Semester(2013,
+				SemesterSeason.WINTER);
+
 		currentStudent = null;
 		coursesHash = new LinkedHashMap<CourseKey, Course>();
 		for (Course course : allCourses)
@@ -67,6 +78,13 @@ public enum UGDatabase {
 		return allCourses;
 	}
 
+	public Semester getRelevantSemester(SemesterSeason season) {
+		return currentSemesters[season.getIdx()];
+	}
+
+	public Semester getCurrentSemester() {
+		return currentSemesters[currentSeason.getIdx()];
+	}
 	// public List<String> getCoursesNames() {
 	// return allCoursesNames;
 	// }

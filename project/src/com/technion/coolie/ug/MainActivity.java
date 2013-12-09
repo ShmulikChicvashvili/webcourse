@@ -1,10 +1,8 @@
 package com.technion.coolie.ug;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import com.technion.coolie.CoolieActivity;
-import com.technion.coolie.ug.gui.searchCourses.SearchActivity;
 
 public class MainActivity extends CoolieActivity {
 
@@ -13,9 +11,9 @@ public class MainActivity extends CoolieActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setContentView(R.layout.ug_main_screen_tablet_vertical);
+		// setContentView(R.layout.ug_search_fragment_try);
 
-		startActivity(new Intent(this, SearchActivity.class));
+		// startActivity(new Intent(this, SearchFragmentActivity.class));
 		// startActivity(new Intent(this, GradesSheetActivity.class));
 	}
 

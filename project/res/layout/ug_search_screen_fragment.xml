@@ -26,32 +26,52 @@
         
         <LinearLayout 
     	 android:layout_width="match_parent"
-    	 android:layout_height="wrap_content"
+    	 android:layout_height="40dip"
   	 	 android:orientation="horizontal"
-   		 android:background="#ffff"
+   		 
     	 >
         
             <Spinner
+                android:id="@+id/ug_search_faculty_spinner"
                  android:layout_width="0dp"
 			android:layout_height="match_parent" 
-			android:layout_weight="6"/>
-        
+			android:layout_weight="15"
+			android:background="#9122"
+			android:layout_marginRight="5dip"
+			style="@style/AppBaseTheme"/>
+            
+            <Spinner
+                android:id="@+id/ug_search_semester_spinner"
+                 android:layout_width="0dp"
+			android:layout_height="match_parent" 
+			android:layout_weight="10"
+			android:background="#9122"
+			android:layout_marginRight="5dip"
+			style="@style/AppBaseTheme"/>
+            
+            
+        <RelativeLayout 
+    
+    		android:layout_width="0dp"
+   		 	android:layout_height="match_parent"
+    		android:background="#ffff"
+    		android:layout_weight="32" >
+    		
 	        <AutoCompleteTextView
 			android:id="@+id/autocompletetextview"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
 			android:hint="@string/serach_course_hint" 
-			android:textSize="30sp"
+			android:textSize="20sp"
 			android:background="#FFF"
 			android:imeOptions="actionSearch"
 			android:inputType="text"
-			android:layout_weight="32"
+			android:layout_marginRight="10dip"
+			
+			
 			/>
-
-	        <View
-	       		android:layout_width="0dp"
-				android:layout_height="match_parent"  
-			android:layout_weight="1"/>
+	        </RelativeLayout>
+	        
 	        
 	        
 	   </LinearLayout>		  
