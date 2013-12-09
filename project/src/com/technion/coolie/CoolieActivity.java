@@ -35,7 +35,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
-import com.technion.coolie.skeleton.CoolieModuleManager;
+import com.technion.coolie.skeleton.CoolieModule;
 import com.technion.coolie.skeleton.PreferencesScreen;
 
 public abstract class CoolieActivity extends SherlockFragmentActivity {
@@ -217,43 +217,43 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	List<Map<String, String>> GetSampleData() {
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 		Map map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module1);
+		map.put("moduleIcon", R.drawable.am_icon);
 		map.put("moduleName", "module 1");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module2);
+		map.put("moduleIcon", R.drawable.ji_icon);
 		map.put("moduleName", "module 2");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module3);
+		map.put("moduleIcon", R.drawable.lmi_icon);
 		map.put("moduleName", "module 3");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module4);
+		map.put("moduleIcon", R.drawable.stb_icon);
 		map.put("moduleName", "module 4");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module5);
+		map.put("moduleIcon", R.drawable.lib_icon);
 		map.put("moduleName", "module 5");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module6);
+		map.put("moduleIcon", R.drawable.park_icon);
 		map.put("moduleName", "module 6");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module7);
+		map.put("moduleIcon", R.drawable.trad_icon);
 		map.put("moduleName", "module 7");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module8);
+		map.put("moduleIcon", R.drawable.mind_icon);
 		map.put("moduleName", "module 8");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module9);
+		map.put("moduleIcon", R.drawable.tele_icon);
 		map.put("moduleName", "module 9");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module10);
+		map.put("moduleIcon", R.drawable.ug_icon);
 		map.put("moduleName", "module 10");
 		list.add(map);
 
@@ -488,7 +488,7 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		try {
 			FileOutputStream fos = openFileOutput("modules.ser", Context.MODE_PRIVATE);
 			ObjectOutputStream out = new ObjectOutputStream(fos);
-			out.writeObject(CoolieModuleManager.values());
+			out.writeObject(CoolieModule.values());
 			out.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -508,15 +508,15 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 	private void restoreModulesManager(){
 		FileInputStream fileIn;
-		CoolieModuleManager[] arr = null;
+		CoolieModule[] arr = null;
 		try {
 			
 			fileIn = openFileInput("modules.ser");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
-			arr = (CoolieModuleManager[]) in.readObject();
+			arr = (CoolieModule[]) in.readObject();
 			
-			for(CoolieModuleManager c : arr){
-				CoolieModuleManager.valueOf(c.name()).serilize(c);
+			for(CoolieModule c : arr){
+				CoolieModule.valueOf(c.name()).serilize(c);
 			}
 			
 			in.close();
