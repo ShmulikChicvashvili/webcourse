@@ -6,20 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.technion.coolie.R;
-import com.technion.coolie.skeleton.PreferencesScreen;
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
-
 import android.view.ActionProvider;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.SubMenu;
@@ -29,6 +21,12 @@ import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.technion.coolie.skeleton.PreferencesScreen;
 
 public abstract class CoolieActivity extends SherlockFragmentActivity {
 	private DrawerLayout mDrawerLayout;
@@ -45,15 +43,15 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		try {
 			ViewConfiguration config = ViewConfiguration.get(this);
 			Field menuKeyField = ViewConfiguration.class
-			.getDeclaredField("sHasPermanentMenuKey");
+					.getDeclaredField("sHasPermanentMenuKey");
 			if (menuKeyField != null) {
-			menuKeyField.setAccessible(true);
-			menuKeyField.setBoolean(config, false);
+				menuKeyField.setAccessible(true);
+				menuKeyField.setBoolean(config, false);
 			}
-			} catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			}
-	
+		}
+
 		super.setContentView(R.layout.skel_navigation_drawer);
 		createNavBar();
 	}
@@ -258,6 +256,7 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 				return item.getItemId();
 			}
 
+			@Override
 			public boolean isEnabled() {
 				return true;
 			}
