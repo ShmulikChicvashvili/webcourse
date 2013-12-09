@@ -24,6 +24,11 @@ public final class Contract {
 		public static final String CONTACT_ID = "contactId";
 		public static final String DATE = "date";
 		public static final String STATUS = "status";
+		public static final String FRIEND_NAME = "friendName";
+		public static final String FRIEND_CELLPHONE = "friendCellphone";
+		public static final String CAR_NUMBER = "carNumber";
+		public static final String CAR_COMPANY = "carCompany";
+		public static final String CAR_COLOR = "carColor";
 
 		// Content URI pattern code
 		public static final int CONTENT_URI_PATTERN_MANY = 1;

@@ -26,6 +26,21 @@ public class Invitation {
 	@DatabaseField
 	private Status status;
 
+	@DatabaseField
+	private String friendName;
+
+	@DatabaseField
+	private String friendCellphone;
+
+	@DatabaseField
+	private String carNumber;
+
+	@DatabaseField
+	private String carCompany;
+
+	@DatabaseField
+	private String carColor;
+
 	public enum Status {
 		CREATED, SENT
 	}
@@ -60,4 +75,45 @@ public class Invitation {
 	public void setStatus(final Status status) {
 		this.status = status;
 	}
+
+	public String getFriendName() {
+		return friendName;
+	}
+
+	public void setFriendName(String friendName) {
+		this.friendName = friendName;
+	}
+
+	public String getFriendCellphone() {
+		return friendCellphone;
+	}
+
+	public void setFriendCellphone(String friendCellphone) {
+		this.friendCellphone = friendCellphone;
+	}
+
+	public String getCarNumber() {
+		return carNumber;
+	}
+
+	public void setCarNumber(String carNumber) {
+		this.carNumber = carNumber;
+	}
+
+	public String getCarCompany() {
+		return this.carCompany;
+	}
+
+	public void setCarCompany(String carCompany) {
+		this.carCompany = carCompany;
+	}
+
+	public String getCarColor() {
+		return carColor;
+	}
+
+	public void setCarColor(String carColor) {
+		this.carColor = carColor;
+	}
+
 }

@@ -30,5 +30,6 @@
     <string name="lmi_friend_car_color_edit">Car color</string>
     <string name="lmi_time_of_arrival">Time of arrival</string>
     <string name="lmi_date_of_arrival">Date of arrival</string>
+    <string name="lmi_execute_invitation">Let him in!</string>
 
 </resources>

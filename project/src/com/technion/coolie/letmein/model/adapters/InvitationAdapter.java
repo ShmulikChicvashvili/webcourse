@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.Consts;
+import com.technion.coolie.letmein.model.Contract;
 import com.technion.coolie.letmein.model.Invitation;
 import com.technion.coolie.letmein.model.InvitationDatabaseHelper;
 
@@ -15,6 +16,7 @@ public class InvitationAdapter extends BaseInvitationAdapter {
 	private static final long NUM_ITEMS_TO_LOAD = 20;
 	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
 	private final List<Invitation> invitations;
+	private final InvitationDatabaseHelper databaseHelper;
 
 	private List<Invitation> getInvitations(final InvitationDatabaseHelper databaseHelper) {
 		try {
@@ -28,6 +30,7 @@ public class InvitationAdapter extends BaseInvitationAdapter {
 
 	public InvitationAdapter(final Context context, final InvitationDatabaseHelper databaseHelper) {
 		super(context);
+		this.databaseHelper = databaseHelper;
 		invitations = getInvitations(databaseHelper);
 	}
 
@@ -38,9 +41,22 @@ public class InvitationAdapter extends BaseInvitationAdapter {
 
 	@Override
 	protected ContactView getContactViewById(final String contactId) {
+		Invitation i;
+
+		try {
+			i = databaseHelper.getDataDao().queryBuilder().where()
+					.eq(Contract.Invitation.CONTACT_ID, contactId).queryForFirst();
+		} catch (SQLException e) {
+			Log.e(LOG_TAG,
+					"getContactViewById(String contactId): Couldn't get invitation by contactId", e);
+			throw new RuntimeException(e);
+		}
+
 		final ContactView $ = new ContactView();
-		$.ContactName = "Contact Name";
+
+		$.ContactName = i.getFriendName();
 		$.ContactImageId = R.drawable.lmi_facebook_man;
+
 		return $;
 	}
 }

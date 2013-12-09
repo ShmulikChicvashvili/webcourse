@@ -15,30 +15,19 @@ import android.widget.Toast;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.widget.SearchView;
-import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
-import com.technion.coolie.letmein.model.InvitationDatabaseHelper;
 import com.technion.coolie.letmein.model.adapters.BaseInvitationAdapter;
 import com.technion.coolie.letmein.model.adapters.InvitationAdapter;
 import com.technion.coolie.letmein.model.adapters.MockInvitationAdapter;
 
-public class MainActivity extends CoolieActivity implements InvitationListFragment.AdapterSupplier,
+public class MainActivity extends DatabaseActivity implements InvitationListFragment.AdapterSupplier,
 		EmptyInvitationListFragment.OnNewInvitationListener {
 
 	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
-	private InvitationDatabaseHelper databaseHelper = null;
 	private BaseInvitationAdapter invitationAdapter;
 
 	private Button loginButton;
 	private boolean isLoggedIn;
-
-	private InvitationDatabaseHelper getHelper() {
-		if (databaseHelper == null)
-			databaseHelper = OpenHelperManager.getHelper(this, InvitationDatabaseHelper.class);
-
-		return databaseHelper;
-	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,15 +79,6 @@ public class MainActivity extends CoolieActivity implements InvitationListFragme
 				startActivity(new Intent(MainActivity.this, LoginActivity.class));
 			}
 		});
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (databaseHelper != null) {
-			OpenHelperManager.releaseHelper();
-			databaseHelper = null;
-		}
 	}
 
 	@Override
