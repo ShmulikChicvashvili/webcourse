@@ -3,6 +3,7 @@ package com.technion.coolie.letmein.model.adapters;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.text.format.DateUtils;
@@ -123,9 +124,12 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 					return $;
 				}
 
+				final String lowerCaseConstraint = constraint.toString().toLowerCase(
+						Locale.getDefault());
 				final List<Invitation> filtered = new LinkedList<Invitation>();
 				for (final Invitation i : getFullDataset())
-					if (i.getContactName().startsWith(constraint.toString()))
+					if (i.getContactName().toLowerCase(Locale.getDefault())
+							.startsWith(lowerCaseConstraint))
 						filtered.add(i);
 
 				$.values = filtered;

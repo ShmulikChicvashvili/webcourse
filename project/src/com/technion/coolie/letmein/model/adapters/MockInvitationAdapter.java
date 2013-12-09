@@ -19,14 +19,16 @@ public class MockInvitationAdapter extends BaseInvitationAdapter {
 		final Calendar c = Calendar.getInstance();
 
 		c.add(Calendar.HOUR_OF_DAY, 9);
-		final Invitation dad = Invitation.builder().contactId("dad").date(c.getTime()).build();
+		final Invitation dad = Invitation.builder().contactId("dad").contactName("Dad")
+				.date(c.getTime()).build();
 
 		c.add(Calendar.DAY_OF_YEAR, 2);
-		final Invitation friend = Invitation.builder().contactId("friend").date(c.getTime())
-				.build();
+		final Invitation friend = Invitation.builder().contactId("friend")
+				.contactName("My best friend").date(c.getTime()).build();
 
 		c.add(Calendar.WEEK_OF_YEAR, 1);
-		final Invitation abed = Invitation.builder().contactId("abed").date(c.getTime()).build();
+		final Invitation abed = Invitation.builder().contactId("abed").contactName("Abed")
+				.date(c.getTime()).build();
 
 		return Arrays.asList(dad, friend, abed);
 	}
