@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -27,6 +28,9 @@ public class MainActivity extends DatabaseActivity implements
 	private BaseInvitationAdapter invitationAdapter;
 
 	private Button loginButton;
+	private TextView welcomeMessageTextView;
+	private Button watchDemoButton;
+
 	private boolean isLoggedIn;
 	private boolean isAddInvitationItemVisible = false;
 
@@ -86,6 +90,15 @@ public class MainActivity extends DatabaseActivity implements
 				startActivity(new Intent(MainActivity.this, LoginActivity.class));
 			}
 		});
+
+		welcomeMessageTextView = (TextView) findViewById(R.id.lmi_welcome_message);
+		watchDemoButton = (Button) findViewById(R.id.lmi_watch_demo_button);
+		watchDemoButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(MainActivity.this, DemoActivity.class));
+			}
+		});
 	}
 
 	@Override
@@ -97,6 +110,9 @@ public class MainActivity extends DatabaseActivity implements
 
 		if (isLoggedIn) {
 			loginButton.setVisibility(View.GONE);
+			welcomeMessageTextView.setVisibility(View.GONE);
+			watchDemoButton.setVisibility(View.GONE);
+
 			isAddInvitationItemVisible = true;
 			supportInvalidateOptionsMenu();
 		}
