@@ -2,19 +2,27 @@ package com.technion.coolie.assignmentor;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.TimeZone;
+
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.CalendarContract.Calendars;
+import android.provider.CalendarContract.Events;
 import android.text.SpannableString;
 import android.text.style.StrikethroughSpan;
 import android.util.Log;
@@ -41,6 +49,26 @@ import com.technion.coolie.assignmentor.TaskSettings.TaskSettingsFragment;
 import com.technion.coolie.CollieNotification;
 
 public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemClickListener {
+	
+	// Projection array. Creating indices for this array instead of doing
+	// dynamic lookups improves performance.
+	
+	/* ****************************************************************************** */
+	/* We need to considered whether we want to support syncing with google calendar  */ 
+	/* for devices with api lower than 14!											  */
+	/* ****************************************************************************** */
+	public static final String[] EVENT_PROJECTION = new String[] {
+		Calendars._ID,							// 0
+		Calendars.ACCOUNT_NAME, 				// 1
+		Calendars.CALENDAR_DISPLAY_NAME,		// 2
+		Calendars.OWNER_ACCOUNT
+	};
+	
+	// The indices for the projection array above.
+	private static final int PROJECTION_ID_INDEX = 0;
+	private static final int PROJECTION_ACCOUNT_NAME_INDEX = 1;
+	private static final int PROJECTION_DISPLAY_NAME_INDEX = 2;
+	private static final int PROJECTION_OWNER_ACCOUNT_INDEX = 3;
 	
 	private static final int NEW_TASK_REQUEST = 3535;
 	private static final int TASK_SETTINGS_REQUEST = 4545;
@@ -247,6 +275,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 				
 			case R.id.action_sort_by_imp:
 				Toast.makeText(this, "Sorting By Importance Level", Toast.LENGTH_SHORT).show();
+//				mAdapter.insertToCalendar((TasksInfo)mAdapter.getItem(0));
 				break;
 				
 			case R.id.action_sort_by_prog:
@@ -302,7 +331,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 	}
 	
 	class MyAdapter extends BaseAdapter implements ViewSwitcher.ViewFactory {
-
+		
 		private Context context;
 		private LayoutInflater inflater;
 		ArrayList<TasksInfo> myItems;
@@ -313,25 +342,26 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		
 		public MyAdapter(Context c) {
 			this.context = c;
+	
 			this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
 			totalNumOfTasks = 0;
 			numOfDoneTasks = 0;
 			
 			myItems = new ArrayList<TasksInfo>();
-			String taskName = "H.W ";
-			String courseName = "Android Project ";
-			String courseId = "236503 ";
-			String dueDate = "Due Date ";
-			
-			for(int i=0; i<9; i++) {
-				Integer j = i + 1;
-				String index = j.toString();
-				
-				TasksInfo newTask = new TasksInfo(new SpannableString(taskName + index), courseName + index, courseId + index, dueDate + index);
-				myItems.add(newTask);
-				totalNumOfTasks++;
-			}
+//			String taskName = "H.W ";
+//			String courseName = "Android Project ";
+//			String courseId = "236503 ";
+//			String dueDate = "Due Date ";
+//			
+//			for(int i=0; i<9; i++) {
+//				Integer j = i + 1;
+//				String index = j.toString();
+//				
+//				TasksInfo newTask = new TasksInfo(new SpannableString(taskName + index), courseName + index, courseId + index, dueDate + index);
+//				myItems.add(newTask);
+//				totalNumOfTasks++;
+//			}
 			fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
 			fadeIn.setDuration(1000);
 			fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
@@ -455,6 +485,11 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 					MainActivity.this, CollieNotification.Priority.IMMEDIATELY, 
 					true, getApplicationContext());
 			cn.sendNotification();
+			
+			// If a due date is present, insert to calendar.
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			boolean sync = prefs.getBoolean(GeneralSettings.KEY_GS_CALENDAR_SYNC, false);
+			if (sync && checkDueDate(fetchedTask.dueDate)) insertToCalendar(fetchedTask);
 		}
 		
 		public void updateView() {
@@ -505,7 +540,99 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			
 			updateView();
 		}
-
+		
+		@SuppressLint("NewApi")
+		private void insertToCalendar(TasksInfo newTask) {
+			// Run query.
+			Cursor cur = null;
+			ContentResolver cr = getContentResolver();
+			Uri uri = Calendars.CONTENT_URI;
+			String selection = "((" + Calendars.ACCOUNT_NAME + " GLOB ?) AND ("
+					+ Calendars.ACCOUNT_TYPE + " GLOB ?) AND ("
+					+ Calendars.OWNER_ACCOUNT + " GLOB ?))";
+			// Set selection args to find only the Google accounts, since we're interested only
+			// in adding events to google calendar.
+			String[] selectionArgs = new String[] {"*gmail.com", "com.google", 
+					"*gmail.com"};
+			
+			// Submit the query and get the cursor object back.
+			cur = cr.query(uri, EVENT_PROJECTION, selection, selectionArgs, null);
+			
+			// Store the google calendars ids in array list, in case the user has more
+			// than one google calendar.
+			ArrayList<Long> calendarIds = new ArrayList<Long>();
+			
+			// Use the cursor to step through the returned records.
+			while(cur.moveToNext()) {
+				long CalID = 0;
+				String displayName = null;
+				String accountName = null;
+				String ownerName = null;
+				
+				// Get the field values.
+				CalID = cur.getLong(PROJECTION_ID_INDEX);
+				displayName = cur.getString(PROJECTION_DISPLAY_NAME_INDEX);
+				accountName = cur.getString(PROJECTION_ACCOUNT_NAME_INDEX);
+				ownerName = cur.getString(PROJECTION_OWNER_ACCOUNT_INDEX);
+				
+				calendarIds.add(CalID);
+				
+				Log.i(AM_TAG, "** CalID = " + String.valueOf(CalID) + " displayName = " + displayName
+						+ " accountName = " + accountName + " ownerName = " + ownerName);
+			}
+			
+			String eventTitle = newTask.courseId + " " + newTask.courseName + " - " + newTask.taskName;
+			int[] dayMonthYear = dueDateIntArr(newTask.dueDate);
+			
+			for (Long id : calendarIds) {
+				Log.i(AM_TAG, "Inserting Task: " + eventTitle
+						+ " To calendar: " + String.valueOf(id));
+				long startMillis = 0;
+				long endMillis = 0;
+				Calendar beginTime = Calendar.getInstance();
+				beginTime.set(dayMonthYear[2], dayMonthYear[1], dayMonthYear[0], 9, 0);
+				startMillis = beginTime.getTimeInMillis();
+				Calendar endTime = Calendar.getInstance();
+				endTime.set(dayMonthYear[2], dayMonthYear[1], 
+						dayMonthYear[0], 10, 0);
+				endMillis = endTime.getTimeInMillis();
+				
+				ContentResolver mCr = getContentResolver();
+				ContentValues values = new ContentValues();
+				values.put(Events.DTSTART, startMillis);
+				values.put(Events.DTEND, endMillis);
+				values.put(Events.TITLE, eventTitle);
+				values.put(Events.DESCRIPTION, newTask.courseId + " " + newTask.courseName);
+				values.put(Events.CALENDAR_ID, id);
+				values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getDisplayName());
+				Uri mUri = mCr.insert(Events.CONTENT_URI, values);
+				
+				// Get the event id and save it.
+				newTask.eventID = Long.parseLong(mUri.getLastPathSegment());
+			}
+		}
+		
+		private int[] dueDateIntArr(String dueDate) {
+			String[] dueDateStringArr = dueDate.split("/");
+			int[] dayMonthYear = new int[3];
+			dayMonthYear[0] = Integer.valueOf(dueDateStringArr[0].trim());
+			dayMonthYear[1] = Integer.valueOf(dueDateStringArr[1].trim());
+			// Months are 0-based when setting calendar time.
+			dayMonthYear[1] = dayMonthYear[1] - 1;
+			dayMonthYear[2] = Integer.valueOf(dueDateStringArr[2].trim());
+			return dayMonthYear;
+		}
+		
+		private boolean checkDueDate(String dueDate) {
+			if (dueDate == null || dueDate.isEmpty()) return false;
+			int[] dayMonthYear = dueDateIntArr(dueDate);
+			int day = dayMonthYear[0];
+			int month = dayMonthYear[1];
+			int year = dayMonthYear[2];
+			if (day>0 && day<32 && month>0 && month<13 && year>2000 && year<9999) return true;
+			else return false;
+		}
+		
 		class ViewHolder {
 			TextView courseName, courseId, taskName, dueDate;
 		}
@@ -579,7 +706,8 @@ class TasksInfo {
 	String courseId, courseName, dueDate;
 	Boolean isDone = false;
 	int difficulty, importance, progress;
-	
+	// Used to store the task's event id on google calendar.
+	long eventID;
 	
 	public TasksInfo(SpannableString taskName, String courseName, String courseId, String dueDate) {
 		this.taskName = taskName;

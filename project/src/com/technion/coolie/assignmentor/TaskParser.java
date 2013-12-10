@@ -1,7 +1,8 @@
 package com.technion.coolie.assignmentor;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -11,10 +12,9 @@ import org.jsoup.select.Elements;
 import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.skeleton.CoolieStatus;
 
+import android.annotation.SuppressLint;
 import android.app.IntentService;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.IBinder;
 import android.text.SpannableString;
 import android.util.Log;
@@ -35,7 +35,6 @@ public class TaskParser extends IntentService {
 
 	private List<String> urls;
 	private ArrayList<String> courseList;
-    private List<TasksInfo> fetchedTasks;
  
     public TaskParser() {
     	super(WORKER_THREAD);
@@ -67,6 +66,7 @@ public class TaskParser extends IntentService {
     	
     	HtmlGrabber hg = new HtmlGrabber(getApplicationContext()) {
 			
+			@SuppressLint("SimpleDateFormat")
 			@Override
 			public void handleResult(String result, CoolieStatus status) {
 				Document doc = Jsoup.parse(result);
@@ -100,6 +100,11 @@ public class TaskParser extends IntentService {
     				if (datesCompare(dueDate, tmp) <= 0 )
     				dueDate = tmp;
     			}
+    			
+    			// Check if the latest due date found isn't in the past.
+    			String now = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+    			if (datesCompare(now, dueDate) > 0) dueDate = "";
+    			
     			Log.i(MainActivity.AM_TAG, "Last due date found: " + dueDate);
     			TasksInfo newTask = new TasksInfo(new SpannableString(taskName), courseName, courseId, dueDate);
     			newTask.difficulty = 0;
@@ -108,18 +113,17 @@ public class TaskParser extends IntentService {
     			
     			addTaskToList(newTask);
     			
-//    			fetchedTasks.add(newTask);
-//    			populateList();
 			}
 		};
-    	
-//    		fetchedTasks = new ArrayList<TasksInfo>();
     		for (String url : urls) {
     			// Fetch the html from web.
     			hg.getHtmlSource(url, HtmlGrabber.Account.NONE);
     		}
     }
     
+    // If date2 is after date1 return -1.
+    // if date2 is before date1 return 1.
+    // if date2 equals date1 return 0.
     private int datesCompare(String date1, String date2) {
     	
     	String[] date1Arr = date1.split("/");
@@ -159,15 +163,6 @@ public class TaskParser extends IntentService {
     		return;
     	}
     	else MainActivity.mAdapter.insertFetched(newTask);
-    	
-//    	Iterator<TasksInfo> iterator = fetchedTasks.iterator();
-//    	while (iterator.hasNext()) {
-//    		if (tasksList.contains(iterator.next())) {
-//    			// Remove all tasks that already in the tasks list.
-//    			iterator.remove();
-//    		} 
-//    	}
-    	
     	
     	// Send broadcast to notify the adapter the list was updates so it would update the view.
     	Log.i(MainActivity.AM_TAG, "Sending DATA_FETCHED broadcast!");
