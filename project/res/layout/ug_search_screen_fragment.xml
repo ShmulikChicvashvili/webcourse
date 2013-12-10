@@ -88,7 +88,7 @@
 
     
     <TextView
-    android:id="@+id/android:empty_results"
+    android:id="@+id/empty_results"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/search_end_results"

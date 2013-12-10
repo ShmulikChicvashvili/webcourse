@@ -13,8 +13,11 @@ public class MainActivity extends CoolieActivity {
 		super.onCreate(savedInstanceState);
 		// setContentView(R.layout.ug_search_fragment_try);
 
-		// startActivity(new Intent(this, SearchFragmentActivity.class));
 		// startActivity(new Intent(this, GradesSheetActivity.class));
 	}
 
+	// final FragmentManager fm = getSupportFragmentManager();
+	// final FragmentTransaction transaction = fm.beginTransaction();
+	// transaction.add(R.id.fragment_place_holder, startFragment);
+	// transaction.commit();
 }

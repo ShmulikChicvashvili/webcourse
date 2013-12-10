@@ -5,7 +5,7 @@
     
 <fragment       
 android:id="@+id/ug_search_fragment"
-android:name="com.technion.coolie.ug.gui.searchCourses.SearchFragment"
+android:name="com.technion.coolie.ug.gui.searchCourses.SearchBarFragment"
 android:layout_width="fill_parent"
 android:layout_height="fill_parent"
 android:paddingBottom="30dp"

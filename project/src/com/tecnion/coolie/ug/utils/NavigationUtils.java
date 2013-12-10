@@ -2,8 +2,8 @@ package com.tecnion.coolie.ug.utils;
 
 import java.io.Serializable;
 
-import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 
 import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayActivity;
 import com.technion.coolie.ug.model.CourseKey;
@@ -21,12 +21,21 @@ public class NavigationUtils {
 	 * @param key
 	 * @param context
 	 */
-	public static void goToCourseDisplay(CourseKey key, Context context) {
+	public static void goToCourseDisplay(CourseKey key,
+			FragmentActivity activity/* , int placeHolderResourceId */) {
 
-		Intent intent = new Intent(context, CourseDisplayActivity.class);
+		Intent intent = new Intent(activity, CourseDisplayActivity.class);
 		intent.putExtra(CourseDisplayActivity.EXTRAS_COURSE_KEY,
 				(Serializable) key);
-		context.startActivity(intent);
+		activity.startActivity(intent);
+
+		// Fragment newFragment = new SearchFragment();
+		// final FragmentTransaction transaction = activity
+		// .getSupportFragmentManager().beginTransaction();
+		// transaction.replace(placeHolderResourceId, newFragment);
+		// transaction.addToBackStack(null);
+		// transaction.commit();
+
 	}
 
 }

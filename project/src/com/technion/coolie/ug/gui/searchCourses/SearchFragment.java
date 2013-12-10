@@ -9,6 +9,7 @@ import java.util.List;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -50,7 +51,7 @@ public class SearchFragment extends Fragment {
 
 	List<String> courseNameList;
 	List<Course> courseList;
-	Context context;
+	FragmentActivity context;
 	SearchResultsAdapter searchAdapter;
 	ArrayAdapter<String> autoCompleteAdapter;
 	// String lastQuery; // TODO decide on this
