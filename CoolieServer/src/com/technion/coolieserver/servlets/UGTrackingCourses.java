@@ -10,15 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.technion.coolieserver.framework.Authentication;
 import com.technion.coolieserver.teletech.ReturnCodeTeletech;
-import com.technion.coolieserver.ug.courses.UgFunctions;
-import com.technion.coolieserver.ug.courses.UgManager;
-import com.technion.coolieserver.ug.framework.CourseClient;
+import com.technion.coolieserver.ug.framework.CourseKey;
+import com.technion.coolieserver.ug.tracking.UgTrackingFunctions;
+import com.technion.coolieserver.ug.tracking.UgTrackingManager;
 
-public class UG extends HttpServlet {
-  /**
-   * 
-   */
-  private static final long serialVersionUID = -4628760673704447399L;
+public class UGTrackingCourses extends HttpServlet {
+
   private static final Logger log = Logger.getLogger(UG.class.getName());
 
   @Override
@@ -26,25 +23,26 @@ public class UG extends HttpServlet {
       throws IOException {
     if (!Authentication.checkAuth(req))
       resp.getWriter().println(ReturnCodeTeletech.NO_OAUTH);
+
     Gson gson = new Gson();
     String $ = "";
-
     String function = req.getParameter("function");
-
     try {
-      switch (UgFunctions.valueOf(function)) {
-      case ADD_COURSE:
-        CourseClient courseClient = gson.fromJson(req.getParameter("course"),
-            CourseClient.class);
-        $ = UgManager.addCourse(courseClient).value();
+      switch (UgTrackingFunctions.valueOf(function)) {
+      case ADD_TRACKING_STUDENT:
+        $ = UgTrackingManager.addTrackingStudent(req.getParameter("studentId"),
+            gson.fromJson(req.getParameter("courseKey"), CourseKey.class))
+            .value();
         break;
-      case FIND_COURSE_BY_NUMBER:
-        $ = gson.toJson(UgManager.findCourseByNumber(req
-            .getParameter("courseNumber")));
-        log.severe($);
+      case GET_ALL_STUDENT_TRACKING_AFTER_COURSE:
+        $ = gson.toJson(UgTrackingManager.getAllStudentTrackingAfterCourse(gson
+            .fromJson(req.getParameter("courseKey"), CourseKey.class)));
         break;
-      case FIND_COURSE_BY_PREFIX_NAME:
-        // TODO:
+      case REMOVE_TRACKING_STUDENT_FROM_COURSE:
+        $ = UgTrackingManager.removeTrackingStudentFromCourse(
+            req.getParameter("studentId"),
+            gson.fromJson(req.getParameter("courseKey"), CourseKey.class))
+            .value();
         break;
       }
       resp.getWriter().println($);
