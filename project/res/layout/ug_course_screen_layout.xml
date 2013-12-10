@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    
+    <RelativeLayout android:background="#112f" 
+        android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="10dip"
+          android:layout_marginRight="10dip"
+          android:layout_marginLeft="10dip">
+        
+
+        
+<RadioGroup
+    android:id="@+id/course_screen_semester_radio_group"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" 
+    android:orientation="horizontal"
+    android:layout_centerHorizontal="true"
+    
+  >
+
+    <RadioButton 
+            android:id="@+id/course_screen_lastsemester"
+        	android:text="חורף"
+        	 android:textColor="@color/abs__background_holo_dark"
+        	 android:checked="true"
+        	 android:layout_gravity="right"
+        	
+        />
+
+    <RadioButton
+            android:id="@+id/course_screen_secondlastsemester"
+        	android:text="אביב"
+        	 android:textColor="@color/abs__background_holo_dark"
+        	 android:layout_gravity="center"
+         />
+     <RadioButton
+            android:id="@+id/course_screen_threelastsemester"
+        	android:text="קיץ"
+        	 android:textColor="@color/abs__background_holo_dark"
+        	 android:layout_gravity="right"
+         />
+    
+</RadioGroup>
+        
+
+<TextView
+            android:id="@+id/course_screen_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="default for debug" 
+            android:background="@drawable/ug_course_text_container"
+                      
+            android:layout_below="@id/course_screen_semester_radio_group"
+            />
+
+
+	<LinearLayout
+	    android:id="@+id/course_screen_view_headline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_below="@id/course_screen_name"
+         > 
+         
+         <TextView
+            android:id="@+id/course_screen_faculty"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:text="תעשייה וניהול" 
+            android:background="@drawable/ug_course_text_container"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            
+            />
+         
+         <TextView
+            android:id="@+id/course_screen_points"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:text="4.0" 
+            android:background="@drawable/ug_course_text_container"
+            android:layout_weight="1"
+            android:layout_gravity="right"
+            
+            />
+         
+         <TextView
+            android:id="@+id/course_screen_number"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:text="233232" 
+            android:background="@drawable/ug_course_text_container"
+            android:layout_weight="1"
+            
+            />
+        
+        </LinearLayout>
+        
+         
+        
+
+	<TextView
+            android:id="@+id/course_screen_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This is a description for allllllllllllllllll the goddamn people in the goddamn whole world to see the greatness in itself" 
+            android:background="@drawable/ug_course_text_container"
+            android:layout_below="@id/course_screen_view_headline"
+              android:layout_marginTop="3dip"
+            
+            />
+	
+	 <LinearLayout
+	     android:id="@+id/course_screen_exams_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/course_screen_description"
+         > 
+	
+	<TextView
+            android:id="@+id/course_screen_exam_a"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:text=" מועד א:231323  " 
+            android:background="@drawable/ug_course_text_container"
+            
+            android:layout_marginTop="3dip"
+            android:layout_weight="1"
+            
+            />
+	<TextView
+            android:id="@+id/course_screen_exam_b"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:text=" מועד ב: 12323" 
+            android:background="@drawable/ug_course_text_container"
+    
+            android:layout_marginTop="3dip"
+            android:layout_weight="1"
+            
+            />
+	
+	</LinearLayout>
+	
+	 <TextView
+            android:id="@+id/course_screen_groups_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="קבוצות הרשמה" 
+            android:background="@drawable/ug_course_label_text_container"
+    		android:layout_below="@id/course_screen_exams_layout"
+    		  android:layout_marginTop="5dp"
+        
+            
+            />
+	 
+	<ListView 
+	    android:id="@+id/course_screen_groups_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
+        android:layout_below="@id/course_screen_groups_label"
+        android:background="#525f" />
+
+	    </RelativeLayout>
+</RelativeLayout>

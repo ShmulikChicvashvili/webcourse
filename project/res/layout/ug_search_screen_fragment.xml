@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#200f" >
@@ -8,6 +9,7 @@
 <LinearLayout 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id = "@+id/search_screen_main"
     android:orientation="vertical"
     android:layout_marginRight="10dp"
 	android:layout_marginLeft="10dp"
@@ -24,31 +26,52 @@
         
         <LinearLayout 
     	 android:layout_width="match_parent"
-    	 android:layout_height="wrap_content"
+    	 android:layout_height="40dip"
   	 	 android:orientation="horizontal"
-   		 android:background="#ffff"
+   		 
     	 >
         
-            <View
+            <Spinner
+                android:id="@+id/ug_search_faculty_spinner"
                  android:layout_width="0dp"
 			android:layout_height="match_parent" 
-			android:layout_weight="4"/>
-        
+			android:layout_weight="15"
+			android:background="#9122"
+			android:layout_marginRight="5dip"
+			style="@style/AppBaseTheme"/>
+            
+            <Spinner
+                android:id="@+id/ug_search_semester_spinner"
+                 android:layout_width="0dp"
+			android:layout_height="match_parent" 
+			android:layout_weight="10"
+			android:background="#9122"
+			android:layout_marginRight="5dip"
+			style="@style/AppBaseTheme"/>
+            
+            
+        <RelativeLayout 
+    
+    		android:layout_width="0dp"
+   		 	android:layout_height="match_parent"
+    		android:background="#ffff"
+    		android:layout_weight="32" >
+    		
 	        <AutoCompleteTextView
 			android:id="@+id/autocompletetextview"
-			android:layout_width="0dp"
-			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
 			android:hint="@string/serach_course_hint" 
-			android:textSize="30sp"
+			android:textSize="20sp"
 			android:background="#FFF"
 			android:imeOptions="actionSearch"
 			android:inputType="text"
-			android:layout_weight="32"/>
-
-	        <View
-	       		android:layout_width="0dp"
-				android:layout_height="match_parent"  
-			android:layout_weight="1"/>
+			android:layout_marginRight="10dip"
+			
+			
+			/>
+	        </RelativeLayout>
+	        
 	        
 	        
 	   </LinearLayout>		  
@@ -59,13 +82,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
         android:layout_marginTop="10dp"
-        android:background="#301f" >
+        android:background="#301f" 
+        android:drawSelectorOnTop ="true"/>
 
-     </ListView> 
 
     
     <TextView
-    android:id="@+id/android:empty_results"
+    android:id="@+id/empty_results"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/search_end_results"

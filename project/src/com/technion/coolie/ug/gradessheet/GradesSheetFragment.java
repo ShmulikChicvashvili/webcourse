@@ -28,23 +28,20 @@ public class GradesSheetFragment extends Fragment {
 	Document doc;
 	TextView avg, succes, points;
 
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.ug_activity_grades_sheet,
-		        container, false);
+				container, false);
 		avg = (TextView) view.findViewById(R.id.average_value);
 		succes = (TextView) view.findViewById(R.id.success_percentage_value);
 		points = (TextView) view.findViewById(R.id.accumulated_points_value);
-		
-		
+
 		// retrieves document with html content
-				new parseGradesAsync(getActivity()).execute();
+		new parseGradesAsync(getActivity()).execute();
 
-		    return view;
+		return view;
 	}
-
 
 	class parseGradesAsync extends AsyncTask<Void, Void, Void> {
 
@@ -65,8 +62,7 @@ public class GradesSheetFragment extends Fragment {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			doc = HtmlParser.parseFromFille("grades2.html",
-					getActivity());
+			doc = HtmlParser.parseFromFille("grades2.html", getActivity());
 			return null;
 		}
 
@@ -81,7 +77,8 @@ public class GradesSheetFragment extends Fragment {
 			// set student grades
 			setStudentGrades(doc);
 
-			listview = (ListView) getActivity().findViewById(R.id.listView_main);
+			listview = (ListView) getActivity()
+					.findViewById(R.id.listView_main);
 			EntryAdapter adapter = new EntryAdapter(context, items);
 			listview.setAdapter(adapter);
 			// dismiss progress-dialog
