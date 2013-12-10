@@ -15,14 +15,17 @@
         android:src="@drawable/lmi_arrow" />
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:layout_centerInParent="true"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/lmi_add_a_friend_message"
+        android:layout_centerHorizontal="true"
         android:contentDescription="@string/lmi_invite_contact"
+        android:paddingTop="@dimen/lmi_components_margin"
         android:scaleType="fitXY"
         android:src="@drawable/lmi_car" />
 
     <TextView
+        android:id="@+id/lmi_add_a_friend_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/lmi_arrow"
