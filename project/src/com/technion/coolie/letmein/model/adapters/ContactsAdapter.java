@@ -93,7 +93,7 @@ public class ContactsAdapter extends BaseAdapter implements Filterable {
 
 	@Override
 	public ContactInfo getItem(final int position) {
-		return this.dataset.get(position);
+		return this.displayedDataset.get(position);
 	}
 
 	@Override
