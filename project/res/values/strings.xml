@@ -9,7 +9,7 @@
     <string name="lmi_search">Search</string>
     <string name="lmi_search_label">LetMeInSearch</string>
     <string name="lmi_search_hint">Type Friend\'s name</string>
-    <string name="lmi_login_to_use">Login to use</string>
+    <string name="lmi_login_to_use">Start using Let Me In</string>
     <string name="lmi_get_a_password_link"><a href="http://www.stackoverflow.com">Get a password</a></string>
     <string name="lmi_privacy_title">Privacy</string>
     <string name="lmi_privacy_message">Who does it better than us?</string>
@@ -34,5 +34,7 @@
     <string name="lmi_date_of_arrival">Date of arrival</string>
     <string name="lmi_execute_invitation">Let him in!</string>
     <string name="lmi_add_invitation">Add invitation</string>
+    <string name="lmi_welcome_message">Invite your friends in just a few clicks</string>
+    <string name="lmi_watch_demo">Watch demo</string>
 
 </resources>
