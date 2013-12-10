@@ -51,32 +51,34 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		restoreModulesManager();
-		
-		//Always add overflow button
+
+		// Always add overflow button
 		try {
 			ViewConfiguration config = ViewConfiguration.get(this);
 			Field menuKeyField = ViewConfiguration.class
-			.getDeclaredField("sHasPermanentMenuKey");
+					.getDeclaredField("sHasPermanentMenuKey");
 			if (menuKeyField != null) {
-			menuKeyField.setAccessible(true);
-			menuKeyField.setBoolean(config, false);
+				menuKeyField.setAccessible(true);
+				menuKeyField.setBoolean(config, false);
 			}
-			} catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			}
-	
+		}
+
 		super.setContentView(R.layout.skel_navigation_drawer);
 		createNavBar();
+		
 	}
 
 	@Override
 	protected void onResume() {
-	//	if(!this.getClass().getPackage().getName().contains("skel"))
-	//		CoolieModuleManager.getMyModule(this.getClass()).setLastUsage();
+		// if(!this.getClass().getPackage().getName().contains("skel"))
+		// CoolieModuleManager.getMyModule(this.getClass()).setLastUsage();
 		super.onResume();
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return handleActionBar(menu);
@@ -110,11 +112,11 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 	@Override
 	public void setContentView(int layoutResID) {
-		
-		LayoutInflater inf = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		LayoutInflater inf = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inf.inflate(layoutResID, null);
 		mainLayoutRootId = v.getId();
-		
+
 		ViewStub vs = (ViewStub) super.findViewById(R.id.skel_layout_container);
 		vs.setLayoutResource(layoutResID);
 		mainLayout = vs.inflate();
@@ -131,8 +133,7 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	// Searches for the view in child views context and main context.
 	@Override
 	public View findViewById(int id) {
-		if (id == mainLayoutRootId)
-		{
+		if (id == mainLayoutRootId) {
 			return mainLayout;
 		}
 		if (mainLayout != null) {
@@ -490,22 +491,22 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 			}
 		};
 	}
-	
 
 	@Override
 	protected void onDestroy() {
 		serializeModulesManager();
 		super.onDestroy();
 	}
-	
-	/* used to save all the data relevant for the module,
-	 * so next run we get them again and display them.
-	 * data saved includes name, feeds, usageCount, ...
-	 * called in onDestroy.
+
+	/*
+	 * used to save all the data relevant for the module, so next run we get
+	 * them again and display them. data saved includes name, feeds, usageCount,
+	 * ... called in onDestroy.
 	 */
-	private void serializeModulesManager(){
+	private void serializeModulesManager() {
 		try {
-			FileOutputStream fos = openFileOutput("modules.ser", Context.MODE_PRIVATE);
+			FileOutputStream fos = openFileOutput("modules.ser",
+					Context.MODE_PRIVATE);
 			ObjectOutputStream out = new ObjectOutputStream(fos);
 			out.writeObject(CoolieModule.values());
 			out.close();
@@ -516,28 +517,28 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	/* used to restore all the data relevant for the module,
-	 * so we display the updated data...
-	 * data includes name, feeds, usageCount, ...
-	 * called in onCreate.
+
+	/*
+	 * used to restore all the data relevant for the module, so we display the
+	 * updated data... data includes name, feeds, usageCount, ... called in
+	 * onCreate.
 	 */
 
-	private void restoreModulesManager(){
+	private void restoreModulesManager() {
 		FileInputStream fileIn;
 		CoolieModule[] arr = null;
 		try {
-			
+
 			fileIn = openFileInput("modules.ser");
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 			arr = (CoolieModule[]) in.readObject();
-			
-			for(CoolieModule c : arr){
+
+			for (CoolieModule c : arr) {
 				CoolieModule.valueOf(c.name()).serilize(c);
 			}
-			
+
 			in.close();
 			fileIn.close();
 		} catch (FileNotFoundException e) {
@@ -552,14 +553,12 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 	}
-	
+
 	@Override
 	protected void onStart() {
 		super.onStart();
 	}
-	
-	
-}
 
+}
