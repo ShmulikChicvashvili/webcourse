@@ -1,6 +1,5 @@
 package com.technion.coolie;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -21,6 +20,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.ActionProvider;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
@@ -52,7 +52,7 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		//restoreModulesManager();
+		restoreModulesManager();
 		
 		//Always add overflow button
 		try {
@@ -71,6 +71,12 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		createNavBar();
 	}
 
+	@Override
+	protected void onResume() {
+	//	if(!this.getClass().getPackage().getName().contains("skel"))
+	//		CoolieModuleManager.getMyModule(this.getClass()).setLastUsage();
+		super.onResume();
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return handleActionBar(menu);

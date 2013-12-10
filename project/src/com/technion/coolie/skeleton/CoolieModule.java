@@ -59,7 +59,6 @@ public enum CoolieModule {
 		this.settingScreenXmlRes = settingScreenXmlRes;
 		
 		feedList = new ArrayList<CoolieModule.Feed>();
-		setLastUsed();
 		resetFeedCounter();
 	}
 	
@@ -120,20 +119,18 @@ public enum CoolieModule {
 	
 	////////////
 	
-	
-	private void setLastUsed()
-	{
-		this.lastUsed = Calendar.getInstance().getTime();
-	}
-	
-	private void addUsage()
-	{
-		this.usageCounter++;
-	}
-	
 	private void resetFeedCounter()
 	{
 		this.feedCount=0;
+	}
+
+	public void setLastUsage() {
+		this.lastUsed = Calendar.getInstance().getTime();
+	}
+	public void addUsage()
+	{
+		this.usageCounter++;
+
 	}
 }
 
