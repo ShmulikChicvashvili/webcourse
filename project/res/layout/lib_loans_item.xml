@@ -12,47 +12,53 @@
         android:id="@+id/lib_book_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxHeight="30dp"
-        android:maxWidth="30dp"
+        android:maxHeight="80dp"
+        android:maxWidth="80dp"
+        android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/lib_placeholder_book" />
-    
-     <TextView
-        android:id="@+id/lib_book_name"
+        android:src="@drawable/lib_placeholder_book" 
+        android:layout_marginRight="8dp"/>
+         
+    <TextView
+        android:id="@+id/lib_book_duedate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/lib_book_image"
-        android:layout_toRightOf="@id/lib_book_image" 
-        android:gravity="center_vertical"
-        android:text="Numerical methods"
-        android:textSize="20sp" />
+        android:layout_alignParentRight="true"
+        android:text="08.12.2013"
+        android:textSize="14sp" />
+    
+    
+     <TextView
+         android:id="@+id/lib_book_name"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignTop="@id/lib_book_image"
+         android:layout_toRightOf="@id/lib_book_image"
+         android:layout_toLeftOf="@id/lib_book_duedate"
+         android:gravity="left"
+         android:text="Numerical methods"
+         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/lib_book_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="left"
         android:layout_below="@id/lib_book_name"
         android:layout_toRightOf="@id/lib_book_image"
+        android:layout_toLeftOf="@id/lib_book_duedate"
         android:text="by Dahlquist, Germund"
-        android:textSize="20sp" />
+        android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/lib_book_duedate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lib_book_author"
-        android:layout_toRightOf="@id/lib_book_image"
-        android:text="Due Date: 08.12.2013"
-        android:textSize="15sp" />
-    
     <TextView
         android:id="@+id/lib_book_library"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lib_book_duedate"
+        android:layout_below="@id/lib_book_author"
         android:layout_toRightOf="@id/lib_book_image"
+        android:layout_toLeftOf="@id/lib_book_duedate"
         android:text="Computer Science library"
-        android:textSize="15sp" />
+        android:textSize="14sp" />
 
 </RelativeLayout>
 
