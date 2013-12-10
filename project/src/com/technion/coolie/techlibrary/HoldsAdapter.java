@@ -79,7 +79,7 @@ public class HoldsAdapter extends BaseAdapter {
 		holder.library.setText(holds.get(position).library);
 		holder.created.setText(holds.get(position).createDate);
 		holder.position.setText(holds.get(position).queuePosition);
-		
+
 		return view;
 	}
 }

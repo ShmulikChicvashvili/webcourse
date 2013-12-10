@@ -65,8 +65,6 @@ public class LibraryCardActivity extends CoolieActivity {
 
 	private ArrayList<LoanElement> globalLoansList = null;
 	private ArrayList<HoldElement> globalHoldsList = null;
-	
-	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,30 +74,28 @@ public class LibraryCardActivity extends CoolieActivity {
 		// Show the Up button in the action bar.
 		setupActionBar();
 		mFragmentManager = getSupportFragmentManager();
-		//getting shared prefs
+		// getting shared prefs
 		mSharedPref = getSharedPreferences(SHARED_PREF, 0);
 		mSharedPrefEditor = mSharedPref.edit();
-		if(mFragmentManager.getFragments() != null){
+		if (mFragmentManager.getFragments() != null) {
 			mLoansFragment = (LoansFragment) mFragmentManager
 					.findFragmentById(R.id.loans_fragment);
 			mHoldsFragment = (HoldsFragment) mFragmentManager
 					.findFragmentById(R.id.holds_fragment);
 		} else {
 			mViewPager = (ViewPager) findViewById(R.id.pager);
-	        mViewPager.setOnPageChangeListener(onPageChangeListener);
-	        mViewPager.setAdapter(new ViewPagerAdapter(mFragmentManager));
-	        addActionBarTabs();
+			mViewPager.setOnPageChangeListener(onPageChangeListener);
+			mViewPager.setAdapter(new ViewPagerAdapter(mFragmentManager));
+			addActionBarTabs();
 		}
-        
 
-		
-		//Log.d("L.card:", mFragmentManager.toString());
-//		Log.d("L.card:", "number of fragments?="
-//				+ ((Integer) fmg.getFragments().size()).toString());
-//		mLoansFragment = (LoansFragment) fmg
-//				.findFragmentById(R.id.loans_fragment);
-//		mHoldsFragment = (HoldsFragment) fmg
-//				.findFragmentById(R.id.holds_fragment); 
+		// Log.d("L.card:", mFragmentManager.toString());
+		// Log.d("L.card:", "number of fragments?="
+		// + ((Integer) fmg.getFragments().size()).toString());
+		// mLoansFragment = (LoansFragment) fmg
+		// .findFragmentById(R.id.loans_fragment);
+		// mHoldsFragment = (HoldsFragment) fmg
+		// .findFragmentById(R.id.holds_fragment);
 
 		globalLoansList = new ArrayList<BookItems.LoanElement>();
 		globalHoldsList = new ArrayList<BookItems.HoldElement>();
@@ -138,113 +134,114 @@ public class LibraryCardActivity extends CoolieActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		super.onCreateOptionsMenu(menu);
-		
-		//TODO: change order of menu items!
+
+		// TODO: change order of menu items!
 		MenuItem logout = menu.add("Logout");
 		logout.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-		logout.setOnMenuItemClickListener(new OnMenuItemClickListener()
-        {
+		logout.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
 				mSharedPrefEditor.putBoolean(LOGGED_IN, false);
 				mSharedPrefEditor.commit();
-				finish(); //work?
-				return true; //????
+				finish(); // work?
+				return true; // ????
 			}
 		});
 		MenuItem profile = menu.add("Profile");
 		profile.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-		profile.setOnMenuItemClickListener(new OnMenuItemClickListener()
-        {
+		profile.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
-				Intent intent = new Intent(LibraryCardActivity.this, ProfileActivity.class);
+				Intent intent = new Intent(LibraryCardActivity.this,
+						ProfileActivity.class);
 				startActivity(intent);
 				return true;
 			}
 		});
 		return true;
 	}
-	
+
 	/***********************************************************
 	 * action bar tabs, viewpager stuff
 	 ***********************************************************/
-	
-    private ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
+
+	private ViewPager.SimpleOnPageChangeListener onPageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
 
 		@Override
-        public void onPageSelected(int position) {
-            super.onPageSelected(position);
-            mActionBar.setSelectedNavigationItem(position);
-        }
-    };
- 
-    private void addActionBarTabs() {
-        mActionBar = getSupportActionBar();
-        String[] tabs = { "Loans", "Requests", "Wish List?" };
-        for (String tabTitle : tabs) {
-            ActionBar.Tab tab = mActionBar.newTab().setText(tabTitle)
-                    .setTabListener(tabListener);
-            mActionBar.addTab(tab);
-        }
-        mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-    }
- 
-    private ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-        @Override
-        public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-            mViewPager.setCurrentItem(tab.getPosition());
-        }
- 
-        @Override
-        public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-        }
- 
-        @Override
-        public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-        }
-    };
-    
-    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
-    	 
-        private final int PAGES = 2;
-     
-        public ViewPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-     
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-            //TODO: read fragment in develope.android, new instance all the time?
-                case 0:
-                	if(mLoansFragment == null) {
-                		mLoansFragment = new LoansFragment();
-                	}
-                    return mLoansFragment;
-                case 1:
-                	if(mHoldsFragment == null) {
-                		mHoldsFragment = new HoldsFragment();
-                	}
-                    return mHoldsFragment;
-//                case 2:
-//                	if(mHoldsFragment == null) {
-//                		mHoldsFragment = new HoldsFragment();
-//                	}
-//                    return mHoldsFragment;
-                default:
-                    throw new IllegalArgumentException("The item position should be less or equal to:" + PAGES);
-            }
-        }
-     
-        @Override
-        public int getCount() {
-            return PAGES;
-        }
-    }
-    
-    /***********************************************************
-	 * END OF action bar tabs, viewpager stuff 
+		public void onPageSelected(int position) {
+			super.onPageSelected(position);
+			mActionBar.setSelectedNavigationItem(position);
+		}
+	};
+
+	private void addActionBarTabs() {
+		mActionBar = getSupportActionBar();
+		String[] tabs = { "Loans", "Requests", "Wish List" };
+		for (String tabTitle : tabs) {
+			ActionBar.Tab tab = mActionBar.newTab().setText(tabTitle)
+					.setTabListener(tabListener);
+			mActionBar.addTab(tab);
+		}
+		mActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	}
+
+	private ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+		@Override
+		public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+			mViewPager.setCurrentItem(tab.getPosition());
+		}
+
+		@Override
+		public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+		}
+
+		@Override
+		public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+		}
+	};
+
+	private class ViewPagerAdapter extends FragmentStatePagerAdapter {
+
+		private final int PAGES = 2;
+
+		public ViewPagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			switch (position) {
+			// TODO: read fragment in develope.android, new instance all the
+			// time?
+			case 0:
+				if (mLoansFragment == null) {
+					mLoansFragment = new LoansFragment();
+				}
+				return mLoansFragment;
+			case 1:
+				if (mHoldsFragment == null) {
+					mHoldsFragment = new HoldsFragment();
+				}
+				return mHoldsFragment;
+				// case 2:
+				// if(mHoldsFragment == null) {
+				// mHoldsFragment = new HoldsFragment();
+				// }
+				// return mHoldsFragment;
+			default:
+				throw new IllegalArgumentException(
+						"The item position should be less or equal to:" + PAGES);
+			}
+		}
+
+		@Override
+		public int getCount() {
+			return PAGES;
+		}
+	}
+
+	/***********************************************************
+	 * END OF action bar tabs, viewpager stuff
 	 ***********************************************************/
 
 	/**
@@ -352,20 +349,22 @@ public class LibraryCardActivity extends CoolieActivity {
 			mGetBooksInfoTask = null;
 			// showProgress(false);
 
-			//sorting loanlist according to duedate
+			// sorting loanlist according to duedate
 			Collections.sort(loansList, new Comparator<LoanElement>() {
-			    public int compare(LoanElement c1, LoanElement c2) {
-			    	SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-			    	int res=7;
-			        try {
-						res = formatter.parse(c1.dueDate).compareTo(formatter.parse(c2.dueDate));
+				public int compare(LoanElement c1, LoanElement c2) {
+					SimpleDateFormat formatter = new SimpleDateFormat(
+							"dd/MM/yyyy");
+					int res = 7;
+					try {
+						res = formatter.parse(c1.dueDate).compareTo(
+								formatter.parse(c2.dueDate));
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} // use your logic
-			        return res;
-			    }
-			}); 
+					return res;
+				}
+			});
 			globalLoansList = loansList;
 			globalHoldsList = holdsList;
 			// TODO: what happens if list is empty?

@@ -6,6 +6,4 @@
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
-    <string name="title_activity_library_card">LibraryCardActivity</string>
-
 </resources>

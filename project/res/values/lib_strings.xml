@@ -24,5 +24,9 @@
     <string name="profileMessage">Your Profile:</string>
     <string name="profileFields">First Name:\nLast Name:\nId:\nAddress:\nEmail:\nPhone Number:\nHome Library:\nEducation Status:</string>
     
-
+    <!-- Strings related to library card -->
+	<string name="title_activity_library_card">Library Card</string>
+	<string name="requests">Requests</string>
+	<string name="loans">Loans</string>
+	
 </resources>

@@ -1,9 +1,6 @@
 package com.technion.coolie.techlibrary;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.StringReader;
-import java.net.URL;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -14,10 +11,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.technion.coolie.HtmlGrabber;
-import com.technion.coolie.R;
-import com.technion.coolie.skeleton.CoolieStatus;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -27,33 +20,38 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.technion.coolie.CoolieActivity;
+import com.technion.coolie.HtmlGrabber;
+import com.technion.coolie.R;
+import com.technion.coolie.skeleton.CoolieStatus;
 
 /**
  * Activity which displays a login screen to the user.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends CoolieActivity {
 	// Keep track of the login task to ensure we can cancel it if requested.
 	private UserLoginTask mAuthTask = null;
 
 	// url for authentication
-	public static final String userAuthUrl_id = "http://aleph2.technion.ac.il/X?op=bor-auth&bor_id=";
+	public static final String userAuthUrl_id = "https://aleph2.technion.ac.il/X?op=bor-auth&bor_id=";
 	public static final String userAuthUrl_pass = "&verification=";
-	
-	//shared pref file.
+
+	// shared pref file.
 	private static final String SHARED_PREF = "lib_pref";
-	
-	//pref logged key
+
+	// pref logged key
 	private static final String LOGGED_IN = "is_logged";
 
 	// Values for id and password at the time of the login attempt.
@@ -63,7 +61,6 @@ public class LoginActivity extends Activity {
 	// UI references.
 	private EditText mUserIdView;
 	private EditText mPasswordView;
-	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
 
@@ -75,21 +72,18 @@ public class LoginActivity extends Activity {
 
 		setContentView(R.layout.lib_activity_login);
 		setupActionBar();
-		
-		Log.d("LoginActicity:", "login...............");
-		
-		mSharedPref = getSharedPreferences(SHARED_PREF,0);
-		if(mSharedPref.getBoolean(LOGGED_IN, false)) {
+
+		Log.v("LoginActicity:", "login.....");
+
+		mSharedPref = getSharedPreferences(SHARED_PREF, 0);
+		if (mSharedPref.getBoolean(LOGGED_IN, false)) {
 			Intent resultIntent = new Intent();
 			setResult(Activity.RESULT_OK, resultIntent);
 			finish();
 		}
 
 		// Set up the login form.
-		// delete? mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
 		mUserIdView = (EditText) findViewById(R.id.user_id);
-		// mUserIdView.setText(mEmail);
-		// mUserIdView.setHint(mEmail);
 
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mPasswordView
@@ -105,7 +99,7 @@ public class LoginActivity extends Activity {
 					}
 				});
 
-		mLoginFormView = findViewById(R.id.login_form);
+		// mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
 		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
 
@@ -151,7 +145,6 @@ public class LoginActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
 	}
 
@@ -204,39 +197,34 @@ public class LoginActivity extends Activity {
 			// perform the user login attempt.
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
-			
-			//code example for using html grabber!
-			//TODO: change code and use it.
-			HtmlGrabber hg = new HtmlGrabber(getApplicationContext())
-			 {
-					@Override
-					public void handleResult(String result,
-							CoolieStatus status) {
-						// TODO Auto-generated method stub
-						mAuthTask = new UserLoginTask(result);	
-						mAuthTask.execute((Void) null);
-							
-					}
-			 };
-			 String userAuthUrl = userAuthUrl_id + mUserId
-						+ userAuthUrl_pass + mPassword;
-			 hg.getHtmlSource(userAuthUrl, HtmlGrabber.Account.NONE);
+
+			// code example for using html grabber!
+			// TODO: change code and use it.
+			HtmlGrabber hg = new HtmlGrabber(getApplicationContext()) {
+				@Override
+				public void handleResult(String result, CoolieStatus status) {
+					mAuthTask = new UserLoginTask(result);
+					mAuthTask.execute((Void) null);
+				}
+			};
+			String userAuthUrl = userAuthUrl_id + mUserId + userAuthUrl_pass
+					+ mPassword;
+			hg.getHtmlSource(userAuthUrl, HtmlGrabber.Account.NONE);
 		}
-		
+		Log.v("LoginActicity:", "end of attemptlogin.....");
 	}
 
 	private void toastConnectionError() {
-		Toast toast = Toast.makeText(this, "connection error", Toast.LENGTH_LONG);
+		Toast toast = Toast.makeText(this, "connection error",
+				Toast.LENGTH_LONG);
 		toast.show();
 	}
+
 	/**
 	 * Shows the progress UI and hides the login form.
 	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show) {
-		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-		// for very easy animations. If available, use these APIs to fade-in
-		// the progress spinner.
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			int shortAnimTime = getResources().getInteger(
 					android.R.integer.config_shortAnimTime);
@@ -251,22 +239,10 @@ public class LoginActivity extends Activity {
 									: View.GONE);
 						}
 					});
-
-			mLoginFormView.setVisibility(View.VISIBLE);
-			mLoginFormView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 0 : 1)
-					.setListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator animation) {
-							mLoginFormView.setVisibility(show ? View.GONE
-									: View.VISIBLE);
-						}
-					});
 		} else {
 			// The ViewPropertyAnimator APIs are not available, so simply show
 			// and hide the relevant UI components.
 			mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
-			mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 		}
 	}
 
@@ -278,21 +254,22 @@ public class LoginActivity extends Activity {
 		public UserInfo user = null;
 		private boolean mHasError;
 		private String result;
-		
+
 		public UserLoginTask(String result) {
 			super();
 			this.result = result;
 			mHasError = false;
 		}
-		
-		String convertStreamToString(InputStream is) {
-		    java.util.Scanner s = new java.util.Scanner(is,"UTF-8").useDelimiter("\\A");
-		    return s.hasNext() ? s.next() : "";
-		}
+
+		// String convertStreamToString(InputStream is) {
+		// java.util.Scanner s = new java.util.Scanner(is, "UTF-8")
+		// .useDelimiter("\\A");
+		// return s.hasNext() ? s.next() : "";
+		// }
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			if(result.contains("<error>Error in Verification</error>")) {
+			if (result.contains("<error>Error in Verification</error>")) {
 				return false;
 			}
 			UserInfoXMLHandler userXMLHandler = new UserInfoXMLHandler();
@@ -302,13 +279,10 @@ public class LoginActivity extends Activity {
 				XMLReader xr = sp.getXMLReader();
 
 				/** Create handler to handle XML Tags ( extends DefaultHandler ) */
-
 				xr.setContentHandler(userXMLHandler);
 				xr.parse(new InputSource(new StringReader(result)));
-				
-
 			} catch (Exception e) {
-				if ((e.getClass())==java.net.UnknownHostException.class) {
+				if ((e.getClass()) == java.net.UnknownHostException.class) {
 					mHasError = true;
 					return false;
 				}
@@ -326,14 +300,14 @@ public class LoginActivity extends Activity {
 		protected void onPostExecute(final Boolean success) {
 			mAuthTask = null;
 			showProgress(false);
-			
+
 			if (success) {
 				SharedPreferences.Editor editor = mSharedPref.edit();
 				editor.putBoolean(LOGGED_IN, true);
-				
+
 				// save the id (and not password) in lid_pref
-				editor.putString("user_id", mUserId); 
-				//editor.putString("user_pass", mPassword);
+				editor.putString("user_id", mUserId);
+				// editor.putString("user_pass", mPassword);
 				// save the user info in the lib_pref
 				int index = user.fullName.indexOf(",");
 				editor.putString("user_first_name",
@@ -343,32 +317,18 @@ public class LoginActivity extends Activity {
 				editor.putString("user_address", user.address);
 				editor.putString("user_email", user.email);
 				editor.putString("user_telephone", user.telephone);
-				editor.putString("user_home_library", user.homeLibraryENG + " , "
-						+ user.homeLibraryHEB);
+				editor.putString("user_home_library", user.homeLibraryENG
+						+ " , " + user.homeLibraryHEB);
 				editor.putString("user_education_status", user.educationStatus);
-				//
-				// String[] keys = { "user_first_name", "user_last_name",
-				// "user_address", "user_email", "user_telephone",
-				// "user_home_library", "user_education_status" };
-				// //int index = user.fullName.indexOf(",");
-				// String lastName = user.fullName.substring(0, index - 1);
-				// String firstName = user.fullName.substring(index + 1);
-				// String[] values = { firstName, lastName, user.address,
-				// user.email, user.telephone,
-				// user.homeLibraryENG + "," + user.homeLibraryHEB,
-				// user.educationStatus };
-				//
-				// for(int i = 0 ; i < values.length; i++){
-				// editor.putString(keys[i], values[i]);
-				// }
-				//
 				editor.commit();
+
 				Intent resultIntent = new Intent();
 				setResult(Activity.RESULT_OK, resultIntent);
+				Log.v("LoginActicity:", "end of login.....");
 				finish();
-			} else if(mHasError) {
+			} else if (mHasError) {
 				toastConnectionError();
-			} else { //!success
+			} else { // !success
 				mPasswordView
 						.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();

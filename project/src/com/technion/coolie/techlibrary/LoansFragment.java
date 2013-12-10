@@ -27,15 +27,6 @@ public class LoansFragment extends SherlockFragment {
 	private ArrayList<LoanElement> mLoansList;
 	private LoansAdapter mLoansAdapter;
 
-	
-	
-	/*******
-	public interface Callback {
-		public void onItemClicked(String itemName);
-	}
-	
-	********/
-	
 	@Override
 	public void onAttach(Activity activity) {
 			super.onAttach(activity);
@@ -52,17 +43,6 @@ public class LoansFragment extends SherlockFragment {
 		mListView = (ListView) v.findViewById(R.id.list);
 		mEmptyView = (TextView) v.findViewById(R.id.empty);
 		mListView.setEmptyView(mEmptyView);
-		
-		/******** onclick
-		lv.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int index,
-					long id) {
-				//TextView tv = (TextView)view.findViewById(R.id.country);
-				mListener.onItemClicked((String)((Countries)parent.getAdapter()).getItem(index));
-			}
-		});
-		************/
 		return v;
 	}
 	

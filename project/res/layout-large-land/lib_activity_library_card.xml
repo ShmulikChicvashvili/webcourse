@@ -11,14 +11,14 @@
 
         <TextView android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/multipane_half_padding"
-            android:layout_marginTop="@dimen/multipane_half_padding"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="Loans" />
 
         <FrameLayout android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_margin="@dimen/multipane_half_padding"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:background="@drawable/grey_frame">
             <fragment android:name="com.technion.coolie.techlibrary.LoansFragment"
                 android:id="@+id/loans_fragment"
@@ -34,14 +34,14 @@
 
         <TextView android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/multipane_half_padding"
-            android:layout_marginTop="@dimen/multipane_half_padding"
-            android:text="Requests" />
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/requests" />
 
         <FrameLayout android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_margin="@dimen/multipane_half_padding"
+            android:layout_margin="@dimen/activity_horizontal_margin"
             android:background="@drawable/grey_frame">
             <fragment android:name="com.technion.coolie.techlibrary.HoldsFragment"
                 android:id="@+id/holds_fragment"
