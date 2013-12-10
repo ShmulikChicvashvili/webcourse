@@ -8,6 +8,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.technion.coolie.HtmlGrabber;
+import com.technion.coolie.skeleton.CoolieStatus;
+
 import android.app.IntentService;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -29,7 +32,6 @@ public class TaskParser extends IntentService {
 	private String taskRegExp7 = "(תרגיל בית מס' [0-9])$";
 	private String taskRegExp8 = "(תרגיל בית [0-9])$";
 	private String dueDateRegExp = "([0-9]{1,2}/[0-9]{1,2}/[0-9]{2,4})";
-    
 
 	private List<String> urls;
 	private ArrayList<String> courseList;
@@ -51,8 +53,6 @@ public class TaskParser extends IntentService {
     	// all taking care of by super (IntentService).
     	if (courseList == null || courseList.size() == 0) return;
     	
-    	if (isConnected()) {
-    		
     		// need to add date check to determine the current semester (Winter\Spring) and current year
     		String urlPrefixCS = "http://webcourse.cs.technion.ac.il/";
     		String urlSuffixCS = "/Winter2013-2014/en/hw.html";
@@ -61,19 +61,16 @@ public class TaskParser extends IntentService {
     			urls.add(urlPrefixCS + s + urlSuffixCS);
     		}
     		fetchDataFromWeb();
-    	} else {
-    		Log.i(MainActivity.AM_TAG, "No internet connection!");
-    	}
     }
  
     public void fetchDataFromWeb() {
-    	try {
-    		fetchedTasks = new ArrayList<TasksInfo>();
-    		for (String url : urls) {
-    			// Fetch the html from web.
-    			Document doc = Jsoup.connect(url).get();
-    			// Course name and ID are in the title element (in WebCourse).
-    			String title = doc.title();
+    	
+    	HtmlGrabber hg = new HtmlGrabber(getApplicationContext()) {
+			
+			@Override
+			public void handleResult(String result, CoolieStatus status) {
+				Document doc = Jsoup.parse(result);
+				String title = doc.title();
     			String[] splitTitle = title.split(",");
     			String[] courseInfo = splitTitle[0].split("-");
     			String courseId = courseInfo[0].trim();
@@ -108,15 +105,19 @@ public class TaskParser extends IntentService {
     			newTask.difficulty = 0;
     			newTask.importance = 0;
     			newTask.progress = 0;
-    			fetchedTasks.add(newTask);
+    			
+    			addTaskToList(newTask);
+    			
+//    			fetchedTasks.add(newTask);
+//    			populateList();
+			}
+		};
+    	
+//    		fetchedTasks = new ArrayList<TasksInfo>();
+    		for (String url : urls) {
+    			// Fetch the html from web.
+    			hg.getHtmlSource(url, HtmlGrabber.Account.NONE);
     		}
-    		populateList();
-    	} catch (Exception e) {
-			e.printStackTrace();
-			Log.i(MainActivity.AM_TAG, "Caught IOException while trying to get data from web");
-			if (fetchedTasks.size() > 0) 
-				populateList();
-		}
     }
     
     private int datesCompare(String date1, String date2) {
@@ -149,18 +150,24 @@ public class TaskParser extends IntentService {
     	return day + "/" + month + "/" + year;
     }
     
-    public void populateList() {
+    public void addTaskToList(TasksInfo newTask) {
     	
     	ArrayList<TasksInfo> tasksList = MainActivity.mAdapter.getList();
     	
-    	Iterator<TasksInfo> iterator = fetchedTasks.iterator();
-    	while (iterator.hasNext()) {
-    		if (tasksList.contains(iterator.next())) {
-    			// Remove all tasks that already in the tasks list.
-    			iterator.remove();
-    		} 
+    	if (tasksList.contains(newTask)) {
+    		Log.i(MainActivity.AM_TAG, "*** " + newTask.taskName + " - " + newTask.courseName + " Already in the list! ***");
+    		return;
     	}
-    	MainActivity.mAdapter.insertFetched(fetchedTasks);
+    	else MainActivity.mAdapter.insertFetched(newTask);
+    	
+//    	Iterator<TasksInfo> iterator = fetchedTasks.iterator();
+//    	while (iterator.hasNext()) {
+//    		if (tasksList.contains(iterator.next())) {
+//    			// Remove all tasks that already in the tasks list.
+//    			iterator.remove();
+//    		} 
+//    	}
+    	
     	
     	// Send broadcast to notify the adapter the list was updates so it would update the view.
     	Log.i(MainActivity.AM_TAG, "Sending DATA_FETCHED broadcast!");
@@ -169,25 +176,25 @@ public class TaskParser extends IntentService {
     	sendBroadcast(dataFetchedIntent);
     }
     
-    // testing network availability
- 	private boolean isNetworkAvailable() {
- 		ConnectivityManager conManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
- 		NetworkInfo mobileNetworkInfo = conManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
- 		NetworkInfo wifiNetworkInfo = conManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
- 		return ((mobileNetworkInfo == null ? false : mobileNetworkInfo.isAvailable()) || 
- 				(wifiNetworkInfo == null ? false : wifiNetworkInfo.isAvailable()));
- 	}
- 	
- 	// testing data availability
- 	private boolean isDataAvailable() {
- 		ConnectivityManager conManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
- 		NetworkInfo mobileNetworkInfo = conManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
- 		NetworkInfo wifiNetworkInfo = conManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
- 		return ((mobileNetworkInfo == null ? false : mobileNetworkInfo.isConnected()) || 
- 				(wifiNetworkInfo == null ? false : wifiNetworkInfo.isConnected()));
- 	}
- 	
- 	private boolean isConnected() {
- 		return (isNetworkAvailable() && isDataAvailable());
- 	}
+//    // testing network availability
+// 	private boolean isNetworkAvailable() {
+// 		ConnectivityManager conManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+// 		NetworkInfo mobileNetworkInfo = conManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+// 		NetworkInfo wifiNetworkInfo = conManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+// 		return ((mobileNetworkInfo == null ? false : mobileNetworkInfo.isAvailable()) || 
+// 				(wifiNetworkInfo == null ? false : wifiNetworkInfo.isAvailable()));
+// 	}
+// 	
+// 	// testing data availability
+// 	private boolean isDataAvailable() {
+// 		ConnectivityManager conManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+// 		NetworkInfo mobileNetworkInfo = conManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+// 		NetworkInfo wifiNetworkInfo = conManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+// 		return ((mobileNetworkInfo == null ? false : mobileNetworkInfo.isConnected()) || 
+// 				(wifiNetworkInfo == null ? false : wifiNetworkInfo.isConnected()));
+// 	}
+// 	
+// 	private boolean isConnected() {
+// 		return (isNetworkAvailable() && isDataAvailable());
+// 	}
 }

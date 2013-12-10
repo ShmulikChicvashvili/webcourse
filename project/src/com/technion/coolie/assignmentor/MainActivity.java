@@ -2,8 +2,6 @@ package com.technion.coolie.assignmentor;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.app.AlarmManager;
@@ -40,6 +38,7 @@ import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.assignmentor.EnhancedListView.Undoable;
 import com.technion.coolie.assignmentor.TaskSettings.TaskSettingsFragment;
+import com.technion.coolie.CollieNotification;
 
 public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemClickListener {
 	
@@ -440,16 +439,22 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			updateView();
 		}
 		
-		// Used to insert new fetched tasks from web.
+		// Used to insert new fetched task from web.
 		// *NO* call to notifyDataSetChanged() since this method is being called from
 		// a service running on thread different than the UI thread, hence, calling
 		// notifyDataSetChange() will throw an exception.
-		public void insertFetched(List<TasksInfo> fetchedTasks) {
-			Log.i(AM_TAG, "insertFetched -> fetchedTasks size: " + String.valueOf(fetchedTasks.size()));
+		public void insertFetched(TasksInfo fetchedTask) {
 			Log.i(AM_TAG, "insertFetched -> myItems size (before adding): " + String.valueOf(myItems.size()));
-			myItems.addAll(fetchedTasks);
+			myItems.add(fetchedTask);
 			Log.i(AM_TAG, "insertFetched -> myItems size (after adding): " + String.valueOf(myItems.size()));
-			totalNumOfTasks = totalNumOfTasks + fetchedTasks.size();
+			totalNumOfTasks++;
+			
+			// Pop up notification that a new task was found.
+			String notificationText = fetchedTask.taskName + " - " + fetchedTask.courseName;
+			CollieNotification cn = new CollieNotification("New H.W!", notificationText, 
+					MainActivity.this, CollieNotification.Priority.IMMEDIATELY, 
+					true, getApplicationContext());
+			cn.sendNotification();
 		}
 		
 		public void updateView() {
