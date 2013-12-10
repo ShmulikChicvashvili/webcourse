@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:focusable="false"
+	android:focusableInTouchMode="false"
     android:clickable="true" 
     style="@style/Button.Medium"
     >
@@ -27,7 +29,7 @@
              />
     
     <TextView
-            android:id="@+id/skel_news_text"
+            android:id="@+id/skel_desc"
             android:layout_width="match_parent"
         	android:layout_height="wrap_content"
         	android:lines="5"
