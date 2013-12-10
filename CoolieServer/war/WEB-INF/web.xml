@@ -91,7 +91,27 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>Parkion</servlet-name>
 		<url-pattern>/Parkion</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>UGTrackingCourses</servlet-name>
+		<servlet-class>com.technion.coolieserver.servlets.UGTrackingCourses
+		</servlet-class>
+	</servlet>
 
+	<servlet-mapping>
+		<servlet-name>UGTrackingCourses</servlet-name>
+		<url-pattern>/UGTrackingCourses</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AddContacts</servlet-name>
+		<servlet-class>com.technion.coolieserver.servlets.AddContacts
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>AddContacts</servlet-name>
+		<url-pattern>/AddContacts</url-pattern>
+	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
