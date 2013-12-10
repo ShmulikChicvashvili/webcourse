@@ -56,7 +56,6 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		
 		//Always add overflow button
 		try {
-			
 			ViewConfiguration config = ViewConfiguration.get(this);
 			Field menuKeyField = ViewConfiguration.class
 			.getDeclaredField("sHasPermanentMenuKey");
