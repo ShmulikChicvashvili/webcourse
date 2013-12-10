@@ -13,7 +13,7 @@
         android:contentDescription="@string/lmi_contact_image"
         android:src="@drawable/lmi_facebook_man" />
 
-    <AutoCompleteTextView
+    <com.technion.coolie.letmein.ContactsAutoCompleteTextView
         android:id="@+id/lmi_friend_name_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:inputType="textPersonName" >
 
         <requestFocus />
-    </AutoCompleteTextView>
+    </com.technion.coolie.letmein.ContactsAutoCompleteTextView>
 
     <EditText
         android:id="@+id/lmi_friend_cellphone_edit"

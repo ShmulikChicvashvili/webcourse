@@ -1,30 +1,45 @@
 package com.technion.coolie.letmein;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.technion.coolie.R;
+import com.technion.coolie.letmein.model.ContactInfo;
 import com.technion.coolie.letmein.model.Invitation;
 import com.technion.coolie.letmein.model.Invitation.Status;
+import com.technion.coolie.letmein.model.adapters.ContactsAdapter;
 
-public class InvitationActivity extends DatabaseActivity implements CalendarSupplier {
+public class InvitationActivity extends DatabaseActivity implements
+		CalendarSupplier {
 
 	private static final int DROP_DOWN_LAYOUT_INDEX = android.R.layout.simple_dropdown_item_1line;
 
@@ -37,6 +52,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	private AutoCompleteTextView friendCarColorEdit;
 	private TextView datePicker;
 	private TextView timePicker;
+	private ImageView friendImage;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -47,7 +63,8 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		friendCellphoneEdit = (EditText) findViewById(R.id.lmi_friend_cellphone_edit);
 		friendNameEdit.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
-			public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+			public boolean onEditorAction(final TextView v, final int actionId,
+					final KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_NEXT)
 					friendCellphoneEdit.setText(getFriendCellPhoneNumber());
 
@@ -55,11 +72,15 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 			}
 		});
 
+		friendImage = (ImageView) InvitationActivity.this
+				.findViewById(R.id.lmi_friend_image);
+
 		friendCarNumberEdit = (EditText) findViewById(R.id.lmi_friend_car_number_edit);
 
 		friendCarCompanyEdit = (AutoCompleteTextView) findViewById(R.id.lmi_friend_car_company_edit);
-		friendCarCompanyEdit.setAdapter(new ArrayAdapter<String>(InvitationActivity.this,
-				DROP_DOWN_LAYOUT_INDEX, getResources().getStringArray(R.array.lmi_car_companies)));
+		friendCarCompanyEdit.setAdapter(new ArrayAdapter<String>(
+				InvitationActivity.this, DROP_DOWN_LAYOUT_INDEX, getResources()
+						.getStringArray(R.array.lmi_car_companies)));
 
 		datePicker = (TextView) findViewById(R.id.lmi_date_picker);
 		setDate(calendar);
@@ -68,21 +89,25 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		setTime(calendar);
 
 		friendCarColorEdit = (AutoCompleteTextView) findViewById(R.id.lmi_friend_car_color_edit);
-		friendCarColorEdit.setAdapter(new ArrayAdapter<String>(InvitationActivity.this,
-				DROP_DOWN_LAYOUT_INDEX, getResources().getStringArray(R.array.lmi_car_colors)));
-		friendCarColorEdit.setOnEditorActionListener(new OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_NEXT) {
-					final InputMethodManager inputMethodManager = (InputMethodManager) InvitationActivity.this
-							.getSystemService(Activity.INPUT_METHOD_SERVICE);
-					inputMethodManager.hideSoftInputFromWindow(InvitationActivity.this
-							.getCurrentFocus().getWindowToken(), 0);
-				}
+		friendCarColorEdit.setAdapter(new ArrayAdapter<String>(
+				InvitationActivity.this, DROP_DOWN_LAYOUT_INDEX, getResources()
+						.getStringArray(R.array.lmi_car_colors)));
+		friendCarColorEdit
+				.setOnEditorActionListener(new OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(final TextView v,
+							final int actionId, final KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_NEXT) {
+							final InputMethodManager inputMethodManager = (InputMethodManager) InvitationActivity.this
+									.getSystemService(Activity.INPUT_METHOD_SERVICE);
+							inputMethodManager.hideSoftInputFromWindow(
+									InvitationActivity.this.getCurrentFocus()
+											.getWindowToken(), 0);
+						}
 
-				return false;
-			}
-		});
+						return false;
+					}
+				});
 	}
 
 	public void showTimePickerDialog(final View v) {
@@ -101,67 +126,174 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		new AutoCompletionGatheringTask().execute();
 	}
 
-	private class AutoCompletionGatheringTask extends AsyncTask<Void, Void, ArrayAdapter<String>> {
-		@Override
-		protected ArrayAdapter<String> doInBackground(final Void... params) {
-			// TODO: change to the real deal:
-			/*
-			 * List<String> friendNames = Arrays.asList("osher", "gilad",
-			 * "yaniv", "osher2", "osher3", "osher4", "osher5", "osher6",
-			 * "osher7", "osher8", "osher9", "osher10", "osher11", "osher12",
-			 * "osher13");
-			 */
+	private class AutoCompletionGatheringTask extends
+			AsyncTask<Void, Void, ContactsAdapter> {
 
-			final ArrayList<String> friendNames = new ArrayList<String>();
+		@Override
+		protected ContactsAdapter doInBackground(final Void... params) {
+
+			// Each row in the list stores country name, currency and flag
+			List<ContactInfo> aList = new ArrayList<ContactInfo>();
+
 			final ContentResolver contentResolver = getContentResolver();
 			final String whereName = ContactsContract.Data.MIMETYPE + " = ?";
 			final String[] whereNameParams = new String[] { ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE };
-			final Cursor nameCur = contentResolver.query(ContactsContract.Data.CONTENT_URI, null,
-					whereName, whereNameParams,
+			final Cursor nameCur = contentResolver.query(
+					ContactsContract.Data.CONTENT_URI, null, whereName,
+					whereNameParams,
 					ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
-			while (nameCur.moveToNext())
-				friendNames
-						.add(nameCur.getString(nameCur
-								.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME)));
+
+			while (nameCur.moveToNext()) {
+				String name = nameCur
+						.getString(nameCur
+								.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
+
+				Long id = nameCur
+						.getLong(nameCur
+								.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName._ID));
+
+				String imageUri = nameCur
+						.getString(nameCur
+								.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI));
+				
+				if (imageUri == null) {
+					String packName = InvitationActivity.this.getPackageName();
+					Uri path = Uri.parse("android.resource://" + packName
+							+ R.drawable.lmi_facebook_man);
+					imageUri = path.toString();
+				}
+				
+				String phoneNumber = nameCur
+						.getString(nameCur
+								.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+				
+				aList.add(new ContactInfo(name, id, imageUri, phoneNumber));
+				
+			}
 			nameCur.close();
 
-			return new ArrayAdapter<String>(InvitationActivity.this, DROP_DOWN_LAYOUT_INDEX,
-					friendNames);
-
-			/*
-			 * // Gets the URI of the db Uri uri =
-			 * ContactsContract.Contacts.CONTENT_URI; // What to grab from the
-			 * db String[] projection = new String[] {
-			 * ContactsContract.Contacts._ID,
-			 * ContactsContract.Contacts.DISPLAY_NAME,
-			 * ContactsContract.Contacts.PHOTO_ID };
-			 * 
-			 * String sortOrder = ContactsContract.Contacts.DISPLAY_NAME +
-			 * " COLLATE LOCALIZED ASC";
-			 * 
-			 * Cursor cursor = managedQuery(uri, projection, null, null,
-			 * sortOrder);
-			 * 
-			 * String[] fields = new String[] {
-			 * ContactsContract.Data.DISPLAY_NAME };
-			 * 
-			 * int[] values = { R.id.contactEntryText };
-			 * 
-			 * return new
-			 * ArrayAdapter<String>(this,R.layout.lmi_contact_entry,R.
-			 * id.lmi_contactEntryText,
-			 * 
-			 * return new SimpleCursorAdapter(this, R.layout.contact_entry,
-			 * cursor, fields, values);
-			 */
+			return new ContactsAdapter(InvitationActivity.this, aList);
 		}
 
 		@Override
-		protected void onPostExecute(final ArrayAdapter<String> adapter) {
+		protected void onPostExecute(final ContactsAdapter adapter) {
 			friendNameEdit.setAdapter(adapter);
+
+			OnItemClickListener itemClickListener = new OnItemClickListener() {
+				@SuppressWarnings("unchecked")
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int position, long id) {
+
+					ContactInfo hm = (ContactInfo) arg0.getAdapter().getItem(
+							position);
+
+					friendImage.setImageURI(Uri.parse(hm.imageUri));
+					friendCellphoneEdit.setText(hm.phoneNumber);
+				}
+
+			};
+			friendNameEdit.setOnItemClickListener(itemClickListener);
 		}
 
 	}
+
+	// // private class AutoCompletionGatheringTask2 extends
+	// AsyncTask<Void, Void, SimpleAdapter> {
+	//
+	// @Override
+	// protected SimpleAdapter doInBackground(final Void... params) {
+	//
+	// // Each row in the list stores country name, currency and flag
+	// //List<ContactInfo> aList = new ArrayList<ContactInfo>();
+	// List<HashMap<String,String>> aList = new
+	// ArrayList<HashMap<String,String>>();
+	//
+	//
+	// final ContentResolver contentResolver = getContentResolver();
+	// final String whereName = ContactsContract.Data.MIMETYPE + " = ?";
+	// final String[] whereNameParams = new String[] {
+	// ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE };
+	// final Cursor nameCur = contentResolver.query(
+	// ContactsContract.Data.CONTENT_URI, null, whereName,
+	// whereNameParams,
+	// ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
+	//
+	// while (nameCur.moveToNext()) {
+	// String name = nameCur
+	// .getString(nameCur
+	// .getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
+	//
+	// String id = nameCur
+	// .getString(nameCur
+	// .getColumnIndex(ContactsContract.CommonDataKinds.StructuredName._ID));
+	//
+	// String imageUri = nameCur
+	// .getString(nameCur
+	// .getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+	//
+	// //aList.add(new ContactInfo(name, id, imageUri, "000"));
+	// HashMap<String, String> hm = new HashMap<String,String>();
+	// hm.put("txt", name);
+	// hm.put("id",id);
+	// if (imageUri==null)
+	// {
+	// String packName = InvitationActivity.this.getPackageName();
+	// Uri path = Uri.parse("android.resource://" + packName +
+	// R.drawable.lmi_facebook_man);
+	// hm.put("flag", path.toString());
+	//
+	// } else {
+	// hm.put("flag", imageUri );
+	// aList.add(hm);
+	// }
+	// //hm.put("cur", currency[i]);
+	// }
+	//
+	// nameCur.close();
+	//
+	// // Keys used in Hashmap
+	// String[] from = { "flag","txt"}; //
+	//
+	// // Ids of views in listview_layout
+	// int[] to = { R.id.lmi_contact_image,R.id.lmi_contacts_auto_name}; //,
+	//
+	// //return new ContactsAdapter(InvitationActivity.this, aList);
+	// return new SimpleAdapter(getBaseContext(), aList,
+	// R.layout.lmi_contacts_autocomplete_layout, from, to);
+	// }
+	//
+	// @Override
+	// protected void onPostExecute(final SimpleAdapter adapter) {
+	// friendNameEdit.setAdapter(adapter);
+	// //friendImage.setImageURI(Uri.parse(this.last_uri))
+	//
+	// OnItemClickListener itemClickListener = new OnItemClickListener() {
+	// @SuppressWarnings("unchecked")
+	// @Override
+	// public void onItemClick(AdapterView<?> arg0, View arg1,
+	// int position, long id) {
+	//
+	//
+	// HashMap<String, String> hm = (HashMap<String, String>) arg0
+	// .getAdapter().getItem(position);
+	//
+	// //Toast.makeText(InvitationActivity.this, hm.get("flag").toString(),
+	// Toast.LENGTH_SHORT).show();
+	// friendImage.setImageURI(Uri.parse(hm.get("flag")));
+	//
+	// // TextView tvCurrency = (TextView)
+	// // findViewById(R.id.tv_currency) ;
+	//
+	//
+	// // tvCurrency.setText("Currency : " + hm.get("cur"));
+	// }
+	//
+	// };
+	// friendNameEdit.setOnItemClickListener(itemClickListener);
+	// }
+	//
+	// }
 
 	private String getFriendCellPhoneNumber() {
 		final String friendName = friendNameEdit.getText().toString();
@@ -180,19 +312,24 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	public void onSaveInstanceState(final Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 
-		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_name_edit),
+		savedInstanceState.putCharSequence(
+				String.valueOf(R.id.lmi_friend_name_edit),
 				friendNameEdit.getText());
-		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_cellphone_edit),
+		savedInstanceState.putCharSequence(
+				String.valueOf(R.id.lmi_friend_cellphone_edit),
 				friendCellphoneEdit.getText());
-		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_car_number_edit),
+		savedInstanceState.putCharSequence(
+				String.valueOf(R.id.lmi_friend_car_number_edit),
 				friendCarNumberEdit.getText());
-		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_car_company_edit),
+		savedInstanceState.putCharSequence(
+				String.valueOf(R.id.lmi_friend_car_company_edit),
 				friendCarCompanyEdit.getText());
-		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_car_color_edit),
+		savedInstanceState.putCharSequence(
+				String.valueOf(R.id.lmi_friend_car_color_edit),
 				friendCarColorEdit.getText());
 
-		savedInstanceState.putIntArray(Consts.CALENDAR_INFO, new int[] { getYear(), getMonth(),
-				getDay(), getHour(), getMinute() });
+		savedInstanceState.putIntArray(Consts.CALENDAR_INFO, new int[] {
+				getYear(), getMonth(), getDay(), getHour(), getMinute() });
 	}
 
 	@Override
@@ -269,21 +406,23 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	public void setDate(final Calendar calendar) {
 		this.calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
 		this.calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
-		this.calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
+		this.calendar.set(Calendar.DAY_OF_MONTH,
+				calendar.get(Calendar.DAY_OF_MONTH));
 
-		datePicker.setText(getString(R.string.lmi_date_of_arrival) + ":\n" + getDay() + "/"
-				+ (getMonth() + 1) + "/" + getYear());
+		datePicker.setText(getString(R.string.lmi_date_of_arrival) + ":\n"
+				+ getDay() + "/" + (getMonth() + 1) + "/" + getYear());
 	}
 
 	@Override
 	public void setTime(final Calendar calendar) {
-		this.calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
+		this.calendar.set(Calendar.HOUR_OF_DAY,
+				calendar.get(Calendar.HOUR_OF_DAY));
 		this.calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
 
 		final String fixedHour = (getHour() < 10 ? "0" : "") + getHour();
 		final String fixedMinute = (getMinute() < 10 ? "0" : "") + getMinute();
-		timePicker.setText(getString(R.string.lmi_time_of_arrival) + ":\n" + fixedHour + ":"
-				+ fixedMinute);
+		timePicker.setText(getString(R.string.lmi_time_of_arrival) + ":\n"
+				+ fixedHour + ":" + fixedMinute);
 	}
 
 	public void executeInvitation(final View v) {
@@ -297,26 +436,31 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 			return;
 
 		final Invitation i = Invitation.builder().contactId(friendName)
-				.date(calendar.getTime()).status(Status.CREATED).contactName(friendName)
-				.contactPhoneNumber(friendCellphone).carNumber(carNumber)
-				.carManufacturer(carCompany).carColor(carColor).build();
+				.date(calendar.getTime()).status(Status.CREATED)
+				.contactName(friendName).contactPhoneNumber(friendCellphone)
+				.carNumber(carNumber).carManufacturer(carCompany)
+				.carColor(carColor).build();
 
 		getHelper().getDataDao().create(i);
 
 		finish();
 	}
 
-	private boolean isUserForgotAField(final String friendName, final String carNumber,
-			final String carCompany, final String carColor) {
+	private boolean isUserForgotAField(final String friendName,
+			final String carNumber, final String carCompany,
+			final String carColor) {
 		if ("".equals(friendName))
-			Toast.makeText(getApplicationContext(), "insert name", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "insert name",
+					Toast.LENGTH_SHORT).show();
 		else if ("".equals(carNumber))
-			Toast.makeText(getApplicationContext(), "insert car number", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "insert car number",
+					Toast.LENGTH_SHORT).show();
 		else if ("".equals(carCompany))
-			Toast.makeText(getApplicationContext(), "insert car company", Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(getApplicationContext(), "insert car company",
+					Toast.LENGTH_SHORT).show();
 		else if ("".equals(carColor))
-			Toast.makeText(getApplicationContext(), "insert car color", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "insert car color",
+					Toast.LENGTH_SHORT).show();
 		else
 			return false;
 
