@@ -34,9 +34,9 @@ public class GradesSheetFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.ug_activity_grades_sheet,
 		        container, false);
-		avg = (TextView) view.findViewById(R.id.textView2);
-		succes = (TextView) view.findViewById(R.id.textView4);
-		points = (TextView) view.findViewById(R.id.textView6);
+		avg = (TextView) view.findViewById(R.id.average_value);
+		succes = (TextView) view.findViewById(R.id.success_percentage_value);
+		points = (TextView) view.findViewById(R.id.accumulated_points_value);
 		
 		
 		// retrieves document with html content

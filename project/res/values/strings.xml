@@ -19,5 +19,6 @@
     <string name="accumulated_points">נקודות מצטברות</string>
     <string name="semester_points">סה\"כ נקודות</string>
     <string name="semester_avg">ממוצע</string>
+    <string name="title_activity_transparent">TransparentActivity</string>
 
 </resources>
