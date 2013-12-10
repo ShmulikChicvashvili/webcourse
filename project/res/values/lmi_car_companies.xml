@@ -2,6 +2,7 @@
 <resources>
 
     <string-array name="lmi_car_companies">
+        <item>Undefined</item>
         <item>Honda</item>
         <item>Mazda</item>
         <item>Volvo</item>

@@ -1,12 +1,10 @@
 package com.technion.coolie.letmein;
 
-import java.util.HashMap;
-
-import com.technion.coolie.letmein.model.ContactInfo;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.AutoCompleteTextView;
+
+import com.technion.coolie.letmein.model.ContactInfo;
 
 public class ContactsAutoCompleteTextView  extends AutoCompleteTextView {
 
