@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" 
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/half_activity_vertical_margin"
+    android:paddingLeft="@dimen/half_activity_horizontal_margin"
+    android:paddingRight="@dimen/half_activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" 
     tools:context=".LibraryCardActivity" >
     
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="16dp"
-        android:text="Books"
+        android:text="@string/lib_title_books"
         android:textSize="20sp" />
     
     <TextView
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="16dp"
-        android:text="Duedate"
+        android:text="@string/lib_title_duedate"
         android:textSize="20sp" />
     
     <View
@@ -33,7 +33,7 @@
         android:id="@+id/lib_line"
         android:layout_width="fill_parent"
         android:layout_below="@id/lib_books"
-        android:background="#000000"
+        android:background="#006CB3"
          />   
     
     <TextView
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:layout_below="@id/lib_line"
-        android:text="Loanding..."
+        android:text="No books."
         android:textSize="30sp" />
     
     <ListView

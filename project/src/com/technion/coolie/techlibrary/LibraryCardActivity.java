@@ -79,11 +79,11 @@ public class LibraryCardActivity extends CoolieActivity {
 		mSharedPrefEditor = mSharedPref.edit();
 		if (mFragmentManager.getFragments() != null) {
 			mLoansFragment = (LoansFragment) mFragmentManager
-					.findFragmentById(R.id.loans_fragment);
+					.findFragmentById(R.id.lib_loans_fragment);
 			mHoldsFragment = (HoldsFragment) mFragmentManager
-					.findFragmentById(R.id.holds_fragment);
+					.findFragmentById(R.id.lib_holds_fragment);
 		} else {
-			mViewPager = (ViewPager) findViewById(R.id.pager);
+			mViewPager = (ViewPager) findViewById(R.id.lib_pager);
 			mViewPager.setOnPageChangeListener(onPageChangeListener);
 			mViewPager.setAdapter(new ViewPagerAdapter(mFragmentManager));
 			addActionBarTabs();
@@ -325,6 +325,8 @@ public class LibraryCardActivity extends CoolieActivity {
 
 				xr.setContentHandler(infoXMLHandler);
 				xml = convertStreamToString(sourceUrl.openStream());
+				xml = xml.replaceAll("&apos;", "'");
+				//Log.v("L.card--", xml);
 				xr.parse(new InputSource(new StringReader(xml)));
 
 			} catch (Exception e) {
@@ -480,7 +482,7 @@ public class LibraryCardActivity extends CoolieActivity {
 					if (isInHold) {
 						currentHold.type = currentValue;
 					}
-				} else if (localName.equals("z30-sub-library") && isInLoan) {
+				} else if (localName.equals("z30-sub-library")) {
 					if (isInLoan) {
 						currentLoan.library = currentValue;
 					}

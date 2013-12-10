@@ -171,14 +171,14 @@ public class LoginActivity extends CoolieActivity {
 
 		// Check for a valid password.
 		if (TextUtils.isEmpty(mPassword)) {
-			mPasswordView.setError(getString(R.string.error_field_required));
+			mPasswordView.setError(getString(R.string.lib_error_field_required));
 			focusView = mPasswordView;
 			cancel = true;
 		}
 
 		// Check for a valid id.
 		if (TextUtils.isEmpty(mUserId)) {
-			mUserIdView.setError(getString(R.string.error_field_required));
+			mUserIdView.setError(getString(R.string.lib_error_field_required));
 			focusView = mUserIdView;
 			cancel = true;
 		}
@@ -195,7 +195,7 @@ public class LoginActivity extends CoolieActivity {
 		} else {
 			// Show a progress spinner, and kick off a background task to
 			// perform the user login attempt.
-			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
+			mLoginStatusMessageView.setText(R.string.lib_login_progress_signing_in);
 			showProgress(true);
 
 			// code example for using html grabber!
@@ -330,7 +330,7 @@ public class LoginActivity extends CoolieActivity {
 				toastConnectionError();
 			} else { // !success
 				mPasswordView
-						.setError(getString(R.string.error_incorrect_password));
+						.setError(getString(R.string.lib_error_incorrect_password));
 				mPasswordView.requestFocus();
 			}
 		}

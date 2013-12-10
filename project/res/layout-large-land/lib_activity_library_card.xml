@@ -19,9 +19,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:background="@drawable/grey_frame">
+            android:background="@drawable/lib_grey_frame">
             <fragment android:name="com.technion.coolie.techlibrary.LoansFragment"
-                android:id="@+id/loans_fragment"
+                android:id="@+id/lib_loans_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </FrameLayout>
@@ -36,15 +36,15 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="@string/requests" />
+            android:text="@string/lib_requests" />
 
         <FrameLayout android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:background="@drawable/grey_frame">
+            android:background="@drawable/lib_grey_frame">
             <fragment android:name="com.technion.coolie.techlibrary.HoldsFragment"
-                android:id="@+id/holds_fragment"
+                android:id="@+id/lib_holds_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </FrameLayout>
