@@ -13,7 +13,7 @@
         android:contentDescription="@string/lmi_contact_image"
         android:src="@drawable/lmi_facebook_man" />
 
-    <AutoCompleteTextView
+    <com.technion.coolie.letmein.ContactsAutoCompleteTextView
         android:id="@+id/lmi_friend_name_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,7 +27,7 @@
         android:inputType="textPersonName" >
 
         <requestFocus />
-    </AutoCompleteTextView>
+    </com.technion.coolie.letmein.ContactsAutoCompleteTextView>
 
     <EditText
         android:id="@+id/lmi_friend_cellphone_edit"
@@ -59,7 +59,7 @@
         android:inputType="number"
         android:maxLength="8" />
 
-    <AutoCompleteTextView
+    <Spinner
         android:id="@+id/lmi_friend_car_company_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -68,11 +68,9 @@
         android:layout_marginRight="@dimen/lmi_components_margin"
         android:layout_marginTop="@dimen/lmi_components_margin"
         android:layout_toLeftOf="@+id/lmi_friend_image"
-        android:completionThreshold="1"
-        android:ems="10"
-        android:hint="@string/lmi_friend_car_company"
-        android:imeOptions="actionNext"
-        android:inputType="text" />
+        android:entries="@array/lmi_car_companies"
+        android:prompt="@string/lmi_friend_car_company"
+        android:spinnerMode="dialog" />
 
     <AutoCompleteTextView
         android:id="@+id/lmi_friend_car_color_edit"

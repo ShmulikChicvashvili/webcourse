@@ -2,9 +2,19 @@
 <resources>
 
     <string-array name="lmi_car_companies">
+        <item>Undefined</item>
         <item>Honda</item>
         <item>Mazda</item>
         <item>Volvo</item>
+        <item>Mitsubishi</item>
+        <item>Subaru</item>
+        <item>Volkswagen</item>
+        <item>Ford</item>
+        <item>BMW</item>
+        <item>Suzuki</item>
+        <item>Toyota</item>
+        <item>Nissan</item>
+        <item>SEAT</item>
     </string-array>
 
 </resources>

@@ -4,17 +4,43 @@
     android:layout_height="match_parent"
     android:padding="@dimen/lmi_layout_margin" >
 
+    <Button
+        android:id="@+id/lmi_login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/lmi_components_margin"
+        android:text="@string/lmi_login_to_use"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
     <RelativeLayout
         android:id="@+id/lmi_invitation_list_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lmi_login_button"
+        android:paddingTop="@dimen/lmi_components_margin" />
+
+    <TextView
+        android:id="@+id/lmi_welcome_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lmi_watch_demo_button"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:paddingTop="@dimen/lmi_components_margin"
+        android:text="@string/lmi_welcome_message"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
-        android:id="@+id/lmi_login_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/lmi_watch_demo_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/lmi_login_to_use" />
+        android:layout_margin="@dimen/lmi_components_margin"
+        android:paddingTop="@dimen/lmi_components_margin"
+        android:text="@string/lmi_watch_demo"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
