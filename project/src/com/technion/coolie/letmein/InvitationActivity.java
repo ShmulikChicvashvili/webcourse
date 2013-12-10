@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
@@ -33,7 +34,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	private AutoCompleteTextView friendNameEdit;
 	private EditText friendCellphoneEdit;
 	private EditText friendCarNumberEdit;
-	private AutoCompleteTextView friendCarCompanyEdit;
+	private Spinner friendCarCompanySpinner;
 	private AutoCompleteTextView friendCarColorEdit;
 	private TextView datePicker;
 	private TextView timePicker;
@@ -57,9 +58,8 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 
 		friendCarNumberEdit = (EditText) findViewById(R.id.lmi_friend_car_number_edit);
 
-		friendCarCompanyEdit = (AutoCompleteTextView) findViewById(R.id.lmi_friend_car_company_edit);
-		friendCarCompanyEdit.setAdapter(new ArrayAdapter<String>(InvitationActivity.this,
-				DROP_DOWN_LAYOUT_INDEX, getResources().getStringArray(R.array.lmi_car_companies)));
+		friendCarCompanySpinner = (Spinner) findViewById(R.id.lmi_friend_car_company_edit);
+		// TODO: add listener
 
 		datePicker = (TextView) findViewById(R.id.lmi_date_picker);
 		setDate(calendar);
@@ -186,8 +186,8 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				friendCellphoneEdit.getText());
 		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_car_number_edit),
 				friendCarNumberEdit.getText());
-		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_car_company_edit),
-				friendCarCompanyEdit.getText());
+		savedInstanceState.putInt(String.valueOf(R.id.lmi_friend_car_company_edit),
+				friendCarCompanySpinner.getSelectedItemPosition());
 		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_car_color_edit),
 				friendCarColorEdit.getText());
 
@@ -205,7 +205,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				.valueOf(R.id.lmi_friend_cellphone_edit)));
 		friendCarNumberEdit.setText(savedInstanceState.getCharSequence(String
 				.valueOf(R.id.lmi_friend_car_number_edit)));
-		friendCarCompanyEdit.setText(savedInstanceState.getCharSequence(String
+		friendCarCompanySpinner.setSelection(savedInstanceState.getInt(String
 				.valueOf(R.id.lmi_friend_car_company_edit)));
 		friendCarColorEdit.setText(savedInstanceState.getCharSequence(String
 				.valueOf(R.id.lmi_friend_car_color_edit)));
@@ -290,16 +290,16 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		final String friendName = friendNameEdit.getText().toString();
 		final String friendCellphone = friendCellphoneEdit.getText().toString();
 		final String carNumber = friendCarNumberEdit.getText().toString();
-		final String carCompany = friendCarCompanyEdit.getText().toString();
+		final CarManufacturer carCompany = CarManufacturer.values()[friendCarCompanySpinner
+				.getSelectedItemPosition()];
 		final String carColor = friendCarColorEdit.getText().toString();
 
-		if (isUserForgotAField(friendName, carNumber, carCompany, carColor))
+		if (isUserForgotAField(friendName, carNumber, carColor))
 			return;
 
-		final Invitation i = Invitation.builder().contactId(friendName)
-				.date(calendar.getTime()).status(Status.CREATED).contactName(friendName)
-				.contactPhoneNumber(friendCellphone).carNumber(carNumber)
-				.carManufacturer(carCompany).carColor(carColor).build();
+		final Invitation i = Invitation.builder().contactId(friendName).date(calendar.getTime())
+				.status(Status.CREATED).contactName(friendName).contactPhoneNumber(friendCellphone)
+				.carNumber(carNumber).carManufacturer(carCompany).carColor(carColor).build();
 
 		getHelper().getDataDao().create(i);
 
@@ -307,16 +307,16 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	}
 
 	private boolean isUserForgotAField(final String friendName, final String carNumber,
-			final String carCompany, final String carColor) {
+			final String carColor) {
 		if ("".equals(friendName))
-			Toast.makeText(getApplicationContext(), "insert name", Toast.LENGTH_SHORT).show();
-		else if ("".equals(carNumber))
-			Toast.makeText(getApplicationContext(), "insert car number", Toast.LENGTH_SHORT).show();
-		else if ("".equals(carCompany))
-			Toast.makeText(getApplicationContext(), "insert car company", Toast.LENGTH_SHORT)
+			Toast.makeText(getApplicationContext(), R.string.lmi_insert_name, Toast.LENGTH_SHORT)
 					.show();
+		else if ("".equals(carNumber))
+			Toast.makeText(getApplicationContext(), R.string.lmi_insert_car_number,
+					Toast.LENGTH_SHORT).show();
 		else if ("".equals(carColor))
-			Toast.makeText(getApplicationContext(), "insert car color", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), R.string.lmi_insert_car_color,
+					Toast.LENGTH_SHORT).show();
 		else
 			return false;
 

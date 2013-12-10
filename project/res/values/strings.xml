@@ -36,5 +36,9 @@
     <string name="lmi_add_invitation">Add invitation</string>
     <string name="lmi_welcome_message">Invite your friends in just a few clicks</string>
     <string name="lmi_watch_demo">Watch demo</string>
+    <string name="lmi_demo_image">Demo images</string>
+    <string name="lmi_insert_name">Insert name</string>
+    <string name="lmi_insert_car_number">Insert car number</string>
+    <string name="lmi_insert_car_color">Insert car color</string>
 
 </resources>

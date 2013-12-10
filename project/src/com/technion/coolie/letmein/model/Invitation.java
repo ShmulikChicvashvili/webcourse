@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.technion.coolie.letmein.CarManufacturer;
 import com.tojc.ormlite.android.annotation.AdditionalAnnotation.DefaultContentMimeTypeVnd;
 import com.tojc.ormlite.android.annotation.AdditionalAnnotation.DefaultContentUri;
 import com.tojc.ormlite.android.annotation.AdditionalAnnotation.DefaultSortOrder;
@@ -36,7 +37,7 @@ public class Invitation {
 	private String carNumber;
 
 	@DatabaseField
-	private String carManufacturer;
+	private CarManufacturer carManufacturer;
 
 	@DatabaseField
 	private String carColor;
@@ -100,11 +101,11 @@ public class Invitation {
 		this.carNumber = carNumber;
 	}
 
-	public String getCarCompany() {
+	public CarManufacturer getCarCompany() {
 		return this.carManufacturer;
 	}
 
-	private void setCarManufacturer(final String carManufacturer) {
+	private void setCarManufacturer(final CarManufacturer carManufacturer) {
 		this.carManufacturer = carManufacturer;
 	}
 
@@ -168,7 +169,7 @@ public class Invitation {
 			return this;
 		}
 
-		public Builder carManufacturer(final String carManufacturer) {
+		public Builder carManufacturer(final CarManufacturer carManufacturer) {
 			invitation.setCarManufacturer(carManufacturer);
 			return this;
 		}
