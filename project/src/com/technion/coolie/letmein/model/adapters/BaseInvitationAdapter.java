@@ -110,7 +110,7 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 			final class DatasetHolder {
 				public List<Invitation> Dataset;
 
-				public DatasetHolder(List<Invitation> Dataset) {
+				public DatasetHolder(final List<Invitation> Dataset) {
 					this.Dataset = Dataset;
 				}
 			}
@@ -130,7 +130,7 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 
 				if (constraint == null || constraint.length() <= 0) {
 					$.values = new DatasetHolder(getFullDataset());
-					$.count = getFullDataset().size();
+					$.count = 1;
 
 					return $;
 				}
@@ -143,8 +143,8 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 							.contains(lowerCaseConstraint))
 						filtered.add(i);
 
-				$.values = filtered;
-				$.count = filtered.size();
+				$.values = new DatasetHolder(filtered);
+				$.count = 1;
 
 				return $;
 			}
