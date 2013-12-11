@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/ji_bg"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+  
+    <RelativeLayout 
+        android:id="@+id/top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#e9e9e9">
+       
+
+    <ImageButton
+        android:id="@+id/apllyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ji_navigation_accept"
+        android:padding="@dimen/dp7"
+        android:background="#00000000" />
+     <View
+        android:id="@+id/view"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_below="@id/apllyButton"
+        android:background="@android:color/darker_gray"/>
+     <!-- 
+     <ImageButton
+        android:id="@+id/FriendsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/view"
+        android:src="@drawable/friendsicon"
+        android:background="#00000000" /> 
+        <Button 
+            android:id="@+id/friends_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/view"
+            android:background="#00000000"
+            android:padding="@dimen/dp7"
+            android:drawableRight="@drawable/expander_ic_minimized2"
+            android:drawableLeft="@drawable/friends_icon_f"
+            android:text="@string/friens_events_button"/>
+        
+        <View
+        android:id="@+id/view2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_below="@id/friends_button"
+        android:background="@android:color/darker_gray"/>-->
+        
+        <Button 
+            android:id="@+id/group_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/view"
+            android:background="#00000000"
+            android:padding="@dimen/dp7"
+            android:drawableRight="@drawable/ji_expander_ic_minimized2"
+            android:drawableLeft="@drawable/ji_gr"
+            android:text="@string/create_group_friends"/>
+        
+        <View
+        android:id="@+id/view3"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_below="@id/group_button"
+        android:background="@android:color/darker_gray"/>
+        
+        <Button 
+            android:id="@+id/group_facebook_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/view3"
+            android:background="#00000000"
+            android:padding="@dimen/dp7"
+            android:drawableRight="@drawable/ji_expander_ic_minimized2"
+            android:drawableLeft="@drawable/ji_gr"
+            android:text="@string/create_group_friends_facebook"/>
+        
+        <View
+        android:id="@+id/view4"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:layout_below="@id/group_facebook_button"
+        android:background="@android:color/darker_gray"/>
+    
+    
+    </RelativeLayout>
+    
+    
+	<ListView
+	  android:layout_width="fill_parent" 
+	  android:layout_height="fill_parent" 
+	  android:background="#00000000"
+	  android:cacheColorHint="#00000000"
+	  android:id="@+id/mainListView">
+	</ListView>
+	
+</LinearLayout>
