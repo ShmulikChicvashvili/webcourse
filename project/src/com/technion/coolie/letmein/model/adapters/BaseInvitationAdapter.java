@@ -107,16 +107,20 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 	public Filter getFilter() {
 		return new Filter() {
 
-			final class Wrapper {
+			final class DatasetHolder {
 				public List<Invitation> Dataset;
+
+				public DatasetHolder(List<Invitation> Dataset) {
+					this.Dataset = Dataset;
+				}
 			}
 
 			@Override
 			protected void publishResults(final CharSequence constraint, final FilterResults results) {
-				if (!(results.values instanceof Wrapper))
-					throw new ClassCastException("Expected " + Wrapper.class);
+				if (!(results.values instanceof DatasetHolder))
+					throw new ClassCastException("Expected " + DatasetHolder.class);
 
-				setDisplayedDataset(((Wrapper) results.values).Dataset);
+				setDisplayedDataset(((DatasetHolder) results.values).Dataset);
 				notifyDataSetChanged();
 			}
 
@@ -125,7 +129,7 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 				final FilterResults $ = new FilterResults();
 
 				if (constraint == null || constraint.length() <= 0) {
-					$.values = getFullDataset();
+					$.values = new DatasetHolder(getFullDataset());
 					$.count = getFullDataset().size();
 
 					return $;
