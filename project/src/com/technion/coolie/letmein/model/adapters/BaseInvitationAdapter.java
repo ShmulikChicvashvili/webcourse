@@ -106,10 +106,17 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 	@Override
 	public Filter getFilter() {
 		return new Filter() {
-			@SuppressWarnings("unchecked")
+
+			final class Wrapper {
+				public List<Invitation> Dataset;
+			}
+
 			@Override
 			protected void publishResults(final CharSequence constraint, final FilterResults results) {
-				setDisplayedDataset((List<Invitation>) results.values);
+				if (!(results.values instanceof Wrapper))
+					throw new ClassCastException("Expected " + Wrapper.class);
+
+				setDisplayedDataset(((Wrapper) results.values).Dataset);
 				notifyDataSetChanged();
 			}
 
@@ -129,7 +136,7 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 				final List<Invitation> filtered = new LinkedList<Invitation>();
 				for (final Invitation i : getFullDataset())
 					if (i.getContactName().toLowerCase(Locale.getDefault())
-							.startsWith(lowerCaseConstraint))
+							.contains(lowerCaseConstraint))
 						filtered.add(i);
 
 				$.values = filtered;
