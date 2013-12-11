@@ -15,9 +15,8 @@ import com.technion.coolie.R;
 
 abstract public class BasePage extends Fragment {
 
-	
 	protected ArrayList<CourseItem> parentItems = new ArrayList<CourseItem>();
-	protected ArrayList<Object> childItems = new ArrayList<Object>();
+	protected ArrayList<ExamItem> childItems = new ArrayList<ExamItem>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,7 +26,6 @@ abstract public class BasePage extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		System.out.println("ENTER");
 		View view = inflater.inflate(R.layout.ug_courses_and_exams_tab,
 				container, false);
 		ExpandableListView expandableList = (ExpandableListView) view
@@ -36,9 +34,7 @@ abstract public class BasePage extends Fragment {
 		expandableList.setDividerHeight(2);
 		expandableList.setGroupIndicator(null);
 		expandableList.setClickable(true);
-
 		setGroupParents();
-		setChildData();
 
 		CoursesAndExamsAdapter adapter = new CoursesAndExamsAdapter(
 				parentItems, childItems);
@@ -70,7 +66,6 @@ abstract public class BasePage extends Fragment {
 	public void onResume() {
 		super.onResume();
 	}
-	
+
 	abstract public void setGroupParents();
-	abstract public void setChildData();
 }

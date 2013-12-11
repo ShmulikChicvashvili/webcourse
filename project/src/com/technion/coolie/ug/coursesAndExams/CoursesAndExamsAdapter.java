@@ -5,25 +5,21 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.technion.coolie.R;
 
 public class CoursesAndExamsAdapter extends BaseExpandableListAdapter {
 
 	private Activity activity;
-	private ArrayList<Object> childtems;
 	private LayoutInflater inflater;
 	private ArrayList<CourseItem> parentItems;
-	private ArrayList<String> child;
+
 	public CoursesAndExamsAdapter(ArrayList<CourseItem> parents,
-			ArrayList<Object> childern) {
+			ArrayList<ExamItem> childern) {
 		this.parentItems = parents;
-		this.childtems = childern;
 	}
 
 	public void setInflater(LayoutInflater inflater, Activity activity) {
@@ -35,27 +31,18 @@ public class CoursesAndExamsAdapter extends BaseExpandableListAdapter {
 	public View getChildView(int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 
-		child = (ArrayList<String>) childtems.get(groupPosition);
-
-		TextView textView = null;
-
 		if (convertView == null) {
 			convertView = inflater.inflate(
-					R.layout.ug_courses_and_exams_tab_row, null);
+					R.layout.ug_courses_and_exams_child_item, null);
 		}
-
-		textView = (TextView) convertView.findViewById(R.id.textView1);
-		textView.setText(child.get(childPosition));
-
-		convertView.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View view) {
-				Toast.makeText(activity, child.get(childPosition),
-						Toast.LENGTH_SHORT).show();
-			}
-		});
-
+		TextView moed = (TextView) convertView
+				.findViewById(R.id.courses_and_exams_moed);
+		TextView examDate = (TextView) convertView
+				.findViewById(R.id.courses_and_exams_exam_date);
+		moed.setText(parentItems.get(groupPosition).getExams()
+				.get(childPosition).getMoed());
+		examDate.setText(parentItems.get(groupPosition).getExams()
+				.get(childPosition).getExamDate());
 		return convertView;
 	}
 
@@ -65,13 +52,15 @@ public class CoursesAndExamsAdapter extends BaseExpandableListAdapter {
 
 		if (convertView == null) {
 			convertView = inflater.inflate(
-					R.layout.ug_courses_and_exams_tab_group, null);
+					R.layout.ug_courses_and_exams_group_item, null);
 		}
-		TextView courseName = (TextView) convertView.findViewById(R.id.courses_and_exams_course_name);
-		TextView courseId = (TextView) convertView.findViewById(R.id.courses_and_exams_course_id);
-		TextView points = (TextView) convertView.findViewById(R.id.courses_and_exams_points);
-//		((CheckedTextView) convertView).setText(parentItems.get(groupPosition));
-//		((CheckedTextView) convertView).setChecked(isExpanded);
+		// ImageView im = (ImageView) convertView.findViewById(R.id.tag_img);
+		TextView courseName = (TextView) convertView
+				.findViewById(R.id.courses_and_exams_course_name);
+		TextView courseId = (TextView) convertView
+				.findViewById(R.id.courses_and_exams_course_id);
+		TextView points = (TextView) convertView
+				.findViewById(R.id.courses_and_exams_points);
 		courseName.setText(parentItems.get(groupPosition).getCoursName());
 		courseId.setText(parentItems.get(groupPosition).getCourseId());
 		points.setText(parentItems.get(groupPosition).getPoints());
@@ -90,7 +79,7 @@ public class CoursesAndExamsAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return ((ArrayList<String>) childtems.get(groupPosition)).size();
+		return parentItems.get(groupPosition).getExams().size();
 	}
 
 	@Override
