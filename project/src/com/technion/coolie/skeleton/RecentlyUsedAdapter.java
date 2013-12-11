@@ -1,101 +1,27 @@
 package com.technion.coolie.skeleton;
 
-import java.util.Arrays;
-import java.util.Comparator;
-
-import com.technion.coolie.R;
-
 import android.content.Context;
-import android.content.Intent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-public class RecentlyUsedAdapter extends BaseAdapter {
+public class RecentlyUsedAdapter extends ModulesAdapter {
 
-	CoolieModule[] modules;
-	Context mContext;
-	
-	private class ViewHolder
-	{
-		TextView title;
-		TextView desc;
-		ImageView icon;
+	public RecentlyUsedAdapter(Context c) {
+		super(c);
 	}
-	public RecentlyUsedAdapter(Context c)
-	{
-		mContext = c;
-		modules = CoolieModule.values();
-		Arrays.sort(modules, new Comparator<CoolieModule>()
-		{
 
-			@Override
-			public int compare(CoolieModule arg0, CoolieModule arg1) {
-				return arg0.getLastUsed().compareTo(arg1.getLastUsed());
+	@Override
+	int compareModules(CoolieModule m1, CoolieModule m2) {
+		if (m1.getLastUsed() == null && m2.getLastUsed() != null) {
+			return -1; // meaning m2 got used more recently..
+		} else {
+			if (m1.getLastUsed() != null && m2.getLastUsed() == null) {
+				return 1; // meaning m1 got used more recently..
+			} else {
+				if (m1.getLastUsed() == null && m2.getLastUsed() == null) {
+					return 1; // randomly determined the m1 is more recent..
+				}
 			}
-	
-		});
-	}
-	@Override
-	public int getCount() {
-		return CoolieModule.values().length;
-	}
-
-	@Override
-	public Object getItem(int pos) {
-		return modules[pos];
-	}
-
-	@Override
-	public long getItemId(int pos) {
-		return pos;
-	}
-
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		View v = null;
-		ViewHolder holder = null;
-		
-		if(convertView == null)
-		{
-			LayoutInflater inf = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			v = inf.inflate(R.layout.skel_big_button_layout, null);
-			
-			holder = new ViewHolder();
-			
-			holder.title = (TextView) v.findViewById(R.id.skel_title);
-			holder.desc = (TextView) v.findViewById(R.id.skel_desc);
-			holder.icon = (ImageView) v.findViewById(R.id.skel_image);
-			
-			v.setTag(holder);
-		}
-		else
-		{
-			v = convertView;
-			holder = (ViewHolder) v.getTag();
 		}
 
-		final CoolieModule curr = modules[position];
-		holder.title.setText(curr.getName(mContext));
-		holder.desc.setText(curr.getDescription(mContext));
-		holder.icon.setImageResource(curr.getPhotoRes());
-		
-		v.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-		           Intent intent = new Intent(mContext, curr.getActivity());
-		           mContext.startActivity(intent);
-				
-			}
-		});
-		return v;
+		return m1.getLastUsed().compareTo(m2.getLastUsed());
 	}
-	
-	
-
 }

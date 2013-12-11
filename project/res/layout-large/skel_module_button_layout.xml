@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/skel_small_button_layout"
+    android:id="@+id/skel_big_button_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:clickable="true" 
-    style="@style/Button.Small"
+    style="@style/Button.Medium"
     >
     
     <ImageView
         android:id="@+id/skel_image"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
@@ -18,11 +18,10 @@
         />
     <TextView
             android:id="@+id/skel_title"
-          
+          	android:lines="2"
             android:layout_width="match_parent"
         	android:layout_height="wrap_content"
-            android:text="Module A"
-            android:textSize="12sp"
+            android:textSize="18sp"
             style="@style/Button"
              />
     
@@ -30,13 +29,8 @@
             android:id="@+id/skel_desc"
             android:layout_width="match_parent"
         	android:layout_height="wrap_content"
-        	android:lines="3"
-            android:text="This is the description of module B. This tells us about module and i want to add more text that will be shown as 5 lines and i hope it will be cut out correctly "
+        	android:lines="5"
             android:ellipsize="end"
-            android:textSize="10sp"
+            android:textSize="14sp"
             style="@style/Button" />
-        
-   
-    
-
 </LinearLayout>
