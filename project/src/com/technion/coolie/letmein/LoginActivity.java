@@ -2,7 +2,6 @@ package com.technion.coolie.letmein;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -52,7 +51,6 @@ public class LoginActivity extends CoolieActivity {
 		});
 
 		passwordEditText = (EditText) findViewById(R.id.lmi_edit_password);
-		passwordEditText.setTypeface(Typeface.DEFAULT); // Fix font.
 		passwordEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -117,44 +115,42 @@ public class LoginActivity extends CoolieActivity {
 			 */
 			return;
 		}
-		
+
 		// HACK for testing
-		if (username.equals("asd") || password.equals("asd"))
-		{
+		if (username.equals("asd") || password.equals("asd")) {
 			endLogin(true);
-		}
-		else
-		{
+		} else {
 			(new AsyncTask<String, Void, Boolean>() {
 				@Override
 				protected Boolean doInBackground(String... params) {
-			        return Scrapper.CheckLogin(params[0], params[1]);
+					return Scrapper.CheckLogin(params[0], params[1]);
 				}
-				
+
 				@Override
-		        protected void onPostExecute(Boolean result) {
+				protected void onPostExecute(Boolean result) {
 					LoginActivity.this.endLogin(result);
-		        }
-				
+				}
+
 			}).execute(username, password);
 		}
-		
-		Toast.makeText(getApplicationContext(),"Login with username " + username, Toast.LENGTH_SHORT).show();
+
+		Toast.makeText(getApplicationContext(), "Login with username " + username,
+				Toast.LENGTH_SHORT).show();
 	}
+
 	private void endLogin(Boolean loginSuccess) {
-		if (loginSuccess)
-		{
+		if (loginSuccess) {
 			String username = usernameEditText.getText().toString();
 			String password = passwordEditText.getText().toString();
 			saveLoginData(username, password);
-	
-			Toast.makeText(getApplicationContext(),"Login successfull, user and password saved",Toast.LENGTH_SHORT).show();
+
+			Toast.makeText(getApplicationContext(), "Login successfull, user and password saved",
+					Toast.LENGTH_SHORT).show();
 			finish();
-		}
-		else{
+		} else {
 			new AlertDialog.Builder(LoginActivity.this).setTitle(R.string.lmi_login_failed_title)
-			.setMessage(R.string.lmi_login_failed_message).show();
-			
+					.setMessage(R.string.lmi_login_failed_message).show();
+
 		}
 	}
 
@@ -197,6 +193,5 @@ public class LoginActivity extends CoolieActivity {
 		passwordEditText.setText(savedInstanceState.getCharSequence(String
 				.valueOf(R.id.lmi_edit_password)));
 	}
-	
-}
 
+}

@@ -83,6 +83,12 @@ public class MainActivity extends DatabaseActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lmi_activity_main);
 
+		if (findViewById(R.id.lmi_login_button) instanceof Button) {
+			System.out.println("button");
+		} else {
+			System.out.println("not button");
+		}
+
 		loginButton = (Button) findViewById(R.id.lmi_login_button);
 		loginButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -92,6 +98,7 @@ public class MainActivity extends DatabaseActivity implements
 		});
 
 		welcomeMessageTextView = (TextView) findViewById(R.id.lmi_welcome_message);
+
 		watchDemoButton = (Button) findViewById(R.id.lmi_watch_demo_button);
 		watchDemoButton.setOnClickListener(new OnClickListener() {
 			@Override

@@ -16,8 +16,8 @@
     <string name="lmi_login_failed_title">Login failed</string>
     <string name="lmi_login_failed_message">Login failed, check user and password</string>
     <string name="lmi_username">Username</string>
-    <string name="lmi_username_hint">Type in your username..</string>
-    <string name="lmi_password_hint">Type in your password..</string>
+    <string name="lmi_username_hint">Username</string>
+    <string name="lmi_password_hint">Password</string>
     <string name="lmi_login">Login</string>
     <string name="lmi_enter_username">Enter your username</string>
     <string name="lmi_enter_password">Enter your password</string>
@@ -34,7 +34,7 @@
     <string name="lmi_date_of_arrival">Date of arrival</string>
     <string name="lmi_execute_invitation">Let him in!</string>
     <string name="lmi_add_invitation">Add invitation</string>
-    <string name="lmi_welcome_message">Invite your friends in just a few clicks</string>
+    <string name="lmi_welcome_message">Invite friends in just a few clicks</string>
     <string name="lmi_watch_demo">Watch demo</string>
     <string name="lmi_demo_image">Demo images</string>
     <string name="lmi_insert_name">Insert name</string>
