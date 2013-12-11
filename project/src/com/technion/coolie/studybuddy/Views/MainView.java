@@ -24,6 +24,7 @@ public class MainView extends SherlockFragment {
 		View rootView = null;
 		rootView = inflater.inflate(R.layout.stb_view_main, container, false);
 
+		//TODO: anna change to a real graph
 		ImageView imageView = (ImageView) rootView
 				.findViewById(R.id.graph_view);
 		imageView.setOnClickListener(new OnClickListener() {
