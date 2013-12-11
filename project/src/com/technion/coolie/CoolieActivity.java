@@ -214,8 +214,8 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		map.put("moduleName", "module 5");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module6);
-		map.put("moduleName", "module 6");
+		map.put("moduleIcon", R.drawable.techmind_icon);
+		map.put("moduleName", "Techmine");
 		list.add(map);
 		map = new HashMap();
 		map.put("moduleIcon", R.drawable.skel_module7);
