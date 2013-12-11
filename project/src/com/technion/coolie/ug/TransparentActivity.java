@@ -3,6 +3,7 @@ package com.technion.coolie.ug;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -18,11 +19,11 @@ public String key;
 		setContentView(R.layout.ug_transparent_layout);
 		Bundle b = getIntent().getExtras();
 		key = b.getString("key");
-		onRssItemSelected(key);
+		onListClicked(key);
 		
 	}
 
-	public void onRssItemSelected(String link) {
+	public void onListClicked(String link) {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
@@ -50,6 +51,10 @@ public String key;
 //			fragmentTransaction.replace(R.id.non_transparent, layout4);
 //			fragmentTransaction.commit();
 //		}
+	}
+	
+	public void transparentClick(View view){
+		finish();
 	}
 
 }

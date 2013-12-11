@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.technion.coolie.ug.Enums.DayOfWeek;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
@@ -82,6 +84,18 @@ public class AcademicCalendarListFragment extends ListFragment {
 				inflater.getContext(), coursesList);
 		setListAdapter(adapter);
 		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		/*Intent intent = new Intent(getActivity(), TransparentActivity.class);
+		Bundle b = new Bundle();
+		b.putString("key", "gradesSheetLayout");
+		intent.putExtras(b);
+		startActivity(intent);
+		super.onListItemClick(l, v, position, id);*/
+		
+//		new CalendarAsync(getActivity()).execute();
 	}
 
 }

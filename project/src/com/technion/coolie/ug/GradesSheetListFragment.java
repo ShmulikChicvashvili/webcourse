@@ -9,12 +9,8 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.technion.coolie.ug.gradessheet.GradesSheetActivity;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 
 public class GradesSheetListFragment extends ListFragment {
@@ -77,8 +73,6 @@ public class GradesSheetListFragment extends ListFragment {
 		b.putString("key", "gradesSheetLayout");
 		intent.putExtras(b);
 		startActivity(intent);
-//		finish();
-//		startActivity(new Intent(getActivity(), TransparentActivity.class));
 		super.onListItemClick(l, v, position, id);
 	}
 }

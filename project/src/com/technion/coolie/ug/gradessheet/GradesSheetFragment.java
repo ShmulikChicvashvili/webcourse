@@ -21,12 +21,13 @@ import android.widget.TextView;
 
 import com.technion.coolie.R;
 import com.technion.coolie.ug.HtmlParser;
+import com.technion.coolie.ug.model.AccomplishedCourse;
 
 public class GradesSheetFragment extends Fragment {
 	ArrayList<Item> items = new ArrayList<Item>();
 	ListView listview = null;
 	Document doc;
-	TextView avg, succes, points;
+	TextView avg, success, points;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,7 +35,7 @@ public class GradesSheetFragment extends Fragment {
 		View view = inflater.inflate(R.layout.ug_activity_grades_sheet,
 				container, false);
 		avg = (TextView) view.findViewById(R.id.average_value);
-		succes = (TextView) view.findViewById(R.id.success_percentage_value);
+		success = (TextView) view.findViewById(R.id.success_percentage_value);
 		points = (TextView) view.findViewById(R.id.accumulated_points_value);
 
 		// retrieves document with html content
@@ -43,7 +44,7 @@ public class GradesSheetFragment extends Fragment {
 		return view;
 	}
 
-	class parseGradesAsync extends AsyncTask<Void, Void, Void> {
+	public class parseGradesAsync extends AsyncTask<Void, Void, Void> {
 
 		private ProgressDialog pdia;
 		private Context context;
@@ -87,7 +88,7 @@ public class GradesSheetFragment extends Fragment {
 
 		private void setStudentDetails(Elements types) {
 			avg.setText(types.get(17).text());
-			succes.setText(types.get(16).text() + " %");
+			success.setText(types.get(16).text() + " %");
 			points.setText(types.get(15).text());
 		}
 
@@ -130,8 +131,10 @@ public class GradesSheetFragment extends Fragment {
 				String grade = tdElems.get(i).text();
 				grade = grade.matches(".*\\d.*") ? grade : reverseString(grade);
 				// add grade line to list
-				items.add(new GradesEntryItem(courseNumber + "  " + reverse,
-						tdElems.get(i + 1).text(), grade));
+//				items.add(new GradesEntryItem(courseNumber, reverse, tdElems
+//						.get(i + 1).text(), grade));
+				items.add(new AccomplishedCourse(courseNumber, reverse, tdElems
+						.get(i + 1).text(), null, grade));
 			}
 			// set table footer (semester avg + total points in semester)
 			setBottomLine(tdElems.get(numOfTdElemsInTable - 3).text(), tdElems
