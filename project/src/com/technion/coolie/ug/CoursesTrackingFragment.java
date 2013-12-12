@@ -1,6 +1,7 @@
 package com.technion.coolie.ug;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.http.Header;
@@ -23,7 +24,7 @@ import android.widget.ListView;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 
-public class CoursesTrackingActivity extends CoolieActivity {
+public class CoursesTrackingFragment extends CoolieActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -55,13 +56,13 @@ public class CoursesTrackingActivity extends CoolieActivity {
         								 "234123", "234503", "234141","234123", "234503", "234141",
         								 "234123", "234503", "234141","234123", "234503", "23414"};
 
-        final ArrayList<String> list = new ArrayList<String>();
+        final List<String> list = new ArrayList<String>();
         for (int i = 0; i < values.length; ++i) {
           list.add(values[i]);
         }
        
-        final TrackingListAdapter adapter = new TrackingListAdapter(this, list);
-        listview.setAdapter(adapter);
+      //  final TrackingListAdapter adapter = new TrackingListAdapter(this, list);
+     //   listview.setAdapter(adapter);
 	}
 	
 }
