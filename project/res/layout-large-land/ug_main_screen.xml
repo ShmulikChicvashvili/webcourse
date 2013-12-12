@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:showDividers="middle"
+    android:background="#B2DFEE"
+    android:textStyle="bold" >
+    
+    <FrameLayout
+        android:id="@+id/detail_container"
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="3"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"    
+        >
+    </FrameLayout>
+    
+    <LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="fill_parent"
+    android:layout_weight="1"
+    android:background="#539DC2">
+	    <fragment
+             android:id="@+id/ug_academic_calendar_fragment"
+             android:name="com.technion.coolie.ug.LandscapeRightMenuFragment"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent"
+             android:paddingBottom="30dp" />
+	</LinearLayout>
+
+</LinearLayout>

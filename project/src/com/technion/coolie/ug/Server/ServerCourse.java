@@ -1,24 +1,27 @@
-package com.technion.coolie.ug.model;
+package com.technion.coolie.ug.Server;
 
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
 import com.technion.coolie.ug.Enums.Faculty;
+import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.GroupOfCourses;
+import com.technion.coolie.ug.model.RegistrationGroup;
+import com.technion.coolie.ug.model.Semester;
 
 //Notes : faculty can be decided by the first two numbers of the
 // course id.
 
-public class Course implements Serializable {
+public class ServerCourse {
 
 	// The key\id fields: courseNumber + semester
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1920752343710817619L;
-
-	private Semester semester; // can be a string in the db
+	int id;
+	private Semester semester; 
 	private String courseNumber;
 
 	private String name;
@@ -26,18 +29,18 @@ public class Course implements Serializable {
 	private float points;
 	private String description;
 
-	private Faculty faculty;// can be a string in the db.
+	private Faculty faculty;
 
-	private Calendar moedA;
-	private Calendar moedB;
+	private long moedA;
+	private long moedB;
 
 	private List<GroupOfCourses> prerequisites; // ���
 	private List<GroupOfCourses> attachedCourses; // ����
 	private List<RegistrationGroup> registrationGroups;
 
-	public Course(String courseNumber, String name, float points,
-			String description, Semester semester, Faculty faculty, Calendar moedA,
-			Calendar moedB, List<GroupOfCourses> prerequisites,List<GroupOfCourses> attachedCourses,
+	public ServerCourse(String courseNumber, String name, float points,
+			String description, Semester semester, Faculty faculty, long moedA,
+			long moedB, List<GroupOfCourses> prerequisites,List<GroupOfCourses> attachedCourses,
 			List<RegistrationGroup> registrationGroups) {
 		super();
 		this.courseNumber = courseNumber;
@@ -103,19 +106,19 @@ public class Course implements Serializable {
 		this.faculty = faculty;
 	}
 
-	public Calendar getMoedA() {
+	public long getMoedA() {
 		return moedA;
 	}
 
-	public void setMoedA(Calendar moedA) {
+	public void setMoedA(long moedA) {
 		this.moedA = moedA;
 	}
 
-	public Calendar getMoedB() {
+	public long getMoedB() {
 		return moedB;
 	}
 
-	public void setMoedB(Calendar moedB) {
+	public void setMoedB(long moedB) {
 		this.moedB = moedB;
 	}
 
