@@ -3,3 +3,4 @@ project/bin
 project/gen
 actionbarsherlock/
 android-support-v7-appcompat/
+actionbarsherlock/bin/*
