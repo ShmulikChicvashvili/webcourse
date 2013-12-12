@@ -7,6 +7,7 @@ import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.Enums.LandscapeLeftMenuItems;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
+import com.technion.coolie.ug.gui.searchCourses.SearchFragment;
 
 public class MainActivity extends CoolieActivity implements
 		OnRightMenuItemSelected {
@@ -30,7 +31,8 @@ public class MainActivity extends CoolieActivity implements
 			f = new GradesSheetFragment();
 			break;
 		case COURSES_AND_EXAMS:
-			f = new CoursesAndExamsListFragment();
+			// f = new CoursesAndExamsListFragment();
+			f = new SearchFragment();
 			break;
 		case ACADEMIC_CALENDAR:
 			f = new AcademicCalendarListFragment();
