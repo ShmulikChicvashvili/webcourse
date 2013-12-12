@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.technion.coolie.studybuddy.Model.Exam;
+import com.technion.coolie.studybuddy.Model.StudyResource;
 import com.technion.coolie.studybuddy.Model.Subject;
 
 public class SubjectTests {
@@ -29,13 +30,13 @@ public class SubjectTests {
 	}
 
 	@Test
-	public void getExamsWithNoExamSetShouldReturnNil() {
+	public void getExamsOnNewSubjectShouldReturnNil() {
 		Subject s = new Subject();
 		assertThat(s.getExams(), is(Collections.<Exam> emptyList()));
 	}
 
 	@Test
-	public void addingAnExamReturnsIt() {
+	public void addingAnExamMustReturnIt() {
 		Subject s = new Subject();
 		Exam e = mock(Exam.class);
 
@@ -69,5 +70,14 @@ public class SubjectTests {
 	public void subjectReturnsCorrectHebrewName() throws Exception {
 		Subject s = new Subject(234123, "מערכות הפעלה");
 		assertThat(s.getName(), is("מערכות הפעלה"));
+	}
+
+	@Test
+	public void gettingStudyResourcesWithoutAllocationShouldBeEmpty() {
+		Subject s = new Subject(123, "name");
+
+		assertThat(s.getStudyResources(),
+				is(Collections.<StudyResource> emptyList()));
+
 	}
 }

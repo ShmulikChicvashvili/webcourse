@@ -2,18 +2,15 @@ package com.technion.coolie.studybuddy.Model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 public class Subject {
 
 	private final List<Exam> exams = new ArrayList<Exam>();
+	private final List<StudyResource> studResources = new ArrayList<StudyResource>();
 	private final int id;
 	private final String name;
-	private static Random g = new Random((new Date()).getTime());
 
 	public Subject() {
 		this.id = radomId();
@@ -21,7 +18,7 @@ public class Subject {
 	}
 
 	public static int radomId() {
-		return g.nextInt(999999);
+		return Utils.randomInt(999999);
 
 	}
 
@@ -52,5 +49,21 @@ public class Subject {
 
 	public int getId() {
 		return id;
+	}
+
+	public List<StudyResource> getStudyResources() {
+		return studResources;
+	}
+
+	public void addStudyResource(StudyResource r) {
+		studResources.add(r);
+	}
+
+	public void addStudyResources(StudyResource... r) {
+		this.studResources.addAll(Arrays.asList(r));
+	}
+
+	public void addStudyResources(Collection<StudyResource> r) {
+		this.studResources.addAll(r);
 	}
 }
