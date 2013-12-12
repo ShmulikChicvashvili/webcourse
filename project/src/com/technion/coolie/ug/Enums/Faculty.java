@@ -1,9 +1,20 @@
 package com.technion.coolie.ug.Enums;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public enum Faculty implements Serializable {
-	AE, ARCHITECTURE, BIOLOGY, BM, BIOTECH, CHEMENG, CHEMISTRY, CEE, CS, EDU, EE, HUMANITIES, IE, MATERIALS, MATH, MEENG, MD, PHYS, ALL_FACULTIES
+	ALL_FACULTIES, AE, ARCHITECTURE, BIOLOGY, BM, BIOTECH, CHEMENG, CHEMISTRY, CEE, CS, EDU, EE, HUMANITIES, IE, MATERIALS, MATH, MEENG, MD, PHYS;
+	public List<String> getAllFaculties() {
+		Faculty[] faculties = this.values();
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < faculties.length; i++) {
+			list.add(faculties[i].toString());
+		}
+		return list;
+	}
+
 };
 
 // AE = Aerospace Engineering

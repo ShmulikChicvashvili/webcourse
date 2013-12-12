@@ -6,7 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
-    <string name="serach_course_hint">הכנס קורס</string>
+    <string name="serach_course_hint">חפש קורס</string>
     <string name="search_end_results">סוף תוצאות</string>
 
     <!-- GradesSheet activity -->
@@ -19,5 +19,6 @@
     <string name="accumulated_points">נקודות מצטברות</string>
     <string name="semester_points">סה\"כ נקודות</string>
     <string name="semester_avg">ממוצע</string>
+    <string name="title_activity_transparent">TransparentActivity</string>
 
 </resources>

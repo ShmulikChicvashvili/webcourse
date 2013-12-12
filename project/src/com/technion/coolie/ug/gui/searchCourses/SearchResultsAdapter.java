@@ -23,7 +23,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Course> {
 
 	public SearchResultsAdapter(Context context, List<Course> objects,
 			OnClickListener listener) {
-		super(context, R.layout.search_screen_layout, objects);
+		super(context, R.layout.ug_search_screen_fragment, objects);
 		this.context = context;
 		this.results = objects;
 		this.listener = listener;
@@ -37,7 +37,7 @@ public class SearchResultsAdapter extends ArrayAdapter<Course> {
 		if (row == null) {
 			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
 			row = inflater
-					.inflate(R.layout.search_list_item_row, parent, false);
+					.inflate(R.layout.ug_search_list_item_row, parent, false);
 
 			holder = new CourseHolder();
 

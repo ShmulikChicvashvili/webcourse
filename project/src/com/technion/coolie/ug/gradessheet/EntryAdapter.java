@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
+import com.technion.coolie.ug.model.AccomplishedCourse;
 
 public class EntryAdapter extends ArrayAdapter<Item> {
 
@@ -57,12 +58,14 @@ public class EntryAdapter extends ArrayAdapter<Item> {
 						.findViewById(R.id.list_item_footer_average);
 				final TextView footerTotPointsView = (TextView) v
 						.findViewById(R.id.list_item_footer_num_of_point);
-				footerAvgView.setText(/*footerAvgView.getText() + ": " + */si.getSemesterAvg());
-				footerTotPointsView.setText(/*footerTotPointsView.getText() + ": " + */si.getSemesterTotalPoints());
+				footerAvgView.setText(si.getSemesterAvg());
+				footerTotPointsView.setText(si.getSemesterTotalPoints());
 
 			} else {
-				GradesEntryItem ei = (GradesEntryItem) i;
+				AccomplishedCourse ei = (AccomplishedCourse) i;
 				v = vi.inflate(R.layout.ug_grades_list_item_entry, null);
+				final TextView courseNumber = (TextView) v
+						.findViewById(R.id.list_item_entry_course_number);
 				final TextView courseName = (TextView) v
 						.findViewById(R.id.list_item_entry_course_name);
 				final TextView points = (TextView) v
@@ -70,12 +73,14 @@ public class EntryAdapter extends ArrayAdapter<Item> {
 				final TextView grade = (TextView) v
 						.findViewById(R.id.list_item_entry_grade);
 
+				if (courseNumber != null)
+					courseNumber.setText(ei.getCourseNumber());
 				if (courseName != null)
-					courseName.setText(ei.courseName);
+					courseName.setText(ei.getName());
 				if (points != null)
-					points.setText(ei.points);
+					points.setText(ei.getPoints());
 				if (grade != null)
-					grade.setText(ei.grade);
+					grade.setText(ei.getGrade());
 
 			}
 		}

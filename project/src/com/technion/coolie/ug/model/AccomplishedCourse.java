@@ -1,7 +1,9 @@
 package com.technion.coolie.ug.model;
 
+import com.technion.coolie.ug.gradessheet.Item;
 
-public class AccomplishedCourse implements Comparable<AccomplishedCourse>  
+
+public class AccomplishedCourse implements Comparable<AccomplishedCourse>, Item  
 {
 	public AccomplishedCourse(String courseNumber, String name, String points, Semester semester, String grade) {
 		super();
@@ -51,6 +53,16 @@ public class AccomplishedCourse implements Comparable<AccomplishedCourse>
 		if (another==null || this.semester== null || another.semester == null) 
 			return 0;
 		return this.semester.compareTo(another.semester);
+	}
+	
+	@Override
+	public boolean isSection() {
+		return false;
+	}
+
+	@Override
+	public boolean isFooter() {
+		return false;
 	}
 
 }

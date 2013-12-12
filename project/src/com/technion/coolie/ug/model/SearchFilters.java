@@ -66,7 +66,7 @@ public class SearchFilters {
 	}
 
 	/**
-	 * checks for each word in the query that it is in the string
+	 * checks for each word in the query and checks that its in the string
 	 */
 	private boolean isSubstring(String query, String strOnCheck) {
 		for (String word : query.split(" "))
