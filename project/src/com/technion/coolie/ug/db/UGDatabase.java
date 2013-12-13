@@ -10,6 +10,9 @@ import java.util.List;
 import com.technion.coolie.ug.Enums.DayOfWeek;
 import com.technion.coolie.ug.Enums.Faculty;
 import com.technion.coolie.ug.Enums.SemesterSeason;
+import com.technion.coolie.ug.coursesAndExams.CourseItem;
+import com.technion.coolie.ug.gradessheet.Item;
+import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Meeting;
@@ -84,6 +87,16 @@ public enum UGDatabase {
 
 	public Semester getCurrentSemester() {
 		return currentSemesters[currentSeason.getIdx()];
+	}
+	
+	List<Item> getGradesSheet()
+	{
+		return null;
+	}
+	
+	List<CourseItem> getStudentCourses(Semester semester)
+	{
+		return null;
 	}
 	// public List<String> getCoursesNames() {
 	// return allCoursesNames;
