@@ -243,6 +243,10 @@ public class SearchFragment extends Fragment {
 		autocompletetextview.setTextColor(getResources().getColor(
 				R.color.abs__background_holo_dark));
 
+		// int width = getActivity().getWindowManager().getDefaultDisplay()
+		// .getWidth();
+		// autocompletetextview.setDropDownWidth(width);
+
 		autocompletetextview
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 					@Override

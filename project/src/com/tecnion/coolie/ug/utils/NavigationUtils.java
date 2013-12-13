@@ -1,11 +1,12 @@
 package com.tecnion.coolie.ug.utils;
 
-import java.io.Serializable;
-
-import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
-import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayActivity;
+import com.technion.coolie.R;
+import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayFragment;
 import com.technion.coolie.ug.model.CourseKey;
 
 /**
@@ -22,20 +23,18 @@ public class NavigationUtils {
 	 * @param context
 	 */
 	public static void goToCourseDisplay(CourseKey key,
-			FragmentActivity activity/* , int placeHolderResourceId */) {
+			FragmentActivity activity) {
 
-		Intent intent = new Intent(activity, CourseDisplayActivity.class);
-		intent.putExtra(CourseDisplayActivity.EXTRAS_COURSE_KEY,
-				(Serializable) key);
-		activity.startActivity(intent);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(CourseDisplayFragment.ARGUMENTS_COURSE_KEY, key);
 
-		// Fragment newFragment = new SearchFragment();
-		// final FragmentTransaction transaction = activity
-		// .getSupportFragmentManager().beginTransaction();
-		// transaction.replace(placeHolderResourceId, newFragment);
-		// transaction.addToBackStack(null);
-		// transaction.commit();
+		Fragment newFragment = new CourseDisplayFragment();
+		newFragment.setArguments(bundle);
+		final FragmentTransaction transaction = activity
+				.getSupportFragmentManager().beginTransaction();
+		transaction.replace(R.id.detail_container, newFragment);
+		transaction.addToBackStack(null);
+		transaction.commit();
 
 	}
-
 }
