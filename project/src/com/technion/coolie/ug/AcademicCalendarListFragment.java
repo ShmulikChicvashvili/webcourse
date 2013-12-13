@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -13,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.technion.coolie.ug.Enums.DayOfWeek;
+import com.technion.coolie.ug.Enums.SemesterSeason;
+import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 
 public class AcademicCalendarListFragment extends ListFragment {
@@ -96,6 +97,8 @@ public class AcademicCalendarListFragment extends ListFragment {
 		super.onListItemClick(l, v, position, id);*/
 		
 //		new CalendarAsync(getActivity()).execute();
+		
+		UGDatabase.INSTANCE.getStudentCourses(SemesterSeason.WINTER);
 	}
 
 }

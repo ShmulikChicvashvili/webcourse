@@ -14,7 +14,7 @@ public class MainActivity extends CoolieActivity implements
 		OnRightMenuItemSelected {
 
 	public static final String DEBUG_TAG = "DEBUG";
-	public static Context context; // our application context
+	public static Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

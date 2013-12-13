@@ -20,5 +20,10 @@
     <string name="semester_points">סה\"כ נקודות</string>
     <string name="semester_avg">ממוצע</string>
     <string name="title_activity_transparent">TransparentActivity</string>
+    
+    <!-- CoursesAndExams Fragment -->
+    <string name="moedA">מועד א\'</string>
+    <string name="moedB">מועד ב\'</string>
+    <string name="no_exam">-----</string>
 
 </resources>

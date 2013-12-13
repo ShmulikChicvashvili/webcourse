@@ -9,8 +9,6 @@ import java.util.List;
 
 import org.jsoup.nodes.Document;
 
-import android.content.Context;
-
 import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.DayOfWeek;
@@ -34,8 +32,7 @@ public enum UGDatabase {
 	private List<String> allCoursesNames;
 	private Semester[] currentSemesters;
 	private SemesterSeason currentSeason;
-	public Context context;
-
+	private ArrayList<CourseItem> coursesAndExamsList;
 	private LinkedHashMap<CourseKey, Course> coursesHash;
 
 	private UGDatabase() {
@@ -99,21 +96,28 @@ public enum UGDatabase {
 		return null;
 	}
 
-	public List<CourseItem> getStudentCourses(Semester semester) {
-		/*Document doc;
-		switch (semester.getSs()) {
+	public ArrayList<CourseItem> getStudentCourses(SemesterSeason semesterseason) {
+		Document doc = null;
+		// List<CourseItem> coursesList;
+		switch (semesterseason) {
 		case WINTER:
-			doc = HtmlParser.parseFromFille("my_current_courses.html", MainActivity.context);
-//			System.out.println(doc.toString());
-			List<CourseItem> coursesList = HtmlParser.parseCoursesAndExamsDoc(doc);
+			doc = HtmlParser.parseFromFille("current_semester_courses.html",
+					MainActivity.context);
 			break;
 		case SPRING:
+			doc = HtmlParser.parseFromFille("previous_semester_courses.html",
+					MainActivity.context);
 			break;
 		case SUMMER:
+			doc = HtmlParser.parseFromFille("previous_semester_courses.html",
+					MainActivity.context);
 			break;
 		}
-*/
-		return null;
+		if (doc != null) {
+			coursesAndExamsList = HtmlParser.parseCoursesAndExamsDoc(doc);
+		}
+
+		return coursesAndExamsList;
 	}
 	// public List<String> getCoursesNames() {
 	// return allCoursesNames;

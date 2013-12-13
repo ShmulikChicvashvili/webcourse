@@ -3,6 +3,7 @@ package com.technion.coolie.ug.coursesAndExams;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,13 @@ import com.technion.coolie.R;
 public class CoursesAndExamsAdapter extends BaseExpandableListAdapter {
 
 	private Activity activity;
+	private Context context;
 	private LayoutInflater inflater;
 	private ArrayList<CourseItem> parentItems;
 
-	public CoursesAndExamsAdapter(ArrayList<CourseItem> parents,
-			ArrayList<ExamItem> childern) {
+	public CoursesAndExamsAdapter(ArrayList<CourseItem> parents, Context context) {
 		this.parentItems = parents;
+		this.context = context;
 	}
 
 	public void setInflater(LayoutInflater inflater, Activity activity) {
@@ -35,14 +37,18 @@ public class CoursesAndExamsAdapter extends BaseExpandableListAdapter {
 			convertView = inflater.inflate(
 					R.layout.ug_courses_and_exams_child_item, null);
 		}
+
 		TextView moed = (TextView) convertView
 				.findViewById(R.id.courses_and_exams_moed);
 		TextView examDate = (TextView) convertView
 				.findViewById(R.id.courses_and_exams_exam_date);
-		moed.setText(parentItems.get(groupPosition).getExams()
-				.get(childPosition).getMoed());
-		examDate.setText(parentItems.get(groupPosition).getExams()
-				.get(childPosition).getExamDate());
+
+		moed.setText((childPosition % 2 == 0) ? context
+				.getString(R.string.moedA) : context.getString(R.string.moedB));
+		examDate.setText((parentItems.get(groupPosition).getExams()
+				.get(childPosition) != "") ? parentItems.get(groupPosition)
+				.getExams().get(childPosition) : context
+				.getString(R.string.no_exam));
 		return convertView;
 	}
 
@@ -62,7 +68,8 @@ public class CoursesAndExamsAdapter extends BaseExpandableListAdapter {
 		TextView points = (TextView) convertView
 				.findViewById(R.id.courses_and_exams_points);
 		courseName.setText(parentItems.get(groupPosition).getCoursName());
-		courseId.setText(parentItems.get(groupPosition).getCourseId());
+		courseId.setText("(" + parentItems.get(groupPosition).getCourseId()
+				+ ")");
 		points.setText(parentItems.get(groupPosition).getPoints());
 		return convertView;
 	}
