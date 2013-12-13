@@ -4,7 +4,9 @@
     
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#200f" >
+    android:background="#200f"
+    android:windowSoftInputMode="adjustPan"
+     >
 
 <LinearLayout 
     android:layout_width="match_parent"
@@ -18,12 +20,7 @@
      >
 
         
-<!--         <EditText android:id="@+id/search_edit_text" -->
-<!--         android:layout_width="match_parent" -->
-<!--         android:layout_height="wrap" -->
-<!--         android:layout_weight="1"  -->
-<!--         android:hint="@string/serachCourseHint" /> -->
-        
+
         <LinearLayout 
     	 android:layout_width="match_parent"
     	 android:layout_height="40dip"
@@ -64,12 +61,15 @@
 			android:hint="@string/serach_course_hint" 
 			android:textSize="20sp"
 			android:background="#FFF"
-			android:imeOptions="actionSearch"
+			android:imeOptions="actionSearch|flagNoFullscreen"
 			android:inputType="text"
 			android:layout_marginRight="10dip"
 			
 			
+			
 			/>
+<!-- 	        android:dropDownWidth="match_parent" -->
+	        
 	        </RelativeLayout>
 	        
 	        
@@ -83,7 +83,9 @@
         android:layout_gravity="fill_horizontal"
         android:layout_marginTop="10dp"
         android:background="#301f" 
-        android:drawSelectorOnTop ="true"/>
+        android:drawSelectorOnTop ="true"
+        android:imeOptions="flagNoFullscreen"
+        android:windowSoftInputMode="adjustPan"/>
 
 
     

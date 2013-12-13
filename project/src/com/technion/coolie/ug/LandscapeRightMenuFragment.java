@@ -16,12 +16,12 @@ import android.widget.ListView;
 public class LandscapeRightMenuFragment extends ListFragment {
 
 	String[] menuItems = new String[] { 
-			"גליון ציונים",
-			"קורסים ומבחנים",
-			"לוח שנה אקדמי",
-			"תשלומים",
-			"מעקב קורסים",
-			"חיפוש קורסים",
+			"׳’׳�׳™׳•׳� ׳¦׳™׳•׳ ׳™׳�",
+			"׳§׳•׳¨׳¡׳™׳� ׳•׳�׳‘׳—׳ ׳™׳�",
+			"׳�׳•׳— ׳©׳ ׳” ׳�׳§׳“׳�׳™",
+			"׳×׳©׳�׳•׳�׳™׳�",
+			"׳�׳¢׳§׳‘ ׳§׳•׳¨׳¡׳™׳�",
+			"׳—׳™׳₪׳•׳© ׳§׳•׳¨׳¡׳™׳�",
 	};
 
 	@Override
