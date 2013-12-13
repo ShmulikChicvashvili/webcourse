@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -121,9 +120,9 @@ public class SearchFragment extends Fragment {
 		AutoCompleteTextView autocompletetextview = (AutoCompleteTextView) getActivity()
 				.findViewById(R.id.autocompletetextview);
 		autocompletetextview.requestFocus();
-		InputMethodManager imm = (InputMethodManager) getActivity()
-				.getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+		// InputMethodManager imm = (InputMethodManager) getActivity()
+		// .getSystemService(Context.INPUT_METHOD_SERVICE);
+		// imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
 		// each touch of the main layout will close any open softkeyboard!.
 		OnTouchListener otl = new OnTouchListener() {
@@ -187,6 +186,13 @@ public class SearchFragment extends Fragment {
 
 	}
 
+	/**
+	 * calculates from scratch the list of matching courses, considering the
+	 * filters and the passed query . updates the list of courses and the
+	 * autocomplete textView according to these results.
+	 * 
+	 * @param query
+	 */
 	private void onSearchPressed(String query) {
 		// lastQuery = query;
 		// get all the matching courses matching the query and the filters
@@ -201,11 +207,15 @@ public class SearchFragment extends Fragment {
 			return;
 		}
 
-		// set the adapter with the matching courses
+		// set the adapters with the matching courses
 		searchAdapter = new SearchResultsAdapter(context, queryList,
 				new onClickResult());
 
+		courseNameList = coursesToNames(queryList);
+		autoCompleteAdapter = new ArrayAdapter<String>(context,
+				R.layout.ug_auto_complete_item_row, courseNameList);
 		updateCoursesResultsDisplay();
+		updateAutoCompleteDisplay();
 
 	}
 
@@ -232,6 +242,10 @@ public class SearchFragment extends Fragment {
 		autocompletetextview.setThreshold(1);
 		autocompletetextview.setTextColor(getResources().getColor(
 				R.color.abs__background_holo_dark));
+
+		// int width = getActivity().getWindowManager().getDefaultDisplay()
+		// .getWidth();
+		// autocompletetextview.setDropDownWidth(width);
 
 		autocompletetextview
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {

@@ -2,13 +2,15 @@ package com.technion.coolie.ug.gui.courseDisplay;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
-import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.db.UGDatabase;
@@ -28,27 +30,34 @@ import com.technion.coolie.ug.model.RegistrationGroup;
  * 
  * 
  */
-public class CourseDisplayActivity extends CoolieActivity {
+public class CourseDisplayFragment extends Fragment {
 
 	Course courseToView;
 	Context context;
 	CourseGroupsAdapter groupAdapter;
 
-	public final static String EXTRAS_COURSE_KEY = "course";
+	public final static String ARGUMENTS_COURSE_KEY = "course";
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ug_course_screen_layout);
-		context = this;
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.ug_course_screen_layout, container,
+				false);
+	}
 
-		recieveCourse(savedInstanceState);
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+
+		context = getActivity();
+		recieveCourse(getArguments());
 		initLayout();
 		updateCourseDisplay();
+		super.onActivityCreated(savedInstanceState);
 	}
 
 	private void initLayout() {
-		RadioGroup b = (RadioGroup) findViewById(R.id.course_screen_semester_radio_group);
+		RadioGroup b = (RadioGroup) getActivity().findViewById(
+				R.id.course_screen_semester_radio_group);
 		// TODO set the names of the semesters in order.
 		b.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -67,24 +76,31 @@ public class CourseDisplayActivity extends CoolieActivity {
 	}
 
 	private void updateCourseDisplay() {
-		TextView nameTextView = (TextView) findViewById(R.id.course_screen_name);
+		TextView nameTextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_name);
 		nameTextView.setText(courseToView.getName());
-		TextView pointsTextView = (TextView) findViewById(R.id.course_screen_points);
+		TextView pointsTextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_points);
 		pointsTextView.setText("" + courseToView.getPoints());
-		TextView numberTextView = (TextView) findViewById(R.id.course_screen_number);
+		TextView numberTextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_number);
 		numberTextView.setText("" + courseToView.getCourseNumber());
-		TextView facultyTextView = (TextView) findViewById(R.id.course_screen_faculty);
+		TextView facultyTextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_faculty);
 		facultyTextView.setText("" + courseToView.getFaculty().toString());
-		TextView descTextView = (TextView) findViewById(R.id.course_screen_description);
+		TextView descTextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_description);
 		descTextView.setText(courseToView.getDescription());
-		TextView examATextView = (TextView) findViewById(R.id.course_screen_exam_a);
+		TextView examATextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_exam_a);
 		examATextView.setText(courseToView.getMoedA().getTime().toString()
 				+ ":מועד א");
-		TextView examBTextView = (TextView) findViewById(R.id.course_screen_exam_b);
+		TextView examBTextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_exam_b);
 		examBTextView.setText(courseToView.getMoedB().getTime().toString()
 				+ ":מועד ב");
 		if (courseToView.getRegistrationGroups() != null)
-			groupAdapter = new CourseGroupsAdapter(this,
+			groupAdapter = new CourseGroupsAdapter(context,
 					courseToView.getRegistrationGroups(), new onClickGroup());
 
 	}
@@ -97,21 +113,16 @@ public class CourseDisplayActivity extends CoolieActivity {
 	private void recieveCourse(Bundle savedInstanceState) {
 
 		CourseKey key = null;
-		if (savedInstanceState != null) {
-			key = (CourseKey) savedInstanceState
-					.getSerializable(EXTRAS_COURSE_KEY);
-		} else if (getIntent().getExtras() != null) {
-			key = (CourseKey) getIntent().getExtras().getSerializable(
-					EXTRAS_COURSE_KEY);
-		} else {
+		if (savedInstanceState == null) {
 			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE EXTRAS , exisiting");
-			finish();
+			throw new NullPointerException();
 		}
-
+		key = (CourseKey) savedInstanceState
+				.getSerializable(ARGUMENTS_COURSE_KEY);
 		courseToView = UGDatabase.INSTANCE.getCourseByKey(key);
 		if (courseToView == null) {
 			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE  , exisiting");
-			finish();
+			throw new NullPointerException();
 		}
 
 	}
