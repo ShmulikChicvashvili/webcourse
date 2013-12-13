@@ -8,7 +8,7 @@ import android.widget.Toast;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.Enums.LandscapeLeftMenuItems;
-import com.technion.coolie.ug.gradessheet.GradesSheetActivity;
+//import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 
 public class MainActivity extends CoolieActivity implements OnRightMenuItemSelected{
@@ -44,7 +44,7 @@ public class MainActivity extends CoolieActivity implements OnRightMenuItemSelec
 		case TRACKING_COURSES :
 			f = new TrackingCoursesListFragment();
 			break;
-			
+		 	
 		default:
 			f = new GradesSheetFragment();
 			break;

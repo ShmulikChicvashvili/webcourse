@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.technion.coolie.ug.TransparentActivity;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 
 public class GradesSheetListFragment extends ListFragment {
