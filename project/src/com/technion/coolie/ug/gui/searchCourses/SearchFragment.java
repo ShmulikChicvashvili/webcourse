@@ -321,7 +321,6 @@ public class SearchFragment extends Fragment {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -347,7 +346,6 @@ public class SearchFragment extends Fragment {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO Auto-generated method stub
 
 			}
 		});

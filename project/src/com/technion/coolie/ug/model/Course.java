@@ -36,8 +36,9 @@ public class Course implements Serializable {
 	private List<RegistrationGroup> registrationGroups;
 
 	public Course(String courseNumber, String name, float points,
-			String description, Semester semester, Faculty faculty, Calendar moedA,
-			Calendar moedB, List<GroupOfCourses> prerequisites,List<GroupOfCourses> attachedCourses,
+			String description, Semester semester, Faculty faculty,
+			Calendar moedA, Calendar moedB, List<GroupOfCourses> prerequisites,
+			List<GroupOfCourses> attachedCourses,
 			List<RegistrationGroup> registrationGroups) {
 		super();
 		this.courseNumber = courseNumber;
@@ -52,8 +53,20 @@ public class Course implements Serializable {
 		this.attachedCourses = attachedCourses;
 		this.registrationGroups = registrationGroups;
 	}
-	
-	
+
+	public Course(Course course) {
+		this.courseNumber = course.courseNumber;
+		this.name = course.name;
+		this.points = course.points;
+		this.description = course.description;
+		this.semester = course.semester;
+		this.faculty = course.faculty;
+		this.moedA = course.moedA;
+		this.moedB = course.moedB;
+		this.prerequisites = course.prerequisites;
+		this.attachedCourses = course.attachedCourses;
+		this.registrationGroups = course.registrationGroups;
+	}
 
 	public String getCourseNumber() {
 		return courseNumber;
@@ -126,7 +139,7 @@ public class Course implements Serializable {
 	public void setPrerequisites(List<GroupOfCourses> prerequisites) {
 		this.prerequisites = prerequisites;
 	}
-	
+
 	public List<GroupOfCourses> getAttachedCourses() {
 		return attachedCourses;
 	}

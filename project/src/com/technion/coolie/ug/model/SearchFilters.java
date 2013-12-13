@@ -53,8 +53,6 @@ public class SearchFilters {
 		return filteredList;
 	}
 
-	// TODO break query into words and search by them+ add support for course
-	// number in query!
 	private boolean meetCriterions(Course course, String query) {
 		return (faculty == Faculty.ALL_FACULTIES || course.getFaculty() == faculty)
 				&& (course.getSemester().ss == semester.ss && course

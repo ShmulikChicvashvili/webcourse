@@ -32,6 +32,16 @@ public enum UGDatabase {
 	private UGDatabase() {
 		// initialize lists and student info, from DB TODO
 
+		initializeCourses();
+
+		initializeSemesters();
+
+		currentStudent = null;
+		initializeHashMap();
+
+	}
+
+	private void initializeCourses() {
 		groups = new ArrayList<RegistrationGroup>(Arrays.asList(
 				new RegistrationGroup(1, Arrays.asList(new Meeting("2",
 						"מר חביבי לחם", DayOfWeek.SUNDAY, new Date(), null,
@@ -41,32 +51,77 @@ public enum UGDatabase {
 						"טאוב 5")), null, 20)));
 
 		allCourses = new ArrayList<Course>(
-				Arrays.asList(new Course("213245",
-						"מבוא לבינה מלאכותית במודלים מתקדמים ביותר 4", 2.0f,
-						"הרג אותי", new Semester(2013, SemesterSeason.WINTER),
-						Faculty.HUMANITIES, new GregorianCalendar(2014, 2, 11),
-						new GregorianCalendar(2014, 2, 11), null, null, null),
+				Arrays.asList(
+						new Course("213245",
+								"מבוא לבינה מלאכותית במודלים מתקדמים ביותר 4",
+								2.0f, "הרג אותי", new Semester(2013,
+										SemesterSeason.WINTER),
+								Faculty.HUMANITIES, new GregorianCalendar(2014,
+										2, 11), new GregorianCalendar(2014, 2,
+										11), null, null, null),
 						new Course("012932", "קורס בחידוד עפרונות", 5.0f,
 								"ההרגשה היא אושר צרוף!!!", new Semester(2013,
 										SemesterSeason.WINTER),
 								Faculty.ARCHITECTURE, new GregorianCalendar(
 										2014, 2, 11), new GregorianCalendar(
+										2014, 2, 11), null, null, groups),
+						new Course("043932", "מבני נתונים 2", 2.0f, "כיף!!!",
+								new Semester(2013, SemesterSeason.SPRING),
+								Faculty.HUMANITIES, new GregorianCalendar(2014,
+										2, 11), new GregorianCalendar(2014, 2,
+										11), null, null, groups),
+						new Course(
+								"232932",
+								"לוגיקה במערכות פורמליות",
+								5.0f,
+								"לעיתים, ההנאה היא מדהימה, ותמיד יש מקום לעוד!!!",
+								new Semester(2013, SemesterSeason.SPRING),
+								Faculty.ARCHITECTURE, new GregorianCalendar(
+										2014, 2, 11), new GregorianCalendar(
 										2014, 2, 11), null, null, groups)));
 
-		currentSeason = SemesterSeason.WINTER;
-		currentSemesters = new Semester[3];
-		currentSemesters[SemesterSeason.SPRING.getIdx()] = new Semester(2012,
-				SemesterSeason.SPRING);
-		currentSemesters[SemesterSeason.SUMMER.getIdx()] = new Semester(2012,
-				SemesterSeason.SUMMER);
-		currentSemesters[SemesterSeason.WINTER.getIdx()] = new Semester(2013,
-				SemesterSeason.WINTER);
+		Course course = new Course("012932", "קורס בחידוד עפרונות", 5.0f,
+				"ההרגשה היא אושר צרוף!!!", new Semester(2013,
+						SemesterSeason.WINTER), Faculty.ARCHITECTURE,
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), null, null, groups);
+		course.setName("כיף חיים באולמן 30");
+		allCourses.add(course);
+		course = new Course(course);
+		course.setName("יזמות לעצלנים");
+		allCourses.add(course);
+		course = new Course(course);
+		course.setName("מפרטים פורמליים");
+		allCourses.add(course);
+		course = new Course(course);
+		course.setName("לוגיקה ותורת התפוצות");
+		allCourses.add(course);
+		course = new Course(course);
+		course.setName("אלגברה 6");
+		allCourses.add(course);
+		course = new Course(course);
+		course.setName("לוגיקה 2");
+		allCourses.add(course);
+		course = new Course(course);
+		course.setName("פינוי אשפה ");
+		allCourses.add(course);
+	}
 
-		currentStudent = null;
+	private void initializeHashMap() {
 		coursesHash = new LinkedHashMap<CourseKey, Course>();
 		for (Course course : allCourses)
 			coursesHash.put(course.getCourseKey(), course);
+	}
 
+	private void initializeSemesters() {
+		currentSeason = SemesterSeason.WINTER;
+		currentSemesters = new Semester[3];
+		currentSemesters[SemesterSeason.SPRING.getIdx()] = new Semester(2013,
+				SemesterSeason.SPRING);
+		currentSemesters[SemesterSeason.SUMMER.getIdx()] = new Semester(2013,
+				SemesterSeason.SUMMER);
+		currentSemesters[SemesterSeason.WINTER.getIdx()] = new Semester(2013,
+				SemesterSeason.WINTER);
 	}
 
 	public Course getCourseByKey(CourseKey key) {
