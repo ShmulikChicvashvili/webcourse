@@ -1,6 +1,6 @@
 package com.technion.coolie.studybuddy.Model;
 
-public class StudyTask {
+public class StudyTask implements Comparable<StudyTask> {
 	private final int num;
 	private final String label;
 	private boolean done;
@@ -37,5 +37,10 @@ public class StudyTask {
 
 	public void mark() {
 		done = !done;
+	}
+
+	@Override
+	public int compareTo(StudyTask another) {
+		return this.num - another.num;
 	}
 }

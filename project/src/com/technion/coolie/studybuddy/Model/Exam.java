@@ -2,7 +2,7 @@ package com.technion.coolie.studybuddy.Model;
 
 import java.util.Date;
 
-public class Exam {
+public class Exam implements Comparable<Exam> {
 
 	private final Date date;
 	private final ExamType type;
@@ -58,5 +58,10 @@ public class Exam {
 		if (type != other.type)
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Exam another) {
+		return this.date.compareTo(another.date);
 	}
 }

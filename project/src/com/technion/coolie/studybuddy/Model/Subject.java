@@ -3,21 +3,25 @@ package com.technion.coolie.studybuddy.Model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import com.technion.coolie.studybuddy.utils.Utils;
 
 public class Subject {
 
 	private final List<Exam> exams = new ArrayList<Exam>();
-	private final List<StudyResource> studResources = new ArrayList<StudyResource>();
+	private final Set<StudyResource> trackedResouces = new HashSet<StudyResource>();
 	private final int id;
 	private final String name;
 
 	public Subject() {
 		this.id = radomId();
-		this.name = "";
+		this.name = String.valueOf(id);
 	}
 
-	public static int radomId() {
+	private static int radomId() {
 		return Utils.randomInt(999999);
 
 	}
@@ -51,19 +55,19 @@ public class Subject {
 		return id;
 	}
 
-	public List<StudyResource> getStudyResources() {
-		return studResources;
+	public Set<StudyResource> getStudyResources() {
+		return trackedResouces;
 	}
 
 	public void addStudyResource(StudyResource r) {
-		studResources.add(r);
+		trackedResouces.add(r);
 	}
 
 	public void addStudyResources(StudyResource... r) {
-		this.studResources.addAll(Arrays.asList(r));
+		this.trackedResouces.addAll(Arrays.asList(r));
 	}
 
 	public void addStudyResources(Collection<StudyResource> r) {
-		this.studResources.addAll(r);
+		this.trackedResouces.addAll(r);
 	}
 }

@@ -1,10 +1,8 @@
 package com.technion.coolie.studybuddy.Model.test;
 
+import static com.technion.coolie.studybuddy.utils.Utils.asSet;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
@@ -14,11 +12,14 @@ import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import com.technion.coolie.studybuddy.Model.Exam;
 import com.technion.coolie.studybuddy.Model.StudyResource;
 import com.technion.coolie.studybuddy.Model.Subject;
 
+@RunWith(RobolectricTestRunner.class)
 public class SubjectTests {
 
 	@Before
@@ -74,10 +75,20 @@ public class SubjectTests {
 
 	@Test
 	public void gettingStudyResourcesWithoutAllocationShouldBeEmpty() {
-		Subject s = new Subject(123, "name");
+		Subject s = new Subject();
 
 		assertThat(s.getStudyResources(),
-				is(Collections.<StudyResource> emptyList()));
+				is(Collections.<StudyResource> emptySet()));
+
+	}
+
+	@Test
+	public void addingResourceShouldReturnResource() throws Exception {
+		Subject s = new Subject();
+
+		StudyResource r = new StudyResource();
+		s.addStudyResource(r);
+		assertThat(s.getStudyResources(), is(asSet(r)));
 
 	}
 }
