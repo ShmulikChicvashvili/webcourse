@@ -46,8 +46,9 @@ import com.tecnion.coolie.ug.utils.SerializeIO;
  */
 public class SearchFragment extends Fragment {
 
-	List<String> courseNameList;
-	List<Course> courseList;
+	List<String> filteredAutoCompleteList;
+	final List<Course> allCourses = UGDatabase.INSTANCE.getCourses();
+	List<Course> filteredCoursesList;
 	FragmentActivity context;
 	SearchResultsAdapter searchAdapter;
 	ArrayAdapter<String> autoCompleteAdapter;
@@ -169,7 +170,7 @@ public class SearchFragment extends Fragment {
 
 	private void setInitialAdapters() {
 		autoCompleteAdapter = new ArrayAdapter<String>(context,
-				R.layout.ug_auto_complete_item_row, courseNameList);
+				R.layout.ug_auto_complete_item_row, filteredAutoCompleteList);
 		List<Course> lastSearch = Collections.emptyList();
 
 		try {
@@ -191,11 +192,11 @@ public class SearchFragment extends Fragment {
 	 * preferences! Can get the last search in this method and display it.
 	 */
 	private void setInitialCourseLists() {
-		courseList = filters.filter(UGDatabase.INSTANCE.getCourses(), "");
-		courseNameList = coursesToNames(courseList);
+		filteredCoursesList = filters.filter(allCourses, "");
+		filteredAutoCompleteList = coursesToNames(filteredCoursesList);
 
 		Log.d(MainActivity.DEBUG_TAG, "initial courses are of size "
-				+ courseList.size());
+				+ filteredCoursesList.size());
 
 	}
 
@@ -209,25 +210,29 @@ public class SearchFragment extends Fragment {
 	}
 
 	protected int searchQueryAndUpdate(String query) {
-		// lastQuery = query;
-		// get all the matching courses matching the query and the filters
-		List<Course> queryList = filters.filter(courseList, query);
 
-		Log.d(MainActivity.DEBUG_TAG,
-				"results found of size " + queryList.size());
+		// TODO this is heavy. use the current courseList unless the filters
+		// changed.(boolean for filters changed?)
+		filteredCoursesList = filters.filter(allCourses, "");
+		// The auto complete is only updated by the filters, not by the query
+		filteredAutoCompleteList = coursesToNames(filteredCoursesList);
+
+		// get all the matching courses matching the query and the filters
+		List<Course> filteredAndQueriedList = filters.filter(
+				filteredCoursesList, query);
+
+		Log.d(MainActivity.DEBUG_TAG, "results found of size "
+				+ filteredAndQueriedList.size());
 
 		// set the adapters with the matching courses
-		searchAdapter = new SearchResultsAdapter(context, queryList,
-				new onClickResult());
-
-		// The auto complete is only updated by the filters, not by the query
-		courseNameList = coursesToNames(filters.filter(courseList, ""));
+		searchAdapter = new SearchResultsAdapter(context,
+				filteredAndQueriedList, new onClickResult());
 		autoCompleteAdapter = new ArrayAdapter<String>(context,
-				R.layout.ug_auto_complete_item_row, courseNameList);
+				R.layout.ug_auto_complete_item_row, filteredAutoCompleteList);
 
 		updateCoursesResultsDisplay();
 		updateAutoCompleteDisplay();
-		return queryList.size();
+		return filteredAndQueriedList.size();
 	}
 
 	/**
@@ -321,7 +326,9 @@ public class SearchFragment extends Fragment {
 				Faculty.AE.getAllFaculties());
 		ArrayAdapter<String> adapterSemester = new ArrayAdapter<String>(
 				context, R.layout.ug_search_spinner_item_row, new String[] {
-						"WINTER", "SUMMER", "SPRING" });
+						SemesterSeason.WINTER.toString(),
+						SemesterSeason.SPRING.toString(),
+						SemesterSeason.SUMMER.toString() });
 		// Specify the layout to use when the list of choices appears
 		adapterFaculty
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

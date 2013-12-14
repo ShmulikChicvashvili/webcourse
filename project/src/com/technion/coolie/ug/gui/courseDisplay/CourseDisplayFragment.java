@@ -127,7 +127,8 @@ public class CourseDisplayFragment extends Fragment {
 		key = (CourseKey) bundle.getSerializable(ARGUMENTS_COURSE_KEY);
 		courseToView = UGDatabase.INSTANCE.getCourseByKey(key);
 		if (courseToView == null) {
-			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE  , exisiting");
+			Log.e(MainActivity.DEBUG_TAG,
+					"CANT FIND COURSEKEY IN DB, exisiting");
 			throw new NullPointerException();
 		}
 
