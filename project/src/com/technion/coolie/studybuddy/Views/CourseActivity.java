@@ -1,18 +1,20 @@
 package com.technion.coolie.studybuddy.Views;
 
-
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.widget.ArrayAdapter;
 
-import com.actionbarsherlock.ActionBarSherlock;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
-import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
+import com.technion.coolie.studybuddy.Views.ResourceFragment.OnFragmentInteractionListener;
 
-
-public class CourseActivity extends CoolieActivity
+public class CourseActivity extends StudyBuddyActivity implements
+		ActionBar.OnNavigationListener,OnFragmentInteractionListener
 {
 
 	public static final String courseNameArgs = "courseArgs";
@@ -30,7 +32,7 @@ public class CourseActivity extends CoolieActivity
 	 */
 	ViewPager mViewPager;
 
-	private String mTitle;
+	// private String mTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -44,33 +46,31 @@ public class CourseActivity extends CoolieActivity
 			e.printStackTrace();
 		}
 
-//		getActionBar().setDisplayHomeAsUpEnabled(true);
+		// getActionBar().setDisplayHomeAsUpEnabled(true);
 
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 
 		// Set up the ViewPager with the sections adapter.
-		final ActionBarSherlock actionBar = getSherlock();
-//final ActionBar actionBar = getActionBar();
-		
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		actionBar.setListNavigationCallbacks(
+		// Specify a SpinnerAdapter to populate the dropdown list.
+				new ArrayAdapter<String>(actionBar.getThemedContext(),
+						android.R.layout.simple_list_item_1,
+						android.R.id.text1, new String[] { "OverView",
+								"Lectures", "tutorials" }), this);
 	
-		
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// Inflate the menu; this adds items to the action bar if it is present.
-//		getMenuInflater().inflate(R.menu.stb_menu, menu);
-		
+		// getMenuInflater().inflate(R.menu.stb_menu, menu);
+
 		return true;
 	}
-
-	
-
-
-
-	
 
 	/*
 	 * (non-Javadoc)
@@ -90,6 +90,37 @@ public class CourseActivity extends CoolieActivity
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId)
+	{
+		FragmentTransaction ft = getSupportFragmentManager()
+				.beginTransaction();
+		switch (itemPosition)
+		{
+		case 0:
+			Fragment fragment = CourseOverViewFragment.newInstance("overview");
+			ft.replace(R.id.stb_container, fragment).commit();
+			break;
+		case 1:
+		case 2:
+			ResourceFragment fragment1 = ResourceFragment
+					.newInstance(itemPosition == 1 ? "Lecture" : "tutorial");
+			
+			
+			ft.replace(R.id.stb_container, fragment1).commit();
+			break;
+
+		default:
+			break;
+		}
+		return true;
+	}
+
+	@Override
+	public void onFragmentInteraction(Uri uri)
+	{		
 	}
 
 	/**
