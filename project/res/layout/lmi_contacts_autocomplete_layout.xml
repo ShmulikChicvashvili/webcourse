@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/lmi_contacts_auto_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:contentDescription="@string/hello_world"
         android:src="@drawable/lmi_facebook_man"
         android:padding="10dp"

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,7 +31,7 @@ import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.ContactInfo;
 import com.technion.coolie.letmein.model.Invitation;
 import com.technion.coolie.letmein.model.Invitation.Status;
-import com.technion.coolie.letmein.model.adapters.ContactsAdapter;
+import com.technion.coolie.letmein.model.adapters.OldContactsAdapter;
 
 public class InvitationActivity extends DatabaseActivity implements CalendarSupplier {
 
@@ -114,53 +115,79 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		new AutoCompletionGatheringTask().execute();
 	}
 
-	private class AutoCompletionGatheringTask extends AsyncTask<Void, Void, ContactsAdapter> {
+	private class AutoCompletionGatheringTask extends AsyncTask<Void, Void, OldContactsAdapter> {
 
 		@Override
-		protected ContactsAdapter doInBackground(final Void... params) {
+		protected OldContactsAdapter doInBackground(final Void... params) {
 
 			// Each row in the list stores country name, currency and flag
 			List<ContactInfo> aList = new ArrayList<ContactInfo>();
 
 			final ContentResolver contentResolver = getContentResolver();
-			final String whereName = ContactsContract.Data.MIMETYPE + " = ?";
-			final String[] whereNameParams = new String[] { ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE };
-			final Cursor nameCur = contentResolver.query(ContactsContract.Data.CONTENT_URI, null,
-					whereName, whereNameParams,
-					ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
+
+			List<String> projection = new ArrayList<String>();
+			projection.add(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
+			projection.add(ContactsContract.CommonDataKinds.StructuredName.CONTACT_ID);
+
+			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+				projection.add(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI);
+			}
+
+			final Cursor nameCur = contentResolver
+					.query(ContactsContract.Data.CONTENT_URI,
+							projection.toArray(new String[projection.size()]),
+							ContactsContract.Data.MIMETYPE + " = ?",
+							new String[] { ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE },
+							ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
 
 			while (nameCur.moveToNext()) {
 				String name = nameCur
 						.getString(nameCur
 								.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
 
-				Long id = nameCur.getLong(nameCur
-						.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName._ID));
+				Long id = nameCur
+						.getLong(nameCur
+								.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.CONTACT_ID));
 
-				String imageUri = nameCur
-						.getString(nameCur
-								.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI));
+				String imageUri = null;
+				if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+					imageUri = nameCur
+							.getString(nameCur
+									.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI));
+				}
 
 				if (imageUri == null) {
 					String packName = InvitationActivity.this.getPackageName();
-					Uri path = Uri.parse("android.resource://" + packName
+					Uri path = Uri.parse("android.resource://" + packName + "/"
 							+ R.drawable.lmi_facebook_man);
 					imageUri = path.toString();
 				}
 
-				String phoneNumber = nameCur.getString(nameCur
-						.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+				String phoneNumber;
+				phoneNumber = "";
+				Cursor c = getContentResolver().query(
+						ContactsContract.Data.CONTENT_URI,
+						new String[] { Phone.NUMBER, Phone.TYPE, Phone.LABEL },
+						ContactsContract.Data.CONTACT_ID + "=?" + " AND "
+								+ ContactsContract.Data.MIMETYPE + "='" + Phone.CONTENT_ITEM_TYPE
+								+ "'", new String[] { String.valueOf(id) }, null);
+				if (c.moveToFirst()) {
+					int phoneColumn = c.getColumnIndex("data1");
+					phoneNumber = c.getString(phoneColumn);
+					// Log.d("DATA",phoneNumber);
+				}
 
 				aList.add(new ContactInfo(name, id, imageUri, phoneNumber));
 
 			}
+			
 			nameCur.close();
 
-			return new ContactsAdapter(InvitationActivity.this, aList);
+			return new OldContactsAdapter(InvitationActivity.this, aList);
 		}
 
 		@Override
-		protected void onPostExecute(final ContactsAdapter adapter) {
+		protected void onPostExecute(final OldContactsAdapter adapter) {
 			friendNameEdit.setAdapter(adapter);
 
 			OnItemClickListener itemClickListener = new OnItemClickListener() {
@@ -169,7 +196,6 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
 
 					ContactInfo hm = (ContactInfo) arg0.getAdapter().getItem(position);
-
 					friendImage.setImageURI(Uri.parse(hm.imageUri));
 					friendCellphoneEdit.setText(hm.phoneNumber);
 				}
