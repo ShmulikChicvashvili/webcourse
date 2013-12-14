@@ -9,7 +9,7 @@ import java.util.Set;
 
 import com.technion.coolie.studybuddy.utils.Utils;
 
-public class Course {
+public class Course implements Comparable<Course> {
 
 	private final List<Exam> exams = new ArrayList<Exam>();
 	private final Set<StudyResource> trackedResouces = new HashSet<StudyResource>();
@@ -104,5 +104,16 @@ public class Course {
 		}
 		return list;
 
+	}
+
+	@Override
+	public int compareTo(Course another) {
+		return another.getNumStudyItemsRemaining()
+				- getNumStudyItemsRemaining();
+	}
+
+	@Override
+	public String toString() {
+		return String.valueOf(id) + " " + name;
 	}
 }

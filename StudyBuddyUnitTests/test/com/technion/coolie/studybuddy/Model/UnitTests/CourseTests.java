@@ -1,9 +1,12 @@
 package com.technion.coolie.studybuddy.Model.UnitTests;
 
-import static com.technion.coolie.studybuddy.Models.Technion.WEEKS_IN_SEMESTER;
+import static com.technion.coolie.studybuddy.Models.GeneralInfo.WEEKS_IN_SEMESTER;
 import static com.technion.coolie.studybuddy.utils.Utils.asSet;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.number.OrderingComparison.comparesEqualTo;
+import static org.hamcrest.number.OrderingComparison.lessThan;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -135,6 +138,20 @@ public class CourseTests {
 
 		assertThat(c.getNumStudyItemsRemaining(), is(3));
 		assertThat(c.getStudyItemsRemaining(), is(items));
+
+	}
+
+	@Test
+	public void courseOrderingByUndoneTasksWorks() throws Exception {
+		Course c1 = new Course();
+		Course c2 = new Course();
+		Course c3 = new Course();
+		c1.addStudyResource(StudyResource.createWithItems(3));
+		c2.addStudyResource(StudyResource.createWithItems(4));
+		c3.addStudyResource(StudyResource.createWithItems(4));
+
+		assertThat(c2, lessThan(c1));
+		assertThat(c2, comparesEqualTo(c3));
 
 	}
 
