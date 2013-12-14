@@ -7,7 +7,6 @@ import org.jsoup.nodes.Document;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.gradessheet.EntryAdapter;
 import com.technion.coolie.ug.gradessheet.Item;
-import com.technion.coolie.ug.gradessheet.GradesSheetFragment.parseGradesAsync;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

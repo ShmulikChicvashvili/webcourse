@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.Enums.LandscapeLeftMenuItems;
+import com.technion.coolie.ug.calendar.AcademicCalendarListFragment;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.gui.searchCourses.SearchFragment;
 

@@ -41,9 +41,9 @@ public class GradesSheetFragment extends Fragment {
 
 		// retrieves document with html content
 		//new parseGradesAsync(getActivity()).execute();
-		items = UGDatabase.getGradesSheet();
+		items = UGDatabase.INSTANCE.getGradesSheet();
 		
-		listview = (ListView) getActivity().findViewById(R.id.listView_main);
+		listview = (ListView) view.findViewById(R.id.listView_main);
 		EntryAdapter adapter = new EntryAdapter(getActivity(), items);
 		listview.setAdapter(adapter);
 		return view;
