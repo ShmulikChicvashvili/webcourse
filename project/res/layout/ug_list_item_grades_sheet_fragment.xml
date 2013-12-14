@@ -24,6 +24,8 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="fill_parent"
 	        android:padding="5dip"
+	        android:layout_gravity="right"
+	        android:gravity="right"
 	        android:layout_weight="1"
 	        /> 
 	 </LinearLayout>
@@ -39,7 +41,8 @@
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:gravity="right"
-		    android:padding="5dip"     
+		    android:padding="5dip"   
+		    android:singleLine="true"  
 	    /> 
     </LinearLayout>
 

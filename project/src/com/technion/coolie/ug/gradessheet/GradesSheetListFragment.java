@@ -24,7 +24,7 @@ public class GradesSheetListFragment extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		List<Item> tempList = HtmlParser.parseGrades("stam");
+		List<Item> tempList =UGDatabase.INSTANCE.getGradesSheet();
 		for (Item i : tempList)
 		{
 			if (i instanceof AccomplishedCourse)

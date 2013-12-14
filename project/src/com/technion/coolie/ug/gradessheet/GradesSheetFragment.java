@@ -43,10 +43,20 @@ public class GradesSheetFragment extends Fragment {
 		//new parseGradesAsync(getActivity()).execute();
 		items = UGDatabase.INSTANCE.getGradesSheet();
 		
+		avg.setText(HtmlParser.avg);
+		success.setText(HtmlParser.success);
+		points.setText(HtmlParser.points);
+		
 		listview = (ListView) view.findViewById(R.id.listView_main);
 		EntryAdapter adapter = new EntryAdapter(getActivity(), items);
 		listview.setAdapter(adapter);
 		return view;
+	}
+	
+	private void setStudentDetails(Elements types) {
+		avg.setText(types.get(17).text());
+		success.setText(types.get(16).text() + " %");
+		points.setText(types.get(15).text());
 	}
 
 	/*public class parseGradesAsync extends AsyncTask<Void, Void, Void> {
