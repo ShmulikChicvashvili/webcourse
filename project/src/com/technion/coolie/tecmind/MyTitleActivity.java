@@ -1,12 +1,11 @@
-package com.technion.coolie.tecmind.GUI;
+package com.technion.coolie.tecmind;
 
 import android.os.Bundle;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
+import android.content.Intent;
 import com.facebook.*;
 import com.facebook.model.*;
-import android.widget.TextView;
-import android.content.Intent;
 
 public class MyTitleActivity extends CoolieActivity {
 

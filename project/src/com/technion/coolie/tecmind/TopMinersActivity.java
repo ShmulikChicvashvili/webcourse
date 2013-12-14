@@ -1,4 +1,4 @@
-package com.technion.coolie.tecmind.GUI;
+package com.technion.coolie.tecmind;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,11 +9,13 @@ import android.widget.LinearLayout;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.technion.coolie.R;
 
-public class TotalAccountActivity extends SherlockFragment {
+public class TopMinersActivity extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        return (LinearLayout) inflater.inflate(R.layout.techmind_activity_total_account, container, false);
+        return (LinearLayout) inflater.inflate(R.layout.techmind_activity_top_miners, container, false);
 
     }
 }
+
+

@@ -1,4 +1,4 @@
-package com.technion.coolie.tecmind.GUI;
+package com.technion.coolie.tecmind;
 
 import android.os.Bundle;
 import com.technion.coolie.CoolieActivity;

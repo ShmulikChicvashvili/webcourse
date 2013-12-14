@@ -8,7 +8,6 @@ import java.util.Map;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.skeleton.PreferencesScreen;
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -214,16 +213,16 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		map.put("moduleName", "module 5");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.techmind_icon);
-		map.put("moduleName", "Techmine");
+		map.put("moduleIcon", R.drawable.skel_module6);
+		map.put("moduleName", "module 6");
 		list.add(map);
 		map = new HashMap();
 		map.put("moduleIcon", R.drawable.skel_module7);
 		map.put("moduleName", "module 7");
 		list.add(map);
 		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module8);
-		map.put("moduleName", "module 8");
+		map.put("moduleIcon", R.drawable.techmind_icon);
+		map.put("moduleName", "Techmine");
 		list.add(map);
 		map = new HashMap();
 		map.put("moduleIcon", R.drawable.skel_module9);
@@ -448,4 +447,5 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 			}
 		};
 	}
+
 }
