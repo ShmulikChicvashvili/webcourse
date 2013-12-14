@@ -4,40 +4,10 @@
     android:layout_height="fill_parent"
     android:background="#fffeff" >
 
-    <RelativeLayout
-        android:id="@+id/create_header"
-        android:layout_width="match_parent"
-        style="@style/PurpleActionBarTop"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true" >
-
-        <ImageButton
-            android:id="@+id/createButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="#00000000"
-            android:padding="@dimen/dp7"
-            android:src="@drawable/ji_v_white" />
-
-        <ImageButton
-            android:id="@+id/importButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:background="#00000000"
-            android:padding="@dimen/dp7"
-            android:src="@drawable/ji_facebook_import" />
-        
-    </RelativeLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/create_header"
         android:padding="7dp" >
 
         <LinearLayout

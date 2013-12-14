@@ -136,12 +136,13 @@
             android:name="com.technion.coolie.joinin.subactivities.CreateEventActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Sherlock.Light"  
-            android:label="@string/app_name" >
+            android:label="@string/app_name" android:parentActivityName="com.technion.coolie.joinin.MainActivity">
         </activity>
         <activity
             android:name="com.technion.coolie.joinin.subactivities.LoginActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"
+            android:label="@string/app_name" 
+            android:theme="@style/Theme.Sherlock.Light"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.LOGINACTIVITY" />
@@ -153,23 +154,27 @@
             android:name="com.technion.coolie.joinin.subactivities.MyEventsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+                        android:label="@string/app_name" 
+            android:theme="@style/Theme.Sherlock.Light">
         </activity>
         <activity
             android:name="com.technion.coolie.joinin.subactivities.EventActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+                        android:label="@string/app_name" 
+            android:theme="@style/Theme.Sherlock.Light">
         </activity>
         <activity
             android:name="com.technion.coolie.joinin.subactivities.ShowTextActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+                       android:label="@string/app_name" 
+            android:theme="@style/Theme.Sherlock.Light">
         </activity>
         <activity
             android:name="com.technion.coolie.joinin.facebook.PickFriendsActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+                        android:label="@string/app_name" 
+            android:theme="@style/Theme.Sherlock.Light">
         </activity>
 
         <receiver
@@ -187,9 +192,9 @@
 
         <activity
             android:name="com.technion.coolie.joinin.subactivities.EventFilterActivity"
-            android:label="@string/title_activity_event_filter"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+                        android:label="@string/app_name" 
+            android:theme="@style/Theme.Sherlock.Light">
         </activity>
 
         <meta-data
@@ -200,9 +205,9 @@
         </activity>
         <activity
             android:name="com.technion.coolie.joinin.subactivities.MyFavoritesActivity"
-            android:label="@string/title_activity_my_favorites"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+                        android:label="@string/app_name" 
+            android:theme="@style/Theme.Sherlock.Light">
         </activity>
 
         <meta-data
@@ -211,19 +216,20 @@
 
         <activity
             android:name="com.technion.coolie.joinin.subactivities.SettingsActivity"
-            android:label="@string/title_activity_settings" >
+                        android:label="@string/app_name" 
+            android:theme="@style/Theme.Sherlock.Light">
         </activity>
         <activity
             android:name="com.technion.coolie.joinin.subactivities.GroupsFromFacebook"
-            android:label="@string/title_activity_groups_from_facebook"
             android:screenOrientation="portrait" 
-            android:theme="@android:style/Theme.NoTitleBar" >
+                        android:label="@string/app_name" 
+            android:theme="@style/Theme.Sherlock.Light">
         </activity>
         <activity
             android:name="com.technion.coolie.joinin.subactivities.TutorialActivity"
-            android:label="@string/title_activity_tutorial"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"  >
+            android:label="@string/app_name" 
+            android:theme="@style/Theme.Sherlock.Light">
         </activity>    
         
         

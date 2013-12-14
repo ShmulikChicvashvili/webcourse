@@ -76,6 +76,7 @@ public class MainActivity extends CoolieActivity {
      
      @Override
      public boolean onCreateOptionsMenu(Menu menu) {
+    	 super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getSupportMenuInflater();
         inflater.inflate(R.menu.join_in_activity_itemlist, menu);
         addEventButon = menu.findItem(R.id.add_item);

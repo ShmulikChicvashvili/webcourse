@@ -33,6 +33,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.calander.CalendarEventDatabase.NotFoundException;
@@ -96,9 +99,9 @@ public class CreateEventActivity extends CoolieActivity {
     charsCount = (TextView) findViewById(R.id.charsCount);
     dateInput = (TextView) findViewById(R.id.eventDateInput);
     timeInput = (TextView) findViewById(R.id.eventTimeInput);
-    importButton = (ImageButton) findViewById(R.id.importButton);
+//    importButton = (ImageButton) findViewById(R.id.importButton);
     setupSpinner();
-    createEvent = (ImageButton) findViewById(R.id.createButton);
+//    createEvent = (ImageButton) findViewById(R.id.createButton);
     latitude = getIntent().getExtras().getInt("Latitude");
     longtitude = getIntent().getExtras().getInt("Longtitude");
     date = new EventDate(Calendar.getInstance().getTimeInMillis());
@@ -135,19 +138,19 @@ public class CreateEventActivity extends CoolieActivity {
         showDialog(TIME_DIALOG_ID);
       }
     });
-    final ClientEvent e = (ClientEvent) getIntent().getExtras().get("event");
-    if (e != null)
-      showDetails(e);
-    createEvent.setOnClickListener(new OnClickListener() {
-      @Override public void onClick(final View v) {
-        pressOk(e);
-      }
-    });
-    importButton.setOnClickListener(new OnClickListener() {
-      @Override public void onClick(final View v) {
-        createImportDialog();
-      }
-    });
+//    final ClientEvent e = (ClientEvent) getIntent().getExtras().get("event");
+//    if (e != null)
+//      showDetails(e);
+//    createEvent.setOnClickListener(new OnClickListener() {
+//      @Override public void onClick(final View v) {
+//        pressOk(e);
+//      }
+//    });
+//    importButton.setOnClickListener(new OnClickListener() {
+//      @Override public void onClick(final View v) {
+//        createImportDialog();
+//      }
+//    });
   }
   
   private void setupSpinner() {
@@ -403,4 +406,31 @@ public class CreateEventActivity extends CoolieActivity {
       startActivityForResult(new Intent(this, LoginActivity.class), 1);
     }
   }
+  
+  	@Override
+  	public boolean onCreateOptionsMenu(Menu menu) {
+  		super.onCreateOptionsMenu(menu);
+  		MenuInflater inflater = getSupportMenuInflater();
+  		inflater.inflate(R.menu.join_in_create_event_activity_itemlist, menu);
+  		return true;
+  
+  }
+  
+  	@Override
+  	public boolean onOptionsItemSelected(final MenuItem item) {
+	    switch (item.getItemId()) {
+	      case R.id.add_item:
+	    	  final ClientEvent e = (ClientEvent) getIntent().getExtras().get("event");
+	    	    if (e != null)
+	    	    	showDetails(e);
+	    	    pressOk(e);
+	    	    break;
+	      case R.id.facebook_events:
+	    	  createImportDialog();
+	    	  break;
+	      default:
+	        return super.onOptionsItemSelected(item);
+	    }
+	    return true;
+	  }
 }
