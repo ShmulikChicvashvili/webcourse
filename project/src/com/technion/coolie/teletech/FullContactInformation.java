@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -30,8 +29,8 @@ public class FullContactInformation extends SherlockFragment {
 	 * android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+			final Bundle savedInstanceState) {
 		if (savedInstanceState != null)
 			mCurrentPosition = savedInstanceState.getInt(ARG_POSITION_STRING);
 		return inflater.inflate(
@@ -46,7 +45,7 @@ public class FullContactInformation extends SherlockFragment {
 	 * android.support.v4.app.Fragment#onSaveInstanceState(android.os.Bundle)
 	 */
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
+	public void onSaveInstanceState(final Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(ARG_POSITION_STRING, mCurrentPosition);
 	}
@@ -59,7 +58,7 @@ public class FullContactInformation extends SherlockFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		Bundle args = getArguments();
+		final Bundle args = getArguments();
 		if (args != null)
 			updateContactInformationView(args.getInt(ARG_POSITION_STRING));
 		else
@@ -69,16 +68,17 @@ public class FullContactInformation extends SherlockFragment {
 	/**
 	 * @param position
 	 */
-	public void updateContactInformationView(int position) {
-		ContactInformation currentContact = TeletechManager.getContacts().get(
+	public void updateContactInformationView(final int position) {
+		//TODO: change this
+		final ContactInformation currentContact = MainActivity.contacts.get(
 				position);
 		updateMainInfo(currentContact);
 
 		updatePhoneNumbers(currentContact);
 
 		updateAdditionalData(currentContact);
-		
-		CheckBox star = (CheckBox) getActivity().findViewById(
+
+		final CheckBox star = (CheckBox) getActivity().findViewById(
 				com.technion.coolie.R.id.addToFavorite);
 		// should find the contact in the DB and check if he is in the favorite
 		// DB, if so, check the contact
@@ -92,21 +92,21 @@ public class FullContactInformation extends SherlockFragment {
 	/**
 	 * @param currentContact
 	 */
-	private void updateAdditionalData(ContactInformation currentContact) {
-		TextView email = (TextView) getActivity().findViewById(
+	private void updateAdditionalData(final ContactInformation currentContact) {
+		final TextView email = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.personalMailInfo);
 		email.setText(currentContact.techMail());
 
-		TextView office = (TextView) getActivity().findViewById(
+		final TextView office = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.personalOfficeInfo);
 		office.setText(currentContact.office().toString());
 
-		TextView officeHours = (TextView) getActivity().findViewById(
+		final TextView officeHours = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.personalOfficeHourInfo);
-		officeHours.setText(currentContact.officeHours() == null ? new OfficeHour().toString() : 
+		officeHours.setText(currentContact.officeHours() == null ? new OfficeHour().toString() :
 			currentContact.officeHours().toString());
 
-		TextView website = (TextView) getActivity().findViewById(
+		final TextView website = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.websiteInfo);
 		website.setText(currentContact.website());
 	}
@@ -114,18 +114,18 @@ public class FullContactInformation extends SherlockFragment {
 	/**
 	 * @param currentContact
 	 */
-	private void updatePhoneNumbers(ContactInformation currentContact) {
-		TextView mobile = (TextView) getActivity().findViewById(
+	private void updatePhoneNumbers(final ContactInformation currentContact) {
+		final TextView mobile = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.personalPhoneInfo);
 		mobile.setText(currentContact.mobileNumber() == null ? "NA"
 				: currentContact.mobileNumber());
 
-		TextView officeNum = (TextView) getActivity().findViewById(
+		final TextView officeNum = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.personalPhoneInfo1);
 		officeNum.setText(currentContact.officeNumber() == null ? "NA"
 				: currentContact.officeNumber());
 
-		TextView home = (TextView) getActivity().findViewById(
+		final TextView home = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.personalPhoneInfo2);
 		home.setText(currentContact.homeNumber() == null ? "NA"
 				: currentContact.homeNumber());
@@ -134,20 +134,20 @@ public class FullContactInformation extends SherlockFragment {
 	/**
 	 * @param currentContact
 	 */
-	private void updateMainInfo(ContactInformation currentContact) {
-		TextView firstName = (TextView) getActivity().findViewById(
+	private void updateMainInfo(final ContactInformation currentContact) {
+		final TextView firstName = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.privateName);
 		firstName.setText(currentContact.firstName());
 
-		TextView lastName = (TextView) getActivity().findViewById(
+		final TextView lastName = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.addLastName);
 		lastName.setText(currentContact.lastName());
 
-		TextView currPosition = (TextView) getActivity().findViewById(
+		final TextView currPosition = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.addPosition);
 		currPosition.setText(currentContact.contactPosition().toString());
 
-		TextView faculty = (TextView) getActivity().findViewById(
+		final TextView faculty = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.addfaculty);
 		faculty.setText(currentContact.faculty());
 	}

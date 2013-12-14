@@ -3,9 +3,8 @@
  */
 package com.technion.coolie.teletech;
 
-import java.util.List;
-
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +12,8 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.technion.coolie.teletech.serverApi.ITeletechAPI;
+import com.technion.coolie.teletech.serverApi.TeletechAPI;
 
 /**
  * @author Argaman
@@ -20,9 +21,11 @@ import com.actionbarsherlock.app.SherlockListFragment;
  */
 public class ContactSummaryFragment extends SherlockListFragment {
 
-	private List<ContactInformation> contacts;
+	// List<ContactInformation> contacts;
 
 	OnContactSelectedListener mCallback;
+	// TODO : remove this!!
+	public static ContactsAdapter adapter;
 
 	public interface OnContactSelectedListener {
 		public void onContactSelected(int position);
@@ -34,12 +37,22 @@ public class ContactSummaryFragment extends SherlockListFragment {
 	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
 	 */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		int layout = com.technion.coolie.R.layout.teletech_contact_list;
-		contacts = TeletechManager.getContacts();
-		setListAdapter(new ContactsAdapter(getSherlockActivity(), layout,
-				contacts));
+		final int layout = com.technion.coolie.R.layout.teletech_contact_list;
+		MainActivity.contacts = new ContactsTest().contactList;
+
+		// new ClientAsyncContacts() {
+		// @Override
+		// protected void onPostExecute(final String result) {
+
+		adapter = new ContactsAdapter(getSherlockActivity(), layout,
+				MainActivity.contacts);
+		setListAdapter(adapter);
+		// }
+
+		// }.execute();
+
 	}
 
 	/*
@@ -50,11 +63,11 @@ public class ContactSummaryFragment extends SherlockListFragment {
 	 * )
 	 */
 	@Override
-	public void onAttach(Activity activity) {
+	public void onAttach(final Activity activity) {
 		super.onAttach(activity);
 		try {
 			mCallback = (OnContactSelectedListener) activity;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Log.d("Interface not implemented", e.toString());
 		}
 	}
@@ -68,9 +81,8 @@ public class ContactSummaryFragment extends SherlockListFragment {
 	public void onStart() {
 		super.onStart();
 		if (getFragmentManager().findFragmentById(
-				com.technion.coolie.R.id.summary_fragment) != null){
+				com.technion.coolie.R.id.summary_fragment) != null)
 			getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
-		}
 	}
 
 	/*
@@ -81,13 +93,26 @@ public class ContactSummaryFragment extends SherlockListFragment {
 	 * , android.view.View, int, long)
 	 */
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
+	public void onListItemClick(final ListView l, final View v,
+			final int position, final long id) {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 		mCallback.onContactSelected(position);
 		Log.d("item clicked", "the item that was clicked is: " + position);
 		getListView().setItemChecked(position, true);
 		ContactsAdapter.indexSelected = position;
+	}
+
+	private class ClientAsyncContacts extends AsyncTask<Void, Void, String> {
+
+		@Override
+		protected String doInBackground(final Void... params) {
+			final ITeletechAPI teletechAPI = new TeletechAPI();
+
+			MainActivity.contacts = teletechAPI.getAllContacts();
+			return null;
+		}
+
 	}
 
 }
