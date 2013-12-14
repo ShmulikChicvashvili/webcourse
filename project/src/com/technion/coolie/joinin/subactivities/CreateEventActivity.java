@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.calander.CalendarEventDatabase.NotFoundException;
 import com.technion.coolie.joinin.calander.CalendarHandler;
@@ -54,7 +55,7 @@ import com.technion.coolie.joinin.map.MainMapActivity;
  * @author Shimon Kama
  * 
  */
-public class CreateEventActivity extends FragmentActivity {
+public class CreateEventActivity extends CoolieActivity {
   final FragmentActivity thisActivity = this;
   static final int DATE_DIALOG_ID = 999;
   static final int TIME_DIALOG_ID = 998;

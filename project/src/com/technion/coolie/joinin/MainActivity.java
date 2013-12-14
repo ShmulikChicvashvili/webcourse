@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
+import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.EventDate;
 import com.technion.coolie.joinin.data.SerializableSparseBooleanArrayContainer;
@@ -34,6 +36,9 @@ import com.technion.coolie.joinin.subactivities.SettingsActivity;
 
 public class MainActivity extends CoolieActivity {
 	private MenuItem addEventButon;
+	public static ClientAccount mLoggedAccount = null;
+	final Activity mContext = this;
+
 	     
      @Override
      protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +82,23 @@ public class MainActivity extends CoolieActivity {
         return true;
      
      }
+     
+     @Override public boolean onOptionsItemSelected(final MenuItem item) {
+ 	    switch (item.getItemId()) {
+ 	      case R.id.add_item:
+// 	    	  startActivityForResult(new Intent(this, LoginActivity.class), RESULT_LOGIN_ACCOUNT);
+// 	    	  startActivityForResult(new Intent(this, TmpCreateEventActivity.class), 1);
+// 	          final LatLng gp = map.getCameraPosition().target;
+// 	          startActivityForResult(new Intent(mContext, CreateEventActivity.class).putExtra("Latitude", (int) (gp.latitude * TO_E6))
+// 	              .putExtra("Longtitude", (int) (gp.longitude * TO_E6)).putExtra("account", mLoggedAccount), 0);
+ 	    	  
+ 	          startActivityForResult(new Intent(mContext, CreateEventActivity.class).putExtra("account", mLoggedAccount), 1);
+ 	      default:
+ 	        return super.onOptionsItemSelected(item);
+ 	    }
+ 	  }
+  
+
      
      private void prepareListData(ArrayList<String> listDataHeader,
  			HashMap<String, List<ClientEvent>> listDataChild) {
