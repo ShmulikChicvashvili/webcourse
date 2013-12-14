@@ -51,69 +51,56 @@ public enum UGDatabase {
 	private void initializeCourses() {
 		groups = new ArrayList<RegistrationGroup>(Arrays.asList(
 				new RegistrationGroup(1, Arrays.asList(new Meeting("2",
-						"מר חביבי לחם", DayOfWeek.SUNDAY, new Date(), null,
-						"ספריה")), null, 1),
+						"Mr. Yossi happy", DayOfWeek.SUNDAY, new Date(), null,
+						"Ulman 329")), null, 1),
 				new RegistrationGroup(2, Arrays.asList(new Meeting("2",
-						"פרופ יוסי מצליח", DayOfWeek.SUNDAY, new Date(), null,
-						"טאוב 5")), null, 20)));
+						"Prof. Monik", DayOfWeek.SUNDAY, new Date(), null,
+						"Taub 10")), null, 20)));
 
 		allCourses = new ArrayList<Course>(
-				Arrays.asList(
-						new Course("213245",
-								"מבוא לבינה מלאכותית במודלים מתקדמים ביותר 4",
-								2.0f, "הרג אותי", new Semester(2013,
-										SemesterSeason.WINTER),
-								Faculty.HUMANITIES, new GregorianCalendar(2014,
-										2, 11), new GregorianCalendar(2014, 2,
-										11), null, null, null),
-						new Course("012932", "קורס בחידוד עפרונות", 5.0f,
-								"ההרגשה היא אושר צרוף!!!", new Semester(2013,
-										SemesterSeason.WINTER),
-								Faculty.ARCHITECTURE, new GregorianCalendar(
-										2014, 2, 11), new GregorianCalendar(
-										2014, 2, 11), null, null, groups),
-						new Course("043932", "מבני נתונים 2", 2.0f, "כיף!!!",
-								new Semester(2013, SemesterSeason.SPRING),
-								Faculty.HUMANITIES, new GregorianCalendar(2014,
-										2, 11), new GregorianCalendar(2014, 2,
-										11), null, null, groups),
-						new Course(
-								"232932",
-								"לוגיקה במערכות פורמליות",
-								5.0f,
-								"לעיתים, ההנאה היא מדהימה, ותמיד יש מקום לעוד!!!",
-								new Semester(2013, SemesterSeason.SPRING),
-								Faculty.ARCHITECTURE, new GregorianCalendar(
-										2014, 2, 11), new GregorianCalendar(
-										2014, 2, 11), null, null, groups)));
 
-		Course course = new Course("012932", "קורס בחידוד עפרונות", 5.0f,
-				"ההרגשה היא אושר צרוף!!!", new Semester(2013,
+		Arrays.asList(
+
+		new Course("213245", "Introduction to complicated algorithems 4", 2.0f,
+				"Interesting desctiption about the course", new Semester(2013,
+						SemesterSeason.WINTER), Faculty.HUMANITIES,
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), null, null, null),
+
+		new Course("012932", "Convoluted systems 2", 5.0f,
+				"ok course. please come.", new Semester(2013,
 						SemesterSeason.WINTER), Faculty.ARCHITECTURE,
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
-						2, 11), null, null, groups);
-		course.setName("כיף חיים באולמן 30");
-		allCourses.add(course);
-		course = new Course(course);
-		course.setName("יזמות לעצלנים");
-		allCourses.add(course);
-		course = new Course(course);
-		course.setName("מפרטים פורמליים");
-		allCourses.add(course);
-		course = new Course(course);
-		course.setName("לוגיקה ותורת התפוצות");
-		allCourses.add(course);
-		course = new Course(course);
-		course.setName("אלגברה 6");
-		allCourses.add(course);
-		course = new Course(course);
-		course.setName("לוגיקה 2");
-		allCourses.add(course);
-		course = new Course(course);
-		course.setName("פינוי אשפה ");
-		allCourses.add(course);
+						2, 11), null, null, groups),
+
+		new Course("043932", "Data Structures in history", 2.0f, "fun",
+				new Semester(2013, SemesterSeason.SPRING), Faculty.HUMANITIES,
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), null, null, groups),
+
+		new Course("232932", "logic in software", 5.0f, "unbelievable",
+				new Semester(2013, SemesterSeason.SPRING),
+				Faculty.ARCHITECTURE, new GregorianCalendar(2014, 2, 11),
+				new GregorianCalendar(2014, 2, 11), null, null, groups),
+
+		new Course("012932", "Advanced practices in formal systems", 5.0f,
+				"Group 1 is for students with hats only.", new Semester(2013,
+						SemesterSeason.WINTER), Faculty.ARCHITECTURE,
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), null, null, groups),
+
+		new Course("012932", "Advanced coding habits", 5.0f, "No idea.",
+				new Semester(2013, SemesterSeason.SPRING),
+				Faculty.ARCHITECTURE, new GregorianCalendar(2014, 2, 11),
+				new GregorianCalendar(2014, 2, 11), null, null, groups)
+
+		));
+
 	}
 
+	/**
+	 * puts all the courses in a hashTable, mapping courseKey to course
+	 */
 	private void initializeHashMap() {
 		coursesHash = new LinkedHashMap<CourseKey, Course>();
 		for (Course course : allCourses)
@@ -175,7 +162,7 @@ public enum UGDatabase {
 
 		return coursesAndExamsList;
 	}
-	
+
 	public ArrayList<Item> getCalendar() {
 		return HtmlParser.parseCalendar();
 	}

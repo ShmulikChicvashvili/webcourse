@@ -10,16 +10,12 @@ public enum SemesterSeason implements Serializable {
 
 	},
 	SPRING {
-		@Override
 		public int getIdx() {
-			// TODO Auto-generated method stub
 			return 1;
 		}
 	},
 	SUMMER {
-		@Override
 		public int getIdx() {
-			// TODO Auto-generated method stub
 			return 2;
 		}
 	};
