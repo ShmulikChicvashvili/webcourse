@@ -7,13 +7,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
-import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.Adapters.CourseAdapter;
 import com.technion.coolie.studybuddy.Views.NowLayout;
+import com.technion.coolie.studybuddy.Views.StudyBuddyActivity;
 import com.technion.coolie.studybuddy.Views.TasksActicity;
 
-public class MainActivity extends CoolieActivity
+public class MainActivity extends StudyBuddyActivity
 {
 
 	/*

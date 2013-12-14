@@ -53,7 +53,7 @@ public class CourseAdapter extends BaseAdapter
 		TextView courseNumber = null;
 		if (convertView == null)
 		{
-			convertView = mInflater.inflate(R.layout.stb_view_course, null);
+			convertView = mInflater.inflate(R.layout.stb_view_course_item, null);
 			convertView.setOnClickListener(new OnClickListener()
 			{
 

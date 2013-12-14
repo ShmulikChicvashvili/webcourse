@@ -1,0 +1,25 @@
+package com.technion.coolie.studybuddy.Views;
+
+import android.os.Bundle;
+import android.widget.ExpandableListView;
+
+import com.technion.coolie.CoolieActivity;
+import com.technion.coolie.R;
+import com.technion.coolie.studybuddy.Adapters.NavigationAdapter;
+
+public class StudyBuddyActivity extends CoolieActivity
+{
+
+	/* (non-Javadoc)
+	 * @see com.technion.coolie.CoolieActivity#onCreate(android.os.Bundle)
+	 */
+	@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		ExpandableListView view = (ExpandableListView) addInnerNavigationDrawer(R.layout.stb_view_navigation);
+		NavigationAdapter navigationAdapter = new NavigationAdapter(this);
+		view.setAdapter(navigationAdapter);
+	}
+
+}
