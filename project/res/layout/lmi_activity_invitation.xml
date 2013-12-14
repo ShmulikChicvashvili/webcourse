@@ -88,31 +88,45 @@
         android:inputType="text"
         android:singleLine="true" />
 
-    <EditText
-        android:id="@+id/lmi_date_picker"
+    <TextView
+        android:id="@+id/lmi_label_time_off_arival"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/lmi_friend_car_color_edit"
         android:layout_marginTop="@dimen/lmi_components_margin"
-        android:clickable="true"
-        android:ems="12"
-        android:focusable="false"
-        android:inputType="datetime"
-        android:onClick="showDatePickerDialog" />
+        android:enabled="false"
+        android:text="Time of arrival"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <EditText
-        android:id="@+id/lmi_time_picker"
+    <TextView
+        android:id="@+id/lmi_date_picker"
+        style="?android:attr/spinnerStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/lmi_date_picker"
-        android:layout_marginTop="@dimen/lmi_components_margin"
+        android:layout_alignBaseline="@+id/lmi_label_time_off_arival"
+        android:layout_below="@+id/lmi_friend_car_color_edit"
+        android:layout_marginLeft="@dimen/lmi_components_margin"
+        android:layout_marginRight="@dimen/lmi_components_margin"
+        android:layout_toRightOf="@+id/lmi_label_time_off_arival"
         android:clickable="true"
-        android:ems="10"
+        android:ems="7"
         android:focusable="false"
-        android:inputType="datetime"
-        android:onClick="showTimePickerDialog" />
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/lmi_time_picker"
+        style="?android:attr/spinnerStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lmi_label_time_off_arival"
+        android:layout_below="@+id/lmi_friend_car_color_edit"
+        android:layout_marginRight="@dimen/lmi_components_margin"
+        android:layout_toRightOf="@+id/lmi_date_picker"
+        android:clickable="true"
+        android:ems="5"
+        android:focusable="false"
+        android:gravity="center" />
 
     <Button
         android:id="@+id/lmi_execute_invitation"

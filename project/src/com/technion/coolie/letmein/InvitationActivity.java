@@ -1,7 +1,6 @@
 package com.technion.coolie.letmein;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -13,6 +12,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -36,7 +36,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 
 	private static final int DROP_DOWN_LAYOUT_INDEX = android.R.layout.simple_dropdown_item_1line;
 
-	private final Calendar calendar = Calendar.getInstance();
+	private final MyCalendar cal = new MyCalendar();
 
 	private AutoCompleteTextView friendNameEdit;
 	private EditText friendCellphoneEdit;
@@ -71,10 +71,24 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		friendCarCompanySpinner = (Spinner) findViewById(R.id.lmi_friend_car_company_edit);
 
 		datePicker = (TextView) findViewById(R.id.lmi_date_picker);
-		setDate(calendar);
+		datePicker.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				new DatePickerFragment().show(getSupportFragmentManager(),
+						DatePickerFragment.class.getSimpleName());
+			}
+		});
+		datePicker.setText(cal.parseDate());
 
 		timePicker = (TextView) findViewById(R.id.lmi_time_picker);
-		setTime(calendar);
+		timePicker.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				new TimePickerFragment().show(getSupportFragmentManager(),
+						TimePickerFragment.class.getSimpleName());
+			}
+		});
+		timePicker.setText(cal.parseTime());
 
 		friendCarColorEdit = (AutoCompleteTextView) findViewById(R.id.lmi_friend_car_color_edit);
 		friendCarColorEdit.setAdapter(new ArrayAdapter<String>(InvitationActivity.this,
@@ -92,16 +106,6 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				return false;
 			}
 		});
-	}
-
-	public void showTimePickerDialog(final View v) {
-		new TimePickerFragment().show(getSupportFragmentManager(),
-				TimePickerFragment.class.getSimpleName());
-	}
-
-	public void showDatePickerDialog(final View v) {
-		new DatePickerFragment().show(getSupportFragmentManager(),
-				DatePickerFragment.class.getSimpleName());
 	}
 
 	@Override
@@ -176,103 +180,6 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 
 	}
 
-	// // private class AutoCompletionGatheringTask2 extends
-	// AsyncTask<Void, Void, SimpleAdapter> {
-	//
-	// @Override
-	// protected SimpleAdapter doInBackground(final Void... params) {
-	//
-	// // Each row in the list stores country name, currency and flag
-	// //List<ContactInfo> aList = new ArrayList<ContactInfo>();
-	// List<HashMap<String,String>> aList = new
-	// ArrayList<HashMap<String,String>>();
-	//
-	//
-	// final ContentResolver contentResolver = getContentResolver();
-	// final String whereName = ContactsContract.Data.MIMETYPE + " = ?";
-	// final String[] whereNameParams = new String[] {
-	// ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE };
-	// final Cursor nameCur = contentResolver.query(
-	// ContactsContract.Data.CONTENT_URI, null, whereName,
-	// whereNameParams,
-	// ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
-	//
-	// while (nameCur.moveToNext()) {
-	// String name = nameCur
-	// .getString(nameCur
-	// .getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
-	//
-	// String id = nameCur
-	// .getString(nameCur
-	// .getColumnIndex(ContactsContract.CommonDataKinds.StructuredName._ID));
-	//
-	// String imageUri = nameCur
-	// .getString(nameCur
-	// .getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
-	//
-	// //aList.add(new ContactInfo(name, id, imageUri, "000"));
-	// HashMap<String, String> hm = new HashMap<String,String>();
-	// hm.put("txt", name);
-	// hm.put("id",id);
-	// if (imageUri==null)
-	// {
-	// String packName = InvitationActivity.this.getPackageName();
-	// Uri path = Uri.parse("android.resource://" + packName +
-	// R.drawable.lmi_facebook_man);
-	// hm.put("flag", path.toString());
-	//
-	// } else {
-	// hm.put("flag", imageUri );
-	// aList.add(hm);
-	// }
-	// //hm.put("cur", currency[i]);
-	// }
-	//
-	// nameCur.close();
-	//
-	// // Keys used in Hashmap
-	// String[] from = { "flag","txt"}; //
-	//
-	// // Ids of views in listview_layout
-	// int[] to = { R.id.lmi_contact_image,R.id.lmi_contacts_auto_name}; //,
-	//
-	// //return new ContactsAdapter(InvitationActivity.this, aList);
-	// return new SimpleAdapter(getBaseContext(), aList,
-	// R.layout.lmi_contacts_autocomplete_layout, from, to);
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(final SimpleAdapter adapter) {
-	// friendNameEdit.setAdapter(adapter);
-	// //friendImage.setImageURI(Uri.parse(this.last_uri))
-	//
-	// OnItemClickListener itemClickListener = new OnItemClickListener() {
-	// @SuppressWarnings("unchecked")
-	// @Override
-	// public void onItemClick(AdapterView<?> arg0, View arg1,
-	// int position, long id) {
-	//
-	//
-	// HashMap<String, String> hm = (HashMap<String, String>) arg0
-	// .getAdapter().getItem(position);
-	//
-	// //Toast.makeText(InvitationActivity.this, hm.get("flag").toString(),
-	// Toast.LENGTH_SHORT).show();
-	// friendImage.setImageURI(Uri.parse(hm.get("flag")));
-	//
-	// // TextView tvCurrency = (TextView)
-	// // findViewById(R.id.tv_currency) ;
-	//
-	//
-	// // tvCurrency.setText("Currency : " + hm.get("cur"));
-	// }
-	//
-	// };
-	// friendNameEdit.setOnItemClickListener(itemClickListener);
-	// }
-	//
-	// }
-
 	private String getFriendCellPhoneNumber() {
 		final String friendName = friendNameEdit.getText().toString();
 
@@ -300,8 +207,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				friendCarCompanySpinner.getSelectedItemPosition());
 		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_car_color_edit),
 				friendCarColorEdit.getText());
-		savedInstanceState.putIntArray(Consts.CALENDAR_INFO, new int[] { getYear(), getMonth(),
-				getDay(), getHour(), getMinute() });
+		savedInstanceState.putIntArray(Consts.CALENDAR_INFO, cal.backup());
 	}
 
 	@Override
@@ -319,80 +225,9 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		friendCarColorEdit.setText(savedInstanceState.getCharSequence(String
 				.valueOf(R.id.lmi_friend_car_color_edit)));
 
-		final int[] arr = savedInstanceState.getIntArray(Consts.CALENDAR_INFO);
-		setYear(arr[0]);
-		setMonth(arr[1]);
-		setDay(arr[2]);
-		setHour(arr[3]);
-		setMinute(arr[4]);
-		setDate(calendar);
-		setTime(calendar);
-	}
-
-	public void setYear(final int year) {
-		calendar.set(Calendar.YEAR, year);
-	}
-
-	public void setMonth(final int month) {
-		calendar.set(Calendar.MONTH, month);
-	}
-
-	public void setDay(final int day) {
-		calendar.set(Calendar.DAY_OF_MONTH, day);
-	}
-
-	public void setHour(final int hour) {
-		calendar.set(Calendar.HOUR_OF_DAY, hour);
-	}
-
-	public void setMinute(final int minute) {
-		calendar.set(Calendar.MINUTE, minute);
-	}
-
-	@Override
-	public int getYear() {
-		return calendar.get(Calendar.YEAR);
-	}
-
-	@Override
-	public int getMonth() {
-		return calendar.get(Calendar.MONTH);
-	}
-
-	@Override
-	public int getDay() {
-		return calendar.get(Calendar.DAY_OF_MONTH);
-	}
-
-	@Override
-	public int getHour() {
-		return calendar.get(Calendar.HOUR_OF_DAY);
-	}
-
-	@Override
-	public int getMinute() {
-		return calendar.get(Calendar.MINUTE);
-	}
-
-	@Override
-	public void setDate(final Calendar calendar) {
-		this.calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR));
-		this.calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH));
-		this.calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH));
-
-		datePicker.setText(getString(R.string.lmi_date_of_arrival) + ":\n" + getDay() + "/"
-				+ (getMonth() + 1) + "/" + getYear());
-	}
-
-	@Override
-	public void setTime(final Calendar calendar) {
-		this.calendar.set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY));
-		this.calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE));
-
-		final String fixedHour = (getHour() < 10 ? "0" : "") + getHour();
-		final String fixedMinute = (getMinute() < 10 ? "0" : "") + getMinute();
-		timePicker.setText(getString(R.string.lmi_time_of_arrival) + ":\n" + fixedHour + ":"
-				+ fixedMinute);
+		cal.restore(savedInstanceState.getIntArray(Consts.CALENDAR_INFO));
+		datePicker.setText(cal.parseDate());
+		timePicker.setText(cal.parseTime());
 	}
 
 	public void executeInvitation(final View v) {
@@ -406,7 +241,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		if (isUserForgotAField(friendName, carNumber, carColor))
 			return;
 
-		final Invitation i = Invitation.builder().contactId(friendName).date(calendar.getTime())
+		final Invitation i = Invitation.builder().contactId(friendName).date(cal.getTime())
 				.status(Status.CREATED).contactName(friendName).contactPhoneNumber(friendCellphone)
 				.carNumber(carNumber).carManufacturer(carCompany).carColor(carColor).build();
 
@@ -427,5 +262,22 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 			return false;
 
 		return true;
+	}
+
+	@Override
+	public void setDate(int year, int month, int day) {
+		cal.setDate(year, month, day);
+		datePicker.setText(cal.parseDate());
+	}
+
+	@Override
+	public void setTime(int hour, int minute) {
+		cal.setTime(hour, minute);
+		timePicker.setText(cal.parseTime());
+	}
+
+	@Override
+	public MyCalendar getMyCalendar() {
+		return cal;
 	}
 }

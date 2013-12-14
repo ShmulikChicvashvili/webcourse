@@ -83,12 +83,6 @@ public class MainActivity extends DatabaseActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lmi_activity_main);
 
-		if (findViewById(R.id.lmi_login_button) instanceof Button) {
-			System.out.println("button");
-		} else {
-			System.out.println("not button");
-		}
-
 		loginButton = (Button) findViewById(R.id.lmi_login_button);
 		loginButton.setOnClickListener(new OnClickListener() {
 			@Override

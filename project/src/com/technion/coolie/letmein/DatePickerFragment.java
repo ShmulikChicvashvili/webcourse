@@ -1,7 +1,5 @@
 package com.technion.coolie.letmein;
 
-import java.util.Calendar;
-
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -18,8 +16,7 @@ public class DatePickerFragment extends DialogFragment implements
 		super.onAttach(activity);
 
 		if (!(activity instanceof CalendarSupplier)) {
-			throw new ClassCastException(activity.toString()
-					+ " must implemenet CalendarSupplier");
+			throw new ClassCastException(activity.toString() + " must implemenet CalendarSupplier");
 		}
 
 		this.activity = (CalendarSupplier) activity;
@@ -27,18 +24,14 @@ public class DatePickerFragment extends DialogFragment implements
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		int day = activity.getDay(), month = activity.getMonth(), year = activity
-				.getYear();
+		int day = activity.getMyCalendar().getDay(), month = activity.getMyCalendar().getMonth(), year = activity
+				.getMyCalendar().getYear();
 
 		return new DatePickerDialog(getActivity(), this, year, month, day);
 	}
 
 	@Override
 	public void onDateSet(DatePicker view, int year, int month, int day) {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.DAY_OF_MONTH, day);
-		cal.set(Calendar.MONTH, month);
-		cal.set(Calendar.YEAR, year);
-		activity.setDate(cal);
+		activity.setDate(year, month, day);
 	}
 }

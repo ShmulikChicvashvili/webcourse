@@ -1,7 +1,5 @@
 package com.technion.coolie.letmein;
 
-import java.util.Calendar;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -20,8 +18,7 @@ public class TimePickerFragment extends DialogFragment implements
 		super.onAttach(activity);
 
 		if (!(activity instanceof CalendarSupplier)) {
-			throw new ClassCastException(activity.toString()
-					+ " must implemenet CalendarSupplier");
+			throw new ClassCastException(activity.toString() + " must implemenet CalendarSupplier");
 		}
 
 		this.activity = (CalendarSupplier) activity;
@@ -29,7 +26,8 @@ public class TimePickerFragment extends DialogFragment implements
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		int hour = activity.getHour(), minute = activity.getMinute();
+		int hour = activity.getMyCalendar().getHour(), minute = activity.getMyCalendar()
+				.getMinute();
 
 		return new TimePickerDialog(getActivity(), this, hour, minute,
 				DateFormat.is24HourFormat(getActivity()));
@@ -37,9 +35,6 @@ public class TimePickerFragment extends DialogFragment implements
 
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
-		cal.set(Calendar.MINUTE, minute);
-		activity.setTime(cal);
+		activity.setTime(hourOfDay, minute);
 	}
 }

@@ -1,19 +1,9 @@
 package com.technion.coolie.letmein;
 
-import java.util.Calendar;
-
 public interface CalendarSupplier {
-	public void setDate(Calendar calendar);
+	public void setDate(int year, int month, int day);
 
-	public void setTime(Calendar calendar);
+	public void setTime(int hour, int minute);
 
-	public int getYear();
-
-	public int getMonth();
-
-	public int getDay();
-
-	public int getHour();
-
-	public int getMinute();
+	public MyCalendar getMyCalendar();
 }
