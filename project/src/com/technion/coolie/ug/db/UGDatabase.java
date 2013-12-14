@@ -38,17 +38,13 @@ public enum UGDatabase {
 
 	private UGDatabase() {
 		// initialize lists and student info, from DB TODO
-
-		initializeCourses();
-
-		initializeSemesters();
-
-		currentStudent = null;
+		initCourses();
 		initializeHashMap();
-
+		initializeSemesters();
 	}
 
-	private void initializeCourses() {
+	private void initCourses() {
+
 		groups = new ArrayList<RegistrationGroup>(Arrays.asList(
 				new RegistrationGroup(1, Arrays.asList(new Meeting("2",
 						"Mr. Yossi happy", DayOfWeek.SUNDAY, new Date(), null,
@@ -95,7 +91,6 @@ public enum UGDatabase {
 				new GregorianCalendar(2014, 2, 11), null, null, groups)
 
 		));
-
 	}
 
 	/**
@@ -116,6 +111,12 @@ public enum UGDatabase {
 				SemesterSeason.SUMMER);
 		currentSemesters[SemesterSeason.WINTER.getIdx()] = new Semester(2013,
 				SemesterSeason.WINTER);
+
+		currentStudent = null;
+		coursesHash = new LinkedHashMap<CourseKey, Course>();
+		for (Course course : allCourses)
+			coursesHash.put(course.getCourseKey(), course);
+
 	}
 
 	public Course getCourseByKey(CourseKey key) {
@@ -135,7 +136,7 @@ public enum UGDatabase {
 		return currentSemesters[currentSeason.getIdx()];
 	}
 
-	public List<Item> getGradesSheet() {
+	public ArrayList<Item> getGradesSheet() {
 		return null;
 	}
 
@@ -166,8 +167,5 @@ public enum UGDatabase {
 	public ArrayList<Item> getCalendar() {
 		return HtmlParser.parseCalendar();
 	}
-	// public List<String> getCoursesNames() {
-	// return allCoursesNames;
-	// }
 
 }

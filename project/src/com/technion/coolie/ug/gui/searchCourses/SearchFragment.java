@@ -192,6 +192,8 @@ public class SearchFragment extends Fragment {
 	 * preferences! Can get the last search in this method and display it.
 	 */
 	private void setInitialCourseLists() {
+		Log.d(MainActivity.DEBUG_TAG,
+				"all courses are of size " + allCourses.size());
 		filteredCoursesList = filters.filter(allCourses, "");
 		filteredAutoCompleteList = coursesToNames(filteredCoursesList);
 

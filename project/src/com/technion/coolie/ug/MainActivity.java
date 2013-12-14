@@ -20,8 +20,9 @@ public class MainActivity extends CoolieActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ug_main_screen);
 		context = getApplicationContext();
+		setContentView(R.layout.ug_main_screen);
+		
 		// startActivity(new Intent(this, SearchActivity.class));
 		// startActivity(new Intent(this, GradesSheetActivity.class));
 	}

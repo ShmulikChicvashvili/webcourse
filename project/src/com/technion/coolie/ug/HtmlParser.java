@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,6 +20,10 @@ import android.content.Context;
 
 import com.technion.coolie.ug.coursesAndExams.CourseItem;
 import com.technion.coolie.ug.coursesAndExams.ExamItem;
+import com.technion.coolie.ug.gradessheet.GradesFooterItem;
+import com.technion.coolie.ug.gradessheet.GradesSectionItem;
+import com.technion.coolie.ug.gradessheet.Item;
+import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.gradessheet.Item;
 
 public class HtmlParser {
@@ -109,4 +115,135 @@ public class HtmlParser {
 //		}
 		return null;
 	}
+	
+	// grades sheet parsing
+	
+	
+		private static ArrayList<Item> gradesItems = new ArrayList<Item>();
+		
+		
+		public static ArrayList<Item> parseGrades(String studentId)
+		{
+			Document doc = HtmlParser.parseFromFille("grades2.html", MainActivity.context);
+			Elements details = doc.select("td");
+
+			// set student grades
+			setStudentGrades(doc);
+			return gradesItems;
+		}
+		
+		
+		
+
+		private static void setStudentGrades(Document doc) {
+			Elements tableElems = doc.select("table");
+			// number of table elements
+			int numOftableElements = tableElems.size();
+			for (int i = 4; i < numOftableElements; i++) {
+				Element tableElem = tableElems.get(i);
+				setSingleSemesterGrades(tableElem);
+
+			}
+		}
+
+		private static void setSingleSemesterGrades(Element tableElem) {
+			Elements tdElems = tableElem.select("td");
+			int numOfTdElemsInTable = tdElems.size();
+
+			// set table header (semester detatils)
+			setSemesterYear(tdElems.first().text());
+
+			for (int i = 4; i < numOfTdElemsInTable - 3; i = i + 3) {
+
+				// replace each non-breaking space with whitespace
+				String course = tdElems.get(i + 2).text()
+						.replaceAll("[\\u00A0]+", " ");
+
+				// extracting course name from string
+				String courseName = course
+						.substring(0, course.lastIndexOf(" "));
+
+				// extracting course number from string
+				String courseNumber = course
+						.substring(course.lastIndexOf(" ") + 1);
+
+				// reversing course name
+				String reverse = reverseString(courseName);
+
+				// check if course accomplished (if not - grade is a pure text)
+				String grade = tdElems.get(i).text();
+				grade = grade.matches(".*\\d.*") ? grade : reverseString(grade);
+				// add grade line to list
+//				items.add(new GradesEntryItem(courseNumber, reverse, tdElems
+//						.get(i + 1).text(), grade));
+				gradesItems.add(new AccomplishedCourse(courseNumber, reverse, tdElems
+						.get(i + 1).text(), null, grade));
+			}
+			// set table footer (semester avg + total points in semester)
+			setBottomLine(tdElems.get(numOfTdElemsInTable - 3).text(), tdElems
+					.get(numOfTdElemsInTable - 2).text());
+
+		}
+
+		private static void setBottomLine(String avg, String points) {
+			// replace "&nbsp;" with whitespace
+			String fixedAvgString = avg.replaceAll("[\\u00A0]+", " ");
+			int lastIndexOfAvg = fixedAvgString.indexOf(" ");
+			String average = avg.substring(0, lastIndexOfAvg);
+
+			gradesItems.add(new GradesFooterItem(average, points));
+		}
+
+		private static void setSemesterYear(String semesterYear) {
+
+			// replace "&nbsp;" with whitespace
+			String fixedString = semesterYear.replaceAll("[\\u00A0]+", " ");
+
+			// finds first digit in string
+			int firstDigitIndex = indexOf(Pattern.compile("\\d"), fixedString);
+
+			// string of foreign year
+			String foreignYear = yearSubstring(
+					Pattern.compile("[0-9]+\\/[0-9]+"), fixedString);
+
+			int foreignYearSize = foreignYear.length();
+			int firstIndexSeason = (fixedString.lastIndexOf(" ") == -1) ? firstDigitIndex
+					+ foreignYearSize
+					: firstDigitIndex + foreignYearSize + 1;
+
+			// season string
+			String season = fixedString.substring(firstIndexSeason,
+					fixedString.length());
+
+			// Hebrew year string
+			int lastIndexHebrewYear = (fixedString.indexOf(" ") == -1) ? firstDigitIndex
+					: fixedString.indexOf(" ") - 1;
+			String hebrewYear = fixedString.substring(1,
+					Math.min(firstDigitIndex - 1, lastIndexHebrewYear));
+
+			// reverse of Hebrew strings
+			season = reverseString(season);
+			hebrewYear = reverseString(hebrewYear);
+
+			// add section to list
+			gradesItems.add(new GradesSectionItem(season + " " + foreignYear + " ("
+					+ hebrewYear + ")"));
+		}
+
+		private static int indexOf(Pattern pattern, String s) {
+			Matcher matcher = pattern.matcher(s);
+			return matcher.find() ? matcher.start() : -1;
+		}
+
+		private static String yearSubstring(Pattern pattern, String s) {
+			Matcher matcher = pattern.matcher(s);
+			return matcher.find() ? matcher.group() : "-1";
+		}
+
+		private static String reverseString(String s)
+		{
+			return (new StringBuilder(s).reverse().toString());
+		}
 }
+
+
