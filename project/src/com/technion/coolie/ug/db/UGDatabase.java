@@ -7,9 +7,15 @@ import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.jsoup.nodes.Document;
+
+import com.technion.coolie.ug.HtmlParser;
+import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.DayOfWeek;
 import com.technion.coolie.ug.Enums.Faculty;
 import com.technion.coolie.ug.Enums.SemesterSeason;
+import com.technion.coolie.ug.coursesAndExams.CourseItem;
+import com.technion.coolie.ug.gradessheet.Item;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Meeting;
@@ -26,7 +32,8 @@ public enum UGDatabase {
 	private List<String> allCoursesNames;
 	private Semester[] currentSemesters;
 	private SemesterSeason currentSeason;
-
+	private ArrayList<CourseItem> coursesAndExamsList;
+	private ArrayList<Item> calendarList;
 	private LinkedHashMap<CourseKey, Course> coursesHash;
 
 	private UGDatabase() {
@@ -139,6 +146,38 @@ public enum UGDatabase {
 
 	public Semester getCurrentSemester() {
 		return currentSemesters[currentSeason.getIdx()];
+	}
+
+	public List<Item> getGradesSheet() {
+		return null;
+	}
+
+	public ArrayList<CourseItem> getStudentCourses(SemesterSeason semesterseason) {
+		Document doc = null;
+		// List<CourseItem> coursesList;
+		switch (semesterseason) {
+		case WINTER:
+			doc = HtmlParser.parseFromFille("current_semester_courses.html",
+					MainActivity.context);
+			break;
+		case SPRING:
+			doc = HtmlParser.parseFromFille("previous_semester_courses.html",
+					MainActivity.context);
+			break;
+		case SUMMER:
+			doc = HtmlParser.parseFromFille("previous_semester_courses.html",
+					MainActivity.context);
+			break;
+		}
+		if (doc != null) {
+			coursesAndExamsList = HtmlParser.parseCoursesAndExamsDoc(doc);
+		}
+
+		return coursesAndExamsList;
+	}
+	
+	public ArrayList<Item> getCalendar() {
+		return HtmlParser.parseCalendar();
 	}
 	// public List<String> getCoursesNames() {
 	// return allCoursesNames;

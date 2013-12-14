@@ -3,18 +3,30 @@ package com.technion.coolie.ug;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import android.content.Context;
 
+import com.technion.coolie.ug.coursesAndExams.CourseItem;
+import com.technion.coolie.ug.coursesAndExams.ExamItem;
+import com.technion.coolie.ug.gradessheet.Item;
+
 public class HtmlParser {
 	private static StringBuilder response;
+	private static final int FIRST_COURSE_OFFSET = 2;
 
 	public static Document parseFromFille(String filename, Context context) {
 		try {
+
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					context.getAssets().open(filename), "ISO-8859-8"));
 			response = new StringBuilder();
@@ -23,14 +35,78 @@ public class HtmlParser {
 			while ((inputLine = reader.readLine()) != null)
 				response.append(inputLine);
 			reader.close();
-			// System.out.println(response.toString());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Document doc = Jsoup.parse(/* "\u200F" + */response.toString());
-		
-	
+		Document doc = Jsoup.parse(response.toString());
 		return doc;
+	}
+
+	public static ArrayList<CourseItem> parseCoursesAndExamsDoc(Document doc) {
+		ArrayList<CourseItem> list = new ArrayList<CourseItem>();
+		Element coursesTable = doc.select("table").last();
+		Elements trElems = coursesTable.select("tr");
+		int numOfColumns = getNumOfColumns(trElems);
+		for (int i = FIRST_COURSE_OFFSET; i < trElems.size(); i++) {
+			getCourseExam(list, trElems.get(i), numOfColumns);
+		}
+		return list;
+	}
+
+	private static int getNumOfColumns(Elements trElems) {
+		return (trElems.get(0).children().size() + trElems.get(1).children()
+				.size());
+	}
+
+	private static void getCourseExam(List<CourseItem> list, Element trElem,
+			int numOfColumns) {
+		int shiftFromExamColumns = numOfColumns - 3; // number of columns could
+														// vary between 7 to 8
+		Elements tdElems = trElem.select("td");
+		List<ExamItem> l = new ArrayList<ExamItem>();
+//		String[] moedB = tdElems.get(0).text().split(".");
+//		String[] moedA = tdElems.get(1).text().split(".");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		Calendar calendarDate1 = Calendar.getInstance();
+		Calendar calendarDate2 = Calendar.getInstance();
+
+		Calendar moedB = null, moedA=null;
+		try {
+			calendarDate1.setTime(sdf.parse(tdElems.get(0).text()));
+			 moedB = calendarDate1;
+			calendarDate2.setTime(sdf.parse(tdElems.get(1).text())); 
+			 moedA = calendarDate2;
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
+		
+		l.add(new ExamItem(moedA, "ulman"));
+		l.add(new ExamItem(moedB, "ulman"));
+		String courseName = tdElems.get(shiftFromExamColumns).text();
+		String courseId = tdElems.get(shiftFromExamColumns + 1).text();
+		// TODO: handle <br> elements inside courseName
+		Elements e = tdElems.get(shiftFromExamColumns).select("br");
+
+		// TODO: Get points from DB by course number...
+		list.add(new CourseItem(new StringBuilder(courseName).reverse()
+				.toString(), courseId.substring(0, courseId.indexOf("-")),
+				"3.0", l));
+
+	}
+
+	public static ArrayList<Item> parseCalendar() {
+		Document doc = parseFromFille("calendar.html", MainActivity.context);
+		
+		Elements tr = doc.select("tr:has(td.td9:contains(true))");
+		System.out.println(tr.size());
+//		Elements td = tr.first().select("td");
+//		int i = 0;
+//		for (Element elem:td){
+//			System.out.println("==========  " + (i++) + "  ==========");
+//			System.out.println(elem.text());
+//		}
+		return null;
 	}
 }

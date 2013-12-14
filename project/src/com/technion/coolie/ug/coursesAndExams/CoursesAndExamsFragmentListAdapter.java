@@ -1,4 +1,4 @@
-package com.technion.coolie.ug;
+package com.technion.coolie.ug.coursesAndExams;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -78,7 +78,7 @@ public class CoursesAndExamsFragmentListAdapter extends BaseAdapter {
 
 		String d = exam.date.get(Calendar.DAY_OF_MONTH) + "/" + exam.date.get(Calendar.MONTH) + "/"
 				+ exam.date.get(Calendar.YEAR);
-		d += exam.moed.equals("A") ? " (מועד א)" : " (מועד ב)";
+		d += exam.moed.equals("A") ? " (�?ועד �?)" : " (�?ועד ב)";
 
 		TextView dateTextView = (TextView) convertView.findViewById(R.id.ug_courses_and_exams_fragment_date);
 		dateTextView.setText(d);

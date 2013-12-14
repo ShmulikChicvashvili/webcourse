@@ -15,8 +15,7 @@ import com.technion.coolie.R;
 
 abstract public class BasePage extends Fragment {
 
-	protected ArrayList<CourseItem> parentItems = new ArrayList<CourseItem>();
-	protected ArrayList<ExamItem> childItems = new ArrayList<ExamItem>();
+	protected ArrayList<CourseItem> parentItems;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +36,7 @@ abstract public class BasePage extends Fragment {
 		setGroupParents();
 
 		CoursesAndExamsAdapter adapter = new CoursesAndExamsAdapter(
-				parentItems, childItems);
+				parentItems, getActivity());
 
 		adapter.setInflater(
 				(LayoutInflater) getActivity().getSystemService(

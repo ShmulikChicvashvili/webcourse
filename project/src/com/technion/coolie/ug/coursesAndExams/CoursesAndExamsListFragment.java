@@ -1,4 +1,4 @@
-package com.technion.coolie.ug;
+package com.technion.coolie.ug.coursesAndExams;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.technion.coolie.ug.TransparentActivity;
 import com.technion.coolie.ug.model.Course;
 
 public class CoursesAndExamsListFragment extends ListFragment {

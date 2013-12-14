@@ -69,7 +69,7 @@
 			    	android:background="@drawable/ug_fragment_border" >
 	            	<fragment
 				        android:id="@+id/ug_academic_calendar_fragment"
-				        android:name="com.technion.coolie.ug.AcademicCalendarListFragment"
+				        android:name="com.technion.coolie.ug.calendar.AcademicCalendarListFragment"
 				        android:layout_width="fill_parent"
 				        android:layout_height="fill_parent"
 				        android:paddingBottom="30dp"
@@ -129,7 +129,7 @@
 			    	android:background="@drawable/ug_fragment_border" >
 	            	<fragment
 				        android:id="@+id/ug_courses_and_exams_fragment"
-				        android:name="com.technion.coolie.ug.CoursesAndExamsListFragment"
+				        android:name="com.technion.coolie.ug.coursesAndExams.CoursesAndExamsListFragment"
 				        android:layout_width="fill_parent"
 				        android:layout_height="fill_parent"
 				        android:paddingBottom="30dp"

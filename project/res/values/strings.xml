@@ -21,4 +21,14 @@
     <string name="semester_avg">ממוצע</string>
     <string name="title_activity_transparent">TransparentActivity</string>
 
+    <!-- CoursesAndExams Fragment -->
+    <string name="moedA">מועד א\'</string>
+    <string name="moedB">מועד ב\'</string>
+    <string name="no_exam">-----</string>
+
+    <!-- AcademicCalendar Fragment -->
+    <string name="day">יום</string>
+    <string name="date">תאריך</string>
+    <string name="event">אירוע</string>
+
 </resources>
