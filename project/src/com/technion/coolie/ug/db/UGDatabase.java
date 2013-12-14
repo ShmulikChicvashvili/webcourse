@@ -55,42 +55,92 @@ public enum UGDatabase {
 
 		allCourses = new ArrayList<Course>(
 
-		Arrays.asList(
+				Arrays.asList(
 
-		new Course("213245", "Introduction to complicated algorithems 4", 2.0f,
-				"Interesting desctiption about the course", new Semester(2013,
-						SemesterSeason.WINTER), Faculty.HUMANITIES,
-				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
-						2, 11), null, null, null),
+						new Course("233245",
+								"Introduction to complicated algorithems 4",
+								2.0f,
+								"Interesting desctiption about the course",
+								new Semester(2013, SemesterSeason.WINTER),
+								Faculty.HUMANITIES, new GregorianCalendar(2014,
+										2, 11), new GregorianCalendar(2014, 2,
+										11), null, null, null),
 
-		new Course("012932", "Convoluted systems 2", 5.0f,
-				"ok course. please come.", new Semester(2013,
-						SemesterSeason.WINTER), Faculty.ARCHITECTURE,
-				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
-						2, 11), null, null, groups),
+						new Course("074957", "Convoluted systems 2", 5.0f,
+								"ok course. please come.", new Semester(2013,
+										SemesterSeason.WINTER),
+								Faculty.ARCHITECTURE, new GregorianCalendar(
+										2014, 2, 11), new GregorianCalendar(
+										2014, 2, 11), null, null, groups),
 
-		new Course("043932", "Data Structures in history", 2.0f, "fun",
-				new Semester(2013, SemesterSeason.SPRING), Faculty.HUMANITIES,
-				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
-						2, 11), null, null, groups),
+						new Course("043932", "Data Structures in history",
+								2.0f, "fun", new Semester(2013,
+										SemesterSeason.SPRING),
+								Faculty.HUMANITIES, new GregorianCalendar(2014,
+										2, 11), new GregorianCalendar(2014, 2,
+										11), null, null, groups),
 
-		new Course("232932", "logic in software", 5.0f, "unbelievable",
-				new Semester(2013, SemesterSeason.SPRING),
-				Faculty.ARCHITECTURE, new GregorianCalendar(2014, 2, 11),
-				new GregorianCalendar(2014, 2, 11), null, null, groups),
+						new Course("232932", "logic in software", 5.0f,
+								"unbelievable", new Semester(2013,
+										SemesterSeason.SPRING),
+								Faculty.ARCHITECTURE, new GregorianCalendar(
+										2014, 2, 11), new GregorianCalendar(
+										2014, 2, 11), null, null, groups),
 
-		new Course("012932", "Advanced practices in formal systems", 5.0f,
-				"Group 1 is for students with hats only.", new Semester(2013,
-						SemesterSeason.WINTER), Faculty.ARCHITECTURE,
-				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
-						2, 11), null, null, groups),
+						new Course("672932",
+								"Advanced practices in formal systems", 5.0f,
+								"Group 1 is for students with hats only.",
+								new Semester(2013, SemesterSeason.WINTER),
+								Faculty.ARCHITECTURE, new GregorianCalendar(
+										2014, 2, 11), new GregorianCalendar(
+										2014, 2, 11), null, null, groups),
 
-		new Course("012932", "Advanced coding habits", 5.0f, "No idea.",
-				new Semester(2013, SemesterSeason.SPRING),
-				Faculty.ARCHITECTURE, new GregorianCalendar(2014, 2, 11),
-				new GregorianCalendar(2014, 2, 11), null, null, groups)
+						new Course("012985", "Advanced coding habits", 5.0f,
+								"No idea.", new Semester(2013,
+										SemesterSeason.SPRING),
+								Faculty.ARCHITECTURE, new GregorianCalendar(
+										2014, 2, 11), new GregorianCalendar(
+										2014, 2, 11), null, null, groups),
 
-		));
+						new Course("045932", "Course of logic and fun", 2.5f,
+								"No idea.", new Semester(2013,
+										SemesterSeason.WINTER), Faculty.CS,
+								new GregorianCalendar(2014, 2, 11),
+								new GregorianCalendar(2014, 2, 11), null, null,
+								groups),
+
+						new Course(
+								"011236",
+								"Hard Algebra",
+								5.0f,
+								"Dont even ask how hard this course is. You should be prepared for work hard.",
+								new Semester(2013, SemesterSeason.WINTER),
+								Faculty.ARCHITECTURE, new GregorianCalendar(
+										2014, 2, 11), new GregorianCalendar(
+										2014, 2, 11), null, null, groups),
+
+						new Course("123932", "Advanced design ", 5.0f,
+								"No idea.", new Semester(2013,
+										SemesterSeason.WINTER),
+								Faculty.ARCHITECTURE, new GregorianCalendar(
+										2014, 2, 11), new GregorianCalendar(
+										2014, 2, 11), null, null, groups),
+
+						new Course("023422", "Intoduction to formal design",
+								5.0f, "No idea.", new Semester(2013,
+										SemesterSeason.WINTER),
+								Faculty.ARCHITECTURE, new GregorianCalendar(
+										2014, 2, 11), new GregorianCalendar(
+										2014, 2, 11), null, null, groups),
+
+						new Course("012342", "System operations and more",
+								5.0f, "No idea.", new Semester(2013,
+										SemesterSeason.WINTER),
+								Faculty.ARCHITECTURE, new GregorianCalendar(
+										2014, 2, 11), new GregorianCalendar(
+										2014, 2, 11), null, null, groups)
+
+				));
 	}
 
 	/**

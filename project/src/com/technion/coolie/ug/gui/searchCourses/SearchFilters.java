@@ -1,10 +1,13 @@
-package com.technion.coolie.ug.model;
+package com.technion.coolie.ug.gui.searchCourses;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.technion.coolie.ug.Enums.Faculty;
+import com.technion.coolie.ug.model.Course;
+import com.technion.coolie.ug.model.Semester;
 
 public class SearchFilters implements Serializable {
 
@@ -56,11 +59,12 @@ public class SearchFilters implements Serializable {
 
 	private boolean meetCriterions(Course course, String query) {
 		return (faculty == Faculty.ALL_FACULTIES || course.getFaculty() == faculty)
-				&& (course.getSemester().ss == semester.ss && course
-						.getSemester().year == semester.year)
+				&& (course.getSemester().equals(semester))
 				&& (!hasFreePlaces || course.hasFreePlaces())
-				&& (isSubstring(query,
-						course.getName() + " " + course.getCourseNumber()));
+				&& (isSubstring(
+						query.toLowerCase(Locale.US),
+						course.getName().toLowerCase(Locale.US) + " "
+								+ course.getCourseNumber()));
 
 	}
 

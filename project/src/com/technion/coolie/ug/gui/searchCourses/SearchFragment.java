@@ -36,7 +36,6 @@ import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.gui.searchCourses.SearchResultsAdapter.CourseHolder;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
-import com.technion.coolie.ug.model.SearchFilters;
 import com.tecnion.coolie.ug.utils.NavigationUtils;
 import com.tecnion.coolie.ug.utils.SerializeIO;
 

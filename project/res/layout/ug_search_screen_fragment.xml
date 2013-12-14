@@ -82,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
         android:layout_marginTop="10dp"
-        android:background="#301f" 
+        android:background="#539DC2" 
         android:drawSelectorOnTop ="true"
         android:imeOptions="flagNoFullscreen"
         android:windowSoftInputMode="adjustPan"/>

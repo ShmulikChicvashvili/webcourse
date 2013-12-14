@@ -11,9 +11,9 @@ import android.support.v4.app.FragmentTransaction;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.TransparentActivity;
 import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayFragment;
+import com.technion.coolie.ug.gui.searchCourses.SearchFilters;
 import com.technion.coolie.ug.gui.searchCourses.SearchFragment;
 import com.technion.coolie.ug.model.CourseKey;
-import com.technion.coolie.ug.model.SearchFilters;
 
 /**
  * methods for navigation between the different fragments/activities in the ug
