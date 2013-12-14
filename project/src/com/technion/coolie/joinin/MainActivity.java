@@ -4,22 +4,36 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Toast;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.EventDate;
+import com.technion.coolie.joinin.data.SerializableSparseBooleanArrayContainer;
 import com.technion.coolie.joinin.gui.ExpandableListAdapter;
 import com.technion.coolie.joinin.map.EventType;
+import com.technion.coolie.joinin.places.SearchDialog;
+import com.technion.coolie.joinin.subactivities.CreateEventActivity;
+import com.technion.coolie.joinin.subactivities.EventFilterActivity;
+import com.technion.coolie.joinin.subactivities.LoginActivity;
+import com.technion.coolie.joinin.subactivities.MyEventsActivity;
+import com.technion.coolie.joinin.subactivities.SettingsActivity;
 
 
 
 public class MainActivity extends CoolieActivity {
+	private MenuItem addEventButon;
 	     
      @Override
      protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +67,16 @@ public class MainActivity extends CoolieActivity {
          });
      }    
 
+
      
+     @Override
+     public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.join_in_activity_itemlist, menu);
+        addEventButon = menu.findItem(R.id.add_item);
+        return true;
+     
+     }
      
      private void prepareListData(ArrayList<String> listDataHeader,
  			HashMap<String, List<ClientEvent>> listDataChild) {
