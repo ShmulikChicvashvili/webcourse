@@ -423,11 +423,11 @@ public class CreateEventActivity extends CoolieActivity {
 	 * Creates a dialog which will allow the user to see his Facebook events.
 	 */
 	public void createImportDialog() {
-		showProgressBar(importButton);
+//		showProgressBar(importButton);
 		if (!FacebookQueries.getUserEvents(this, new OnGetUserEventsReturns() {
 			@Override
 			public void onGetUserEventsReturns(final List<FacebookEvent> events) {
-				hideProgressBar(importButton);
+//				hideProgressBar(importButton);
 				if (events.size() <= 0) {
 					Toast.makeText(thisActivity, "You have no Facebook events",
 							Toast.LENGTH_LONG).show();
@@ -455,7 +455,7 @@ public class CreateEventActivity extends CoolieActivity {
 				}.show(getSupportFragmentManager(), "importDialog");
 			}
 		})) {
-			hideProgressBar(importButton);
+//			hideProgressBar(importButton);
 			startActivityForResult(new Intent(this, LoginActivity.class), 1);
 		}
 	}
@@ -472,9 +472,6 @@ public class CreateEventActivity extends CoolieActivity {
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.facebook_events:
-//			createImportDialog();
-			break;
 		case R.id.search_item:
 			break;
 		case R.id.accept_item:
