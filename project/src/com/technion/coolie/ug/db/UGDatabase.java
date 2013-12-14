@@ -7,12 +7,12 @@ import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.Enums.DayOfWeek;
 import com.technion.coolie.ug.Enums.Faculty;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.coursesAndExams.CourseItem;
 import com.technion.coolie.ug.gradessheet.Item;
-import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Meeting;
@@ -89,12 +89,12 @@ public enum UGDatabase {
 		return currentSemesters[currentSeason.getIdx()];
 	}
 	
-	List<Item> getGradesSheet()
+	public static ArrayList<Item> getGradesSheet()
 	{
-		return null;
+		return HtmlParser.parseGrades("stam");
 	}
 	
-	List<CourseItem> getStudentCourses(Semester semester)
+	public List<CourseItem> getStudentCourses(Semester semester)
 	{
 		return null;
 	}

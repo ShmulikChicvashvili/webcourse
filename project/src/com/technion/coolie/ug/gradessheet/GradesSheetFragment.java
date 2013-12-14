@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.model.AccomplishedCourse;
+import com.technion.coolie.ug.db.UGDatabase;
 
 public class GradesSheetFragment extends Fragment {
 	ArrayList<Item> items = new ArrayList<Item>();
@@ -39,12 +40,16 @@ public class GradesSheetFragment extends Fragment {
 		points = (TextView) view.findViewById(R.id.accumulated_points_value);
 
 		// retrieves document with html content
-		new parseGradesAsync(getActivity()).execute();
-
+		//new parseGradesAsync(getActivity()).execute();
+		items = UGDatabase.getGradesSheet();
+		
+		listview = (ListView) getActivity().findViewById(R.id.listView_main);
+		EntryAdapter adapter = new EntryAdapter(getActivity(), items);
+		listview.setAdapter(adapter);
 		return view;
 	}
 
-	public class parseGradesAsync extends AsyncTask<Void, Void, Void> {
+	/*public class parseGradesAsync extends AsyncTask<Void, Void, Void> {
 
 		private ProgressDialog pdia;
 		private Context context;
@@ -201,5 +206,5 @@ public class GradesSheetFragment extends Fragment {
 			return (new StringBuilder(s).reverse().toString());
 		}
 	}
-
+*/
 }
