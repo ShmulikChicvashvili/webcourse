@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.Toast;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -17,9 +20,7 @@ import com.technion.coolie.joinin.map.EventType;
 
 
 public class MainActivity extends CoolieActivity {
-	
- 
-     
+	     
      @Override
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
@@ -29,15 +30,27 @@ public class MainActivity extends CoolieActivity {
          ExpandableListView expListView = (ExpandableListView) findViewById(R.id.expendable_list);
   
          // preparing list data
-         ArrayList<String> listDataHeader = new ArrayList<String>();
-         HashMap<String, List<ClientEvent>> listDataChild = new HashMap<String, List<ClientEvent>>();
-        // DBBridge.prepareListData(listDataHeader,listDataChild);
+         final ArrayList<String> listDataHeader = new ArrayList<String>();
+         final HashMap<String, List<ClientEvent>> listDataChild = new HashMap<String, List<ClientEvent>>();
          prepareListData(listDataHeader,listDataChild);
   
          ExpandableListAdapter listAdapter = new ExpandableListAdapter(this, this , listDataHeader, listDataChild);
   
          // setting list adapter
          expListView.setAdapter(listAdapter);
+         
+         expListView.setOnChildClickListener(new OnChildClickListener() {	 
+             @Override
+             public boolean onChildClick(ExpandableListView parent, View v,
+                     int groupPosition, int childPosition, long id) {
+            	 ExpandableListAdapter adp = (ExpandableListAdapter) parent.getExpandableListAdapter();
+            	 ClientEvent eventDetails = (ClientEvent)adp.getChild(groupPosition, childPosition) ;
+            	 //ClientEvent eventDetails = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
+            	 
+                 Toast.makeText(getApplicationContext(), eventDetails.getName(), Toast.LENGTH_SHORT).show();
+                 return true;
+             }
+         });
      }    
 
      
