@@ -1,5 +1,7 @@
 package com.technion.coolie.ug.gui.courseDisplay;
 
+import java.text.SimpleDateFormat;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -76,6 +78,8 @@ public class CourseDisplayFragment extends Fragment {
 	}
 
 	private void updateCourseDisplay() {
+		final SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+
 		TextView nameTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_name);
 		nameTextView.setText(courseToView.getName());
@@ -85,20 +89,23 @@ public class CourseDisplayFragment extends Fragment {
 		TextView numberTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_number);
 		numberTextView.setText("" + courseToView.getCourseNumber());
+
 		TextView facultyTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_faculty);
 		facultyTextView.setText("" + courseToView.getFaculty().toString());
+
 		TextView descTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_description);
 		descTextView.setText(courseToView.getDescription());
+
 		TextView examATextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_exam_a);
-		examATextView.setText(courseToView.getMoedA().getTime().toString()
-				+ ":מועד א");
+		examATextView.setText(df.format(courseToView.getMoedA().getTime()));
+
 		TextView examBTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_exam_b);
-		examBTextView.setText(courseToView.getMoedB().getTime().toString()
-				+ ":מועד ב");
+		examBTextView.setText(df.format(courseToView.getMoedB().getTime()));
+
 		if (courseToView.getRegistrationGroups() != null)
 			groupAdapter = new CourseGroupsAdapter(context,
 					courseToView.getRegistrationGroups(), new onClickGroup());
@@ -110,18 +117,18 @@ public class CourseDisplayFragment extends Fragment {
 
 	}
 
-	private void recieveCourse(Bundle savedInstanceState) {
+	private void recieveCourse(Bundle bundle) {
 
 		CourseKey key = null;
-		if (savedInstanceState == null) {
+		if (bundle == null) {
 			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE EXTRAS , exisiting");
 			throw new NullPointerException();
 		}
-		key = (CourseKey) savedInstanceState
-				.getSerializable(ARGUMENTS_COURSE_KEY);
+		key = (CourseKey) bundle.getSerializable(ARGUMENTS_COURSE_KEY);
 		courseToView = UGDatabase.INSTANCE.getCourseByKey(key);
 		if (courseToView == null) {
-			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE  , exisiting");
+			Log.e(MainActivity.DEBUG_TAG,
+					"CANT FIND COURSEKEY IN DB, exisiting");
 			throw new NullPointerException();
 		}
 

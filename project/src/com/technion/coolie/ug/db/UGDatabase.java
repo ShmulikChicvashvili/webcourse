@@ -40,33 +40,76 @@ public enum UGDatabase {
 
 	private UGDatabase() {
 		// initialize lists and student info, from DB TODO
+		initCourses();
+		initializeHashMap();
+		initializeSemesters();
+	}
+
+	private void initCourses() {
 
 		groups = new ArrayList<RegistrationGroup>(Arrays.asList(
 				new RegistrationGroup(1, Arrays.asList(new Meeting("2",
-						"מר חביבי לחם", DayOfWeek.SUNDAY, new Date(), null,
-						"ספריה")), null, 1),
+						"Mr. Yossi happy", DayOfWeek.SUNDAY, new Date(), null,
+						"Ulman 329")), null, 1),
 				new RegistrationGroup(2, Arrays.asList(new Meeting("2",
-						"פרופ יוסי מצליח", DayOfWeek.SUNDAY, new Date(), null,
-						"טאוב 5")), null, 20)));
+						"Prof. Monik", DayOfWeek.SUNDAY, new Date(), null,
+						"Taub 10")), null, 20)));
 
 		allCourses = new ArrayList<Course>(
-				Arrays.asList(new Course("213245",
-						"מבוא לבינה מלאכותית במודלים מתקדמים ביותר 4", 2.0f,
-						"הרג אותי", new Semester(2013, SemesterSeason.WINTER),
-						Faculty.HUMANITIES, new GregorianCalendar(2014, 2, 11),
-						new GregorianCalendar(2014, 2, 11), null, null, null),
-						new Course("012932", "קורס בחידוד עפרונות", 5.0f,
-								"ההרגשה היא אושר צרוף!!!", new Semester(2013,
-										SemesterSeason.WINTER),
-								Faculty.ARCHITECTURE, new GregorianCalendar(
-										2014, 2, 11), new GregorianCalendar(
-										2014, 2, 11), null, null, groups)));
 
+		Arrays.asList(
+
+		new Course("213245", "Introduction to complicated algorithems 4", 2.0f,
+				"Interesting desctiption about the course", new Semester(2013,
+						SemesterSeason.WINTER), Faculty.HUMANITIES,
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), null, null, null),
+
+		new Course("012932", "Convoluted systems 2", 5.0f,
+				"ok course. please come.", new Semester(2013,
+						SemesterSeason.WINTER), Faculty.ARCHITECTURE,
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), null, null, groups),
+
+		new Course("043932", "Data Structures in history", 2.0f, "fun",
+				new Semester(2013, SemesterSeason.SPRING), Faculty.HUMANITIES,
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), null, null, groups),
+
+		new Course("232932", "logic in software", 5.0f, "unbelievable",
+				new Semester(2013, SemesterSeason.SPRING),
+				Faculty.ARCHITECTURE, new GregorianCalendar(2014, 2, 11),
+				new GregorianCalendar(2014, 2, 11), null, null, groups),
+
+		new Course("012932", "Advanced practices in formal systems", 5.0f,
+				"Group 1 is for students with hats only.", new Semester(2013,
+						SemesterSeason.WINTER), Faculty.ARCHITECTURE,
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), null, null, groups),
+
+		new Course("012932", "Advanced coding habits", 5.0f, "No idea.",
+				new Semester(2013, SemesterSeason.SPRING),
+				Faculty.ARCHITECTURE, new GregorianCalendar(2014, 2, 11),
+				new GregorianCalendar(2014, 2, 11), null, null, groups)
+
+		));
+	}
+
+	/**
+	 * puts all the courses in a hashTable, mapping courseKey to course
+	 */
+	private void initializeHashMap() {
+		coursesHash = new LinkedHashMap<CourseKey, Course>();
+		for (Course course : allCourses)
+			coursesHash.put(course.getCourseKey(), course);
+	}
+
+	private void initializeSemesters() {
 		currentSeason = SemesterSeason.WINTER;
 		currentSemesters = new Semester[3];
-		currentSemesters[SemesterSeason.SPRING.getIdx()] = new Semester(2012,
+		currentSemesters[SemesterSeason.SPRING.getIdx()] = new Semester(2013,
 				SemesterSeason.SPRING);
-		currentSemesters[SemesterSeason.SUMMER.getIdx()] = new Semester(2012,
+		currentSemesters[SemesterSeason.SUMMER.getIdx()] = new Semester(2013,
 				SemesterSeason.SUMMER);
 		currentSemesters[SemesterSeason.WINTER.getIdx()] = new Semester(2013,
 				SemesterSeason.WINTER);
@@ -122,14 +165,9 @@ public enum UGDatabase {
 
 		return coursesAndExamsList;
 	}
-	
+
 	public ArrayList<Item> getCalendar() {
 		return HtmlParser.parseCalendar();
 	}
-	
-	
-	// public List<String> getCoursesNames() {
-	// return allCoursesNames;
-	// }
 
 }
