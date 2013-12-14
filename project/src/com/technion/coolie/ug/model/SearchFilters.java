@@ -1,11 +1,12 @@
 package com.technion.coolie.ug.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.technion.coolie.ug.Enums.Faculty;
 
-public class SearchFilters {
+public class SearchFilters implements Serializable {
 
 	Semester semester; // There are only three available semesters at any time.
 						// you can only choose one.
@@ -73,4 +74,6 @@ public class SearchFilters {
 
 		return true;
 	}
+
+	private static final long serialVersionUID = 5080644007328929764L;
 }

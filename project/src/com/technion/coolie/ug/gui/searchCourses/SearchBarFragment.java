@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
+import com.tecnion.coolie.ug.utils.NavigationUtils;
 
 public class SearchBarFragment extends SearchFragment {
 	@Override
@@ -39,6 +41,21 @@ public class SearchBarFragment extends SearchFragment {
 		lp.height = 0;
 		emptyResults.setLayoutParams(lp);
 
+	}
+
+	@Override
+	protected int onSearchPressed(String query) {
+		int results = super.onSearchPressed(query);
+		if (results != 1)
+			NavigationUtils.goToSearchDisplay(query, filters, getActivity());
+		return results;
+	}
+
+	@Override
+	protected void onFiltersUpdate() {
+		AutoCompleteTextView autocompletetextview = (AutoCompleteTextView) getActivity()
+				.findViewById(R.id.autocompletetextview);
+		searchQueryAndUpdate(autocompletetextview.getText().toString());
 	}
 
 }
