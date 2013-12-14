@@ -20,5 +20,13 @@
     <string name="semester_points">סה\"כ נקודות</string>
     <string name="semester_avg">ממוצע</string>
     <string name="title_activity_transparent">TransparentActivity</string>
+    
+    <string-array name="landscape_right_menu_buttons">
+        <item>גליון ציונים</item>
+        <item>קורסים ובחינות</item>
+        <item>לוח שנה אקדמי</item>
+        <item>תשולומים</item>
+        <item>קורסים למעקב</item>
+    </string-array>
 
 </resources>

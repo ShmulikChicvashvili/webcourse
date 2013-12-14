@@ -1,21 +1,21 @@
 package com.technion.coolie.ug.coursesAndExams;
 
+import java.util.Calendar;
+
 public class ExamItem {
+	private final Calendar date;
+	private final String place;
 
-	private final String moed;
-	private final String examDate;
-
-	public ExamItem(String moed, String examDate) {
-		this.moed = moed;
-		this.examDate = examDate;
+	public Calendar getDate() {
+		return date;
 	}
 
-	public String getMoed() {
-		return moed;
+	public String getPlace() {
+		return place;
 	}
 
-	public String getExamDate() {
-		return examDate;
+	public ExamItem(Calendar date, String place) {
+		this.date = date;
+		this.place = place;
 	}
-
 }

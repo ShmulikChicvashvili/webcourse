@@ -1,5 +1,6 @@
 package com.technion.coolie.ug;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -13,12 +14,14 @@ public class MainActivity extends CoolieActivity implements
 		OnRightMenuItemSelected {
 
 	public static final String DEBUG_TAG = "DEBUG";
+	public static Context context;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		context = getApplicationContext();
 		setContentView(R.layout.ug_main_screen);
-
+		
 		// startActivity(new Intent(this, SearchActivity.class));
 		// startActivity(new Intent(this, GradesSheetActivity.class));
 	}
