@@ -5,12 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
+<<<<<<< HEAD
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
+=======
+import android.content.Intent;
+>>>>>>> d793e420fb35daf74ccc885779b25a85ff1133eb
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -18,15 +22,24 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.Toast;
 
+<<<<<<< HEAD
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gcm.GCMRegistrar;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
+=======
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+>>>>>>> d793e420fb35daf74ccc885779b25a85ff1133eb
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.EventDate;
+<<<<<<< HEAD
 import com.technion.coolie.joinin.directions.MapDirections;
 import com.technion.coolie.joinin.facebook.FacebookLogin;
 import com.technion.coolie.joinin.facebook.FacebookLogin.OnLoginDone;
@@ -36,10 +49,22 @@ import com.technion.coolie.joinin.subactivities.LoginActivity;
 
 
 
+=======
+import com.technion.coolie.joinin.data.SerializableSparseBooleanArrayContainer;
+import com.technion.coolie.joinin.gui.ExpandableListAdapter;
+import com.technion.coolie.joinin.map.EventType;
+import com.technion.coolie.joinin.places.SearchDialog;
+import com.technion.coolie.joinin.subactivities.CreateEventActivity;
+import com.technion.coolie.joinin.subactivities.EventFilterActivity;
+import com.technion.coolie.joinin.subactivities.LoginActivity;
+import com.technion.coolie.joinin.subactivities.MyEventsActivity;
+import com.technion.coolie.joinin.subactivities.SettingsActivity;
+>>>>>>> d793e420fb35daf74ccc885779b25a85ff1133eb
 
 
 
 public class MainActivity extends CoolieActivity {
+<<<<<<< HEAD
 	
 	GoogleMap map;
 	  final Activity mContext = this;
@@ -71,6 +96,12 @@ public class MainActivity extends CoolieActivity {
 	  private MenuItem addEventButon;
 	  private LoginDialog mLoginDialog = null;
 	
+=======
+	private MenuItem addEventButon;
+	public static ClientAccount mLoggedAccount = null;
+	final Activity mContext = this;
+
+>>>>>>> d793e420fb35daf74ccc885779b25a85ff1133eb
 	     
      @Override
      protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +141,7 @@ public class MainActivity extends CoolieActivity {
          });
      }    
 
+<<<<<<< HEAD
      private void HandleLogIn(){
     	 mJoinInPref = getSharedPreferences(PREFS_NAME, 0);
     	 mJoinInPref.edit().commit();
@@ -142,6 +174,36 @@ public class MainActivity extends CoolieActivity {
     	 if (mLoggedAccount == null)
     		 FacebookLogin.onResult(this, requestCode, resultCode, data);
      }
+=======
+
+     
+     @Override
+     public boolean onCreateOptionsMenu(Menu menu) {
+    	 super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.join_in_activity_itemlist, menu);
+        addEventButon = menu.findItem(R.id.add_item);
+        return true;
+     
+     }
+     
+     @Override public boolean onOptionsItemSelected(final MenuItem item) {
+ 	    switch (item.getItemId()) {
+ 	      case R.id.add_item:
+// 	    	  startActivityForResult(new Intent(this, LoginActivity.class), RESULT_LOGIN_ACCOUNT);
+// 	    	  startActivityForResult(new Intent(this, TmpCreateEventActivity.class), 1);
+// 	          final LatLng gp = map.getCameraPosition().target;
+// 	          startActivityForResult(new Intent(mContext, CreateEventActivity.class).putExtra("Latitude", (int) (gp.latitude * TO_E6))
+// 	              .putExtra("Longtitude", (int) (gp.longitude * TO_E6)).putExtra("account", mLoggedAccount), 0);
+ 	    	  
+ 	          startActivityForResult(new Intent(mContext, CreateEventActivity.class).putExtra("account", mLoggedAccount), 1);
+ 	      default:
+ 	        return super.onOptionsItemSelected(item);
+ 	    }
+ 	  }
+  
+
+>>>>>>> d793e420fb35daf74ccc885779b25a85ff1133eb
      
      private void prepareListData(ArrayList<String> listDataHeader,
  			HashMap<String, List<ClientEvent>> listDataChild) {

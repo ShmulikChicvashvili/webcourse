@@ -8,5 +8,8 @@
     <string name="menu_logout">Logout</string>
     <string name="menu_add">Create</string>
     <string name="menu_search">Search</string>
+    <string name="menu_discard_item">Discard</string>
+    <string name="menu_back">Back</string>
+    <string name="menu_accept">Accept</string>
     
 </resources>
