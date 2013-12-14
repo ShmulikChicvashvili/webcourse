@@ -33,6 +33,7 @@ public enum UGDatabase {
 	private Semester[] currentSemesters;
 	private SemesterSeason currentSeason;
 	private ArrayList<CourseItem> coursesAndExamsList;
+	private ArrayList<Item> calendarList;
 	private LinkedHashMap<CourseKey, Course> coursesHash;
 
 	private UGDatabase() {
@@ -118,6 +119,10 @@ public enum UGDatabase {
 		}
 
 		return coursesAndExamsList;
+	}
+	
+	public ArrayList<Item> getCalendar() {
+		return HtmlParser.parseCalendar();
 	}
 	// public List<String> getCoursesNames() {
 	// return allCoursesNames;

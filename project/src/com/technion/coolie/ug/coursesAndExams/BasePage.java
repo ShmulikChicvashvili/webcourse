@@ -15,7 +15,7 @@ import com.technion.coolie.R;
 
 abstract public class BasePage extends Fragment {
 
-	protected ArrayList<CourseItem> parentItems;/* = new ArrayList<CourseItem>();*/
+	protected ArrayList<CourseItem> parentItems;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

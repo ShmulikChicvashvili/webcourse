@@ -1,4 +1,4 @@
-package com.technion.coolie.ug;
+package com.technion.coolie.ug.calendar;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -23,58 +23,58 @@ public class AcademicCalendarListFragment extends ListFragment {
 
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 1),
-					"׳“' ׳—׳ ׳•׳›׳” - ׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�"));
+					"׳“' ׳—׳ ׳•׳›׳” - ׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 2),
-					"׳”' ׳—׳ ׳•׳›׳” - ׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�"));
+					"׳”' ׳—׳ ׳•׳›׳” - ׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 3),
-					"׳˜׳§׳¡ ׳§׳‘׳�׳× ׳₪׳ ׳™׳� - ׳¡׳’׳� ׳—׳“׳©"));
+					"׳˜׳§׳¡ ׳§׳‘׳�׳× ׳₪׳ ׳™׳� - ׳¡׳’׳� ׳—׳“׳©", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 4),
-					"׳•' ׳—׳ ׳•׳›׳” - ׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�"));
+					"׳•' ׳—׳ ׳•׳›׳” - ׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 5),
-					"׳–' ׳—׳ ׳•׳›׳” - ׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�"));
+					"׳–' ׳—׳ ׳•׳›׳” - ׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 6),
-					"׳—' ׳—׳ ׳•׳›׳” - ׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�"));
+					"׳—' ׳—׳ ׳•׳›׳” - ׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 7),
-					"׳˜׳§׳¡ ׳§׳‘׳�׳× ׳₪׳ ׳™׳� - ׳¡׳’׳� ׳—׳“׳©"));
+					"׳˜׳§׳¡ ׳§׳‘׳�׳× ׳₪׳ ׳™׳� - ׳¡׳’׳� ׳—׳“׳©", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 8),
-					"׳¦׳•׳� ׳™' ׳‘׳˜׳‘׳× - ׳�׳™׳�  ׳‘׳—׳™׳ ׳•׳×"));
+					"׳¦׳•׳� ׳™' ׳‘׳˜׳‘׳× - ׳�׳™׳�  ׳‘׳—׳™׳ ׳•׳×", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 9),
-					"׳˜׳§׳¡ ׳₪׳¨׳¡ ׳�׳©׳” ׳™׳ ׳�׳™"));
+					"׳˜׳§׳¡ ׳₪׳¨׳¡ ׳�׳©׳” ׳™׳ ׳�׳™", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 10),
-					"׳™׳¨׳™׳“ ׳×׳¢׳¡׳•׳§׳”"));
+					"׳™׳¨׳™׳“ ׳×׳¢׳¡׳•׳§׳”", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 11),
-					"׳˜׳§׳¡ ׳�׳¨׳¦׳™׳� ׳�׳¦׳˜׳™׳™׳ ׳™׳�"));
+					"׳˜׳§׳¡ ׳�׳¨׳¦׳™׳� ׳�׳¦׳˜׳™׳™׳ ׳™׳�", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 12),
-					"׳˜׳§׳¡ ׳�׳¦׳˜׳™׳™׳ ׳™ ׳ ׳©׳™׳�"));
+					"׳˜׳§׳¡ ׳�׳¦׳˜׳™׳™׳ ׳™ ׳ ׳©׳™׳�", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 13),
-					"׳§׳•׳ ׳¦׳¨׳˜ ׳—׳’׳™׳’׳™ ׳�׳¡׳™׳•׳�"));
+					"׳§׳•׳ ׳¦׳¨׳˜ ׳—׳’׳™׳’׳™ ׳�׳¡׳™׳•׳�", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 14),
-					"׳™׳•׳� ׳�׳—׳¨׳•׳� ׳�׳�׳™׳�׳•׳“׳™ ׳¡' ׳—׳•׳¨׳£"));
+					"׳™׳•׳� ׳�׳—׳¨׳•׳� ׳�׳�׳™׳�׳•׳“׳™ ׳¡' ׳—׳•׳¨׳£", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 15),
-					"׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�"));
+					"׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 16),
-					"׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�"));
+					"׳�׳™׳� ׳�׳™׳�׳•׳“׳™׳�", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 17),
-					"׳×׳—׳™׳�׳× ׳‘׳—׳™׳ ׳•׳× ׳¡' ׳—׳•׳¨׳£"));
+					"׳×׳—׳™׳�׳× ׳‘׳—׳™׳ ׳•׳× ׳¡' ׳—׳•׳¨׳£", "א"));
 			add(new AcademicCalendarEvent(DayOfWeek.SUNDAY,
 					new GregorianCalendar(2013, 11, 18),
-					"׳¡׳™׳•׳� ׳‘׳—׳™׳ ׳•׳× ׳¡' ׳—׳•׳¨׳£"));
+					"׳¡׳™׳•׳� ׳‘׳—׳™׳ ׳•׳× ׳¡' ׳—׳•׳¨׳£", "א"));
 		}
 	};
 
@@ -86,19 +86,19 @@ public class AcademicCalendarListFragment extends ListFragment {
 		setListAdapter(adapter);
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
-	
+
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
-		/*Intent intent = new Intent(getActivity(), TransparentActivity.class);
-		Bundle b = new Bundle();
-		b.putString("key", "gradesSheetLayout");
-		intent.putExtras(b);
-		startActivity(intent);
-		super.onListItemClick(l, v, position, id);*/
-		
-//		new CalendarAsync(getActivity()).execute();
-		
-		UGDatabase.INSTANCE.getStudentCourses(SemesterSeason.WINTER);
+		/*
+		 * Intent intent = new Intent(getActivity(), TransparentActivity.class);
+		 * Bundle b = new Bundle(); b.putString("key", "gradesSheetLayout");
+		 * intent.putExtras(b); startActivity(intent); super.onListItemClick(l,
+		 * v, position, id);
+		 */
+
+		// new CalendarAsync(getActivity()).execute();
+
+		UGDatabase.INSTANCE.getCalendar();
 	}
 
 }

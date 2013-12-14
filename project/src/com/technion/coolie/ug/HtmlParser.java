@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 import android.content.Context;
 
 import com.technion.coolie.ug.coursesAndExams.CourseItem;
+import com.technion.coolie.ug.gradessheet.Item;
 
 public class HtmlParser {
 	private static StringBuilder response;
@@ -71,5 +72,19 @@ public class HtmlParser {
 				.toString(), courseId.substring(0, courseId.indexOf("-")),
 				"3.0", l));
 
+	}
+
+	public static ArrayList<Item> parseCalendar() {
+		Document doc = parseFromFille("calendar.html", MainActivity.context);
+		
+		Elements tr = doc.select("tr:has(td.td9:contains(true))");
+		System.out.println(tr.size());
+//		Elements td = tr.first().select("td");
+//		int i = 0;
+//		for (Element elem:td){
+//			System.out.println("==========  " + (i++) + "  ==========");
+//			System.out.println(elem.text());
+//		}
+		return null;
 	}
 }
