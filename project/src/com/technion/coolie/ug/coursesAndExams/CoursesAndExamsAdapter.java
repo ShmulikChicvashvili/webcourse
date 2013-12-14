@@ -1,6 +1,8 @@
 package com.technion.coolie.ug.coursesAndExams;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.content.Context;
@@ -45,9 +47,12 @@ public class CoursesAndExamsAdapter extends BaseExpandableListAdapter {
 
 		moed.setText((childPosition % 2 == 0) ? context
 				.getString(R.string.moedA) : context.getString(R.string.moedB));
-		examDate.setText((parentItems.get(groupPosition).getExams()
-				.get(childPosition) != "") ? parentItems.get(groupPosition)
-				.getExams().get(childPosition) : context
+		SimpleDateFormat formatter=new SimpleDateFormat("dd.MM.yyyy");
+		Calendar cal = parentItems.get(groupPosition).getExams()
+				.get(childPosition).getDate();
+		String date=(cal != null)? formatter.format(parentItems.get(groupPosition).getExams()
+				.get(childPosition).getDate().getTime()): "";    
+		examDate.setText( (date != "") ? date : context
 				.getString(R.string.no_exam));
 		return convertView;
 	}

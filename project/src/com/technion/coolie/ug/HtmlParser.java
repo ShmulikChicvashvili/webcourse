@@ -3,7 +3,10 @@ package com.technion.coolie.ug;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -14,6 +17,7 @@ import org.jsoup.select.Elements;
 import android.content.Context;
 
 import com.technion.coolie.ug.coursesAndExams.CourseItem;
+import com.technion.coolie.ug.coursesAndExams.ExamItem;
 import com.technion.coolie.ug.gradessheet.Item;
 
 public class HtmlParser {
@@ -59,9 +63,27 @@ public class HtmlParser {
 		int shiftFromExamColumns = numOfColumns - 3; // number of columns could
 														// vary between 7 to 8
 		Elements tdElems = trElem.select("td");
-		List<String> l = new ArrayList<String>();
-		l.add(tdElems.get(0).text());
-		l.add(tdElems.get(1).text());
+		List<ExamItem> l = new ArrayList<ExamItem>();
+//		String[] moedB = tdElems.get(0).text().split(".");
+//		String[] moedA = tdElems.get(1).text().split(".");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+		Calendar calendarDate1 = Calendar.getInstance();
+		Calendar calendarDate2 = Calendar.getInstance();
+
+		Calendar moedB = null, moedA=null;
+		try {
+			calendarDate1.setTime(sdf.parse(tdElems.get(0).text()));
+			 moedB = calendarDate1;
+			calendarDate2.setTime(sdf.parse(tdElems.get(1).text())); 
+			 moedA = calendarDate2;
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	
+		
+		l.add(new ExamItem(moedA, "ulman"));
+		l.add(new ExamItem(moedB, "ulman"));
 		String courseName = tdElems.get(shiftFromExamColumns).text();
 		String courseId = tdElems.get(shiftFromExamColumns + 1).text();
 		// TODO: handle <br> elements inside courseName

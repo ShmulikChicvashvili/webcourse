@@ -7,9 +7,9 @@ public class CourseItem {
 	private final String coursName;
 	private final String courseId;
 	private final String points;
-	private final List<String> exams;
+	private final List<ExamItem> exams;
 
-	public List<String> getExams() {
+	public List<ExamItem> getExams() {
 		return exams;
 	}
 
@@ -26,10 +26,12 @@ public class CourseItem {
 	}
 
 	public CourseItem(String courseName, String coursrId, String points,
-			List<String> exams) {
+			List<ExamItem> exams) {
 		this.coursName = courseName;
 		this.courseId = coursrId;
 		this.points = points;
 		this.exams = exams;
 	}
+
+	
 }
