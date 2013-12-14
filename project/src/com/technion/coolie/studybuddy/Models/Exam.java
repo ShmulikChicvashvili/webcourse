@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Model;
+package com.technion.coolie.studybuddy.Models;
 
 import java.util.Date;
 
@@ -6,9 +6,9 @@ public class Exam implements Comparable<Exam> {
 
 	private final Date date;
 	private final ExamType type;
-	private final Subject subject;
+	private final Course subject;
 
-	public Exam(Date date, ExamType type, Subject subject) {
+	public Exam(Date date, ExamType type, Course subject) {
 		this.date = date;
 		this.type = type;
 		this.subject = subject;
@@ -22,7 +22,7 @@ public class Exam implements Comparable<Exam> {
 		return type;
 	}
 
-	public Subject getSubject() {
+	public Course getSubject() {
 		return subject;
 	}
 

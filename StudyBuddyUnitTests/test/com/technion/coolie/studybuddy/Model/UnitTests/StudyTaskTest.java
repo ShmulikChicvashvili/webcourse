@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Model.test;
+package com.technion.coolie.studybuddy.Model.UnitTests;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.OrderingComparison.comparesEqualTo;
@@ -10,7 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.technion.coolie.studybuddy.Model.StudyTask;
+import com.technion.coolie.studybuddy.Models.StudyItem;
 
 public class StudyTaskTest {
 
@@ -24,23 +24,23 @@ public class StudyTaskTest {
 
 	@Test
 	public void identicalTasksShouldBeEqual() {
-		StudyTask task1 = new StudyTask(3);
-		StudyTask task2 = new StudyTask(3);
+		StudyItem task1 = new StudyItem(3);
+		StudyItem task2 = new StudyItem(3);
 
 		assertThat(task1, comparesEqualTo(task2));
 	}
 
 	@Test
 	public void smallerIdTaskShouldBeSmallerThanLargerIdTask() {
-		StudyTask task1 = new StudyTask(11);
-		StudyTask task2 = new StudyTask(12);
+		StudyItem task1 = new StudyItem(11);
+		StudyItem task2 = new StudyItem(12);
 
 		assertThat(task1, lessThan(task2));
 	}
 
 	@Test
 	public void defaultLabelEqualToId() throws Exception {
-		StudyTask task1 = new StudyTask(3);
+		StudyItem task1 = new StudyItem(3);
 
 		assertThat(task1.getLabel(), is(String.valueOf(3)));
 	}

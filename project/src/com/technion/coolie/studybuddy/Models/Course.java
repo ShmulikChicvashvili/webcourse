@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Model;
+package com.technion.coolie.studybuddy.Models;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,16 +9,16 @@ import java.util.Set;
 
 import com.technion.coolie.studybuddy.utils.Utils;
 
-public class Subject {
+public class Course {
 
 	private final List<Exam> exams = new ArrayList<Exam>();
 	private final Set<StudyResource> trackedResouces = new HashSet<StudyResource>();
 	private final int id;
 	private final String name;
 
-	public Subject() {
-		this.id = radomId();
-		this.name = String.valueOf(id);
+	public Course() {
+		id = radomId();
+		name = String.valueOf(id);
 	}
 
 	private static int radomId() {
@@ -26,7 +26,7 @@ public class Subject {
 
 	}
 
-	public Subject(int id, String name) {
+	public Course(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -64,10 +64,45 @@ public class Subject {
 	}
 
 	public void addStudyResources(StudyResource... r) {
-		this.trackedResouces.addAll(Arrays.asList(r));
+		trackedResouces.addAll(Arrays.asList(r));
 	}
 
 	public void addStudyResources(Collection<StudyResource> r) {
-		this.trackedResouces.addAll(r);
+		trackedResouces.addAll(r);
+	}
+
+	public int getStudyItemsTotal() {
+		int sum = 0;
+		for (StudyResource sr : trackedResouces) {
+			sum += sr.getItemsTotal();
+		}
+		return sum;
+	}
+
+	public List<StudyItem> getStudyItems() {
+		List<StudyItem> list = new ArrayList<StudyItem>();
+		for (StudyResource sr : trackedResouces) {
+			list.addAll(sr.getAllItems());
+		}
+		return list;
+	}
+
+	public int getNumStudyItemsRemaining() {
+		int total = 0;
+		for (StudyResource sr : trackedResouces) {
+			total += sr.getNumItemsRemaining();
+		}
+		return total;
+
+	}
+
+	public List<StudyItem> getStudyItemsRemaining() {
+
+		List<StudyItem> list = new ArrayList<StudyItem>();
+		for (StudyResource sr : trackedResouces) {
+			list.addAll(sr.getItemsRemaining());
+		}
+		return list;
+
 	}
 }
