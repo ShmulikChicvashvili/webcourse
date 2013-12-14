@@ -8,8 +8,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+=======
+>>>>>>> 987aeac0cdba3f1db3718c6518fb4d1f97e27f55
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,10 +23,14 @@ import android.content.Context;
 
 import com.technion.coolie.ug.coursesAndExams.CourseItem;
 import com.technion.coolie.ug.coursesAndExams.ExamItem;
+<<<<<<< HEAD
 import com.technion.coolie.ug.gradessheet.GradesFooterItem;
 import com.technion.coolie.ug.gradessheet.GradesSectionItem;
 import com.technion.coolie.ug.gradessheet.Item;
 import com.technion.coolie.ug.model.AccomplishedCourse;
+=======
+import com.technion.coolie.ug.gradessheet.Item;
+>>>>>>> 987aeac0cdba3f1db3718c6518fb4d1f97e27f55
 
 public class HtmlParser {
 	private static StringBuilder response;
@@ -114,6 +121,7 @@ public class HtmlParser {
 //		}
 		return null;
 	}
+<<<<<<< HEAD
 	
 	// grades sheet parsing
 	
@@ -243,3 +251,6 @@ public class HtmlParser {
 			return (new StringBuilder(s).reverse().toString());
 		}
 }
+=======
+}
+>>>>>>> 987aeac0cdba3f1db3718c6518fb4d1f97e27f55

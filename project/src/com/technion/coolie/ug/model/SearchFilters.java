@@ -1,11 +1,12 @@
 package com.technion.coolie.ug.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.technion.coolie.ug.Enums.Faculty;
 
-public class SearchFilters {
+public class SearchFilters implements Serializable {
 
 	Semester semester; // There are only three available semesters at any time.
 						// you can only choose one.
@@ -53,8 +54,6 @@ public class SearchFilters {
 		return filteredList;
 	}
 
-	// TODO break query into words and search by them+ add support for course
-	// number in query!
 	private boolean meetCriterions(Course course, String query) {
 		return (faculty == Faculty.ALL_FACULTIES || course.getFaculty() == faculty)
 				&& (course.getSemester().ss == semester.ss && course
@@ -75,4 +74,6 @@ public class SearchFilters {
 
 		return true;
 	}
+
+	private static final long serialVersionUID = 5080644007328929764L;
 }

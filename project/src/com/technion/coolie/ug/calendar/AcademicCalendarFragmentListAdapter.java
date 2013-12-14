@@ -1,4 +1,4 @@
-package com.technion.coolie.ug;
+package com.technion.coolie.ug.calendar;
 
 import java.util.ArrayList;
 import java.util.Calendar;

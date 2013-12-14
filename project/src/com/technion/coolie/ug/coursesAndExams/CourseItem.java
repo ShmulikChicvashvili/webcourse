@@ -32,4 +32,6 @@ public class CourseItem {
 		this.points = points;
 		this.exams = exams;
 	}
+
+	
 }

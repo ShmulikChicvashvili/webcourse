@@ -105,22 +105,17 @@
         <activity
             android:name="com.technion.coolie.ug.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Sherlock.Light" >
+            android:theme="@style/Theme.Sherlock.Light"
+            android:windowSoftInputMode="adjustPan"
+             >
         </activity>
-        <activity
-            android:name="com.technion.coolie.ug.gui.searchCourses.SearchActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Sherlock.Light" >
-        </activity>
-        <activity
-            android:name="com.technion.coolie.ug.gui.courseDisplay.CourseDisplayFragment"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Sherlock.Light" >
-        </activity>
+        
         <activity
             android:name="com.technion.coolie.ug.TransparentActivity"
             android:label="@string/title_activity_transparent"
-            android:theme="@style/Theme.Transparent" >
+            android:theme="@style/Theme.Transparent" 
+            android:windowSoftInputMode="adjustPan"
+            >
         </activity>
     </application>
 
