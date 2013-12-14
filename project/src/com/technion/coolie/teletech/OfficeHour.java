@@ -31,7 +31,7 @@ public class OfficeHour {
 	public String toString() {
 		if (day == null || from == null || to == null)
 			return "TD";
-		return day + from.toString() + "-" + to.toString();
+		return day + " " + from.toString() + "-" + to.toString();
 	}
 
 }

@@ -3,6 +3,8 @@
  */
 package com.technion.coolie.teletech;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,6 +28,8 @@ public class ContactSummaryFragment extends SherlockListFragment {
 	OnContactSelectedListener mCallback;
 	// TODO : remove this!!
 	public static ContactsAdapter adapter;
+	
+	DBTools db;;
 
 	public interface OnContactSelectedListener {
 		public void onContactSelected(int position);
@@ -39,8 +43,9 @@ public class ContactSummaryFragment extends SherlockListFragment {
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		db = new DBTools(getActivity());
 		final int layout = com.technion.coolie.R.layout.teletech_contact_list;
-		MainActivity.contacts = new ContactsTest().contactList;
+		
 
 		// new ClientAsyncContacts() {
 		// @Override
@@ -103,6 +108,13 @@ public class ContactSummaryFragment extends SherlockListFragment {
 		ContactsAdapter.indexSelected = position;
 	}
 
+	
+//	public static void refreshList(List<ContactInformation> newList){
+//		MainActivity.contacts = new FavoriteTest().favoriteList;
+//		ContactSummaryFragment.adapter.notifyDataSetChanged();
+//	}
+	
+	
 	private class ClientAsyncContacts extends AsyncTask<Void, Void, String> {
 
 		@Override

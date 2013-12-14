@@ -24,8 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/profilePicture"
-            android:layout_toRightOf="@+id/profilePicture"
             android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/profilePicture"
             android:text="Argaman"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
@@ -289,9 +289,9 @@
             android:layout_below="@+id/ruleLine5"
             android:layout_marginTop="16dp"
             android:background="@null"
-            android:text="http://www.google.com"
             android:clickable="true"
             android:onClick="onWebsiteClicked"
+            android:text="http://www.google.com"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <CheckBox
@@ -300,11 +300,18 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/addLastName"
             android:layout_alignBottom="@+id/addLastName"
-            android:layout_marginRight="8dp"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
             android:button="@android:drawable/btn_star"
             android:onClick="OnAddToFavoriteChecked" />
 
+        <TextView
+            android:id="@+id/contactID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/addfaculty"
+            android:layout_below="@+id/addfaculty"
+            android:visibility="invisible" />
     </RelativeLayout>
 
 </ScrollView>

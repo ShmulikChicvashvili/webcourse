@@ -3,7 +3,9 @@
  */
 package com.technion.coolie.teletech;
 
+import junit.framework.Assert;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import com.actionbarsherlock.app.SherlockFragment;
  */
 public class FullContactInformation extends SherlockFragment {
 
+	DBTools db = new DBTools(getActivity());
+
 	final static String ARG_POSITION_STRING = "position";
 	int mCurrentPosition = 0;
 
@@ -29,8 +33,8 @@ public class FullContactInformation extends SherlockFragment {
 	 * android.view.ViewGroup, android.os.Bundle)
 	 */
 	@Override
-	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
-			final Bundle savedInstanceState) {
+	public View onCreateView(final LayoutInflater inflater,
+			final ViewGroup container, final Bundle savedInstanceState) {
 		if (savedInstanceState != null)
 			mCurrentPosition = savedInstanceState.getInt(ARG_POSITION_STRING);
 		return inflater.inflate(
@@ -69,9 +73,9 @@ public class FullContactInformation extends SherlockFragment {
 	 * @param position
 	 */
 	public void updateContactInformationView(final int position) {
-		//TODO: change this
-		final ContactInformation currentContact = MainActivity.contacts.get(
-				position);
+		final ContactInformation currentContact = MainActivity.contacts
+				.get(position);
+
 		updateMainInfo(currentContact);
 
 		updatePhoneNumbers(currentContact);
@@ -85,9 +89,17 @@ public class FullContactInformation extends SherlockFragment {
 		if (star.isChecked())
 			star.setChecked(true);
 
+		final TextView contactID = (TextView) getActivity().findViewById(
+				com.technion.coolie.R.id.contactID);
+		System.out.println(currentContact.firstName() + " " + currentContact.lastName());
+		Assert.assertNotNull(currentContact.ID());
+		
+		contactID.setText(currentContact.ID().toString());
+
 		mCurrentPosition = position;
 
 	}
+
 
 	/**
 	 * @param currentContact
@@ -103,8 +115,9 @@ public class FullContactInformation extends SherlockFragment {
 
 		final TextView officeHours = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.personalOfficeHourInfo);
-		officeHours.setText(currentContact.officeHours() == null ? new OfficeHour().toString() :
-			currentContact.officeHours().toString());
+		officeHours
+				.setText(currentContact.officeHours() == null ? new OfficeHour()
+						.toString() : currentContact.officeHours().toString());
 
 		final TextView website = (TextView) getActivity().findViewById(
 				com.technion.coolie.R.id.websiteInfo);

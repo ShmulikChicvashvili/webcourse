@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.teletech.ContactSummaryFragment.OnContactSelectedListener;
@@ -18,12 +20,20 @@ public class MainActivity extends CoolieActivity implements
 
 	public static List<ContactInformation> contacts;
 
+	private DBTools db = new DBTools(this);
+
 	// TODO: remove this
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		createDBFromStub();
+		contacts = db.getAllContacts();
+		final ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowTitleEnabled(false);
 		super.setContentView(R.layout.teletech_main);
+		// TODO: fetch the data from the server and put it back to the DB.
+
 		if (findViewById(com.technion.coolie.R.id.fragment_container) != null) {
 			final FragmentTransaction trans = getSupportFragmentManager()
 					.beginTransaction();
@@ -33,6 +43,20 @@ public class MainActivity extends CoolieActivity implements
 		}
 
 	}
+
+	private void createDBFromStub() {
+		db.insertContacts(new ContactsTest().contactList);
+	}
+
+	// @Override
+	// protected void onDestroy() {
+	// super.onDestroy();
+	// clearDBStub();
+	// }
+	//
+	// private void clearDBStub() {
+	// db.clearTables();
+	// }
 
 	@Override
 	public void onContactSelected(final int position) {
@@ -94,9 +118,16 @@ public class MainActivity extends CoolieActivity implements
 		startActivity(i);
 	}
 
+	/**
+	 * @param v
+	 */
 	public void OnAddToFavoriteChecked(final View v) {
-		MainActivity.contacts = new FavoriteTest().favoriteList;
-		ContactSummaryFragment.adapter.notifyDataSetChanged();
+
+		final TextView contactID = (TextView) findViewById(com.technion.coolie.R.id.contactID);
+		
+		db.insertFavourite(db.getContactInfo(contactID.getText().toString()));
+		Log.d("insert new favourite",
+				"SUCCESS in inserting the new contact to the favourite list");
 	}
 
 }
