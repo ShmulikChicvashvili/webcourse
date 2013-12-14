@@ -33,9 +33,7 @@ public class LoginActivity extends CoolieActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lmi_activity_login);
 
-		usernameEditText = (EditText) findViewById(R.id.lmi_edit_username);
-		usernameEditText.addTextChangedListener(new TextWatcher() {
-
+		TextWatcher updateEnabilityWatcher = new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				updateEnabilityOfLoginButton();
@@ -48,7 +46,10 @@ public class LoginActivity extends CoolieActivity {
 			@Override
 			public void afterTextChanged(Editable s) {
 			}
-		});
+		};
+
+		usernameEditText = (EditText) findViewById(R.id.lmi_edit_username);
+		usernameEditText.addTextChangedListener(updateEnabilityWatcher);
 
 		passwordEditText = (EditText) findViewById(R.id.lmi_edit_password);
 		passwordEditText.setOnEditorActionListener(new OnEditorActionListener() {
@@ -61,21 +62,7 @@ public class LoginActivity extends CoolieActivity {
 				return false;
 			}
 		});
-		passwordEditText.addTextChangedListener(new TextWatcher() {
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				updateEnabilityOfLoginButton();
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-			}
-		});
+		passwordEditText.addTextChangedListener(updateEnabilityWatcher);
 
 		getAPaswordTextView = (TextView) findViewById(R.id.lmi_get_a_password);
 		getAPaswordTextView.setMovementMethod(LinkMovementMethod.getInstance());

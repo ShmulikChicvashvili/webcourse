@@ -4,9 +4,7 @@ import java.sql.SQLException;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -33,8 +31,6 @@ public class InvitationViewActivity extends DatabaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lmi_activity_invitation);
-
-		((Button) findViewById(R.id.lmi_execute_invitation)).setVisibility(View.GONE);
 
 		friendNameEdit = (AutoCompleteTextView) findViewById(R.id.lmi_friend_name_edit);
 		friendCellphoneEdit = (EditText) findViewById(R.id.lmi_friend_cellphone_edit);

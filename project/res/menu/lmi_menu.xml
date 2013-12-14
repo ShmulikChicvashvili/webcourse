@@ -2,6 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/lmi_discard"
+        android:icon="@drawable/lmi_ic_action_cancel"
+        android:showAsAction="always|withText"
+        android:title="@string/lmi_discard" />
+    <item
+        android:id="@+id/lmi_done"
+        android:icon="@drawable/lmi_ic_action_accept"
+        android:showAsAction="always|withText"
+        android:title="@string/lmi_done" />
+    <item
         android:id="@+id/lmi_search"
         android:actionViewClass="com.actionbarsherlock.widget.SearchView"
         android:icon="@drawable/lmi_ic_action_search"

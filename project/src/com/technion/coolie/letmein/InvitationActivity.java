@@ -11,6 +11,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +29,8 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.ContactInfo;
 import com.technion.coolie.letmein.model.Invitation;
@@ -38,6 +42,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	private static final int DROP_DOWN_LAYOUT_INDEX = android.R.layout.simple_dropdown_item_1line;
 
 	private final MyCalendar cal = new MyCalendar();
+	private boolean isDoneItemEnabled = false;
 
 	private AutoCompleteTextView friendNameEdit;
 	private EditText friendCellphoneEdit;
@@ -49,12 +54,56 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	private ImageView friendImage;
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.lmi_menu, menu);
+
+		menu.findItem(R.id.lmi_search).setVisible(false);
+		menu.findItem(R.id.lmi_add_invitation).setVisible(false);
+
+		menu.findItem(R.id.lmi_done).setEnabled(isDoneItemEnabled);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.lmi_done:
+			executeInvitation();
+			return true;
+		case R.id.lmi_discard:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lmi_activity_invitation);
 
+		TextWatcher updateEnabilityWatcher = new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				updateEnabilityOfDoneItem();
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		};
+
 		friendNameEdit = (AutoCompleteTextView) findViewById(R.id.lmi_friend_name_edit);
+		friendNameEdit.addTextChangedListener(updateEnabilityWatcher);
+
 		friendCellphoneEdit = (EditText) findViewById(R.id.lmi_friend_cellphone_edit);
+		friendCellphoneEdit.addTextChangedListener(updateEnabilityWatcher);
 		friendNameEdit.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
@@ -68,6 +117,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		friendImage = (ImageView) InvitationActivity.this.findViewById(R.id.lmi_friend_image);
 
 		friendCarNumberEdit = (EditText) findViewById(R.id.lmi_friend_car_number_edit);
+		friendCarNumberEdit.addTextChangedListener(updateEnabilityWatcher);
 
 		friendCarCompanySpinner = (Spinner) findViewById(R.id.lmi_friend_car_company_edit);
 
@@ -92,6 +142,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		timePicker.setText(cal.parseTime());
 
 		friendCarColorEdit = (AutoCompleteTextView) findViewById(R.id.lmi_friend_car_color_edit);
+		friendCarColorEdit.addTextChangedListener(updateEnabilityWatcher);
 		friendCarColorEdit.setAdapter(new ArrayAdapter<String>(InvitationActivity.this,
 				DROP_DOWN_LAYOUT_INDEX, getResources().getStringArray(R.array.lmi_car_colors)));
 		friendCarColorEdit.setOnEditorActionListener(new OnEditorActionListener() {
@@ -107,6 +158,15 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				return false;
 			}
 		});
+	}
+
+	private void updateEnabilityOfDoneItem() {
+		isDoneItemEnabled = !"".equals(friendNameEdit.getText().toString())
+				&& !"".equals(friendCellphoneEdit.getText().toString())
+				&& !"".equals(friendCarNumberEdit.getText().toString())
+				&& !"".equals(friendCarColorEdit.getText().toString());
+
+		supportInvalidateOptionsMenu();
 	}
 
 	@Override
@@ -180,7 +240,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				aList.add(new ContactInfo(name, id, imageUri, phoneNumber));
 
 			}
-			
+
 			nameCur.close();
 
 			return new OldContactsAdapter(InvitationActivity.this, aList);
@@ -191,10 +251,8 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 			friendNameEdit.setAdapter(adapter);
 
 			OnItemClickListener itemClickListener = new OnItemClickListener() {
-				@SuppressWarnings("unchecked")
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int position, long id) {
-
 					ContactInfo hm = (ContactInfo) arg0.getAdapter().getItem(position);
 					friendImage.setImageURI(Uri.parse(hm.imageUri));
 					friendCellphoneEdit.setText(hm.phoneNumber);
@@ -256,7 +314,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		timePicker.setText(cal.parseTime());
 	}
 
-	public void executeInvitation(final View v) {
+	public void executeInvitation() {
 		final String friendName = friendNameEdit.getText().toString();
 		final String friendCellphone = friendCellphoneEdit.getText().toString();
 		final String carNumber = friendCarNumberEdit.getText().toString();

@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.technion.coolie.R;
@@ -36,9 +35,10 @@ public class MainActivity extends DatabaseActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
-		final MenuInflater inflater = this.getSupportMenuInflater();
-		inflater.inflate(R.menu.lmi_menu, menu);
+		getSupportMenuInflater().inflate(R.menu.lmi_menu, menu);
 
+		menu.findItem(R.id.lmi_done).setVisible(false);
+		menu.findItem(R.id.lmi_discard).setVisible(false);
 		menu.findItem(R.id.lmi_add_invitation).setVisible(isAddInvitationItemVisible);
 
 		final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);

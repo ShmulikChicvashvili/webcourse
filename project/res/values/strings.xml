@@ -40,5 +40,7 @@
     <string name="lmi_insert_name">Insert name</string>
     <string name="lmi_insert_car_number">Insert car number</string>
     <string name="lmi_insert_car_color">Insert car color</string>
+    <string name="lmi_done">Done</string>
+    <string name="lmi_discard">Discard</string>
 
 </resources>

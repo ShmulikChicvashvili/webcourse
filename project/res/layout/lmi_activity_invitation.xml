@@ -95,9 +95,9 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/lmi_friend_car_color_edit"
         android:layout_marginTop="@dimen/lmi_components_margin"
-        android:enabled="false"
-        android:text="Time of arrival"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:text="@string/lmi_time_of_arrival"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/lmi_date_picker"
@@ -127,15 +127,5 @@
         android:ems="5"
         android:focusable="false"
         android:gravity="center" />
-
-    <Button
-        android:id="@+id/lmi_execute_invitation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lmi_time_picker"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/lmi_components_margin"
-        android:onClick="executeInvitation"
-        android:text="@string/lmi_execute_invitation" />
 
 </RelativeLayout>

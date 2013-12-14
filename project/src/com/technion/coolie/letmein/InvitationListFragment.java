@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.Contract;
 import com.technion.coolie.letmein.model.adapters.BaseInvitationAdapter;
+import com.technion.coolie.letmein.model.adapters.InvitationAdapter;
 
 public class InvitationListFragment extends Fragment {
 
@@ -28,15 +29,16 @@ public class InvitationListFragment extends Fragment {
 			final Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.lmi_invitation_list, container, false);
 		((ListView) view).setAdapter(activity.getAdapter());
-		((ListView) view).setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(getActivity(), InvitationViewActivity.class);
-				intent.putExtra(Contract.Invitation.CONTACT_ID,
-						activity.getAdapter().getItem(position).getContactId());
-				startActivity(intent);
-			}
-		});
+		if (activity.getAdapter() instanceof InvitationAdapter)
+			((ListView) view).setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					Intent intent = new Intent(getActivity(), InvitationViewActivity.class);
+					intent.putExtra(Contract.Invitation.CONTACT_ID,
+							activity.getAdapter().getItem(position).getContactId());
+					startActivity(intent);
+				}
+			});
 
 		return view;
 	}

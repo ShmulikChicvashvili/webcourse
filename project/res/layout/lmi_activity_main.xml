@@ -43,7 +43,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/lmi_welcome_message"
         android:layout_marginLeft="@dimen/lmi_components_margin"
-        android:background="@drawable/lmi_btn_purple"
+        android:background="@drawable/lmi_btn_blue"
         android:text="@string/lmi_watch_demo"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
