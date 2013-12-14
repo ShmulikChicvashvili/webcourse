@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Model.test;
+package com.technion.coolie.studybuddy.Model.UnitTests;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -11,9 +11,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.technion.coolie.studybuddy.Model.Exam;
-import com.technion.coolie.studybuddy.Model.ExamType;
-import com.technion.coolie.studybuddy.Model.Subject;
+import com.technion.coolie.studybuddy.Models.Exam;
+import com.technion.coolie.studybuddy.Models.ExamType;
+import com.technion.coolie.studybuddy.Models.Course;
 
 public class ExamTests {
 
@@ -28,7 +28,7 @@ public class ExamTests {
 	@Test
 	public void newExamShouldReturnItsValues() {
 		Date d = new Date();
-		Subject s = new Subject();
+		Course s = new Course();
 		Exam e = new Exam(d, ExamType.FINAL, s);
 
 		assertThat(e.getDate(), is(d));
@@ -39,7 +39,7 @@ public class ExamTests {
 	@Test
 	public void twoExamsOnSameDayInSameSubjectAreEqual() throws Exception {
 		Date d = new Date();
-		Subject s = new Subject();
+		Course s = new Course();
 		Exam e1 = new Exam(d, ExamType.FINAL, s);
 		Exam e2 = new Exam((Date) d.clone(), ExamType.FINAL, s);
 

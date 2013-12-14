@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Model;
+package com.technion.coolie.studybuddy.Models;
 
 public class Technion {
 
