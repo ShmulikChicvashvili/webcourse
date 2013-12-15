@@ -9,4 +9,6 @@
     <style name="TeamappPaddingTop">
         <item name="android:paddingTop"> 5dp</item>
     </style>
+    <drawable name="colorBlue">#648EA4</drawable>
+    <drawable name="colorLightBlue">#B8CAD5</drawable>
 </resources>

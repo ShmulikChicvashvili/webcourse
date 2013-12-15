@@ -1,12 +1,5 @@
 package com.technion.coolie.joinin;
 
-import com.facebook.widget.LoginButton;
-import com.technion.coolie.R;
-import com.technion.coolie.joinin.data.ClientAccount;
-import com.technion.coolie.joinin.facebook.FacebookLogin;
-import com.technion.coolie.joinin.facebook.FacebookLogin.OnLoginDone;
-import com.technion.coolie.joinin.map.MainMapActivity;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -16,7 +9,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.WindowManager.LayoutParams;
 import android.widget.ImageButton;
-import android.widget.Toast;
+
+import com.technion.coolie.R;
+import com.technion.coolie.joinin.facebook.FacebookLogin;
 
 
 
@@ -36,11 +31,12 @@ public class LoginDialog  extends Dialog {
 	@Override 
 	protected void onCreate(final Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	    setCanceledOnTouchOutside(false);
 	    requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 	    getWindow().setFlags(LayoutParams.FLAG_FULLSCREEN, LayoutParams.FLAG_FULLSCREEN);
-	    setContentView(R.layout.ji_dialog_login);	    
-	    ((com.facebook.widget.LoginButton) findViewById(R.id.authButton)).setOnClickListener(new View.OnClickListener() {
+	    setContentView(R.layout.ji_dialog_login);	   	    
+	    ((ImageButton) findViewById(R.id.authButton)).setOnClickListener(new View.OnClickListener() {
 	    	@Override 
 	    	public void onClick(final View v) {	    		
 	    		FacebookLogin.login(mActivity, mAfterLogin);

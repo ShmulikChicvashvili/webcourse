@@ -36,8 +36,8 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
   TextView eventTime;
   TextView eventDesc;
   ImageView eventCat;
-  ImageButton eventO1;
-  ImageButton eventO2;
+  //ImageButton eventO1;
+  ImageButton joinImgBtn;
   ImageButton directionsButton;
   ProgressBar pb;
   List<String> joinedAccounts;
@@ -81,9 +81,9 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
     eventAddress = (TextView) $.findViewById(R.id.eventAddress);
     eventDate = (TextView) $.findViewById(R.id.eventDate);
     eventDesc = (TextView) $.findViewById(R.id.eventDesc);
-    eventO1 = (ImageButton) $.findViewById(R.id.eventO1);
-    eventO2 = (ImageButton) $.findViewById(R.id.eventO2);
-    directionsButton = (ImageButton) $.findViewById(R.id.directionsButton);
+    //eventO1 = (ImageButton) $.findViewById(R.id.eventO1);
+    joinImgBtn = (ImageButton) $.findViewById(R.id.joinImgBtn);
+    //directionsButton = (ImageButton) $.findViewById(R.id.directionsButton);
     eventCat = (ImageView) $.findViewById(R.id.eventCat);
     pb = (ProgressBar) $.findViewById(R.id.progressBar);
     setEventDetails(getEvent());
@@ -106,50 +106,70 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
   }
   
   /**
-   * Set on click actions for the layout buttons
-   */
-  void setEventsButtons() {
-    directionsButton.setOnClickListener(new OnClickListener() {
-      @Override public void onClick(final View v) {
-        new DirectionsDialog(getActivity(), getEvent()).show();
-      }
-    });
-    if (getAccount().getUsername().equals(getEvent().getOwner())) {
-      // this is the owner
-      eventO1.setOnClickListener(new OnClickListener() {
-        @Override public void onClick(final View v) {
-          startActivityForResult(
-              new Intent(thisOne, CreateEventActivity.class).putExtra("account", getAccount()).putExtra("event",
-                  new ClientEvent(getEvent())), EDITED);
-        }
-      });
-      eventO2.setOnClickListener(new OnClickListener() {
-        @Override public void onClick(final View v) {
-          cancelEvent();
-        }
-      });
-    } else {
-      // not owner
-      eventO1.setVisibility(View.GONE);
-      final boolean b = !getEvent().getUsers().contains(getAccount().toFacebookUser());
-      eventO2.setImageDrawable(getResources().getDrawable(b ? R.drawable.ji_join : R.drawable.ji_leave));
-      eventO2.setOnClickListener(b ? new OnClickListener() {
-        @Override public void onClick(final View v) {
-          joinEvent();
-        }
-      } : new OnClickListener() {
-        @Override public void onClick(final View v) {
-          leaveEvent();
-        }
-      });
-    }
+   * Set on click actions for the layout buttons 
+   * */
+  /** prev ver   
+//  void setEventsButtons() {
+//	  //currently no support for directions
+//	  ////////////////////////////////////////////
+////    directionsButton.setOnClickListener(new OnClickListener() {
+////      @Override public void onClick(final View v) {
+////        new DirectionsDialog(getActivity(), getEvent()).show();
+////      }
+////    });
+//
+//	  //if owner those options moved to the action bar 
+////    if (getAccount().getUsername().equals(getEvent().getOwner())) {
+////      // this is the owner
+////      eventO1.setOnClickListener(new OnClickListener() {
+////        @Override public void onClick(final View v) {
+////          startActivityForResult(
+////              new Intent(thisOne, CreateEventActivity.class).putExtra("account", getAccount()).putExtra("event",
+////                  new ClientEvent(getEvent())), EDITED);
+////        }
+////      });
+////      eventO2.setOnClickListener(new OnClickListener() {
+////        @Override public void onClick(final View v) {
+////          cancelEvent();
+////        }
+////      });
+////    } else {
+//     
+//	  // not owner
+//      //eventO1.setVisibility(View.GONE);
+////      final boolean b = !getEvent().getUsers().contains(getAccount().toFacebookUser());
+////      eventO2.setImageDrawable(getResources().getDrawable(b ? R.drawable.ji_join : R.drawable.ji_leave));
+////      eventO2.setOnClickListener(b ? new OnClickListener() {
+////        @Override public void onClick(final View v) {
+////          joinEvent();
+////        }
+////      } : new OnClickListener() {
+////        @Override public void onClick(final View v) {
+////          leaveEvent();
+////        }
+////      });
+//    //}
+//  } */
+
+  private void setEventsButtons(){
+	  final boolean b = !getEvent().getUsers().contains(getAccount().toFacebookUser());
+		joinImgBtn.setImageDrawable(getResources().getDrawable(b ? R.drawable.ji_join : R.drawable.ji_leave));
+		joinImgBtn.setOnClickListener(b ? new OnClickListener() {
+		@Override public void onClick(final View v) {
+		  joinEvent();
+		}
+		} : new OnClickListener() {
+		@Override public void onClick(final View v) {
+		  leaveEvent();
+		}
+		});
   }
   
   void leaveEvent() {
-    showProgressBar(eventO2);
+    showProgressBar(joinImgBtn);
     ClientProxy.unattend(getAccount().getUsername(), getEvent().getId(), new OnDone<ClientEvent>() {
       @Override public void onDone(final ClientEvent e) {
-        hideProgressBar(eventO2);
+        hideProgressBar(joinImgBtn);
         Toast.makeText(thisOne, "You left this event", Toast.LENGTH_SHORT).show();
         setEvent(e);
         setEventDetails(getEvent());
@@ -158,16 +178,16 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
       }
     }, new OnError(getActivity()) {
       @Override public void beforeHandlingError() {
-        hideProgressBar(eventO2);
+        hideProgressBar(joinImgBtn);
       }
     });
   }
   
   void joinEvent() {
-    showProgressBar(eventO2);
+    showProgressBar(joinImgBtn);
     ClientProxy.attend(getAccount().toFacebookUser(), getEvent().getId(), new OnDone<ClientEvent>() {
       @Override public void onDone(final ClientEvent e) {
-        hideProgressBar(eventO2);
+        hideProgressBar(joinImgBtn);
         Toast.makeText(thisOne, "You joined this event!", Toast.LENGTH_SHORT).show();
         setEvent(e);
         setEventDetails(getEvent());
@@ -180,23 +200,23 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
       }
     }, new OnError(getActivity()) {
       @Override public void beforeHandlingError() {
-        hideProgressBar(eventO2);
+        hideProgressBar(joinImgBtn);
       }
     });
   }
   
   void cancelEvent() {
-    showProgressBar(eventO2);
+    showProgressBar(joinImgBtn);
     ClientProxy.deleteEvent(getEvent().getId(), new OnDone<Void>() {
       @Override public void onDone(final Void t) {
-        hideProgressBar(eventO2);
+        hideProgressBar(joinImgBtn);
         new CalendarHandler(getActivity()).deleteEvent(getActivity(), getEvent());
         getActivity().setResult(MainMapActivity.RESULT_DELETE, new Intent().putExtra("event", getEvent()));
         getActivity().finish();
       }
     }, new OnError(getActivity()) {
       @Override public void beforeHandlingError() {
-        hideProgressBar(eventO2);
+        hideProgressBar(joinImgBtn);
       }
     });
   }
@@ -235,14 +255,14 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
   }
   
   private void disableButtons() {
-    eventO1.setEnabled(false);
-    eventO2.setEnabled(false);
+    //eventO1.setEnabled(false);
+    joinImgBtn.setEnabled(false);
     directionsButton.setEnabled(false);
   }
   
   private void enableButtons() {
-    eventO1.setEnabled(true);
-    eventO2.setEnabled(true);
+    //eventO1.setEnabled(true);
+    joinImgBtn.setEnabled(true);
     directionsButton.setEnabled(true);
   }
 }
