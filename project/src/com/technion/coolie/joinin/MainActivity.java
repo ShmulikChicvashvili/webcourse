@@ -13,6 +13,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -122,7 +123,7 @@ public class MainActivity extends CoolieActivity {
      private void HandleLogIn(){
     	 mJoinInPref = getSharedPreferences(PREFS_NAME, 0);
     	 mJoinInPref.edit().commit();
-    	 //mLoggedAccount = mJoinInPref.contains("account") ? ClientAccount.fromJson(mJoinInPref.getString("account", "")) : null;
+    	 mLoggedAccount = mJoinInPref.contains("account") ? ClientAccount.fromJson(mJoinInPref.getString("account", "")) : null;
     	 //Go here if there is no currently logged account
     	 if (mLoggedAccount == null){
     		 mLoginDialog.show();    		 
@@ -173,6 +174,10 @@ public class MainActivity extends CoolieActivity {
 // 	              .putExtra("Longtitude", (int) (gp.longitude * TO_E6)).putExtra("account", mLoggedAccount), 0);
  	    	  
  	          startActivityForResult(new Intent(mContext, CreateEventActivity.class).putExtra("account", mLoggedAccount), 1);
+ 	          return true;
+ 		case android.R.id.home:
+ 			this.finish();
+            return true;
  	      default:
  	        return super.onOptionsItemSelected(item);
  	    }
