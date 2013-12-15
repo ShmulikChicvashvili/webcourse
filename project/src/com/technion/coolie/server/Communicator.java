@@ -18,7 +18,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Communicator {
 
-  public String execute(String... strs) {
+  public static String execute(String... strs) {
     String $ = "";
     try {
       URL url = new URL("https://teak-amphora-430.appspot.com/" + strs[0]);
