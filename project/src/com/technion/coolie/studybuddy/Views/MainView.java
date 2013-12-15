@@ -32,7 +32,7 @@ public class MainView extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				getActivity().startActivity(
-						new Intent(getActivity(), TasksActicity.class));
+						new Intent(getActivity(), TasksActivity.class));
 			}
 		});
 		NowLayout layout = (NowLayout) rootView.findViewById(R.id.course_list);
