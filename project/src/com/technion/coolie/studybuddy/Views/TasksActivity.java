@@ -9,7 +9,7 @@ import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.Adapters.TaskAdapter;
 import com.technion.coolie.studybuddy.data.DataStore;
 
-public class TasksActicity extends StudyBuddyActivity
+public class TasksActivity extends StudyBuddyActivity
 {
 	private TaskAdapter adapter;
 
