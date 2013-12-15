@@ -23,9 +23,10 @@
     <LinearLayout
         android:id="@+id/enterText"
         android:layout_width="match_parent"
-        style="@style/PurpleActionBarBottom"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"  >
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/colorLightBlue"  >
 
         <EditText
             android:id="@+id/messageInput"

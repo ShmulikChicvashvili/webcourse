@@ -4,24 +4,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.Toast;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
+import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.EventDate;
 import com.technion.coolie.joinin.gui.ExpandableListAdapter;
 import com.technion.coolie.joinin.map.EventType;
+import com.technion.coolie.joinin.subactivities.EventActivity;
 
 
 
 public class MainActivity extends CoolieActivity {
-	     
-     @Override
+	 
+	Context mContext = this;   
+     
+	 @Override
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
          setContentView(R.layout.ji__expandable_view);
@@ -39,15 +44,23 @@ public class MainActivity extends CoolieActivity {
          // setting list adapter
          expListView.setAdapter(listAdapter);
          
-         expListView.setOnChildClickListener(new OnChildClickListener() {	 
+         expListView.setOnChildClickListener(new OnChildClickListener() {	
+        	 
              @Override
              public boolean onChildClick(ExpandableListView parent, View v,
                      int groupPosition, int childPosition, long id) {
             	 ExpandableListAdapter adp = (ExpandableListAdapter) parent.getExpandableListAdapter();
             	 ClientEvent eventDetails = (ClientEvent)adp.getChild(groupPosition, childPosition) ;
-            	 //ClientEvent eventDetails = listDataChild.get(listDataHeader.get(groupPosition)).get(childPosition);
-            	 
-                 Toast.makeText(getApplicationContext(), eventDetails.getName(), Toast.LENGTH_SHORT).show();
+            	             	 
+                 
+				//Toast.makeText(getApplicationContext(), eventDetails.getName(), Toast.LENGTH_SHORT).show();
+            	 final Intent startEventActivity = new Intent(mContext, EventActivity.class);
+                 
+                 startEventActivity.putExtra("event", eventDetails);
+                 startEventActivity.putExtra("account", new ClientAccount("Me", "fId", "name"));
+                 //startEventActivity.putExtra("account", mLoggedAccount);
+                 startActivityForResult(startEventActivity, 1);
+                 
                  return true;
              }
          });
