@@ -59,10 +59,11 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 
 		menu.findItem(R.id.lmi_search).setVisible(false);
 		menu.findItem(R.id.lmi_add_invitation).setVisible(false);
-
 		menu.findItem(R.id.lmi_done).setEnabled(isDoneItemEnabled);
 
-		return super.onCreateOptionsMenu(menu);
+		// TODO: discuss about it:
+//		return super.onCreateOptionsMenu(menu);
+		return true;
 	}
 
 	@Override
@@ -219,7 +220,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				if (imageUri == null) {
 					String packName = InvitationActivity.this.getPackageName();
 					Uri path = Uri.parse("android.resource://" + packName + "/"
-							+ R.drawable.lmi_facebook_man);
+							+ R.drawable.lmi_google_man);
 					imageUri = path.toString();
 				}
 

@@ -55,7 +55,7 @@ public class InvitationAdapter extends BaseInvitationAdapter {
 		final ContactView $ = new ContactView();
 
 		$.ContactName = i.getContactName();
-		$.ContactImageId = R.drawable.lmi_facebook_man;
+		$.ContactImageId = R.drawable.lmi_google_man;
 
 		return $;
 	}

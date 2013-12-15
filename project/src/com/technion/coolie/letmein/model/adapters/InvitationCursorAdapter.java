@@ -72,7 +72,7 @@ public class InvitationCursorAdapter extends BaseInvitationAdapter {
 	protected ContactView getContactViewById(final String contactId) {
 		final ContactView $ = new ContactView();
 		$.ContactName = "Contact Name";
-		$.ContactImageId = R.drawable.lmi_facebook_man;
+		$.ContactImageId = R.drawable.lmi_google_man;
 		return $;
 	}
 

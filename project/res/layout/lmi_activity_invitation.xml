@@ -11,7 +11,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/lmi_contact_image"
-        android:src="@drawable/lmi_facebook_man" />
+        android:src="@drawable/lmi_google_man" />
 
     <com.technion.coolie.letmein.ContactsAutoCompleteTextView
         android:id="@+id/lmi_friend_name_edit"
