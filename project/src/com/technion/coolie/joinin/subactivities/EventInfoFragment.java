@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.technion.coolie.R;
+import com.technion.coolie.joinin.MainActivity;
 import com.technion.coolie.joinin.calander.CalendarHandler;
 import com.technion.coolie.joinin.communication.ClientProxy;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
@@ -38,7 +39,7 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
   ImageView eventCat;
   //ImageButton eventO1;
   ImageButton joinImgBtn;
-  ImageButton directionsButton;
+  //ImageButton directionsButton;
   ProgressBar pb;
   List<String> joinedAccounts;
   OnTabRefresh mCallback;
@@ -81,7 +82,6 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
     eventAddress = (TextView) $.findViewById(R.id.eventAddress);
     eventDate = (TextView) $.findViewById(R.id.eventDate);
     eventDesc = (TextView) $.findViewById(R.id.eventDesc);
-    //eventO1 = (ImageButton) $.findViewById(R.id.eventO1);
     joinImgBtn = (ImageButton) $.findViewById(R.id.joinImgBtn);
     //directionsButton = (ImageButton) $.findViewById(R.id.directionsButton);
     eventCat = (ImageView) $.findViewById(R.id.eventCat);
@@ -152,6 +152,9 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
 //  } */
 
   private void setEventsButtons(){
+	  if(getEvent().getOwner().equals(getAccount().getUsername())){ 
+		  return;
+	  }
 	  final boolean b = !getEvent().getUsers().contains(getAccount().toFacebookUser());
 		joinImgBtn.setImageDrawable(getResources().getDrawable(b ? R.drawable.ji_join : R.drawable.ji_leave));
 		joinImgBtn.setOnClickListener(b ? new OnClickListener() {
@@ -169,6 +172,7 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
     showProgressBar(joinImgBtn);
     ClientProxy.unattend(getAccount().getUsername(), getEvent().getId(), new OnDone<ClientEvent>() {
       @Override public void onDone(final ClientEvent e) {
+    	getActivity().setResult(MainActivity.RESULT_REMOVE_EVENT, new Intent().putExtra("event", e));
         hideProgressBar(joinImgBtn);
         Toast.makeText(thisOne, "You left this event", Toast.LENGTH_SHORT).show();
         setEvent(e);
@@ -187,7 +191,8 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
     showProgressBar(joinImgBtn);
     ClientProxy.attend(getAccount().toFacebookUser(), getEvent().getId(), new OnDone<ClientEvent>() {
       @Override public void onDone(final ClientEvent e) {
-        hideProgressBar(joinImgBtn);
+    	  getActivity().setResult(MainActivity.RESULT_ADD_EVENT, new Intent().putExtra("event", e));
+    	hideProgressBar(joinImgBtn);
         Toast.makeText(thisOne, "You joined this event!", Toast.LENGTH_SHORT).show();
         setEvent(e);
         setEventDetails(getEvent());
@@ -257,12 +262,12 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
   private void disableButtons() {
     //eventO1.setEnabled(false);
     joinImgBtn.setEnabled(false);
-    directionsButton.setEnabled(false);
+    //directionsButton.setEnabled(false);
   }
   
   private void enableButtons() {
     //eventO1.setEnabled(true);
     joinImgBtn.setEnabled(true);
-    directionsButton.setEnabled(true);
+   // directionsButton.setEnabled(true);
   }
 }
