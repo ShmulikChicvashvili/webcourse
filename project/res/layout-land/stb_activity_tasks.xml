@@ -4,7 +4,7 @@
     android:id="@+id/drawer_layout_tasks"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TasksActicity" >
+    tools:context=".TasksActivity" >
 
     <com.technion.coolie.studybuddy.Views.NowLayout
         android:numColumns="@integer/stb_num_of_columns"
