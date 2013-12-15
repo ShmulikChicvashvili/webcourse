@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -45,6 +44,9 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
+import com.technion.coolie.R.id;
+import com.technion.coolie.R.layout;
+import com.technion.coolie.R.menu;
 import com.technion.coolie.joinin.calander.CalendarEventDatabase.NotFoundException;
 import com.technion.coolie.joinin.calander.CalendarHandler;
 import com.technion.coolie.joinin.communication.ClientProxy;
@@ -62,21 +64,16 @@ import com.technion.coolie.joinin.gui.CategoryListAdapter;
 import com.technion.coolie.joinin.gui.ExpandableListAdapter;
 import com.technion.coolie.joinin.map.EventType;
 import com.technion.coolie.joinin.map.MainMapActivity;
+import android.app.Activity;
 
-public class CategoriesActivity extends CoolieActivity {
+public class CategoryEventActivity extends CoolieActivity {
 	  final Activity mContext = this;
 	  public static ClientAccount mLoggedAccount = null;
-	private ListView mainListView ;  
-	 private ArrayAdapter<String> listAdapter ; 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ji_activity_categories);
-		
-	    // Find the ListView resource.   
-	    setListAdapter();
-
+		setContentView(R.layout.activity_category_event);
 	}
 
 	@Override
@@ -102,32 +99,4 @@ public class CategoriesActivity extends CoolieActivity {
 		}
 	}
 	
-	public void setListAdapter(){    
-        CategoryItem categoryItem[] = new CategoryItem[]
-        {
-         
-            new CategoryItem(R.drawable.ji_movie_icon, "Movies"),
-            new CategoryItem(R.drawable.ji_study_icon, "Study"),
-            new CategoryItem(R.drawable.ji_sports_icon, "Sport"),
-            new CategoryItem(R.drawable.ji_food_icon, "Food"),
-            new CategoryItem(R.drawable.ji_drive, "Drive"),
-        };
-        
-        CategoryListAdapter adapter = new CategoryListAdapter(this, 
-                R.layout.ji_categories_list_item, categoryItem);
-        
-        mainListView = (ListView) findViewById( R.id.categorymainListView );         
-        mainListView.setAdapter(adapter);
-        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                int position, long id) {
-            	startActivity(new Intent(CategoriesActivity.this, CategoryEventActivity.class)); 
-            }
-
-          });
-		
-
-	}
 }
