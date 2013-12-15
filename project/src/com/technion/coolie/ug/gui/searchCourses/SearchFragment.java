@@ -170,7 +170,7 @@ public class SearchFragment extends Fragment {
 
 	private void setInitialAdapters() {
 		autoCompleteAdapter = new ArrayAdapter<String>(context,
-				R.layout.ug_auto_complete_item_row, filteredAutoCompleteList);
+				R.layout.ug_search_auto_complete_item_row, filteredAutoCompleteList);
 		List<Course> lastSearch = Collections.emptyList();
 
 		try {
@@ -230,7 +230,7 @@ public class SearchFragment extends Fragment {
 		searchAdapter = new SearchResultsAdapter(context,
 				filteredAndQueriedList, new onClickResult());
 		autoCompleteAdapter = new ArrayAdapter<String>(context,
-				R.layout.ug_auto_complete_item_row, filteredAutoCompleteList);
+				R.layout.ug_search_auto_complete_item_row, filteredAutoCompleteList);
 
 		updateCoursesResultsDisplay();
 		updateAutoCompleteDisplay();

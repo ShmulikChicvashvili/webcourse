@@ -41,7 +41,7 @@
 
 		android:text=""
 		android:gravity="top|right"
-
+		android:textSize="14sp"
 		android:textStyle="bold"
 		android:singleLine="true"
 		android:ellipsize="marquee"
