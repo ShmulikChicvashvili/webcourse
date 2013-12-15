@@ -1,5 +1,6 @@
 package com.tecnion.coolie.ug.utils;
 
+import com.technion.coolie.ug.calendar.AcademicCalendarFragment;
 import com.technion.coolie.ug.coursesAndExams.CoursesAndExamsFragment;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.gui.searchCourses.SearchFragment;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 public class FragmentsFactory {
 	private static Fragment _gradesSheetLargeFragment=null;
 	private static Fragment _coursesAndExamsLargeFragment=null;
+	private static Fragment _getAcademicCalendarLargeFragment=null;
 	private static Fragment _getCoursesSearchLargeFragment=null;
 	
 	public static Fragment getGradesSheetLargeFragment()
@@ -31,8 +33,11 @@ public class FragmentsFactory {
 
 	public static Fragment getAcademicCalendarLargeFragment() 
 	{
-		// TODO Auto-generated method stub
-		return null;
+		if(_getAcademicCalendarLargeFragment==null)
+		{
+			_getAcademicCalendarLargeFragment = new AcademicCalendarFragment();
+		}
+		return _getAcademicCalendarLargeFragment;
 	}
 	
 	public static Fragment getSearchCorsesLargeFragment()

@@ -42,9 +42,8 @@ public class MainActivity extends CoolieActivity implements
 			 f = FragmentsFactory.getCoursesAndExamsLargeFragment();
 			break;
 		case ACADEMIC_CALENDAR:
-			/*f = FragmentsFactory.getAcademicCalendarLargeFragment();
-			break;*/
-			return;
+			f = FragmentsFactory.getAcademicCalendarLargeFragment();
+			break;
 		case PAYMENTS:
 			return;
 		case TRACKING_COURSES:
