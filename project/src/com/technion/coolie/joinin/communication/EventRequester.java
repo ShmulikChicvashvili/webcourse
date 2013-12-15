@@ -27,6 +27,14 @@ public class EventRequester {
     EVENT_SERVLET = eventServlet;
   }
   
+  public void getAllEvents(final OnDone<List<ClientEvent>> onDone, final OnError onError) {
+	    new OnDoneAsyncTask<List<ClientEvent>>(new Executer<List<ClientEvent>>() {
+	      @Override public List<ClientEvent> execute() {
+	        return ClientEvent.toList(Event.toEventList(HttpRequester.httpGet(SERVER_BASE_ADDRESS + EVENT_SERVLET + "/all")));
+	      }
+	    }, onDone, onError).execute();
+	  }
+  
   /**
    * Gets events in a radius around a geo.
    * 
