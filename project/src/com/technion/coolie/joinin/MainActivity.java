@@ -43,6 +43,7 @@ import com.technion.coolie.joinin.data.SerializableSparseBooleanArrayContainer;
 import com.technion.coolie.joinin.gui.ExpandableListAdapter;
 import com.technion.coolie.joinin.map.EventType;
 import com.technion.coolie.joinin.places.SearchDialog;
+import com.technion.coolie.joinin.subactivities.CategoriesActivity;
 import com.technion.coolie.joinin.subactivities.CreateEventActivity;
 import com.technion.coolie.joinin.subactivities.EventFilterActivity;
 import com.technion.coolie.joinin.subactivities.LoginActivity;
@@ -178,6 +179,8 @@ public class MainActivity extends CoolieActivity {
  		case android.R.id.home:
  			this.finish();
             return true;
+ 		case R.id.categories:
+ 			startActivityForResult(new Intent(this, CategoriesActivity.class), 1);
  	      default:
  	        return super.onOptionsItemSelected(item);
  	    }
