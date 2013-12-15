@@ -1,6 +1,7 @@
 package com.technion.coolie.ug;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.technion.coolie.ug.coursesAndExams.CoursesAndExamsFragment;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayFragment;
 import com.technion.coolie.ug.gui.searchCourses.SearchFragment;
+import com.tecnion.coolie.ug.utils.FragmentsFactory;
 
 public class TransparentActivity extends CoolieActivity {
 	public String key;
@@ -31,8 +33,8 @@ public class TransparentActivity extends CoolieActivity {
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 
-		GradesSheetFragment gradesSheetLayout; // Fragment 1
-		CoursesAndExamsFragment coursesAndExamsLayout; // Fragment 2
+		Fragment gradesSheetLayout; // Fragment 1
+		Fragment coursesAndExamsLayout; // Fragment 2
 		CourseDisplayFragment courseDisplayFragment;
 		SearchFragment searchFragment;
 		AcademicCalendarFragment academicCalendarFragment;
@@ -40,12 +42,12 @@ public class TransparentActivity extends CoolieActivity {
 		// Layout4 layout4; // Fragment 4
 
 		if (link.equals("gradesSheetLayout")) {
-			gradesSheetLayout = new GradesSheetFragment();
+			gradesSheetLayout = FragmentsFactory.getGradesSheetLargeFragment();
 			fragmentTransaction
 					.replace(R.id.non_transparent, gradesSheetLayout);
 			fragmentTransaction.commit();
 		} else if (link.equals("coursesAndExamsLayout")) {
-			coursesAndExamsLayout = new CoursesAndExamsFragment();
+			coursesAndExamsLayout = FragmentsFactory.getCoursesAndExamsLargeFragment();
 			fragmentTransaction.replace(R.id.non_transparent,
 					coursesAndExamsLayout);
 			fragmentTransaction.commit();
