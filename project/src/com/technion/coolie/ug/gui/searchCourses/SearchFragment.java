@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -404,10 +405,20 @@ public class SearchFragment extends Fragment {
 	class onClickResult implements OnClickListener {
 
 		@Override
-		public void onClick(View v) {
+		public void onClick(final View v) {
+
+			v.setBackgroundColor(Color.LTGRAY);
+
 			CourseHolder holder = (CourseHolder) v.getTag();
 			NavigationUtils.goToCourseDisplay(new CourseKey(holder.number
 					.getText().toString(), filters.getSemester()), context);
+
+			v.postDelayed(new Runnable() {
+				public void run() {
+					v.setBackgroundColor(getResources().getColor(
+							R.color.ug_search_list_view_color));
+				}
+			}, 400);
 
 		}
 	}

@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#200f"
+    android:layout_height="fill_parent"
+    android:background="#B2DFEE"
     android:windowSoftInputMode="adjustPan"
      >
 
 <LinearLayout 
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:id = "@+id/search_screen_main"
     android:orientation="vertical"
     android:layout_marginRight="10dp"
@@ -82,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
         android:layout_marginTop="10dp"
-        android:background="#539DC2" 
+        android:background="@color/ug_search_list_view_color" 
         android:drawSelectorOnTop ="true"
         android:imeOptions="flagNoFullscreen"
         android:windowSoftInputMode="adjustPan"/>
@@ -95,6 +95,7 @@
     android:layout_height="wrap_content"
     android:text="@string/search_end_results"
     android:layout_gravity="center_horizontal|top"
+    android:layout_marginBottom="5dp"
    />
     
 </LinearLayout>

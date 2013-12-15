@@ -6,6 +6,6 @@
         android:layout_height="wrap_content"
         
         android:textColor="#F000"
-        android:textSize="15sp" >
+        android:textSize="20sp" >
     </TextView>
 

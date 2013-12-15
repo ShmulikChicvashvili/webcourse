@@ -2,7 +2,7 @@ package com.technion.coolie.ug.db;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -47,10 +47,13 @@ public enum UGDatabase {
 
 		groups = new ArrayList<RegistrationGroup>(Arrays.asList(
 				new RegistrationGroup(1, Arrays.asList(new Meeting("2",
-						"Mr. Yossi happy", DayOfWeek.SUNDAY, new Date(), null,
-						"Ulman 329")), null, 1),
+						"Mr. Yossi happy", DayOfWeek.SUNDAY, Calendar
+								.getInstance().getTime(), Calendar
+								.getInstance().getTime(), "Ulman 329")), null,
+						1),
 				new RegistrationGroup(2, Arrays.asList(new Meeting("2",
-						"Prof. Monik", DayOfWeek.SUNDAY, new Date(), null,
+						"Prof. Monik", DayOfWeek.SUNDAY, Calendar.getInstance()
+								.getTime(), Calendar.getInstance().getTime(),
 						"Taub 10")), null, 20)));
 
 		allCourses = new ArrayList<Course>(

@@ -6,8 +6,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <!-- searchFragment -->
     <string name="serach_course_hint">חפש קורס</string>
     <string name="search_end_results">סוף תוצאות</string>
+    <color name="ug_search_list_view_color">#539DC2</color>
 
     <!-- GradesSheet activity -->
     <string name="title_activity_grades_sheet">GradesSheetActivity</string>

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.Meeting;
 import com.technion.coolie.ug.model.RegistrationGroup;
 
 //TODO ADD FACULTY SOMEWHERE
@@ -37,6 +39,7 @@ public class CourseDisplayFragment extends Fragment {
 	Course courseToView;
 	Context context;
 	CourseGroupsAdapter groupAdapter;
+	LinearLayout groupsView;
 
 	public final static String ARGUMENTS_COURSE_KEY = "course";
 
@@ -51,6 +54,8 @@ public class CourseDisplayFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 
 		context = getActivity();
+		groupsView = (LinearLayout) getActivity().findViewById(
+				R.id.course_screen_groups_list);
 		recieveCourse(getArguments());
 		initLayout();
 		updateCourseDisplay();
@@ -60,6 +65,7 @@ public class CourseDisplayFragment extends Fragment {
 	private void initLayout() {
 		RadioGroup b = (RadioGroup) getActivity().findViewById(
 				R.id.course_screen_semester_radio_group);
+		b.setVisibility(View.GONE);
 		// TODO set the names of the semesters in order.
 		b.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -106,14 +112,79 @@ public class CourseDisplayFragment extends Fragment {
 				R.id.course_screen_exam_b);
 		examBTextView.setText(df.format(courseToView.getMoedB().getTime()));
 
+		makeGroupsHeader();
+
 		if (courseToView.getRegistrationGroups() != null)
-			groupAdapter = new CourseGroupsAdapter(context,
-					courseToView.getRegistrationGroups(), new onClickGroup());
+			for (RegistrationGroup group : courseToView.getRegistrationGroups()) {
+				addRegistrationGroup(group);
+			}
+
+		fixEndOfGroups();
+
+		// groupAdapter = new CourseGroupsAdapter(context,
+		// courseToView.getRegistrationGroups(), new onClickGroup());
 
 	}
 
-	private void updateRegistrationGroup(RegistrationGroup group) {
-		// TODO Auto-generated method stub
+	private void makeGroupsHeader() {
+
+		MeetingDisplay explanationHeader = new MeetingDisplay("ID", "Type",
+				"Lecturer", "location", "start Time", "end Time",
+				"Avl. places", "day");
+		View v = addMeeting(explanationHeader);
+		v.setBackgroundResource(R.drawable.ug_course_label_text_container);
+
+	}
+
+	private void fixEndOfGroups() {
+		addMeeting(new MeetingDisplay());// empty to fix the table
+	}
+
+	private void addRegistrationGroup(RegistrationGroup group) {
+
+		MeetingDisplay header = new MeetingDisplay();
+		header.freeSpace = "" + group.getFreePlaces();
+		header.number = "" + group.getGroupId();
+		addMeeting(header);
+
+		// do all meetings
+		if (group.getLectures() != null)
+			for (Meeting meeting : group.getLectures()) {
+				addMeeting(new MeetingDisplay(meeting, "lecture"));
+			}
+		if (group.getTutorials() != null)
+			for (Meeting meeting : group.getTutorials()) {
+				addMeeting(new MeetingDisplay(meeting, "tutorial"));
+			}
+
+	}
+
+	private View addMeeting(MeetingDisplay meeting) {
+
+		LayoutInflater inflater = (LayoutInflater) getActivity()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.ug_course_screen_group_item_row,
+				groupsView, false);
+		((TextView) view.findViewById(R.id.ug_course_display_group_number))
+				.setText(meeting.number);
+		((TextView) view
+				.findViewById(R.id.ug_course_display_group_meeting_type))
+				.setText(meeting.meetingType);
+		((TextView) view.findViewById(R.id.ug_course_display_group_location))
+				.setText(meeting.location);
+		((TextView) view.findViewById(R.id.ug_course_display_group_lecturer))
+				.setText(meeting.lecturer);
+		((TextView) view.findViewById(R.id.ug_course_display_group_hour_start))
+				.setText(meeting.hourStart);
+		((TextView) view.findViewById(R.id.ug_course_display_group_hour_end))
+				.setText(meeting.hourEnd);
+		((TextView) view.findViewById(R.id.ug_course_display_group_free_spaces))
+				.setText(meeting.freeSpace);
+		((TextView) view.findViewById(R.id.ug_course_display_group_day))
+				.setText(meeting.day);
+		groupsView.addView(view);
+		inflater.inflate(R.layout.ug_course_display_line, groupsView);
+		return view;
 
 	}
 
@@ -138,9 +209,51 @@ public class CourseDisplayFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
-			// mark group as selected TODO
 
 		}
 
 	}
+
+	class MeetingDisplay {
+
+		String number = "";
+		String meetingType = "";
+		String lecturer = "";
+		String location = "";
+		String hourStart = "";
+		String hourEnd = "";
+		String freeSpace = "";
+		String day = "";
+
+		public MeetingDisplay() {
+
+		}
+
+		public MeetingDisplay(Meeting meeting, String _meetingType) {
+			final SimpleDateFormat df = new SimpleDateFormat("HH:m");
+			meetingType = _meetingType;
+			lecturer = meeting.getLecturerName();
+			location = meeting.getPlace();
+			if (meeting.getStartingHour() != null)
+				hourStart = df.format(meeting.getStartingHour());
+			if (meeting.getEndingHour() != null)
+				hourEnd = df.format(meeting.getEndingHour());
+			day = meeting.getDay().toSingleLetter();
+		}
+
+		public MeetingDisplay(String number, String meetingType,
+				String lecturer, String location, String hourStart,
+				String hourEnd, String freeSpace, String day) {
+			super();
+			this.number = number;
+			this.meetingType = meetingType;
+			this.lecturer = lecturer;
+			this.location = location;
+			this.hourStart = hourStart;
+			this.hourEnd = hourEnd;
+			this.freeSpace = freeSpace;
+			this.day = day;
+		}
+	}
+
 }
