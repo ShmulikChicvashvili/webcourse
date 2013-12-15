@@ -14,6 +14,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -469,21 +470,36 @@ public class CreateEventActivity extends CoolieActivity {
 
 	}
 
+	
+//	@Override
+//	public boolean onOptionsItemSelected(
+//			com.actionbarsherlock.view.MenuItem item)
+//	{
+//		switch (item.getItemId())
+//		{
+//		case android.R.id.home:
+//			NavUtils.navigateUpFromSameTask(this);
+//			return true;
+//		}
+//		return super.onOptionsItemSelected(item);
+//	}
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.search_item:
-			break;
+			return true;
 		case R.id.accept_item:
 			final ClientEvent e = (ClientEvent) getIntent().getExtras().get(
 					"event");
 			if (e != null)
 				showDetails(e);
 //			pressOk(e);
-			break;
+			return true;
+		case android.R.id.home:
+			this.finish();
+            return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-		return true;
 	}
 }
