@@ -3,7 +3,9 @@ package com.technion.coolie.joinin.subactivities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -66,14 +68,15 @@ import com.technion.coolie.joinin.map.MainMapActivity;
 public class CategoriesActivity extends CoolieActivity {
 	  final Activity mContext = this;
 	  public static ClientAccount mLoggedAccount = null;
-	private ListView mainListView ;  
-	 private ArrayAdapter<String> listAdapter ; 
+	  private ListView mainListView ;  
+	  private ArrayAdapter<String> listAdapter ; 
+	  private HashMap<String,ArrayList<ClientEvent>> mMap = new HashMap<String, ArrayList<ClientEvent>>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ji_activity_categories);
-		
+		mLoggedAccount = (ClientAccount) getIntent().getExtras().get("account");
 	    // Find the ListView resource.   
 	    setListAdapter();
 
@@ -106,12 +109,22 @@ public class CategoriesActivity extends CoolieActivity {
         CategoryItem categoryItem[] = new CategoryItem[]
         {
          
-            new CategoryItem(R.drawable.ji_movie_icon, "Movies"),
-            new CategoryItem(R.drawable.ji_study_icon, "Study"),
-            new CategoryItem(R.drawable.ji_sports_icon, "Sport"),
-            new CategoryItem(R.drawable.ji_food_icon, "Food"),
-            new CategoryItem(R.drawable.ji_drive, "Drive"),
+            new CategoryItem(R.drawable.ji_movie_icon, "MOVIE"),
+            new CategoryItem(R.drawable.ji_study_icon, "STUDY"),
+            new CategoryItem(R.drawable.ji_sports_icon, "SPORT"),
+            new CategoryItem(R.drawable.ji_food_icon, "FOOD"),
+            new CategoryItem(R.drawable.ji_night_life_icon, "NIGHT_LIFE"),
         };
+        
+        mMap.put("MOVIE", new ArrayList<ClientEvent>());
+        mMap.put("STUDY", new ArrayList<ClientEvent>());
+        mMap.put("SPORT", new ArrayList<ClientEvent>());
+        mMap.put("FOOD", new ArrayList<ClientEvent>());
+        mMap.put("NIGHT_LIFE", new ArrayList<ClientEvent>());
+        
+        ArrayList<ClientEvent> list = getClientEvent();
+        
+        sortClientEvent(list,categoryItem);
         
         CategoryListAdapter adapter = new CategoryListAdapter(this, 
                 R.layout.ji_categories_list_item, categoryItem);
@@ -123,11 +136,26 @@ public class CategoriesActivity extends CoolieActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                 int position, long id) {
-            	startActivity(new Intent(CategoriesActivity.this, CategoryEventActivity.class)); 
+            	CategoryListAdapter adp =(CategoryListAdapter) parent.getAdapter();
+            	CategoryItem item = adp.getItem(position);	
+            	String category = item.title;
+            	startActivity(new Intent(CategoriesActivity.this, CategoryEventActivity.class).putExtra(category, mMap.get(category))); 
             }
 
           });
 		
 
+	}
+	
+	public ArrayList<ClientEvent> getClientEvent(){
+		return null;
+		
+	}
+	
+	public void sortClientEvent(ArrayList<ClientEvent> list,CategoryItem categoryItem[]){
+		for (ClientEvent c : list){
+			mMap.get(c.getEventType().toString()).add(c);
+		}
+		
 	}
 }

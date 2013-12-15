@@ -3,11 +3,13 @@ package com.technion.coolie.joinin.subactivities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -47,6 +49,7 @@ import com.technion.coolie.R;
 import com.technion.coolie.R.id;
 import com.technion.coolie.R.layout;
 import com.technion.coolie.R.menu;
+import com.technion.coolie.joinin.LoginDialog;
 import com.technion.coolie.joinin.calander.CalendarEventDatabase.NotFoundException;
 import com.technion.coolie.joinin.calander.CalendarHandler;
 import com.technion.coolie.joinin.communication.ClientProxy;
@@ -69,13 +72,16 @@ import android.app.Activity;
 public class CategoryEventActivity extends CoolieActivity {
 	  final Activity mContext = this;
 	  public static ClientAccount mLoggedAccount = null;
+	  String mCategory ;
+	  ArrayList<ClientEvent> mList = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_category_event);
+		mList = (ArrayList<ClientEvent>) getIntent().getExtras().get("category");
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
