@@ -1,4 +1,4 @@
-package com.technion.coolieserver.ug;
+package com.technion.coolieserver.ug.framework;
 
 public enum DayOfWeek {
   SUNDAY("SUNDAY"), MONDAY("MONDAY");
