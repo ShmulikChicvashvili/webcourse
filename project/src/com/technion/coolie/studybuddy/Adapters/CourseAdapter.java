@@ -10,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.Models.Course;
 import com.technion.coolie.studybuddy.PresenterModels.MainPresenterModel;
 import com.technion.coolie.studybuddy.Views.CourseActivity;
 import com.technion.coolie.studybuddy.data.DataStore;
@@ -26,7 +25,6 @@ public class CourseAdapter extends BaseAdapter {
 		super();
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		// TODO Auto-generated constructor stub
 		pModel = DataStore.getMainPresenterModel();
 	}
 
