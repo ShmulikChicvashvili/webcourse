@@ -100,6 +100,10 @@ public abstract class ClientProxy {
     eq.getEventsByRadius(radius, latitude, longitude, onDone, onError);
   }
   
+  public static void getAllEvents(final OnDone<List<ClientEvent>> onDone, final OnError onError) {
+	    eq.getAllEvents(onDone, onError);
+	  }
+  
   /**
    * Adds and event to the GAE database.
    * 

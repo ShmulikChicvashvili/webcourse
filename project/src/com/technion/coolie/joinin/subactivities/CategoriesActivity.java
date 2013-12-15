@@ -3,7 +3,9 @@ package com.technion.coolie.joinin.subactivities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -62,18 +64,20 @@ import com.technion.coolie.joinin.gui.CategoryListAdapter;
 import com.technion.coolie.joinin.gui.ExpandableListAdapter;
 import com.technion.coolie.joinin.map.EventType;
 import com.technion.coolie.joinin.map.MainMapActivity;
+import android.app.ProgressDialog;
 
 public class CategoriesActivity extends CoolieActivity {
 	  final Activity mContext = this;
 	  public static ClientAccount mLoggedAccount = null;
-	private ListView mainListView ;  
-	 private ArrayAdapter<String> listAdapter ; 
+	  private ListView mainListView ;  
+	  private ArrayAdapter<String> listAdapter ; 
+	  private HashMap<String,ArrayList<ClientEvent>> mMap = new HashMap<String, ArrayList<ClientEvent>>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ji_activity_categories);
-		
+		mLoggedAccount = (ClientAccount) getIntent().getExtras().get("account");
 	    // Find the ListView resource.   
 	    setListAdapter();
 
@@ -106,12 +110,22 @@ public class CategoriesActivity extends CoolieActivity {
         CategoryItem categoryItem[] = new CategoryItem[]
         {
          
-            new CategoryItem(R.drawable.ji_movie_icon, "Movies"),
-            new CategoryItem(R.drawable.ji_study_icon, "Study"),
-            new CategoryItem(R.drawable.ji_sports_icon, "Sport"),
-            new CategoryItem(R.drawable.ji_food_icon, "Food"),
-            new CategoryItem(R.drawable.ji_drive, "Drive"),
+            new CategoryItem(R.drawable.ji_movie_icon, EventType.MOVIE.toString()),
+            new CategoryItem(R.drawable.ji_study_icon, EventType.STUDY.toString()),
+            new CategoryItem(R.drawable.ji_sports_icon, EventType.SPORT.toString()),
+            new CategoryItem(R.drawable.ji_food_icon,  EventType.FOOD.toString()),
+            new CategoryItem(R.drawable.ji_night_life_icon, EventType.NIGHT_LIFE.toString()),
         };
+        
+        mMap.put(EventType.FOOD.toString(), new ArrayList<ClientEvent>());
+        mMap.put(EventType.MOVIE.toString(), new ArrayList<ClientEvent>());
+        mMap.put(EventType.NIGHT_LIFE.toString(), new ArrayList<ClientEvent>());
+        mMap.put(EventType.OTHER.toString(), new ArrayList<ClientEvent>());
+        mMap.put(EventType.SPORT.toString(), new ArrayList<ClientEvent>());
+        mMap.put(EventType.STUDY.toString(), new ArrayList<ClientEvent>());
+                
+        
+        getAllEvents();
         
         CategoryListAdapter adapter = new CategoryListAdapter(this, 
                 R.layout.ji_categories_list_item, categoryItem);
@@ -123,11 +137,32 @@ public class CategoriesActivity extends CoolieActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                 int position, long id) {
-            	startActivity(new Intent(CategoriesActivity.this, CategoryEventActivity.class)); 
+            	CategoryListAdapter adp =(CategoryListAdapter) parent.getAdapter();
+            	CategoryItem item = adp.getItem(position);	
+            	String category = item.title;
+            	startActivity(new Intent(CategoriesActivity.this, CategoryEventActivity.class).putExtra(category, mMap.get(category))); 
             }
 
           });
 		
 
 	}
+	
+	private void getAllEvents(){	     
+		final ProgressDialog pd = ProgressDialog.show(this, "", "Loading...");
+		pd.setCancelable(false);
+		//Fetch My events from server    	 
+		ClientProxy.getAllEvents(new OnDone<List<ClientEvent>>() {
+			@Override public void onDone(final List<ClientEvent> ces) {	
+				for (ClientEvent clientEvent : ces) {
+					mMap.get(clientEvent.getEventType().toString()).add(clientEvent);
+				}				
+				pd.dismiss();
+			}
+		}, new OnError(this) {
+			@Override public void beforeHandlingError() {
+				pd.dismiss();
+			}
+		});
+	}	
 }
