@@ -74,12 +74,15 @@ public class CategoryEventActivity extends CoolieActivity {
 	  public static ClientAccount mLoggedAccount = null;
 	  String mCategory ;
 	  ArrayList<ClientEvent> mList = null;
+	  private ArrayList<String> mListDataHeader = null;	
+	  private HashMap<String, List<ClientEvent>> mListDataChild = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_category_event);
+		setContentView(R.layout.ji__expandable_view);
 		mList = (ArrayList<ClientEvent>) getIntent().getExtras().get("category");
+		fetchEvents();
 	}
 	
 	@Override
@@ -104,5 +107,60 @@ public class CategoryEventActivity extends CoolieActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+    private void fetchEvents(){   
+   	 // get the list view
+   	 ExpandableListView expListView = (ExpandableListView) findViewById(R.id.expendable_list);
+   	 // go here if events empty
+   	 if(mListDataHeader == null){
+   		 mListDataHeader = new ArrayList<String>();
+   		 mListDataChild = new HashMap<String, List<ClientEvent>>();
+   		 prepareListData();
+   	 }    	     	     	 
+   	 // setting list adapter
+   	 expListView.setAdapter(new ExpandableListAdapter(this, this , mListDataHeader, mListDataChild));
+   	 // set listeners
+   	 expListView.setOnChildClickListener(new OnChildClickListener() {	 
+   		 @Override
+   		 public boolean onChildClick(ExpandableListView parent, View v,
+   				 int groupPosition, int childPosition, long id) {
+   			 ExpandableListAdapter adp = (ExpandableListAdapter) parent.getExpandableListAdapter();
+   			 ClientEvent eventDetails = (ClientEvent)adp.getChild(groupPosition, childPosition) ;          	 
+   			 
+   			 final Intent startEventActivity = new Intent(mContext, EventActivity.class);
+                startEventActivity.putExtra("event", eventDetails);
+                startEventActivity.putExtra("account", mLoggedAccount);
+                startActivityForResult(startEventActivity, 1);
+                
+   			 return true;
+   		 }
+   	 });
+    }
+    private void prepareListData() {
+   	 ArrayList<ClientEvent> attendingArr = new ArrayList<ClientEvent>();
+   	 ArrayList<ClientEvent> myEventsArr = new ArrayList<ClientEvent>();
+   	 getEventsAttending(attendingArr);
+   	 getMyEvents(myEventsArr);
+   	 //Create Headers
+   	 mListDataHeader.add("I'm Attending");
+   	 mListDataHeader.add("My Events");   
+   	 // Add attending events
+   	 mListDataChild.put(mListDataHeader.get(0), attendingArr);
+   	 // Add My events
+   	 mListDataChild.put(mListDataHeader.get(1), myEventsArr);
+    }
+    
+    private void getEventsAttending(final ArrayList<ClientEvent> attendingArr){
+    	for (ClientEvent c :mList){
+    		attendingArr.add(c);  
+    	}
+    }
+    
+    private void getMyEvents(final ArrayList<ClientEvent> myEventsArr){
+    	for (ClientEvent c :mList){
+    		myEventsArr.add(c);
+    	}
+    }
+
 	
 }
