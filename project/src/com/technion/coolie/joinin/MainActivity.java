@@ -60,6 +60,8 @@ public class MainActivity extends CoolieActivity {
 	  public static final int RESULT_DELETE = RESULT_FAVORITE + 1;
 	  public static final int RESULT_REMOVE_EVENT = RESULT_FAVORITE + 1;
 	  public static final int RESULT_ADD_EVENT = RESULT_REMOVE_EVENT + 1;
+	  public static final int RESULT_EDIT_EVENT = RESULT_REMOVE_EVENT + 1;
+	  public static final int RESULT_JOIN_EVENT = RESULT_REMOVE_EVENT + 1;
 	  private final int EVENT_ACTIVITY = 1;
 	  private final int CREATE_EVENT_ACTIVITY = EVENT_ACTIVITY + 1;
 	  private final int CATEGORIES_ACTIVITY = CREATE_EVENT_ACTIVITY + 1;

@@ -21,6 +21,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
+import com.technion.coolie.joinin.MainActivity;
 import com.technion.coolie.joinin.calander.CalendarHandler;
 import com.technion.coolie.joinin.communication.ClientProxy;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
@@ -150,14 +151,17 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
 		   intent.putExtra("account", getAccount());
 		   intent.putExtra("event", new ClientEvent(getEvent()));
 		   startActivityForResult(intent, EDITED);
-		   
+		   setResult(MainActivity.RESULT_ADD_EVENT , new Intent().putExtra("event", getEvent()));
+ 
 	   } else if (item == mItemDiscard){
 		   
 		    //showProgressBar(eventO2);
 		    ClientProxy.deleteEvent(getEvent().getId(), new OnDone<Void>() {
 		      @Override public void onDone(final Void t) {
 		        //hideProgressBar(eventO2);
-		        new CalendarHandler(thisOne).deleteEvent(thisOne, getEvent());
+		    	  setResult(MainActivity.RESULT_ADD_EVENT , new Intent().putExtra("event", getEvent()));
+
+		    	  new CalendarHandler(thisOne).deleteEvent(thisOne, getEvent());
 		        //((Activity)thisOne).setResult(MainMapActivity.RESULT_DELETE, new Intent().putExtra("event", getEvent()));
 		        ((Activity)thisOne).finish();
 		      }
