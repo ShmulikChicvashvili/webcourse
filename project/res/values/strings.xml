@@ -27,8 +27,9 @@
         <item>גליון ציונים</item>
         <item>קורסים ובחינות</item>
         <item>לוח שנה אקדמי</item>
-        <item>תשולומים</item>
-        <item>קורסים למעקב</item>
+       <!-- <item>תשולומים</item> -->
+       <!-- <item>קורסים למעקב</item> -->
+        <item>חיפוש קורסים</item>
     </string-array>
 
     <!-- CoursesAndExams Fragment -->
