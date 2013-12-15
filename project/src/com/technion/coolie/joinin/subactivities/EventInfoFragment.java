@@ -38,7 +38,7 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
   ImageView eventCat;
   //ImageButton eventO1;
   ImageButton joinImgBtn;
-  ImageButton directionsButton;
+  //ImageButton directionsButton;
   ProgressBar pb;
   List<String> joinedAccounts;
   OnTabRefresh mCallback;
@@ -81,7 +81,6 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
     eventAddress = (TextView) $.findViewById(R.id.eventAddress);
     eventDate = (TextView) $.findViewById(R.id.eventDate);
     eventDesc = (TextView) $.findViewById(R.id.eventDesc);
-    //eventO1 = (ImageButton) $.findViewById(R.id.eventO1);
     joinImgBtn = (ImageButton) $.findViewById(R.id.joinImgBtn);
     //directionsButton = (ImageButton) $.findViewById(R.id.directionsButton);
     eventCat = (ImageView) $.findViewById(R.id.eventCat);
@@ -257,12 +256,12 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
   private void disableButtons() {
     //eventO1.setEnabled(false);
     joinImgBtn.setEnabled(false);
-    directionsButton.setEnabled(false);
+    //directionsButton.setEnabled(false);
   }
   
   private void enableButtons() {
     //eventO1.setEnabled(true);
     joinImgBtn.setEnabled(true);
-    directionsButton.setEnabled(true);
+   // directionsButton.setEnabled(true);
   }
 }
