@@ -18,13 +18,14 @@ import org.jsoup.select.Elements;
 
 import android.content.Context;
 
+import com.technion.coolie.ug.calendar.CalendarSectionItem;
 import com.technion.coolie.ug.coursesAndExams.CourseItem;
 import com.technion.coolie.ug.coursesAndExams.ExamItem;
 import com.technion.coolie.ug.gradessheet.GradesFooterItem;
 import com.technion.coolie.ug.gradessheet.GradesSectionItem;
 import com.technion.coolie.ug.gradessheet.Item;
+import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
-import com.technion.coolie.ug.gradessheet.Item;
 
 public class HtmlParser {
 	private static StringBuilder response;
@@ -104,16 +105,47 @@ public class HtmlParser {
 
 	public static ArrayList<Item> parseCalendar() {
 		Document doc = parseFromFille("calendar.html", MainActivity.context);
-		
-		Elements tr = doc.select("tr:has(td.td9:contains(true))");
-		System.out.println(tr.size());
-//		Elements td = tr.first().select("td");
-//		int i = 0;
-//		for (Element elem:td){
-//			System.out.println("==========  " + (i++) + "  ==========");
-//			System.out.println(elem.text());
-//		}
-		return null;
+		// Elements tr = doc.select("tr:has(td.td9:contains(true))");
+		// System.out.println(tr.size());
+		// Elements td = tr.first().select("td");
+		// int i = 0;
+		// for (Element elem:td){
+		// System.out.println("==========  " + (i++) + "  ==========");
+		// System.out.println(elem.text());
+		// }
+		ArrayList<Item> list = new ArrayList<Item>();
+		String month = "";
+		Elements trElems = doc.select("tr:has(td.td0)");
+		for (int i = 1; i < trElems.size(); i++) {
+			Elements tdElems = trElems.get(i).select("td");
+			// populate months sections
+			if (!tdElems.first().text().equals(month)) {
+				list.add(new CalendarSectionItem(tdElems.first().text()));
+				// System.out.println(tdElems.first().text());
+			}
+			setCalendarEvent(tdElems, list);
+			month = tdElems.first().text();
+		}
+		return list;
+	}
+	
+	private static void setCalendarEvent(Elements tdElems, ArrayList<Item> list) {
+		String day = tdElems.get(1).text();
+		Calendar date = stringToCalendar(tdElems.get(2).text(), "dd/MM/yyyy");
+		String event = tdElems.get(6).text();
+		list.add(new AcademicCalendarEvent(date, event, day));
+
+	}
+
+	private static Calendar stringToCalendar(String string, String format) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		Calendar calendarDate = Calendar.getInstance();
+		try {
+			calendarDate.setTime(sdf.parse(string));
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		return calendarDate;
 	}
 	
 	// grades sheet parsing
