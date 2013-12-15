@@ -32,9 +32,9 @@
                 android:id="@+id/ug_search_faculty_spinner"
                  android:layout_width="0dp"
 			android:layout_height="match_parent" 
-			android:layout_weight="15"
+			android:layout_weight="17"
 			android:gravity="center_horizontal"
-			android:background="#9122" 
+			android:background="@drawable/ug_course_spinner_container" 
 			android:layout_marginRight="5dip"
 			/>
 
@@ -45,7 +45,7 @@
                  android:layout_width="0dp"
 			android:layout_height="match_parent" 
 			android:layout_weight="12"
-			android:background="#9122"
+			android:background="@drawable/ug_course_spinner_container"
 			android:gravity="center_horizontal"
 			android:layout_marginRight="5dip"
 			

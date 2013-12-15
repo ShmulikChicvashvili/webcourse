@@ -56,7 +56,7 @@ public class SearchFragment extends Fragment {
 	SearchFilters filters;
 	public final static String ARGUMENT_FILTERS_KEY = "com.technion.coolie.ug.search.argument.filter";
 	public final static String ARGUMENT_QUERY_KEY = "com.technion.coolie.ug.search.argument.query";
-	final static String LAST_SEARCH_FILE = "com.technion.coolie.ug.files.lastSearch";
+	final static String LAST_SEARCH = "com.technion.coolie.ug.files.lastSearchQuery";
 	final static String LAST_FILTER = "com.technion.coolie.ug.files.lastFilter";
 
 	@Override
@@ -83,9 +83,25 @@ public class SearchFragment extends Fragment {
 		if (bundle != null) {
 			String queryToExecute = (String) bundle
 					.getSerializable(ARGUMENT_QUERY_KEY);
-			if (queryToExecute != null)
+			if (queryToExecute != null) {
 				onSearchPressed(queryToExecute);
+				((AutoCompleteTextView) context
+						.findViewById(R.id.autocompletetextview))
+						.setText(queryToExecute);
+				return;
+			}
 
+		}
+
+		// use last search if no bundle
+		String lastSearch = "";
+		try {
+			lastSearch = (String) SerializeIO.load(context, LAST_SEARCH);
+			searchQueryAndUpdate(lastSearch);
+		} catch (IOException e) {
+			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
+		} catch (ClassNotFoundException e) {
+			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
 		}
 
 	}
@@ -111,7 +127,6 @@ public class SearchFragment extends Fragment {
 	 */
 	private void initFilters() {
 
-		// TODO get the saved filter file to initialize
 		Bundle bundle = getArguments();
 		if (bundle != null) {
 			SearchFilters sentFilters = (SearchFilters) bundle
@@ -121,6 +136,15 @@ public class SearchFragment extends Fragment {
 				return;
 			}
 		}
+		// if no filters in bundle
+		try {
+			filters = (SearchFilters) SerializeIO.load(context, LAST_FILTER);
+			return;
+		} catch (IOException e) {
+			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
+		} catch (ClassNotFoundException e) {
+			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
+		}
 		filters = new SearchFilters(UGDatabase.INSTANCE.getCurrentSemester(),
 				false, Faculty.ALL_FACULTIES);
 
@@ -128,8 +152,13 @@ public class SearchFragment extends Fragment {
 
 	private void initFiles() {
 		try {
-			SerializeIO.createFile(context, LAST_SEARCH_FILE,
-					(Serializable) new ArrayList<Course>());
+			SerializeIO.createFile(context, LAST_SEARCH,
+					(Serializable) new String());
+			SerializeIO
+					.createFile(context, LAST_FILTER,
+							(Serializable) new SearchFilters(
+									UGDatabase.INSTANCE.getCurrentSemester(),
+									false, Faculty.ALL_FACULTIES));
 		} catch (Exception e) {
 			Log.e(MainActivity.DEBUG_TAG, "massive error!", e);
 		}
@@ -170,20 +199,12 @@ public class SearchFragment extends Fragment {
 
 	private void setInitialAdapters() {
 		autoCompleteAdapter = new ArrayAdapter<String>(context,
-				R.layout.ug_search_auto_complete_item_row, filteredAutoCompleteList);
+				R.layout.ug_search_auto_complete_item_row,
+				filteredAutoCompleteList);
 		List<Course> lastSearch = Collections.emptyList();
 
-		try {
-			lastSearch = (List<Course>) SerializeIO.load(context,
-					LAST_SEARCH_FILE);
-		} catch (IOException e) {
-			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
-		} catch (ClassNotFoundException e) {
-			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
-		}
-
-		searchAdapter = new SearchResultsAdapter(context, lastSearch,
-				new onClickResult());
+		searchAdapter = new SearchResultsAdapter(context,
+				new ArrayList<Course>(), new onClickResult());
 
 	}
 
@@ -230,7 +251,8 @@ public class SearchFragment extends Fragment {
 		searchAdapter = new SearchResultsAdapter(context,
 				filteredAndQueriedList, new onClickResult());
 		autoCompleteAdapter = new ArrayAdapter<String>(context,
-				R.layout.ug_search_auto_complete_item_row, filteredAutoCompleteList);
+				R.layout.ug_search_auto_complete_item_row,
+				filteredAutoCompleteList);
 
 		updateCoursesResultsDisplay();
 		updateAutoCompleteDisplay();
@@ -288,6 +310,11 @@ public class SearchFragment extends Fragment {
 							KeyEvent event) {
 						if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 							autocompletetextview.dismissDropDown();
+							InputMethodManager imm = (InputMethodManager) getActivity()
+									.getSystemService(
+											getActivity().INPUT_METHOD_SERVICE);
+							imm.hideSoftInputFromWindow(getActivity()
+									.getCurrentFocus().getWindowToken(), 0);
 							onSearchPressed(v.getText().toString());
 							return true;
 						}
@@ -426,9 +453,11 @@ public class SearchFragment extends Fragment {
 	@Override
 	public void onStop() {
 		try {
-			SerializeIO.save(context, LAST_SEARCH_FILE,
-					(Serializable) searchAdapter.results);
-			// save filters TODO
+			SerializeIO.save(context, LAST_SEARCH,
+					(Serializable) ((AutoCompleteTextView) context
+							.findViewById(R.id.autocompletetextview)).getText()
+							.toString());
+			SerializeIO.save(context, LAST_FILTER, (Serializable) filters);
 		} catch (IOException e) {
 			Log.e(MainActivity.DEBUG_TAG, "save error ", e);
 		}
