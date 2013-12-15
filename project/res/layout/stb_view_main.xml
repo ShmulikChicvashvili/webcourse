@@ -20,5 +20,11 @@
         android:layout_height="match_parent"
         android:numColumns="@integer/stb_num_of_columns" >
       </com.technion.coolie.studybuddy.views.NowLayout>
+	  
+   <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/Chart_layout"
+        android:orientation="vertical" />
 
 </LinearLayout>

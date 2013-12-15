@@ -6,10 +6,12 @@ import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.actionbarsherlock.view.Menu;
 import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.adapters.CourseAdapter;
+import com.technion.coolie.studybuddy.graphs.GraphFactory;
 import com.technion.coolie.studybuddy.views.EditCourse;
 import com.technion.coolie.studybuddy.views.NowLayout;
 import com.technion.coolie.studybuddy.views.StudyBuddyActivity;
@@ -46,6 +48,10 @@ public class MainActivity extends StudyBuddyActivity
 
 		CourseAdapter adapter = new CourseAdapter(this);
 		layout.setAdapter(adapter);
+		
+		// ANNA GRAPH HERE - JUST REMOVE COMMENTS TO SEE
+		LinearLayout _layout = (LinearLayout) findViewById(R.id.Chart_layout);
+		 _layout.addView(GraphFactory.getSampleCourseProgress(getBaseContext()));
 	}
 
 	@Override
