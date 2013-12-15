@@ -36,15 +36,16 @@ public class MainPresenterModel {
 		return coursesById.size();
 	}
 
-	public Course getCourseByPosition(int position) {
-		Course c = sortedCourses.get(position);
-		if (c == null) {
-			Log.e("MPM", "course is null");
-		} else {
-			Log.i("MPM", "course = " + c);
-		}
+	public String getCourseIdByPosition(int position) {
+		return String.valueOf(sortedCourses.get(position).getId());
+	}
 
-		return c;
+	public String getCourseNameByPosition(int position) {
+		return sortedCourses.get(position).getName();
+	}
+
+	public Course getCourseByPosition(int position) {
+		return sortedCourses.get(position);
 	}
 
 }

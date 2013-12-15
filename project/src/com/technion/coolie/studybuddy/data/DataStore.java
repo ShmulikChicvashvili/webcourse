@@ -3,6 +3,10 @@ package com.technion.coolie.studybuddy.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
+
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+
 import com.technion.coolie.studybuddy.Models.Course;
 import com.technion.coolie.studybuddy.Models.Semester;
 import com.technion.coolie.studybuddy.Models.StudyResource;
@@ -13,16 +17,22 @@ public class DataStore {
 			"Crazy mode" };
 	private static List<Course> courses = new ArrayList<Course>();
 	private static Semester semester = new Semester();
-	private static MainPresenterModel mainPresenterModel;
+	private static SBDatabaseHelper dbHelper;
+
+	private static MainPresenterModel mainPresenter;
 
 	public static final int taskForCourse = 14;
+
+	static {
+		// OpenHelperManager.setOpenHelperClass(SBDatabaseHelper.class);
+		addFakeCourses();
+	}
 
 	/**
 	 * 
 	 */
 	public DataStore() {
 		super();
-		addFakeCourses();
 	}
 
 	public static void addFakeCourses() {
@@ -40,50 +50,27 @@ public class DataStore {
 	}
 
 	public static MainPresenterModel getMainPresenterModel() {
-		if (null == mainPresenterModel) {
-			mainPresenterModel = new MainPresenterModel(semester, courses);
+		if (null == mainPresenter) {
+			mainPresenter = new MainPresenterModel(semester, courses);
 		}
 
-		return mainPresenterModel;
+		return mainPresenter;
 	}
 
-	// public public static Course getCourse(int position) {
-	// return courses.get(position);
-	// }
-	//
-	// public static String getMenu(int position) {
-	// return menus[position];
-	// }
-	//
-	// public static int getCoursesCount() {
-	// return courses.size();
-	// }
-	//
-	// public static int getMenuSize() {
-	// return menus.length;
-	// }
-	//
-	// public static int getTaskSize() {
-	// return tasks.size();
-	// }
-	//
-	// public static Task getTask(int position) {
-	// return tasks.get(position);
-	// }
-	//
-	// public static void removeTask(int poistion) {
-	// tasks.remove(poistion);
-	// }
-	//
-	// public static void removeTask(String item) {
-	// tasks.remove(item);
-	// }
-	//
-	// public static void addTask(Task task) {
-	// tasks.add(task);
-	// }
-	//
-	// public static String getCourseNumber(int position) {
-	// return courseNumbers[position];
-	// }
+	public static String getMenu(int position) {
+		return menus[position];
+	}
+
+	public static int getMenuSize() {
+		return menus.length;
+	}
+
+	public static void initHelper(Context context) {
+		dbHelper = OpenHelperManager.getHelper(context, SBDatabaseHelper.class);
+	}
+
+	public static void destroyHelper() {
+		OpenHelperManager.releaseHelper();
+		dbHelper = null;
+	}
 }

@@ -11,11 +11,10 @@ import android.widget.TextView;
 
 import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.Views.CourseActivity;
-import com.technion.coolie.studybuddy.Views.TasksActicity;
+import com.technion.coolie.studybuddy.Views.TasksActivity;
 import com.technion.coolie.studybuddy.data.DataStore;
 
-public class NavigationAdapter extends BaseExpandableListAdapter
-{
+public class NavigationAdapter extends BaseExpandableListAdapter {
 	public static final String course = "course";
 	private LayoutInflater mInflater;
 	/**
@@ -24,26 +23,24 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 
 	private Context context;
 
-	public NavigationAdapter(Context context)
-	{
+	public NavigationAdapter(Context context) {
 		super();
 		this.context = context;
-		this.mInflater = (LayoutInflater) context
+		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		//
 	}
 
 	@Override
-	public Object getChild(int groupPosition, int childPosition)
-	{
-		switch (groupPosition)
-		{
+	public Object getChild(int groupPosition, int childPosition) {
+		switch (groupPosition) {
 		case 0:
 		case 2:
 		case 3:
 			return null;
 		case 1:
-			return DataStore.getCourse(childPosition);
+			return DataStore.getMainPresenterModel().getCourseByPosition(
+					childPosition);
 
 		default:
 			break;
@@ -52,28 +49,23 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 	}
 
 	@Override
-	public long getChildId(int groupPosition, int childPosition)
-	{
+	public long getChildId(int groupPosition, int childPosition) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public View getChildView(int groupPosition, final int childPosition,
-			boolean isLastChild, View convertView, ViewGroup parent)
-	{
+			boolean isLastChild, View convertView, ViewGroup parent) {
 		TextView childText = null;
-		if (convertView == null)
-		{
+		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.stb_view_list_item, null);
 			childText = (TextView) convertView
 					.findViewById(R.id.drawer_list_item_text);
-			childText.setOnClickListener(new OnClickListener()
-			{
+			childText.setOnClickListener(new OnClickListener() {
 
 				@Override
-				public void onClick(View v)
-				{
+				public void onClick(View v) {
 					// fragment.selectItem(childPosition);
 					Intent intent = new Intent(context, CourseActivity.class);
 					intent.putExtra(course, childPosition);
@@ -90,16 +82,14 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 	}
 
 	@Override
-	public int getChildrenCount(int groupPosition)
-	{
-		switch (groupPosition)
-		{
+	public int getChildrenCount(int groupPosition) {
+		switch (groupPosition) {
 		case 0:
 		case 2:
 		case 3:
 			return 0;
 		case 1:
-			return DataStore.getCourcesSize();
+			return DataStore.getMainPresenterModel().getCoursesCount();
 
 		default:
 			break;
@@ -108,45 +98,39 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 	}
 
 	@Override
-	public Object getGroup(int groupPosition)
-	{
+	public Object getGroup(int groupPosition) {
 		return DataStore.getMenu(groupPosition);
 	}
 
 	@Override
-	public int getGroupCount()
-	{
+	public int getGroupCount() {
 		return DataStore.getMenuSize();
 	}
 
 	@Override
-	public long getGroupId(int groupPosition)
-	{
+	public long getGroupId(int groupPosition) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public View getGroupView(final int groupPosition, boolean isExpanded,
-			View convertView, ViewGroup parent)
-	{
+			View convertView, ViewGroup parent) {
 		TextView groupText = null;
-		if (convertView == null)
-		{
+		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.stb_view_list_item, null);
 			groupText = (TextView) convertView
 					.findViewById(R.id.drawer_list_item_text);
 			convertView.setTag(new ViewHolder(groupText));
-			if (groupPosition == 0)
-				groupText.setOnClickListener(new OnClickListener()
-				{
+			if (groupPosition == 0) {
+				groupText.setOnClickListener(new OnClickListener() {
 					@Override
-					public void onClick(View v)
-					{
-						Intent intent = new Intent(context, TasksActicity.class);
+					public void onClick(View v) {
+						Intent intent = new Intent(context, TasksActivity.class);
 						context.startActivity(intent);
 					}
 				});
+			}
 		}
 		groupText = ((ViewHolder) convertView.getTag()).getTextView();
 		groupText.setText((String) getGroup(groupPosition));
@@ -155,28 +139,24 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 	}
 
 	@Override
-	public boolean hasStableIds()
-	{
+	public boolean hasStableIds() {
 
 		return false;
 	}
 
 	@Override
-	public boolean isChildSelectable(int groupPosition, int childPosition)
-	{
+	public boolean isChildSelectable(int groupPosition, int childPosition) {
 
 		return false;
 	}
 
-	private class ViewHolder
-	{
+	private class ViewHolder {
 		private TextView textView;
 
 		/**
 		 * @param textView
 		 */
-		public ViewHolder(TextView textView)
-		{
+		public ViewHolder(TextView textView) {
 			super();
 			this.textView = textView;
 		}
@@ -184,8 +164,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 		/**
 		 * @return the textView
 		 */
-		public synchronized TextView getTextView()
-		{
+		public synchronized TextView getTextView() {
 			return textView;
 		}
 	}
