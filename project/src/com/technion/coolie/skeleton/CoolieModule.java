@@ -47,6 +47,7 @@ public enum CoolieModule {
 	private Package pack;
 	private int settingScreenXmlRes;
 	private Date lastUsed;
+	private boolean isFavorite;
 	
 	CoolieModule(int nameResource,int descriptionResource,int photoRes,Class<?> activity,Package pack,int settingScreenXmlRes)
 	{
@@ -60,6 +61,7 @@ public enum CoolieModule {
 		
 		feedList = new ArrayList<CoolieModule.Feed>();
 		resetFeedCounter();
+		isFavorite = false;
 	}
 	
 	public void serilize(CoolieModule source){
@@ -131,6 +133,18 @@ public enum CoolieModule {
 	{
 		this.usageCounter++;
 
+	}
+	public boolean isFavorite()
+	{
+		return isFavorite;
+	}
+	public void setFavorite()
+	{
+		this.isFavorite = true;
+	}
+	public void setNotFavorite()
+	{
+		this.isFavorite = false;
 	}
 }
 

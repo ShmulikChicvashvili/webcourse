@@ -15,7 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public abstract class ModulesAdapter extends BaseAdapter {
+public abstract class MainScreenModulesAdapter extends BaseAdapter {
 
 	CoolieModule[] modules;
 	Context mContext;
@@ -30,7 +30,7 @@ public abstract class ModulesAdapter extends BaseAdapter {
 	
 	abstract int compareModules(CoolieModule m1, CoolieModule m2);
 	
-	public ModulesAdapter(Context c)
+	public MainScreenModulesAdapter(Context c)
 	{
 		mContext = c;
 		modules = CoolieModule.values();
