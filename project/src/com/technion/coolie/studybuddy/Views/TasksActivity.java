@@ -7,7 +7,7 @@ import android.widget.GridView;
 import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.Adapters.TaskAdapter;
 
-public class TasksActicity extends StudyBuddyActivity
+public class TasksActivity extends StudyBuddyActivity
 {
 	private TaskAdapter adapter;
 

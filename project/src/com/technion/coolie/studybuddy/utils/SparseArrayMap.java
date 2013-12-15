@@ -13,7 +13,7 @@ public class SparseArrayMap<E> implements Map<Integer, E> {
 
 	private final SparseArray<E> inner;
 
-	private SparseArrayMap() {
+	public SparseArrayMap() {
 		inner = new SparseArray<E>();
 	}
 

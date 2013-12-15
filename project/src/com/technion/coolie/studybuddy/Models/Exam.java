@@ -1,17 +1,34 @@
 package com.technion.coolie.studybuddy.Models;
 
 import java.util.Date;
+import java.util.UUID;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "exams")
 public class Exam implements Comparable<Exam> {
 
-	private final Date date;
-	private final ExamType type;
-	private final Course subject;
+	@DatabaseField(generatedId = true)
+	private UUID id;
+
+	@DatabaseField
+	private Date date;
+
+	@DatabaseField
+	private ExamType type;
+
+	@DatabaseField(foreign = true, foreignAutoRefresh = true)
+	private Course course;
+
+	public Exam() {
+
+	}
 
 	public Exam(Date date, ExamType type, Course subject) {
 		this.date = date;
 		this.type = type;
-		this.subject = subject;
+		course = subject;
 	}
 
 	public Date getDate() {
@@ -23,7 +40,7 @@ public class Exam implements Comparable<Exam> {
 	}
 
 	public Course getSubject() {
-		return subject;
+		return course;
 	}
 
 	@Override
@@ -31,7 +48,7 @@ public class Exam implements Comparable<Exam> {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((subject == null) ? 0 : subject.hashCode());
+		result = prime * result + ((course == null) ? 0 : course.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -50,10 +67,10 @@ public class Exam implements Comparable<Exam> {
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
-		if (subject == null) {
-			if (other.subject != null)
+		if (course == null) {
+			if (other.course != null)
 				return false;
-		} else if (!subject.equals(other.subject))
+		} else if (!course.equals(other.course))
 			return false;
 		if (type != other.type)
 			return false;
@@ -62,6 +79,6 @@ public class Exam implements Comparable<Exam> {
 
 	@Override
 	public int compareTo(Exam another) {
-		return this.date.compareTo(another.date);
+		return date.compareTo(another.date);
 	}
 }

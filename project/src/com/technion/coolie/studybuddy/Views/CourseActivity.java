@@ -14,10 +14,9 @@ import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.Views.ResourceFragment.OnFragmentInteractionListener;
 
 public class CourseActivity extends StudyBuddyActivity implements
-		ActionBar.OnNavigationListener,OnFragmentInteractionListener
-{
+		ActionBar.OnNavigationListener, OnFragmentInteractionListener {
 
-	public static final String courseNameArgs = "courseArgs";
+	public static final String COURSE_ID = "course_id";
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -35,14 +34,11 @@ public class CourseActivity extends StudyBuddyActivity implements
 	// private String mTitle;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		try
-		{
+		try {
 			setContentView(R.layout.stb_activity_course);
-		} catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -60,12 +56,11 @@ public class CourseActivity extends StudyBuddyActivity implements
 						android.R.layout.simple_list_item_1,
 						android.R.id.text1, new String[] { "OverView",
 								"Lectures", "tutorials" }), this);
-	
+
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
-	{
+	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		// getMenuInflater().inflate(R.menu.stb_menu, menu);
 
@@ -80,10 +75,8 @@ public class CourseActivity extends StudyBuddyActivity implements
 	 */
 	@Override
 	public boolean onOptionsItemSelected(
-			com.actionbarsherlock.view.MenuItem item)
-	{
-		switch (item.getItemId())
-		{
+			com.actionbarsherlock.view.MenuItem item) {
+		switch (item.getItemId()) {
 		case android.R.id.home:
 
 			NavUtils.navigateUpFromSameTask(this);
@@ -93,12 +86,9 @@ public class CourseActivity extends StudyBuddyActivity implements
 	}
 
 	@Override
-	public boolean onNavigationItemSelected(int itemPosition, long itemId)
-	{
-		FragmentTransaction ft = getSupportFragmentManager()
-				.beginTransaction();
-		switch (itemPosition)
-		{
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		switch (itemPosition) {
 		case 0:
 			Fragment fragment = CourseOverViewFragment.newInstance("overview");
 			ft.replace(R.id.stb_container, fragment).commit();
@@ -107,8 +97,7 @@ public class CourseActivity extends StudyBuddyActivity implements
 		case 2:
 			ResourceFragment fragment1 = ResourceFragment
 					.newInstance(itemPosition == 1 ? "Lecture" : "tutorial");
-			
-			
+
 			ft.replace(R.id.stb_container, fragment1).commit();
 			break;
 
@@ -119,8 +108,7 @@ public class CourseActivity extends StudyBuddyActivity implements
 	}
 
 	@Override
-	public void onFragmentInteraction(Uri uri)
-	{		
+	public void onFragmentInteraction(Uri uri) {
 	}
 
 	/**

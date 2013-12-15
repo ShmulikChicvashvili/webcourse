@@ -1,6 +1,6 @@
 package com.technion.coolie.studybuddy.Model.UnitTests;
 
-import static com.technion.coolie.studybuddy.Models.Technion.WEEKS_IN_SEMESTER;
+import static com.technion.coolie.studybuddy.Models.GeneralInfo.WEEKS_IN_SEMESTER;
 import static java.util.Arrays.asList;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;

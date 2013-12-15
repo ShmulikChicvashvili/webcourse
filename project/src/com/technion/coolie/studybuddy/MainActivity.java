@@ -11,10 +11,9 @@ import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.Adapters.CourseAdapter;
 import com.technion.coolie.studybuddy.Views.NowLayout;
 import com.technion.coolie.studybuddy.Views.StudyBuddyActivity;
-import com.technion.coolie.studybuddy.Views.TasksActicity;
+import com.technion.coolie.studybuddy.Views.TasksActivity;
 
-public class MainActivity extends StudyBuddyActivity
-{
+public class MainActivity extends StudyBuddyActivity {
 
 	/*
 	 * (non-Javadoc)
@@ -22,20 +21,19 @@ public class MainActivity extends StudyBuddyActivity
 	 * @see com.technion.coolie.CoolieActivity#onCreate(android.os.Bundle)
 	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
-	{
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stb_view_main);
 
+		// DataStore.addFakeCourses();
+
 		ImageView imageView = (ImageView) findViewById(R.id.graph_view);
-		imageView.setOnClickListener(new OnClickListener()
-		{
+		imageView.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onClick(View v)
-			{
+			public void onClick(View v) {
 				v.getContext().startActivity(
-						new Intent(v.getContext(), TasksActicity.class));
+						new Intent(v.getContext(), TasksActivity.class));
 			}
 		});
 		NowLayout layout = (NowLayout) findViewById(R.id.course_list);
