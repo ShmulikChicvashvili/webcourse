@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="skel_group_notif_title">התראות חדשות מ-Coolie</string>
+    <string name="skel_favorite_modules_title">Favorite Apps</string>
+    <string name="skel_nonfavorite_modules_title">Other Apps</string>
 </resources>
