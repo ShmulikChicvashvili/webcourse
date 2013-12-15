@@ -1,13 +1,11 @@
 package com.technion.coolie.studybuddy.Views;
 
 import android.os.Bundle;
-import android.widget.GridLayout;
+import android.support.v4.app.NavUtils;
 import android.widget.GridView;
-import android.widget.ListView;
 
 import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.Adapters.TaskAdapter;
-import com.technion.coolie.studybuddy.data.DataStore;
 
 public class TasksActicity extends StudyBuddyActivity
 {
@@ -17,7 +15,7 @@ public class TasksActicity extends StudyBuddyActivity
 	 * Used to store the last screen title. For use in
 	 * {@link #restoreActionBar()}.
 	 */
-//	private CharSequence mTitle;
+	// private CharSequence mTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -25,12 +23,35 @@ public class TasksActicity extends StudyBuddyActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stb_activity_tasks);
 		// Show the Up button in the action bar.
-		
+		NowLayout layout = (NowLayout) findViewById(R.id.stb_task_list);
 		// Set up the drawer.
 		adapter = new TaskAdapter(this);
-		((GridView)findViewById(R.id.stb_task_list)).setAdapter(adapter);
-	}
+		((GridView) findViewById(R.id.stb_task_list)).setAdapter(adapter);
+		SwipeDismissListViewTouchListener listener = new SwipeDismissListViewTouchListener(
+				layout,
+				new SwipeDismissListViewTouchListener.DismissCallbacks()
+				{
 
+					@Override
+					public void onDismiss(NowLayout listView,
+							int[] reverseSortedPositions)
+					{
+						for (int i : reverseSortedPositions)
+						{
+							adapter.remove(i);
+						}
+						adapter.notifyDataSetChanged();
+					}
+
+					@Override
+					public boolean canDismiss(int position)
+					{
+						return true;
+					}
+				});
+
+		layout.setOnTouchListener(listener);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -56,9 +77,14 @@ public class TasksActicity extends StudyBuddyActivity
 	public boolean onOptionsItemSelected(
 			com.actionbarsherlock.view.MenuItem item)
 	{
-		// TODO Auto-generated method stub
+		switch (item.getItemId())
+		{
+		case android.R.id.home:
+
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
 }
-	

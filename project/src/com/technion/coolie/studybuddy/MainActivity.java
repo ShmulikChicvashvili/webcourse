@@ -1,8 +1,8 @@
 package com.technion.coolie.studybuddy;
 
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -26,7 +26,7 @@ public class MainActivity extends StudyBuddyActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stb_view_main);
-		
+
 		ImageView imageView = (ImageView) findViewById(R.id.graph_view);
 		imageView.setOnClickListener(new OnClickListener()
 		{
@@ -39,9 +39,23 @@ public class MainActivity extends StudyBuddyActivity
 			}
 		});
 		NowLayout layout = (NowLayout) findViewById(R.id.course_list);
-	
+
 		CourseAdapter adapter = new CourseAdapter(this);
 		layout.setAdapter(adapter);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(
+			com.actionbarsherlock.view.MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case android.R.id.home:
+
+			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 }

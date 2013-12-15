@@ -65,6 +65,8 @@
             android:name=".studybuddy.MainActivity"
             android:label="@string/app_name" android:parentActivityName="com.technion.coolie.skeleton.MainActivity">
         </activity>
+        <activity android:name=".studybuddy.Views.CourseActivity" android:parentActivityName=".studybuddy.MainActivity"></activity>
+        <activity android:name=".studybuddy.Views.TasksActicity" android:parentActivityName=".studybuddy.MainActivity"></activity>
         
         <!-- Tech Library -->
         <activity
@@ -107,9 +109,7 @@
             android:name="com.technion.coolie.ug.MainActivity"
             android:label="@string/app_name" >
         </activity>
-        <activity android:name=".studybuddy.Views.CourseActivity" android:parentActivityName=".studybuddy.MainActivity"></activity>
-        <activity android:name=".studybuddy.Views.TasksActicity" android:parentActivityName=".studybuddy.MainActivity"></activity>
-        
+       
     </application>
 
 </manifest>
