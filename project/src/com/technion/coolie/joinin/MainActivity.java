@@ -34,6 +34,7 @@ import com.technion.coolie.joinin.directions.MapDirections;
 import com.technion.coolie.joinin.facebook.FacebookLogin;
 import com.technion.coolie.joinin.facebook.FacebookLogin.OnLoginDone;
 import com.technion.coolie.joinin.gui.ExpandableListAdapter;
+import com.technion.coolie.joinin.subactivities.CategoriesActivity;
 import com.technion.coolie.joinin.subactivities.CreateEventActivity;
 
 
@@ -154,23 +155,19 @@ public class MainActivity extends CoolieActivity {
      }
      
      @Override public boolean onOptionsItemSelected(final MenuItem item) {
- 	    switch (item.getItemId()) {
- 	      case R.id.add_item:
-// 	    	  startActivityForResult(new Intent(this, LoginActivity.class), RESULT_LOGIN_ACCOUNT);
-// 	    	  startActivityForResult(new Intent(this, TmpCreateEventActivity.class), 1);
-// 	          final LatLng gp = map.getCameraPosition().target;
-// 	          startActivityForResult(new Intent(mContext, CreateEventActivity.class).putExtra("Latitude", (int) (gp.latitude * TO_E6))
-// 	              .putExtra("Longtitude", (int) (gp.longitude * TO_E6)).putExtra("account", mLoggedAccount), 0);
- 	    	  
- 	          startActivityForResult(new Intent(mContext, CreateEventActivity.class).putExtra("account", mLoggedAccount), 1);
- 	          return true;
- 		case android.R.id.home:
- 			this.finish();
-            return true;
- 	      default:
- 	        return super.onOptionsItemSelected(item);
- 	    }
- 	  }
+    	 switch (item.getItemId()) {
+    	 case R.id.add_item:
+    		 startActivityForResult(new Intent(mContext, CreateEventActivity.class).putExtra("account", mLoggedAccount), 1);
+    		 return true;
+    	 case R.id.categories:
+    		 startActivityForResult(new Intent(this, CategoriesActivity.class), 1);
+    	 case android.R.id.home:
+    		 this.finish();
+    		 return true;
+    	 default:
+    		 return super.onOptionsItemSelected(item);
+    	 }
+     }
      
      private void prepareListData() {
     	 ArrayList<ClientEvent> attendingArr = new ArrayList<ClientEvent>();
