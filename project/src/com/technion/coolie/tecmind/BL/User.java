@@ -14,9 +14,10 @@ public class User {
 	List<Like> likes; //all likes the user did from last mining till now
 	List<Comment> comments; //all the comments the user posts from last mining till now
 	
-	public int postsNum;
-	public int likesNum;
-	public int likesOnPostsNum;
+	public int commentsNum = 0;
+	public int postsNum = 0;
+	public int likesNum = 0;
+	public int likesOnPostsNum = 0;
 	
 	private static User mUser = null;
 		

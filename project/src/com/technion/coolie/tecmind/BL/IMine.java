@@ -4,8 +4,11 @@ import com.facebook.model.GraphObject;
 
 public interface IMine {
 	
-	/*
-	 * Returns 
-	 * */
-	 public String mineUserPosts(GraphObject gO);
+
+	 /**
+	 * @param gO - The response from Facebook that contains the all the posts of a certain user.
+	 */
+	public void mineUserPosts(GraphObject gO);
+	 
+
 }

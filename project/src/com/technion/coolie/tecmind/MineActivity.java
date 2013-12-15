@@ -98,10 +98,10 @@ public class MineActivity extends CoolieActivity {
   		        	
 	  		        GraphObject gO = response.getGraphObject();
 	  		        
-	  		       String id = Mine.getMineInstance(userId).mineUserPosts(gO);
+	  		       Mine.getMineInstance(userId).mineUserPosts(gO);
 	  		        
-	  		      Toast.makeText(getApplicationContext(), id,
-	  	        		Toast.LENGTH_LONG).show();
+//	  		      Toast.makeText(getApplicationContext(), id,
+//	  	        		Toast.LENGTH_LONG).show();
 	  		        
   		        }
   		    }
