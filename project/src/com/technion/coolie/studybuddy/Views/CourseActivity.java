@@ -1,5 +1,6 @@
 package com.technion.coolie.studybuddy.Views;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +15,8 @@ import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.Views.ResourceFragment.OnFragmentInteractionListener;
 
 public class CourseActivity extends StudyBuddyActivity implements
-		ActionBar.OnNavigationListener, OnFragmentInteractionListener {
+		ActionBar.OnNavigationListener, OnFragmentInteractionListener
+{
 
 	public static final String COURSE_ID = "course_id";
 	/**
@@ -34,11 +36,14 @@ public class CourseActivity extends StudyBuddyActivity implements
 	// private String mTitle;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
-		try {
+		try
+		{
 			setContentView(R.layout.stb_activity_course);
-		} catch (Exception e) {
+		} catch (Exception e)
+		{
 			e.printStackTrace();
 		}
 
@@ -60,10 +65,9 @@ public class CourseActivity extends StudyBuddyActivity implements
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		// getMenuInflater().inflate(R.menu.stb_menu, menu);
-
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		getSherlock().getMenuInflater().inflate(R.menu.stb_course, menu);
 		return true;
 	}
 
@@ -75,20 +79,28 @@ public class CourseActivity extends StudyBuddyActivity implements
 	 */
 	@Override
 	public boolean onOptionsItemSelected(
-			com.actionbarsherlock.view.MenuItem item) {
-		switch (item.getItemId()) {
+			com.actionbarsherlock.view.MenuItem item)
+	{
+		switch (item.getItemId())
+		{
 		case android.R.id.home:
 
 			NavUtils.navigateUpFromSameTask(this);
+			return true;
+		case R.id.stb_edit_curse:
+			Intent intent = new Intent(this, EditCourse.class);
+			startActivity(intent);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
-	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+	public boolean onNavigationItemSelected(int itemPosition, long itemId)
+	{
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		switch (itemPosition) {
+		switch (itemPosition)
+		{
 		case 0:
 			Fragment fragment = CourseOverViewFragment.newInstance("overview");
 			ft.replace(R.id.stb_container, fragment).commit();
@@ -108,7 +120,8 @@ public class CourseActivity extends StudyBuddyActivity implements
 	}
 
 	@Override
-	public void onFragmentInteraction(Uri uri) {
+	public void onFragmentInteraction(Uri uri)
+	{
 	}
 
 	/**
