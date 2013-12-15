@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.teletech.ContactInformation;
+import com.technion.coolie.teletech.api.Communicator;
 
 public class TeletechAPI implements ITeletechAPI {
 

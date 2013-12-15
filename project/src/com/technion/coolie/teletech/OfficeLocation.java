@@ -1,12 +1,5 @@
-/**
- * 
- */
 package com.technion.coolie.teletech;
 
-/**
- * @author Argaman
- * 
- */
 public class OfficeLocation {
 	private String faculty;
 	private String officeRoom;
@@ -19,32 +12,18 @@ public class OfficeLocation {
 		this.officeRoom = officeRoom;
 	}
 
-	/**
-	 * @return the faculty
-	 */
 	public String faculty() {
 		return faculty;
 	}
 
-	/**
-	 * @param faculty
-	 *            the faculty to set
-	 */
 	public void setFaculty(String faculty) {
 		this.faculty = faculty;
 	}
 
-	/**
-	 * @return the officeRoom
-	 */
 	public String officeRoom() {
 		return officeRoom;
 	}
 
-	/**
-	 * @param officeRoom
-	 *            the officeRoom to set
-	 */
 	public void setOfficeRoom(String officeRoom) {
 		this.officeRoom = officeRoom;
 	}

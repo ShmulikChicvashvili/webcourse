@@ -44,8 +44,7 @@ public class DBTools extends SQLiteOpenHelper {
 	}
 
 	@Override
-	public void onUpgrade(SQLiteDatabase database, int oldVersion,
-			int newVersion) {
+	public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
 
 		String deleteContacts = "DROP TABLE IF EXISTS contacts";
 		String deleteFavourites = "DROP TABLE IF EXISTS favourites";
@@ -77,8 +76,7 @@ public class DBTools extends SQLiteOpenHelper {
 			insertContact(contact);
 		}
 	}
-	
-	
+
 	public void insertFavourite(ContactInformation contact) {
 
 		SQLiteDatabase database = this.getWritableDatabase();
@@ -125,8 +123,7 @@ public class DBTools extends SQLiteOpenHelper {
 
 		setContactData(contact, values);
 
-		return database.update("contacts", values, "contactId" + " = ?",
-				new String[] { contact.ID().toString() });
+		return database.update("contacts", values, "contactId" + " = ?", new String[] { contact.ID().toString() });
 
 	}
 
@@ -134,8 +131,7 @@ public class DBTools extends SQLiteOpenHelper {
 
 		SQLiteDatabase database = this.getWritableDatabase();
 
-		String deleteQuery = "DELETE FROM contacts WHERE contactId='" + id
-				+ "'";
+		String deleteQuery = "DELETE FROM contacts WHERE contactId='" + id + "'";
 
 		database.execSQL(deleteQuery);
 
@@ -145,8 +141,7 @@ public class DBTools extends SQLiteOpenHelper {
 
 		List<ContactInformation> result = new LinkedList<ContactInformation>();
 
-		String selectAllQuery = "SELECT * FROM contacts ORDER BY " + primaySort
-				+ ", " + secondarySort;
+		String selectAllQuery = "SELECT * FROM contacts ORDER BY " + primaySort + ", " + secondarySort;
 
 		SQLiteDatabase database = this.getWritableDatabase();
 
@@ -160,8 +155,7 @@ public class DBTools extends SQLiteOpenHelper {
 
 		List<ContactInformation> result = new LinkedList<ContactInformation>();
 
-		String selectAllQuery = "SELECT * FROM favourites ORDER BY "
-				+ primaySort + ", " + secondarySort;
+		String selectAllQuery = "SELECT * FROM favourites ORDER BY " + primaySort + ", " + secondarySort;
 
 		SQLiteDatabase database = this.getWritableDatabase();
 
@@ -171,22 +165,17 @@ public class DBTools extends SQLiteOpenHelper {
 
 	}
 
-	private void getContacts(List<ContactInformation> result,
-			String selectAllQuery, SQLiteDatabase database) {
+	private void getContacts(List<ContactInformation> result, String selectAllQuery, SQLiteDatabase database) {
 		Cursor cursor = database.rawQuery(selectAllQuery, null);
 
 		if (cursor.moveToFirst()) {
 
 			do {
 
-				ContactInformation contact = new ContactInformation(
-						cursor.getString(1), cursor.getString(2),
-						Position.valueOf(cursor.getString(3)),
-						cursor.getString(4), new OfficeLocation(
-								cursor.getString(5), cursor.getString(6)),
-						cursor.getString(7), cursor.getString(10),
-						setOfficeHours(cursor.getString(11)),
-						cursor.getString(12), cursor.getString(13));
+				ContactInformation contact = new ContactInformation(cursor.getString(1), cursor.getString(2),
+						Position.valueOf(cursor.getString(3)), cursor.getString(4), new OfficeLocation(
+								cursor.getString(5), cursor.getString(6)), cursor.getString(7), cursor.getString(10),
+						setOfficeHours(cursor.getString(11)), cursor.getString(12), cursor.getString(13));
 				contact.setID(cursor.getLong(0));
 
 				contact.setMobileNumber(cursor.getString(8));
@@ -209,8 +198,7 @@ public class DBTools extends SQLiteOpenHelper {
 
 		SQLiteDatabase database = this.getReadableDatabase();
 
-		String selectQuery = "SELECT * FROM contacts WHERE contactId='" + id
-				+ "'";
+		String selectQuery = "SELECT * FROM contacts WHERE contactId='" + id + "'";
 
 		Cursor cursor = database.rawQuery(selectQuery, null);
 
@@ -218,15 +206,11 @@ public class DBTools extends SQLiteOpenHelper {
 
 			do {
 
-				result = new ContactInformation(cursor.getString(1),
-						cursor.getString(2), Position.valueOf(cursor
-								.getString(3)), cursor.getString(4),
-						new OfficeLocation(cursor.getString(5), cursor
-								.getString(6)), cursor.getString(7),
-						cursor.getString(10),
-						setOfficeHours(cursor.getString(11)),
-						cursor.getString(12), cursor.getString(13));
-				
+				result = new ContactInformation(cursor.getString(1), cursor.getString(2), Position.valueOf(cursor
+						.getString(3)), cursor.getString(4), new OfficeLocation(cursor.getString(5),
+						cursor.getString(6)), cursor.getString(7), cursor.getString(10),
+						setOfficeHours(cursor.getString(11)), cursor.getString(12), cursor.getString(13));
+
 				result.setID(Long.valueOf(cursor.getString(0)));
 
 				result.setMobileNumber(cursor.getString(8));
@@ -249,7 +233,7 @@ public class DBTools extends SQLiteOpenHelper {
 
 		database.execSQL(deleteContacts);
 		database.execSQL(deleteFavourites);
-		
+
 	}
 
 }

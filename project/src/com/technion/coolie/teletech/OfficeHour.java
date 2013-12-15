@@ -1,14 +1,7 @@
-/**
- * 
- */
 package com.technion.coolie.teletech;
 
 import java.util.Date;
 
-/**
- * @author Argaman
- * 
- */
 public class OfficeHour {
 	private final String day;
 	private final Date from;

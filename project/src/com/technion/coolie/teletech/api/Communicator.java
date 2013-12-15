@@ -1,4 +1,4 @@
-package com.technion.coolie.teletech.serverApi;
+package com.technion.coolie.teletech.api;
 
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;

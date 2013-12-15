@@ -1,21 +1,13 @@
-/**
- * 
- */
 package com.technion.coolie.teletech;
 
 import java.util.List;
 
-import com.technion.coolie.teletech.serverApi.ITeletechAPI;
-import com.technion.coolie.teletech.serverApi.TeletechAPI;
+import com.technion.coolie.teletech.api.ITeletech;
 
-/**
- * @author Argaman
- * 
- */
 public class TeletechManager {
 
 	public static List<ContactInformation> getContacts() {
-		final ITeletechAPI teletechAPI = new TeletechAPI();
+		final ITeletech teletechAPI = new Teletech();
 
 		return teletechAPI.getAllContacts();
 	}

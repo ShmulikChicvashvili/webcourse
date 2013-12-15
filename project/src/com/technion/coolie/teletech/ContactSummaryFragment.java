@@ -1,12 +1,6 @@
-/**
- * 
- */
 package com.technion.coolie.teletech;
 
-import java.util.List;
-
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,13 +8,7 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.technion.coolie.teletech.serverApi.ITeletechAPI;
-import com.technion.coolie.teletech.serverApi.TeletechAPI;
 
-/**
- * @author Argaman
- * 
- */
 public class ContactSummaryFragment extends SherlockListFragment {
 
 	// List<ContactInformation> contacts;
@@ -28,45 +16,24 @@ public class ContactSummaryFragment extends SherlockListFragment {
 	OnContactSelectedListener mCallback;
 	// TODO : remove this!!
 	public static ContactsAdapter adapter;
-	
+
 	DBTools db;;
 
 	public interface OnContactSelectedListener {
 		public void onContactSelected(int position);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.support.v4.app.Fragment#onCreate(android.os.Bundle)
-	 */
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		db = new DBTools(getActivity());
 		final int layout = com.technion.coolie.R.layout.teletech_contact_list;
-		
 
-		// new ClientAsyncContacts() {
-		// @Override
-		// protected void onPostExecute(final String result) {
-
-		adapter = new ContactsAdapter(getSherlockActivity(), layout,
-				MainActivity.contacts);
+		adapter = new ContactsAdapter(getSherlockActivity(), layout, MainActivity.contacts);
 		setListAdapter(adapter);
-		// }
-
-		// }.execute();
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.actionbarsherlock.app.SherlockListFragment#onAttach(android.app.Activity
-	 * )
-	 */
 	@Override
 	public void onAttach(final Activity activity) {
 		super.onAttach(activity);
@@ -77,30 +44,15 @@ public class ContactSummaryFragment extends SherlockListFragment {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see android.support.v4.app.Fragment#onStart()
-	 */
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (getFragmentManager().findFragmentById(
-				com.technion.coolie.R.id.summary_fragment) != null)
+		if (getFragmentManager().findFragmentById(com.technion.coolie.R.id.summary_fragment) != null)
 			getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * android.support.v4.app.ListFragment#onListItemClick(android.widget.ListView
-	 * , android.view.View, int, long)
-	 */
 	@Override
-	public void onListItemClick(final ListView l, final View v,
-			final int position, final long id) {
-		// TODO Auto-generated method stub
+	public void onListItemClick(final ListView l, final View v, final int position, final long id) {
 		super.onListItemClick(l, v, position, id);
 		mCallback.onContactSelected(position);
 		Log.d("item clicked", "the item that was clicked is: " + position);
@@ -108,23 +60,11 @@ public class ContactSummaryFragment extends SherlockListFragment {
 		ContactsAdapter.indexSelected = position;
 	}
 
-	
-//	public static void refreshList(List<ContactInformation> newList){
-//		MainActivity.contacts = new FavoriteTest().favoriteList;
-//		ContactSummaryFragment.adapter.notifyDataSetChanged();
-//	}
-	
-	
-	private class ClientAsyncContacts extends AsyncTask<Void, Void, String> {
+	// public static void refreshList(List<ContactInformation> newList){
+	// MainActivity.contacts = new FavoriteTest().favoriteList;
+	// ContactSummaryFragment.adapter.notifyDataSetChanged();
+	// }
 
-		@Override
-		protected String doInBackground(final Void... params) {
-			final ITeletechAPI teletechAPI = new TeletechAPI();
 
-			MainActivity.contacts = teletechAPI.getAllContacts();
-			return null;
-		}
-
-	}
 
 }
