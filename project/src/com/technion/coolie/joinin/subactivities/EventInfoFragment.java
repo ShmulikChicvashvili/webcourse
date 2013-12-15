@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.technion.coolie.R;
+import com.technion.coolie.joinin.MainActivity;
 import com.technion.coolie.joinin.calander.CalendarHandler;
 import com.technion.coolie.joinin.communication.ClientProxy;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
@@ -168,6 +169,7 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
     showProgressBar(joinImgBtn);
     ClientProxy.unattend(getAccount().getUsername(), getEvent().getId(), new OnDone<ClientEvent>() {
       @Override public void onDone(final ClientEvent e) {
+    	getActivity().setResult(MainActivity.RESULT_REMOVE_EVENT, new Intent().putExtra("event", e));
         hideProgressBar(joinImgBtn);
         Toast.makeText(thisOne, "You left this event", Toast.LENGTH_SHORT).show();
         setEvent(e);
@@ -186,7 +188,8 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
     showProgressBar(joinImgBtn);
     ClientProxy.attend(getAccount().toFacebookUser(), getEvent().getId(), new OnDone<ClientEvent>() {
       @Override public void onDone(final ClientEvent e) {
-        hideProgressBar(joinImgBtn);
+    	  getActivity().setResult(MainActivity.RESULT_ADD_EVENT, new Intent().putExtra("event", e));
+    	hideProgressBar(joinImgBtn);
         Toast.makeText(thisOne, "You joined this event!", Toast.LENGTH_SHORT).show();
         setEvent(e);
         setEventDetails(getEvent());
