@@ -74,7 +74,7 @@ public class CreateEventActivity extends CoolieActivity {
 	View pb;
 	private TextView dateInput;
 	private TextView timeInput;
-	ImageButton createEvent;
+	//ImageButton createEvent;
 	EventDate date;
 	EventType type = EventType.OTHER;
 	long latitude;
@@ -103,7 +103,7 @@ public class CreateEventActivity extends CoolieActivity {
 		timeInput = (TextView) findViewById(R.id.eventTimeInput);
 		// importButton = (ImageButton) findViewById(R.id.importButton);
 		setupSpinner();
-		// createEvent = (ImageButton) findViewById(R.id.createButton);
+		//createEvent = (ImageButton) findViewById(R.id.createButton);
 		latitude = getIntent().getExtras().getInt("Latitude");
 		longtitude = getIntent().getExtras().getInt("Longtitude");
 		date = new EventDate(Calendar.getInstance().getTimeInMillis());
@@ -150,20 +150,20 @@ public class CreateEventActivity extends CoolieActivity {
 				showDialog(TIME_DIALOG_ID);
 			}
 		});
-		// final ClientEvent e = (ClientEvent)
-		// getIntent().getExtras().get("event");
-		// if (e != null)
-		// showDetails(e);
-		// createEvent.setOnClickListener(new OnClickListener() {
-		// @Override public void onClick(final View v) {
-		// pressOk(e);
-		// }
-		// });
-		// importButton.setOnClickListener(new OnClickListener() {
-		// @Override public void onClick(final View v) {
-		// createImportDialog();
-		// }
-		// });
+		 final ClientEvent e = (ClientEvent)getIntent().getExtras().get("event");
+		 if (e != null) showDetails(e);
+		 
+//		createEvent.setOnClickListener(new OnClickListener() {
+//			@Override public void onClick(final View v) {
+//				pressOk(e);
+//			}
+//		 });
+//		 
+//		importButton.setOnClickListener(new OnClickListener() {
+//		 @Override public void onClick(final View v) {
+//		 createImportDialog();
+//		 }
+//		 });
 	}
 
 	private void setupSpinner() {
@@ -203,11 +203,11 @@ public class CreateEventActivity extends CoolieActivity {
 	}
 
 	void modifyEvent(final ClientEvent e) {
-		showProgressBar(createEvent);
+		//showProgressBar(createEvent);
 		ClientProxy.modifyEvent(e, new OnDone<Boolean>() {
 			@Override
 			public void onDone(final Boolean t) {
-				hideProgressBar(createEvent);
+				//hideProgressBar(createEvent);
 				try {
 					new CalendarHandler(thisActivity).updateEvent(thisActivity,
 							e);
@@ -221,20 +221,20 @@ public class CreateEventActivity extends CoolieActivity {
 		}, new OnError(this) {
 			@Override
 			public void beforeHandlingError() {
-				hideProgressBar(createEvent);
+				//hideProgressBar(createEvent);
 			}
 		});
 	}
 
 	void addNewEvent(final ClientEvent e) {
-		showProgressBar(createEvent);
+		//showProgressBar(createEvent);
 		ClientProxy.addEvent(e, new TeamAppFacebookEvent(e.getId(),
 				eventFBid != null ? eventFBid.longValue() : -1),
 				new ClientProxy.OnDone<Long>() {
 					@SuppressWarnings("boxing")
 					@Override
 					public void onDone(final Long i) {
-						hideProgressBar(createEvent);
+						//hideProgressBar(createEvent);
 						e.setId(i);
 						new CalendarHandler(thisActivity).setNewEvent(
 								thisActivity, e,
@@ -252,7 +252,7 @@ public class CreateEventActivity extends CoolieActivity {
 				}, new OnError(this) {
 					@Override
 					public void beforeHandlingError() {
-						hideProgressBar(createEvent);
+						//hideProgressBar(createEvent);
 					}
 				});
 	}
@@ -262,7 +262,7 @@ public class CreateEventActivity extends CoolieActivity {
 	 */
 	private void showProgressBar(final View toReplace) {
 		importButton.setEnabled(false);
-		createEvent.setEnabled(false);
+		//createEvent.setEnabled(false);
 		final ViewGroup p = (ViewGroup) toReplace.getParent();
 		final int i = p.indexOfChild(toReplace);
 		p.removeView(toReplace);
@@ -276,7 +276,7 @@ public class CreateEventActivity extends CoolieActivity {
 	 */
 	void hideProgressBar(final View toReplace) {
 		importButton.setEnabled(true);
-		createEvent.setEnabled(true);
+		//createEvent.setEnabled(true);
 		final ViewGroup p = (ViewGroup) pb.getParent();
 		final int i = p.indexOfChild(pb);
 		p.removeView(pb);
@@ -489,11 +489,10 @@ public class CreateEventActivity extends CoolieActivity {
 		case R.id.search_item:
 			return true;
 		case R.id.accept_item:
-			final ClientEvent e = (ClientEvent) getIntent().getExtras().get(
-					"event");
-			if (e != null)
-				showDetails(e);
-//			pressOk(e);
+			final ClientEvent e = (ClientEvent) getIntent().getExtras().get("event");
+//			if (e != null)
+//				showDetails(e);
+			pressOk(e);
 			return true;
 		case android.R.id.home:
 			this.finish();
