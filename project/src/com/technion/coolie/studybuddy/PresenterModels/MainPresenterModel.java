@@ -3,12 +3,8 @@ package com.technion.coolie.studybuddy.PresenterModels;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import android.util.Log;
-import android.util.SparseArray;
 
 import com.technion.coolie.studybuddy.Models.Course;
 import com.technion.coolie.studybuddy.Models.Semester;

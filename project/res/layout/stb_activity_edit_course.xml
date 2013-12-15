@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <EditText
+        android:id="@+id/stb_course_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:hint="@string/stb_course_name_hint"
+        android:inputType="text" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/stb_course_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stb_course_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"
+        android:hint="@string/stb_course_number_hint"
+        android:inputType="number" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/stb_course_number"
+        android:background="@color/abs__bright_foreground_holo_light"
+        android:paddingTop="16dp" />
+    <!-- should be style="?android:buttonBarStyle" but we use min sdk 9 -->
+
+    <CheckBox
+        android:id="@+id/stb_include_lectures"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/view1"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/stb_include_lectures" />
+
+    <EditText
+        android:id="@+id/stb_lecture_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/stb_include_lectures"
+        android:layout_toRightOf="@+id/stb_include_tutorials"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/stb_lecture_count_hint"
+        android:inputType="number" />
+
+    <CheckBox
+        android:id="@+id/stb_include_tutorials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/stb_include_lectures"
+        android:layout_below="@id/stb_include_lectures"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/stb_include_tutorials" />
+
+    <EditText
+        android:id="@+id/stb_tutorial_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/stb_lecture_count"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/stb_include_tutorials"
+        android:ems="10"
+        android:enabled="false"
+        android:hint="@string/stb_tutorials_count_hint"
+        android:inputType="number" />
+
+    <!-- will be replaced with style="?android:attr/buttonBarStyle" as soon as we change the api version -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="0dp"
+        android:orientation="horizontal"
+        android:weightSum="2" >
+
+        <Button
+            android:id="@+id/stb_btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/abs__btn_cab_done_holo_light"
+            android:text="@string/stb_cancel" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/abs__bright_foreground_holo_light" />
+
+        <Button
+            android:id="@+id/stb_btn_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/abs__btn_cab_done_holo_light"
+            android:text="@string/stb_save" />
+    </LinearLayout>
+
+</RelativeLayout>

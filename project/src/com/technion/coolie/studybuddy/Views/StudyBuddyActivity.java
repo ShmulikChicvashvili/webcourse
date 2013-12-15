@@ -8,7 +8,8 @@ import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.Adapters.NavigationAdapter;
 import com.technion.coolie.studybuddy.data.DataStore;
 
-public abstract class StudyBuddyActivity extends CoolieActivity {
+public abstract class StudyBuddyActivity extends CoolieActivity
+{
 
 	/*
 	 * (non-Javadoc)
@@ -16,7 +17,8 @@ public abstract class StudyBuddyActivity extends CoolieActivity {
 	 * @see com.technion.coolie.CoolieActivity#onCreate(android.os.Bundle)
 	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState)
+	{
 		super.onCreate(savedInstanceState);
 		ExpandableListView view = (ExpandableListView) addInnerNavigationDrawer(R.layout.stb_view_navigation);
 		NavigationAdapter navigationAdapter = new NavigationAdapter(this);
@@ -26,7 +28,8 @@ public abstract class StudyBuddyActivity extends CoolieActivity {
 	}
 
 	@Override
-	protected void onDestroy() {
+	protected void onDestroy()
+	{
 		super.onDestroy();
 		DataStore.destroyHelper();
 	}
