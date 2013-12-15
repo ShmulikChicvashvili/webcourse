@@ -1,35 +1,32 @@
 package com.technion.coolie.tecmind;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.List;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.SessionDefaultAudience;
+import com.facebook.Session.OpenRequest;
+import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
-import com.facebook.android.Facebook;
 import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.tecmind.BL.Mine;
-import com.technion.coolie.tecmind.BL.User;
+
 
 public class MineActivity extends CoolieActivity {
 	
 	private Session currentSession;
 	Session.NewPermissionsRequest newPermissionsRequest;
+	List<String> permissions;
 	String userId;
 	
 	
@@ -37,43 +34,53 @@ public class MineActivity extends CoolieActivity {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.techmind_activity_mine);
-	    
-	    newPermissionsRequest = new Session.NewPermissionsRequest(
-		        this, Arrays.asList("user_groups","user_activities","user_likes"));
+
+	    currentSession = Session.getActiveSession();
+	    if (currentSession == null) {
+	    	
+	    }
 	    
 	    /* start Facebook Login */
-	    Session.openActiveSession(this, true, new Session.StatusCallback() {
+	    openActiveSession(this, true, new Session.StatusCallback() {
 
 	      /* callback when session changes state */
 	      @Override
 	      public void call(Session session, SessionState state, Exception exception) {
 	        if (session.isOpened()) {
 	        	currentSession = session;
-	            session.requestNewReadPermissions(newPermissionsRequest);
-	            //currentSession.getAccessToken();
+
 	          /* make request to the /me API */
 	          Request.newMeRequest(session, new Request.GraphUserCallback() {
 
 	            /* callback after Graph API response with user object */
 	            @Override
-	            public void onCompleted(GraphUser user, Response response) {
-	            	Toast.makeText(getApplicationContext(), "OPENED", 
-	    	        		Toast.LENGTH_LONG).show();		    
+	            public void onCompleted(GraphUser user, Response response) {		    
 	            	if (user != null) {
 	            		userId = user.getId();
+
+	  	  		      Toast.makeText(getApplicationContext(), "OPENED",
+	  	  	        		Toast.LENGTH_LONG).show();
 	            		mining();
 	            	}
-	            	
-     	
-	            }
+	             }
 	          }).executeAsync();
-	        }
-        	Toast.makeText(getApplicationContext(), session.getState().toString() ,
-	        		Toast.LENGTH_LONG).show();		        
+	        }		        
 	      }
-	    });
+	    }, Arrays.asList("user_groups","user_activities","user_likes"));
 	  }
 
+	private static Session openActiveSession(Activity activity, boolean allowLoginUI, 
+			StatusCallback callback, List<String> permissions) {
+	    OpenRequest openRequest = new OpenRequest(activity).setPermissions(permissions).setCallback(callback);
+	    Session session = new Session.Builder(activity).build();
+	    if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
+	        Session.setActiveSession(session);
+	        session.openForRead(openRequest);
+	        return session;
+	    }
+	    return null;
+	}
+	
 	  @Override
 	  public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	      super.onActivityResult(requestCode, resultCode, data);
