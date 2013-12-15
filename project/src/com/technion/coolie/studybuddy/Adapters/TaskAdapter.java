@@ -15,8 +15,9 @@ import com.technion.coolie.studybuddy.Views.StrikeThrowView;
 import com.technion.coolie.studybuddy.data.DataStore;
 import com.technion.coolie.studybuddy.data.Task;
 
-public class TaskAdapter extends BaseAdapter {
-	private LayoutInflater mInflater;
+public class TaskAdapter extends BaseAdapter
+{
+	private LayoutInflater	mInflater;
 
 	// private boolean selectMode;
 	// private boolean[] selected;
@@ -24,7 +25,8 @@ public class TaskAdapter extends BaseAdapter {
 	/**
 	 * @param context
 	 */
-	public TaskAdapter(Context context) {
+	public TaskAdapter(Context context)
+	{
 		super();
 		// selected = new boolean[DataStore.getTaskSize()];
 		mInflater = (LayoutInflater) context
@@ -32,45 +34,53 @@ public class TaskAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public int getCount() {
+	public int getCount()
+	{
 		// return DataStore.getTaskSize();
 		return 0;
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public Object getItem(int position)
+	{
 		// return DataStore.getTask(position);
 		return null;
 	}
 
 	@Override
-	public long getItemId(int position) {
+	public long getItemId(int position)
+	{
 
 		return 0;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent)
+	{
 		TextView course = null;
 		TextView taskDesc = null;
 		CheckBox done = null;
-		if (convertView == null) {
+		if (convertView == null)
+		{
 			final StrikeThrowView view = (StrikeThrowView) mInflater.inflate(
 					R.layout.stb_view_task, null);
 			course = (TextView) view.findViewById(R.id.course);
 			taskDesc = (TextView) view.findViewById(R.id.task_desc);
 			done = (CheckBox) view.findViewById(R.id.task_done);
-			done.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			done.setOnCheckedChangeListener(new OnCheckedChangeListener()
+			{
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView,
-						boolean isChecked) {
+						boolean isChecked)
+				{
 					view.setStrike(isChecked);
 				}
 			});
 			convertView = view;
 			convertView.setTag(new ViewHolder(course, taskDesc, done));
 
-		} else {
+		} else
+		{
 			ViewHolder holder = (ViewHolder) convertView.getTag();
 			course = holder.getCourseName();
 			taskDesc = holder.getTaskDesc();
@@ -83,17 +93,19 @@ public class TaskAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private class ViewHolder {
-		private TextView courseName;
-		private TextView taskDesc;
-		private CheckBox done;
+	private class ViewHolder
+	{
+		private TextView	courseName;
+		private TextView	taskDesc;
+		private CheckBox	done;
 
 		/**
 		 * @param courseName
 		 * @param taskDesc
 		 * @param done
 		 */
-		public ViewHolder(TextView courseName, TextView taskDesc, CheckBox done) {
+		public ViewHolder(TextView courseName, TextView taskDesc, CheckBox done)
+		{
 			super();
 			this.courseName = courseName;
 			this.taskDesc = taskDesc;
@@ -103,27 +115,31 @@ public class TaskAdapter extends BaseAdapter {
 		/**
 		 * @return the courseName
 		 */
-		public synchronized TextView getCourseName() {
+		public synchronized TextView getCourseName()
+		{
 			return courseName;
 		}
 
 		/**
 		 * @return the taskDesc
 		 */
-		public synchronized TextView getTaskDesc() {
+		public synchronized TextView getTaskDesc()
+		{
 			return taskDesc;
 		}
 
 		/**
 		 * @return the done
 		 */
-		public synchronized CheckBox getDone() {
+		public synchronized CheckBox getDone()
+		{
 			return done;
 		}
 
 	}
 
-	public void remove(int i) {
+	public void remove(int i)
+	{
 		// DataStore.removeTask(i);
 	}
 }
