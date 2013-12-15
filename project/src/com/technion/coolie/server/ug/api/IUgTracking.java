@@ -1,8 +1,8 @@
 package com.technion.coolie.server.ug.api;
 
 import com.technion.coolie.server.ug.ReturnCodesUg;
-import com.technion.coolie.server.ug.Student;
 import com.technion.coolie.server.ug.framework.CourseKey;
+import com.technion.coolie.server.ug.framework.Student;
 
 /**
  * Created on 7.12.2013

@@ -5,11 +5,11 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
-import com.technion.coolie.server.ug.Student;
 import com.technion.coolie.server.ug.api.IUgCourse;
 import com.technion.coolie.server.ug.framework.CourseKey;
 import com.technion.coolie.server.ug.framework.CourseServer;
 import com.technion.coolie.server.ug.framework.Semester;
+import com.technion.coolie.server.ug.framework.Student;
 
 /**
  * Created on 8.12.2013

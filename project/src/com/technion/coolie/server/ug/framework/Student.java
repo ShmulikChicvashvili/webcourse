@@ -1,4 +1,4 @@
-package com.technion.coolie.server.ug;
+package com.technion.coolie.server.ug.framework;
 
 public class Student {
 

@@ -2,8 +2,8 @@ package com.technion.coolie.server.ug.api;
 
 import java.util.List;
 
-import com.technion.coolie.server.ug.Student;
 import com.technion.coolie.server.ug.framework.Payment;
+import com.technion.coolie.server.ug.framework.Student;
 
 /**
  * Created on 7.12.2013

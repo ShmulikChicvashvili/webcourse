@@ -2,10 +2,10 @@ package com.technion.coolie.server.ug.api;
 
 import java.util.List;
 
-import com.technion.coolie.server.ug.Student;
 import com.technion.coolie.server.ug.framework.CourseKey;
 import com.technion.coolie.server.ug.framework.CourseServer;
 import com.technion.coolie.server.ug.framework.Semester;
+import com.technion.coolie.server.ug.framework.Student;
 
 /**
  * Created on 7.12.2013

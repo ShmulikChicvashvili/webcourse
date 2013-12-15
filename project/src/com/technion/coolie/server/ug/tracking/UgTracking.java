@@ -5,9 +5,9 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.technion.coolie.server.Communicator;
 import com.technion.coolie.server.ug.ReturnCodesUg;
-import com.technion.coolie.server.ug.Student;
 import com.technion.coolie.server.ug.api.IUgTracking;
 import com.technion.coolie.server.ug.framework.CourseKey;
+import com.technion.coolie.server.ug.framework.Student;
 
 /**
  * Created on 8.12.2013
