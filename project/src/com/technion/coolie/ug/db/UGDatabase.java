@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.jsoup.nodes.Document;
 
+import android.view.View;
+
 import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.DayOfWeek;
@@ -204,7 +206,7 @@ public enum UGDatabase {
 	}
 
 	public ArrayList<Item> getGradesSheet() {
-		return null;
+		return HtmlParser.parseGrades("stam");
 	}
 
 	public ArrayList<CourseItem> getStudentCourses(SemesterSeason semesterseason) {

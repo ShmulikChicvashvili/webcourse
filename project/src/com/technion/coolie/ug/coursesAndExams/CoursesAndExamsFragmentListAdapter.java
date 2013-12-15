@@ -1,5 +1,6 @@
 package com.technion.coolie.ug.coursesAndExams;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -40,11 +41,22 @@ public class CoursesAndExamsFragmentListAdapter extends BaseAdapter {
 	private final Context context;
 	private final List<Exam> values = new ArrayList<Exam>();
 
-	public CoursesAndExamsFragmentListAdapter(Context context, List<Course> list) {
+	public CoursesAndExamsFragmentListAdapter(Context context, ArrayList<CourseItem> list) {
 		this.context = context;
-		for (Course c : list) {
-			values.add(new Exam(c.getName(), "A", c.getMoedA()));
-			values.add(new Exam(c.getName(), "B", c.getMoedB()));
+		for (CourseItem c : list) 
+		{
+			List<ExamItem> exams = c.getExams();
+			if (exams==null && exams.size()==0)
+				continue;
+			if (exams.size()>=1 && exams.get(0).getDate()!=null)
+			{
+				values.add(new Exam(c.getCoursName(), "A", exams.get(0).getDate()));
+			}
+			if (exams.size()>=2 && exams.get(1).getDate()!=null)
+			{
+				values.add(new Exam(c.getCoursName(), "B", exams.get(1).getDate()));
+			}
+			
 		}
 		Collections.sort(values);
 		// sort the list
@@ -67,7 +79,8 @@ public class CoursesAndExamsFragmentListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (convertView == null) {
+		if (convertView == null) 
+		{
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.ug_list_item_courses_and_exams_fragment, parent, false);
 		}
@@ -75,13 +88,19 @@ public class CoursesAndExamsFragmentListAdapter extends BaseAdapter {
 		TextView courseNameTextView = (TextView) convertView
 				.findViewById(R.id.ug_courses_and_exams_fragment_course_name);
 		courseNameTextView.setText(exam.courseName);
-
-		String d = exam.date.get(Calendar.DAY_OF_MONTH) + "/" + exam.date.get(Calendar.MONTH) + "/"
-				+ exam.date.get(Calendar.YEAR);
-		d += exam.moed.equals("A") ? " (�?ועד �?)" : " (�?ועד ב)";
+		
+		SimpleDateFormat formatter=new SimpleDateFormat("dd.MM.yyyy");
+		String dd = "-----";
+		if (exam.date!=null)
+		{
+			dd= formatter.format(exam.date.getTime());
+			
+			dd += exam.moed.equals("A") ? " ("+context.getResources().getString(R.string.moedA)+")  " +
+					"" : " ("+context.getResources().getString(R.string.moedB)+")   ";
+		}
 
 		TextView dateTextView = (TextView) convertView.findViewById(R.id.ug_courses_and_exams_fragment_date);
-		dateTextView.setText(d);
+		dateTextView.setText(dd);
 		return convertView;
 	}
 }

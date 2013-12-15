@@ -24,6 +24,8 @@ public class CourseItem {
 	public String getPoints() {
 		return points;
 	}
+	
+
 
 	public CourseItem(String courseName, String coursrId, String points,
 			List<ExamItem> exams) {

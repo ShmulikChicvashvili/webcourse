@@ -120,19 +120,27 @@ public class HtmlParser {
 	
 	
 		private static ArrayList<Item> gradesItems = new ArrayList<Item>();
-		
+		public static String avg,success,points;
 		
 		public static ArrayList<Item> parseGrades(String studentId)
 		{
+			gradesItems.clear();
 			Document doc = HtmlParser.parseFromFille("grades2.html", MainActivity.context);
 			Elements details = doc.select("td");
-
+			setStudentDetails(details);
 			// set student grades
 			setStudentGrades(doc);
 			return gradesItems;
 		}
 		
 		
+		private static void setStudentDetails(Elements types) {
+			avg = types.get(17).text();
+			success = types.get(16).text() + " %";
+			points = types.get(15).text();
+		}	
+		
+				
 		
 
 		private static void setStudentGrades(Document doc) {
