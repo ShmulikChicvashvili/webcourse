@@ -32,7 +32,6 @@
 	    android:layout_height="wrap_content"
 	    android:paddingRight="@dimen/dp7"
 	    android:layout_marginRight="10dp"
-	    android:src="@drawable/ji_content_discard"
 	    android:layout_alignBottom="@id/eventTitle" 
 	    android:layout_alignParentRight="true"
 	    android:background="@drawable/colorBlue"/>

@@ -152,6 +152,9 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
 //  } */
 
   private void setEventsButtons(){
+	  if(getEvent().getOwner().equals(getAccount().getUsername())){ 
+		  return;
+	  }
 	  final boolean b = !getEvent().getUsers().contains(getAccount().toFacebookUser());
 		joinImgBtn.setImageDrawable(getResources().getDrawable(b ? R.drawable.ji_join : R.drawable.ji_leave));
 		joinImgBtn.setOnClickListener(b ? new OnClickListener() {
