@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Views;
+package com.technion.coolie.studybuddy.views;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -13,7 +13,7 @@ import android.widget.EditText;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.Models.Course;
+import com.technion.coolie.studybuddy.models.Course;
 
 public class EditCourse extends StudyBuddyActivity
 {

@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Views;
+package com.technion.coolie.studybuddy.views;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.Adapters.TaskAdapter;
+import com.technion.coolie.studybuddy.adapters.TaskAdapter;
 
 public class CourseOverViewFragment extends SherlockFragment
 {

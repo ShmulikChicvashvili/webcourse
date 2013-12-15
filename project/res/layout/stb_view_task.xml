@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.technion.coolie.studybuddy.Views.StrikeThrowView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.technion.coolie.studybuddy.views.StrikeThrowView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/stb_nowCardStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -42,4 +42,4 @@
         android:text="234325"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-</com.technion.coolie.studybuddy.Views.StrikeThrowView>
+</com.technion.coolie.studybuddy.views.StrikeThrowView>

@@ -9,11 +9,11 @@ import android.widget.ImageView;
 
 import com.actionbarsherlock.view.Menu;
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.Adapters.CourseAdapter;
-import com.technion.coolie.studybuddy.Views.EditCourse;
-import com.technion.coolie.studybuddy.Views.NowLayout;
-import com.technion.coolie.studybuddy.Views.StudyBuddyActivity;
-import com.technion.coolie.studybuddy.Views.TasksActivity;
+import com.technion.coolie.studybuddy.adapters.CourseAdapter;
+import com.technion.coolie.studybuddy.views.EditCourse;
+import com.technion.coolie.studybuddy.views.NowLayout;
+import com.technion.coolie.studybuddy.views.StudyBuddyActivity;
+import com.technion.coolie.studybuddy.views.TasksActivity;
 
 public class MainActivity extends StudyBuddyActivity
 {

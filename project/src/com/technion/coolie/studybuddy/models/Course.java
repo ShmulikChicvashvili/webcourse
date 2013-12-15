@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Models;
+package com.technion.coolie.studybuddy.models;
 
 import java.util.ArrayList;
 import java.util.Arrays;

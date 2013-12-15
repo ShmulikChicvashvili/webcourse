@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Views;
+package com.technion.coolie.studybuddy.views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.Adapters.CourseAdapter;
+import com.technion.coolie.studybuddy.adapters.CourseAdapter;
 
 /**
  * Created by arik on 10/30/13.

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.technion.coolie.studybuddy.Views;
+package com.technion.coolie.studybuddy.views;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

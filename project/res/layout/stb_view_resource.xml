@@ -13,7 +13,7 @@
         android:text="Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <com.technion.coolie.studybuddy.Views.NowLayout
+    <com.technion.coolie.studybuddy.views.NowLayout
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:numColumns="@integer/stb_num_of_columns"
         android:paddingLeft="20dp"
         android:stretchMode="columnWidth" >
-    </com.technion.coolie.studybuddy.Views.NowLayout>
+    </com.technion.coolie.studybuddy.views.NowLayout>
 
     <View
         android:id="@+id/divdier1"
@@ -33,7 +33,7 @@
         android:layout_below="@id/listView1"
         android:background="@android:color/darker_gray" />
 
-    <com.technion.coolie.studybuddy.Views.NowLayout
+    <com.technion.coolie.studybuddy.views.NowLayout
         android:id="@+id/done_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,6 +45,6 @@
         android:minWidth="200dp"
         android:numColumns="@integer/stb_num_of_columns"
         android:paddingLeft="20dp" >
-    </com.technion.coolie.studybuddy.Views.NowLayout>
+    </com.technion.coolie.studybuddy.views.NowLayout>
 
 </RelativeLayout>

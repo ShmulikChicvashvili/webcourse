@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Views;
+package com.technion.coolie.studybuddy.views;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.Views.ResourceFragment.OnFragmentInteractionListener;
+import com.technion.coolie.studybuddy.views.ResourceFragment.OnFragmentInteractionListener;
 
 public class CourseActivity extends StudyBuddyActivity implements
 		ActionBar.OnNavigationListener, OnFragmentInteractionListener

@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Views;
+package com.technion.coolie.studybuddy.views;
 
 import android.content.Context;
 import android.graphics.Bitmap;

@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Adapters;
+package com.technion.coolie.studybuddy.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +10,9 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.Views.CourseActivity;
-import com.technion.coolie.studybuddy.Views.TasksActivity;
 import com.technion.coolie.studybuddy.data.DataStore;
+import com.technion.coolie.studybuddy.views.CourseActivity;
+import com.technion.coolie.studybuddy.views.TasksActivity;
 
 public class NavigationAdapter extends BaseExpandableListAdapter {
 	public static final String course = "course";

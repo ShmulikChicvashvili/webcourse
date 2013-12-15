@@ -7,10 +7,10 @@ import android.content.Context;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
-import com.technion.coolie.studybuddy.Models.Course;
-import com.technion.coolie.studybuddy.Models.Semester;
-import com.technion.coolie.studybuddy.Models.StudyResource;
-import com.technion.coolie.studybuddy.PresenterModels.MainPresenterModel;
+import com.technion.coolie.studybuddy.models.Course;
+import com.technion.coolie.studybuddy.models.Semester;
+import com.technion.coolie.studybuddy.models.StudyResource;
+import com.technion.coolie.studybuddy.presenters.MainPresenterModel;
 
 public class DataStore {
 	private static String[] menus = new String[] { "Tasks", "Courses",

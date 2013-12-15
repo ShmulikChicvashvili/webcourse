@@ -14,11 +14,11 @@
         android:layout_height="wrap_content"
         android:src="@drawable/stb_graph" />
 
-     <com.technion.coolie.studybuddy.Views.NowLayout
+     <com.technion.coolie.studybuddy.views.NowLayout
         android:id="@+id/course_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="@integer/stb_num_of_columns" >
-      </com.technion.coolie.studybuddy.Views.NowLayout>
+      </com.technion.coolie.studybuddy.views.NowLayout>
 
 </LinearLayout>

@@ -1,11 +1,11 @@
-package com.technion.coolie.studybuddy.Views;
+package com.technion.coolie.studybuddy.views;
 
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.Adapters.NavigationAdapter;
+import com.technion.coolie.studybuddy.adapters.NavigationAdapter;
 import com.technion.coolie.studybuddy.data.DataStore;
 
 public abstract class StudyBuddyActivity extends CoolieActivity

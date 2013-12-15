@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Adapters;
+package com.technion.coolie.studybuddy.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,9 +11,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.Views.StrikeThrowView;
 import com.technion.coolie.studybuddy.data.DataStore;
 import com.technion.coolie.studybuddy.data.Task;
+import com.technion.coolie.studybuddy.views.StrikeThrowView;
 
 public class TaskAdapter extends BaseAdapter
 {

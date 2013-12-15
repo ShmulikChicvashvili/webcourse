@@ -1,11 +1,11 @@
-package com.technion.coolie.studybuddy.Views;
+package com.technion.coolie.studybuddy.views;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.widget.GridView;
 
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.Adapters.TaskAdapter;
+import com.technion.coolie.studybuddy.adapters.TaskAdapter;
 
 public class TasksActivity extends StudyBuddyActivity
 {

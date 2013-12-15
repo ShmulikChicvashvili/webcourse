@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Views;
+package com.technion.coolie.studybuddy.views;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.Adapters.ResourceGridAdapter;
+import com.technion.coolie.studybuddy.adapters.ResourceGridAdapter;
 
 public class ResourceFragment extends SherlockFragment implements CrossGesture
 {

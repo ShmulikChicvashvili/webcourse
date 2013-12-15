@@ -1,6 +1,6 @@
-package com.technion.coolie.studybuddy.Models;
+package com.technion.coolie.studybuddy.models;
 
-import static com.technion.coolie.studybuddy.Models.GeneralInfo.WEEKS_IN_SEMESTER;
+import static com.technion.coolie.studybuddy.models.GeneralInfo.WEEKS_IN_SEMESTER;
 import static com.technion.coolie.studybuddy.utils.Utils.*;
 
 import java.util.ArrayList;

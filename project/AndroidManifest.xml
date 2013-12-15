@@ -67,11 +67,11 @@
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>
         <activity
-            android:name="com.technion.coolie.studybuddy.Views.CourseActivity"
+            android:name="com.technion.coolie.studybuddy.views.CourseActivity"
             android:parentActivityName=".studybuddy.MainActivity" >
         </activity>
         <activity
-            android:name="com.technion.coolie.studybuddy.Views.TasksActivity"
+            android:name="com.technion.coolie.studybuddy.views.TasksActivity"
             android:parentActivityName=".studybuddy.MainActivity" >
         </activity>
 
@@ -117,7 +117,7 @@
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>
         <activity
-            android:name="com.technion.coolie.studybuddy.Views.EditCourse"
+            android:name="com.technion.coolie.studybuddy.views.EditCourse"
             android:label="@string/stb_title_activity_edit_course"
             android:parentActivityName="com.technion.coolie.studybuddy.MainActivity" >
             <meta-data

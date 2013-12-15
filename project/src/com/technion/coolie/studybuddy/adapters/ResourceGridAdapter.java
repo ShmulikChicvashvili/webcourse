@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.Adapters;
+package com.technion.coolie.studybuddy.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.Views.ResourceFragment;
-import com.technion.coolie.studybuddy.Views.StrikeThrowTextView;
+import com.technion.coolie.studybuddy.views.ResourceFragment;
+import com.technion.coolie.studybuddy.views.StrikeThrowTextView;
 
 public class ResourceGridAdapter extends BaseAdapter
 {

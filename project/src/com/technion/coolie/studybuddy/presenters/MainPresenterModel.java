@@ -1,4 +1,4 @@
-package com.technion.coolie.studybuddy.PresenterModels;
+package com.technion.coolie.studybuddy.presenters;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.technion.coolie.studybuddy.Models.Course;
-import com.technion.coolie.studybuddy.Models.Semester;
+import com.technion.coolie.studybuddy.models.Course;
+import com.technion.coolie.studybuddy.models.Semester;
 import com.technion.coolie.studybuddy.utils.SparseArrayMap;
 
 public class MainPresenterModel {
