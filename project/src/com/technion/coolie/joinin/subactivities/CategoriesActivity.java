@@ -64,6 +64,7 @@ import com.technion.coolie.joinin.gui.CategoryListAdapter;
 import com.technion.coolie.joinin.gui.ExpandableListAdapter;
 import com.technion.coolie.joinin.map.EventType;
 import com.technion.coolie.joinin.map.MainMapActivity;
+import android.app.ProgressDialog;
 
 public class CategoriesActivity extends CoolieActivity {
 	  final Activity mContext = this;
@@ -121,10 +122,9 @@ public class CategoriesActivity extends CoolieActivity {
         mMap.put("SPORT", new ArrayList<ClientEvent>());
         mMap.put("FOOD", new ArrayList<ClientEvent>());
         mMap.put("NIGHT_LIFE", new ArrayList<ClientEvent>());
+                
         
-        ArrayList<ClientEvent> list = getClientEvent();
-        
-        sortClientEvent(list,categoryItem);
+        getAllEvents();
         
         CategoryListAdapter adapter = new CategoryListAdapter(this, 
                 R.layout.ji_categories_list_item, categoryItem);
@@ -147,15 +147,21 @@ public class CategoriesActivity extends CoolieActivity {
 
 	}
 	
-	public ArrayList<ClientEvent> getClientEvent(){
-		return null;
-		
-	}
-	
-	public void sortClientEvent(ArrayList<ClientEvent> list,CategoryItem categoryItem[]){
-		for (ClientEvent c : list){
-			mMap.get(c.getEventType().toString()).add(c);
-		}
-		
-	}
+	private void getAllEvents(){	     
+		final ProgressDialog pd = ProgressDialog.show(this, "", "Loading...");
+		pd.setCancelable(false);
+		//Fetch My events from server    	 
+		ClientProxy.getAllEvents(new OnDone<List<ClientEvent>>() {
+			@Override public void onDone(final List<ClientEvent> ces) {	
+				for (ClientEvent clientEvent : ces) {
+					mMap.get(clientEvent.getEventType().toString()).add(clientEvent);
+				}				
+				pd.dismiss();
+			}
+		}, new OnError(this) {
+			@Override public void beforeHandlingError() {
+				pd.dismiss();
+			}
+		});
+	}	
 }
