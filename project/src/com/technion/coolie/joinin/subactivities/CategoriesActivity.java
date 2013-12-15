@@ -110,18 +110,19 @@ public class CategoriesActivity extends CoolieActivity {
         CategoryItem categoryItem[] = new CategoryItem[]
         {
          
-            new CategoryItem(R.drawable.ji_movie_icon, "MOVIE"),
-            new CategoryItem(R.drawable.ji_study_icon, "STUDY"),
-            new CategoryItem(R.drawable.ji_sports_icon, "SPORT"),
-            new CategoryItem(R.drawable.ji_food_icon, "FOOD"),
-            new CategoryItem(R.drawable.ji_night_life_icon, "NIGHT_LIFE"),
+            new CategoryItem(R.drawable.ji_movie_icon, EventType.MOVIE.toString()),
+            new CategoryItem(R.drawable.ji_study_icon, EventType.STUDY.toString()),
+            new CategoryItem(R.drawable.ji_sports_icon, EventType.SPORT.toString()),
+            new CategoryItem(R.drawable.ji_food_icon,  EventType.FOOD.toString()),
+            new CategoryItem(R.drawable.ji_night_life_icon, EventType.NIGHT_LIFE.toString()),
         };
         
-        mMap.put("MOVIE", new ArrayList<ClientEvent>());
-        mMap.put("STUDY", new ArrayList<ClientEvent>());
-        mMap.put("SPORT", new ArrayList<ClientEvent>());
-        mMap.put("FOOD", new ArrayList<ClientEvent>());
-        mMap.put("NIGHT_LIFE", new ArrayList<ClientEvent>());
+        mMap.put(EventType.FOOD.toString(), new ArrayList<ClientEvent>());
+        mMap.put(EventType.MOVIE.toString(), new ArrayList<ClientEvent>());
+        mMap.put(EventType.NIGHT_LIFE.toString(), new ArrayList<ClientEvent>());
+        mMap.put(EventType.OTHER.toString(), new ArrayList<ClientEvent>());
+        mMap.put(EventType.SPORT.toString(), new ArrayList<ClientEvent>());
+        mMap.put(EventType.STUDY.toString(), new ArrayList<ClientEvent>());
                 
         
         getAllEvents();
