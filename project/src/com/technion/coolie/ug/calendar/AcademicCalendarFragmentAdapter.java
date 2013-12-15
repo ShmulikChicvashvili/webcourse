@@ -1,6 +1,8 @@
 package com.technion.coolie.ug.calendar;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -60,8 +62,12 @@ public class AcademicCalendarFragmentAdapter extends ArrayAdapter<Item> {
 
 				if (event != null)
 					event.setText(ei.getEvent());
-				if (date != null)
-					date.setText(ei.getStartingDay().toString());
+				if (date != null) {
+					SimpleDateFormat formatter = new SimpleDateFormat(
+							"dd/MM/yyyy");
+					Calendar cal = ei.getStartingDay();
+					date.setText(formatter.format(cal.getTime()));
+				}
 				if (day != null)
 					day.setText(ei.getDay());
 			}

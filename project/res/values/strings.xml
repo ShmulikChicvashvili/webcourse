@@ -35,6 +35,9 @@
     <string name="moedA">מועד א\'</string>
     <string name="moedB">מועד ב\'</string>
     <string name="no_exam">-----</string>
+    <string name="curren_semester">סמסטר נוכחי</string>
+    <string name="previous_semester">סמסטר קודם</string>
+    <string name="next_semester">סמסטר הבא</string>
 
     <!-- AcademicCalendar Fragment -->
     <string name="day">יום</string>

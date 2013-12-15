@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
+import com.technion.coolie.ug.calendar.AcademicCalendarFragment;
 import com.technion.coolie.ug.coursesAndExams.CoursesAndExamsFragment;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayFragment;
@@ -34,6 +35,7 @@ public class TransparentActivity extends CoolieActivity {
 		CoursesAndExamsFragment coursesAndExamsLayout; // Fragment 2
 		CourseDisplayFragment courseDisplayFragment;
 		SearchFragment searchFragment;
+		AcademicCalendarFragment academicCalendarFragment;
 		// Layout3 layout3; // Fragment 3
 		// Layout4 layout4; // Fragment 4
 
@@ -59,11 +61,12 @@ public class TransparentActivity extends CoolieActivity {
 			fragmentTransaction.replace(R.id.non_transparent, searchFragment);
 			fragmentTransaction.commit();
 		}
-		// } else if (link.equals("layout4")) {
-		// layout4 = new Layout4();
-		// fragmentTransaction.replace(R.id.non_transparent, layout4);
-		// fragmentTransaction.commit();
-		// }
+		else if (link.equals("academicCalendarFragment")) {
+			academicCalendarFragment = new AcademicCalendarFragment();
+			fragmentTransaction.replace(R.id.non_transparent,
+					academicCalendarFragment);
+			fragmentTransaction.commit();
+		}
 	}
 
 	public void transparentClick(View view) {
