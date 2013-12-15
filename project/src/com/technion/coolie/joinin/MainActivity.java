@@ -15,6 +15,7 @@ import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
@@ -59,6 +60,10 @@ public class MainActivity extends CoolieActivity {
 	  public static final int RESULT_DELETE = RESULT_FAVORITE + 1;
 	  public static final int RESULT_REMOVE_EVENT = RESULT_FAVORITE + 1;
 	  public static final int RESULT_ADD_EVENT = RESULT_REMOVE_EVENT + 1;
+	  private final int EVENT_ACTIVITY = 1;
+	  private final int CREATE_EVENT_ACTIVITY = EVENT_ACTIVITY + 1;
+	  private final int CATEGORIES_ACTIVITY = CREATE_EVENT_ACTIVITY + 1;
+	  
 	  public static String PACKAGE = "com.technion.coolie.joinin";
 	  SharedPreferences mJoinInPref;
 	  public static final String PREFS_NAME = PACKAGE; // SharedPreferences file	  
@@ -106,7 +111,7 @@ public class MainActivity extends CoolieActivity {
     			 final Intent startEventActivity = new Intent(mContext, EventActivity.class);
                  startEventActivity.putExtra("event", eventDetails);
                  startEventActivity.putExtra("account", mLoggedAccount);
-                 startActivityForResult(startEventActivity, 1);
+                 startActivityForResult(startEventActivity, EVENT_ACTIVITY);
                  
     			 return true;
     		 }
@@ -146,12 +151,18 @@ public class MainActivity extends CoolieActivity {
      
      @Override 
      protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-    	 if (mLoggedAccount == null)
+    	 if (mLoggedAccount == null){
     		 FacebookLogin.onResult(this, requestCode, resultCode, data);
-    	 if (resultCode == this.RESULT_ADD_EVENT){
-    		 
-    	 } else if (resultCode == this.RESULT_REMOVE_EVENT){
-    		 
+    		 return;
+    	 }
+    	 switch(requestCode){
+    	 case CREATE_EVENT_ACTIVITY:
+    		 break;
+    	 case EVENT_ACTIVITY:
+    		 break;
+    	 case CATEGORIES_ACTIVITY:
+    		 break;    	 
+    	 default:
     	 }
      }
 
@@ -169,10 +180,10 @@ public class MainActivity extends CoolieActivity {
      @Override public boolean onOptionsItemSelected(final MenuItem item) {
     	 switch (item.getItemId()) {
     	 case R.id.add_item:
-    		 startActivityForResult(new Intent(mContext, CreateEventActivity.class).putExtra("account", mLoggedAccount), 1);
+    		 startActivityForResult(new Intent(mContext, CreateEventActivity.class).putExtra("account", mLoggedAccount), CREATE_EVENT_ACTIVITY);
     		 return true;
     	 case R.id.categories:
-    		 startActivityForResult(new Intent(this, CategoriesActivity.class), 1);
+    		 startActivityForResult(new Intent(this, CategoriesActivity.class), CATEGORIES_ACTIVITY);
     	 case android.R.id.home:
     		 this.finish();
     		 return true;
