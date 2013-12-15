@@ -156,7 +156,7 @@
 	 <TextView
             android:id="@+id/course_screen_groups_label"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dip"
             android:text="groups" 
             android:background="@drawable/ug_course_label_text_container"
     		android:layout_below="@id/course_screen_exams_layout"

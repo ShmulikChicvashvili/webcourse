@@ -3,6 +3,7 @@ package com.technion.coolie.ug.gui.courseDisplay;
 import java.text.SimpleDateFormat;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -145,7 +146,8 @@ public class CourseDisplayFragment extends Fragment {
 		MeetingDisplay header = new MeetingDisplay();
 		header.freeSpace = "" + group.getFreePlaces();
 		header.number = "" + group.getGroupId();
-		addMeeting(header);
+		View v = addMeeting(header);
+		v.setBackgroundColor(Color.LTGRAY);
 
 		// do all meetings
 		if (group.getLectures() != null)

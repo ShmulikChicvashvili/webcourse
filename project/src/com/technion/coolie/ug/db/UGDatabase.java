@@ -46,15 +46,29 @@ public enum UGDatabase {
 	private void initCourses() {
 
 		groups = new ArrayList<RegistrationGroup>(Arrays.asList(
-				new RegistrationGroup(1, Arrays.asList(new Meeting("2",
+				new RegistrationGroup(1, Arrays.asList(new Meeting("12",
 						"Mr. Yossi happy", DayOfWeek.SUNDAY, Calendar
 								.getInstance().getTime(), Calendar
-								.getInstance().getTime(), "Ulman 329")), null,
-						1),
-				new RegistrationGroup(2, Arrays.asList(new Meeting("2",
+								.getInstance().getTime(), "Ulman 329")), Arrays
+						.asList(new Meeting("111", "Mr. Avi Cool",
+								DayOfWeek.SUNDAY, Calendar.getInstance()
+										.getTime(), Calendar.getInstance()
+										.getTime(), "Humanistics 329"),
+								new Meeting("122", "Mr. Dani Cooperman",
+										DayOfWeek.SUNDAY, Calendar
+												.getInstance().getTime(),
+										Calendar.getInstance().getTime(),
+										"Humanistics 329"),
+
+								new Meeting("123", "Mr. Moshiko Rozenblum",
+										DayOfWeek.SUNDAY, Calendar
+												.getInstance().getTime(),
+										Calendar.getInstance().getTime(),
+										"Humanistics 329")), 0),
+				new RegistrationGroup(2, Arrays.asList(new Meeting("13",
 						"Prof. Monik", DayOfWeek.SUNDAY, Calendar.getInstance()
 								.getTime(), Calendar.getInstance().getTime(),
-						"Taub 10")), null, 20)));
+						"Taub 10")), null, 25)));
 
 		allCourses = new ArrayList<Course>(
 
