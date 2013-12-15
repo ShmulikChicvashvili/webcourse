@@ -7,5 +7,6 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
     <string name="title_activity_categories">CategoriesActivity</string>
+    <string name="title_activity_category_event">CategoryEventActivity</string>
 
 </resources>

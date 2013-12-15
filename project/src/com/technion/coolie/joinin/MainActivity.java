@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -36,6 +35,7 @@ import com.technion.coolie.joinin.facebook.FacebookLogin.OnLoginDone;
 import com.technion.coolie.joinin.gui.ExpandableListAdapter;
 import com.technion.coolie.joinin.subactivities.CategoriesActivity;
 import com.technion.coolie.joinin.subactivities.CreateEventActivity;
+import com.technion.coolie.joinin.subactivities.EventActivity;
 
 
 
@@ -57,6 +57,8 @@ public class MainActivity extends CoolieActivity {
 	  public static final int RESULT_FILTER = RESULT_DO_NOTHING + 1;
 	  public static final int RESULT_FAVORITE = RESULT_FILTER + 1;
 	  public static final int RESULT_DELETE = RESULT_FAVORITE + 1;
+	  public static final int RESULT_REMOVE_EVENT = RESULT_FAVORITE + 1;
+	  public static final int RESULT_ADD_EVENT = RESULT_REMOVE_EVENT + 1;
 	  public static String PACKAGE = "com.technion.coolie.joinin";
 	  SharedPreferences mJoinInPref;
 	  public static final String PREFS_NAME = PACKAGE; // SharedPreferences file	  
@@ -100,7 +102,12 @@ public class MainActivity extends CoolieActivity {
     				 int groupPosition, int childPosition, long id) {
     			 ExpandableListAdapter adp = (ExpandableListAdapter) parent.getExpandableListAdapter();
     			 ClientEvent eventDetails = (ClientEvent)adp.getChild(groupPosition, childPosition) ;          	 
-    			 Toast.makeText(getApplicationContext(), eventDetails.getName(), Toast.LENGTH_SHORT).show();
+    			 
+    			 final Intent startEventActivity = new Intent(mContext, EventActivity.class);
+                 startEventActivity.putExtra("event", eventDetails);
+                 startEventActivity.putExtra("account", mLoggedAccount);
+                 startActivityForResult(startEventActivity, 1);
+                 
     			 return true;
     		 }
     	 });
@@ -141,6 +148,11 @@ public class MainActivity extends CoolieActivity {
      protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
     	 if (mLoggedAccount == null)
     		 FacebookLogin.onResult(this, requestCode, resultCode, data);
+    	 if (resultCode == this.RESULT_ADD_EVENT){
+    		 
+    	 } else if (resultCode == this.RESULT_REMOVE_EVENT){
+    		 
+    	 }
      }
 
      

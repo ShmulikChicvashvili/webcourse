@@ -217,7 +217,6 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
   
   @Override public void onTabChanged(final String tag) {
     mViewPager.setCurrentItem(mTabHost.getCurrentTab());
-    /////try///////
     invalidateOptionsMenu();
   }
   

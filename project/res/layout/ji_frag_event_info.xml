@@ -30,11 +30,12 @@
 	    android:id="@+id/joinImgBtn"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:background="#00000000"
-	    android:padding="@dimen/dp7"
+	    android:paddingRight="@dimen/dp7"
+	    android:layout_marginRight="10dp"
 	    android:src="@drawable/ji_content_discard"
 	    android:layout_alignBottom="@id/eventTitle" 
-	    android:layout_alignParentRight="true"/>
+	    android:layout_alignParentRight="true"
+	    android:background="@drawable/colorBlue"/>
     
     <TextView
 	    android:id="@+id/eventComing"
