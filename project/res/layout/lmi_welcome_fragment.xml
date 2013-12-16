@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/lmi_layout_margin" >
+    android:layout_height="match_parent" >
 
     <TextView
         android:id="@+id/lmi_welcome_message"
@@ -46,13 +45,5 @@
         android:background="@drawable/lmi_btn_blue"
         android:text="@string/lmi_watch_demo"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <fragment
-        android:id="@+id/lmi_invitation_list_container"
-        android:name="com.technion.coolie.letmein.InvitationListFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lmi_login_button"
-        android:paddingTop="@dimen/lmi_components_margin" />
 
 </RelativeLayout>

@@ -1,9 +1,6 @@
 package com.technion.coolie.letmein;
 
-import java.sql.SQLException;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,8 +8,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
-import com.technion.coolie.letmein.model.Contract;
 import com.technion.coolie.letmein.model.Invitation;
+import com.technion.coolie.letmein.model.adapters.InvitationAdapter;
 
 public class InvitationViewActivity extends DatabaseActivity {
 
@@ -43,17 +40,8 @@ public class InvitationViewActivity extends DatabaseActivity {
 
 		disableComponents();
 
-		String contactId = getIntent().getExtras().getString(Contract.Invitation.CONTACT_ID);
-
-		Invitation invitation;
-		try {
-			invitation = getHelper().getDataDao().queryBuilder().where()
-					.eq(Contract.Invitation.CONTACT_ID, contactId).queryForFirst();
-		} catch (SQLException e) {
-			Log.e(LOG_TAG, "InvitationViewActivity.onCreate: Couldn't get invitation by contactId",
-					e);
-			throw new RuntimeException(e);
-		}
+		int position = getIntent().getExtras().getInt(Consts.POSITION);
+		Invitation invitation = new InvitationAdapter(InvitationViewActivity.this, getHelper()).getItem(position);
 
 		friendNameEdit.setText(invitation.getContactName());
 		friendCellphoneEdit.setText(invitation.getContactPhoneNumber());
