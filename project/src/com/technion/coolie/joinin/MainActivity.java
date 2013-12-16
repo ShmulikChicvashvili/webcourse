@@ -38,23 +38,21 @@ public class MainActivity extends CoolieActivity {
 	public static final String PREFS_NAME = "com.technion.coolie.joinin";
 	
 	//Result codes
-	private static final int BASE_RESULT 	= 100;
-	public static final int RESULT_REMOVE_EVENT	= BASE_RESULT + 1;
-	public static final int RESULT_ADD_EVENT 	= BASE_RESULT + 2;
-	public static final int RESULT_EDIT_EVENT 	= BASE_RESULT + 3;
-	public static final int RESULT_JOIN_EVENT 	= BASE_RESULT + 4;
+	private static final int BASE_RESULT 		 = 100;
+	public static  final int RESULT_REMOVE_EVENT = BASE_RESULT + 1;
+	public static  final int RESULT_ADD_EVENT 	 = BASE_RESULT + 2;
+	public static  final int RESULT_EDIT_EVENT 	 = BASE_RESULT + 3;
+	public static  final int RESULT_JOIN_EVENT 	 = BASE_RESULT + 4;
 	//Request codes
-	private final int BASE_REQUEST 					= 200;
-	private final int REQUEST_EVENT_ACTIVITY 		= BASE_REQUEST + 1;
-	private final int REQUEST_CREATE_EVENT_ACTIVITY = BASE_REQUEST + 2;
-	private final int REQUEST_CATEGORIES_ACTIVITY 	= BASE_REQUEST + 3;
+	private static final int BASE_REQUEST 				   = 200;
+	public static  final int REQUEST_EVENT_ACTIVITY		   = BASE_REQUEST + 1;
+	public static  final int REQUEST_CREATE_EVENT_ACTIVITY = BASE_REQUEST + 2;
+	public static  final int REQUEST_CATEGORIES_ACTIVITY   = BASE_REQUEST + 3;
 	
 	//Private members	
 	private ClientAccount mLoggedAccount = null;
 	private SharedPreferences mJoinInPref = null;
 	private LoginDialog mLoginDialog = null;
-	private ArrayList<String> mListDataHeader = null;	
-	private HashMap<String, List<ClientEvent>> mListDataChild = null;
 
 	     
      @Override
@@ -64,20 +62,12 @@ public class MainActivity extends CoolieActivity {
          GCMRegistrar.checkDevice(this);
          GCMRegistrar.checkManifest(this);                 
          setContentView(R.layout.ji__expandable_view);
+         setExpandableListView();
          HandleLogIn();         
      }
      
-     private void fetchEvents(){   
-    	 // get the list view
+     private void setExpandableListView(){  
     	 ExpandableListView expListView = (ExpandableListView) findViewById(R.id.expendable_list);
-    	 // go here if events empty
-    	 if(mListDataHeader == null){
-    		 mListDataHeader = new ArrayList<String>();
-    		 mListDataChild = new HashMap<String, List<ClientEvent>>();
-    		 prepareListData();
-    	 }    	     	     	 
-    	 // setting list adapter
-    	 expListView.setAdapter(new ExpandableListAdapter(this, this , mListDataHeader, mListDataChild));
     	 // set listeners
     	 expListView.setOnChildClickListener(new OnChildClickListener() {	 
     		 @Override
@@ -103,7 +93,7 @@ public class MainActivity extends CoolieActivity {
         	 mLoginDialog = new LoginDialog(this, afterLogin);
     		 FacebookLogin.login(this, afterLogin);
     	 }else{
-    		 fetchEvents();
+    		 getEvents();
     	 }
      }
      
@@ -115,7 +105,7 @@ public class MainActivity extends CoolieActivity {
     		 if (account != null) {
     			 mLoggedAccount = account;
     			 mJoinInPref.edit().clear().putString("account", mLoggedAccount.toJson()).commit();
-    			 fetchEvents();
+    			 getEvents();
     		 } 
     		 //Login fail
     		 else{
@@ -168,31 +158,45 @@ public class MainActivity extends CoolieActivity {
     	 }
      }
      
-     private void prepareListData() {
-    	 ArrayList<ClientEvent> attendingArr = new ArrayList<ClientEvent>();
-    	 ArrayList<ClientEvent> myEventsArr = new ArrayList<ClientEvent>();
-    	 getEventsAttending(attendingArr);
-    	 getMyEvents(myEventsArr);
-    	 //Create Headers
-    	 mListDataHeader.add("I'm Attending");
-    	 mListDataHeader.add("My Events");   
-    	 // Add attending events
-    	 mListDataChild.put(mListDataHeader.get(0), attendingArr);
-    	 // Add My events
-    	 mListDataChild.put(mListDataHeader.get(1), myEventsArr);
-     }
      
-     private void getEventsAttending(final ArrayList<ClientEvent> attendingArr){
-    	 final ProgressDialog pd = ProgressDialog.show(this, "", "Loading...");
+     private void getEvents(){
+    	 final ProgressDialog pd = ProgressDialog.show(this, "Join-In", "Fetching events from server");
+    	 final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.expendable_list);
     	 pd.setCancelable(false);
     	 //Fetch attending events from server
     	 ClientProxy.getEventsAttending(mLoggedAccount.getUsername(), new OnDone<List<ClientEvent>>() {
-    		 @Override public void onDone(final List<ClientEvent> es) {
-    			 pd.dismiss();
-    			 for (final ClientEvent e : es) {
-    				 if (mLoggedAccount.getUsername().equals(e.getOwner()))
-    					 continue;    	          
-    				 attendingArr.add(e);
+    		 @Override public void onDone(final List<ClientEvent> es) {   
+    			 pd.dismiss();			 
+    			 if (es.size() > 0){
+    				 
+    				 ArrayList<ClientEvent> attending = new ArrayList<ClientEvent>();
+    				 ArrayList<ClientEvent> myEvents = new ArrayList<ClientEvent>();
+    				 String userName = mLoggedAccount.getUsername();
+    				 for (final ClientEvent e : es) {
+    					 if (userName == e.getOwner()){
+    						 myEvents.add(e);    						 
+    					 }else{
+    						 attending.add(e);    						 
+    					 }    					 
+    				 }
+    				 ArrayList<String> headers = new ArrayList<String>();
+    				 HashMap<String, List<ClientEvent>> events = new HashMap<String, List<ClientEvent>>();
+    				 if (attending.size() > 0){
+    					 headers.add("I'm attending");
+    					 events.put("I'm attending", attending);
+    				 }
+    				 if (myEvents.size() > 0 ){
+    					 headers.add("My Events");
+    					 events.put("My Events", myEvents);
+    				 }
+    				 expListView.setAdapter(new ExpandableListAdapter(MainActivity.this, MainActivity.this, 
+    						 headers, events));
+    				 for (int i = 0; i < headers.size(); ++i){
+    					 expListView.expandGroup(i);
+    				 } 
+    			 }else{
+    	    		 startActivityForResult(new Intent(MainActivity.this, CategoriesActivity.class).putExtra("account", mLoggedAccount)
+    	    				 , REQUEST_CATEGORIES_ACTIVITY);
     			 }
     		 }
     	 }, new OnError(this) {
@@ -200,23 +204,5 @@ public class MainActivity extends CoolieActivity {
     			 pd.dismiss();
     		 }
     	 });
-     }
-     
-     private void getMyEvents(final ArrayList<ClientEvent> myEventsArr){
-    	 final ProgressDialog pd = ProgressDialog.show(this, "", "Loading...");
-    	 pd.setCancelable(false);
-    	 //Fetch My events from server
-    	 ClientProxy.getEventsByOwner(mLoggedAccount.getUsername(), new OnDone<List<ClientEvent>>() {
-    		 @Override public void onDone(final List<ClientEvent> es) {
-    			 pd.dismiss();
-    			 for (final ClientEvent e : es) {
-    				 myEventsArr.add(e);    				 
-    			 }
-    		 }
-    	 }, new OnError(this) {
-    		 @Override public void beforeHandlingError() {
-    			 pd.dismiss();
-    		 }
-    	 });    	 
-     }     
+     }        
 }//MainActivity

@@ -98,38 +98,7 @@
             android:name="com.technion.coolie.joinin.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Sherlock.Light" >
-        </activity>
-        <activity
-            android:name="com.technion.coolie.joinin.map.MainMapActivity"
-            android:screenOrientation="portrait" >
-            <intent-filter android:label="@string/app_name" >
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="teamapp-yp.appspot.com"
-                    android:pathPrefix="/"
-                    android:scheme="http" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="teamapp-g3.appspot.com"
-                    android:pathPrefix="/"
-                    android:scheme="http" />
-            </intent-filter>
-        </activity>
+        </activity>        
         <activity
             android:name="com.technion.coolie.joinin.subactivities.CreateEventActivity"
             android:label="@string/app_name"

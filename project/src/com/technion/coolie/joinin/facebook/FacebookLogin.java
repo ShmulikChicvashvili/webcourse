@@ -88,7 +88,7 @@ public class FacebookLogin {
    *         works as usual.
    */
   private static OnLoginDone showLoadingBar(final Activity a, final OnLoginDone callback) {
-    final ProgressDialog pd = ProgressDialog.show(a, "", "Loading...");
+    final ProgressDialog pd = ProgressDialog.show(a, "Join-In", "Logging to Facebook");
     pd.setCancelable(false);
     return new OnLoginDone() {
       @Override public void loginCallback(final ClientAccount ca) {
