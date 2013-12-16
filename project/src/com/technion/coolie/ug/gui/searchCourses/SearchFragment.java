@@ -52,7 +52,7 @@ public class SearchFragment extends Fragment {
 	FragmentActivity context;
 	SearchResultsAdapter searchAdapter;
 	ArrayAdapter<String> autoCompleteAdapter;
-	// String lastQuery; // TODO decide on this
+	String lastQuery = "";
 	SearchFilters filters;
 	public final static String ARGUMENT_FILTERS_KEY = "com.technion.coolie.ug.search.argument.filter";
 	public final static String ARGUMENT_QUERY_KEY = "com.technion.coolie.ug.search.argument.query";
@@ -256,6 +256,8 @@ public class SearchFragment extends Fragment {
 
 		updateCoursesResultsDisplay();
 		updateAutoCompleteDisplay();
+
+		lastQuery = query;
 		return filteredAndQueriedList.size();
 	}
 
@@ -453,15 +455,11 @@ public class SearchFragment extends Fragment {
 	@Override
 	public void onStop() {
 		try {
-			SerializeIO.save(context, LAST_SEARCH,
-					(Serializable) ((AutoCompleteTextView) context
-							.findViewById(R.id.autocompletetextview)).getText()
-							.toString());
+			SerializeIO.save(context, LAST_SEARCH, lastQuery);
 			SerializeIO.save(context, LAST_FILTER, (Serializable) filters);
 		} catch (IOException e) {
 			Log.e(MainActivity.DEBUG_TAG, "save error ", e);
 		}
 		super.onStop();
 	}
-
 }

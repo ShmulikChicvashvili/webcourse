@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
@@ -64,28 +62,25 @@ public class CourseDisplayFragment extends Fragment {
 	}
 
 	private void initLayout() {
-		RadioGroup b = (RadioGroup) getActivity().findViewById(
-				R.id.course_screen_semester_radio_group);
-		b.setVisibility(View.GONE);
-		// TODO set the names of the semesters in order.
-		b.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(RadioGroup group, int checkedId) {
-				// find out what semster responds to that semster index(in
-				// UGdatabase).
-				// get course from new courseKey
-				// if course is available call update coursedisplay
-				// if course is not available replace with blank screen with not
-				// learned at that semester text.
-
-			}
-		});
-
+		/*
+		 * RadioGroup b = (RadioGroup) getActivity().findViewById(
+		 * R.id.course_screen_semester_radio_group); b.setVisibility(View.GONE);
+		 * // TODO set the names of the semesters in order.
+		 * b.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		 * 
+		 * @Override public void onCheckedChanged(RadioGroup group, int
+		 * checkedId) { // find out what semster responds to that semster
+		 * index(in // UGdatabase). // get course from new courseKey // if
+		 * course is available call update coursedisplay // if course is not
+		 * available replace with blank screen with not // learned at that
+		 * semester text.
+		 * 
+		 * } });
+		 */
 	}
 
 	private void updateCourseDisplay() {
-		final SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+		final SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
 		TextView nameTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_name);
