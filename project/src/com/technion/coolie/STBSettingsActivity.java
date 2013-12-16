@@ -1,25 +1,25 @@
 package com.technion.coolie;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.text.TextUtils;
-import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 
-import java.util.List;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
@@ -32,7 +32,7 @@ import java.util.List;
  * href="http://developer.android.com/guide/topics/ui/settings.html">Settings
  * API Guide</a> for more information on developing a Settings UI.
  */
-public class STBSettingsActivity extends PreferenceActivity
+public class StbSettingsActivity extends SherlockPreferenceActivity
 {
 	/**
 	 * Determines whether to always show the simplified settings UI, where
@@ -40,12 +40,15 @@ public class STBSettingsActivity extends PreferenceActivity
 	 * as a master/detail two-pane view on tablets. When true, a single pane is
 	 * shown on tablets.
 	 */
+	private static final String SIMESTERSTART = "stb_semester_start";
+	private static final String SIMESTERLENGTH = "stb_simester_length";
 	private static final boolean ALWAYS_SIMPLE_PREFS = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+
 		setupActionBar();
 	}
 
@@ -57,7 +60,6 @@ public class STBSettingsActivity extends PreferenceActivity
 	{
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 		{
-			// Show the Up button in the action bar.
 			getActionBar().setDisplayHomeAsUpEnabled(true);
 		}
 	}
@@ -68,15 +70,6 @@ public class STBSettingsActivity extends PreferenceActivity
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			// TODO: If Settings has multiple levels, Up should navigate up
-			// that hierarchy.
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		}
@@ -107,27 +100,13 @@ public class STBSettingsActivity extends PreferenceActivity
 		// use the older PreferenceActivity APIs.
 
 		// Add 'general' preferences.
-		addPreferencesFromResource(R.xml.pref_general);
-
-		// Add 'notifications' preferences, and a corresponding header.
-		PreferenceCategory fakeHeader = new PreferenceCategory(this);
-		fakeHeader.setTitle(R.string.pref_header_notifications);
-		getPreferenceScreen().addPreference(fakeHeader);
-		addPreferencesFromResource(R.xml.pref_notification);
-
-		// Add 'data and sync' preferences, and a corresponding header.
-		fakeHeader = new PreferenceCategory(this);
-		fakeHeader.setTitle(R.string.pref_header_data_sync);
-		getPreferenceScreen().addPreference(fakeHeader);
-		addPreferencesFromResource(R.xml.pref_data_sync);
+		addPreferencesFromResource(R.xml.stb_pref_general);
 
 		// Bind the summaries of EditText/List/Dialog/Ringtone preferences to
 		// their values. When their values change, their summaries are updated
 		// to reflect the new value, per the Android Design guidelines.
-		bindPreferenceSummaryToValue(findPreference("example_text"));
-		bindPreferenceSummaryToValue(findPreference("example_list"));
-		bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
-		bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+		bindPreferenceSummaryToValue(findPreference(SIMESTERLENGTH));
+		bindPreferenceSummaryToValue(findPreference(SIMESTERSTART));
 	}
 
 	/** {@inheritDoc} */
@@ -167,7 +146,7 @@ public class STBSettingsActivity extends PreferenceActivity
 	{
 		if (!isSimplePreferences(this))
 		{
-			loadHeadersFromResource(R.xml.pref_headers, target);
+			loadHeadersFromResource(R.xml.stb_pref_headers, target);
 		}
 	}
 
@@ -181,52 +160,10 @@ public class STBSettingsActivity extends PreferenceActivity
 		public boolean onPreferenceChange(Preference preference, Object value)
 		{
 			String stringValue = value.toString();
-
 			if (preference instanceof ListPreference)
 			{
-				// For list preferences, look up the correct display value in
-				// the preference's 'entries' list.
-				ListPreference listPreference = (ListPreference) preference;
-				int index = listPreference.findIndexOfValue(stringValue);
-
-				// Set the summary to reflect the new value.
-				preference
-						.setSummary(index >= 0 ? listPreference.getEntries()[index]
-								: null);
-
-			} else if (preference instanceof RingtonePreference)
-			{
-				// For ringtone preferences, look up the correct display value
-				// using RingtoneManager.
-				if (TextUtils.isEmpty(stringValue))
-				{
-					// Empty values correspond to 'silent' (no ringtone).
-					preference.setSummary(R.string.pref_ringtone_silent);
-
-				} else
-				{
-					Ringtone ringtone = RingtoneManager.getRingtone(
-							preference.getContext(), Uri.parse(stringValue));
-
-					if (ringtone == null)
-					{
-						// Clear the summary if there was a lookup error.
-						preference.setSummary(null);
-					} else
-					{
-						// Set the summary to reflect the new ringtone display
-						// name.
-						String name = ringtone
-								.getTitle(preference.getContext());
-						preference.setSummary(name);
-					}
-				}
-
-			} else
-			{
-				// For all other preferences, set the summary to the value's
-				// simple string representation.
-				preference.setSummary(stringValue);
+				preference.setSummary("simister is " + stringValue
+						+ " weeks long");
 			}
 			return true;
 		}
@@ -267,57 +204,29 @@ public class STBSettingsActivity extends PreferenceActivity
 		public void onCreate(Bundle savedInstanceState)
 		{
 			super.onCreate(savedInstanceState);
-			addPreferencesFromResource(R.xml.pref_general);
-
-			// Bind the summaries of EditText/List/Dialog/Ringtone preferences
-			// to their values. When their values change, their summaries are
-			// updated to reflect the new value, per the Android Design
-			// guidelines.
-			bindPreferenceSummaryToValue(findPreference("example_text"));
-			bindPreferenceSummaryToValue(findPreference("example_list"));
+			addPreferencesFromResource(R.xml.stb_pref_general);
 		}
 	}
 
-	/**
-	 * This fragment shows notification preferences only. It is used when the
-	 * activity is showing a two-pane settings UI.
-	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public static class NotificationPreferenceFragment extends
-			PreferenceFragment
+	public static int getSemesterLength(Context context)
 	{
-		@Override
-		public void onCreate(Bundle savedInstanceState)
-		{
-			super.onCreate(savedInstanceState);
-			addPreferencesFromResource(R.xml.pref_notification);
+		return PreferenceManager.getDefaultSharedPreferences(context).getInt(
+				SIMESTERLENGTH, 14);
 
-			// Bind the summaries of EditText/List/Dialog/Ringtone preferences
-			// to their values. When their values change, their summaries are
-			// updated to reflect the new value, per the Android Design
-			// guidelines.
-			bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
-		}
 	}
 
-	/**
-	 * This fragment shows data and sync preferences only. It is used when the
-	 * activity is showing a two-pane settings UI.
-	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public static class DataSyncPreferenceFragment extends PreferenceFragment
+	@SuppressLint("SimpleDateFormat")
+	public static Date getSemesterStartDate(Context context)
 	{
-		@Override
-		public void onCreate(Bundle savedInstanceState)
+		SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+		try
 		{
-			super.onCreate(savedInstanceState);
-			addPreferencesFromResource(R.xml.pref_data_sync);
-
-			// Bind the summaries of EditText/List/Dialog/Ringtone preferences
-			// to their values. When their values change, their summaries are
-			// updated to reflect the new value, per the Android Design
-			// guidelines.
-			bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+			return format.parse(PreferenceManager.getDefaultSharedPreferences(
+					context).getString(SIMESTERSTART, "1970.01.01"));
+		} catch (ParseException e)
+		{
 		}
+		return new Date();
 	}
+
 }

@@ -5,12 +5,11 @@ import org.achartengine.GraphicalView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 
 import com.actionbarsherlock.view.Menu;
 import com.technion.coolie.R;
-import com.technion.coolie.STBSettingsActivity;
+import com.technion.coolie.StbSettingsActivity;
 import com.technion.coolie.studybuddy.adapters.CourseAdapter;
 import com.technion.coolie.studybuddy.graphs.GraphFactory;
 import com.technion.coolie.studybuddy.views.EditCourse;
@@ -62,7 +61,7 @@ public class MainActivity extends StudyBuddyActivity
 			startActivity(intent);
 			return true;
 		case R.id.stb_main_settings:
-			intent = new Intent(this, STBSettingsActivity.class);
+			intent = new Intent(this, StbSettingsActivity.class);
 			startActivity(intent);
 			return true;
 		}

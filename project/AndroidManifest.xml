@@ -74,7 +74,18 @@
             android:name="com.technion.coolie.studybuddy.views.TasksActivity"
             android:parentActivityName=".studybuddy.MainActivity" >
         </activity>
-
+        <activity
+            android:name="com.technion.coolie.studybuddy.views.EditCourse"
+            android:label="@string/stb_title_activity_edit_course"
+            android:parentActivityName="com.technion.coolie.studybuddy.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.studybuddy.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.technion.coolie.studybuddy.views.STBSettingsActivity"
+            android:parentActivityName="com.technion.coolie.studybuddy.MainActivity" >
+        </activity>
         <!-- Tech Library -->
         <activity
             android:name="com.technion.coolie.techlibrary.MainActivity"
@@ -117,8 +128,8 @@
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>
         <activity
-            android:name="com.technion.coolie.studybuddy.views.EditCourse"
-            android:label="@string/stb_title_activity_edit_course"
+            android:name="com.technion.coolie.StbSettingsActivity"
+            android:label="@string/title_activity_stb_settings"
             android:parentActivityName="com.technion.coolie.studybuddy.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
