@@ -1,28 +1,29 @@
 package com.technion.coolie.tecmind.BL;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class User {
-	public String mId;
+public class User implements IUser{
+	public String id;
 	public String name;
-	public String account; //in the center bank
-	public int totalTechnions;
-	public Date lastMining;
 	public Title title;
-	List<Post> posts; //all posts from last mining till now
-	List<Like> likes; //all likes the user did from last mining till now
-	List<Comment> comments; //all the comments the user posts from last mining till now
+	public Date lastMining = new Date();
+	public int totalTechoins;
+	public int bankAccount;
 	
 	public int commentsNum = 0;
 	public int postsNum = 0;
-	public int likesNum = 0;
-	public int likesOnPostsNum = 0;
+	public int likesNum = 0; // likes that the user did
+	public int likesOnPostsNum = 0; // likes on posts
+	
+	public ArrayList<Post> posts;
 	
 	private static User mUser = null;
 		
-	private User(String id) {
-		mId = id;
+	private User(String userId) {
+		id = userId;
+		lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
 	}
 	
 	/* Return User Instance if already have been created, initiate new one otherwise */
@@ -36,6 +37,27 @@ public class User {
 		}
 		
 		
+	}
+
+	@Override
+	public void initiateFieldsFromServer(String sName, Title sTitle,
+			Date sLastMining, int sTotalTechoins, int sBankAccount) {
+		name = sName;
+		title = sTitle;
+		lastMining = sLastMining;
+		totalTechoins = sTotalTechoins;
+		bankAccount = sBankAccount;
+		
+	}
+	
+	@Override
+	public Post getPostById(String postId) {
+		for (Post p : User.getUserInstance(null).posts) {
+			if (p.id.equals(postId)) {
+				return p;
+			}
+		}
+		return null;
 	}
 
 	

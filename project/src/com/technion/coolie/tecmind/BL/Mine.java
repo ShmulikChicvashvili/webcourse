@@ -1,12 +1,19 @@
 package com.technion.coolie.tecmind.BL;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
+
+import junit.framework.Assert;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Log;
 
 import com.facebook.model.GraphObject;
 import com.google.gson.Gson;
@@ -45,28 +52,51 @@ public class Mine implements IMine {
 
 	        JSONObject jso = gO.getInnerJSONObject();	  		        
 	        JSONArray arr;
-	        String id = null;
+	        String groupId = null;
+	        String updateTimeString = null;
+	        String createTimeString = null;
 	        String likes = null;
+	        String postId = null;
 	        ArrayList<Utilities.LikesObject> likesArr;
 	        String comments = null;
 	        ArrayList<Utilities.CommentObject> commentsArr;
+	        int postsCounter = 0;
+	        int commentsOfPostsCounter = 0;
+	        int likesOfPostsCounter = 0;
 		try {
 			arr = jso.getJSONArray( "data" );
-		        for ( int i = 0; i < ( arr.length() ); i++ )
-		        {
-		            JSONObject json_obj = arr.getJSONObject( i );
-		            if (json_obj.toString().contains("\"to\":")){
-		            	id = ((JSONArray)((JSONObject)json_obj.get("to")).get("data")).getJSONObject(0).get("id").toString();
-				           System.out.println(i);
-		            }
-		           
-		            // counts all likes of the post
-		           if (mTechGroups.contains(id)) {
+	        for ( int i = 0; i < ( arr.length() ); i++ ) {
+	            JSONObject json_obj = arr.getJSONObject( i );
+	            if (json_obj.toString().contains("\"to\":")){
+	            	 groupId = ((JSONArray)((JSONObject)json_obj.get("to")).get("data")).getJSONObject(0).get("id").toString();
+			         System.out.println(i);
+			         
+			         /* gets the time stamps of creating the post and the last update */
+			         updateTimeString =  json_obj.get("updated_time").toString();
+					 Date updateTimeDate = Utilities.parseDate(updateTimeString);
+
+					 createTimeString =  json_obj.get("created_time").toString();
+			         Date createTimeDate = Utilities.parseDate(createTimeString);
+			         
+			         Assert.assertEquals(mUserId, User.getUserInstance(null).id);
+			         				         
+			         /* if post hasn't been updated after last mining */
+			         if (updateTimeDate.before(User.getUserInstance(mUserId).lastMining) ) {
+			        	 break;
+			         }
+			         
+			         /* gets the post id */
+			         postId = json_obj.getString("id");
+			         
+	            
+	           
+		            // counts all likes of the post in the certain group
+		            if (mTechGroups.contains(groupId)) {
 		        	   if (json_obj.toString().contains("\"likes\":")){
 			            	likes = ((JSONArray)((JSONObject)json_obj.get("likes")).get("data")).toString();
 			            	likesArr = new Gson().fromJson(likes, new TypeToken<ArrayList<Utilities.LikesObject>>() 
 			            			{}.getType());
-			            	User.getUserInstance(null).likesOnPostsNum += likesArr.size();
+			            	likesOfPostsCounter += likesArr.size();
 	
 			           }
 		        	   
@@ -76,17 +106,32 @@ public class Mine implements IMine {
 			            	
 			            	commentsArr = new Gson().fromJson(comments, new TypeToken<ArrayList<Utilities.CommentObject>>() 
 			            			{}.getType());
-			            	User.getUserInstance(null).commentsNum += commentsArr.size();
-
+			            	commentsOfPostsCounter += commentsArr.size();
+	
 			           }
-	        	   		// counts all posts of the post
-		        	   User.getUserInstance(null).postsNum++;
-		           } 
-		 
-		           
-		           
-	         
-		        }
+		        	   
+		        	   /* if post hasn't been published before last mining count post */
+		        	   if (createTimeDate.after(User.getUserInstance(mUserId).lastMining) ) {
+		        		   postsCounter++;
+		        		   
+		        		   /* adds the post to the user's posts list */
+		        		   Post newPost = new Post(postId, createTimeDate, mUserId, likesOfPostsCounter, commentsOfPostsCounter);
+		        		   User.getUserInstance(null).posts.add(newPost);
+		        	   }
+		            }
+	            }
+	        }
+	        
+	        System.out.println("*****Counters******");
+	        System.out.println(postsCounter);
+	        System.out.println(commentsOfPostsCounter);
+	        System.out.println(likesOfPostsCounter);
+	        
+	        Post post = User.getUserInstance(null).getPostById(postId);
+	        Utilities.calculatePosts(post, postsCounter);
+	        Utilities.calculateComments(post, commentsOfPostsCounter);
+	        Utilities.calculateLikes(post, likesOfPostsCounter);
+	        
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -94,6 +139,8 @@ public class Mine implements IMine {
 	}
 	
 
+    
+ 
 	
 
 	

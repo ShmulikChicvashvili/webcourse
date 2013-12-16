@@ -1,10 +1,13 @@
 package com.technion.coolie.tecmind;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import junit.framework.Assert;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -20,14 +23,20 @@ import com.facebook.model.GraphUser;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.tecmind.BL.Mine;
+import com.technion.coolie.tecmind.BL.Title;
+import com.technion.coolie.tecmind.BL.User;
+import com.technion.coolie.tecmind.server.TecUser;
+import com.technion.coolie.tecmind.server.TecUserTitle;
+import com.technion.coolie.tecmind.server.TechmineAPI;
 
 
 public class MineActivity extends CoolieActivity {
 	
-	private Session currentSession;
+	Session currentSession;
 	Session.NewPermissionsRequest newPermissionsRequest;
 	List<String> permissions;
 	String userId;
+	TechmineAPI connector;
 	
 	
 	@Override
@@ -35,11 +44,6 @@ public class MineActivity extends CoolieActivity {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.techmind_activity_mine);
 
-	    currentSession = Session.getActiveSession();
-	    if (currentSession == null) {
-	    	
-	    }
-	    
 	    /* start Facebook Login */
 	    openActiveSession(this, true, new Session.StatusCallback() {
 
@@ -57,9 +61,14 @@ public class MineActivity extends CoolieActivity {
 	            public void onCompleted(GraphUser user, Response response) {		    
 	            	if (user != null) {
 	            		userId = user.getId();
-
-	  	  		      Toast.makeText(getApplicationContext(), "OPENED",
+	            		
+	            		User.getUserInstance(userId);
+	            		Assert.assertEquals(userId, User.getUserInstance(null).id);
+	  	  		      	Toast.makeText(getApplicationContext(), "OPENED",
 	  	  	        		Toast.LENGTH_LONG).show();
+	  	  		      
+	  	  		      	//initiateFromServer();
+	  	  		      
 	            		mining();
 	            	}
 	             }
@@ -107,7 +116,35 @@ public class MineActivity extends CoolieActivity {
   		    }
   		).executeAsync();
   	}
+	 
+	  void initiateFromServer() {
+		  new ServerUserData().execute();
+		  
+	  }
+	  
+	  class ServerUserData extends AsyncTask<Void, Void, TecUser> {
+
+			@Override
+			protected TecUser doInBackground(Void... arg0) {
+				TecUser userToServer = new TecUser(userId, null, null, null, 0, 0);
+				return connector.getUser(userToServer);
+				
+			}
+
+			@Override
+			protected void onPostExecute(TecUser result) {
+				User.getUserInstance(result.getId());
+				User.getUserInstance(null).initiateFieldsFromServer(result.getName(), Title.ATUDAI ,
+						result.getLastMining(), result.getTotalTechoins(), result.getBankAccount());
+				
+			}
+
+	
+		}
+	  
 }
+
+
 
 
 
