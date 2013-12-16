@@ -19,11 +19,10 @@ public class UgTracking implements IUgTracking {
 
   private static final String servletName = "UGTrackingCourses";
   private static final String FUNCTION = "function";
-  Communicator communicator = new Communicator();
 
   @Override
   public ReturnCodesUg addTrackingStudent(Student student, CourseKey courseKey) {
-    String serverResult = communicator.execute(servletName, FUNCTION,
+    String serverResult = Communicator.execute(servletName, FUNCTION,
         UgTrackingFunctions.ADD_TRACKING_STUDENT.value(), "student",
         toJson(student), "courseKey", toJson(courseKey));
     return ReturnCodesUg.valueOf(serverResult);
@@ -33,7 +32,7 @@ public class UgTracking implements IUgTracking {
   public ReturnCodesUg removeTrackingStudentFromCourse(Student student,
       CourseKey courseKey) {
     Log.v("tagg", "fdsfdsfds");
-    String serverResult = communicator.execute(servletName, FUNCTION,
+    String serverResult = Communicator.execute(servletName, FUNCTION,
         UgTrackingFunctions.REMOVE_TRACKING_STUDENT_FROM_COURSE.value(),
         "student", toJson(student), "courseKey", toJson(courseKey));
     return ReturnCodesUg.valueOf(serverResult);

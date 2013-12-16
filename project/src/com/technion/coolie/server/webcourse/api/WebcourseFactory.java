@@ -1,5 +1,10 @@
 package com.technion.coolie.server.webcourse.api;
 
-public interface WebcourseFactory {
+import com.technion.coolie.server.webcourse.manager.WebcourseManager;
 
+public class WebcourseFactory {
+
+  public static IWebcourseManager getWebcourseManager() {
+    return new WebcourseManager();
+  }
 }

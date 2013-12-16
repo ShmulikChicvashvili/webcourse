@@ -17,11 +17,10 @@ import com.technion.coolie.server.ug.framework.Student;
  */
 public class UgPayments implements IUgPayments {
   private static final String servletName = "UGPayment";
-  Communicator c = new Communicator();
 
   @Override
   public List<Payment> getStudentPayments(Student student) {
-    String $ = c.execute(servletName, "student", toJson(student));
+    String $ = Communicator.execute(servletName, "student", toJson(student));
 
     return convertJsonToCoursesList($);
   }
