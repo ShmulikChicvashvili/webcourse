@@ -4,13 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/lmi_components_margin" >
+    <ImageView
+        android:id="@+id/lmi_status_image"
+        android:layout_width="@dimen/lmi_status_image_size"
+        android:layout_height="@dimen/lmi_status_image_size"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/lmi_status_image"
+        android:src="@drawable/lmi_success_status" />
 
     <ImageView
         android:id="@+id/lmi_contact_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="@dimen/lmi_contact_image_size"
+        android:layout_height="@dimen/lmi_contact_image_size"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:contentDescription="@string/lmi_contact_image"
         android:src="@drawable/lmi_google_man" />
 
@@ -18,7 +26,8 @@
         android:id="@+id/lmi_contact_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/lmi_contact_image"
+        android:layout_toLeftOf="@+id/lmi_status_image"
         android:layout_toRightOf="@+id/lmi_contact_image"
         android:paddingLeft="@dimen/lmi_components_margin"
         android:text="@string/lmi_friend_name"
@@ -29,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lmi_contact_name"
+        android:layout_toLeftOf="@+id/lmi_status_image"
         android:layout_toRightOf="@+id/lmi_contact_image"
         android:paddingLeft="@dimen/lmi_components_margin"
         android:paddingTop="@dimen/lmi_components_margin"

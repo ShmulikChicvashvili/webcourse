@@ -62,7 +62,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		menu.findItem(R.id.lmi_done).setEnabled(isDoneItemEnabled);
 
 		// TODO: discuss about it:
-//		return super.onCreateOptionsMenu(menu);
+		// return super.onCreateOptionsMenu(menu);
 		return true;
 	}
 
@@ -324,8 +324,11 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				.getSelectedItemPosition()];
 		final String carColor = friendCarColorEdit.getText().toString();
 
-		if (isUserForgotAField(friendName, carNumber, carColor))
+		if (isUserChooseDateInThePast()) {
+			Toast.makeText(getApplicationContext(),
+					R.string.lmi_user_picked_time_in_the_past_message, Toast.LENGTH_SHORT).show();
 			return;
+		}
 
 		final Invitation i = Invitation.builder().contactId(friendName).date(cal.getTime())
 				.status(Status.CREATED).contactName(friendName).contactPhoneNumber(friendCellphone)
@@ -336,18 +339,10 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		finish();
 	}
 
-	private boolean isUserForgotAField(final String friendName, final String carNumber,
-			final String carColor) {
-		if ("".equals(friendName))
-			Toast.makeText(getApplicationContext(), "insert name", Toast.LENGTH_SHORT).show();
-		else if ("".equals(carNumber))
-			Toast.makeText(getApplicationContext(), "insert car number", Toast.LENGTH_SHORT).show();
-		else if ("".equals(carColor))
-			Toast.makeText(getApplicationContext(), "insert car color", Toast.LENGTH_SHORT).show();
-		else
-			return false;
+	private boolean isUserChooseDateInThePast() {
+		MyCalendar now = new MyCalendar();
 
-		return true;
+		return now.getTime().after(cal.getTime()) || now.equals(cal);
 	}
 
 	@Override
