@@ -13,43 +13,51 @@ import com.technion.coolie.letmein.model.Invitation;
 
 public class MockInvitationAdapter extends BaseInvitationAdapter {
 	private static final List<Invitation> mockInvitations = initInvitations();
-	private static final Map<String, ContactView> mockContactViewsById = initContactViews();
+	private static final Map<Long, ContactView> mockContactViewsById = initContactViews();
+
+	private static final long DAD_ID = 0L;
+	private static final long FRIEND_ID = 1L;
+	private static final long ABED_ID = 2L;
+	
+	private static String DAD_NAME = "Dad";
+	private static String FRIEND_NAME = "My best friend";
+	private static String ABED_NAME = "Abed";
 
 	private static List<Invitation> initInvitations() {
 		final Calendar c = Calendar.getInstance();
 
 		c.add(Calendar.HOUR_OF_DAY, 9);
-		final Invitation dad = Invitation.builder().contactId((long) 0).contactName("Dad")
-				.date(c.getTime()).build();
+		final Invitation dad = Invitation.builder().contactId(DAD_ID)
+				.contactName(DAD_NAME).date(c.getTime()).build();
 
 		c.add(Calendar.DAY_OF_YEAR, 2);
-		final Invitation friend = Invitation.builder().contactId((long) 1)
-				.contactName("My best friend").date(c.getTime()).build();
+		final Invitation friend = Invitation.builder().contactId(FRIEND_ID)
+				.contactName(FRIEND_NAME).date(c.getTime()).build();
 
 		c.add(Calendar.WEEK_OF_YEAR, 1);
-		final Invitation abed = Invitation.builder().contactId((long) 2).contactName("Abed")
-				.date(c.getTime()).build();
+		final Invitation abed = Invitation.builder().contactId(ABED_ID)
+				.contactName(ABED_NAME).date(c.getTime()).build();
 
 		return Arrays.asList(dad, friend, abed);
 	}
 
-	private static Map<String, ContactView> initContactViews() {
-		final Map<String, ContactView> $ = new HashMap<String, ContactView>();
+	private static Map<Long, ContactView> initContactViews() {
+		final Map<Long, ContactView> $ = new HashMap<Long, ContactView>();
 
 		final ContactView dad = new ContactView();
-		dad.ContactName = "Dad";
+		dad.ContactName = DAD_NAME;
 		dad.ContactImageId = R.drawable.lmi_dad;
-		$.put("dad", dad);
+		$.put(DAD_ID, dad);
 
 		final ContactView friend = new ContactView();
-		friend.ContactName = "My best friend";
+		friend.ContactName = FRIEND_NAME;
 		friend.ContactImageId = R.drawable.lmi_winger;
-		$.put("friend", friend);
+		$.put(FRIEND_ID, friend);
 
 		final ContactView abed = new ContactView();
-		abed.ContactName = "Abed";
+		abed.ContactName = ABED_NAME;
 		abed.ContactImageId = R.drawable.lmi_abed;
-		$.put("abed", abed);
+		$.put(ABED_ID, abed);
 
 		return $;
 	}

@@ -5,5 +5,6 @@ import android.widget.TextView;
 
 public class ContactInfoViewHolder {
 	public TextView Name;
+	public TextView Email;
 	public ImageView Image;
 }
