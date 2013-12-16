@@ -336,12 +336,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
         android:layout_below="@id/course_screen_groups_label"
-       
         android:orientation="vertical" 
+        android:layout_marginBottom="10dp"
       >
 	    
 	</LinearLayout>
 
 	    </LinearLayout>
+	
+    
+    
 	    </ScrollView>  
 </RelativeLayout>

@@ -21,7 +21,6 @@ import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Meeting;
 import com.technion.coolie.ug.model.RegistrationGroup;
 
-//TODO ADD FACULTY SOMEWHERE
 //TODO onClick radio group
 //TODO kdamim
 //TODO add to maakav
@@ -110,16 +109,25 @@ public class CourseDisplayFragment extends Fragment {
 
 		makeGroupsHeader();
 
-		if (courseToView.getRegistrationGroups() != null)
+		if (courseToView.getRegistrationGroups() != null) {
+			addSeperatorLine();
 			for (RegistrationGroup group : courseToView.getRegistrationGroups()) {
 				addRegistrationGroup(group);
 			}
+		}
 
 		fixEndOfGroups();
 
 		// groupAdapter = new CourseGroupsAdapter(context,
 		// courseToView.getRegistrationGroups(), new onClickGroup());
 
+	}
+
+	private void addSeperatorLine() {
+		LayoutInflater inflater = (LayoutInflater) getActivity()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater.inflate(R.layout.ug_course_display_line_seperator,
+				groupsView);
 	}
 
 	private void makeGroupsHeader() {
@@ -153,7 +161,7 @@ public class CourseDisplayFragment extends Fragment {
 			for (Meeting meeting : group.getTutorials()) {
 				addMeeting(new MeetingDisplay(meeting, "tutorial"));
 			}
-
+		addSeperatorLine();
 	}
 
 	private View addMeeting(MeetingDisplay meeting) {
