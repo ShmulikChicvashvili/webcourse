@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.adapters.CourseAdapter;
+import com.technion.coolie.studybuddy.graphs.GraphFactory;
 
 /**
  * Created by arik on 10/30/13.
@@ -24,7 +26,6 @@ public class MainView extends SherlockFragment {
 		View rootView = null;
 		rootView = inflater.inflate(R.layout.stb_view_main, container, false);
 
-		//TODO: anna change to a real graph
 		ImageView imageView = (ImageView) rootView
 				.findViewById(R.id.graph_view);
 		imageView.setOnClickListener(new OnClickListener() {

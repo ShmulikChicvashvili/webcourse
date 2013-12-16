@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.actionbarsherlock.view.Menu;
 import com.technion.coolie.R;
+import com.technion.coolie.STBSettingsActivity;
 import com.technion.coolie.studybuddy.adapters.CourseAdapter;
+import com.technion.coolie.studybuddy.graphs.GraphFactory;
 import com.technion.coolie.studybuddy.views.EditCourse;
 import com.technion.coolie.studybuddy.views.NowLayout;
 import com.technion.coolie.studybuddy.views.StudyBuddyActivity;
@@ -31,27 +35,23 @@ public class MainActivity extends StudyBuddyActivity
 
 		// DataStore.addFakeCourses();
 
-		ImageView imageView = (ImageView) findViewById(R.id.graph_view);
-		imageView.setOnClickListener(new OnClickListener()
-		{
-
-			@Override
-			public void onClick(View v)
-			{
-				v.getContext().startActivity(
-						new Intent(v.getContext(), TasksActivity.class));
-			}
-		});
 		NowLayout layout = (NowLayout) findViewById(R.id.course_list);
 
 		CourseAdapter adapter = new CourseAdapter(this);
 		layout.setAdapter(adapter);
+
+		// ANNA GRAPH HERE - JUST REMOVE COMMENTS TO SEE
+		LinearLayout _layout = (LinearLayout) findViewById(R.id.Chart_layout);
+		_layout.addView(GraphFactory.getSampleCourseProgress(getBaseContext()),
+				new LayoutParams(LayoutParams.WRAP_CONTENT,
+						LayoutParams.WRAP_CONTENT));
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(
 			com.actionbarsherlock.view.MenuItem item)
 	{
+		Intent intent = null;
 		switch (item.getItemId())
 		{
 		case android.R.id.home:
@@ -59,7 +59,11 @@ public class MainActivity extends StudyBuddyActivity
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
 		case R.id.stb_add_curse:
-			Intent intent = new Intent(this, EditCourse.class);
+			intent = new Intent(this, EditCourse.class);
+			startActivity(intent);
+			return true;
+		case R.id.stb_main_settings:
+			intent = new Intent(this, STBSettingsActivity.class);
 			startActivity(intent);
 			return true;
 		}

@@ -5,20 +5,21 @@
     android:layout_height="match_parent"
     android:background="#e3e3e3"
     android:orientation="horizontal"
-    android:weightSum="100" >
+    android:weightSum="4" >
 
-    <ImageView
-        android:id="@+id/graph_view"
-      style="@style/stb_nowCardStyle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/Chart_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-      android:src="@drawable/stb_graph" />
+        android:layout_weight="3"
+        android:orientation="vertical" />
 
-     <com.technion.coolie.studybuddy.views.NowLayout
+    <com.technion.coolie.studybuddy.views.NowLayout
         android:id="@+id/course_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:numColumns="@integer/stb_num_of_columns" >
-  </com.technion.coolie.studybuddy.views.NowLayout>
+        android:numColumns="@integer/stb_num_of_columns" 
+        android:layout_weight="1">
+    </com.technion.coolie.studybuddy.views.NowLayout>
 
 </LinearLayout>
