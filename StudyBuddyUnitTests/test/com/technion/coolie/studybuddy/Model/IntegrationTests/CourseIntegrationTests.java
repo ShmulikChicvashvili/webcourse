@@ -2,18 +2,13 @@ package com.technion.coolie.studybuddy.Model.IntegrationTests;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-
-import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.technion.coolie.studybuddy.Models.Course;
-import com.technion.coolie.studybuddy.Models.StudyItem;
-import com.technion.coolie.studybuddy.Models.StudyResource;
+import com.technion.coolie.studybuddy.models.Course;
+import com.technion.coolie.studybuddy.models.StudyResource;
 
 public class CourseIntegrationTests {
 
