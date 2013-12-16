@@ -11,13 +11,13 @@ import android.widget.TextView;
 
 import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.data.DataStore;
-import com.technion.coolie.studybuddy.presenters.MainPresenterModel;
+import com.technion.coolie.studybuddy.presenters.MainPresenter;
 import com.technion.coolie.studybuddy.views.CourseActivity;
 
 public class CourseAdapter extends BaseAdapter
 {
-	private LayoutInflater mInflater;
-	private MainPresenterModel pModel;
+	private LayoutInflater		mInflater;
+	private MainPresenter	presenter;
 
 	/**
 	 * 
@@ -27,19 +27,19 @@ public class CourseAdapter extends BaseAdapter
 		super();
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		pModel = DataStore.getMainPresenterModel();
+		presenter = DataStore.getMainPresenter();
 	}
 
 	@Override
 	public int getCount()
 	{
-		return DataStore.getMainPresenterModel().getCoursesCount();
+		return DataStore.getMainPresenter().getCoursesCount();
 	}
 
 	@Override
 	public Object getItem(int position)
 	{
-		return DataStore.getMainPresenterModel().getCourseByPosition(position);
+		return presenter.getCourseNameByPosition(position);
 	}
 
 	@Override
@@ -53,13 +53,16 @@ public class CourseAdapter extends BaseAdapter
 	{
 		View view = null;
 		if (convertView == null)
+		{
 			view = createView();
-		else
+		} else
+		{
 			view = convertView;
+		}
 
 		ViewHolder holder = (ViewHolder) view.getTag();
-		holder.courseName.setText(pModel.getCourseNameByPosition(position));
-		holder.courseNumber.setText(pModel.getCourseIdByPosition(position));
+		holder.courseName.setText(presenter.getCourseNameByPosition(position));
+		holder.courseNumber.setText(presenter.getCourseIdStringByPosition(position));
 		view.setOnClickListener(new OnClickListenerImplementation(position));
 		return view;
 	}
@@ -78,7 +81,7 @@ public class CourseAdapter extends BaseAdapter
 	private final class OnClickListenerImplementation implements
 			OnClickListener
 	{
-		private final int position;
+		private final int	position;
 
 		private OnClickListenerImplementation(int position)
 		{
@@ -90,7 +93,7 @@ public class CourseAdapter extends BaseAdapter
 		{
 			Intent intent = new Intent(v.getContext(), CourseActivity.class);
 			intent.putExtra(CourseActivity.COURSE_ID,
-					pModel.getCourseIdByPosition(position));
+					presenter.getCourseIdStringByPosition(position));
 			v.getContext().startActivity(intent);
 
 		}
@@ -98,7 +101,7 @@ public class CourseAdapter extends BaseAdapter
 
 	private class ViewHolder
 	{
-		public TextView courseName;
-		public TextView courseNumber;
+		public TextView	courseName;
+		public TextView	courseNumber;
 	}
 }
