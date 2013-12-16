@@ -24,8 +24,8 @@
             android:maxLines="1"
             android:visibility="gone" />   -->
         
-        <TextView
-            android:id="@+id/eventComing"
+          <TextView
+            android:id="@+id/eventComingAtt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp10"
@@ -34,20 +34,21 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="#000000" />
 
-        <ProgressBar
+       <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="4dp"
-            android:visibility="gone" />
+            android:visibility="gone" /> 
 
         <ScrollView
             android:id="@+id/scrollList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent" 
+            android:layout_below="@id/eventComingAtt">
 
-           <!--    <LinearLayout
+           <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >  -->
@@ -57,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical" >
-                </LinearLayout>
+                </LinearLayout> 
 
                 <ImageButton
                     android:id="@+id/showMore"
@@ -69,7 +70,7 @@
 		            android:padding="7dp"
                     android:src="@drawable/ji_navigation_expand"/>
 
-          <!--  </LinearLayout>  -->
+            </LinearLayout>  
 
         </ScrollView>
 
@@ -83,7 +84,7 @@
         android:layout_centerHorizontal="true"
         android:orientation="horizontal" >
 
-   <!--     <LinearLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
