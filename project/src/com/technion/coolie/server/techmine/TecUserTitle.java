@@ -8,7 +8,8 @@ package com.technion.coolie.server.techmine;
  * 
  */
 public enum TecUserTitle {
-  ATUDAI("ATUDAI"), PERSON("PERSON");
+  ATUDAI("ATUDAI"), NERD("NERD"), KNIGHT_NERD("KNIGHT NERD"), SUPER_NERD(
+      "SUPER NERD");
 
   private final String value;
 

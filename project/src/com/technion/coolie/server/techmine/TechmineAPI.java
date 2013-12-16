@@ -3,7 +3,10 @@
  */
 package com.technion.coolie.server.techmine;
 
+import java.util.List;
+
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
 
 /**
@@ -21,7 +24,7 @@ public class TechmineAPI implements ITechmineAPI {
   public ReturnCode addUser(TecUser user) {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.ADD_USER.toString(), TechmineEnum.USER.value(),
+        TechmineEnum.ADD_USER.toString(), TechmineEnum.TEC_USER.value(),
         gson.toJson(user)));
   }
 
@@ -29,7 +32,7 @@ public class TechmineAPI implements ITechmineAPI {
   public ReturnCode removeUser(TecUser user) {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.REMOVE_USER.toString(), TechmineEnum.USER.value(),
+        TechmineEnum.REMOVE_USER.toString(), TechmineEnum.TEC_USER.value(),
         gson.toJson(user)));
   }
 
@@ -37,7 +40,7 @@ public class TechmineAPI implements ITechmineAPI {
   public TecUser getUser(TecUser user) {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.GET_USER.toString(), TechmineEnum.USER.value(),
+        TechmineEnum.GET_TEC_USER.toString(), TechmineEnum.TEC_USER.value(),
         gson.toJson(user)), TecUser.class);
   }
 
@@ -162,6 +165,17 @@ public class TechmineAPI implements ITechmineAPI {
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TEC_LIKE.toString(), TechmineEnum.TEC_COMMENT.value(),
         gson.toJson(tecLike)), TecLike.class);
+  }
+
+  @Override
+  public List<TecPost> getAllUserPosts(TecUser user) {
+    return gson.fromJson(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.GET_ALL_USER_POSTS.toString(),
+        TechmineEnum.TEC_USER.value(), gson.toJson(user)),
+        new TypeToken<List<TecPost>>() {
+          // default usage
+        }.getType());
   }
 
 }

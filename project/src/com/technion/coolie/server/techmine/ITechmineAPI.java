@@ -1,5 +1,7 @@
 package com.technion.coolie.server.techmine;
 
+import java.util.List;
+
 /**
  * 
  * Created on 8/12/2013
@@ -150,4 +152,12 @@ public interface ITechmineAPI {
    * @return - the requested tecLike
    */
   public TecLike getTecLike(TecLike tecLike);
+
+  /**
+   * 
+   * @param user
+   *          - the user look for his posts
+   * @return - List<TecPost> which includes all user's posts
+   */
+  public List<TecPost> getAllUserPosts(TecUser user);
 }

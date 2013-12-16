@@ -37,5 +37,6 @@ public interface IUgCourse {
    *          the student
    * @return list of the student's courses
    */
-  public List<CourseServer> getStudentCurrentCourses(Student student);
+  public List<CourseServer> getStudentCurrentCourses(Student student,
+      Semester semester);
 }

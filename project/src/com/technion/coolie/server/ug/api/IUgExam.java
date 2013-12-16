@@ -3,6 +3,7 @@ package com.technion.coolie.server.ug.api;
 import java.util.List;
 
 import com.technion.coolie.server.ug.framework.Exam;
+import com.technion.coolie.server.ug.framework.Semester;
 import com.technion.coolie.server.ug.framework.Student;
 
 /**
@@ -18,5 +19,5 @@ public interface IUgExam {
    *          the student
    * @return list of the student's exams
    */
-  public List<Exam> getStudentExams(Student student);
+  public List<Exam> getStudentExams(Student student, Semester semester);
 }

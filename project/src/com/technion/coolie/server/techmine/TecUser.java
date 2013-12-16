@@ -10,6 +10,10 @@ public class TecUser implements IGetters {
   Date lastMining;
   int totalTechoins;
   int bankAccount;
+  int commentsNum;
+  int postsNum;
+  int likesNum;
+  int likeOnPostsNum;
 
   /**
    * @param id1
@@ -19,8 +23,8 @@ public class TecUser implements IGetters {
    * @param totalTechoins1
    * @param bankAccount1
    */
-  public TecUser(String id1, String name1, TecUserTitle title1, Date lastMining1,
-      int totalTechoins1, int bankAccount1) {
+  public TecUser(String id1, String name1, TecUserTitle title1,
+      Date lastMining1, int totalTechoins1, int bankAccount1) {
     this.id = id1;
     this.name = name1;
     this.title = title1;
