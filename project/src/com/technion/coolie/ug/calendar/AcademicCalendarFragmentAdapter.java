@@ -44,6 +44,7 @@ public class AcademicCalendarFragmentAdapter extends ArrayAdapter<Item> {
 						.findViewById(R.id.list_item_section_text);
 				sectionView.setText(si.getMonth());
 				sectionView.setBackgroundColor(Color.parseColor("#0099b3"));
+				sectionView.setTextColor(Color.parseColor("#FFCC00"));
 
 			} else {
 				final AcademicCalendarEvent ei = (AcademicCalendarEvent) i;
