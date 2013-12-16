@@ -3,6 +3,7 @@ package com.technion.coolie.ug.coursesAndExams;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,64 +14,64 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
+import com.technion.coolie.ug.model.CourseItem;
 
 public class CoursesAndExamsAdapter extends BaseExpandableListAdapter {
 
-	private Activity activity;
-	private Context context;
+	private final Context context;
 	private LayoutInflater inflater;
-	private ArrayList<CourseItem> parentItems;
+	private final ArrayList<CourseItem> parentItems;
 
-	public CoursesAndExamsAdapter(ArrayList<CourseItem> parents, Context context) {
-		this.parentItems = parents;
+	public CoursesAndExamsAdapter(final ArrayList<CourseItem> parents,
+			final Context context) {
+		parentItems = parents;
 		this.context = context;
 	}
 
-	public void setInflater(LayoutInflater inflater, Activity activity) {
+	public void setInflater(final LayoutInflater inflater,
+			final Activity activity) {
 		this.inflater = inflater;
-		this.activity = activity;
 	}
 
 	@Override
-	public View getChildView(int groupPosition, final int childPosition,
-			boolean isLastChild, View convertView, ViewGroup parent) {
+	public View getChildView(final int groupPosition, final int childPosition,
+			final boolean isLastChild, View convertView, final ViewGroup parent) {
 
-		if (convertView == null) {
+		if (convertView == null)
 			convertView = inflater.inflate(
 					R.layout.ug_courses_and_exams_child_item, null);
-		}
 
-		TextView moed = (TextView) convertView
+		final TextView moed = (TextView) convertView
 				.findViewById(R.id.courses_and_exams_moed);
-		TextView examDate = (TextView) convertView
+		final TextView examDate = (TextView) convertView
 				.findViewById(R.id.courses_and_exams_exam_date);
 
-		moed.setText((childPosition % 2 == 0) ? context
-				.getString(R.string.moedA) : context.getString(R.string.moedB));
-		SimpleDateFormat formatter=new SimpleDateFormat("dd.MM.yyyy");
-		Calendar cal = parentItems.get(groupPosition).getExams()
+		moed.setText(childPosition % 2 == 0 ? context.getString(R.string.moedA)
+				: context.getString(R.string.moedB));
+		final SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy",
+				Locale.getDefault());
+		final Calendar cal = parentItems.get(groupPosition).getExams()
 				.get(childPosition).getDate();
-		String date=(cal != null)? formatter.format(parentItems.get(groupPosition).getExams()
-				.get(childPosition).getDate().getTime()): "";    
-		examDate.setText( (date != "") ? date : context
+		final String date = cal != null ? formatter.format(parentItems
+				.get(groupPosition).getExams().get(childPosition).getDate()
+				.getTime()) : "";
+		examDate.setText(date != "" ? date : context
 				.getString(R.string.no_exam));
 		return convertView;
 	}
 
 	@Override
-	public View getGroupView(int groupPosition, boolean isExpanded,
-			View convertView, ViewGroup parent) {
+	public View getGroupView(final int groupPosition, final boolean isExpanded,
+			View convertView, final ViewGroup parent) {
 
-		if (convertView == null) {
+		if (convertView == null)
 			convertView = inflater.inflate(
 					R.layout.ug_courses_and_exams_group_item, null);
-		}
-		// ImageView im = (ImageView) convertView.findViewById(R.id.tag_img);
-		TextView courseName = (TextView) convertView
+		final TextView courseName = (TextView) convertView
 				.findViewById(R.id.courses_and_exams_course_name);
-		TextView courseId = (TextView) convertView
+		final TextView courseId = (TextView) convertView
 				.findViewById(R.id.courses_and_exams_course_id);
-		TextView points = (TextView) convertView
+		final TextView points = (TextView) convertView
 				.findViewById(R.id.courses_and_exams_points);
 		courseName.setText(parentItems.get(groupPosition).getCoursName());
 		courseId.setText("(" + parentItems.get(groupPosition).getCourseId()
@@ -80,22 +81,22 @@ public class CoursesAndExamsAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public Object getChild(int groupPosition, int childPosition) {
+	public Object getChild(final int groupPosition, final int childPosition) {
 		return null;
 	}
 
 	@Override
-	public long getChildId(int groupPosition, int childPosition) {
+	public long getChildId(final int groupPosition, final int childPosition) {
 		return 0;
 	}
 
 	@Override
-	public int getChildrenCount(int groupPosition) {
+	public int getChildrenCount(final int groupPosition) {
 		return parentItems.get(groupPosition).getExams().size();
 	}
 
 	@Override
-	public Object getGroup(int groupPosition) {
+	public Object getGroup(final int groupPosition) {
 		return null;
 	}
 
@@ -105,17 +106,17 @@ public class CoursesAndExamsAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public void onGroupCollapsed(int groupPosition) {
+	public void onGroupCollapsed(final int groupPosition) {
 		super.onGroupCollapsed(groupPosition);
 	}
 
 	@Override
-	public void onGroupExpanded(int groupPosition) {
+	public void onGroupExpanded(final int groupPosition) {
 		super.onGroupExpanded(groupPosition);
 	}
 
 	@Override
-	public long getGroupId(int groupPosition) {
+	public long getGroupId(final int groupPosition) {
 		return 0;
 	}
 
@@ -125,7 +126,8 @@ public class CoursesAndExamsAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public boolean isChildSelectable(int groupPosition, int childPosition) {
+	public boolean isChildSelectable(final int groupPosition,
+			final int childPosition) {
 		return false;
 	}
 

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.TransparentActivity;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.AccomplishedCourse;
@@ -19,18 +18,14 @@ import com.technion.coolie.ug.model.AccomplishedCourse;
 public class GradesSheetListFragment extends ListFragment {
 
 	List<AccomplishedCourse> coursesList = new ArrayList<AccomplishedCourse>();
-	
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		List<Item> tempList =UGDatabase.INSTANCE.getGradesSheet();
-		for (Item i : tempList)
-		{
+	public View onCreateView(final LayoutInflater inflater,
+			final ViewGroup container, final Bundle savedInstanceState) {
+		final List<Item> tempList = UGDatabase.INSTANCE.getGradesSheet();
+		for (final Item i : tempList)
 			if (i instanceof AccomplishedCourse)
-				coursesList.add((AccomplishedCourse)i);
-				
-		}
+				coursesList.add((AccomplishedCourse) i);
 		final GradesSheetFragmentListAdapter adapter = new GradesSheetFragmentListAdapter(
 				inflater.getContext(), coursesList);
 		setListAdapter(adapter);
@@ -38,10 +33,12 @@ public class GradesSheetListFragment extends ListFragment {
 	}
 
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		Intent intent = new Intent(getActivity(), TransparentActivity.class);
-		Bundle b = new Bundle();
-		b.putString("key", "gradesSheetLayout");
+	public void onListItemClick(final ListView l, final View v,
+			final int position, final long id) {
+		final Intent intent = new Intent(getActivity(),
+				TransparentActivity.class);
+		final Bundle b = new Bundle();
+		b.putString("key", GradesSheetFragment.class.toString());
 		intent.putExtras(b);
 		startActivity(intent);
 		super.onListItemClick(l, v, position, id);

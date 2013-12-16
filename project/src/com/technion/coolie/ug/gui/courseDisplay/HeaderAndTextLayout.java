@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 //TODO iteration 2
 public class HeaderAndTextLayout extends RelativeLayout {
 
-	public HeaderAndTextLayout(Context context, AttributeSet attrs) {
+	public HeaderAndTextLayout(final Context context, final AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 	}

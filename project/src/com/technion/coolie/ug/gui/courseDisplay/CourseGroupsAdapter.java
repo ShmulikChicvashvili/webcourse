@@ -21,21 +21,24 @@ public class CourseGroupsAdapter extends ArrayAdapter<RegistrationGroup> {
 	List<RegistrationGroup> results;
 	OnClickListener listener;
 
-	public CourseGroupsAdapter(Context context,
-			List<RegistrationGroup> objects, OnClickListener listener) {
+	public CourseGroupsAdapter(final Context context,
+			final List<RegistrationGroup> objects,
+			final OnClickListener listener) {
 		super(context, R.layout.ug_course_screen_layout, objects);
 		this.context = context;
-		this.results = objects;
+		results = objects;
 		this.listener = listener;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, final View convertView,
+			final ViewGroup parent) {
 		View row = convertView;
 		GroupHolder holder = null;
 
 		if (row == null) {
-			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+			final LayoutInflater inflater = ((Activity) context)
+					.getLayoutInflater();
 			row = inflater.inflate(R.layout.ug_course_screen_group_item_row,
 					parent, false);
 
@@ -48,11 +51,10 @@ public class CourseGroupsAdapter extends ArrayAdapter<RegistrationGroup> {
 			// holder.points = (TextView) row.findViewById(R.id.course_points);
 
 			row.setTag(holder);
-		} else {
+		} else
 			holder = (GroupHolder) row.getTag();
-		}
 
-		RegistrationGroup course = results.get(position);
+		// final RegistrationGroup course = results.get(position);
 		// holder.faculty.setText(course.getFaculty().toString());
 		// holder.number.setText(course.getCourseNumber());
 		// holder.name.setText(course.getName());

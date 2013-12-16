@@ -31,15 +31,17 @@ public class Course implements Serializable {
 	private Calendar moedA;
 	private Calendar moedB;
 
-	private List<GroupOfCourses> prerequisites; // пїЅпїЅпїЅ
-	private List<GroupOfCourses> attachedCourses; // пїЅпїЅпїЅпїЅ
+	private List<GroupOfCourses> prerequisites; // чгойн
+	private List<GroupOfCourses> attachedCourses; // цоегйн
 	private List<RegistrationGroup> registrationGroups;
 
-	public Course(String courseNumber, String name, float points,
-			String description, Semester semester, Faculty faculty,
-			Calendar moedA, Calendar moedB, List<GroupOfCourses> prerequisites,
-			List<GroupOfCourses> attachedCourses,
-			List<RegistrationGroup> registrationGroups) {
+	public Course(final String courseNumber, final String name,
+			final float points, final String description,
+			final Semester semester, final Faculty faculty,
+			final Calendar moedA, final Calendar moedB,
+			final List<GroupOfCourses> prerequisites,
+			final List<GroupOfCourses> attachedCourses,
+			final List<RegistrationGroup> registrationGroups) {
 		super();
 		this.courseNumber = courseNumber;
 		this.name = name;
@@ -54,25 +56,25 @@ public class Course implements Serializable {
 		this.registrationGroups = registrationGroups;
 	}
 
-	public Course(Course course) {
-		this.courseNumber = course.courseNumber;
-		this.name = course.name;
-		this.points = course.points;
-		this.description = course.description;
-		this.semester = course.semester;
-		this.faculty = course.faculty;
-		this.moedA = course.moedA;
-		this.moedB = course.moedB;
-		this.prerequisites = course.prerequisites;
-		this.attachedCourses = course.attachedCourses;
-		this.registrationGroups = course.registrationGroups;
+	public Course(final Course course) {
+		courseNumber = course.courseNumber;
+		name = course.name;
+		points = course.points;
+		description = course.description;
+		semester = course.semester;
+		faculty = course.faculty;
+		moedA = course.moedA;
+		moedB = course.moedB;
+		prerequisites = course.prerequisites;
+		attachedCourses = course.attachedCourses;
+		registrationGroups = course.registrationGroups;
 	}
 
 	public String getCourseNumber() {
 		return courseNumber;
 	}
 
-	public void setCourseNumber(String courseNumber) {
+	public void setCourseNumber(final String courseNumber) {
 		this.courseNumber = courseNumber;
 	}
 
@@ -80,7 +82,7 @@ public class Course implements Serializable {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -88,7 +90,7 @@ public class Course implements Serializable {
 		return points;
 	}
 
-	public void setPoints(float points) {
+	public void setPoints(final float points) {
 		this.points = points;
 	}
 
@@ -96,7 +98,7 @@ public class Course implements Serializable {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -104,7 +106,7 @@ public class Course implements Serializable {
 		return semester;
 	}
 
-	public void setSemester(Semester semester) {
+	public void setSemester(final Semester semester) {
 		this.semester = semester;
 	}
 
@@ -112,7 +114,7 @@ public class Course implements Serializable {
 		return faculty;
 	}
 
-	public void setFaculty(Faculty faculty) {
+	public void setFaculty(final Faculty faculty) {
 		this.faculty = faculty;
 	}
 
@@ -120,7 +122,7 @@ public class Course implements Serializable {
 		return moedA;
 	}
 
-	public void setMoedA(Calendar moedA) {
+	public void setMoedA(final Calendar moedA) {
 		this.moedA = moedA;
 	}
 
@@ -128,7 +130,7 @@ public class Course implements Serializable {
 		return moedB;
 	}
 
-	public void setMoedB(Calendar moedB) {
+	public void setMoedB(final Calendar moedB) {
 		this.moedB = moedB;
 	}
 
@@ -136,7 +138,7 @@ public class Course implements Serializable {
 		return prerequisites;
 	}
 
-	public void setPrerequisites(List<GroupOfCourses> prerequisites) {
+	public void setPrerequisites(final List<GroupOfCourses> prerequisites) {
 		this.prerequisites = prerequisites;
 	}
 
@@ -144,7 +146,7 @@ public class Course implements Serializable {
 		return attachedCourses;
 	}
 
-	public void setAttachedCourses(List<GroupOfCourses> attachedCourses) {
+	public void setAttachedCourses(final List<GroupOfCourses> attachedCourses) {
 		this.attachedCourses = attachedCourses;
 	}
 
@@ -152,7 +154,8 @@ public class Course implements Serializable {
 		return registrationGroups;
 	}
 
-	public void setRegistrationGroups(List<RegistrationGroup> registrationGroups) {
+	public void setRegistrationGroups(
+			final List<RegistrationGroup> registrationGroups) {
 		this.registrationGroups = registrationGroups;
 	}
 
@@ -162,9 +165,8 @@ public class Course implements Serializable {
 
 	public boolean hasFreePlaces() {
 		int sum = 0;
-		for (RegistrationGroup group : registrationGroups) {
+		for (final RegistrationGroup group : registrationGroups)
 			sum += Math.abs(group.getFreePlaces());
-		}
 		return sum > 0;
 	}
 

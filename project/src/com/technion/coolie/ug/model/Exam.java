@@ -5,8 +5,8 @@ import java.util.Date;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 
 public class Exam {
-	public Exam(String courseNumber, SemesterSeason ss, int moed,
-			Date examDate, String place) {
+	public Exam(final String courseNumber, final SemesterSeason ss,
+			final int moed, final Date examDate, final String place) {
 		super();
 		this.courseNumber = courseNumber;
 		this.ss = ss;
@@ -25,7 +25,7 @@ public class Exam {
 		return courseNumber;
 	}
 
-	public void setCourseNumber(String courseNumber) {
+	public void setCourseNumber(final String courseNumber) {
 		this.courseNumber = courseNumber;
 	}
 
@@ -33,7 +33,7 @@ public class Exam {
 		return ss;
 	}
 
-	public void setSs(SemesterSeason ss) {
+	public void setSs(final SemesterSeason ss) {
 		this.ss = ss;
 	}
 
@@ -41,7 +41,7 @@ public class Exam {
 		return moed;
 	}
 
-	public void setMoed(int moed) {
+	public void setMoed(final int moed) {
 		this.moed = moed;
 	}
 
@@ -49,7 +49,7 @@ public class Exam {
 		return examDate;
 	}
 
-	public void setExamDate(Date examDate) {
+	public void setExamDate(final Date examDate) {
 		this.examDate = examDate;
 	}
 
@@ -57,7 +57,7 @@ public class Exam {
 		return place;
 	}
 
-	public void setPlace(String place) {
+	public void setPlace(final String place) {
 		this.place = place;
 	}
 }

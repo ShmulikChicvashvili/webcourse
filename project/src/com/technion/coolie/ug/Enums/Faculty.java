@@ -7,11 +7,10 @@ import java.util.List;
 public enum Faculty implements Serializable {
 	ALL_FACULTIES, AE, ARCHITECTURE, BIOLOGY, BM, BIOTECH, CHEMENG, CHEMISTRY, CEE, CS, EDU, EE, HUMANITIES, IE, MATERIALS, MATH, MEENG, MD, PHYS;
 	public List<String> getAllFaculties() {
-		Faculty[] faculties = this.values();
-		List<String> list = new ArrayList<String>();
-		for (int i = 0; i < faculties.length; i++) {
-			list.add(faculties[i].toString());
-		}
+		final Faculty[] faculties = values();
+		final List<String> list = new ArrayList<String>();
+		for (final Faculty facultie : faculties)
+			list.add(facultie.toString());
 		return list;
 	}
 

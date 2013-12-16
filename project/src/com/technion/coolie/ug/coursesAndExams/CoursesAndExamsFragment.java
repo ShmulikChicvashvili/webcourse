@@ -23,10 +23,10 @@ public class CoursesAndExamsFragment extends Fragment {
 	private TabsAdapter mTabsAdapter;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.ug_courses_and_exams_fragment,
-				container, false);
+	public View onCreateView(final LayoutInflater inflater,
+			final ViewGroup container, final Bundle savedInstanceState) {
+		final View view = inflater.inflate(
+				R.layout.ug_courses_and_exams_fragment, container, false);
 
 		mTabHost = (TabHost) view.findViewById(android.R.id.tabhost);
 		mTabHost.setup();
@@ -35,18 +35,20 @@ public class CoursesAndExamsFragment extends Fragment {
 		mViewPager.setOffscreenPageLimit(2);
 		mTabsAdapter = new TabsAdapter(getActivity(), mTabHost, mViewPager);
 		mTabsAdapter.addTab(
-				mTabHost.newTabSpec("one").setIndicator("סמסטר קודם"),
+				mTabHost.newTabSpec("one").setIndicator(
+						getString(R.string.previous_semester)),
 				PageOneFragment.class, null);
 		mTabsAdapter.addTab(
-				mTabHost.newTabSpec("two").setIndicator("סמסטר נוכחי"),
+				mTabHost.newTabSpec("two").setIndicator(
+						getString(R.string.curren_semester)),
 				PageTwoFragment.class, null);
 		mTabsAdapter.addTab(
-				mTabHost.newTabSpec("three").setIndicator("סמסטר הבא"),
+				mTabHost.newTabSpec("three").setIndicator(
+						getString(R.string.next_semester)),
 				PageThreeFragment.class, null);
 
-		if (savedInstanceState != null) {
+		if (savedInstanceState != null)
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
-		}
 		mTabHost.setCurrentTab(1);
 		return view;
 	}
@@ -70,12 +72,10 @@ public class CoursesAndExamsFragment extends Fragment {
 		private final ArrayList<TabInfo> mTabs = new ArrayList<TabInfo>();
 
 		static final class TabInfo {
-			private final String tag;
 			private final Class<?> clss;
 			private final Bundle args;
 
-			TabInfo(String _tag, Class<?> _class, Bundle _args) {
-				tag = _tag;
+			TabInfo(final Class<?> _class, final Bundle _args) {
 				clss = _class;
 				args = _args;
 			}
@@ -84,20 +84,21 @@ public class CoursesAndExamsFragment extends Fragment {
 		static class DummyTabFactory implements TabHost.TabContentFactory {
 			private final Context mContext;
 
-			public DummyTabFactory(Context context) {
+			public DummyTabFactory(final Context context) {
 				mContext = context;
 			}
 
-			public View createTabContent(String tag) {
-				View v = new View(mContext);
+			@Override
+			public View createTabContent(final String tag) {
+				final View v = new View(mContext);
 				v.setMinimumWidth(0);
 				v.setMinimumHeight(0);
 				return v;
 			}
 		}
 
-		public TabsAdapter(FragmentActivity activity, TabHost tabHost,
-				ViewPager pager) {
+		public TabsAdapter(final FragmentActivity activity,
+				final TabHost tabHost, final ViewPager pager) {
 			super(activity.getSupportFragmentManager());
 			mContext = activity;
 			mTabHost = tabHost;
@@ -107,11 +108,10 @@ public class CoursesAndExamsFragment extends Fragment {
 			mViewPager.setOnPageChangeListener(this);
 		}
 
-		public void addTab(TabHost.TabSpec tabSpec, Class<?> clss, Bundle args) {
+		public void addTab(final TabHost.TabSpec tabSpec, final Class<?> clss,
+				final Bundle args) {
 			tabSpec.setContent(new DummyTabFactory(mContext));
-			String tag = tabSpec.getTag();
-
-			TabInfo info = new TabInfo(tag, clss, args);
+			final TabInfo info = new TabInfo(clss, args);
 			mTabs.add(info);
 			mTabHost.addTab(tabSpec);
 			notifyDataSetChanged();
@@ -123,37 +123,41 @@ public class CoursesAndExamsFragment extends Fragment {
 		}
 
 		@Override
-		public Fragment getItem(int position) {
-			TabInfo info = mTabs.get(position);
+		public Fragment getItem(final int position) {
+			final TabInfo info = mTabs.get(position);
 
 			return Fragment.instantiate(mContext, info.clss.getName(),
 					info.args);
 
 		}
 
-		public void onTabChanged(String tabId) {
-			int position = mTabHost.getCurrentTab();
+		@Override
+		public void onTabChanged(final String tabId) {
+			final int position = mTabHost.getCurrentTab();
 			mViewPager.setCurrentItem(position);
 		}
 
-		public void onPageScrolled(int position, float positionOffset,
-				int positionOffsetPixels) {
+		@Override
+		public void onPageScrolled(final int position,
+				final float positionOffset, final int positionOffsetPixels) {
 		}
 
-		public void onPageSelected(int position) {
+		@Override
+		public void onPageSelected(final int position) {
 			// Unfortunately when TabHost changes the current tab, it kindly
 			// also takes care of putting focus on it when not in touch mode.
 			// The jerk.
 			// This hack tries to prevent this from pulling focus out of our
 			// ViewPager.
-			TabWidget widget = mTabHost.getTabWidget();
-			int oldFocusability = widget.getDescendantFocusability();
+			final TabWidget widget = mTabHost.getTabWidget();
+			final int oldFocusability = widget.getDescendantFocusability();
 			widget.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
 			mTabHost.setCurrentTab(position);
 			widget.setDescendantFocusability(oldFocusability);
 		}
 
-		public void onPageScrollStateChanged(int state) {
+		@Override
+		public void onPageScrollStateChanged(final int state) {
 		}
 	}
 

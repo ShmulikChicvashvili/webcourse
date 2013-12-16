@@ -15,8 +15,8 @@ public class RegistrationGroup implements Serializable {
 	private List<Meeting> tutorials;
 	private int freePlaces;
 
-	public RegistrationGroup(int groupId, List<Meeting> lectures,
-			List<Meeting> tutorials, int freePlaces) {
+	public RegistrationGroup(final int groupId, final List<Meeting> lectures,
+			final List<Meeting> tutorials, final int freePlaces) {
 		super();
 		this.groupId = groupId;
 		this.lectures = lectures;
@@ -28,7 +28,7 @@ public class RegistrationGroup implements Serializable {
 		return groupId;
 	}
 
-	public void setGroupId(int groupId) {
+	public void setGroupId(final int groupId) {
 		this.groupId = groupId;
 	}
 
@@ -36,7 +36,7 @@ public class RegistrationGroup implements Serializable {
 		return lectures;
 	}
 
-	public void setLectures(List<Meeting> lectures) {
+	public void setLectures(final List<Meeting> lectures) {
 		this.lectures = lectures;
 	}
 
@@ -44,7 +44,7 @@ public class RegistrationGroup implements Serializable {
 		return tutorials;
 	}
 
-	public void setTutorials(List<Meeting> tutorials) {
+	public void setTutorials(final List<Meeting> tutorials) {
 		this.tutorials = tutorials;
 	}
 
@@ -52,7 +52,7 @@ public class RegistrationGroup implements Serializable {
 		return freePlaces;
 	}
 
-	public void setFreePlaces(int freePlaces) {
+	public void setFreePlaces(final int freePlaces) {
 		this.freePlaces = freePlaces;
 	}
 

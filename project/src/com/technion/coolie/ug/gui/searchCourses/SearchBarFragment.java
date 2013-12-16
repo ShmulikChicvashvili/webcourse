@@ -14,28 +14,28 @@ import com.tecnion.coolie.ug.utils.NavigationUtils;
 
 public class SearchBarFragment extends SearchFragment {
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(final LayoutInflater inflater,
+			final ViewGroup container, final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		View view = inflater.inflate(R.layout.ug_search_screen_fragment,
+		final View view = inflater.inflate(R.layout.ug_search_screen_fragment,
 				container, false);
 
 		return view;
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
+	public void onActivityCreated(final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
 		// clear the list and the text for showing only the search bar
 
-		ListView listCourses = (ListView) getActivity().findViewById(
+		final ListView listCourses = (ListView) getActivity().findViewById(
 				R.id.search_list_view);
 		LayoutParams lp = listCourses.getLayoutParams();
 		lp.height = 0;
 		listCourses.setLayoutParams(lp);
 
-		TextView emptyResults = (TextView) getActivity().findViewById(
+		final TextView emptyResults = (TextView) getActivity().findViewById(
 				R.id.empty_results);
 		lp = emptyResults.getLayoutParams();
 		lp.height = 0;
@@ -44,8 +44,8 @@ public class SearchBarFragment extends SearchFragment {
 	}
 
 	@Override
-	protected int onSearchPressed(String query) {
-		int results = super.onSearchPressed(query);
+	protected int onSearchPressed(final String query) {
+		final int results = super.onSearchPressed(query);
 		if (results != 1)
 			NavigationUtils.goToSearchDisplay(query, filters, getActivity());
 		return results;
@@ -53,7 +53,7 @@ public class SearchBarFragment extends SearchFragment {
 
 	@Override
 	protected void onFiltersUpdate() {
-		AutoCompleteTextView autocompletetextview = (AutoCompleteTextView) getActivity()
+		final AutoCompleteTextView autocompletetextview = (AutoCompleteTextView) getActivity()
 				.findViewById(R.id.autocompletetextview);
 		searchQueryAndUpdate(autocompletetextview.getText().toString());
 	}

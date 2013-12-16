@@ -1,4 +1,4 @@
-package com.technion.coolie.ug.coursesAndExams;
+package com.technion.coolie.ug.model;
 
 import java.util.Calendar;
 
@@ -14,7 +14,7 @@ public class ExamItem {
 		return place;
 	}
 
-	public ExamItem(Calendar date, String place) {
+	public ExamItem(final Calendar date, final String place) {
 		this.date = date;
 		this.place = place;
 	}

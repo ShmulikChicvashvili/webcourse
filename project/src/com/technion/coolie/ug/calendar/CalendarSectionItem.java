@@ -6,7 +6,7 @@ public class CalendarSectionItem implements Item {
 
 	private final String month;
 
-	public CalendarSectionItem(String month) {
+	public CalendarSectionItem(final String month) {
 		this.month = month;
 	}
 
@@ -21,7 +21,6 @@ public class CalendarSectionItem implements Item {
 
 	@Override
 	public boolean isFooter() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

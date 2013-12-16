@@ -21,23 +21,25 @@ public class SearchResultsAdapter extends ArrayAdapter<Course> {
 	List<Course> results;
 	OnClickListener listener;
 
-	public SearchResultsAdapter(Context context, List<Course> objects,
-			OnClickListener listener) {
+	public SearchResultsAdapter(final Context context,
+			final List<Course> objects, final OnClickListener listener) {
 		super(context, R.layout.ug_search_screen_fragment, objects);
 		this.context = context;
-		this.results = objects;
+		results = objects;
 		this.listener = listener;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, final View convertView,
+			final ViewGroup parent) {
 		View row = convertView;
 		CourseHolder holder = null;
 
 		if (row == null) {
-			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-			row = inflater
-					.inflate(R.layout.ug_search_list_item_row, parent, false);
+			final LayoutInflater inflater = ((Activity) context)
+					.getLayoutInflater();
+			row = inflater.inflate(R.layout.ug_search_list_item_row, parent,
+					false);
 
 			holder = new CourseHolder();
 
@@ -47,11 +49,10 @@ public class SearchResultsAdapter extends ArrayAdapter<Course> {
 			holder.points = (TextView) row.findViewById(R.id.course_points);
 
 			row.setTag(holder);
-		} else {
+		} else
 			holder = (CourseHolder) row.getTag();
-		}
 
-		Course course = results.get(position);
+		final Course course = results.get(position);
 		holder.faculty.setText(course.getFaculty().toString());
 		holder.number.setText(course.getCourseNumber());
 		holder.name.setText(course.getName());

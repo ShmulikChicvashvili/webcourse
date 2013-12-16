@@ -3,6 +3,7 @@ package com.technion.coolie.ug.calendar;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -18,40 +19,34 @@ import com.technion.coolie.ug.model.AcademicCalendarEvent;
 
 public class AcademicCalendarFragmentAdapter extends ArrayAdapter<Item> {
 
-	private Context context;
-	private ArrayList<Item> items;
-	private LayoutInflater vi;
+	private final ArrayList<Item> items;
+	private final LayoutInflater vi;
 
-	public AcademicCalendarFragmentAdapter(Context context,
-			ArrayList<Item> items) {
+	public AcademicCalendarFragmentAdapter(final Context context,
+			final ArrayList<Item> items) {
 		super(context, 0, items);
-		this.context = context;
 		this.items = items;
 		vi = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, final View convertView,
+			final ViewGroup parent) {
 		View v = convertView;
 
 		final Item i = items.get(position);
-		if (i != null) {
+		if (i != null)
 			if (i.isSection()) {
-				CalendarSectionItem si = (CalendarSectionItem) i;
+				final CalendarSectionItem si = (CalendarSectionItem) i;
 				v = vi.inflate(R.layout.ug_calendar_list_item_section, null);
-
-				v.setOnClickListener(null);
-				v.setOnLongClickListener(null);
-				v.setLongClickable(false);
-
 				final TextView sectionView = (TextView) v
 						.findViewById(R.id.list_item_section_text);
 				sectionView.setText(si.getMonth());
 				sectionView.setBackgroundColor(Color.parseColor("#0099b3"));
 
 			} else {
-				AcademicCalendarEvent ei = (AcademicCalendarEvent) i;
+				final AcademicCalendarEvent ei = (AcademicCalendarEvent) i;
 				v = vi.inflate(R.layout.ug_calendar_list_item_entry, null);
 				final TextView event = (TextView) v
 						.findViewById(R.id.list_item_entry_event);
@@ -63,15 +58,14 @@ public class AcademicCalendarFragmentAdapter extends ArrayAdapter<Item> {
 				if (event != null)
 					event.setText(ei.getEvent());
 				if (date != null) {
-					SimpleDateFormat formatter = new SimpleDateFormat(
-							"dd/MM/yyyy");
-					Calendar cal = ei.getStartingDay();
+					final SimpleDateFormat formatter = new SimpleDateFormat(
+							"dd/MM/yyyy", Locale.getDefault());
+					final Calendar cal = ei.getStartingDay();
 					date.setText(formatter.format(cal.getTime()));
 				}
 				if (day != null)
 					day.setText(ei.getDay());
 			}
-		}
 		return v;
 	}
 }

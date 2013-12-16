@@ -14,9 +14,9 @@ import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.DayOfWeek;
 import com.technion.coolie.ug.Enums.Faculty;
 import com.technion.coolie.ug.Enums.SemesterSeason;
-import com.technion.coolie.ug.coursesAndExams.CourseItem;
 import com.technion.coolie.ug.gradessheet.Item;
 import com.technion.coolie.ug.model.Course;
+import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Meeting;
 import com.technion.coolie.ug.model.RegistrationGroup;
@@ -29,11 +29,11 @@ public enum UGDatabase {
 	private Student currentStudent;
 	private List<RegistrationGroup> groups; // TODO delete this.
 	private List<Course> allCourses;
-	private List<String> allCoursesNames;
+	// private List<String> allCoursesNames;
 	private Semester[] currentSemesters;
 	private SemesterSeason currentSeason;
 	private ArrayList<CourseItem> coursesAndExamsList;
-	private ArrayList<Item> calendarList;
+	// private ArrayList<Item> calendarList;
 	private LinkedHashMap<CourseKey, Course> coursesHash;
 
 	private UGDatabase() {
@@ -175,7 +175,7 @@ public enum UGDatabase {
 	 */
 	private void initializeHashMap() {
 		coursesHash = new LinkedHashMap<CourseKey, Course>();
-		for (Course course : allCourses)
+		for (final Course course : allCourses)
 			coursesHash.put(course.getCourseKey(), course);
 	}
 
@@ -191,12 +191,12 @@ public enum UGDatabase {
 
 		currentStudent = null;
 		coursesHash = new LinkedHashMap<CourseKey, Course>();
-		for (Course course : allCourses)
+		for (final Course course : allCourses)
 			coursesHash.put(course.getCourseKey(), course);
 
 	}
 
-	public Course getCourseByKey(CourseKey key) {
+	public Course getCourseByKey(final CourseKey key) {
 		return coursesHash.get(key);
 	}
 
@@ -205,7 +205,7 @@ public enum UGDatabase {
 		return allCourses;
 	}
 
-	public Semester getRelevantSemester(SemesterSeason season) {
+	public Semester getRelevantSemester(final SemesterSeason season) {
 		return currentSemesters[season.getIdx()];
 	}
 
@@ -217,26 +217,25 @@ public enum UGDatabase {
 		return HtmlParser.parseGrades("stam");
 	}
 
-	public ArrayList<CourseItem> getStudentCourses(SemesterSeason semesterseason) {
+	public ArrayList<CourseItem> getStudentCourses(
+			final SemesterSeason semesterseason) {
 		Document doc = null;
-		// List<CourseItem> coursesList;
 		switch (semesterseason) {
 		case WINTER:
-			doc = HtmlParser.parseFromFille("current_semester_courses.html",
+			doc = HtmlParser.parseFromFille("ug_current_semester_courses.html",
 					MainActivity.context);
 			break;
 		case SPRING:
-			doc = HtmlParser.parseFromFille("previous_semester_courses.html",
-					MainActivity.context);
+			doc = HtmlParser.parseFromFille(
+					"ug_previous_semester_courses.html", MainActivity.context);
 			break;
 		case SUMMER:
-			doc = HtmlParser.parseFromFille("previous_semester_courses.html",
-					MainActivity.context);
+			doc = HtmlParser.parseFromFille(
+					"ug_previous_semester_courses.html", MainActivity.context);
 			break;
 		}
-		if (doc != null) {
+		if (doc != null)
 			coursesAndExamsList = HtmlParser.parseCoursesAndExamsDoc(doc);
-		}
 
 		return coursesAndExamsList;
 	}

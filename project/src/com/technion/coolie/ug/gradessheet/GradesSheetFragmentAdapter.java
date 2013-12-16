@@ -13,28 +13,28 @@ import android.widget.TextView;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 
-public class EntryAdapter extends ArrayAdapter<Item> {
+public class GradesSheetFragmentAdapter extends ArrayAdapter<Item> {
 
-	private Context context;
-	private ArrayList<Item> items;
-	private LayoutInflater vi;
+	private final ArrayList<Item> items;
+	private final LayoutInflater vi;
 
-	public EntryAdapter(Context context, ArrayList<Item> items) {
+	public GradesSheetFragmentAdapter(final Context context,
+			final ArrayList<Item> items) {
 		super(context, 0, items);
-		this.context = context;
 		this.items = items;
 		vi = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, final View convertView,
+			final ViewGroup parent) {
 		View v = convertView;
 
 		final Item i = items.get(position);
-		if (i != null) {
+		if (i != null)
 			if (i.isSection()) {
-				GradesSectionItem si = (GradesSectionItem) i;
+				final GradesSectionItem si = (GradesSectionItem) i;
 				v = vi.inflate(R.layout.ug_grades_list_item_section, null);
 
 				v.setOnClickListener(null);
@@ -47,7 +47,7 @@ public class EntryAdapter extends ArrayAdapter<Item> {
 				sectionView.setBackgroundColor(Color.parseColor("#0099b3"));
 
 			} else if (i.isFooter()) {
-				GradesFooterItem si = (GradesFooterItem) i;
+				final GradesFooterItem si = (GradesFooterItem) i;
 				v = vi.inflate(R.layout.ug_grades_list_item_footer, null);
 
 				v.setOnClickListener(null);
@@ -62,7 +62,7 @@ public class EntryAdapter extends ArrayAdapter<Item> {
 				footerTotPointsView.setText(si.getSemesterTotalPoints());
 
 			} else {
-				AccomplishedCourse ei = (AccomplishedCourse) i;
+				final AccomplishedCourse ei = (AccomplishedCourse) i;
 				v = vi.inflate(R.layout.ug_grades_list_item_entry, null);
 				final TextView courseNumber = (TextView) v
 						.findViewById(R.id.list_item_entry_course_number);
@@ -83,7 +83,6 @@ public class EntryAdapter extends ArrayAdapter<Item> {
 					grade.setText(ei.getGrade());
 
 			}
-		}
 		return v;
 	}
 }

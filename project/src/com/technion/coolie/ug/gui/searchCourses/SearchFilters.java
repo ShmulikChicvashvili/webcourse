@@ -16,8 +16,8 @@ public class SearchFilters implements Serializable {
 	boolean hasFreePlaces;
 	Faculty faculty;
 
-	public SearchFilters(Semester semester, boolean hasFreePlaces,
-			Faculty faculty) {
+	public SearchFilters(final Semester semester, final boolean hasFreePlaces,
+			final Faculty faculty) {
 		super();
 		this.semester = semester;
 		this.hasFreePlaces = hasFreePlaces;
@@ -28,7 +28,7 @@ public class SearchFilters implements Serializable {
 		return semester;
 	}
 
-	public void setSemester(Semester semester) {
+	public void setSemester(final Semester semester) {
 		this.semester = semester;
 	}
 
@@ -36,7 +36,7 @@ public class SearchFilters implements Serializable {
 		return hasFreePlaces;
 	}
 
-	public void setHasFreePlaces(boolean hasFreePlaces) {
+	public void setHasFreePlaces(final boolean hasFreePlaces) {
 		this.hasFreePlaces = hasFreePlaces;
 	}
 
@@ -44,35 +44,34 @@ public class SearchFilters implements Serializable {
 		return faculty;
 	}
 
-	public void setFaculty(Faculty faculty) {
+	public void setFaculty(final Faculty faculty) {
 		this.faculty = faculty;
 	}
 
-	public List<Course> filter(List<Course> courses, String query) {
-		List<Course> filteredList = new ArrayList<Course>();
-		for (Course course : courses) {
+	public List<Course> filter(final List<Course> courses, final String query) {
+		final List<Course> filteredList = new ArrayList<Course>();
+		for (final Course course : courses)
 			if (meetCriterions(course, query))
 				filteredList.add(course);
-		}
 		return filteredList;
 	}
 
-	private boolean meetCriterions(Course course, String query) {
+	private boolean meetCriterions(final Course course, final String query) {
 		return (faculty == Faculty.ALL_FACULTIES || course.getFaculty() == faculty)
-				&& (course.getSemester().equals(semester))
+				&& course.getSemester().equals(semester)
 				&& (!hasFreePlaces || course.hasFreePlaces())
-				&& (isSubstring(
+				&& isSubstring(
 						query.toLowerCase(Locale.US),
 						course.getName().toLowerCase(Locale.US) + " "
-								+ course.getCourseNumber()));
+								+ course.getCourseNumber());
 
 	}
 
 	/**
 	 * checks for each word in the query and checks that its in the string
 	 */
-	private boolean isSubstring(String query, String strOnCheck) {
-		for (String word : query.split(" "))
+	private boolean isSubstring(final String query, final String strOnCheck) {
+		for (final String word : query.split(" "))
 			if (strOnCheck.indexOf(word) == -1)
 				return false;
 

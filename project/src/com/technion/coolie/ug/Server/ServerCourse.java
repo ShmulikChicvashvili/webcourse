@@ -1,7 +1,5 @@
 package com.technion.coolie.ug.Server;
 
-import java.io.Serializable;
-import java.util.Calendar;
 import java.util.List;
 
 import com.technion.coolie.ug.Enums.Faculty;
@@ -21,7 +19,7 @@ public class ServerCourse {
 	 * 
 	 */
 	int id;
-	private Semester semester; 
+	private Semester semester;
 	private String courseNumber;
 
 	private String name;
@@ -38,10 +36,12 @@ public class ServerCourse {
 	private List<GroupOfCourses> attachedCourses; // ����
 	private List<RegistrationGroup> registrationGroups;
 
-	public ServerCourse(String courseNumber, String name, float points,
-			String description, Semester semester, Faculty faculty, long moedA,
-			long moedB, List<GroupOfCourses> prerequisites,List<GroupOfCourses> attachedCourses,
-			List<RegistrationGroup> registrationGroups) {
+	public ServerCourse(final String courseNumber, final String name,
+			final float points, final String description,
+			final Semester semester, final Faculty faculty, final long moedA,
+			final long moedB, final List<GroupOfCourses> prerequisites,
+			final List<GroupOfCourses> attachedCourses,
+			final List<RegistrationGroup> registrationGroups) {
 		super();
 		this.courseNumber = courseNumber;
 		this.name = name;
@@ -55,14 +55,12 @@ public class ServerCourse {
 		this.attachedCourses = attachedCourses;
 		this.registrationGroups = registrationGroups;
 	}
-	
-	
 
 	public String getCourseNumber() {
 		return courseNumber;
 	}
 
-	public void setCourseNumber(String courseNumber) {
+	public void setCourseNumber(final String courseNumber) {
 		this.courseNumber = courseNumber;
 	}
 
@@ -70,7 +68,7 @@ public class ServerCourse {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -78,7 +76,7 @@ public class ServerCourse {
 		return points;
 	}
 
-	public void setPoints(float points) {
+	public void setPoints(final float points) {
 		this.points = points;
 	}
 
@@ -86,7 +84,7 @@ public class ServerCourse {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -94,7 +92,7 @@ public class ServerCourse {
 		return semester;
 	}
 
-	public void setSemester(Semester semester) {
+	public void setSemester(final Semester semester) {
 		this.semester = semester;
 	}
 
@@ -102,7 +100,7 @@ public class ServerCourse {
 		return faculty;
 	}
 
-	public void setFaculty(Faculty faculty) {
+	public void setFaculty(final Faculty faculty) {
 		this.faculty = faculty;
 	}
 
@@ -110,7 +108,7 @@ public class ServerCourse {
 		return moedA;
 	}
 
-	public void setMoedA(long moedA) {
+	public void setMoedA(final long moedA) {
 		this.moedA = moedA;
 	}
 
@@ -118,7 +116,7 @@ public class ServerCourse {
 		return moedB;
 	}
 
-	public void setMoedB(long moedB) {
+	public void setMoedB(final long moedB) {
 		this.moedB = moedB;
 	}
 
@@ -126,15 +124,15 @@ public class ServerCourse {
 		return prerequisites;
 	}
 
-	public void setPrerequisites(List<GroupOfCourses> prerequisites) {
+	public void setPrerequisites(final List<GroupOfCourses> prerequisites) {
 		this.prerequisites = prerequisites;
 	}
-	
+
 	public List<GroupOfCourses> getAttachedCourses() {
 		return attachedCourses;
 	}
 
-	public void setAttachedCourses(List<GroupOfCourses> attachedCourses) {
+	public void setAttachedCourses(final List<GroupOfCourses> attachedCourses) {
 		this.attachedCourses = attachedCourses;
 	}
 
@@ -142,7 +140,8 @@ public class ServerCourse {
 		return registrationGroups;
 	}
 
-	public void setRegistrationGroups(List<RegistrationGroup> registrationGroups) {
+	public void setRegistrationGroups(
+			final List<RegistrationGroup> registrationGroups) {
 		this.registrationGroups = registrationGroups;
 	}
 
@@ -152,9 +151,8 @@ public class ServerCourse {
 
 	public boolean hasFreePlaces() {
 		int sum = 0;
-		for (RegistrationGroup group : registrationGroups) {
+		for (final RegistrationGroup group : registrationGroups)
 			sum += Math.abs(group.getFreePlaces());
-		}
 		return sum > 0;
 	}
 

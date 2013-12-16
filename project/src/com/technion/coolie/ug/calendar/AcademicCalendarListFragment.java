@@ -21,14 +21,12 @@ public class AcademicCalendarListFragment extends ListFragment {
 	List<AcademicCalendarEvent> coursesList = new ArrayList<AcademicCalendarEvent>();
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		List<Item> tempList = UGDatabase.INSTANCE.getCalendar();
-		for (Item i : tempList) {
+	public View onCreateView(final LayoutInflater inflater,
+			final ViewGroup container, final Bundle savedInstanceState) {
+		final List<Item> tempList = UGDatabase.INSTANCE.getCalendar();
+		for (final Item i : tempList)
 			if (i instanceof AcademicCalendarEvent)
 				coursesList.add((AcademicCalendarEvent) i);
-
-		}
 		final AcademicCalendarFragmentListAdapter adapter = new AcademicCalendarFragmentListAdapter(
 				inflater.getContext(), coursesList);
 		setListAdapter(adapter);
@@ -37,11 +35,12 @@ public class AcademicCalendarListFragment extends ListFragment {
 	}
 
 	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-
-		Intent intent = new Intent(getActivity(), TransparentActivity.class);
-		Bundle b = new Bundle();
-		b.putString("key", "academicCalendarFragment");
+	public void onListItemClick(final ListView l, final View v,
+			final int position, final long id) {
+		final Intent intent = new Intent(getActivity(),
+				TransparentActivity.class);
+		final Bundle b = new Bundle();
+		b.putString("key", AcademicCalendarFragment.class.toString());
 		intent.putExtras(b);
 		startActivity(intent);
 		super.onListItemClick(l, v, position, id);

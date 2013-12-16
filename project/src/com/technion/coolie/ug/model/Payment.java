@@ -4,7 +4,7 @@ public class Payment {
 	private String description;
 	private String amount;
 
-	public Payment(String description, String amount) {
+	public Payment(final String description, final String amount) {
 		this.description = description;
 		this.amount = amount;
 	}
@@ -13,7 +13,7 @@ public class Payment {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -21,7 +21,7 @@ public class Payment {
 		return amount;
 	}
 
-	public void setAmount(String amount) {
+	public void setAmount(final String amount) {
 		this.amount = amount;
 	}
 

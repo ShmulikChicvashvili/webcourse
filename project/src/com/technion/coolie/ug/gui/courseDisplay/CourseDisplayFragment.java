@@ -1,6 +1,7 @@
 package com.technion.coolie.ug.gui.courseDisplay;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -42,68 +43,50 @@ public class CourseDisplayFragment extends Fragment {
 	public final static String ARGUMENTS_COURSE_KEY = "course";
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(final LayoutInflater inflater,
+			final ViewGroup container, final Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.ug_course_screen_layout, container,
 				false);
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
+	public void onActivityCreated(final Bundle savedInstanceState) {
 
 		context = getActivity();
 		groupsView = (LinearLayout) getActivity().findViewById(
 				R.id.course_screen_groups_list);
 		recieveCourse(getArguments());
-		initLayout();
 		updateCourseDisplay();
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	private void initLayout() {
-		/*
-		 * RadioGroup b = (RadioGroup) getActivity().findViewById(
-		 * R.id.course_screen_semester_radio_group); b.setVisibility(View.GONE);
-		 * // TODO set the names of the semesters in order.
-		 * b.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		 * 
-		 * @Override public void onCheckedChanged(RadioGroup group, int
-		 * checkedId) { // find out what semster responds to that semster
-		 * index(in // UGdatabase). // get course from new courseKey // if
-		 * course is available call update coursedisplay // if course is not
-		 * available replace with blank screen with not // learned at that
-		 * semester text.
-		 * 
-		 * } });
-		 */
-	}
-
 	private void updateCourseDisplay() {
-		final SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		final SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy",
+				Locale.getDefault());
 
-		TextView nameTextView = (TextView) getActivity().findViewById(
+		final TextView nameTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_name);
 		nameTextView.setText(courseToView.getName());
-		TextView pointsTextView = (TextView) getActivity().findViewById(
+		final TextView pointsTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_points);
 		pointsTextView.setText("" + courseToView.getPoints());
-		TextView numberTextView = (TextView) getActivity().findViewById(
+		final TextView numberTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_number);
 		numberTextView.setText("" + courseToView.getCourseNumber());
 
-		TextView facultyTextView = (TextView) getActivity().findViewById(
+		final TextView facultyTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_faculty);
 		facultyTextView.setText("" + courseToView.getFaculty().toString());
 
-		TextView descTextView = (TextView) getActivity().findViewById(
+		final TextView descTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_description);
 		descTextView.setText(courseToView.getDescription());
 
-		TextView examATextView = (TextView) getActivity().findViewById(
+		final TextView examATextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_exam_a);
 		examATextView.setText(df.format(courseToView.getMoedA().getTime()));
 
-		TextView examBTextView = (TextView) getActivity().findViewById(
+		final TextView examBTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_exam_b);
 		examBTextView.setText(df.format(courseToView.getMoedB().getTime()));
 
@@ -111,31 +94,26 @@ public class CourseDisplayFragment extends Fragment {
 
 		if (courseToView.getRegistrationGroups() != null) {
 			addSeperatorLine();
-			for (RegistrationGroup group : courseToView.getRegistrationGroups()) {
+			for (final RegistrationGroup group : courseToView
+					.getRegistrationGroups())
 				addRegistrationGroup(group);
-			}
 		}
 
 		fixEndOfGroups();
-
-		// groupAdapter = new CourseGroupsAdapter(context,
-		// courseToView.getRegistrationGroups(), new onClickGroup());
-
 	}
 
 	private void addSeperatorLine() {
-		LayoutInflater inflater = (LayoutInflater) getActivity()
+		final LayoutInflater inflater = (LayoutInflater) getActivity()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.ug_course_display_line_seperator,
-				groupsView);
+		inflater.inflate(R.layout.ug_course_display_line_seperator, groupsView);
 	}
 
 	private void makeGroupsHeader() {
 
-		MeetingDisplay explanationHeader = new MeetingDisplay("ID", "Type",
-				"Lecturer", "location", "start Time", "end Time",
+		final MeetingDisplay explanationHeader = new MeetingDisplay("ID",
+				"Type", "Lecturer", "location", "start Time", "end Time",
 				"Avl. places", "day");
-		View v = addMeeting(explanationHeader);
+		final View v = addMeeting(explanationHeader);
 		v.setBackgroundResource(R.drawable.ug_course_label_text_container);
 
 	}
@@ -144,32 +122,30 @@ public class CourseDisplayFragment extends Fragment {
 		addMeeting(new MeetingDisplay());// empty to fix the table
 	}
 
-	private void addRegistrationGroup(RegistrationGroup group) {
+	private void addRegistrationGroup(final RegistrationGroup group) {
 
-		MeetingDisplay header = new MeetingDisplay();
+		final MeetingDisplay header = new MeetingDisplay();
 		header.freeSpace = "" + group.getFreePlaces();
 		header.number = "" + group.getGroupId();
-		View v = addMeeting(header);
+		final View v = addMeeting(header);
 		v.setBackgroundColor(Color.LTGRAY);
 
 		// do all meetings
 		if (group.getLectures() != null)
-			for (Meeting meeting : group.getLectures()) {
+			for (final Meeting meeting : group.getLectures())
 				addMeeting(new MeetingDisplay(meeting, "lecture"));
-			}
 		if (group.getTutorials() != null)
-			for (Meeting meeting : group.getTutorials()) {
+			for (final Meeting meeting : group.getTutorials())
 				addMeeting(new MeetingDisplay(meeting, "tutorial"));
-			}
 		addSeperatorLine();
 	}
 
-	private View addMeeting(MeetingDisplay meeting) {
+	private View addMeeting(final MeetingDisplay meeting) {
 
-		LayoutInflater inflater = (LayoutInflater) getActivity()
+		final LayoutInflater inflater = (LayoutInflater) getActivity()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.ug_course_screen_group_item_row,
-				groupsView, false);
+		final View view = inflater.inflate(
+				R.layout.ug_course_screen_group_item_row, groupsView, false);
 		((TextView) view.findViewById(R.id.ug_course_display_group_number))
 				.setText(meeting.number);
 		((TextView) view
@@ -193,7 +169,7 @@ public class CourseDisplayFragment extends Fragment {
 
 	}
 
-	private void recieveCourse(Bundle bundle) {
+	private void recieveCourse(final Bundle bundle) {
 
 		CourseKey key = null;
 		if (bundle == null) {
@@ -213,7 +189,7 @@ public class CourseDisplayFragment extends Fragment {
 	static class onClickGroup implements android.view.View.OnClickListener {
 
 		@Override
-		public void onClick(View v) {
+		public void onClick(final View v) {
 
 		}
 
@@ -234,8 +210,9 @@ public class CourseDisplayFragment extends Fragment {
 
 		}
 
-		public MeetingDisplay(Meeting meeting, String _meetingType) {
-			final SimpleDateFormat df = new SimpleDateFormat("HH:m");
+		public MeetingDisplay(final Meeting meeting, final String _meetingType) {
+			final SimpleDateFormat df = new SimpleDateFormat("HH:m",
+					Locale.getDefault());
 			meetingType = _meetingType;
 			lecturer = meeting.getLecturerName();
 			location = meeting.getPlace();
@@ -246,9 +223,10 @@ public class CourseDisplayFragment extends Fragment {
 			day = meeting.getDay().toSingleLetter();
 		}
 
-		public MeetingDisplay(String number, String meetingType,
-				String lecturer, String location, String hourStart,
-				String hourEnd, String freeSpace, String day) {
+		public MeetingDisplay(final String number, final String meetingType,
+				final String lecturer, final String location,
+				final String hourStart, final String hourEnd,
+				final String freeSpace, final String day) {
 			super();
 			this.number = number;
 			this.meetingType = meetingType;

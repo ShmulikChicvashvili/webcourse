@@ -14,9 +14,8 @@ public class FragmentsFactory {
 	private static Fragment _getCoursesSearchLargeFragment = null;
 
 	public static Fragment getGradesSheetLargeFragment() {
-		if (_gradesSheetLargeFragment == null) {
+		if (_gradesSheetLargeFragment == null)
 			_gradesSheetLargeFragment = new GradesSheetFragment();
-		}
 		return _gradesSheetLargeFragment;
 	}
 
@@ -28,9 +27,8 @@ public class FragmentsFactory {
 	}
 
 	public static Fragment getAcademicCalendarLargeFragment() {
-		if (_getAcademicCalendarLargeFragment == null) {
+		if (_getAcademicCalendarLargeFragment == null)
 			_getAcademicCalendarLargeFragment = new AcademicCalendarFragment();
-		}
 		return _getAcademicCalendarLargeFragment;
 	}
 

@@ -30,24 +30,22 @@ public class SerializeIO {
 	 * 
 	 * @param context
 	 * @param filename
-	 * @throws ClassNotFoundException 
-	 * @throws IOException 
-	 * @throws StreamCorruptedException 
+	 * @throws ClassNotFoundException
+	 * @throws IOException
+	 * @throws StreamCorruptedException
 	 */
-	public static void createFile(Context context, String filename, Serializable initial)
-			throws StreamCorruptedException, IOException, ClassNotFoundException {
+	public static void createFile(final Context context, final String filename,
+			final Serializable initial) throws StreamCorruptedException,
+			IOException, ClassNotFoundException {
 		try {
 			load(context, filename); // just TRY to load
 			return;
-		}
-		catch (EOFException e)
-		{
+		} catch (final EOFException e) {
+			//
+		} catch (final FileNotFoundException e) {
 			//
 		}
-		catch (FileNotFoundException e) {
-			//
-		}
-		
+
 		save(context, filename, initial);
 	}
 
@@ -63,12 +61,12 @@ public class SerializeIO {
 	 * @throws IOException
 	 *             for write error
 	 */
-	public static void save(Context context, String filename, Serializable data)
-			throws IOException {
-		FileOutputStream fos = context.openFileOutput(filename,
+	public static void save(final Context context, final String filename,
+			final Serializable data) throws IOException {
+		final FileOutputStream fos = context.openFileOutput(filename,
 				Context.MODE_PRIVATE);
-		OutputStream buffer = new BufferedOutputStream(fos);
-		ObjectOutput output = new ObjectOutputStream(buffer);
+		final OutputStream buffer = new BufferedOutputStream(fos);
+		final ObjectOutput output = new ObjectOutputStream(buffer);
 		output.writeObject(data);
 		output.close();
 	}
@@ -88,13 +86,13 @@ public class SerializeIO {
 	 * @throws ClassNotFoundException
 	 *             data read was not Serializable
 	 */
-	public static Serializable load(Context context, String filename)
+	public static Serializable load(final Context context, final String filename)
 			throws StreamCorruptedException, IOException,
 			ClassNotFoundException {
-		FileInputStream fis = context.openFileInput(filename);
-		InputStream buffer = new BufferedInputStream(fis);
-		ObjectInput input = new ObjectInputStream(buffer);
-		Serializable data = (Serializable) input.readObject();
+		final FileInputStream fis = context.openFileInput(filename);
+		final InputStream buffer = new BufferedInputStream(fis);
+		final ObjectInput input = new ObjectInputStream(buffer);
+		final Serializable data = (Serializable) input.readObject();
 		input.close();
 		return data;
 	}

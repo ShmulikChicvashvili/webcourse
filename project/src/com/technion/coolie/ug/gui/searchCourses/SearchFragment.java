@@ -1,11 +1,10 @@
 package com.technion.coolie.ug.gui.searchCourses;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -60,17 +59,17 @@ public class SearchFragment extends Fragment {
 	final static String LAST_FILTER = "com.technion.coolie.ug.files.lastFilter";
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(final LayoutInflater inflater,
+			final ViewGroup container, final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		View view = inflater.inflate(R.layout.ug_search_screen_fragment,
+		final View view = inflater.inflate(R.layout.ug_search_screen_fragment,
 				container, false);
 
 		return view;
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
+	public void onActivityCreated(final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		context = getActivity();
 		init();
@@ -79,9 +78,9 @@ public class SearchFragment extends Fragment {
 		useArguments(getArguments());
 	}
 
-	private void useArguments(Bundle bundle) {
+	private void useArguments(final Bundle bundle) {
 		if (bundle != null) {
-			String queryToExecute = (String) bundle
+			final String queryToExecute = (String) bundle
 					.getSerializable(ARGUMENT_QUERY_KEY);
 			if (queryToExecute != null) {
 				onSearchPressed(queryToExecute);
@@ -98,9 +97,9 @@ public class SearchFragment extends Fragment {
 		try {
 			lastSearch = (String) SerializeIO.load(context, LAST_SEARCH);
 			searchQueryAndUpdate(lastSearch);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
-		} catch (ClassNotFoundException e) {
+		} catch (final ClassNotFoundException e) {
 			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
 		}
 
@@ -127,9 +126,9 @@ public class SearchFragment extends Fragment {
 	 */
 	private void initFilters() {
 
-		Bundle bundle = getArguments();
+		final Bundle bundle = getArguments();
 		if (bundle != null) {
-			SearchFilters sentFilters = (SearchFilters) bundle
+			final SearchFilters sentFilters = (SearchFilters) bundle
 					.getSerializable(ARGUMENT_FILTERS_KEY);
 			if (sentFilters != null) {
 				filters = sentFilters;
@@ -140,9 +139,9 @@ public class SearchFragment extends Fragment {
 		try {
 			filters = (SearchFilters) SerializeIO.load(context, LAST_FILTER);
 			return;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
-		} catch (ClassNotFoundException e) {
+		} catch (final ClassNotFoundException e) {
 			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
 		}
 		filters = new SearchFilters(UGDatabase.INSTANCE.getCurrentSemester(),
@@ -152,33 +151,29 @@ public class SearchFragment extends Fragment {
 
 	private void initFiles() {
 		try {
-			SerializeIO.createFile(context, LAST_SEARCH,
-					(Serializable) new String());
-			SerializeIO
-					.createFile(context, LAST_FILTER,
-							(Serializable) new SearchFilters(
-									UGDatabase.INSTANCE.getCurrentSemester(),
-									false, Faculty.ALL_FACULTIES));
-		} catch (Exception e) {
+			SerializeIO.createFile(context, LAST_SEARCH, new String());
+			SerializeIO.createFile(context, LAST_FILTER, new SearchFilters(
+					UGDatabase.INSTANCE.getCurrentSemester(), false,
+					Faculty.ALL_FACULTIES));
+		} catch (final Exception e) {
 			Log.e(MainActivity.DEBUG_TAG, "massive error!", e);
 		}
 
 	}
 
 	private void initLayout() {
-		AutoCompleteTextView autocompletetextview = (AutoCompleteTextView) getActivity()
-				.findViewById(R.id.autocompletetextview);
-		// autocompletetextview.requestFocus();
-		// InputMethodManager imm = (InputMethodManager) getActivity()
-		// .getSystemService(Context.INPUT_METHOD_SERVICE);
-		// imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+		// AutoCompleteTextView autocompletetextview = (AutoCompleteTextView)
+		// getActivity()
+		// .findViewById(R.id.autocompletetextview);
 
 		// each touch of the main layout will close any open softkeyboard!.
-		OnTouchListener otl = new OnTouchListener() {
+		final OnTouchListener otl = new OnTouchListener() {
 
-			public boolean onTouch(View v, MotionEvent event) {
-				InputMethodManager imm = (InputMethodManager) getActivity()
-						.getSystemService(getActivity().INPUT_METHOD_SERVICE);
+			@Override
+			public boolean onTouch(final View v, final MotionEvent event) {
+				getActivity();
+				final InputMethodManager imm = (InputMethodManager) getActivity()
+						.getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(getActivity().getCurrentFocus()
 						.getWindowToken(), 0);
 				return false; // necessary for not consuming the event
@@ -201,7 +196,7 @@ public class SearchFragment extends Fragment {
 		autoCompleteAdapter = new ArrayAdapter<String>(context,
 				R.layout.ug_search_auto_complete_item_row,
 				filteredAutoCompleteList);
-		List<Course> lastSearch = Collections.emptyList();
+		// final List<Course> lastSearch = Collections.emptyList();
 
 		searchAdapter = new SearchResultsAdapter(context,
 				new ArrayList<Course>(), new onClickResult());
@@ -223,16 +218,15 @@ public class SearchFragment extends Fragment {
 
 	}
 
-	private List<String> coursesToNames(List<Course> courses) {
-		List<String> names = new ArrayList<String>();
-		for (Course course : courses) {
+	private List<String> coursesToNames(final List<Course> courses) {
+		final List<String> names = new ArrayList<String>();
+		for (final Course course : courses)
 			names.add(course.getName() + " " + course.getCourseNumber());
-		}
 		return names;
 
 	}
 
-	protected int searchQueryAndUpdate(String query) {
+	protected int searchQueryAndUpdate(final String query) {
 
 		// TODO this is heavy. use the current courseList unless the filters
 		// changed.(boolean for filters changed?)
@@ -241,7 +235,7 @@ public class SearchFragment extends Fragment {
 		filteredAutoCompleteList = coursesToNames(filteredCoursesList);
 
 		// get all the matching courses matching the query and the filters
-		List<Course> filteredAndQueriedList = filters.filter(
+		final List<Course> filteredAndQueriedList = filters.filter(
 				filteredCoursesList, query);
 
 		Log.d(MainActivity.DEBUG_TAG, "results found of size "
@@ -268,24 +262,23 @@ public class SearchFragment extends Fragment {
 	 * 
 	 * @param query
 	 */
-	protected int onSearchPressed(String query) {
-		int results = searchQueryAndUpdate(query);
-		if (results == 1) {
+	protected int onSearchPressed(final String query) {
+		final int results = searchQueryAndUpdate(query);
+		if (results == 1)
 			NavigationUtils.goToCourseDisplay(searchAdapter.results.get(0)
 					.getCourseKey(), context);
-		}
 		return results;
 	}
 
 	private void updateCoursesResultsDisplay() {
-		ListView listCourses = (ListView) getActivity().findViewById(
+		final ListView listCourses = (ListView) getActivity().findViewById(
 				R.id.search_list_view);
 		listCourses.setAdapter(searchAdapter);
 	}
 
 	private void updateAutoCompleteDisplay() {
 
-		AutoCompleteTextView autocompletetextview = (AutoCompleteTextView) getActivity()
+		final AutoCompleteTextView autocompletetextview = (AutoCompleteTextView) getActivity()
 				.findViewById(R.id.autocompletetextview);
 		autocompletetextview.setAdapter(autoCompleteAdapter);
 
@@ -308,13 +301,14 @@ public class SearchFragment extends Fragment {
 		autocompletetextview
 				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 					@Override
-					public boolean onEditorAction(TextView v, int actionId,
-							KeyEvent event) {
+					public boolean onEditorAction(final TextView v,
+							final int actionId, final KeyEvent event) {
 						if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 							autocompletetextview.dismissDropDown();
-							InputMethodManager imm = (InputMethodManager) getActivity()
+							getActivity();
+							final InputMethodManager imm = (InputMethodManager) getActivity()
 									.getSystemService(
-											getActivity().INPUT_METHOD_SERVICE);
+											Context.INPUT_METHOD_SERVICE);
 							imm.hideSoftInputFromWindow(getActivity()
 									.getCurrentFocus().getWindowToken(), 0);
 							onSearchPressed(v.getText().toString());
@@ -327,17 +321,17 @@ public class SearchFragment extends Fragment {
 		autocompletetextview.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(final AdapterView<?> parent,
+					final View view, final int position, final long id) {
 
-				String courseString = ((TextView) parent.getChildAt(position))
-						.getText().toString();
+				final String courseString = ((TextView) parent
+						.getChildAt(position)).getText().toString();
 
 				autocompletetextview.dismissDropDown();
 				autocompletetextview.setText("");
 
-				int lastWordIdx = courseString.split(" ").length - 1;
-				String courseNumber = courseString.split(" ")[lastWordIdx];
+				final int lastWordIdx = courseString.split(" ").length - 1;
+				final String courseNumber = courseString.split(" ")[lastWordIdx];
 				NavigationUtils.goToCourseDisplay(new CourseKey(courseNumber,
 						filters.getSemester()), context);
 
@@ -352,10 +346,10 @@ public class SearchFragment extends Fragment {
 				R.id.ug_search_semester_spinner);
 		// Create an ArrayAdapter using the string array and a default spinner
 		// layout
-		ArrayAdapter<String> adapterFaculty = new ArrayAdapter<String>(context,
-				R.layout.ug_search_spinner_item_row,
+		final ArrayAdapter<String> adapterFaculty = new ArrayAdapter<String>(
+				context, R.layout.ug_search_spinner_item_row,
 				Faculty.AE.getAllFaculties());
-		ArrayAdapter<String> adapterSemester = new ArrayAdapter<String>(
+		final ArrayAdapter<String> adapterSemester = new ArrayAdapter<String>(
 				context, R.layout.ug_search_spinner_item_row, new String[] {
 						SemesterSeason.WINTER.toString(),
 						SemesterSeason.SPRING.toString(),
@@ -376,10 +370,10 @@ public class SearchFragment extends Fragment {
 			int i = 0;
 
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemSelected(final AdapterView<?> parent,
+					final View view, final int position, final long id) {
 
-				String facultyString = spinnerFaculty.getSelectedItem()
+				final String facultyString = spinnerFaculty.getSelectedItem()
 						.toString();
 				filters.setFaculty(Faculty.valueOf(facultyString));
 				// dont invoke search on fragment start
@@ -389,7 +383,7 @@ public class SearchFragment extends Fragment {
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
+			public void onNothingSelected(final AdapterView<?> parent) {
 
 			}
 		});
@@ -401,10 +395,10 @@ public class SearchFragment extends Fragment {
 			int i = 0;
 
 			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemSelected(final AdapterView<?> parent,
+					final View view, final int position, final long id) {
 
-				String semesterString = spinnerSemester.getSelectedItem()
+				final String semesterString = spinnerSemester.getSelectedItem()
 						.toString();
 				filters.setSemester(UGDatabase.INSTANCE
 						.getRelevantSemester(SemesterSeason
@@ -417,7 +411,7 @@ public class SearchFragment extends Fragment {
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
+			public void onNothingSelected(final AdapterView<?> parent) {
 
 			}
 		});
@@ -425,7 +419,7 @@ public class SearchFragment extends Fragment {
 	}
 
 	protected void onFiltersUpdate() {
-		AutoCompleteTextView autocompletetextview = (AutoCompleteTextView) getActivity()
+		final AutoCompleteTextView autocompletetextview = (AutoCompleteTextView) getActivity()
 				.findViewById(R.id.autocompletetextview);
 		onSearchPressed(autocompletetextview.getText().toString());
 
@@ -438,11 +432,12 @@ public class SearchFragment extends Fragment {
 
 			v.setBackgroundColor(Color.LTGRAY);
 
-			CourseHolder holder = (CourseHolder) v.getTag();
+			final CourseHolder holder = (CourseHolder) v.getTag();
 			NavigationUtils.goToCourseDisplay(new CourseKey(holder.number
 					.getText().toString(), filters.getSemester()), context);
 
 			v.postDelayed(new Runnable() {
+				@Override
 				public void run() {
 					v.setBackgroundColor(getResources().getColor(
 							R.color.ug_search_list_view_color));
@@ -456,8 +451,8 @@ public class SearchFragment extends Fragment {
 	public void onStop() {
 		try {
 			SerializeIO.save(context, LAST_SEARCH, lastQuery);
-			SerializeIO.save(context, LAST_FILTER, (Serializable) filters);
-		} catch (IOException e) {
+			SerializeIO.save(context, LAST_FILTER, filters);
+		} catch (final IOException e) {
 			Log.e(MainActivity.DEBUG_TAG, "save error ", e);
 		}
 		super.onStop();

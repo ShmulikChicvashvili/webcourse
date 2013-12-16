@@ -11,7 +11,7 @@ public class AcademicCalendarEvent implements
 		return dayOfWeek;
 	}
 
-	public void setDayOfWeek(DayOfWeek dayOfWeek) {
+	public void setDayOfWeek(final DayOfWeek dayOfWeek) {
 		this.dayOfWeek = dayOfWeek;
 	}
 
@@ -19,7 +19,7 @@ public class AcademicCalendarEvent implements
 		return startingDay;
 	}
 
-	public void setStartingDay(Calendar startingDay) {
+	public void setStartingDay(final Calendar startingDay) {
 		this.startingDay = startingDay;
 	}
 
@@ -27,7 +27,7 @@ public class AcademicCalendarEvent implements
 		return event;
 	}
 
-	public void setEvent(String event) {
+	public void setEvent(final String event) {
 		this.event = event;
 	}
 
@@ -35,14 +35,13 @@ public class AcademicCalendarEvent implements
 		return day;
 	}
 
-	public void setDay(String day) {
+	public void setDay(final String day) {
 		this.day = day;
 	}
 
-	public AcademicCalendarEvent(/* DayOfWeek dayOfWeek, */Calendar startingDay,
-			String event, String day) {
+	public AcademicCalendarEvent(final Calendar startingDay,
+			final String event, final String day) {
 		super();
-		// this.dayOfWeek = dayOfWeek;
 		this.startingDay = startingDay;
 		this.event = event;
 		this.day = day;
@@ -54,22 +53,20 @@ public class AcademicCalendarEvent implements
 	private String event;
 
 	@Override
-	public int compareTo(AcademicCalendarEvent another) {
+	public int compareTo(final AcademicCalendarEvent another) {
 		if (another == null || another.startingDay == null
-				|| this.startingDay == null)
+				|| startingDay == null)
 			return 0;
-		return this.startingDay.compareTo(another.startingDay);
+		return startingDay.compareTo(another.startingDay);
 	}
 
 	@Override
 	public boolean isSection() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isFooter() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

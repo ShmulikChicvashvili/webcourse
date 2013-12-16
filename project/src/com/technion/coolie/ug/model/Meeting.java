@@ -19,8 +19,9 @@ public class Meeting implements Serializable {
 	private Date endingHour;
 	private String place;
 
-	public Meeting(String id, String lecturerName, DayOfWeek day,
-			Date startingHour, Date endingHour, String place) {
+	public Meeting(final String id, final String lecturerName,
+			final DayOfWeek day, final Date startingHour,
+			final Date endingHour, final String place) {
 		super();
 		this.id = id;
 		this.lecturerName = lecturerName;
@@ -34,7 +35,7 @@ public class Meeting implements Serializable {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 
@@ -42,7 +43,7 @@ public class Meeting implements Serializable {
 		return lecturerName;
 	}
 
-	public void setLecturerName(String lecturerName) {
+	public void setLecturerName(final String lecturerName) {
 		this.lecturerName = lecturerName;
 	}
 
@@ -50,7 +51,7 @@ public class Meeting implements Serializable {
 		return day;
 	}
 
-	public void setDay(DayOfWeek day) {
+	public void setDay(final DayOfWeek day) {
 		this.day = day;
 	}
 
@@ -58,7 +59,7 @@ public class Meeting implements Serializable {
 		return startingHour;
 	}
 
-	public void setStartingHour(Date startingHour) {
+	public void setStartingHour(final Date startingHour) {
 		this.startingHour = startingHour;
 	}
 
@@ -66,7 +67,7 @@ public class Meeting implements Serializable {
 		return endingHour;
 	}
 
-	public void setEndingHour(Date endingHour) {
+	public void setEndingHour(final Date endingHour) {
 		this.endingHour = endingHour;
 	}
 
@@ -74,7 +75,7 @@ public class Meeting implements Serializable {
 		return place;
 	}
 
-	public void setPlace(String place) {
+	public void setPlace(final String place) {
 		this.place = place;
 	}
 

@@ -1,4 +1,4 @@
-package com.technion.coolie.ug.coursesAndExams;
+package com.technion.coolie.ug.model;
 
 import java.util.List;
 
@@ -24,16 +24,13 @@ public class CourseItem {
 	public String getPoints() {
 		return points;
 	}
-	
 
-
-	public CourseItem(String courseName, String coursrId, String points,
-			List<ExamItem> exams) {
-		this.coursName = courseName;
-		this.courseId = coursrId;
+	public CourseItem(final String courseName, final String coursrId,
+			final String points, final List<ExamItem> exams) {
+		coursName = courseName;
+		courseId = coursrId;
 		this.points = points;
 		this.exams = exams;
 	}
 
-	
 }

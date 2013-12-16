@@ -5,11 +5,13 @@ import java.util.List;
 
 public class Student {
 
-	public Student(String id, String name, double avg, double points,
-			Calendar registrationDate, List<Payment> payments,
-			List<AccomplishedCourse> accomplishedCourses, List<Exam> exams,
-			List<Exam> tests, List<CourseKey> registeredCourses,
-			List<CourseKey> basket, List<CourseKey> trackList) {
+	public Student(final String id, final String name, final double avg,
+			final double points, final Calendar registrationDate,
+			final List<Payment> payments,
+			final List<AccomplishedCourse> accomplishedCourses,
+			final List<Exam> exams, final List<Exam> tests,
+			final List<CourseKey> registeredCourses,
+			final List<CourseKey> basket, final List<CourseKey> trackList) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -44,7 +46,7 @@ public class Student {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(final String id) {
 		this.id = id;
 	}
 
@@ -52,7 +54,7 @@ public class Student {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -60,7 +62,7 @@ public class Student {
 		return avg;
 	}
 
-	public void setAvg(double avg) {
+	public void setAvg(final double avg) {
 		this.avg = avg;
 	}
 
@@ -68,7 +70,7 @@ public class Student {
 		return points;
 	}
 
-	public void setPoints(double points) {
+	public void setPoints(final double points) {
 		this.points = points;
 	}
 
@@ -76,7 +78,7 @@ public class Student {
 		return registrationDate;
 	}
 
-	public void setRegistrationDate(Calendar registrationDate) {
+	public void setRegistrationDate(final Calendar registrationDate) {
 		this.registrationDate = registrationDate;
 	}
 
@@ -84,7 +86,7 @@ public class Student {
 		return payments;
 	}
 
-	public void setPayments(List<Payment> payments) {
+	public void setPayments(final List<Payment> payments) {
 		this.payments = payments;
 	}
 
@@ -93,7 +95,7 @@ public class Student {
 	}
 
 	public void setAccomplishedCourses(
-			List<AccomplishedCourse> accomplishedCourses) {
+			final List<AccomplishedCourse> accomplishedCourses) {
 		this.accomplishedCourses = accomplishedCourses;
 	}
 
@@ -101,7 +103,7 @@ public class Student {
 		return exams;
 	}
 
-	public void setExams(List<Exam> exams) {
+	public void setExams(final List<Exam> exams) {
 		this.exams = exams;
 	}
 
@@ -109,7 +111,7 @@ public class Student {
 		return tests;
 	}
 
-	public void setTests(List<Exam> tests) {
+	public void setTests(final List<Exam> tests) {
 		this.tests = tests;
 	}
 
@@ -117,7 +119,7 @@ public class Student {
 		return registeredCourses;
 	}
 
-	public void setRegisteredCourses(List<CourseKey> registeredCourses) {
+	public void setRegisteredCourses(final List<CourseKey> registeredCourses) {
 		this.registeredCourses = registeredCourses;
 	}
 
@@ -125,7 +127,7 @@ public class Student {
 		return basket;
 	}
 
-	public void setBasket(List<CourseKey> basket) {
+	public void setBasket(final List<CourseKey> basket) {
 		this.basket = basket;
 	}
 
@@ -133,7 +135,7 @@ public class Student {
 		return trackList;
 	}
 
-	public void setTrackList(List<CourseKey> trackList) {
+	public void setTrackList(final List<CourseKey> trackList) {
 		this.trackList = trackList;
 	}
 

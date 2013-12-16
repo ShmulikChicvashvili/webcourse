@@ -16,25 +16,19 @@ public class MainActivity extends CoolieActivity implements
 	public static final String DEBUG_TAG = "DEBUG";
 	public static Context context;
 
-	// private static Fragment defaultHorisontalFragment =
-	// FragmentsFactory.getGradesSheetLargeFragment();
-
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = getApplicationContext();
 		setContentView(R.layout.ug_main_screen);
-		// getSupportFragmentManager().beginTransaction().replace(R.id.detail_container,
-		// defaultHorisontalFragment).commit();
-
-		// startActivity(new Intent(this, SearchActivity.class));
-		// startActivity(new Intent(this, GradesSheetActivity.class));
 	}
 
-	// GRADES_SHEET, COURSES_AND_EXAMS, ACADEMIC_CALENDAR, PAYMENTS,
-	// TRACKING_COURSES, REGISTRATION
+	/**
+	 * GRADES_SHEET, COURSES_AND_EXAMS, ACADEMIC_CALENDAR, PAYMENTS,
+	 * TRACKING_COURSES, REGISTRATION
+	 */
 	@Override
-	public void onLeftMenuItemSelected(LandscapeLeftMenuItems item) {
+	public void onLeftMenuItemSelected(final LandscapeLeftMenuItems item) {
 		Fragment f = null;
 		switch (item) {
 		case GRADES_SHEET:

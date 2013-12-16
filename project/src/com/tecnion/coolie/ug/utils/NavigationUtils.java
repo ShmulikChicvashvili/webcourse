@@ -1,8 +1,7 @@
 package com.tecnion.coolie.ug.utils;
 
-import java.io.Serializable;
-
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -28,16 +27,16 @@ public class NavigationUtils {
 	 * @param key
 	 * @param context
 	 */
-	public static void goToCourseDisplay(CourseKey key,
-			FragmentActivity activity) {
+	public static void goToCourseDisplay(final CourseKey key,
+			final FragmentActivity activity) {
 
-		Bundle bundle = new Bundle();
+		final Bundle bundle = new Bundle();
 		bundle.putSerializable(CourseDisplayFragment.ARGUMENTS_COURSE_KEY, key);
 
-		if (activity.getResources().getConfiguration().orientation == activity
-				.getResources().getConfiguration().ORIENTATION_LANDSCAPE) {
-			int containerId = R.id.detail_container;
-			Fragment newFragment = new CourseDisplayFragment();
+		activity.getResources().getConfiguration();
+		if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			final int containerId = R.id.detail_container;
+			final Fragment newFragment = new CourseDisplayFragment();
 			newFragment.setArguments(bundle);
 			final FragmentTransaction transaction = activity
 					.getSupportFragmentManager().beginTransaction();
@@ -46,7 +45,8 @@ public class NavigationUtils {
 			transaction.commit();
 
 		} else {
-			Intent intent = new Intent(activity, TransparentActivity.class);
+			final Intent intent = new Intent(activity,
+					TransparentActivity.class);
 			bundle.putString("key", CourseDisplayFragment.class.toString());
 			intent.putExtras(bundle);
 			activity.startActivity(intent);
@@ -56,14 +56,13 @@ public class NavigationUtils {
 
 	}
 
-	public static void goToSearchDisplay(String query, SearchFilters filters,
-			FragmentActivity activity) {
-		Bundle bundle = new Bundle();
-		Intent intent = new Intent(activity, TransparentActivity.class);
+	public static void goToSearchDisplay(final String query,
+			final SearchFilters filters, final FragmentActivity activity) {
+		final Bundle bundle = new Bundle();
+		final Intent intent = new Intent(activity, TransparentActivity.class);
 		bundle.putString("key", SearchFragment.class.toString());
 		bundle.putSerializable(SearchFragment.ARGUMENT_QUERY_KEY, query);
-		bundle.putSerializable(SearchFragment.ARGUMENT_FILTERS_KEY,
-				(Serializable) filters);
+		bundle.putSerializable(SearchFragment.ARGUMENT_FILTERS_KEY, filters);
 		intent.putExtras(bundle);
 		activity.startActivity(intent);
 		return;

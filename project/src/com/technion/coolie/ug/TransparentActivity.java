@@ -17,61 +17,60 @@ import com.tecnion.coolie.ug.utils.FragmentsFactory;
 
 public class TransparentActivity extends CoolieActivity {
 	public String key;
+	private FragmentTransaction fragmentTransaction;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ug_transparent_layout);
-		Bundle b = getIntent().getExtras();
+		final Bundle b = getIntent().getExtras();
 		key = b.getString("key");
 		onListClicked(key, b);
-
 	}
 
-	public void onListClicked(String link, Bundle bundle) {
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
+	public void onListClicked(final String link, final Bundle bundle) {
+		final FragmentManager fragmentManager = getSupportFragmentManager();
+		fragmentTransaction = fragmentManager.beginTransaction();
 
-		Fragment gradesSheetLayout; // Fragment 1
-		Fragment coursesAndExamsLayout; // Fragment 2
+		Fragment gradesSheetLayout;
+		Fragment coursesAndExamsLayout;
 		CourseDisplayFragment courseDisplayFragment;
 		SearchFragment searchFragment;
 		AcademicCalendarFragment academicCalendarFragment;
-		// Layout3 layout3; // Fragment 3
-		// Layout4 layout4; // Fragment 4
 
-		if (link.equals("gradesSheetLayout")) {
+		if (link.equals(GradesSheetFragment.class.toString())) {
 			gradesSheetLayout = FragmentsFactory.getGradesSheetLargeFragment();
-			fragmentTransaction
-					.replace(R.id.non_transparent, gradesSheetLayout);
-			fragmentTransaction.commit();
-		} else if (link.equals("coursesAndExamsLayout")) {
-			coursesAndExamsLayout = FragmentsFactory.getCoursesAndExamsLargeFragment();
-			fragmentTransaction.replace(R.id.non_transparent,
-					coursesAndExamsLayout);
-			fragmentTransaction.commit();
+			replaceAndCommit(gradesSheetLayout);
+		} else if (link.equals(CoursesAndExamsFragment.class.toString())) {
+			coursesAndExamsLayout = FragmentsFactory
+					.getCoursesAndExamsLargeFragment();
+			replaceAndCommit(coursesAndExamsLayout);
 		} else if (link.equals(CourseDisplayFragment.class.toString())) {
 			courseDisplayFragment = new CourseDisplayFragment();
 			courseDisplayFragment.setArguments(bundle);
-			fragmentTransaction.replace(R.id.non_transparent,
-					courseDisplayFragment);
-			fragmentTransaction.commit();
+			replaceAndCommit(courseDisplayFragment);
 		} else if (link.equals(SearchFragment.class.toString())) {
 			searchFragment = new SearchFragment();
 			searchFragment.setArguments(bundle);
-			fragmentTransaction.replace(R.id.non_transparent, searchFragment);
-			fragmentTransaction.commit();
-		}
-		else if (link.equals("academicCalendarFragment")) {
+			replaceAndCommit(searchFragment);
+		} else if (link.equals(AcademicCalendarFragment.class.toString())) {
 			academicCalendarFragment = new AcademicCalendarFragment();
-			fragmentTransaction.replace(R.id.non_transparent,
-					academicCalendarFragment);
-			fragmentTransaction.commit();
+			replaceAndCommit(academicCalendarFragment);
 		}
 	}
 
-	public void transparentClick(View view) {
+	private void replaceAndCommit(final Fragment fragment) {
+		fragmentTransaction.replace(R.id.non_transparent, fragment);
+		fragmentTransaction.commit();
+	}
+
+	/**
+	 * This method is called from the corresponding xml file
+	 * 
+	 * @param view
+	 *            The clicked view
+	 */
+	public void transparentClick(final View view) {
 		finish();
 	}
 

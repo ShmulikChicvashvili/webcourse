@@ -40,7 +40,7 @@ public class GradesSheetFragment extends Fragment {
 		points.setText(HtmlParser.points);
 
 		listview = (ListView) view.findViewById(R.id.listView_main);
-		EntryAdapter adapter = new EntryAdapter(getActivity(), items);
+		GradesSheetFragmentAdapter adapter = new GradesSheetFragmentAdapter(getActivity(), items);
 		listview.setAdapter(adapter);
 		return view;
 	}
