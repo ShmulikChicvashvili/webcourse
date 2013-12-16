@@ -74,6 +74,8 @@ public class TaskAdapter extends BaseAdapter
 						boolean isChecked)
 				{
 					view.setStrike(isChecked);
+					// model.toggleTask(position);
+					//notifyDataSetChanged();
 				}
 			});
 			convertView = view;
@@ -86,7 +88,7 @@ public class TaskAdapter extends BaseAdapter
 			taskDesc = holder.getTaskDesc();
 			done = holder.getDone();
 		}
-		
+
 		// Task task = DataStore.getTask(position);
 		// course.setText(task.getCourseName());
 		// taskDesc.setText(task.getType() + " number " + task.getNumber());
