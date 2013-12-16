@@ -15,8 +15,7 @@ public class FullContactInformation extends SherlockFragment {
 	DBTools db = new DBTools(getActivity());
 
 	final static String ARG_POSITION_STRING = "position";
-	CheckBox favButton;
-	int mCurrentPosition = 0;
+	static int mCurrentPosition = 0;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater,
@@ -25,40 +24,9 @@ public class FullContactInformation extends SherlockFragment {
 		if (savedInstanceState != null)
 			mCurrentPosition = savedInstanceState.getInt(ARG_POSITION_STRING);
 
-		// favButton = (CheckBox) getActivity().findViewById(
-		// com.technion.coolie.R.id.addToFavorite);
-		// favButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		// @Override
-		// public void onCheckedChanged(CompoundButton arg0, boolean isChecked)
-		// {
-		// if (isChecked)
-		// addToFavourites();
-		// else
-		// removeFromFavourites();
-		//
-		// }
-		//
-		// });
-
 		return inflater.inflate(
 				com.technion.coolie.R.layout.teletech_adittional_info,
 				container, false);
-	}
-
-	private void removeFromFavourites() {
-		// TODO CHANGE LATER
-		if (MainActivity.contacts.get(mCurrentPosition).isFavourite()) {
-			ContactInformation contact = MainActivity.contacts
-					.get(mCurrentPosition);
-			contact.setFavourite(false);
-			db.deleteFavourite(contact.ID().toString());
-		}
-
-	}
-
-	private void addToFavourites() {
-		// TODO CHANGE LATER
-		MainActivity.contacts.get(mCurrentPosition).setFavourite(true);
 	}
 
 	@Override
@@ -75,6 +43,10 @@ public class FullContactInformation extends SherlockFragment {
 			updateContactInformationView(args.getInt(ARG_POSITION_STRING));
 		else
 			updateContactInformationView(mCurrentPosition);
+	}
+
+	public static int position() {
+		return mCurrentPosition;
 	}
 
 	public void updateContactInformationView(final int position) {
@@ -98,6 +70,13 @@ public class FullContactInformation extends SherlockFragment {
 		Assert.assertNotNull(currentContact.ID());
 
 		contactID.setText(currentContact.ID().toString());
+
+		final CheckBox checkBox = (CheckBox) getActivity().findViewById(
+				com.technion.coolie.R.id.addToFavorite);
+		if (!currentContact.isFavourite())
+			checkBox.setChecked(false);
+		else
+			checkBox.setChecked(true);
 
 		mCurrentPosition = position;
 

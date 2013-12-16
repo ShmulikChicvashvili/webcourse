@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -137,6 +138,32 @@ public class MainActivity extends CoolieActivity implements
 			return;
 		final Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(website));
 		startActivity(i);
+	}
+
+	public void onCheckboxClicked(View v) {
+		Toast.makeText(getApplicationContext(), "checkbox checked",
+				Toast.LENGTH_SHORT).show();
+		boolean checked = ((CheckBox) v).isChecked();
+		if (checked)
+			addToFavourites();
+		else
+			removeFromFavourites();
+	}
+
+	void addToFavourites() {
+		// TODO CHANGE LATER
+		int position = FullContactInformation.position();
+		ContactInformation contact = MainActivity.contacts.get(position);
+		contact.setFavourite(true);
+		db.deleteFavourite(contact.ID().toString());
+	}
+
+	void removeFromFavourites() {
+		// TODO CHANGE LATER
+		int position = FullContactInformation.position();
+		ContactInformation contact = MainActivity.contacts.get(position);
+		contact.setFavourite(false);
+		db.deleteFavourite(contact.ID().toString());
 	}
 
 	@Override
