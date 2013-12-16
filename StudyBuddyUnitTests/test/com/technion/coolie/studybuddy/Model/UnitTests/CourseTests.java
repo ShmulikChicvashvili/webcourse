@@ -6,6 +6,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.OrderingComparison.comparesEqualTo;
 import static org.hamcrest.number.OrderingComparison.lessThan;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -26,27 +27,27 @@ import com.technion.coolie.studybuddy.models.StudyResource;
 public class CourseTests
 {
 
-	@Test
-	public void addingAnExamMustReturnIt()
-	{
-		Course s = new Course();
-		Exam e = mock(Exam.class);
-
-		s.addExam(e);
-
-		assertThat(s.getExams(), is(Arrays.asList(e)));
-	}
-
-	@Test
-	public void addingExamListReturnsIt()
-	{
-		Course s = new Course();
-		List<Exam> list = Arrays.asList(mock(Exam.class), mock(Exam.class),
-				mock(Exam.class));
-		s.addExams(list);
-		assertThat(s.getExams(), is(list));
-
-	}
+	// @Test
+	// public void addingAnExamMustReturnIt()
+	// {
+	// Course s = new Course();
+	// Exam e = mock(Exam.class);
+	//
+	// s.addExam(e);
+	//
+	// assertThat(s.getExams(), is(Arrays.asList(e)));
+	// }
+	//
+	// @Test
+	// public void addingExamListReturnsIt()
+	// {
+	// Course s = new Course();
+	// List<Exam> list = Arrays.asList(mock(Exam.class), mock(Exam.class),
+	// mock(Exam.class));
+	// s.addExams(list);
+	// assertThat(s.getExams(), is(list));
+	//
+	// }
 
 	@Test
 	public void addingResourceShouldReturnResource() throws Exception
@@ -58,12 +59,12 @@ public class CourseTests
 		assertThat(s.getStudyResources(), is(asSet(r)));
 	}
 
-	@Test
-	public void getExamsOnNewSubjectShouldReturnNil()
-	{
-		Course s = new Course();
-		assertThat(s.getExams(), is(Collections.<Exam> emptyList()));
-	}
+	// @Test
+	// public void getExamsOnNewSubjectShouldReturnNil()
+	// {
+	// Course s = new Course();
+	// assertThat(s.getExams(), is(Collections.<Exam> emptyList()));
+	// }
 
 	@Test
 	public void gettingStudyResourcesWithoutAllocationShouldBeEmpty()
@@ -127,7 +128,8 @@ public class CourseTests
 	public void subjectWithDefaultResourceReturnsItsTasks() throws Exception
 	{
 		Course c = new Course(123, "name");
-		c.addStudyResource(StudyResource.createWithDefaultItems());
+		c.addStudyResource(StudyResource.createWithItems("LEC",
+				WEEKS_IN_SEMESTER));
 
 		assertThat(c.getStudyItemsTotal(), is(WEEKS_IN_SEMESTER));
 		assertThat(c.getStudyItems().size(), is(WEEKS_IN_SEMESTER));
@@ -158,9 +160,9 @@ public class CourseTests
 		Course c1 = new Course();
 		Course c2 = new Course();
 		Course c3 = new Course();
-		c1.addStudyResource(StudyResource.createWithItems(3));
-		c2.addStudyResource(StudyResource.createWithItems(4));
-		c3.addStudyResource(StudyResource.createWithItems(4));
+		c1.addStudyResource(StudyResource.createWithItems("LEC", 3));
+		c2.addStudyResource(StudyResource.createWithItems("LEC", 4));
+		c3.addStudyResource(StudyResource.createWithItems("LEC", 4));
 
 		assertThat(c2, lessThan(c1));
 		assertThat(c2, comparesEqualTo(c3));

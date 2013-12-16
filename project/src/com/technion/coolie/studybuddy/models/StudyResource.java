@@ -6,22 +6,28 @@ import static com.technion.coolie.studybuddy.utils.Utils.filter;
 import static com.technion.coolie.studybuddy.utils.Utils.map;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import com.j256.ormlite.dao.BaseForeignCollection;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 
 public class StudyResource
 {
-	private static final String	DEFAULT_NAME	= "DEFAULT";
-	public static final String	LECTURES		= "Lectures";
-	public static final String	TUTORIALS		= "Tutorials";
+	public static final String		LECTURES	= "Lectures";
+	public static final String		TUTORIALS	= "Tutorials";
 
 	@DatabaseField(generatedId = true)
-	private UUID				id;
-	private String				name;
-	private List<StudyItem>		items			= new ArrayList<StudyItem>();
-	private Course				parent;
+	private UUID					id;
+	@DatabaseField
+	private String					name;
+	@ForeignCollectionField(eager = true)
+	private Collection<StudyItem>	items;
+	private Course					parent;
 
 	public Course getParent()
 	{
@@ -33,11 +39,6 @@ public class StudyResource
 		this.parent = parent;
 	}
 
-	public static StudyResource fromItemList(List<String> list)
-	{
-		return fromItemList(DEFAULT_NAME, list);
-	}
-
 	public static StudyResource fromItemList(String name, List<String> list)
 	{
 		StudyResource sr = new StudyResource();
@@ -46,9 +47,12 @@ public class StudyResource
 		return sr;
 	}
 
-	public static StudyResource createWithItems(Integer num)
+	private void allocateItemsCollection()
 	{
-		return createWithItems(DEFAULT_NAME, num);
+		if (null == items)
+		{
+			items = new ArrayList<StudyItem>();
+		}
 	}
 
 	public static StudyResource createWithItems(String label, Integer num)
@@ -63,13 +67,13 @@ public class StudyResource
 		return sr;
 	}
 
-	public static StudyResource createWithDefaultItems()
-	{
-		return createWithItems(WEEKS_IN_SEMESTER);
-	}
-
 	public void addItem(StudyItem item)
 	{
+		if (null == items)
+		{
+			allocateItemsCollection();
+		}
+
 		items.add(item);
 	}
 
@@ -79,6 +83,11 @@ public class StudyResource
 
 	private void addItems(List<String> list)
 	{
+		if (null == items)
+		{
+			allocateItemsCollection();
+		}
+
 		int i = items.size();
 		for (String str : list)
 		{
@@ -88,11 +97,20 @@ public class StudyResource
 
 	public List<StudyItem> getItemsDone()
 	{
+		if (null == items)
+		{
+			allocateItemsCollection();
+		}
+
 		return filter(items, StudyItem.doneMatcher());
 	}
 
 	public List<StudyItem> getItemsRemaining()
 	{
+		if (null == items)
+		{
+			allocateItemsCollection();
+		}
 		return filter(items, StudyItem.notDoneMatcher());
 	}
 
@@ -130,6 +148,10 @@ public class StudyResource
 
 	public int getTotalItemCount()
 	{
+		if (null == items)
+		{
+			allocateItemsCollection();
+		}
 		return items.size();
 	}
 
@@ -151,6 +173,11 @@ public class StudyResource
 
 	private void toggleDone(int id)
 	{
+		if (null == items)
+		{
+			allocateItemsCollection();
+		}
+
 		List<StudyItem> result = filter(items, StudyItem.getNumFilter(id));
 		if (result.size() < 1)
 			return;
@@ -160,11 +187,50 @@ public class StudyResource
 
 	public List<StudyItem> getAllItems()
 	{
-		return items;
+		if (null == items)
+		{
+			allocateItemsCollection();
+		}
+
+		List<StudyItem> list = new ArrayList<StudyItem>();
+		list.addAll(items);
+		Collections.sort(list);
+		return list;
 	}
 
 	public String getName()
 	{
 		return name;
+	}
+
+	public void resizeTo(int newSize)
+	{
+		if (null == items)
+		{
+			allocateItemsCollection();
+		}
+
+		if (newSize < items.size())
+		{
+			Collection<StudyItem> toRemove = new ArrayList<StudyItem>();
+
+			for (StudyItem i : items)
+			{
+				if (i.getNum() > newSize)
+				{
+					toRemove.add(i);
+				}
+			}
+
+			items.removeAll(toRemove);
+		}
+		if (newSize > items.size())
+		{
+			for (int i = items.size() + 1; i <= newSize; ++i)
+			{
+				items.add(new StudyItem(i));
+			}
+		}
+
 	}
 }

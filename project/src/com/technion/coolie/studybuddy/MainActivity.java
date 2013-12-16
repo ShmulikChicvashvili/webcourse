@@ -12,6 +12,7 @@ import com.actionbarsherlock.view.Menu;
 import com.technion.coolie.R;
 import com.technion.coolie.STBSettingsActivity;
 import com.technion.coolie.studybuddy.adapters.CourseAdapter;
+import com.technion.coolie.studybuddy.data.DataStore;
 import com.technion.coolie.studybuddy.graphs.GraphFactory;
 import com.technion.coolie.studybuddy.views.EditCourse;
 import com.technion.coolie.studybuddy.views.NowLayout;
@@ -20,7 +21,8 @@ import com.technion.coolie.studybuddy.views.StudyBuddyActivity;
 public class MainActivity extends StudyBuddyActivity
 {
 
-	GraphicalView graphView;
+	GraphicalView	graphView;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -37,11 +39,12 @@ public class MainActivity extends StudyBuddyActivity
 		NowLayout layout = (NowLayout) findViewById(R.id.course_list);
 
 		CourseAdapter adapter = new CourseAdapter(this);
+		DataStore.getInstance().addObserver(adapter);
 		layout.setAdapter(adapter);
-
 		// ANNA GRAPH HERE - JUST REMOVE COMMENTS TO SEE
 		LinearLayout _layout = (LinearLayout) findViewById(R.id.Chart_layout);
-		graphView = (GraphicalView)GraphFactory.getSampleCourseProgress(getBaseContext());
+		graphView = (GraphicalView) GraphFactory
+				.getSampleCourseProgress(getBaseContext());
 		_layout.addView(graphView);
 	}
 
@@ -49,7 +52,7 @@ public class MainActivity extends StudyBuddyActivity
 	public boolean onOptionsItemSelected(
 			com.actionbarsherlock.view.MenuItem item)
 	{
-		
+
 		Intent intent = null;
 		switch (item.getItemId())
 		{

@@ -10,20 +10,24 @@ import org.junit.Test;
 import com.technion.coolie.studybuddy.models.Course;
 import com.technion.coolie.studybuddy.models.StudyResource;
 
-public class CourseIntegrationTests {
+public class CourseIntegrationTests
+{
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws Exception
+	{
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() throws Exception
+	{
 	}
 
 	@Test
-	public void markingAnItemCompleteShouldAffectCourse() throws Exception {
+	public void markingAnItemCompleteShouldAffectCourse() throws Exception
+	{
 		Course c = new Course(123, "name");
-		c.addStudyResource(StudyResource.createWithItems(10));
+		c.addStudyResource(StudyResource.createWithItems("LEC", 10));
 
 		assertThat(c.getNumStudyItemsRemaining(), is(10));
 
@@ -34,9 +38,10 @@ public class CourseIntegrationTests {
 	}
 
 	@Test
-	public void markingAnItemCompleteAgainShouldNotHelp() throws Exception {
+	public void markingAnItemCompleteAgainShouldNotHelp() throws Exception
+	{
 		Course c = new Course(123, "name");
-		c.addStudyResource(StudyResource.createWithItems(10));
+		c.addStudyResource(StudyResource.createWithItems("LEC", 10));
 
 		assertThat(c.getNumStudyItemsRemaining(), is(10));
 
@@ -51,9 +56,10 @@ public class CourseIntegrationTests {
 	}
 
 	@Test
-	public void togglingAnItemShouldWork() throws Exception {
+	public void togglingAnItemShouldWork() throws Exception
+	{
 		Course c = new Course(123, "name");
-		c.addStudyResource(StudyResource.createWithItems(10));
+		c.addStudyResource(StudyResource.createWithItems("LEC", 10));
 
 		assertThat(c.getNumStudyItemsRemaining(), is(10));
 
