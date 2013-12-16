@@ -102,6 +102,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 
 		friendNameEdit = (AutoCompleteTextView) findViewById(R.id.lmi_friend_name_edit);
 		friendNameEdit.addTextChangedListener(updateEnabilityWatcher);
+		friendNameEdit.requestFocus();
 
 		friendCellphoneEdit = (EditText) findViewById(R.id.lmi_friend_cellphone_edit);
 		friendCellphoneEdit.addTextChangedListener(updateEnabilityWatcher);

@@ -3,13 +3,14 @@ package com.technion.coolie.letmein;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
@@ -24,12 +25,12 @@ public class MainActivity extends DatabaseActivity implements
 		InvitationListFragment.AdapterSupplier {
 
 	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
-	private BaseInvitationAdapter invitationAdapter;
 
 	private Button loginButton;
 	private TextView welcomeMessageTextView;
 	private Button watchDemoButton;
 
+	private BaseInvitationAdapter invitationAdapter;
 	private boolean isLoggedIn;
 	private boolean isAddInvitationItemVisible = false;
 
@@ -109,37 +110,44 @@ public class MainActivity extends DatabaseActivity implements
 		// For better performance:
 		isLoggedIn = isLoggedIn || isUserLoggedIn();
 
-		if (isLoggedIn) {
-			loginButton.setVisibility(View.GONE);
-			welcomeMessageTextView.setVisibility(View.GONE);
-			watchDemoButton.setVisibility(View.GONE);
+		invitationAdapter = isLoggedIn ? new InvitationAdapter(MainActivity.this, getHelper())
+				: new MockInvitationAdapter(MainActivity.this);
 
-			isAddInvitationItemVisible = true;
-			supportInvalidateOptionsMenu();
+		Fragment listFragment = invitationAdapter.isEmpty() ? new EmptyInvitationListFragment()
+				: new InvitationListFragment();
+
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.lmi_invitation_list_container, listFragment).commit();
+
+		if (!isLoggedIn)
+			return;
+
+		loginButton.setVisibility(View.GONE);
+		welcomeMessageTextView.setVisibility(View.GONE);
+		watchDemoButton.setVisibility(View.GONE);
+
+		isAddInvitationItemVisible = true;
+		supportInvalidateOptionsMenu();
+
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+			return;
+
+		FrameLayout invitationViewFragme = (FrameLayout) findViewById(R.id.lmi_body_fragment);
+
+		if (invitationAdapter.isEmpty()) {
+			invitationViewFragme.setVisibility(View.GONE);
+			return;
 		}
 
-		new UpdateInvitationsTask().execute();
-	}
+		invitationViewFragme.setVisibility(View.VISIBLE);
 
-	private class UpdateInvitationsTask extends AsyncTask<Void, Void, BaseInvitationAdapter> {
-		@Override
-		protected BaseInvitationAdapter doInBackground(final Void... params) {
-			if (isLoggedIn)
-				return new InvitationAdapter(MainActivity.this, getHelper());
+		Fragment fragment = new InvitationViewFragment();
+		Bundle bundle = new Bundle();
+		bundle.putInt(Consts.POSITION, 0);
+		fragment.setArguments(bundle);
 
-			return new MockInvitationAdapter(MainActivity.this);
-		}
-
-		@Override
-		protected void onPostExecute(final BaseInvitationAdapter adapter) {
-			invitationAdapter = adapter;
-
-			final Fragment fragment = adapter.isEmpty() ? new EmptyInvitationListFragment()
-					: new InvitationListFragment();
-
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.lmi_invitation_list_container, fragment).commit();
-		}
+		getSupportFragmentManager().beginTransaction().replace(R.id.lmi_body_fragment, fragment)
+				.commit();
 	}
 
 	private boolean isUserLoggedIn() {
@@ -156,5 +164,23 @@ public class MainActivity extends DatabaseActivity implements
 	@Override
 	public BaseInvitationAdapter getAdapter() {
 		return invitationAdapter;
+	}
+
+	@Override
+	public void changeInvitationView(int position) {
+		Bundle args = new Bundle();
+		args.putInt(Consts.POSITION, position);
+
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			Fragment fragment = new InvitationViewFragment();
+			fragment.setArguments(args);
+
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.lmi_body_fragment, fragment).commit();
+		} else {
+			Intent intent = new Intent(MainActivity.this, InvitationViewActivity.class);
+			intent.putExtras(args);
+			startActivity(intent);
+		}
 	}
 }
