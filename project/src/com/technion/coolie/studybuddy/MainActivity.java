@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -33,17 +34,20 @@ public class MainActivity extends StudyBuddyActivity
 
 		// DataStore.addFakeCourses();
 
-		ImageView imageView = (ImageView) findViewById(R.id.graph_view);
-		imageView.setOnClickListener(new OnClickListener()
-		{
+//		ImageView imageView = (ImageView) findViewById(R.id.graph_view);
+//		imageView.setOnClickListener(new OnClickListener()
+//		{
+//
+//			@Override
+//			public void onClick(View v)
+//			{
+//				v.getContext().startActivity(
+//						new Intent(v.getContext(), TasksActivity.class));
+//			}
+//		});
+		
 
-			@Override
-			public void onClick(View v)
-			{
-				v.getContext().startActivity(
-						new Intent(v.getContext(), TasksActivity.class));
-			}
-		});
+		
 		NowLayout layout = (NowLayout) findViewById(R.id.course_list);
 
 		CourseAdapter adapter = new CourseAdapter(this);
@@ -51,7 +55,8 @@ public class MainActivity extends StudyBuddyActivity
 		
 		// ANNA GRAPH HERE - JUST REMOVE COMMENTS TO SEE
 		LinearLayout _layout = (LinearLayout) findViewById(R.id.Chart_layout);
-		 _layout.addView(GraphFactory.getSampleCourseProgress(getBaseContext()));
+		 _layout.addView(GraphFactory.getSampleCourseProgress(getBaseContext()),
+				 new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 	}
 
 	@Override

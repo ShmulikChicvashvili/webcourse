@@ -12,6 +12,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer.Orientation;
 
 import android.graphics.Color;
+import android.graphics.Paint.Align;
 
 public class CourseProgress {
 	private Map<String, Integer> name2progress;
@@ -60,14 +61,17 @@ public class CourseProgress {
 	XYMultipleSeriesRenderer getRenderer() {
 		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
 		renderer.setOrientation(Orientation.VERTICAL);
+		renderer.setShowLegend(false);
 		renderer.setZoomEnabled(false);
 		renderer.setPanEnabled(false);
-		renderer.setBarSpacing(1);
+		renderer.setBarSpacing(0.5);
 		renderer.setAxisTitleTextSize(16);
 		renderer.setChartTitleTextSize(20);
 		renderer.setLabelsTextSize(15);
 		renderer.setLegendTextSize(15);
-		renderer.setMargins(new int[] { 20, 30, 15, 0 });
+		renderer.setMargins(new int[] { 20, 100, 100, 100 });
+		renderer.setXLabelsAlign(Align.RIGHT);
+		renderer.setXLabelsPadding(-50);
 		
 		renderer.setYAxisMin(0);
 		renderer.setYAxisMax(lastWeek);

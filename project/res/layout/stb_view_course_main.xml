@@ -6,7 +6,7 @@
     android:background="#e3e3e3"
     android:orientation="vertical"
     android:weightSum="100" >
-
+   
     <ImageView
         
         android:id="@+id/graph_view"
@@ -14,6 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/stb_graph" />
+    
+    
 
     <com.technion.coolie.studybuddy.views.NowLayout
         android:id="@+id/course_list"
