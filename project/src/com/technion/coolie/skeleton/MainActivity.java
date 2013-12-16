@@ -10,6 +10,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -21,8 +26,18 @@ public class MainActivity extends CoolieActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.skel_activity_main2);
+		setContentView(R.layout.skel_activity_main);
 
+		/*HtmlRequestHandler hg = new HtmlRequestHandler(getApplicationContext())
+		{
+			@Override
+			public void handleResult(String result, CoolieStatus status) {
+				Log.v("RESULT",result);			
+			}
+		};
+		hg.getHtmlSource("http://techmvs.technion.ac.il:80/cics/wmn/wmngrad?ORD=1", HtmlRequestHandler.Account.NONE);
+*/
+		
 		ViewPager mViewPager = (ViewPager) findViewById(R.id.skel_main_view_pager);
 
 		viewPagerAdapter mDemoCollectionPagerAdapter = new viewPagerAdapter(
@@ -82,20 +97,24 @@ public class MainActivity extends CoolieActivity {
 			}
 	    };
 
-	    // Add 3 tabs, specifying the tab's text and TabListener
+	   /* // Add 3 tabs, specifying the tab's text and TabListener
 	    for (int i = 0; i < 2; i++) {
 	        actionBar.addTab(
 	                actionBar.newTab()
 	                        .setText("Tab " + (i + 1))
 	                        .setTabListener(tabListener));
-	    }
+	    }*/
+	    
+	    actionBar.addTab(actionBar.newTab().setText(R.string.skel_tab_title_alphabetical).setTabListener(tabListener));
+	    actionBar.addTab(actionBar.newTab().setText(R.string.skel_tab_title_recently_used).setTabListener(tabListener));
+	    actionBar.addTab(actionBar.newTab().setText(R.string.skel_tab_title_feeds).setTabListener(tabListener));
 
 
 
 	}
 	
 	
-	public class viewPagerAdapter extends FragmentPagerAdapter {
+	private class viewPagerAdapter extends FragmentPagerAdapter {
 		List<Fragment> fragments;
 
 		public viewPagerAdapter(FragmentManager fm, Context c,
@@ -117,6 +136,33 @@ public class MainActivity extends CoolieActivity {
 			return fragments.size();
 		}
 		
+	}
+	
+	private class AlphabeticalModulesFragment extends Fragment {
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			
+		    View view = inflater.inflate(R.layout.skel_main_modules_grid, container, false);
+	        GridView gridview = (GridView) view.findViewById(R.id.skel_main_modules_grid);
+			gridview.setAdapter(new AlphabeticalModulesAdapter(getActivity()));
+
+			return view;
+		}
+		
+	}
+	
+	private class RecentlyUsedModulesFragment  extends Fragment {
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			
+		    View view = inflater.inflate(R.layout.skel_main_modules_grid, container, false);
+	        GridView gridview = (GridView) view.findViewById(R.id.skel_main_modules_grid);
+			gridview.setAdapter(new RecentlyUsedAdapter(getActivity()));
+
+			return view;
+		}
 	}
 
 }

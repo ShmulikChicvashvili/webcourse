@@ -21,11 +21,10 @@ public class UgCourse implements IUgCourse {
 
   private static final String servletName = "UGCourses";
   private static final String FUNCTION = "function";
-  Communicator c = new Communicator();
 
   @Override
   public List<CourseServer> getAllCourses(Semester semester) {
-    String $ = c
+    String $ = Communicator
         .execute(servletName, FUNCTION,
             UgCourseFunctions.GET_ALL_COURSES.value(), "semester",
             toJson(semester));
@@ -35,7 +34,7 @@ public class UgCourse implements IUgCourse {
 
   @Override
   public List<CourseServer> getCourses(List<CourseKey> courseKeys) {
-    String $ = c
+    String $ = Communicator
         .execute(servletName, FUNCTION, UgCourseFunctions.GET_COURSES.value(),
             "courseKeys", toJson(courseKeys));
 
@@ -43,10 +42,11 @@ public class UgCourse implements IUgCourse {
   }
 
   @Override
-  public List<CourseServer> getStudentCurrentCourses(Student student) {
-    String $ = c.execute(servletName, FUNCTION,
+  public List<CourseServer> getStudentCurrentCourses(Student student,
+      Semester semester) {
+    String $ = Communicator.execute(servletName, FUNCTION,
         UgCourseFunctions.GET_STUDENT_COURSES.value(), "student",
-        toJson(student));
+        toJson(student), "semester", toJson(semester));
 
     return convertJsonToCoursesList($);
   }

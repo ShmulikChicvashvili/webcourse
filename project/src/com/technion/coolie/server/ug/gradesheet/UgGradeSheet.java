@@ -17,16 +17,15 @@ import com.technion.coolie.server.ug.framework.Student;
  */
 public class UgGradeSheet implements IUgGradeSheet {
   private static final String servletName = "UGGradeSheet";
-  Communicator c = new Communicator();
 
   @Override
   public List<AccomplishedCourse> getMyGradesSheet(Student student) {
-    String $ = c.execute(servletName, "student", toJson(student));
+    String $ = Communicator.execute(servletName, "student", toJson(student));
 
-    return convertJsonToCoursesList($);
+    return convertJsonToList($);
   }
 
-  private List<AccomplishedCourse> convertJsonToCoursesList(String json) {
+  private List<AccomplishedCourse> convertJsonToList(String json) {
     return new Gson().fromJson(json, new TypeToken<List<AccomplishedCourse>>() {
     }.getType());
   }

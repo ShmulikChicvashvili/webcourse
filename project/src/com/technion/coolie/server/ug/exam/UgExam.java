@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
 import com.technion.coolie.server.ug.api.IUgExam;
 import com.technion.coolie.server.ug.framework.Exam;
+import com.technion.coolie.server.ug.framework.Semester;
 import com.technion.coolie.server.ug.framework.Student;
 
 /**
@@ -17,12 +18,23 @@ import com.technion.coolie.server.ug.framework.Student;
  */
 public class UgExam implements IUgExam {
   private static final String servletName = "UGExam";
-  Communicator c = new Communicator();
 
   @Override
-  public List<Exam> getStudentExams(Student student) {
-    String $ = c.execute(servletName, "student", toJson(student));
-    return new Gson().fromJson($, new TypeToken<List<Exam>>() {
+  public List<Exam> getStudentExams(Student student, Semester semester) {
+    String $ = Communicator.execute(servletName, "student", toJson(student),
+        "semester", toJson(semester));
+    return convertJsonToList($);
+  }
+
+  /**
+   * Convert json to list
+   * 
+   * @param json
+   *          the json string
+   * @return list of courses
+   */
+  private List<Exam> convertJsonToList(String json) {
+    return new Gson().fromJson(json, new TypeToken<List<Exam>>() {
     }.getType());
   }
 

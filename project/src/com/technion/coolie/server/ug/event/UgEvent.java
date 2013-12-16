@@ -16,12 +16,23 @@ import com.technion.coolie.server.ug.framework.AcademicCalendarEvent;
  */
 public class UgEvent implements IUgEvent {
   private static final String servletName = "UGEvent";
-  Communicator c = new Communicator();
 
   @Override
   public List<AcademicCalendarEvent> getAllAcademicEvents() {
-    String $ = c.execute(servletName);
-    return new Gson().fromJson($, new TypeToken<List<AcademicCalendarEvent>>() {
-    }.getType());
+    String $ = Communicator.execute(servletName);
+    return convertJsonToList($);
+  }
+
+  /**
+   * Convert json to list
+   * 
+   * @param json
+   *          the json string
+   * @return list of courses
+   */
+  private List<AcademicCalendarEvent> convertJsonToList(String json) {
+    return new Gson().fromJson(json,
+        new TypeToken<List<AcademicCalendarEvent>>() {
+        }.getType());
   }
 }
