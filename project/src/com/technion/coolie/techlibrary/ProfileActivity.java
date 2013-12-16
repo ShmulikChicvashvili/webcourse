@@ -6,7 +6,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
-import com.technion.coolie.techlibrary.LibraryCardActivity;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -48,6 +47,7 @@ public class ProfileActivity extends CoolieActivity{
 			case (LOGGIN_CODE): {
 				if (resultCode != LoginActivity.RESULT_OK) {
 					//TODO: generate error in login? maybe login was canceled?
+					finish();//finish the activit.....
 				} else {
 					String[] keys = { "user_first_name", "user_last_name", "user_id",
 							 "user_address", "user_email", "user_telephone",

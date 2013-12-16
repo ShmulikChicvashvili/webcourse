@@ -48,6 +48,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </FrameLayout>
+        
+        
+        <FrameLayout android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/lib_grey_frame">
+            <fragment android:name="com.technion.coolie.techlibrary.WishListFragment"
+                android:id="@+id/lib_wish_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
     </LinearLayout>
     
     
