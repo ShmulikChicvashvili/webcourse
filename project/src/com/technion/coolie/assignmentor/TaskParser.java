@@ -170,26 +170,4 @@ public class TaskParser extends IntentService {
     	dataFetchedIntent.setAction(MainActivity.DATA_FETCHED);
     	sendBroadcast(dataFetchedIntent);
     }
-    
-//    // testing network availability
-// 	private boolean isNetworkAvailable() {
-// 		ConnectivityManager conManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-// 		NetworkInfo mobileNetworkInfo = conManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-// 		NetworkInfo wifiNetworkInfo = conManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-// 		return ((mobileNetworkInfo == null ? false : mobileNetworkInfo.isAvailable()) || 
-// 				(wifiNetworkInfo == null ? false : wifiNetworkInfo.isAvailable()));
-// 	}
-// 	
-// 	// testing data availability
-// 	private boolean isDataAvailable() {
-// 		ConnectivityManager conManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-// 		NetworkInfo mobileNetworkInfo = conManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-// 		NetworkInfo wifiNetworkInfo = conManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-// 		return ((mobileNetworkInfo == null ? false : mobileNetworkInfo.isConnected()) || 
-// 				(wifiNetworkInfo == null ? false : wifiNetworkInfo.isConnected()));
-// 	}
-// 	
-// 	private boolean isConnected() {
-// 		return (isNetworkAvailable() && isDataAvailable());
-// 	}
 }

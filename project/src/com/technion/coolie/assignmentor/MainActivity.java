@@ -349,19 +349,6 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			numOfDoneTasks = 0;
 			
 			myItems = new ArrayList<TasksInfo>();
-//			String taskName = "H.W ";
-//			String courseName = "Android Project ";
-//			String courseId = "236503 ";
-//			String dueDate = "Due Date ";
-//			
-//			for(int i=0; i<9; i++) {
-//				Integer j = i + 1;
-//				String index = j.toString();
-//				
-//				TasksInfo newTask = new TasksInfo(new SpannableString(taskName + index), courseName + index, courseId + index, dueDate + index);
-//				myItems.add(newTask);
-//				totalNumOfTasks++;
-//			}
 			fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
 			fadeIn.setDuration(1000);
 			fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
