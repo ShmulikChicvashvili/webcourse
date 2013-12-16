@@ -52,6 +52,7 @@ import com.technion.coolie.R.id;
 import com.technion.coolie.R.layout;
 import com.technion.coolie.R.menu;
 import com.technion.coolie.joinin.LoginDialog;
+import com.technion.coolie.joinin.MainActivity;
 import com.technion.coolie.joinin.calander.CalendarEventDatabase.NotFoundException;
 import com.technion.coolie.joinin.calander.CalendarHandler;
 import com.technion.coolie.joinin.communication.ClientProxy;
@@ -125,15 +126,13 @@ public class CategoryEventActivity extends CoolieActivity {
    		 @Override
    		 public boolean onChildClick(ExpandableListView parent, View v,
    				 int groupPosition, int childPosition, long id) {
-   			 ExpandableListAdapter adp = (ExpandableListAdapter) parent.getExpandableListAdapter();
-   			 ClientEvent eventDetails = (ClientEvent)adp.getChild(groupPosition, childPosition) ;          	 
-   			 
-   			 final Intent startEventActivity = new Intent(mContext, EventActivity.class);
-                startEventActivity.putExtra("event", eventDetails);
-                startEventActivity.putExtra("account", mLoggedAccount);
-                startActivityForResult(startEventActivity, 1);
-                
-   			 return true;
+			 ExpandableListAdapter adp = (ExpandableListAdapter) parent.getExpandableListAdapter();
+			 ClientEvent eventDetails = (ClientEvent)adp.getChild(groupPosition, childPosition) ;     
+			 Intent startEventActivity = new Intent(CategoryEventActivity.this, EventActivity.class);
+			 startEventActivity.putExtra("event", eventDetails);
+			 startEventActivity.putExtra("account", mLoggedAccount);
+			 startActivityForResult(startEventActivity, 1);
+			 return true;
    		 }
    	 });
     }
