@@ -2,7 +2,7 @@ package com.technion.coolie.skeleton;
 
 import android.content.Context;
 
-public class AlphabeticalModulesAdapter extends ModulesAdapter {
+public class AlphabeticalModulesAdapter extends MainScreenModulesAdapter {
 
 	public AlphabeticalModulesAdapter(Context c) {
 		super(c);
