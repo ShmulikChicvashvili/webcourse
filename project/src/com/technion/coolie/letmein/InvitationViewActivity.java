@@ -8,6 +8,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
+import com.technion.coolie.letmein.model.ContactsUtils;
 import com.technion.coolie.letmein.model.Invitation;
 import com.technion.coolie.letmein.model.adapters.InvitationAdapter;
 
@@ -41,7 +42,8 @@ public class InvitationViewActivity extends DatabaseActivity {
 		disableComponents();
 
 		int position = getIntent().getExtras().getInt(Consts.POSITION);
-		Invitation invitation = new InvitationAdapter(InvitationViewActivity.this, getHelper()).getItem(position);
+		Invitation invitation = new InvitationAdapter(InvitationViewActivity.this, getHelper())
+				.getItem(position);
 
 		friendNameEdit.setText(invitation.getContactName());
 		friendCellphoneEdit.setText(invitation.getContactPhoneNumber());
@@ -53,7 +55,9 @@ public class InvitationViewActivity extends DatabaseActivity {
 		cal.restoreFromTime(invitation.getDate());
 		datePicker.setText(cal.parseDate());
 		timePicker.setText(cal.parseTime());
-		// friendImage TODO
+
+		friendImage.setImageURI(ContactsUtils.contactIdToTumbnailPhoto(invitation.getContactId(),
+				getContentResolver()));
 	}
 
 	private void disableComponents() {
