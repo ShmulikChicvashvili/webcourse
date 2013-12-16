@@ -67,7 +67,7 @@ public class EditCourse extends StudyBuddyActivity
 		getSherlock().getActionBar().setTitle("Edit Course");
 
 		String courseIdentificator = extras.getString(COURSE_ID);
-		if (!presenter.setCourse(Integer.parseInt(courseIdentificator)))
+		if (!presenter.setCourse(courseIdentificator))
 		{
 			// TODO: handle no such course
 		}

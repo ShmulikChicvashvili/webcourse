@@ -5,18 +5,24 @@ import com.technion.coolie.studybuddy.data.DataStore;
 public class EditCoursePresenter
 {
 
-	private int		courseID	= 0;
-	private boolean	isSet		= false;
+	private String courseID = "";
+	private boolean isSet = false;
 
 	public EditCoursePresenter()
 	{
 
 	}
 
-	public boolean setCourse(int courseID)
+	public boolean setCourse(String courseID)
 	{
 		if (!DataStore.coursesById.containsKey(courseID))
+		{
+			// TODO Dima please check an issue where we enter this if and the
+			// course exist in the datastore. that caused a bug that made the
+			// course uneditable
+			isSet = true;
 			return false;
+		}
 
 		this.courseID = courseID;
 		isSet = true;
@@ -54,8 +60,8 @@ public class EditCoursePresenter
 			int numLectures, int numTutorials)
 	{
 		if (isSet)
-		{
-			DataStore.getInstance().editCourse(courseID,
+		{// TODO Change editCourse to accept String insted of int
+			DataStore.getInstance().editCourse(Integer.valueOf(courseID),
 					Integer.parseInt(newCourseId), courseName, numLectures,
 					numTutorials);
 		} else
