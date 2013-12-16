@@ -94,6 +94,15 @@
 	    </Button>
 
     </LinearLayout>
-    
+         <ImageView
+         android:layout_width="130dp"
+         android:layout_height="130dp"
+         android:layout_alignParentRight="true"
+         android:layout_alignParentBottom="true"
+         android:layout_marginRight="12dp"
+         android:layout_marginBottom="17dp"
+         android:contentDescription="piggy"
+         android:src="@drawable/piggybank" />
+     
 
 </RelativeLayout>

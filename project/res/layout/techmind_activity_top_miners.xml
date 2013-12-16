@@ -17,6 +17,14 @@
 	        android:layout_marginLeft="@dimen/margin_left"
 	        android:textSize="@dimen/sub_title_size"
 	        android:text="Top 10 Miners" />
-   
+        <ImageView
+         android:layout_width="130dp"
+         android:layout_height="130dp"
+		 android:layout_gravity="right"
+         android:layout_marginRight="12dp"
+         android:layout_marginBottom="17dp"
+         android:contentDescription="piggy"
+         android:src="@drawable/piggybank" />
+     
 
 </LinearLayout>

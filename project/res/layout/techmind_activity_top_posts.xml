@@ -8,6 +8,14 @@
     android:paddingTop="@dimen/activity_vertical_margin" 
     android:id="@+id/top_posts_tab_layout"
     android:orientation="vertical" >
-
+     <ImageView
+         android:layout_width="130dp"
+         android:layout_height="130dp"
+         android:layout_marginRight="12dp"
+         android:layout_marginBottom="17dp"
+         android:layout_gravity="right"
+         android:contentDescription="piggy"
+         android:src="@drawable/piggybank"/>
+     
 
 </LinearLayout>

@@ -8,7 +8,8 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
-       
+
+    
     <LinearLayout
         android:id="@+id/level_pics"
         android:layout_width="fill_parent"
@@ -117,7 +118,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="18dp"
         android:layout_toRightOf="@+id/level_title"
-        android:text="ATUDAY"
+        android:text="atudai"
         android:textSize="20dp" />
 
     <TextView
@@ -127,10 +128,8 @@
         android:layout_alignLeft="@+id/level_title"
         android:layout_below="@+id/level_title"
         android:layout_marginTop="26dp"
-        android:text="total:  " 
-        style="@style/tehcmindTitleSmall" />
-
-
+        android:text="total: " 
+        style="@style/techmindTitleSmall" />
 
     <TextView
         android:id="@+id/level_title"
@@ -140,15 +139,17 @@
         android:layout_alignTop="@+id/level_pics"
         android:layout_marginTop="130dp"
         android:paddingTop="@dimen/horizontal_wide_space"
-        android:text="my level:  " 
-        style="@style/tehcmindTitleSmall" />
+        android:text="my level: " 
+        style="@style/techmindTitleSmall" />
 
 
      <ImageView
-         android:layout_width="200dp"
-         android:layout_height="200dp"
+         android:layout_width="130dp"
+         android:layout_height="130dp"
          android:layout_alignParentRight="true"
          android:layout_alignParentBottom="true"
+         android:layout_marginRight="12dp"
+         android:layout_marginBottom="17dp"
          android:contentDescription="piggy"
          android:src="@drawable/piggybank" />
      
