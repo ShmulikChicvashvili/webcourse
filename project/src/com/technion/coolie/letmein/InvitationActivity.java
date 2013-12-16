@@ -234,12 +234,9 @@ public class InvitationActivity extends DatabaseActivity implements
 										.limit(1L)
 										.orderBy(Contract.Invitation.DATE,
 												false).query();
-								if (l.size() > 0)
-								{
-								return l.get(0);
-								}
-								else
-								{
+								if (l.size() > 0) {
+									return l.get(0);
+								} else {
 									return null;
 								}
 
