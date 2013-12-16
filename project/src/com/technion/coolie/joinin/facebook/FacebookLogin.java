@@ -87,8 +87,8 @@ public class FacebookLogin {
    * @return A modified callback that first dismisses the loading bar and then
    *         works as usual.
    */
-  private static OnLoginDone showLoadingBar(final Activity a, final OnLoginDone callback) {
-    final ProgressDialog pd = ProgressDialog.show(a, "Join-In", "Logging to Facebook");
+  private static OnLoginDone showLoadingBar(final Activity a, final OnLoginDone callback, final String text) {
+    final ProgressDialog pd = ProgressDialog.show(a, "Join-In", text);
     pd.setCancelable(false);
     return new OnLoginDone() {
       @Override public void loginCallback(final ClientAccount ca) {
@@ -114,13 +114,15 @@ public class FacebookLogin {
    *          - a callback to perform after login was done.
    */
   public static void login(final Activity a, final OnLoginDone callback) {
-    final OnLoginDone wrapper = showLoadingBar(a, callback);
+    
     final Session s = loggedUser == null ? setNewSession(a) : activeSession(a);
     isInternalUser = true;
-    if (!s.isOpened())
-      s.openForRead(new Session.OpenRequest(a).setCallback(new MySessionCallback(a, wrapper)));
-    else
-      performLogin(a, wrapper, loggedUser.getUsername(), loggedUser.getFacebookId(), loggedUser.getName());
+    if (!s.isOpened()){    	
+    	s.openForRead(new Session.OpenRequest(a).setCallback(new MySessionCallback(a, callback)));
+    }else{
+    	callback.loginCallback(loggedUser);
+    }    	
+      //performLogin(a, wrapper, loggedUser.getUsername(), loggedUser.getFacebookId(), loggedUser.getName());
   }
   
   /**
@@ -134,7 +136,7 @@ public class FacebookLogin {
    *          - a callback to perform after login was done.
    */
   public static void switchUser(final Activity a, final OnLoginDone callback) {
-    final OnLoginDone wrapper = showLoadingBar(a, callback);
+    final OnLoginDone wrapper = showLoadingBar(a, callback, "Switching user");
     final Session s = setNewSession(a);
     isInternalUser = false;
     s.openForRead(new Session.OpenRequest(a).setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO).setCallback(
@@ -233,8 +235,10 @@ public class FacebookLogin {
      * to an error call the given callback.
      */
     @Override public void call(final Session session, final SessionState state, final Exception exception) {
-      if (session.isOpened())
-        Request.executeMeRequestAsync(session, new setUser(a, finishCallback));
+      if (session.isOpened()){
+    	  OnLoginDone wrapper = showLoadingBar(a, finishCallback, "Logging to Facebook");
+    	  Request.executeMeRequestAsync(session, new setUser(a, wrapper));
+      }        
       if (!session.isClosed())
         return;
       loggedUser = null;
@@ -321,7 +325,8 @@ public class FacebookLogin {
         finishCallback.loginCallback(loggedUser);
         return;
       }
-      performLogin(a, finishCallback, user.getUsername(), user.getId(), user.getName());
+      OnLoginDone callback = showLoadingBar(a, finishCallback, "Logging to Join-In server");
+      performLogin(a, callback, user.getUsername(), user.getId(), user.getName());
     }
   }
 }
