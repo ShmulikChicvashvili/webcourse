@@ -76,6 +76,7 @@ public enum CoolieModule {
 		this.pack = source.pack;
 		this.settingScreenXmlRes = source.settingScreenXmlRes;
 		this.lastUsed = source.lastUsed;
+		this.isFavorite = source.isFavorite;
 	}
 	
 	public String getName(Context c) {
