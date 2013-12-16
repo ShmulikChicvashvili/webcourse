@@ -122,6 +122,10 @@ public class CategoryEventActivity extends CoolieActivity {
    	 }    	     	     	 
    	 // setting list adapter
    	 expListView.setAdapter(new ExpandableListAdapter(this, this , mListDataHeader, mListDataChild,true));
+   	 //checking just in case 
+   	 if (mListDataHeader.size() > 0){
+   		expListView.expandGroup(0);
+   	 }
    	 // set listeners
    	 expListView.setOnChildClickListener(new OnChildClickListener() {	 
    		 @Override
