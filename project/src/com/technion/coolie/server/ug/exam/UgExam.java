@@ -23,7 +23,18 @@ public class UgExam implements IUgExam {
   public List<Exam> getStudentExams(Student student, Semester semester) {
     String $ = Communicator.execute(servletName, "student", toJson(student),
         "semester", toJson(semester));
-    return new Gson().fromJson($, new TypeToken<List<Exam>>() {
+    return convertJsonToList($);
+  }
+
+  /**
+   * Convert json to list
+   * 
+   * @param json
+   *          the json string
+   * @return list of courses
+   */
+  private List<Exam> convertJsonToList(String json) {
+    return new Gson().fromJson(json, new TypeToken<List<Exam>>() {
     }.getType());
   }
 

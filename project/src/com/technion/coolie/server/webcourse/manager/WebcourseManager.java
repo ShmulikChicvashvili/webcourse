@@ -9,12 +9,18 @@ import com.technion.coolie.server.webcourse.api.IWebcourseManager;
 import com.technion.coolie.server.webcourse.framework.CourseData;
 import com.technion.coolie.server.webcourse.framework.StaffData;
 
+/**
+ * Created on 15.12.2013
+ * 
+ * @author DANIEL
+ * 
+ */
 public class WebcourseManager implements IWebcourseManager {
   private static final String servletName = "Webcourse";
   private static final String FUNCTION = "function";
 
   @Override
-  public List<StaffData> getStaffInf(CourseData courseData) {
+  public List<StaffData> getStaffInfo(CourseData courseData) {
     String $ = Communicator.execute(servletName, FUNCTION,
         WebcourseFunctions.GET_STAFF_INFO.value(), "courseData",
         toJson(courseData));
@@ -35,7 +41,13 @@ public class WebcourseManager implements IWebcourseManager {
     }.getType());
   }
 
-  private String toJson(Object json) {
-    return new Gson().toJson(json);
+  /**
+   * 
+   * @param jsonElement
+   *          an object
+   * @return json of the object
+   */
+  private String toJson(Object jsonElement) {
+    return new Gson().toJson(jsonElement);
   }
 }
