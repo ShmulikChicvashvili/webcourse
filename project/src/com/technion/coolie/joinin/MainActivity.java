@@ -195,7 +195,7 @@ public class MainActivity extends CoolieActivity {
     					 events.put("My Events", myEvents);
     				 }
     				 expListView.setAdapter(new ExpandableListAdapter(MainActivity.this, MainActivity.this, 
-    						 headers, events));
+    						 headers, events,false));
     				 for (int i = 0; i < headers.size(); ++i){
     					 expListView.expandGroup(i);
     				 } 
