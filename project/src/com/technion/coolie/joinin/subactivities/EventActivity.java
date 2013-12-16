@@ -122,17 +122,17 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
 		  
 	  }else if (mViewPager.getCurrentItem()== TAB_EVENT_ATTENDING){
 		 
-		  mItemRefresh = menu.add("Refresh");
-		  mItemRefresh.setIcon(R.drawable.ji_refresh);
-		  mItemRefresh.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		  
-		  mItemSerch = menu.add("Serch");
-		  mItemSerch.setIcon(R.drawable.ji_search_white);
-		  mItemSerch.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		  
-		  mItemConnect = menu.add("Connect");
-		  mItemConnect.setIcon(R.drawable.ji_social_share);
-		  mItemConnect.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//		  mItemRefresh = menu.add("Refresh");
+//		  mItemRefresh.setIcon(R.drawable.ji_refresh);
+//		  mItemRefresh.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//		  
+//		  mItemSerch = menu.add("Serch");
+//		  mItemSerch.setIcon(R.drawable.ji_search_white);
+//		  mItemSerch.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//		  
+//		  mItemConnect = menu.add("Connect");
+//		  mItemConnect.setIcon(R.drawable.ji_social_share);
+//		  mItemConnect.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		  
 	  }else if ((mViewPager.getCurrentItem()== TAB_EVENT_MESSAGING)){
 		  // currently no menu items
@@ -214,9 +214,9 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
     ((ImageView) tab.findViewById(R.id.tabImage)).setImageDrawable(getResources().getDrawable(R.drawable.ji_tab_friends));
     EventActivity.AddTab(this, mTabHost, mTabHost.newTabSpec("Tab2").setIndicator(tab));
 
-    tab = inflater.inflate(R.layout.ji_tab_layout, null);
-    ((ImageView) tab.findViewById(R.id.tabImage)).setImageDrawable(getResources().getDrawable(R.drawable.ji_tab_message));
-    EventActivity.AddTab(this, mTabHost, mTabHost.newTabSpec("Tab3").setIndicator(tab));
+//    tab = inflater.inflate(R.layout.ji_tab_layout, null);
+//    ((ImageView) tab.findViewById(R.id.tabImage)).setImageDrawable(getResources().getDrawable(R.drawable.ji_tab_message));
+//    EventActivity.AddTab(this, mTabHost, mTabHost.newTabSpec("Tab3").setIndicator(tab));
 
     mTabHost.getTabWidget().setStripEnabled(true);
     mTabHost.setOnTabChangedListener(this);
@@ -240,7 +240,7 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
     final List<Fragment> fragments = new Vector<Fragment>();
     fragments.add(Fragment.instantiate(this, EventInfoFragment.class.getName()));
     fragments.add(Fragment.instantiate(this, EventAttendFragment.class.getName()));
-    fragments.add(Fragment.instantiate(this, EventMessagesFragment.class.getName()));
+   // fragments.add(Fragment.instantiate(this, EventMessagesFragment.class.getName()));
     
     mPagerAdapter = new PagerAdapter(super.getSupportFragmentManager(), fragments);
     mViewPager = (ViewPager) super.findViewById(R.id.viewpager);
