@@ -78,11 +78,15 @@ public class CategoriesActivity extends CoolieActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ji_activity_categories);
 		mLoggedAccount = (ClientAccount) getIntent().getExtras().get("account");
-	    // Find the ListView resource.   
-	    setListAdapter();
-
+		prepareData();
+		showDat();
 	}
-
+	
+//	protected void onResume()
+//	{
+//	   super.onResume();
+//	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
@@ -106,26 +110,28 @@ public class CategoriesActivity extends CoolieActivity {
 		}
 	}
 	
-	public void setListAdapter(){    
-        CategoryItem categoryItem[] = new CategoryItem[]
-        {
-         
-            new CategoryItem(R.drawable.ji_movie_icon, EventType.MOVIE.toString()),
-            new CategoryItem(R.drawable.ji_study_icon, EventType.STUDY.toString()),
-            new CategoryItem(R.drawable.ji_sports_icon, EventType.SPORT.toString()),
-            new CategoryItem(R.drawable.ji_food_icon,  EventType.FOOD.toString()),
-            new CategoryItem(R.drawable.ji_night_life_icon, EventType.NIGHT_LIFE.toString()),
-        };
-        
+	public void prepareData(){
         mMap.put(EventType.FOOD.toString(), new ArrayList<ClientEvent>());
         mMap.put(EventType.MOVIE.toString(), new ArrayList<ClientEvent>());
         mMap.put(EventType.NIGHT_LIFE.toString(), new ArrayList<ClientEvent>());
         mMap.put(EventType.OTHER.toString(), new ArrayList<ClientEvent>());
         mMap.put(EventType.SPORT.toString(), new ArrayList<ClientEvent>());
         mMap.put(EventType.STUDY.toString(), new ArrayList<ClientEvent>());
-                
-        
+                       
         getAllEvents();
+        		
+	}
+	
+	public void showDat(){    
+        CategoryItem categoryItem[] = new CategoryItem[]
+        {
+         
+            new CategoryItem(R.drawable.ji_movie_icon, EventType.MOVIE.toString(),R.drawable.ic_action_event,String.valueOf(mMap.get(EventType.MOVIE.toString()).size())),
+            new CategoryItem(R.drawable.ji_study_icon, EventType.STUDY.toString(),R.drawable.ic_action_event,String.valueOf(mMap.get(EventType.STUDY.toString()).size())),
+            new CategoryItem(R.drawable.ji_sports_icon, EventType.SPORT.toString(),R.drawable.ic_action_event,String.valueOf(mMap.get(EventType.SPORT.toString()).size())),
+            new CategoryItem(R.drawable.ji_food_icon,  EventType.FOOD.toString(),R.drawable.ic_action_event,String.valueOf(mMap.get(EventType.FOOD.toString()).size())),
+            new CategoryItem(R.drawable.ji_night_life_icon, EventType.NIGHT_LIFE.toString(),R.drawable.ic_action_event,String.valueOf(mMap.get(EventType.NIGHT_LIFE.toString()).size())),
+        };
         
         CategoryListAdapter adapter = new CategoryListAdapter(this, 
                 R.layout.ji_categories_list_item, categoryItem);
@@ -149,7 +155,7 @@ public class CategoriesActivity extends CoolieActivity {
 	}
 	
 	private void getAllEvents(){	     
-		final ProgressDialog pd = ProgressDialog.show(this, "", "Loading...");
+		final ProgressDialog pd = ProgressDialog.show(this, "Join-In", "Loading Events");
 		pd.setCancelable(false);
 		//Fetch My events from server    	 
 		ClientProxy.getAllEvents(new OnDone<List<ClientEvent>>() {
@@ -158,6 +164,7 @@ public class CategoriesActivity extends CoolieActivity {
 					mMap.get(clientEvent.getEventType().toString()).add(clientEvent);
 				}				
 				pd.dismiss();
+				showDat();
 			}
 		}, new OnError(this) {
 			@Override public void beforeHandlingError() {
