@@ -7,6 +7,9 @@ import static com.technion.coolie.studybuddy.utils.Utils.map;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import com.j256.ormlite.field.DatabaseField;
 
 public class StudyResource
 {
@@ -14,8 +17,21 @@ public class StudyResource
 	public static final String	LECTURES		= "Lectures";
 	public static final String	TUTORIALS		= "Tutorials";
 
+	@DatabaseField(generatedId = true)
+	private UUID				id;
 	private String				name;
 	private List<StudyItem>		items			= new ArrayList<StudyItem>();
+	private Course				parent;
+
+	public Course getParent()
+	{
+		return parent;
+	}
+
+	public void setParent(Course parent)
+	{
+		this.parent = parent;
+	}
 
 	public static StudyResource fromItemList(List<String> list)
 	{
