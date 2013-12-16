@@ -11,9 +11,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.technion.coolie.studybuddy.Models.Exam;
-import com.technion.coolie.studybuddy.Models.ExamType;
-import com.technion.coolie.studybuddy.Models.Course;
+import com.technion.coolie.studybuddy.models.Course;
+import com.technion.coolie.studybuddy.models.Exam;
+import com.technion.coolie.studybuddy.models.ExamType;
 
 public class ExamTests {
 
