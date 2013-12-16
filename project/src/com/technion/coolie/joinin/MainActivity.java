@@ -1,6 +1,8 @@
 package com.technion.coolie.joinin;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -177,6 +179,7 @@ public class MainActivity extends CoolieActivity {
     	 mListDataHeader.add("I'm Attending");
     	 mListDataHeader.add("My Events");   
     	 // Add attending events
+    	 sortEvents(attendingArr,myEventsArr);
     	 mListDataChild.put(mListDataHeader.get(0), attendingArr);
     	 // Add My events
     	 mListDataChild.put(mListDataHeader.get(1), myEventsArr);
@@ -219,4 +222,21 @@ public class MainActivity extends CoolieActivity {
     		 }
     	 });    	 
      }     
+     
+     public void sortEvents(ArrayList<ClientEvent> attendingArr,ArrayList<ClientEvent> myEventsArr){
+    	 Collections.sort(mListDataChild.get(attendingArr), new Comparator<ClientEvent>(){
+    		 @Override
+    		 public int compare(ClientEvent lhs, ClientEvent rhs) {
+    			 return (int)(lhs.getWhen().getTime() - rhs.getWhen().getTime());
+    		 }
+    	 });
+
+    	 Collections.sort(mListDataChild.get(myEventsArr), new Comparator<ClientEvent>(){
+    		 @Override
+    		 public int compare(ClientEvent lhs, ClientEvent rhs) {
+    			 return (int)(lhs.getWhen().getTime() - rhs.getWhen().getTime());
+    		 }
+    	 });
+     }
+     
 }//MainActivity

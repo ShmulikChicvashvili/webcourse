@@ -3,6 +3,8 @@ package com.technion.coolie.joinin.subactivities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -76,7 +78,6 @@ public class CategoryEventActivity extends CoolieActivity {
 	  ArrayList<ClientEvent> mList = null;
 	  private ArrayList<String> mListDataHeader = null;	
 	  private HashMap<String, List<ClientEvent>> mListDataChild = null;
-	  private HashMap<String,HashMap<String, List<ClientEvent>>> mListChild = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -137,27 +138,13 @@ public class CategoryEventActivity extends CoolieActivity {
    	 });
     }
     private void prepareListData() {
-     mListChild = new HashMap<String,HashMap<String, List<ClientEvent>>>();
-     mListDataChild = new HashMap<String, List<ClientEvent>>();
      mListDataChild = new HashMap<String, List<ClientEvent>>();
    	 getDates();
     }
     
-    private void getEventsAttending(final ArrayList<ClientEvent> attendingArr){
-    	for (ClientEvent c :mList){
-    		attendingArr.add(c);  
-    	}
-    }
-    
-    private void getMyEvents(final ArrayList<ClientEvent> myEventsArr){
-    	for (ClientEvent c :mList){
-    		myEventsArr.add(c);
-    	}
-    }
     
     private void getDates(){
     	String date;
-   	 	ArrayList<ClientEvent> mTmp = new ArrayList<ClientEvent>();
     	for (ClientEvent c :mList){
     		date = c.getWhen().toString();
     		if (!mListDataHeader.contains(date)){		
@@ -166,7 +153,15 @@ public class CategoryEventActivity extends CoolieActivity {
     		}
     		mListDataChild.get(date).add(c);
     	}
+    	Collections.sort(mListDataHeader);
+    	for (String s : mListDataHeader){
+    		Collections.sort(mListDataChild.get(s), new Comparator<ClientEvent>(){
+    			@Override
+    			public int compare(ClientEvent lhs, ClientEvent rhs) {
+    				return (int)(lhs.getWhen().getTime() - rhs.getWhen().getTime());
+    			}
+    		});
+    	}
     }
-
 	
 }
