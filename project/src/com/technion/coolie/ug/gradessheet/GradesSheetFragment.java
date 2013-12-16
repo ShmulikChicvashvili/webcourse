@@ -25,7 +25,7 @@ public class GradesSheetFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.ug_activity_grades_sheet,
+		View view = inflater.inflate(R.layout.ug_grades_fragment,
 				container, false);
 		avg = (TextView) view.findViewById(R.id.average_value);
 		success = (TextView) view.findViewById(R.id.success_percentage_value);
