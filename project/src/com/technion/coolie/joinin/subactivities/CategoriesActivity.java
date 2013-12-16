@@ -146,7 +146,7 @@ public class CategoriesActivity extends CoolieActivity {
             	CategoryListAdapter adp =(CategoryListAdapter) parent.getAdapter();
             	CategoryItem item = adp.getItem(position);	
             	String category = item.title;
-            	startActivity(new Intent(CategoriesActivity.this, CategoryEventActivity.class).putExtra("category", mMap.get(category))); 
+            	startActivity(new Intent(CategoriesActivity.this, CategoryEventActivity.class).putExtra("category", mMap.get(category)).putExtra("account", mLoggedAccount)); 
             }
 
           });

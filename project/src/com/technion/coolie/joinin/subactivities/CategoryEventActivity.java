@@ -85,6 +85,7 @@ public class CategoryEventActivity extends CoolieActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ji__expandable_view);
 		mList = (ArrayList<ClientEvent>) getIntent().getExtras().get("category");
+		mLoggedAccount = (ClientAccount) getIntent().getExtras().get("account");
 		fetchEvents();
 	}
 	
