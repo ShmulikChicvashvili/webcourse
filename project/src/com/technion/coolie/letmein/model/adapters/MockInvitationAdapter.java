@@ -19,9 +19,9 @@ public class MockInvitationAdapter extends BaseInvitationAdapter {
 	private static final long FRIEND_ID = 1L;
 	private static final long ABED_ID = 2L;
 	
-	private static String DAD_NAME = "Dad";
-	private static String FRIEND_NAME = "My best friend";
-	private static String ABED_NAME = "Abed";
+	private static final String DAD_NAME = "Dad";
+	private static final String FRIEND_NAME = "My best friend";
+	private static final String ABED_NAME = "Abed";
 
 	private static List<Invitation> initInvitations() {
 		final Calendar c = Calendar.getInstance();
