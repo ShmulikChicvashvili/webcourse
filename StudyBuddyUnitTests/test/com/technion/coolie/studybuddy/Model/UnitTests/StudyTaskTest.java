@@ -1,10 +1,9 @@
 package com.technion.coolie.studybuddy.Model.UnitTests;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.number.OrderingComparison.comparesEqualTo;
 import static org.hamcrest.number.OrderingComparison.lessThan;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
