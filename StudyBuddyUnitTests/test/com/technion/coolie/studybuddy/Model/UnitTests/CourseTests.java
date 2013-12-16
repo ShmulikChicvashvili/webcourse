@@ -1,6 +1,6 @@
 package com.technion.coolie.studybuddy.Model.UnitTests;
 
-import static com.technion.coolie.studybuddy.Models.GeneralInfo.WEEKS_IN_SEMESTER;
+import static com.technion.coolie.studybuddy.models.Semester.WEEKS_IN_SEMESTER;
 import static com.technion.coolie.studybuddy.utils.Utils.asSet;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -19,16 +19,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.technion.coolie.studybuddy.Models.Course;
-import com.technion.coolie.studybuddy.Models.Exam;
-import com.technion.coolie.studybuddy.Models.StudyItem;
-import com.technion.coolie.studybuddy.Models.StudyResource;
+import com.technion.coolie.studybuddy.models.Course;
+import com.technion.coolie.studybuddy.models.Exam;
+import com.technion.coolie.studybuddy.models.StudyItem;
+import com.technion.coolie.studybuddy.models.StudyResource;
 
 //@RunWith(RobolectricTestRunner.class)
-public class CourseTests {
+public class CourseTests
+{
 
 	@Test
-	public void addingAnExamMustReturnIt() {
+	public void addingAnExamMustReturnIt()
+	{
 		Course s = new Course();
 		Exam e = mock(Exam.class);
 
@@ -38,7 +40,8 @@ public class CourseTests {
 	}
 
 	@Test
-	public void addingExamListReturnsIt() {
+	public void addingExamListReturnsIt()
+	{
 		Course s = new Course();
 		List<Exam> list = Arrays.asList(mock(Exam.class), mock(Exam.class),
 				mock(Exam.class));
@@ -48,7 +51,8 @@ public class CourseTests {
 	}
 
 	@Test
-	public void addingResourceShouldReturnResource() throws Exception {
+	public void addingResourceShouldReturnResource() throws Exception
+	{
 		Course s = new Course();
 
 		StudyResource r = new StudyResource();
@@ -57,30 +61,35 @@ public class CourseTests {
 	}
 
 	@Test
-	public void getExamsOnNewSubjectShouldReturnNil() {
+	public void getExamsOnNewSubjectShouldReturnNil()
+	{
 		Course s = new Course();
 		assertThat(s.getExams(), is(Collections.<Exam> emptyList()));
 	}
 
 	@Test
-	public void gettingStudyResourcesWithoutAllocationShouldBeEmpty() {
+	public void gettingStudyResourcesWithoutAllocationShouldBeEmpty()
+	{
 		Course s = new Course();
 		assertThat(s.getStudyResources(),
 				is(Collections.<StudyResource> emptySet()));
 	}
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() throws Exception
+	{
 	}
 
 	@Test
-	public void subjectReturnsCorrectHebrewName() throws Exception {
+	public void subjectReturnsCorrectHebrewName() throws Exception
+	{
 		Course s = new Course(234123, "מערכות הפעלה");
 		assertThat(s.getName(), is("מערכות הפעלה"));
 	}
 
 	@Test
-	public void subjectReturnsCorrectNameAndCourseNumber() throws Exception {
+	public void subjectReturnsCorrectNameAndCourseNumber() throws Exception
+	{
 		Course s = new Course(123, "name");
 
 		assertThat(s.getId(), is(123));
@@ -89,7 +98,8 @@ public class CourseTests {
 	}
 
 	@Test
-	public void subjectWithoutResourceReturnsZeroTasks() throws Exception {
+	public void subjectWithoutResourceReturnsZeroTasks() throws Exception
+	{
 		Course c = new Course(123, "name");
 
 		assertThat(c.getStudyItemsTotal(), is(0));
@@ -98,7 +108,8 @@ public class CourseTests {
 	}
 
 	@Test
-	public void subjectWithResourceReturnsItsTasks() throws Exception {
+	public void subjectWithResourceReturnsItsTasks() throws Exception
+	{
 		Course c = new Course(123, "name");
 		StudyResource sr = mock(StudyResource.class);
 		c.addStudyResource(sr);
@@ -106,7 +117,7 @@ public class CourseTests {
 		List<StudyItem> items = Arrays.asList(mock(StudyItem.class),
 				mock(StudyItem.class), mock(StudyItem.class));
 
-		when(sr.getItemsTotal()).thenReturn(3);
+		when(sr.getTotalItemCount()).thenReturn(3);
 		when(sr.getAllItems()).thenReturn(items);
 
 		assertThat(c.getStudyItemsTotal(), is(3));
@@ -115,7 +126,8 @@ public class CourseTests {
 	}
 
 	@Test
-	public void subjectWithDefaultResourceReturnsItsTasks() throws Exception {
+	public void subjectWithDefaultResourceReturnsItsTasks() throws Exception
+	{
 		Course c = new Course(123, "name");
 		c.addStudyResource(StudyResource.createWithDefaultItems());
 
@@ -125,7 +137,8 @@ public class CourseTests {
 	}
 
 	@Test
-	public void subjectWithResourceReturnsRemainingTasks() throws Exception {
+	public void subjectWithResourceReturnsRemainingTasks() throws Exception
+	{
 		Course c = new Course(123, "name");
 		StudyResource sr = mock(StudyResource.class);
 		c.addStudyResource(sr);
@@ -133,7 +146,7 @@ public class CourseTests {
 		List<StudyItem> items = Arrays.asList(mock(StudyItem.class),
 				mock(StudyItem.class), mock(StudyItem.class));
 
-		when(sr.getNumItemsRemaining()).thenReturn(3);
+		when(sr.getRemainingItemsCount()).thenReturn(3);
 		when(sr.getItemsRemaining()).thenReturn(items);
 
 		assertThat(c.getNumStudyItemsRemaining(), is(3));
@@ -142,7 +155,8 @@ public class CourseTests {
 	}
 
 	@Test
-	public void courseOrderingByUndoneTasksWorks() throws Exception {
+	public void courseOrderingByUndoneTasksWorks() throws Exception
+	{
 		Course c1 = new Course();
 		Course c2 = new Course();
 		Course c3 = new Course();
@@ -156,6 +170,7 @@ public class CourseTests {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() throws Exception
+	{
 	}
 }
