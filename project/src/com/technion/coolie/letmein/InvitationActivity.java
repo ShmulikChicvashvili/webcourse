@@ -230,9 +230,9 @@ public class InvitationActivity extends DatabaseActivity implements
 					friendCellphoneEdit.setText(hm.phoneNumber);
 					InvitationActivity.this.currentSelectedId = hm.id;
 
-					(new AsyncTask<Long, Void, String>() {
+					(new AsyncTask<Long, Void, Invitation>() {
 						@Override
-						protected String doInBackground(Long... params) {
+						protected Invitation doInBackground(Long... params) {
 							List<Invitation> l;
 							try {
 								l = getHelper()
@@ -242,19 +242,21 @@ public class InvitationActivity extends DatabaseActivity implements
 										.orderBy(Contract.Invitation.DATE,
 												false).query();
 
-								if (l.size() > 0) {
-									return l.get(0).getCarNumber();
-								} else {
-									return "";
-								}
+								return l.get(0);
+
 							} catch (SQLException e) {
-								return "";
+								return null;
 							}
 						}
 
 						@Override
-						protected void onPostExecute(String carNumber) {
-							friendCarNumberEdit.setText(carNumber);
+						protected void onPostExecute(Invitation inv) {
+							if (inv != null) {
+								friendCarNumberEdit.setText(inv.getCarNumber());
+								friendCarColorEdit.setText(inv.getCarColor());
+								friendCarCompanySpinner.setSelection(inv
+										.getCarCompany().ordinal());
+							}
 						}
 
 					}).execute(hm.id);
@@ -264,7 +266,6 @@ public class InvitationActivity extends DatabaseActivity implements
 			};
 			friendNameEdit.setOnItemClickListener(itemClickListener);
 		}
-
 	}
 
 	@Override

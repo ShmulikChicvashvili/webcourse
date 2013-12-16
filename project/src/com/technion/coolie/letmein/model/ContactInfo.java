@@ -13,5 +13,6 @@ public class  ContactInfo {
 		this.id = id;
 		this.imageUri = imageUri;
 		this.phoneNumber = phoneNumber;
+		this.email = email;
 	}
 }

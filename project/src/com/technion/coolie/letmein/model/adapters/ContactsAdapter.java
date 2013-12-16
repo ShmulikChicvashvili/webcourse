@@ -44,7 +44,10 @@ public class ContactsAdapter extends
 						holder.Name.setText(invitation.name);
 						holder.Image
 								.setImageURI(Uri.parse(invitation.imageUri));
-
+						if (invitation.email != null)
+						{
+							holder.Email.setText(invitation.email);
+						}
 					}
 
 					@Override
@@ -54,6 +57,8 @@ public class ContactsAdapter extends
 								.findViewById(R.id.lmi_contacts_auto_name);
 						$.Image = (ImageView) view
 								.findViewById(R.id.lmi_contacts_auto_image);
+						$.Email = (TextView) view
+								.findViewById(R.id.lmi_contacts_auto_email);
 						return $;
 					}
 
