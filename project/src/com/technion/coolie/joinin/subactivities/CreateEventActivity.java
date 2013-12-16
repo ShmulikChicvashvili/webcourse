@@ -39,6 +39,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
+import com.technion.coolie.joinin.MainActivity;
 import com.technion.coolie.joinin.calander.CalendarEventDatabase.NotFoundException;
 import com.technion.coolie.joinin.calander.CalendarHandler;
 import com.technion.coolie.joinin.communication.ClientProxy;
@@ -394,8 +395,11 @@ public class CreateEventActivity extends CoolieActivity {
 			toAdd.setUsers(e.getUsers());
 			toAdd.setId(e.getId());
 			modifyEvent(toAdd);
-		} else
+			setResult(MainActivity.RESULT_EDIT_EVENT , new Intent().putExtra("event", toAdd));
+		} else{
 			addNewEvent(toAdd);
+			setResult(MainActivity.RESULT_ADD_EVENT , new Intent().putExtra("event", toAdd));
+		}
 	}
 
 	@Override
