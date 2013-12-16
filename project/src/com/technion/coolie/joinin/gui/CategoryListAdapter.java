@@ -37,8 +37,10 @@ public class CategoryListAdapter extends ArrayAdapter<CategoryItem> {
             holder = new CategoryItemHolder();
             holder.imgIcon = (ImageView)row.findViewById(R.id.categoryImageView);
             holder.txtTitle = (TextView)row.findViewById(R.id.categoryNameText);
-            holder.imgCircle = (ImageView)row.findViewById(R.id.CategoryCircle);
+            //delete this attribute - 
+            //holder.imgCircle = (ImageView)row.findViewById(R.id.CategoryCircle);
             holder.txtNumEvents = (TextView)row.findViewById(R.id.categoryNumEvents);
+            holder.txtDesd = (TextView)row.findViewById(R.id.categoryDescription);
             
             row.setTag(holder);
         }
@@ -51,7 +53,7 @@ public class CategoryListAdapter extends ArrayAdapter<CategoryItem> {
         holder.txtTitle.setText(item.title);
         holder.imgIcon.setImageResource(item.icon);
         holder.txtNumEvents.setText(item.num);
-        holder.imgCircle.setImageResource(item.icon2);
+        holder.txtDesd.setText(item.desc);
         
         return row;
     }
@@ -62,6 +64,7 @@ public class CategoryListAdapter extends ArrayAdapter<CategoryItem> {
         TextView txtTitle;
         ImageView imgCircle;
         TextView txtNumEvents;
+        TextView txtDesd;
     }
 	
 }

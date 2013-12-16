@@ -126,11 +126,11 @@ public class CategoriesActivity extends CoolieActivity {
         CategoryItem categoryItem[] = new CategoryItem[]
         {
          
-            new CategoryItem(R.drawable.ji_movie_icon, EventType.MOVIE.toString(),R.drawable.ic_action_event,String.valueOf(mMap.get(EventType.MOVIE.toString()).size())),
-            new CategoryItem(R.drawable.ji_study_icon, EventType.STUDY.toString(),R.drawable.ic_action_event,String.valueOf(mMap.get(EventType.STUDY.toString()).size())),
-            new CategoryItem(R.drawable.ji_sports_icon, EventType.SPORT.toString(),R.drawable.ic_action_event,String.valueOf(mMap.get(EventType.SPORT.toString()).size())),
-            new CategoryItem(R.drawable.ji_food_icon,  EventType.FOOD.toString(),R.drawable.ic_action_event,String.valueOf(mMap.get(EventType.FOOD.toString()).size())),
-            new CategoryItem(R.drawable.ji_night_life_icon, EventType.NIGHT_LIFE.toString(),R.drawable.ic_action_event,String.valueOf(mMap.get(EventType.NIGHT_LIFE.toString()).size())),
+            new CategoryItem(R.drawable.ji_movie_icon, EventType.MOVIE.toString(),String.valueOf(mMap.get(EventType.MOVIE.toString()).size()),"Invite people to watch a movie!"),
+            new CategoryItem(R.drawable.ji_study_icon, EventType.STUDY.toString(), String.valueOf(mMap.get(EventType.STUDY.toString()).size()),"Orgenize or join study groups!"),
+            new CategoryItem(R.drawable.ji_sports_icon, EventType.SPORT.toString(),String.valueOf(mMap.get(EventType.SPORT.toString()).size()),"Orgenize or join sporting events!"),
+            new CategoryItem(R.drawable.ji_food_icon,  EventType.FOOD.toString(), String.valueOf(mMap.get(EventType.FOOD.toString()).size()),"Order food together!"),
+            new CategoryItem(R.drawable.ji_night_life_icon, EventType.NIGHT_LIFE.toString(),String.valueOf(mMap.get(EventType.NIGHT_LIFE.toString()).size()),"Invite or join social events!"),
         };
         
         CategoryListAdapter adapter = new CategoryListAdapter(this, 
