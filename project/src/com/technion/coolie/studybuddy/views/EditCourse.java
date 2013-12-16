@@ -1,5 +1,6 @@
 package com.technion.coolie.studybuddy.views;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.View;
@@ -20,14 +21,14 @@ import com.technion.coolie.studybuddy.presenters.EditCoursePresenter;
 public class EditCourse extends StudyBuddyActivity
 {
 
-	public static final String COURSE_ID = "courseID";
-	private EditText courseName;
-	private EditText courseNumber;
-	private EditText lectureCount;
-	private EditText tutorialsCount;
-	private CheckBox lectureEnabled;
-	private CheckBox tutorialsEnabled;
-	private EditCoursePresenter presenter;
+	public static final String	COURSE_ID	= "courseID";
+	private EditText			courseName;
+	private EditText			courseNumber;
+	private EditText			lectureCount;
+	private EditText			tutorialsCount;
+	private CheckBox			lectureEnabled;
+	private CheckBox			tutorialsEnabled;
+	private EditCoursePresenter	presenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -41,79 +42,42 @@ public class EditCourse extends StudyBuddyActivity
 		courseNumber = (EditText) findViewById(R.id.stb_course_number);
 		lectureCount = (EditText) findViewById(R.id.stb_lecture_count);
 		tutorialsCount = (EditText) findViewById(R.id.stb_tutorial_count);
+
 		Bundle extras = getIntent().getExtras();
 		getSherlock().getActionBar().setTitle("Add course");
+
 		if (extras != null && extras.containsKey(COURSE_ID))
 		{
-			getSherlock().getActionBar().setTitle("Edit Course");
-
-			String courseIdentificator = extras.getString(COURSE_ID);
-			if (!presenter.setCourse(Integer.parseInt(courseIdentificator)))
-			{
-				// TODO: handle no such course
-			}
-
-			try
-			{
-				courseName.setText(presenter.getCourseName());
-				courseNumber.setText(presenter.getCourseIdAsString());
-				lectureCount.setText(String.valueOf(presenter
-						.getCourseResourceAmount(StudyResource.LECTURES)));
-				tutorialsCount.setText(String.valueOf(presenter
-						.getCourseResourceAmount(StudyResource.TUTORIALS)));
-
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-			}
-			
+			loadCourseData(extras);
 		}
 
 		lectureEnabled = ((CheckBox) findViewById(R.id.stb_include_lectures));
-		lectureEnabled.setOnCheckedChangeListener(new OnCheckedChangeListener()
-		{
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked)
-			{
-				lectureCount.setEnabled(isChecked);
-			}
-		});
+		lectureEnabled.setOnCheckedChangeListener(new LectureEnabledListener());
 		tutorialsEnabled = ((CheckBox) findViewById(R.id.stb_include_tutorials));
 		tutorialsEnabled
-				.setOnCheckedChangeListener(new OnCheckedChangeListener()
-				{
-
-					@Override
-					public void onCheckedChanged(CompoundButton buttonView,
-							boolean isChecked)
-					{
-						tutorialsCount.setEnabled(isChecked);
-					}
-				});
+				.setOnCheckedChangeListener(new TutorialEnabledListener());
 		((Button) findViewById(R.id.stb_btn_cancel))
-				.setOnClickListener(new OnClickListener()
-				{
-
-					@Override
-					public void onClick(View v)
-					{
-						NavUtils.navigateUpFromSameTask(EditCourse.this);
-
-					}
-				});
+				.setOnClickListener(new CancelButtonListener());
 		((Button) findViewById(R.id.stb_btn_save))
-				.setOnClickListener(new OnClickListener()
-				{
+				.setOnClickListener(new SaveButtonListener());
+	}
 
-					@Override
-					public void onClick(View v)
-					{
-						// TODO: implement
-						// presenter.commitCourse(idString,nameString,numLectures,numTutorials);
-					}
-				});
+	private void loadCourseData(Bundle extras)
+	{
+		getSherlock().getActionBar().setTitle("Edit Course");
+
+		String courseIdentificator = extras.getString(COURSE_ID);
+		if (!presenter.setCourse(Integer.parseInt(courseIdentificator)))
+		{
+			// TODO: handle no such course
+		}
+
+		courseName.setText(presenter.getCourseName());
+		courseNumber.setText(presenter.getCourseIdAsString());
+		lectureCount.setText(String.valueOf(presenter
+				.getCourseResourceAmount(StudyResource.LECTURES)));
+		tutorialsCount.setText(String.valueOf(presenter
+				.getCourseResourceAmount(StudyResource.TUTORIALS)));
 	}
 
 	@Override
@@ -135,4 +99,52 @@ public class EditCourse extends StudyBuddyActivity
 		return super.onOptionsItemSelected(item);
 	}
 
+	private final class SaveButtonListener implements OnClickListener
+	{
+		@Override
+		public void onClick(View v)
+		{
+			String num = courseNumber.getText().toString();
+			String name = courseName.getText().toString();
+			int numLectures = lectureEnabled.isChecked() ? Integer
+					.parseInt(lectureCount.getText().toString()) : 0;
+			int numTutorials = tutorialsEnabled.isChecked() ? Integer
+					.parseInt(tutorialsCount.getText().toString()) : 0;
+
+			presenter.commitCourse(num, name, numLectures, numTutorials);
+
+			finish();
+		}
+	}
+
+	private final class CancelButtonListener implements OnClickListener
+	{
+		@Override
+		public void onClick(View v)
+		{
+			NavUtils.navigateUpFromSameTask(EditCourse.this);
+		}
+	}
+
+	private final class TutorialEnabledListener implements
+			OnCheckedChangeListener
+	{
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked)
+		{
+			tutorialsCount.setEnabled(isChecked);
+		}
+	}
+
+	private final class LectureEnabledListener implements
+			OnCheckedChangeListener
+	{
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked)
+		{
+			lectureCount.setEnabled(isChecked);
+		}
+	}
 }

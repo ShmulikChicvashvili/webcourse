@@ -10,41 +10,50 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public enum Utils {
+public enum Utils
+{
 	INSTANCE;
 
-	private final static Random r = new Random((new Date()).getTime());
+	private final static Random	r	= new Random((new Date()).getTime());
 
-	public static int randomInt(int num) {
+	public static int randomInt(int num)
+	{
 		return r.nextInt(num);
 	}
 
-	public static <T> Set<T> asSet(T... args) {
+	public static <T> Set<T> asSet(T... args)
+	{
 		return new HashSet<T>(Arrays.asList(args));
 	}
 
 	public static <T extends Comparable<T>> List<T> asSortedList(
-			Collection<T> set) {
+			Collection<T> set)
+	{
 		List<T> list = new ArrayList<T>();
 		list.addAll(set);
 		Collections.sort(list);
 		return list;
 	}
 
-	public static <T extends Comparable<T>> List<T> asSortedList(T... args) {
+	public static <T extends Comparable<T>> List<T> asSortedList(T... args)
+	{
 		return asSortedList(Arrays.asList(args));
 	}
 
-	public interface Matcher<E> {
+	public interface Matcher<E>
+	{
 
 		boolean matches(E item);
 	}
 
-	public static <E> List<E> filter(List<E> list, Matcher<E> match) {
+	public static <E> List<E> filter(Collection<E> list, Matcher<E> match)
+	{
 		List<E> filtered = new ArrayList<E>();
 
-		for (E item : list) {
-			if (match.matches(item)) {
+		for (E item : list)
+		{
+			if (match.matches(item))
+			{
 				filtered.add(item);
 			}
 		}
@@ -53,22 +62,26 @@ public enum Utils {
 
 	}
 
-	public interface Mapper<E, K> {
+	public interface Mapper<E, K>
+	{
 
 		public K map(E item);
 
 	}
 
-	public interface Reducer<T, E> {
+	public interface Reducer<T, E>
+	{
 
 		public T op(T target, E element);
 
 	}
 
-	public static <E, K> List<K> map(List<E> list, Mapper<E, K> mapper) {
+	public static <E, K> List<K> map(List<E> list, Mapper<E, K> mapper)
+	{
 		List<K> $ = new ArrayList<K>(list.size());
 
-		for (E item : list) {
+		for (E item : list)
+		{
 			$.add(mapper.map(item));
 		}
 
@@ -77,36 +90,43 @@ public enum Utils {
 	}
 
 	public static <T, E> T reduce(Collection<E> list, T target,
-			Reducer<T, E> reducer) {
+			Reducer<T, E> reducer)
+	{
 		T $ = target;
 
-		for (E e : list) {
+		for (E e : list)
+		{
 			reducer.op($, e);
 		}
 
 		return $;
 	}
 
-	public static class ListAttacher<E> implements Reducer<List<E>, E> {
+	public static class ListAttacher<E> implements Reducer<List<E>, E>
+	{
 
 		@Override
-		public List<E> op(List<E> target, E element) {
+		public List<E> op(List<E> target, E element)
+		{
 			target.add(element);
 			return target;
 		}
 
 	}
 
-	public static class SumReducer<E> implements Reducer<Integer, E> {
+	public static class SumReducer<E> implements Reducer<Integer, E>
+	{
 
-		private final Mapper<E, Integer> mapper;
+		private final Mapper<E, Integer>	mapper;
 
-		public SumReducer(Mapper<E, Integer> mapper) {
+		public SumReducer(Mapper<E, Integer> mapper)
+		{
 			this.mapper = mapper;
 		}
 
 		@Override
-		public Integer op(Integer target, E element) {
+		public Integer op(Integer target, E element)
+		{
 			return target + mapper.map(element);
 		}
 	}

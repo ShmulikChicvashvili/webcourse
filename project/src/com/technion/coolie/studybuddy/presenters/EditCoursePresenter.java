@@ -55,12 +55,13 @@ public class EditCoursePresenter
 	{
 		if (isSet)
 		{
-			DataStore.editCourse(courseID, Integer.parseInt(newCourseId),
-					courseName, numLectures, numTutorials);
+			DataStore.getInstance().editCourse(courseID,
+					Integer.parseInt(newCourseId), courseName, numLectures,
+					numTutorials);
 		} else
 		{
-			DataStore.addCourse(Integer.parseInt(newCourseId), courseName,
-					numLectures, numTutorials);
+			DataStore.getInstance().addCourse(Integer.parseInt(newCourseId),
+					courseName, numLectures, numTutorials);
 		}
 
 	}

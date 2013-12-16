@@ -1,5 +1,8 @@
 package com.technion.coolie.studybuddy.adapters;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -14,9 +17,9 @@ import com.technion.coolie.studybuddy.data.DataStore;
 import com.technion.coolie.studybuddy.presenters.MainPresenter;
 import com.technion.coolie.studybuddy.views.CourseActivity;
 
-public class CourseAdapter extends BaseAdapter
+public class CourseAdapter extends BaseAdapter implements Observer
 {
-	private LayoutInflater		mInflater;
+	private LayoutInflater	mInflater;
 	private MainPresenter	presenter;
 
 	/**
@@ -62,7 +65,8 @@ public class CourseAdapter extends BaseAdapter
 
 		ViewHolder holder = (ViewHolder) view.getTag();
 		holder.courseName.setText(presenter.getCourseNameByPosition(position));
-		holder.courseNumber.setText(presenter.getCourseIdStringByPosition(position));
+		holder.courseNumber.setText(presenter
+				.getCourseIdStringByPosition(position));
 		view.setOnClickListener(new OnClickListenerImplementation(position));
 		return view;
 	}
@@ -103,5 +107,16 @@ public class CourseAdapter extends BaseAdapter
 	{
 		public TextView	courseName;
 		public TextView	courseNumber;
+	}
+
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		String change = (String) data;
+		if (change != DataStore.CLASS_LIST)
+			return;
+
+		notifyDataSetChanged();
+
 	}
 }

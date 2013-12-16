@@ -12,10 +12,10 @@ import com.technion.coolie.studybuddy.utils.Utils;
 public class Course implements Comparable<Course>
 {
 
-	private final List<Exam>			exams			= new ArrayList<Exam>();
-	private final Set<StudyResource>	trackedResouces	= new HashSet<StudyResource>();
-	private final int					id;
-	private final String				name;
+	// private List<Exam> exams = new ArrayList<Exam>();
+	private Set<StudyResource>	trackedResouces	= new HashSet<StudyResource>();
+	private int					id;
+	private String				name;
 
 	public Course()
 	{
@@ -35,25 +35,25 @@ public class Course implements Comparable<Course>
 		this.name = name;
 	}
 
-	public List<Exam> getExams()
-	{
-		return exams;
-	}
-
-	public void addExam(Exam e)
-	{
-		exams.add(e);
-	}
-
-	public void addExams(Exam... exams)
-	{
-		this.exams.addAll(Arrays.asList(exams));
-	}
-
-	public void addExams(Collection<Exam> exams)
-	{
-		this.exams.addAll(exams);
-	}
+	// public List<Exam> getExams()
+	// {
+	// return exams;
+	// }
+	//
+	// public void addExam(Exam e)
+	// {
+	// exams.add(e);
+	// }
+	//
+	// public void addExams(Exam... exams)
+	// {
+	// this.exams.addAll(Arrays.asList(exams));
+	// }
+	//
+	// public void addExams(Collection<Exam> exams)
+	// {
+	// this.exams.addAll(exams);
+	// }
 
 	public String getName()
 	{
@@ -148,19 +148,44 @@ public class Course implements Comparable<Course>
 
 	public int getResourceTotalItemCount(String name)
 	{
-		return getResourceByName(name);
+		if (null == getResourceByName(name))
+			return 0;
+
+		return getResourceByName(name).getTotalItemCount();
 	}
 
-	private int getResourceByName(String name)
+	private StudyResource getResourceByName(String name)
 	{
 		for (StudyResource sr : trackedResouces)
 		{
 			if (sr.getName() == name)
-			{
-				sr.getTotalItemCount();
-			}
+				return sr;
 		}
 
-		return 0;
+		return null;
+	}
+
+	public void setID(int newCourseId)
+	{
+		id = newCourseId;
+	}
+
+	public void setName(String courseName)
+	{
+		name = courseName;
+	}
+
+	public void resizeStudyResource(String name, int newSize)
+	{
+		StudyResource r = getResourceByName(name);
+
+		if (null == r)
+		{
+			StudyResource.createWithItems(name, newSize);
+			return;
+		}
+
+		r.resizeTo(newSize);
+
 	}
 }

@@ -7,44 +7,51 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "exams")
-public class Exam implements Comparable<Exam> {
+public class Exam implements Comparable<Exam>
+{
 
 	@DatabaseField(generatedId = true)
-	private UUID id;
+	private UUID		id;
 
 	@DatabaseField
-	private Date date;
+	private Date		date;
 
 	@DatabaseField
-	private ExamType type;
+	private ExamType	type;
 
-	@DatabaseField(foreign = true, foreignAutoRefresh = true)
-	private Course course;
+	@DatabaseField(foreign = true)
+	private Course		course;
 
-	public Exam() {
+	public Exam()
+	{
 
 	}
 
-	public Exam(Date date, ExamType type, Course subject) {
+	public Exam(Date date, ExamType type, Course subject)
+	{
 		this.date = date;
 		this.type = type;
 		course = subject;
 	}
 
-	public Date getDate() {
+	public Date getDate()
+	{
 		return date;
 	}
 
-	public ExamType getType() {
+	public ExamType getType()
+	{
 		return type;
 	}
 
-	public Course getSubject() {
+	public Course getSubject()
+	{
 		return course;
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
@@ -54,7 +61,8 @@ public class Exam implements Comparable<Exam> {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj)
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -62,12 +70,14 @@ public class Exam implements Comparable<Exam> {
 		if (getClass() != obj.getClass())
 			return false;
 		Exam other = (Exam) obj;
-		if (date == null) {
+		if (date == null)
+		{
 			if (other.date != null)
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
-		if (course == null) {
+		if (course == null)
+		{
 			if (other.course != null)
 				return false;
 		} else if (!course.equals(other.course))
@@ -78,7 +88,8 @@ public class Exam implements Comparable<Exam> {
 	}
 
 	@Override
-	public int compareTo(Exam another) {
+	public int compareTo(Exam another)
+	{
 		return date.compareTo(another.date);
 	}
 }
