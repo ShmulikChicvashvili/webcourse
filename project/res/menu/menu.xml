@@ -7,11 +7,10 @@
         android:icon="@drawable/ic_action_search"
         android:showAsAction="collapseActionView|ifRoom"
         android:title="@string/search_title"/>
-    
-    <item 
+    <item
         android:id="@+id/favourite"
+        android:icon="@android:drawable/star_on"
         android:showAsAction="ifRoom"
-        android:title="@string/favourite"
-        android:icon="@android:drawable/btn_star"/>
+        android:title="@string/favourite"/>
 
 </menu>

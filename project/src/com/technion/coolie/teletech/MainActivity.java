@@ -155,7 +155,7 @@ public class MainActivity extends CoolieActivity implements
 		int position = FullContactInformation.position();
 		ContactInformation contact = MainActivity.contacts.get(position);
 		contact.setFavourite(true);
-		db.deleteFavourite(contact.ID().toString());
+		db.insertFavourite(contact);
 	}
 
 	void removeFromFavourites() {
@@ -164,6 +164,31 @@ public class MainActivity extends CoolieActivity implements
 		ContactInformation contact = MainActivity.contacts.get(position);
 		contact.setFavourite(false);
 		db.deleteFavourite(contact.ID().toString());
+	}
+
+	public void onShowFavouritesClicked() {
+		List<ContactInformation> faourites = db.getAllFavourites();
+		contacts.removeAll(master);
+		contacts.addAll(faourites);
+		ContactSummaryFragment.adapter.notifyDataSetChanged();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.technion.coolie.CoolieActivity#onOptionsItemSelected(com.
+	 * actionbarsherlock.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected(
+			com.actionbarsherlock.view.MenuItem item) {
+		switch (item.getItemId()) {
+		case com.technion.coolie.R.id.favourite:
+			onShowFavouritesClicked();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
