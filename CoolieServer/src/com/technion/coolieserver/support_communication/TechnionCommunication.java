@@ -12,7 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 
-import com.technion.coolieserver.ug.Course;
+import com.technion.coolieserver.ug.framework.CourseClient;
 
 public class TechnionCommunication implements ITechnionCommunication {
   private static final String loginUrl = "http://techmvs.technion.ac.il/cics/wmn/wmngrad?ORD=1";
@@ -41,7 +41,7 @@ public class TechnionCommunication implements ITechnionCommunication {
   }
 
   @Override
-  public Course getCourse(String courseNumber) {
+  public CourseClient getCourse(String courseNumber) {
     return null;
   }
 

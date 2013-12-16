@@ -81,6 +81,7 @@ public abstract class HtmlGrabber {
 				//TODO handle errors
 					String result = bundle.getString(HtmlGrabberService.RESULT);
 					handleResult(result, status);
+					mContext.unregisterReceiver(receiver);
 			}
 		}
 	};

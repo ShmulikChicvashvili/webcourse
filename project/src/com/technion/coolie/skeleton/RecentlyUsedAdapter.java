@@ -2,7 +2,7 @@ package com.technion.coolie.skeleton;
 
 import android.content.Context;
 
-public class RecentlyUsedAdapter extends ModulesAdapter {
+public class RecentlyUsedAdapter extends MainScreenModulesAdapter {
 
 	public RecentlyUsedAdapter(Context c) {
 		super(c);
