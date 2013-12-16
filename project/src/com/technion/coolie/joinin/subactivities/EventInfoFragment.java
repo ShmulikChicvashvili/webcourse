@@ -191,7 +191,7 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
     showProgressBar(joinImgBtn);
     ClientProxy.attend(getAccount().toFacebookUser(), getEvent().getId(), new OnDone<ClientEvent>() {
       @Override public void onDone(final ClientEvent e) {
-    	  getActivity().setResult(MainActivity.RESULT_ADD_EVENT, new Intent().putExtra("event", e));
+    	getActivity().setResult(MainActivity.RESULT_JOIN_EVENT, new Intent().putExtra("event", e));
     	hideProgressBar(joinImgBtn);
         Toast.makeText(thisOne, "You joined this event!", Toast.LENGTH_SHORT).show();
         setEvent(e);
