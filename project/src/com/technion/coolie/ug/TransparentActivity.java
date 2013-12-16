@@ -1,5 +1,6 @@
 package com.technion.coolie.ug;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -72,6 +73,17 @@ public class TransparentActivity extends CoolieActivity {
 	 */
 	public void transparentClick(final View view) {
 		finish();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// kill transperant activity when switching to landscape !
+		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			finish();
+		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+		}
 	}
 
 }

@@ -114,6 +114,7 @@
             android:name="com.technion.coolie.ug.TransparentActivity"
             android:label="@string/title_activity_transparent"
             android:theme="@style/Theme.Transparent" 
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize|adjustPan"
             >
         </activity>
