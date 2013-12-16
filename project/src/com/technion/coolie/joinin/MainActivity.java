@@ -4,25 +4,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Location;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gcm.GCMRegistrar;
-import com.google.android.gms.maps.model.Marker;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.communication.ClientProxy;
@@ -30,7 +24,6 @@ import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
 import com.technion.coolie.joinin.communication.ClientProxy.OnError;
 import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
-import com.technion.coolie.joinin.directions.MapDirections;
 import com.technion.coolie.joinin.facebook.FacebookLogin;
 import com.technion.coolie.joinin.facebook.FacebookLogin.OnLoginDone;
 import com.technion.coolie.joinin.gui.ExpandableListAdapter;
@@ -41,44 +34,27 @@ import com.technion.coolie.joinin.subactivities.EventActivity;
 
 
 public class MainActivity extends CoolieActivity {	
-	  final Activity mContext = this;
-	  public static ClientAccount mLoggedAccount = null;
-	  final HashMap<Marker, ClientEvent> markerToEvent = new HashMap<Marker, ClientEvent>();
-	  int cameraChangedCounter = 0;
-	  private final double TO_E6 = 1000000.0;
-	  private final int CAMERA_CHANGE_SENSETIVITY = 4;
-	  private final int MIN_ICON_DIVISION = 1;
-	  private final int MAX_ICON_DIVISION = 6;
-	  public static final String SENDER_ID = "951960160603";
-	  public static final int RESULT_REFRESH = RESULT_CANCELED + 1;
-	  public static final int RESULT_REFRESH_DIRECTIONS = RESULT_REFRESH + 1;
-	  public static final int RESULT_LOGIN_ACCOUNT = RESULT_REFRESH_DIRECTIONS + 1;
-	  public static final int RESULT_FINISH = RESULT_LOGIN_ACCOUNT + 1;
-	  public static final int RESULT_DO_NOTHING = RESULT_FINISH + 1;
-	  public static final int RESULT_FILTER = RESULT_DO_NOTHING + 1;
-	  public static final int RESULT_FAVORITE = RESULT_FILTER + 1;
-	  public static final int RESULT_DELETE = RESULT_FAVORITE + 1;
-	  public static final int RESULT_REMOVE_EVENT = RESULT_FAVORITE + 1;
-	  public static final int RESULT_ADD_EVENT = RESULT_REMOVE_EVENT + 1;
-	  public static final int RESULT_EDIT_EVENT = RESULT_REMOVE_EVENT + 1;
-	  public static final int RESULT_JOIN_EVENT = RESULT_REMOVE_EVENT + 1;
-	  private final int EVENT_ACTIVITY = 1;
-	  private final int CREATE_EVENT_ACTIVITY = EVENT_ACTIVITY + 1;
-	  private final int CATEGORIES_ACTIVITY = CREATE_EVENT_ACTIVITY + 1;
-	  
-	  public static String PACKAGE = "com.technion.coolie.joinin";
-	  SharedPreferences mJoinInPref;
-	  public static final String PREFS_NAME = PACKAGE; // SharedPreferences file	  
-	  private Uri shareURI;
-	  private String mRegId = null;
-	  private SparseBooleanArray catFilter;
-	  private ArrayList<String> usersFilter;
-	  MapDirections md;
-	  Location location;
-	  private MenuItem addEventButon;
-	  private LoginDialog mLoginDialog = null;
-	  private ArrayList<String> mListDataHeader = null;	
-	  private HashMap<String, List<ClientEvent>> mListDataChild = null;
+
+	public static final String PREFS_NAME = "com.technion.coolie.joinin";
+	
+	//Result codes
+	private static final int BASE_RESULT 	= 100;
+	public static final int RESULT_REMOVE_EVENT	= BASE_RESULT + 1;
+	public static final int RESULT_ADD_EVENT 	= BASE_RESULT + 2;
+	public static final int RESULT_EDIT_EVENT 	= BASE_RESULT + 3;
+	public static final int RESULT_JOIN_EVENT 	= BASE_RESULT + 4;
+	//Request codes
+	private final int BASE_REQUEST 					= 200;
+	private final int REQUEST_EVENT_ACTIVITY 		= BASE_REQUEST + 1;
+	private final int REQUEST_CREATE_EVENT_ACTIVITY = BASE_REQUEST + 2;
+	private final int REQUEST_CATEGORIES_ACTIVITY 	= BASE_REQUEST + 3;
+	
+	//Private members	
+	private ClientAccount mLoggedAccount = null;
+	private SharedPreferences mJoinInPref = null;
+	private LoginDialog mLoginDialog = null;
+	private ArrayList<String> mListDataHeader = null;	
+	private HashMap<String, List<ClientEvent>> mListDataChild = null;
 
 	     
      @Override
@@ -108,13 +84,11 @@ public class MainActivity extends CoolieActivity {
     		 public boolean onChildClick(ExpandableListView parent, View v,
     				 int groupPosition, int childPosition, long id) {
     			 ExpandableListAdapter adp = (ExpandableListAdapter) parent.getExpandableListAdapter();
-    			 ClientEvent eventDetails = (ClientEvent)adp.getChild(groupPosition, childPosition) ;          	 
-    			 
-    			 final Intent startEventActivity = new Intent(mContext, EventActivity.class);
-                 startEventActivity.putExtra("event", eventDetails);
-                 startEventActivity.putExtra("account", mLoggedAccount);
-                 startActivityForResult(startEventActivity, EVENT_ACTIVITY);
-                 
+    			 ClientEvent eventDetails = (ClientEvent)adp.getChild(groupPosition, childPosition) ;     
+    			 Intent startEventActivity = new Intent(MainActivity.this, EventActivity.class);
+    			 startEventActivity.putExtra("event", eventDetails);
+    			 startEventActivity.putExtra("account", mLoggedAccount);
+    			 startActivityForResult(startEventActivity, REQUEST_EVENT_ACTIVITY);
     			 return true;
     		 }
     	 });
@@ -158,11 +132,11 @@ public class MainActivity extends CoolieActivity {
     		 return;
     	 }
     	 switch(requestCode){
-    	 case CREATE_EVENT_ACTIVITY:
+    	 case REQUEST_CREATE_EVENT_ACTIVITY:
     		 break;
-    	 case EVENT_ACTIVITY:
+    	 case REQUEST_EVENT_ACTIVITY:
     		 break;
-    	 case CATEGORIES_ACTIVITY:
+    	 case REQUEST_CATEGORIES_ACTIVITY:
     		 break;    	 
     	 default:
     	 }
@@ -172,20 +146,20 @@ public class MainActivity extends CoolieActivity {
      @Override
      public boolean onCreateOptionsMenu(Menu menu) {
     	 super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getSupportMenuInflater();
-        inflater.inflate(R.menu.join_in_activity_itemlist, menu);
-        addEventButon = menu.findItem(R.id.add_item);
-        return true;
-     
+    	 MenuInflater inflater = getSupportMenuInflater();
+    	 inflater.inflate(R.menu.join_in_activity_itemlist, menu);        
+    	 return true;
      }
      
      @Override public boolean onOptionsItemSelected(final MenuItem item) {
     	 switch (item.getItemId()) {
     	 case R.id.add_item:
-    		 startActivityForResult(new Intent(mContext, CreateEventActivity.class).putExtra("account", mLoggedAccount), CREATE_EVENT_ACTIVITY);
+    		 startActivityForResult(new Intent(this, CreateEventActivity.class).putExtra("account", mLoggedAccount)
+    				 , REQUEST_CREATE_EVENT_ACTIVITY);
     		 return true;
     	 case R.id.categories:
-    		 startActivityForResult(new Intent(this, CategoriesActivity.class).putExtra("account", mLoggedAccount), 1);
+    		 startActivityForResult(new Intent(this, CategoriesActivity.class).putExtra("account", mLoggedAccount)
+    				 , REQUEST_CATEGORIES_ACTIVITY);
     	 case android.R.id.home:
     		 this.finish();
     		 return true;
@@ -244,6 +218,5 @@ public class MainActivity extends CoolieActivity {
     			 pd.dismiss();
     		 }
     	 });    	 
-     }
-     
+     }     
 }//MainActivity
