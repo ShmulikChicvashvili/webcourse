@@ -12,12 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RemoteViews.ActionException;
 import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
 
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -124,17 +122,17 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
 		  
 	  }else if (mViewPager.getCurrentItem()== TAB_EVENT_ATTENDING){
 		 
-		  mItemRefresh = menu.add("Refresh");
-		  mItemRefresh.setIcon(R.drawable.ji_refresh);
-		  mItemRefresh.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		  
-		  mItemSerch = menu.add("Serch");
-		  mItemSerch.setIcon(R.drawable.ji_search_white);
-		  mItemSerch.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		  
-		  mItemConnect = menu.add("Connect");
-		  mItemConnect.setIcon(R.drawable.ji_social_share);
-		  mItemConnect.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//		  mItemRefresh = menu.add("Refresh");
+//		  mItemRefresh.setIcon(R.drawable.ji_refresh);
+//		  mItemRefresh.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//		  
+//		  mItemSerch = menu.add("Serch");
+//		  mItemSerch.setIcon(R.drawable.ji_search_white);
+//		  mItemSerch.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//		  
+//		  mItemConnect = menu.add("Connect");
+//		  mItemConnect.setIcon(R.drawable.ji_social_share);
+//		  mItemConnect.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		  
 	  }else if ((mViewPager.getCurrentItem()== TAB_EVENT_MESSAGING)){
 		  // currently no menu items
@@ -143,7 +141,16 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
 	  return true;
   }
 
-
+  // check if "edit" was successful
+  @Override 
+  protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+	  if(requestCode == EDITED && resultCode == MainActivity.RESULT_EDIT_EVENT){
+		  setResult(MainActivity.RESULT_EDIT_EVENT , 
+				  new Intent().putExtra("event", data.getExtras().getParcelable("event")));		  
+	  }
+  }
+  
+  
   @Override public boolean onOptionsItemSelected(final MenuItem item) {
 
 	   if(item == mItemEdit) {
@@ -151,7 +158,8 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
 		   intent.putExtra("account", getAccount());
 		   intent.putExtra("event", new ClientEvent(getEvent()));
 		   startActivityForResult(intent, EDITED);
-		   setResult(MainActivity.RESULT_ADD_EVENT , new Intent().putExtra("event", getEvent()));
+		   // not here
+		   //setResult(MainActivity.RESULT_EDIT_EVENT , new Intent().putExtra("event", getEvent()));
  
 	   } else if (item == mItemDiscard){
 		   
@@ -159,7 +167,7 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
 		    ClientProxy.deleteEvent(getEvent().getId(), new OnDone<Void>() {
 		      @Override public void onDone(final Void t) {
 		        //hideProgressBar(eventO2);
-		    	  setResult(MainActivity.RESULT_ADD_EVENT , new Intent().putExtra("event", getEvent()));
+		    	  setResult(MainActivity.RESULT_REMOVE_EVENT , new Intent().putExtra("event", getEvent()));
 
 		    	  new CalendarHandler(thisOne).deleteEvent(thisOne, getEvent());
 		        //((Activity)thisOne).setResult(MainMapActivity.RESULT_DELETE, new Intent().putExtra("event", getEvent()));
@@ -206,9 +214,9 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
     ((ImageView) tab.findViewById(R.id.tabImage)).setImageDrawable(getResources().getDrawable(R.drawable.ji_tab_friends));
     EventActivity.AddTab(this, mTabHost, mTabHost.newTabSpec("Tab2").setIndicator(tab));
 
-    tab = inflater.inflate(R.layout.ji_tab_layout, null);
-    ((ImageView) tab.findViewById(R.id.tabImage)).setImageDrawable(getResources().getDrawable(R.drawable.ji_tab_message));
-    EventActivity.AddTab(this, mTabHost, mTabHost.newTabSpec("Tab3").setIndicator(tab));
+//    tab = inflater.inflate(R.layout.ji_tab_layout, null);
+//    ((ImageView) tab.findViewById(R.id.tabImage)).setImageDrawable(getResources().getDrawable(R.drawable.ji_tab_message));
+//    EventActivity.AddTab(this, mTabHost, mTabHost.newTabSpec("Tab3").setIndicator(tab));
 
     mTabHost.getTabWidget().setStripEnabled(true);
     mTabHost.setOnTabChangedListener(this);
@@ -232,7 +240,7 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
     final List<Fragment> fragments = new Vector<Fragment>();
     fragments.add(Fragment.instantiate(this, EventInfoFragment.class.getName()));
     fragments.add(Fragment.instantiate(this, EventAttendFragment.class.getName()));
-    fragments.add(Fragment.instantiate(this, EventMessagesFragment.class.getName()));
+   // fragments.add(Fragment.instantiate(this, EventMessagesFragment.class.getName()));
     
     mPagerAdapter = new PagerAdapter(super.getSupportFragmentManager(), fragments);
     mViewPager = (ViewPager) super.findViewById(R.id.viewpager);
@@ -241,13 +249,14 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
     mViewPager.setOnPageChangeListener(this);
   }
   
-  @Override protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-    super.onActivityResult(requestCode, resultCode, data);
-    if (resultCode != MainMapActivity.RESULT_REFRESH)
-      return;
-    mEvent = (ClientEvent) data.getExtras().get("event");
-    onRefresh(TAB_EVENT_INFO);
-  }
+  // older TeamApp version - won't work
+//  @Override protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+//    super.onActivityResult(requestCode, resultCode, data);
+//    if (resultCode != MainMapActivity.RESULT_REFRESH)
+//      return;
+//    mEvent = (ClientEvent) data.getExtras().get("event");
+//    onRefresh(TAB_EVENT_INFO);
+//  }
   
   /**
    * A simple factory that returns dummy views to the Tabhost

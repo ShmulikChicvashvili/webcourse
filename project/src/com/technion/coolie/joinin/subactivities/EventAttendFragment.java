@@ -61,14 +61,14 @@ public class EventAttendFragment extends Fragment implements OnFragmentRefresh {
   LinearLayout attendingList;
   ProgressBar pb;
   private ImageButton showMore;
-  EditText searchBox;
+  //EditText searchBox;
   Integer attendees;
   TeamAppFacebookEvent facebookEvent;
   List<FacebookUser> attending;
-  ImageButton importButton;
-  private ImageButton shareButton;
-  private ImageButton refreshButton;
-  private ImageButton searchButton;
+  //ImageButton importButton;
+ // private ImageButton shareButton;
+  //private ImageButton refreshButton;
+  //private ImageButton searchButton;
   private View pbView;
   static boolean isSearch = false;
   static int LIST_INDEX = 0;
@@ -101,18 +101,18 @@ public class EventAttendFragment extends Fragment implements OnFragmentRefresh {
   
   @Override public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
     final View $ = inflater.inflate(R.layout.ji_frag_event_attend, container, false);
-    eventComing = (TextView) $.findViewById(R.id.eventComing);
+    eventComing = (TextView) $.findViewById(R.id.eventComingAtt);
     pb = (ProgressBar) $.findViewById(R.id.progressBar);
     attendingList = (LinearLayout) $.findViewById(R.id.attendingList);
-    searchBox = (EditText) $.findViewById(R.id.search_box);
+   // searchBox = (EditText) $.findViewById(R.id.search_box);
     showMore = (ImageButton) $.findViewById(R.id.showMore);
-    shareButton = (ImageButton) $.findViewById(R.id.shareButton);
-    importButton = (ImageButton) $.findViewById(R.id.importButton);
-    refreshButton = (ImageButton) $.findViewById(R.id.refreshButton);
-    searchButton = (ImageButton) $.findViewById(R.id.searchButton);
+//    shareButton = (ImageButton) $.findViewById(R.id.shareButton);
+//    importButton = (ImageButton) $.findViewById(R.id.importButton);
+//    refreshButton = (ImageButton) $.findViewById(R.id.refreshButton);
+//    searchButton = (ImageButton) $.findViewById(R.id.searchButton);
     setListeners(inflater);
-    if (getAccount().getUsername().equals(getEvent().getOwner()))
-      getFacebookEvent(importButton);
+//    if (getAccount().getUsername().equals(getEvent().getOwner()))
+//      getFacebookEvent(importButton);
     LIST_INDEX = 0;
     createList();
     return $;
@@ -130,43 +130,43 @@ public class EventAttendFragment extends Fragment implements OnFragmentRefresh {
         showMore(getEvent(), inflater);
       }
     });
-    shareButton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(final View view) {
-        new ShareDialog(getActivity()).show();
-      }
-    });
-    importButton.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(final View view) {
-        new AlertDialog.Builder(getActivity()).setMessage(R.string.import_question)
-            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-              @Override public void onClick(final DialogInterface dialog, final int which) {
-                importFacebookAttendees();
-              }
-            }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-              @Override public void onClick(final DialogInterface dialog, final int which) {
-                // do nothing...
-              }
-            }).create().show();
-      }
-    });
-    refreshButton.setOnClickListener(new OnClickListener() {
-      @Override public void onClick(final View v) {
-        onRefresh();
-      }
-    });
-    searchBox.setOnEditorActionListener(new OnEditorActionListener() {
-      @Override public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
-        if (actionId != EditorInfo.IME_ACTION_SEARCH)
-          return false;
-        performSearch(inflater);
-        return true;
-      }
-    });
-    searchButton.setOnClickListener(new OnClickListener() {
-      @Override public void onClick(final View v) {
-        performSearch(inflater);
-      }
-    });
+//    shareButton.setOnClickListener(new View.OnClickListener() {
+//      @Override public void onClick(final View view) {
+//        new ShareDialog(getActivity()).show();
+//      }
+//    });
+//    importButton.setOnClickListener(new View.OnClickListener() {
+//      @Override public void onClick(final View view) {
+//        new AlertDialog.Builder(getActivity()).setMessage(R.string.import_question)
+//            .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+//              @Override public void onClick(final DialogInterface dialog, final int which) {
+//                importFacebookAttendees();
+//              }
+//            }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//              @Override public void onClick(final DialogInterface dialog, final int which) {
+//                // do nothing...
+//              }
+//            }).create().show();
+//      }
+//    });
+//    refreshButton.setOnClickListener(new OnClickListener() {
+//      @Override public void onClick(final View v) {
+//        onRefresh();
+//      }
+//    });
+//    searchBox.setOnEditorActionListener(new OnEditorActionListener() {
+//      @Override public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+//        if (actionId != EditorInfo.IME_ACTION_SEARCH)
+//          return false;
+//        performSearch(inflater);
+//        return true;
+//      }
+//    });
+//    searchButton.setOnClickListener(new OnClickListener() {
+//      @Override public void onClick(final View v) {
+//        performSearch(inflater);
+//      }
+//    });
   }
   
   /**
@@ -176,19 +176,19 @@ public class EventAttendFragment extends Fragment implements OnFragmentRefresh {
    * @param inflater
    *          a layout inflater
    */
-  void performSearch(final LayoutInflater inflater) {
-    if (searchBox.getVisibility() == View.VISIBLE)
-      searchAttendee(getEvent(), inflater, searchBox.getText().toString().trim());
-    searchBox.setVisibility(View.VISIBLE);
-  }
+//  void performSearch(final LayoutInflater inflater) {
+//    if (searchBox.getVisibility() == View.VISIBLE)
+//      searchAttendee(getEvent(), inflater, searchBox.getText().toString().trim());
+//    searchBox.setVisibility(View.VISIBLE);
+//  }
   
   /**
    * Generates the list of attendees.
    */
   private void createList() {
     isSearch = false;
-    searchBox.setVisibility(View.GONE);
-    searchBox.setText("");
+    //searchBox.setVisibility(View.GONE);
+    //searchBox.setText("");
     pb.setVisibility(View.VISIBLE);
     final ClientEvent e = getEvent(); // Should not be inlined
     if (e != null)
@@ -288,32 +288,32 @@ public class EventAttendFragment extends Fragment implements OnFragmentRefresh {
   /**
    * Import attendees from the event on facebook
    */
-  @SuppressWarnings("boxing") void importFacebookAttendees() {
-    if (facebookEvent == null)
-      return;
-    showProgressBar(importButton);
-    FacebookQueries.getEventAttendees(facebookEvent.getFacebookId(), getActivity(), new OnGetEventAttendeesReturns() {
-      @Override public void onGetEventAttendeesReturns(final List<FacebookUser> users) {
-        final ClientEvent e = getEvent(); // Should not be inlined!
-        boolean modified = false;
-        final Set<FacebookUser> $ = e.getUsers();
-        modified = $.addAll(users);
-        e.setUsers($);
-        if (modified)
-          ClientProxy.modifyEvent(e, new OnDone<Boolean>() {
-            @Override public void onDone(final Boolean b) {
-              hideProgressBar(importButton);
-              onRefresh();
-            }
-          }, new OnError(getActivity()) {
-            @Override public void beforeHandlingError() {
-              hideProgressBar(importButton);
-            }
-          });
-      }
-    });
-  }
-  
+//  @SuppressWarnings("boxing") void importFacebookAttendees() {
+//    if (facebookEvent == null)
+//      return;
+//    showProgressBar(importButton);
+//    FacebookQueries.getEventAttendees(facebookEvent.getFacebookId(), getActivity(), new OnGetEventAttendeesReturns() {
+//      @Override public void onGetEventAttendeesReturns(final List<FacebookUser> users) {
+//        final ClientEvent e = getEvent(); // Should not be inlined!
+//        boolean modified = false;
+//        final Set<FacebookUser> $ = e.getUsers();
+//        modified = $.addAll(users);
+//        e.setUsers($);
+//        if (modified)
+//          ClientProxy.modifyEvent(e, new OnDone<Boolean>() {
+//            @Override public void onDone(final Boolean b) {
+//              hideProgressBar(importButton);
+//              onRefresh();
+//            }
+//          }, new OnError(getActivity()) {
+//            @Override public void beforeHandlingError() {
+//              hideProgressBar(importButton);
+//            }
+//          });
+//      }
+//    });
+//  }
+//  
   /**
    * Search the given string as a name of an attendee
    * 
@@ -324,24 +324,24 @@ public class EventAttendFragment extends Fragment implements OnFragmentRefresh {
    * @param s
    *          a string to search
    */
-  void searchAttendee(final ClientEvent e, final LayoutInflater inflater, final String s) {
-    isSearch = true;
-    attendingList.removeAllViews();
-    showMore.setVisibility(View.GONE);
-    showProgressBar(searchButton);
-    attending = new ArrayList<FacebookUser>(e.getUsers());
-    LIST_INDEX = 0;
-    for (; LIST_INDEX < attending.size() && attendingList.getChildCount() < MAX_LIST_SIZE; LIST_INDEX++)
-      if (nameContains(s, attending.get(LIST_INDEX).getFullname()))
-        addAccount(e, inflater, attending.get(LIST_INDEX));
-    if (attendingList.getChildCount() <= 0) {
-      final View v = inflater.inflate(R.layout.ji_members_list_in_event_activity, null);
-      ((TextView) v.findViewById(R.id.rowTextView)).setText(R.string.no_results);
-      v.findViewById(R.id.profile_pic).setVisibility(View.GONE);
-      attendingList.addView(v);
-    }
-    hideProgressBar(searchButton);
-  }
+//  void searchAttendee(final ClientEvent e, final LayoutInflater inflater, final String s) {
+//    isSearch = true;
+//    attendingList.removeAllViews();
+//    showMore.setVisibility(View.GONE);
+//    showProgressBar(searchButton);
+//    attending = new ArrayList<FacebookUser>(e.getUsers());
+//    LIST_INDEX = 0;
+//    for (; LIST_INDEX < attending.size() && attendingList.getChildCount() < MAX_LIST_SIZE; LIST_INDEX++)
+//      if (nameContains(s, attending.get(LIST_INDEX).getFullname()))
+//        addAccount(e, inflater, attending.get(LIST_INDEX));
+//    if (attendingList.getChildCount() <= 0) {
+//      final View v = inflater.inflate(R.layout.ji_members_list_in_event_activity, null);
+//      ((TextView) v.findViewById(R.id.rowTextView)).setText(R.string.no_results);
+//      v.findViewById(R.id.profile_pic).setVisibility(View.GONE);
+//      attendingList.addView(v);
+//    }
+//    hideProgressBar(searchButton);
+//  }
   
   /**
    * Checks whether a name contains token of a given string
@@ -508,18 +508,18 @@ public class EventAttendFragment extends Fragment implements OnFragmentRefresh {
   }
   
   private void disableButtons() {
-    importButton.setEnabled(false);
-    shareButton.setEnabled(false);
+    //importButton.setEnabled(false);
+   // shareButton.setEnabled(false);
     showMore.setEnabled(false);
-    searchButton.setEnabled(false);
-    refreshButton.setEnabled(false);
+    //searchButton.setEnabled(false);
+    //refreshButton.setEnabled(false);
   }
   
   private void enableButtons() {
-    importButton.setEnabled(true);
-    shareButton.setEnabled(true);
+    //importButton.setEnabled(true);
+    //shareButton.setEnabled(true);
     showMore.setEnabled(true);
-    searchButton.setEnabled(true);
-    refreshButton.setEnabled(true);
+    //searchButton.setEnabled(true);
+    //refreshButton.setEnabled(true);
   }
 }

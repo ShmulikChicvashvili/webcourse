@@ -3,6 +3,8 @@ package com.technion.coolie.joinin.subactivities;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,6 +52,7 @@ import com.technion.coolie.R.id;
 import com.technion.coolie.R.layout;
 import com.technion.coolie.R.menu;
 import com.technion.coolie.joinin.LoginDialog;
+import com.technion.coolie.joinin.MainActivity;
 import com.technion.coolie.joinin.calander.CalendarEventDatabase.NotFoundException;
 import com.technion.coolie.joinin.calander.CalendarHandler;
 import com.technion.coolie.joinin.communication.ClientProxy;
@@ -114,53 +117,50 @@ public class CategoryEventActivity extends CoolieActivity {
    	 // go here if events empty
    	 if(mListDataHeader == null){
    		 mListDataHeader = new ArrayList<String>();
-   		 mListDataChild = new HashMap<String, List<ClientEvent>>();
    		 prepareListData();
    	 }    	     	     	 
    	 // setting list adapter
-   	 expListView.setAdapter(new ExpandableListAdapter(this, this , mListDataHeader, mListDataChild));
+   	 expListView.setAdapter(new ExpandableListAdapter(this, this , mListDataHeader, mListDataChild,true));
    	 // set listeners
    	 expListView.setOnChildClickListener(new OnChildClickListener() {	 
    		 @Override
    		 public boolean onChildClick(ExpandableListView parent, View v,
    				 int groupPosition, int childPosition, long id) {
-   			 ExpandableListAdapter adp = (ExpandableListAdapter) parent.getExpandableListAdapter();
-   			 ClientEvent eventDetails = (ClientEvent)adp.getChild(groupPosition, childPosition) ;          	 
-   			 
-   			 final Intent startEventActivity = new Intent(mContext, EventActivity.class);
-                startEventActivity.putExtra("event", eventDetails);
-                startEventActivity.putExtra("account", mLoggedAccount);
-                startActivityForResult(startEventActivity, 1);
-                
-   			 return true;
+			 ExpandableListAdapter adp = (ExpandableListAdapter) parent.getExpandableListAdapter();
+			 ClientEvent eventDetails = (ClientEvent)adp.getChild(groupPosition, childPosition) ;     
+			 Intent startEventActivity = new Intent(CategoryEventActivity.this, EventActivity.class);
+			 startEventActivity.putExtra("event", eventDetails);
+			 startEventActivity.putExtra("account", mLoggedAccount);
+			 startActivityForResult(startEventActivity, 1);
+			 return true;
    		 }
    	 });
     }
     private void prepareListData() {
-   	 ArrayList<ClientEvent> attendingArr = new ArrayList<ClientEvent>();
-   	 ArrayList<ClientEvent> myEventsArr = new ArrayList<ClientEvent>();
-   	 getEventsAttending(attendingArr);
-   	 getMyEvents(myEventsArr);
-   	 //Create Headers
-   	 mListDataHeader.add("I'm Attending");
-   	 mListDataHeader.add("My Events");   
-   	 // Add attending events
-   	 mListDataChild.put(mListDataHeader.get(0), attendingArr);
-   	 // Add My events
-   	 mListDataChild.put(mListDataHeader.get(1), myEventsArr);
+     mListDataChild = new HashMap<String, List<ClientEvent>>();
+   	 getDates();
     }
     
-    private void getEventsAttending(final ArrayList<ClientEvent> attendingArr){
-    	for (ClientEvent c :mList){
-    		attendingArr.add(c);  
-    	}
-    }
     
-    private void getMyEvents(final ArrayList<ClientEvent> myEventsArr){
+    private void getDates(){
+    	String date;
     	for (ClientEvent c :mList){
-    		myEventsArr.add(c);
+    		date = c.getWhen().toString();
+    		if (!mListDataHeader.contains(date)){		
+    			mListDataHeader.add(date);
+    			mListDataChild.put(date, new ArrayList<ClientEvent>());
+    		}
+    		mListDataChild.get(date).add(c);
+    	}
+    	Collections.sort(mListDataHeader);
+    	for (String s : mListDataHeader){
+    		Collections.sort(mListDataChild.get(s), new Comparator<ClientEvent>(){
+    			@Override
+    			public int compare(ClientEvent lhs, ClientEvent rhs) {
+    				return (int)(lhs.getWhen().getTime() - rhs.getWhen().getTime());
+    			}
+    		});
     	}
     }
-
 	
 }

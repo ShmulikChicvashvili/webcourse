@@ -1,6 +1,8 @@
 package com.technion.coolie.joinin;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,11 +64,11 @@ public class MainActivity extends CoolieActivity {
          GCMRegistrar.checkDevice(this);
          GCMRegistrar.checkManifest(this);                 
          setContentView(R.layout.ji__expandable_view);
-         setExpandableListView();
+         setExpandableListViewListener();
          HandleLogIn();         
      }
      
-     private void setExpandableListView(){  
+     private void setExpandableListViewListener(){  
     	 ExpandableListView expListView = (ExpandableListView) findViewById(R.id.expendable_list);
     	 // set listeners
     	 expListView.setOnChildClickListener(new OnChildClickListener() {	 
@@ -150,6 +152,7 @@ public class MainActivity extends CoolieActivity {
     	 case R.id.categories:
     		 startActivityForResult(new Intent(this, CategoriesActivity.class).putExtra("account", mLoggedAccount)
     				 , REQUEST_CATEGORIES_ACTIVITY);
+    		 return true;
     	 case android.R.id.home:
     		 this.finish();
     		 return true;
@@ -178,15 +181,17 @@ public class MainActivity extends CoolieActivity {
     					 }else{
     						 attending.add(e);    						 
     					 }    					 
-    				 }
+    				 }    				     				 
     				 ArrayList<String> headers = new ArrayList<String>();
     				 HashMap<String, List<ClientEvent>> events = new HashMap<String, List<ClientEvent>>();
     				 if (attending.size() > 0){
     					 headers.add("I'm attending");
+    					 Collections.sort(attending, sortEvents);
     					 events.put("I'm attending", attending);
     				 }
     				 if (myEvents.size() > 0 ){
     					 headers.add("My Events");
+    					 Collections.sort(myEvents, sortEvents);
     					 events.put("My Events", myEvents);
     				 }
     				 expListView.setAdapter(new ExpandableListAdapter(MainActivity.this, MainActivity.this, 
@@ -204,5 +209,13 @@ public class MainActivity extends CoolieActivity {
     			 pd.dismiss();
     		 }
     	 });
-     }        
+     }      
+     
+     
+     private final Comparator<ClientEvent> sortEvents = new Comparator<ClientEvent>() {		
+		@Override
+		public int compare(ClientEvent lhs, ClientEvent rhs) {
+			return (int)(lhs.getWhen().getTime() - rhs.getWhen().getTime());
+		}
+	};
 }//MainActivity
