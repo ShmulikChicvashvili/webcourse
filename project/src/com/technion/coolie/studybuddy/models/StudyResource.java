@@ -1,6 +1,5 @@
 package com.technion.coolie.studybuddy.models;
 
-import static com.technion.coolie.studybuddy.models.Semester.WEEKS_IN_SEMESTER;
 import static com.technion.coolie.studybuddy.utils.Utils.asSortedList;
 import static com.technion.coolie.studybuddy.utils.Utils.filter;
 import static com.technion.coolie.studybuddy.utils.Utils.map;
@@ -11,8 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import com.j256.ormlite.dao.BaseForeignCollection;
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 

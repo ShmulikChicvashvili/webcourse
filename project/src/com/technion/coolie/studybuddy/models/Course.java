@@ -3,6 +3,7 @@ package com.technion.coolie.studybuddy.models;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -156,6 +157,7 @@ public class Course implements Comparable<Course>
 
 	private StudyResource getResourceByName(String name)
 	{
+		
 		for (StudyResource sr : trackedResouces)
 		{
 			if (sr.getName() == name)

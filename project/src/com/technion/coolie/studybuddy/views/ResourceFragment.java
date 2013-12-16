@@ -21,6 +21,8 @@ public class ResourceFragment extends SherlockFragment implements CrossGesture
 
 	private static final String ResourceTypeArg = "ResourseType";
 
+	private static final String COURSEID = "courseId";
+
 	private String ResourceType;
 
 	private OnFragmentInteractionListener mListener;
@@ -31,18 +33,21 @@ public class ResourceFragment extends SherlockFragment implements CrossGesture
 
 	private ResourceGridAdapter resourceAdapter;
 
+	private String courseID;
+
 	/**
 	 * Factory Method for new Fragment generation
 	 * 
 	 * @param resourceType
 	 * @return
 	 */
-	public static ResourceFragment newInstance(String resourceType)
+	public static ResourceFragment newInstance(String resourceType,
+			String courseID)
 	{
 		ResourceFragment fragment = new ResourceFragment();
 		Bundle args = new Bundle();
 		args.putString(ResourceTypeArg, resourceType);
-
+		args.putString(COURSEID, courseID);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -59,7 +64,7 @@ public class ResourceFragment extends SherlockFragment implements CrossGesture
 		if (getArguments() != null)
 		{
 			ResourceType = getArguments().getString(ResourceTypeArg);
-
+			courseID = getArguments().getString(COURSEID);
 		}
 	}
 
@@ -69,14 +74,15 @@ public class ResourceFragment extends SherlockFragment implements CrossGesture
 			Bundle savedInstanceState)
 	{
 		// Inflate the layout for this fragment
-		View view = inflater.inflate(R.layout.stb_view_resource, container, false);
+		View view = inflater.inflate(R.layout.stb_view_resource, container,
+				false);
 		((TextView) view.findViewById(R.id.resource_type))
 				.setText(ResourceType);
-		resourceAdapter = new ResourceGridAdapter(this, true);
+		resourceAdapter = new ResourceGridAdapter(this, true, courseID);
 		((NowLayout) view.findViewById(R.id.listView1))
 				.setAdapter(resourceAdapter);
 		doneLayout = (NowLayout) view.findViewById(R.id.done_items);
-		doneAdapter = new ResourceGridAdapter(this, false);
+		doneAdapter = new ResourceGridAdapter(this, false, courseID);
 		doneLayout.setAdapter(doneAdapter);
 		doneLayout.setOnDragListener(new OnDragListener()
 		{

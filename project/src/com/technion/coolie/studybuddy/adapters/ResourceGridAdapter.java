@@ -17,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.technion.coolie.R;
+import com.technion.coolie.studybuddy.data.DataStore;
+import com.technion.coolie.studybuddy.models.Course;
+import com.technion.coolie.studybuddy.models.StudyItem;
 import com.technion.coolie.studybuddy.views.ResourceFragment;
 import com.technion.coolie.studybuddy.views.StrikeThrowTextView;
 
@@ -30,11 +33,13 @@ public class ResourceGridAdapter extends BaseAdapter
 	private FlingDetector listener;
 	private View dragedView;
 	private ResourceFragment fragment;
+	private Course course;
 
 	/**
 	 * @param context
 	 */
-	public ResourceGridAdapter(ResourceFragment fragment, boolean mode)
+	public ResourceGridAdapter(ResourceFragment fragment, boolean mode,
+			String courseId)
 	{
 		super();
 		this.fragment = fragment;
@@ -43,10 +48,14 @@ public class ResourceGridAdapter extends BaseAdapter
 				Context.LAYOUT_INFLATER_SERVICE);
 		this.mode = mode;
 		items = new ArrayList<String>();
+		course = DataStore.coursesById.get(courseId);
 		if (mode)
-		{
-			for (int i = 0; i < 14; i++)
-				items.add(String.valueOf(i));
+		{// TODO Dima please make sure that this is the right method if not
+			// please correct
+			for (StudyItem item : course.getStudyItemsRemaining())
+			{
+				items.add(item.getLabel());
+			}
 		} else
 			items.add("example");
 	}
@@ -87,6 +96,7 @@ public class ResourceGridAdapter extends BaseAdapter
 				{
 					((StrikeThrowTextView) v)
 							.setStriked(!((StrikeThrowTextView) v).isStriked());
+					// TODO object checked and shoul be treated
 				}
 			});
 			if (!mode)
@@ -97,22 +107,6 @@ public class ResourceGridAdapter extends BaseAdapter
 
 			if (mode)
 			{
-				// convertView.setOnTouchListener(new swipeListener());
-				// convertView.setOnLongClickListener(new OnLongClickListener()
-				// {
-				//
-				// @Override
-				// public boolean onLongClick(View v)
-				// {
-				// ClipData data = ClipData.newPlainText("", "");
-				// DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
-				// v);
-				// v.startDrag(data, shadowBuilder, v, 0);
-				// v.setVisibility(View.INVISIBLE);
-				// return true;
-				// }
-				//
-				// });
 				convertView.setOnTouchListener(new OnTouchListener()
 				{
 
@@ -121,11 +115,6 @@ public class ResourceGridAdapter extends BaseAdapter
 					public boolean onTouch(View v, MotionEvent event)
 					{
 
-//						if (listener.ont)
-//						{
-//							fragment.remove(dragedView);
-//							return true;
-//						}
 						ClipData data = ClipData.newPlainText("", "");
 						DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
 								v);

@@ -74,9 +74,8 @@ public class TaskAdapter extends BaseAdapter
 						boolean isChecked)
 				{
 					view.setStrike(isChecked);
-					//TODO
-					// model.toggleTask(position);
-					//notifyDataSetChanged();
+					//TODO second iteration
+				
 				}
 			});
 			convertView = view;

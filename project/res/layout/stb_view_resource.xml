@@ -43,7 +43,7 @@
         android:clipToPadding="true"
         android:minHeight="200dp"
         android:minWidth="200dp"
-        android:numColumns="@integer/stb_num_of_columns"
+        android:numColumns="@integer/stb_num_of_columns_resourse"
         android:paddingLeft="20dp" >
     </com.technion.coolie.studybuddy.views.NowLayout>
 

@@ -12,6 +12,8 @@ import android.widget.ArrayAdapter;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.technion.coolie.R;
+import com.technion.coolie.studybuddy.data.DataStore;
+import com.technion.coolie.studybuddy.models.Course;
 import com.technion.coolie.studybuddy.views.ResourceFragment.OnFragmentInteractionListener;
 
 public class CourseActivity extends StudyBuddyActivity implements
@@ -35,17 +37,13 @@ public class CourseActivity extends StudyBuddyActivity implements
 
 	private String courseNumber;
 
+	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		try
-		{
-			setContentView(R.layout.stb_activity_course);
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		setContentView(R.layout.stb_activity_course);
 		Bundle data = getIntent().getExtras();
 		if (data.containsKey(COURSE_ID))
 		{
@@ -60,7 +58,7 @@ public class CourseActivity extends StudyBuddyActivity implements
 						android.R.layout.simple_list_item_1,
 						android.R.id.text1, new String[] { "OverView",
 								"Lectures", "tutorials" }), this);
-
+		
 	}
 
 	@Override
@@ -102,13 +100,13 @@ public class CourseActivity extends StudyBuddyActivity implements
 		switch (itemPosition)
 		{
 		case 0:
-			Fragment fragment = CourseOverViewFragment.newInstance("overview");
+			Fragment fragment = CourseOverViewFragment.newInstance(courseNumber);
 			ft.replace(R.id.stb_container, fragment).commit();
 			break;
 		case 1:
 		case 2:
-			ResourceFragment fragment1 = ResourceFragment
-					.newInstance(itemPosition == 1 ? "Lecture" : "tutorial");
+			ResourceFragment fragment1 = ResourceFragment.newInstance(
+					itemPosition == 1 ? "Lecture" : "tutorial", courseNumber);
 
 			ft.replace(R.id.stb_container, fragment1).commit();
 			break;

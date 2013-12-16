@@ -2,6 +2,7 @@ package com.technion.coolie.studybuddy.data;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,18 +20,18 @@ import com.technion.coolie.studybuddy.utils.SparseArrayMap;
 
 public class DataStore extends Observable
 {
-	private static String[]				menus			= new String[] {
-			"Tasks", "Courses", "Crazy mode"			};
-	public static List<Course>			coursesList		= new ArrayList<Course>();
-	public static Map<Integer, Course>	coursesById		= new SparseArrayMap<Course>();
-	public static Semester				semester		= new Semester();
-	private static SBDatabaseHelper		dbHelper;
+	private static String[] menus = new String[] { "Tasks", "Courses",
+			"Crazy mode" };
+	public static List<Course> coursesList = new ArrayList<Course>();
+	public static Map<String, Course> coursesById = new LinkedHashMap<String, Course>();
+	public static Semester semester = new Semester();
+	private static SBDatabaseHelper dbHelper;
 
-	private static MainPresenter		mainPresenter;
-	private static EditCoursePresenter	editPresenter;
+	private static MainPresenter mainPresenter;
+	private static EditCoursePresenter editPresenter;
 
-	public static final int				taskForCourse	= 14;
-	public static final String			CLASS_LIST		= "classes";
+	public static final int taskForCourse = 14;
+	public static final String CLASS_LIST = "classes";
 
 	static
 	{
@@ -38,7 +39,7 @@ public class DataStore extends Observable
 		addFakeCourses();
 	}
 
-	private static DataStore			dataStore;
+	private static DataStore dataStore;
 
 	public static DataStore getInstance()
 	{
@@ -75,7 +76,7 @@ public class DataStore extends Observable
 
 		for (Course c : coursesList)
 		{
-			coursesById.put(c.getId(), c);
+			coursesById.put(String.valueOf(c.getId()), c);
 		}
 
 		Collections.sort(coursesList);
@@ -135,7 +136,7 @@ public class DataStore extends Observable
 		if (courseID != newCourseId)
 		{
 			coursesById.remove(courseID);
-			coursesById.put(newCourseId, c);
+			coursesById.put(String.valueOf(newCourseId), c);
 
 			// TODO add persistance logic
 		}
@@ -143,7 +144,6 @@ public class DataStore extends Observable
 		// TODO add persistance logic
 		setChanged();
 		notifyObservers(DataStore.CLASS_LIST);
-
 	}
 
 	public void addCourse(int newCourseId, String courseName, int numLectures,
@@ -156,7 +156,7 @@ public class DataStore extends Observable
 				StudyResource.TUTORIALS, numTutorials));
 
 		coursesList.add(c);
-		coursesById.put(newCourseId, c);
+		coursesById.put(String.valueOf(newCourseId), c);
 		Collections.sort(coursesList);
 
 		setChanged();
