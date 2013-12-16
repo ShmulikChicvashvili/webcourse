@@ -110,6 +110,7 @@ public class TaskParser extends IntentService {
     			newTask.difficulty = 0;
     			newTask.importance = 0;
     			newTask.progress = 0;
+    			newTask.url = "http://webcourse.cs.technion.ac.il/" + newTask.courseId;
     			
     			addTaskToList(newTask);
     			

@@ -13,6 +13,9 @@
     <string name="action_new_task">New Task</string>
     <string name="technion_tasks_progress_percent">100%</string>
     
+    <string name="am_empty_view">No New Tasks!</string>
+    <string name="am_empty_view_refresh"><u>Click here to check for new tasks online</u></string>
+    
     <string name="pref_sync">Sync with Google Calendar</string>
     <string name="pref_updates_freq">Updates Frequency</string>
     <string name="pref_updates_freq_sum">Once a Day</string>

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
@@ -66,6 +67,7 @@ public class TaskSettings extends CoolieActivity {
 		public static final String KEY_TS_IMPORTANCE = "task_pref_importance";
 		public static final String KEY_TS_PROGRESS = "task_pref_progress";
 		public static final String KEY_TS_TASK_REMINDER = "task_pref_reminder";
+		public static final String KEY_TS_COURSE_WEBSITE = "task_pref_course_website";
 		
 		private Context c;
 		
@@ -144,6 +146,8 @@ public class TaskSettings extends CoolieActivity {
 			findPreference(KEY_TS_COURSE_ID).setSummary(task.courseId);
 			findPreference(KEY_TS_DUE_DATE).setSummary(task.dueDate);
 			findPreference(KEY_TS_COURSE_NAME).setSummary(task.courseName);
+			Intent myIntent = new Intent("android.intent.action.VIEW", Uri.parse(task.url));
+			findPreference(KEY_TS_COURSE_WEBSITE).setIntent(myIntent);
 			RatingPreference ratingPref = (RatingPreference) findPreference(KEY_TS_DIFFICULTY);
 			ratingPref.setRating(task.difficulty);
 			

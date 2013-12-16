@@ -59,10 +59,8 @@
         android:title="@string/task_pref_extra_info_title" >
         
         <Preference
-            android:title="@string/task_pref_course_website" >
-            
-            <intent android:action="android.intent.action.VIEW"
-                android:data="http://grades.cs.technion.ac.il/grades.cgi" />
+            android:title="@string/task_pref_course_website" 
+            android:key="task_pref_course_website" >
             
         </Preference>
         

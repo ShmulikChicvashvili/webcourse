@@ -37,5 +37,33 @@
         android:layout_below="@+id/am_technion_tasks_progress_emo_switcher"
         android:divider="@android:color/transparent"
         android:dividerHeight="8dp" />
-
+    
+    <RelativeLayout 
+        android:id="@+id/am_technion_tasks_empty_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" >
+         
+	    <TextView 
+	        android:id="@+id/am_empty_view_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerHorizontal="true"
+	        android:textAppearance="@android:style/TextAppearance.Large"
+	        android:textColor="@android:color/secondary_text_dark_nodisable"
+	        android:text="@string/am_empty_view" />
+	    
+	    <TextView
+	        android:id="@+id/am_empty_view_refresh"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/am_empty_view_title"
+	        android:gravity="center_horizontal"
+	        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+	        android:textColor="@android:color/secondary_text_dark_nodisable" 
+	        android:background="@android:drawable/list_selector_background"
+	        android:text="@string/am_empty_view_refresh" />
+	    
+	</RelativeLayout>
+	
 </RelativeLayout>

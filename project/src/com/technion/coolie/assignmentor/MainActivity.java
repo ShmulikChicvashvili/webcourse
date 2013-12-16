@@ -2,6 +2,8 @@ package com.technion.coolie.assignmentor;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
@@ -28,6 +30,7 @@ import android.text.style.StrikethroughSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -42,11 +45,11 @@ import android.widget.ViewSwitcher;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.technion.coolie.CollieNotification;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.assignmentor.EnhancedListView.Undoable;
 import com.technion.coolie.assignmentor.TaskSettings.TaskSettingsFragment;
-import com.technion.coolie.CollieNotification;
 
 public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemClickListener {
 	
@@ -54,7 +57,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 	// dynamic lookups improves performance.
 	
 	/* ****************************************************************************** */
-	/* We need to considered whether we want to support syncing with google calendar  */ 
+	/* We need to consider whether we want to support syncing with google calendar    */ 
 	/* for devices with api lower than 14!											  */
 	/* ****************************************************************************** */
 	public static final String[] EVENT_PROJECTION = new String[] {
@@ -85,6 +88,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 	private EnhancedListView mListView;
 	private ProgressBar mProgressBar;
 	private TextView progressPercent;
+	private TextView emptyViewRefreshTv;
 	
 	// Temporary list to hold course ids.
 	ArrayList<String> courseList = new ArrayList<String>();
@@ -123,6 +127,18 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		mListView = (EnhancedListView) findViewById(R.id.am_technion_tasks_listview);
 		mAdapter = new MyAdapter(this);
 		mListView.setAdapter(mAdapter);
+		mListView.setEmptyView(findViewById(R.id.am_technion_tasks_empty_view));
+		emptyViewRefreshTv = (TextView) findViewById(R.id.am_empty_view_refresh);
+		emptyViewRefreshTv.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent serviceIntent = new Intent(getApplicationContext(), TaskParser.class);
+				serviceIntent.putStringArrayListExtra(COURSE_LIST, courseList);
+				startService(serviceIntent);
+			}
+		});
+		
 		mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
@@ -266,23 +282,27 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		switch(item.getItemId()) {
 		
 			case R.id.action_sort_by_due_date:
-				Toast.makeText(this, "Sorting By Due Date", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(this, "Sorting By Due Date", Toast.LENGTH_SHORT).show();
+				Collections.sort(mAdapter.myItems, new TasksInfoComparator(0));
+				mAdapter.updateView();
 				break;
 				
 			case R.id.action_sort_by_diff:
-				Toast.makeText(this, "Sorting By Difficulty Level", Toast.LENGTH_SHORT).show();
+//				Toast.makeText(this, "Sorting By Difficulty Level", Toast.LENGTH_SHORT).show();
+				Collections.sort(mAdapter.myItems, new TasksInfoComparator(1));
+				mAdapter.updateView();
 				break;
 				
 			case R.id.action_sort_by_imp:
-				Toast.makeText(this, "Sorting By Importance Level", Toast.LENGTH_SHORT).show();
-//				mAdapter.insertToCalendar((TasksInfo)mAdapter.getItem(0));
+//				Toast.makeText(this, "Sorting By Importance Level", Toast.LENGTH_SHORT).show();
+				Collections.sort(mAdapter.myItems, new TasksInfoComparator(2));
+				mAdapter.updateView();
 				break;
 				
 			case R.id.action_sort_by_prog:
 //				Toast.makeText(this, "Sorting By Progress Level", Toast.LENGTH_SHORT).show();
-				Intent serviceIntent = new Intent(this, TaskParser.class);
-				serviceIntent.putStringArrayListExtra(COURSE_LIST, courseList);
-				startService(serviceIntent);
+				Collections.sort(mAdapter.myItems, new TasksInfoComparator(3));
+				mAdapter.updateView();
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -695,6 +715,7 @@ class TasksInfo {
 	int difficulty, importance, progress;
 	// Used to store the task's event id on google calendar.
 	long eventID;
+	String url;
 	
 	public TasksInfo(SpannableString taskName, String courseName, String courseId, String dueDate) {
 		this.taskName = taskName;
@@ -758,4 +779,72 @@ class TasksInfo {
 			return false;
 		return true;
 	}
+}
+
+//TasksInfo comparator, compares to tasks according to the parameter passed to the c'tor.
+// sortBy values: 0 - due date. 1 - difficulty. 2 - importance. 3 - progress.
+class TasksInfoComparator implements Comparator<TasksInfo> {
+	
+	private int sortBy;
+	
+	public TasksInfoComparator(int sortBy) {
+		this.sortBy = sortBy;
+	}
+	
+	@Override
+	public int compare(TasksInfo task1, TasksInfo task2) {
+		switch(sortBy) {
+		
+		case 0:
+			return datesCompare(fixDate(task1.dueDate), fixDate(task2.dueDate));
+			
+		case 1:
+			return task2.difficulty - task1.difficulty;
+			
+		case 2:
+			return task2.importance - task1.importance;
+			
+		case 3:
+			return task2.progress - task1.progress;
+			
+		default:
+			return 1;
+		}
+		
+	}
+	
+	private String fixDate(String date) {
+		if (date == null || date.isEmpty()) return "";
+    	String[] dateArr = date.split("/");
+    	String day = dateArr[0];
+    	String month = dateArr[1];
+    	String year = dateArr[2];
+    	if (day.length() != 2) day = "0" + day;
+    	if (month.length() != 2) month = "0" + month;
+    	if (year.length() == 2) year = "20" + year;
+    	return day + "/" + month + "/" + year;
+    }
+	
+	// If date2 is after date1 return -1.
+    // if date2 is before date1 return 1.
+    // if date2 equals date1 return 0.
+    private int datesCompare(String date1, String date2) {
+    	
+    	String[] date1Arr = date1.split("/");
+    	String[] date2Arr = date2.split("/");
+    	if (date1Arr.length < 3) return -1;
+    	else if (date2Arr.length < 3) return 1;
+    	int year = date1Arr[2].compareTo(date2Arr[2]);
+	    if (year == 0) {
+		   int month = date1Arr[1].compareTo(date2Arr[1]);
+		   if (month == 0) {
+			   return date1Arr[0].compareTo(date2Arr[0]);
+		   } else {
+		  	   return month;
+		   }
+	    } else {
+		    return year;
+  	    }
+    }
+	
 }
