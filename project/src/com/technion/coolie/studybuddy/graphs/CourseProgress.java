@@ -71,22 +71,22 @@ public class CourseProgress {
 				setBarSpacing(0.5);
 				setAxisTitleTextSize(16);
 				setChartTitleTextSize(20);
-				setLabelsTextSize(15);
-				setLegendTextSize(15);
-				setMargins(new int[] { 5, 20, 20, 20 }); // right, top, left, bottom
+				setLabelsTextSize(19);
+				setMargins(new int[] { 25, 20, 100, 20 }); // right, top, left, bottom
 
 				setShowGrid(true);
+				setShowAxes(false);
 				
 				setXLabelsAlign(Align.RIGHT);
 				setYLabelsAlign(Align.LEFT);
 				
-				setXLabelsPadding(50);
+				setXLabelsPadding(0);
 				
 				setYLabelsPadding(20);
 				setYLabelsVerticalPadding(-10);
 				// renderer.setYLabelsVerticalPadding(10);
-				setLabelsTextSize(13);
-				setTextTypeface(Typeface.DEFAULT);
+				//setLabelsTextSize(12);
+				//setTextTypeface(Typeface.MONOSPACE);
 
 				setYAxisMin(0);
 				setYAxisMax(lastWeek);
