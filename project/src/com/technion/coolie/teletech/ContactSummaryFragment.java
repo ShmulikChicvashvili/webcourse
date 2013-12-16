@@ -15,9 +15,9 @@ public class ContactSummaryFragment extends SherlockListFragment {
 
 	OnContactSelectedListener mCallback;
 	// TODO : remove this!!
-	public static ContactsAdapter adapter;
+	public ContactsAdapter adapter;
 
-	DBTools db;;
+	DBTools db;
 
 	public interface OnContactSelectedListener {
 		public void onContactSelected(int position);
@@ -29,7 +29,8 @@ public class ContactSummaryFragment extends SherlockListFragment {
 		db = new DBTools(getActivity());
 		final int layout = com.technion.coolie.R.layout.teletech_contact_list;
 
-		adapter = new ContactsAdapter(getSherlockActivity(), layout, MainActivity.contacts);
+		adapter = new ContactsAdapter(getSherlockActivity(), layout,
+				MainActivity.contacts);
 		setListAdapter(adapter);
 
 	}
@@ -47,12 +48,14 @@ public class ContactSummaryFragment extends SherlockListFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		if (getFragmentManager().findFragmentById(com.technion.coolie.R.id.summary_fragment) != null)
+		if (getFragmentManager().findFragmentById(
+				com.technion.coolie.R.id.summary_fragment) != null)
 			getListView().setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
 	}
 
 	@Override
-	public void onListItemClick(final ListView l, final View v, final int position, final long id) {
+	public void onListItemClick(final ListView l, final View v,
+			final int position, final long id) {
 		super.onListItemClick(l, v, position, id);
 		mCallback.onContactSelected(position);
 		Log.d("item clicked", "the item that was clicked is: " + position);
@@ -64,7 +67,5 @@ public class ContactSummaryFragment extends SherlockListFragment {
 	// MainActivity.contacts = new FavoriteTest().favoriteList;
 	// ContactSummaryFragment.adapter.notifyDataSetChanged();
 	// }
-
-
 
 }

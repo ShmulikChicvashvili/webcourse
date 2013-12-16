@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/personFirstName"
         android:layout_alignBottom="@+id/personFirstName"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="4dp"
         android:layout_toRightOf="@+id/personFirstName"
         android:text="Aloni"
         android:textAppearance="?android:attr/textAppearanceMedium"

@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.ActionBar.TabListener;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.widget.SearchView;
@@ -25,17 +27,23 @@ import com.technion.coolie.teletech.api.ITeletech;
 import com.technion.coolie.teletech.api.TeletechFactory;
 
 public class MainActivity extends CoolieActivity implements
-		OnContactSelectedListener {
+		OnContactSelectedListener, TabListener {
 
 	public static List<ContactInformation> master;
 
 	public static List<ContactInformation> contacts;
 
+	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
+
 	SearchView searchView;
 
 	// TODO: remove this
 
+	boolean favoriteSelected = false;
+
 	DBTools db = new DBTools(this);
+
+	ContactSummaryFragment fragment;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -48,23 +56,40 @@ public class MainActivity extends CoolieActivity implements
 		contacts = new LinkedList<ContactInformation>();
 		contacts.addAll(master);
 
-		System.out.println("GOT HERE");
+		fragment = new ContactSummaryFragment();
 
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
 		super.setContentView(R.layout.teletech_main);
+
+		setTabs(actionBar);
 		// TODO: fetch the data from the server and put it back to the DB.
 
 		if (findViewById(com.technion.coolie.R.id.fragment_container) != null) {
 			final FragmentTransaction trans = getSupportFragmentManager()
 					.beginTransaction();
-			trans.replace(com.technion.coolie.R.id.fragment_container,
-					new ContactSummaryFragment());
+			trans.replace(com.technion.coolie.R.id.fragment_container, fragment);
 			trans.commit();
 		}
 
+	}
+
+	/**
+	 * @param actionBar
+	 */
+	private void setTabs(final ActionBar actionBar) {
+		ActionBar.Tab tabContacts = actionBar.newTab();
+		tabContacts.setText("ALL CONTACTS");
+		tabContacts.setTabListener(this);
+		actionBar.addTab(tabContacts);
+
+		ActionBar.Tab tabFavs = actionBar.newTab();
+		tabFavs.setText("FAVOURITES");
+		tabFavs.setTabListener(this);
+		actionBar.addTab(tabFavs);
 	}
 
 	private void createDBFromStub() {
@@ -103,6 +128,8 @@ public class MainActivity extends CoolieActivity implements
 			final FullContactInformation newContact = new FullContactInformation();
 			final Bundle args = new Bundle();
 			args.putInt(FullContactInformation.ARG_POSITION_STRING, position);
+			args.putBoolean(FullContactInformation.ARG_FAVOURITE_STRING,
+					favoriteSelected);
 			newContact.setArguments(args);
 			final FragmentTransaction trans = getSupportFragmentManager()
 					.beginTransaction();
@@ -141,8 +168,6 @@ public class MainActivity extends CoolieActivity implements
 	}
 
 	public void onCheckboxClicked(View v) {
-		Toast.makeText(getApplicationContext(), "checkbox checked",
-				Toast.LENGTH_SHORT).show();
 		boolean checked = ((CheckBox) v).isChecked();
 		if (checked)
 			addToFavourites();
@@ -166,31 +191,6 @@ public class MainActivity extends CoolieActivity implements
 		db.deleteFavourite(contact.ID().toString());
 	}
 
-	public void onShowFavouritesClicked() {
-		List<ContactInformation> faourites = db.getAllFavourites();
-		contacts.removeAll(master);
-		contacts.addAll(faourites);
-		ContactSummaryFragment.adapter.notifyDataSetChanged();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.technion.coolie.CoolieActivity#onOptionsItemSelected(com.
-	 * actionbarsherlock.view.MenuItem)
-	 */
-	@Override
-	public boolean onOptionsItemSelected(
-			com.actionbarsherlock.view.MenuItem item) {
-		switch (item.getItemId()) {
-		case com.technion.coolie.R.id.favourite:
-			onShowFavouritesClicked();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -211,7 +211,7 @@ public class MainActivity extends CoolieActivity implements
 
 			@Override
 			public boolean onQueryTextChange(String textToSearch) {
-				ContactSummaryFragment.adapter.getFilter().filter(textToSearch);
+				fragment.adapter.getFilter().filter(textToSearch);
 				return false;
 			}
 
@@ -236,6 +236,49 @@ public class MainActivity extends CoolieActivity implements
 			return null;
 		}
 
+	}
+
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		// Restore the previously serialized current tab position.
+		if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM))
+			getSupportActionBar().setSelectedNavigationItem(
+					savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		// Serialize the current tab position.
+		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getSupportActionBar()
+				.getSelectedNavigationIndex());
+	}
+
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		List<ContactInformation> favourites = db.getAllFavourites();
+
+		favoriteSelected = false;
+		contacts.clear();
+		if (tab.getPosition() == 0)
+			contacts.addAll(master);
+		else {
+			favoriteSelected = true;
+			contacts.addAll(favourites);
+		}
+
+		fragment.adapter.notifyDataSetChanged();
+
+	}
+
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {
+		//
 	}
 
 }

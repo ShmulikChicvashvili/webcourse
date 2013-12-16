@@ -15,6 +15,7 @@ public class FullContactInformation extends SherlockFragment {
 	DBTools db = new DBTools(getActivity());
 
 	final static String ARG_POSITION_STRING = "position";
+	final static String ARG_FAVOURITE_STRING = "favourite";
 	static int mCurrentPosition = 0;
 
 	@Override
