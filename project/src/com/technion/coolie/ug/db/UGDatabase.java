@@ -46,7 +46,7 @@ public enum UGDatabase {
 	private void initCourses() {
 
 		groups = new ArrayList<RegistrationGroup>(Arrays.asList(
-				new RegistrationGroup(1, Arrays.asList(new Meeting("12",
+				new RegistrationGroup(12, Arrays.asList(new Meeting("12",
 						"Mr. Yossi happy", DayOfWeek.SUNDAY, Calendar
 								.getInstance().getTime(), Calendar
 								.getInstance().getTime(), "Ulman 329")), Arrays
@@ -54,7 +54,7 @@ public enum UGDatabase {
 								DayOfWeek.SUNDAY, Calendar.getInstance()
 										.getTime(), Calendar.getInstance()
 										.getTime(), "Humanistics 329")), 0),
-				new RegistrationGroup(2, Arrays.asList(new Meeting("13",
+				new RegistrationGroup(13, Arrays.asList(new Meeting("13",
 						"Prof. Monik", DayOfWeek.SUNDAY, Calendar.getInstance()
 								.getTime(), Calendar.getInstance().getTime(),
 						"Taub 10")), Arrays.asList(new Meeting("122",
@@ -62,7 +62,7 @@ public enum UGDatabase {
 								.getInstance().getTime(), Calendar
 								.getInstance().getTime(), "Humanistics 329"),
 
-				new Meeting("123", "Mr. Moshiko Rozenblum", DayOfWeek.SUNDAY,
+				new Meeting("123", "Mr. Moshe Rozenblum", DayOfWeek.SUNDAY,
 						Calendar.getInstance().getTime(), Calendar
 								.getInstance().getTime(), "Humanistics 329")),
 						25)));
@@ -156,6 +156,26 @@ public enum UGDatabase {
 								Faculty.ARCHITECTURE, new GregorianCalendar(
 										2014, 2, 11), new GregorianCalendar(
 										2014, 2, 11), null, null, groups),
+
+						new Course(
+								"243411",
+								"System Programming",
+								2.0f,
+								"Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
+								new Semester(2013, SemesterSeason.WINTER),
+								Faculty.CS, new GregorianCalendar(2013, 2, 11),
+								new GregorianCalendar(2014, 3, 11), null, null,
+								groups),
+
+						new Course(
+								"025629",
+								"Operation systems",
+								4.5f,
+								"Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
+								new Semester(2013, SemesterSeason.WINTER),
+								Faculty.CS, new GregorianCalendar(2014, 2, 11),
+								new GregorianCalendar(2014, 5, 11), null, null,
+								groups),
 
 						new Course(
 								"012342",
