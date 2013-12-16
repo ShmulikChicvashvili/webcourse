@@ -241,7 +241,7 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
 		        //hideProgressBar(eventO2);
 		      }
 		    });
-			return true;
+			return false;
 		case android.R.id.home:
 			this.finish();
           return true;
@@ -364,5 +364,11 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
   
   @Override public void onRefresh(final int pos) {
     ((OnFragmentRefresh) mPagerAdapter.getItem(pos)).onRefresh();
+  }
+  
+  @Override
+  public void onBackPressed() {
+      setResult(RESULT_CANCELED);
+      finish();
   }
 }
