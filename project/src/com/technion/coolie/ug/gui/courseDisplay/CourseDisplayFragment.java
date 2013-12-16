@@ -119,7 +119,7 @@ public class CourseDisplayFragment extends Fragment {
 	}
 
 	private void fixEndOfGroups() {
-		addMeeting(new MeetingDisplay());// empty to fix the table
+		// addMeeting(new MeetingDisplay());// empty to fix the table
 	}
 
 	private void addRegistrationGroup(final RegistrationGroup group) {
