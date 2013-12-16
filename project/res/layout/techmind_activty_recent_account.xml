@@ -1,50 +1,89 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rec_tab_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" 
-    android:id="@+id/rec_tab_layout"
-    android:orientation="vertical" >
-	    <TextView
-	        android:id="@+id/rec_posts"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="left"
-	        android:layout_marginTop="@dimen/horizontal_space"
-	        android:layout_marginLeft="@dimen/margin_left"
-	        android:textSize="@dimen/sub_title_size"
-	        android:text="Posts" />
-		<TextView
-		    android:id="@+id/rec_comments"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="left"
-	        android:layout_marginLeft="@dimen/margin_left"
-	        android:layout_marginTop="@dimen/horizontal_space"
-	        android:textSize="@dimen/sub_title_size"
-	        android:text="Comments:" />
-		<TextView
-		    android:id="@+id/rec_likes"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="left"
-	        android:layout_marginLeft="@dimen/margin_left"
-	        android:layout_marginTop="@dimen/horizontal_space"
-	        android:textSize="@dimen/sub_title_size"
-	        android:text="Likes:" />
-		<TextView
-		    android:id="@+id/tot"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="left"
-	        android:layout_marginLeft="@dimen/margin_left"
-	        android:layout_marginTop="@dimen/horizontal_wide_space"
-	        android:textSize="@dimen/title_size"
-	        android:text="Total:" />
+    android:orientation="vertical"
+    android:weightSum="5" >
 
-    
+    <RelativeLayout
+        android:id="@+id/posts_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/rec_posts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Posts: "
+            android:textSize="@dimen/title_size" />
+
+        <TextView
+            android:id="@+id/current_posts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/rec_posts" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/r_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comments: "
+            android:textSize="@dimen/title_size" />
+
+        <TextView
+            android:id="@+id/current_comments"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/r_comments" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/likes_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/rec_likes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Likes: "
+            android:textSize="@dimen/title_size" />
+
+        <TextView
+            android:id="@+id/current_likes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/rec_likes" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/total_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:id="@+id/tot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total:"
+            android:textSize="@dimen/title_size" />
+
+        <TextView
+            android:id="@+id/current_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tot" />
+    </RelativeLayout>
 
 </LinearLayout>
