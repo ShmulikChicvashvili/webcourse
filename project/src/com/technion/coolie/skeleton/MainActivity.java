@@ -138,7 +138,7 @@ public class MainActivity extends CoolieActivity {
 		
 	}
 	
-	private class AlphabeticalModulesFragment extends Fragment {
+	public static class AlphabeticalModulesFragment extends Fragment {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
@@ -152,7 +152,7 @@ public class MainActivity extends CoolieActivity {
 		
 	}
 	
-	private class RecentlyUsedModulesFragment  extends Fragment {
+	public static class RecentlyUsedModulesFragment  extends Fragment {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {

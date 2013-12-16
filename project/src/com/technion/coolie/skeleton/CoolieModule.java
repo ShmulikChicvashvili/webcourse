@@ -1,9 +1,7 @@
 package com.technion.coolie.skeleton;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -27,27 +25,15 @@ public enum CoolieModule {
 	
 	
 	private int nameResource;
-	private int feedCount;
 	private int descriptionResource;
-	
-	public class Feed{
-		String feedText;
-		Date date;
 		
-		public Feed(String feedText, Date date){
-			this.feedText = feedText;
-			this.date = date;
-		}
-	}
-	
-	private List<Feed> feedList;
 	private int iconResource;
-	private int usageCounter;
-	private Class<?> activity;
+	private int usageCounter;//
+	private Class<?> activity;//
 	private Package pack;
 	private int settingScreenXmlRes;
-	private Date lastUsed;
-	private boolean isFavorite;
+	private Date lastUsed;//
+	private boolean isFavorite;//
 	
 	CoolieModule(int nameResource,int descriptionResource,int photoRes,Class<?> activity,Package pack,int settingScreenXmlRes)
 	{
@@ -59,17 +45,13 @@ public enum CoolieModule {
 		this.pack = pack;
 		this.settingScreenXmlRes = settingScreenXmlRes;
 		
-		feedList = new ArrayList<CoolieModule.Feed>();
-		resetFeedCounter();
 		isFavorite = false;
 	}
 	
 	public void serilize(CoolieModule source){
 		
 		this.nameResource = source.nameResource;
-		this.feedCount = source.feedCount;
 		this.descriptionResource = source.descriptionResource;
-		Collections.copy(this.feedList, source.feedList);
 		this.iconResource = source.iconResource;
 		this.usageCounter = source.usageCounter;
 		this.activity = source.activity ;
@@ -82,14 +64,12 @@ public enum CoolieModule {
 	public String getName(Context c) {
 		return c.getString(nameResource);
 	}
-	public int getFeedCount() {
-		return feedCount;
-	}
 	public String getDescription(Context c) {
 		return c.getString(descriptionResource);
 	}
-	public List<Feed> getFeedList() {
-		return feedList;
+	
+	public int getDescriptionResource(){
+		return this.descriptionResource;
 	}
 	public int getPhotoRes() {
 		return iconResource;
@@ -109,12 +89,6 @@ public enum CoolieModule {
 	public Date getLastUsed() {
 		return lastUsed;
 	}
-	
-	public void addFeed(Feed feed)
-	{
-		feedList.add(feed);
-	}
-	
 	public void setMainActivity(Class<Activity> activity)
 	{
 		this.activity=activity;
@@ -122,14 +96,17 @@ public enum CoolieModule {
 	
 	////////////
 	
-	private void resetFeedCounter()
-	{
-		this.feedCount=0;
-	}
-
 	public void setLastUsage() {
 		this.lastUsed = Calendar.getInstance().getTime();
 	}
+	public void setLastUsage(Date date) {
+		this.lastUsed = date;
+	}
+	
+	public void setActivity(Class<?> activity){
+		this.activity = activity;
+	}
+	
 	public void addUsage()
 	{
 		this.usageCounter++;
@@ -147,5 +124,26 @@ public enum CoolieModule {
 	{
 		this.isFavorite = false;
 	}
+	public void setDescription()
+	{
+		this.isFavorite = false;
+	}
+	public void setUsageCounter(int usageCounter){
+		this.usageCounter = usageCounter;
+	}
+	
+	public static class serializeClass{
+		public int usageCounter;
+		public boolean isFavorite;
+		public String activityString;
+		public Date lastUsed;
+		
+		/*public serializeClass(int usageCounter, boolean isFavorite, Class<?> activity, Date lastUsed){
+			this.usageCounter = usageCounter;
+			this.isFavorite = isFavorite;
+			this.activity = activity;
+			this.lastUsed = lastUsed;
+		}*/
+	};
 }
 
