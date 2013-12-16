@@ -21,7 +21,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:clipToPadding="true"
-        android:numColumns="@integer/stb_num_of_columns"
+        android:numColumns="@integer/stb_num_of_columns_resourse"
         android:paddingLeft="20dp"
         android:stretchMode="columnWidth" >
     </com.technion.coolie.studybuddy.views.NowLayout>

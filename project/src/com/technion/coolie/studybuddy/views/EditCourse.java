@@ -20,14 +20,14 @@ import com.technion.coolie.studybuddy.presenters.EditCoursePresenter;
 public class EditCourse extends StudyBuddyActivity
 {
 
-	public static final String	COURSE_ID	= "courseID";
-	private EditText			courseName;
-	private EditText			courseNumber;
-	private EditText			lectureCount;
-	private EditText			tutorialsCount;
-	private CheckBox			lectureEnabled;
-	private CheckBox			tutorialsEnabled;
-	private EditCoursePresenter	presenter;
+	public static final String COURSE_ID = "courseID";
+	private EditText courseName;
+	private EditText courseNumber;
+	private EditText lectureCount;
+	private EditText tutorialsCount;
+	private CheckBox lectureEnabled;
+	private CheckBox tutorialsEnabled;
+	private EditCoursePresenter presenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -38,27 +38,35 @@ public class EditCourse extends StudyBuddyActivity
 		presenter = DataStore.getEditCoursePresenter();
 
 		courseName = (EditText) findViewById(R.id.stb_course_name);
-		courseNumber = (EditText) findViewById(R.id.course_number);
+		courseNumber = (EditText) findViewById(R.id.stb_course_number);
 		lectureCount = (EditText) findViewById(R.id.stb_lecture_count);
 		tutorialsCount = (EditText) findViewById(R.id.stb_tutorial_count);
 		Bundle extras = getIntent().getExtras();
 		getSherlock().getActionBar().setTitle("Add course");
-		if (extras != null)
+		if (extras != null && extras.containsKey(COURSE_ID))
 		{
 			getSherlock().getActionBar().setTitle("Edit Course");
+
 			String courseIdentificator = extras.getString(COURSE_ID);
 			if (!presenter.setCourse(Integer.parseInt(courseIdentificator)))
 			{
 				// TODO: handle no such course
 			}
 
-			courseName.setText(presenter.getCourseName());
-			courseNumber.setText(presenter.getCourseIdAsString());
-			lectureCount.setText(presenter
-					.getCourseResourceAmount(StudyResource.LECTURES));
-			tutorialsCount.setText(presenter
-					.getCourseResourceAmount(StudyResource.TUTORIALS));
+			try
+			{
+				courseName.setText(presenter.getCourseName());
+				courseNumber.setText(presenter.getCourseIdAsString());
+				lectureCount.setText(String.valueOf(presenter
+						.getCourseResourceAmount(StudyResource.LECTURES)));
+				tutorialsCount.setText(String.valueOf(presenter
+						.getCourseResourceAmount(StudyResource.TUTORIALS)));
 
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+			
 		}
 
 		lectureEnabled = ((CheckBox) findViewById(R.id.stb_include_lectures));

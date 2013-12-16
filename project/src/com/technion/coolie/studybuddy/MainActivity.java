@@ -3,10 +3,7 @@ package com.technion.coolie.studybuddy;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.actionbarsherlock.view.Menu;
@@ -17,7 +14,6 @@ import com.technion.coolie.studybuddy.graphs.GraphFactory;
 import com.technion.coolie.studybuddy.views.EditCourse;
 import com.technion.coolie.studybuddy.views.NowLayout;
 import com.technion.coolie.studybuddy.views.StudyBuddyActivity;
-import com.technion.coolie.studybuddy.views.TasksActivity;
 
 public class MainActivity extends StudyBuddyActivity
 {

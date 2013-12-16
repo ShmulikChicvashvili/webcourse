@@ -16,13 +16,13 @@ import com.technion.coolie.studybuddy.views.TasksActivity;
 
 public class NavigationAdapter extends BaseExpandableListAdapter
 {
-	public static final String	course	= "course";
-	private LayoutInflater		mInflater;
+
+	private LayoutInflater mInflater;
 	/**
 	 * 
 	 */
 
-	private Context				context;
+	private Context context;
 
 	public NavigationAdapter(Context context)
 	{
@@ -77,7 +77,8 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 				{
 					// fragment.selectItem(childPosition);
 					Intent intent = new Intent(context, CourseActivity.class);
-					intent.putExtra(course, childPosition);
+					intent.putExtra(CourseActivity.COURSE_ID,
+							DataStore.getMainPresenter().getCourseIdStringByPosition(childPosition));
 					context.startActivity(intent);
 				}
 			});
@@ -173,7 +174,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 
 	private class ViewHolder
 	{
-		private TextView	textView;
+		private TextView textView;
 
 		/**
 		 * @param textView

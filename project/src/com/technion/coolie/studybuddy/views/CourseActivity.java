@@ -18,7 +18,7 @@ public class CourseActivity extends StudyBuddyActivity implements
 		ActionBar.OnNavigationListener, OnFragmentInteractionListener
 {
 
-	public static final String COURSE_ID = "course_id";
+	public static final String COURSE_ID = "COURSE_ID";
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
 	 * fragments for each of the sections. We use a
@@ -33,7 +33,7 @@ public class CourseActivity extends StudyBuddyActivity implements
 	 */
 	ViewPager mViewPager;
 
-	// private String mTitle;
+	private String courseNumber;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -46,13 +46,12 @@ public class CourseActivity extends StudyBuddyActivity implements
 		{
 			e.printStackTrace();
 		}
-
-		// getActionBar().setDisplayHomeAsUpEnabled(true);
-
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the app.
-
-		// Set up the ViewPager with the sections adapter.
+		Bundle data = getIntent().getExtras();
+		if (data.containsKey(COURSE_ID))
+		{
+			courseNumber = data.getString(COURSE_ID);
+			getSherlock().getActionBar().setTitle(courseNumber);
+		}
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		actionBar.setListNavigationCallbacks(
@@ -89,6 +88,7 @@ public class CourseActivity extends StudyBuddyActivity implements
 			return true;
 		case R.id.stb_edit_curse:
 			Intent intent = new Intent(this, EditCourse.class);
+			intent.putExtra(EditCourse.COURSE_ID, courseNumber);
 			startActivity(intent);
 			return true;
 		}
