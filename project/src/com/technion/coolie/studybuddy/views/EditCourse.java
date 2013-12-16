@@ -13,25 +13,30 @@ import android.widget.EditText;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.models.Course;
+import com.technion.coolie.studybuddy.data.DataStore;
+import com.technion.coolie.studybuddy.models.StudyResource;
+import com.technion.coolie.studybuddy.presenters.EditCoursePresenter;
 
 public class EditCourse extends StudyBuddyActivity
 {
 
-	public static final String courseId = "courseID";
-	private EditText courseName;
-	private EditText courseNumber;
-	private EditText lectureCount;
-	private EditText tutorialsCount;
-	private CheckBox lectureEnabled;
-	private CheckBox tutorialsEnabled;
+	public static final String	COURSE_ID	= "courseID";
+	private EditText			courseName;
+	private EditText			courseNumber;
+	private EditText			lectureCount;
+	private EditText			tutorialsCount;
+	private CheckBox			lectureEnabled;
+	private CheckBox			tutorialsEnabled;
+	private EditCoursePresenter	presenter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stb_activity_edit_course);
-		
+
+		presenter = DataStore.getEditCoursePresenter();
+
 		courseName = (EditText) findViewById(R.id.stb_course_name);
 		courseNumber = (EditText) findViewById(R.id.course_number);
 		lectureCount = (EditText) findViewById(R.id.stb_lecture_count);
@@ -41,11 +46,20 @@ public class EditCourse extends StudyBuddyActivity
 		if (extras != null)
 		{
 			getSherlock().getActionBar().setTitle("Edit Course");
-			String courseIdentificator = extras.getString(courseId);
-			//TODO read course Data and set 
-			
+			String courseIdentificator = extras.getString(COURSE_ID);
+			if (!presenter.setCourse(Integer.parseInt(courseIdentificator)))
+			{
+				// TODO: handle no such course
+			}
+
+			courseName.setText(presenter.getCourseName());
+			courseNumber.setText(presenter.getCourseIdAsString());
+			lectureCount.setText(presenter
+					.getCourseResourceAmount(StudyResource.LECTURES));
+			tutorialsCount.setText(presenter
+					.getCourseResourceAmount(StudyResource.TUTORIALS));
+
 		}
-	
 
 		lectureEnabled = ((CheckBox) findViewById(R.id.stb_include_lectures));
 		lectureEnabled.setOnCheckedChangeListener(new OnCheckedChangeListener()
@@ -88,7 +102,8 @@ public class EditCourse extends StudyBuddyActivity
 					@Override
 					public void onClick(View v)
 					{
-						// TODO add to DB
+						// TODO: implement
+						// presenter.commitCourse(idString,nameString,numLectures,numTutorials);
 					}
 				});
 	}

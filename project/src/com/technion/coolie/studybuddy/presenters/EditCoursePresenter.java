@@ -50,17 +50,17 @@ public class EditCoursePresenter
 				name);
 	}
 
-	public void commitCourse(int newCourseId, String courseName,
+	public void commitCourse(String newCourseId, String courseName,
 			int numLectures, int numTutorials)
 	{
 		if (isSet)
 		{
-			DataStore.editCourse(courseID, newCourseId, courseName,
-					numLectures, numTutorials);
+			DataStore.editCourse(courseID, Integer.parseInt(newCourseId),
+					courseName, numLectures, numTutorials);
 		} else
 		{
-			DataStore.addCourse(newCourseId, courseName, numLectures,
-					numTutorials);
+			DataStore.addCourse(Integer.parseInt(newCourseId), courseName,
+					numLectures, numTutorials);
 		}
 
 	}
