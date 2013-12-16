@@ -162,6 +162,7 @@ public class MainActivity extends CoolieActivity {
     	 case R.id.categories:
     		 startActivityForResult(new Intent(this, CategoriesActivity.class).putExtra("account", mLoggedAccount)
     				 , REQUEST_CATEGORIES_ACTIVITY);
+    		 return true;
     	 case android.R.id.home:
     		 this.finish();
     		 return true;
