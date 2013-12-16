@@ -37,6 +37,9 @@ public class Product {
     this.sellDate = 0;
   }
 
+  Product() {
+  }
+
   public void setId(Long id) {
     this.id = id;
   }
