@@ -128,7 +128,7 @@
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>
         <activity
-            android:name="com.technion.coolie.StbSettingsActivity"
+            android:name="com.technion.coolie.studybuddy.views.StbSettingsActivity"
             android:label="@string/title_activity_stb_settings"
             android:parentActivityName="com.technion.coolie.studybuddy.MainActivity" >
             <meta-data

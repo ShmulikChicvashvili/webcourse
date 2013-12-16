@@ -1,4 +1,4 @@
-package com.technion.coolie;
+package com.technion.coolie.studybuddy.views;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +20,8 @@ import android.support.v4.app.NavUtils;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.technion.coolie.R;
+import com.technion.coolie.R.xml;
 
 /**
  * A {@link PreferenceActivity} that presents a set of application settings. On
