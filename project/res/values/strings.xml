@@ -6,8 +6,17 @@
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    
+    <!-- MainActivity -->
+    <string name="calendar">לוח שנה אקדמי</string>
+    <string name="course_and_exam">קורסים ומבחנים</string>
+    <string name="grade_sheet">גליון ציונים</string>
+    <string name="next_payment">חיוב שכר לימוד הבא : 12/12/2013</string>
+    
+    
+    
     <!-- searchFragment -->
-    <string name="serach_course_hint">חפש קורס</string>
+   <string name="serach_course_hint">חפש קורס</string>
     <string name="search_end_results">סוף תוצאות</string>
     <color name="ug_search_list_view_color">#539DC2</color>
 

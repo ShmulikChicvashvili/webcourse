@@ -37,13 +37,10 @@ public class GradesSheetFragmentAdapter extends ArrayAdapter<Item> {
 				final GradesSectionItem si = (GradesSectionItem) i;
 				v = vi.inflate(R.layout.ug_grades_list_item_section, null);
 
-				v.setOnClickListener(null);
-				v.setOnLongClickListener(null);
-				v.setLongClickable(false);
-
 				final TextView sectionView = (TextView) v
 						.findViewById(R.id.list_item_section_text);
 				sectionView.setText(si.getTitle());
+				sectionView.setTextColor(Color.parseColor("#FFCC00"));
 				sectionView.setBackgroundColor(Color.parseColor("#0099b3"));
 
 			} else if (i.isFooter()) {
