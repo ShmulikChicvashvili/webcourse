@@ -7,7 +7,7 @@ public class TecPost implements IGetters {
   String id;
   Date date;
   int technionValue;
-  int userID;
+  String userID;
   int likesCount;
   int commentCount;
 
@@ -18,7 +18,7 @@ public class TecPost implements IGetters {
    * @param userID1
    * @param likesCount1
    */
-  public TecPost(String id1, Date date1, int technionValue1, int userID1,
+  public TecPost(String id1, Date date1, int technionValue1, String userID1,
       int likesCount1, int commentCount1) {
     this.id = id1;
     this.date = date1;
@@ -80,7 +80,7 @@ public class TecPost implements IGetters {
   /**
    * @return the userID
    */
-  public int getUserID() {
+  public String getUserID() {
     return userID;
   }
 
@@ -88,7 +88,7 @@ public class TecPost implements IGetters {
    * @param userID1
    *          the userID to set
    */
-  public void setUserID(int userID1) {
+  public void setUserID(String userID1) {
     this.userID = userID1;
   }
 

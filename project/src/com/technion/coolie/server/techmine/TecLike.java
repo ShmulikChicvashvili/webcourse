@@ -7,7 +7,7 @@ public class TecLike implements IGetters {
   String id;
   Date date;
   int technionValue;
-  int userID;
+  String userID;
 
   /**
    * @param id1
@@ -15,7 +15,7 @@ public class TecLike implements IGetters {
    * @param technionValue1
    * @param userID1
    */
-  public TecLike(String id1, Date date1, int technionValue1, int userID1) {
+  public TecLike(String id1, Date date1, int technionValue1, String userID1) {
     this.id = id1;
     this.date = date1;
     this.technionValue = technionValue1;
@@ -74,7 +74,7 @@ public class TecLike implements IGetters {
   /**
    * @return the userID
    */
-  public int getUserID() {
+  public String getUserID() {
     return userID;
   }
 
@@ -82,7 +82,7 @@ public class TecLike implements IGetters {
    * @param userID1
    *          the userID to set
    */
-  public void setUserID(int userID1) {
+  public void setUserID(String userID1) {
     this.userID = userID1;
   }
 
