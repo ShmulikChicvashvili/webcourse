@@ -21,7 +21,7 @@ public class Communicator {
 	public String execute(final String... strs) {
 		String $ = "";
 		try {
-			final URL url = new URL("https://coolie-236503.appspot.com/" + strs[0]);
+			final URL url = new URL("https://teak-amphora-430.appspot.com/" + strs[0]);
 			final String param = encodeParams(strs);
 			final HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 			con.setDoOutput(true);

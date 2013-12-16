@@ -95,10 +95,12 @@ public class DBTools extends SQLiteOpenHelper {
 
 		values.put("firstName", contact.firstName());
 		values.put("lastName", contact.lastName());
-		values.put("position", contact.contactPosition().toString());
+		values.put("position", contact.contactPosition() == null ? Position.Staff.toString() : contact
+				.contactPosition().toString());
 		values.put("faculty", contact.faculty());
-		values.put("officeBuilding", contact.office().faculty());
-		values.put("officeRoom", contact.office().officeRoom());
+		OfficeLocation office = contact.office() == null ? new OfficeLocation("NA", "NA") : contact.office();
+		values.put("officeBuilding", office.faculty());
+		values.put("officeRoom", office.officeRoom());
 		values.put("officeNumber", contact.officeNumber());
 		values.put("mobileNumber", contact.mobileNumber());
 		values.put("homeNumber", contact.homeNumber());
