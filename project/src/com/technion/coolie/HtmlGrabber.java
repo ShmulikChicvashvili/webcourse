@@ -36,7 +36,7 @@ public abstract class HtmlGrabber {
 	 * the string from the URL
 	 * 
 	 */
-	enum Account {
+	public enum Account {
 		NONE, UG, GOOGLE, FACEBOOK, MATHNET, MOODLE, WEBCOURSE, PHMOODLE;
 	};
 

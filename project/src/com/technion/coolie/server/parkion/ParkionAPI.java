@@ -18,6 +18,7 @@ import com.technion.coolie.server.Communicator;
 public class ParkionAPI implements IParkionAPI {
 
   Gson gson = new Gson();
+  String FUNC = "function";
 
   @Override
   public ReturnCode addParkingLot(ParkingLot park) {
