@@ -43,8 +43,6 @@ public class MainActivity extends CoolieActivity implements
 
 	DBTools db = new DBTools(this);
 
-	ContactSummaryFragment fragment;
-
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,8 +53,6 @@ public class MainActivity extends CoolieActivity implements
 
 		contacts = new LinkedList<ContactInformation>();
 		contacts.addAll(master);
-
-		fragment = new ContactSummaryFragment();
 
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
@@ -71,7 +67,8 @@ public class MainActivity extends CoolieActivity implements
 		if (findViewById(com.technion.coolie.R.id.fragment_container) != null) {
 			final FragmentTransaction trans = getSupportFragmentManager()
 					.beginTransaction();
-			trans.replace(com.technion.coolie.R.id.fragment_container, fragment);
+			trans.replace(com.technion.coolie.R.id.fragment_container,
+					new ContactSummaryFragment());
 			trans.commit();
 		}
 
@@ -128,8 +125,7 @@ public class MainActivity extends CoolieActivity implements
 			final FullContactInformation newContact = new FullContactInformation();
 			final Bundle args = new Bundle();
 			args.putInt(FullContactInformation.ARG_POSITION_STRING, position);
-			args.putBoolean(FullContactInformation.ARG_FAVOURITE_STRING,
-					favoriteSelected);
+			args.putBoolean(FullContactInformation.ARG_FAVOURITE_STRING, favoriteSelected);
 			newContact.setArguments(args);
 			final FragmentTransaction trans = getSupportFragmentManager()
 					.beginTransaction();
@@ -211,7 +207,7 @@ public class MainActivity extends CoolieActivity implements
 
 			@Override
 			public boolean onQueryTextChange(String textToSearch) {
-				fragment.adapter.getFilter().filter(textToSearch);
+				ContactSummaryFragment.adapter.getFilter().filter(textToSearch);
 				return false;
 			}
 
@@ -266,7 +262,7 @@ public class MainActivity extends CoolieActivity implements
 			contacts.addAll(favourites);
 		}
 
-		fragment.adapter.notifyDataSetChanged();
+		ContactSummaryFragment.adapter.notifyDataSetChanged();
 
 	}
 

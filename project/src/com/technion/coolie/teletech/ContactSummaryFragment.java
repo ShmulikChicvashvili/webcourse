@@ -15,7 +15,7 @@ public class ContactSummaryFragment extends SherlockListFragment {
 
 	OnContactSelectedListener mCallback;
 	// TODO : remove this!!
-	public ContactsAdapter adapter;
+	public static ContactsAdapter adapter;
 
 	DBTools db;
 
