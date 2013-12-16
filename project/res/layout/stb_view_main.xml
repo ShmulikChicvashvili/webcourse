@@ -5,21 +5,27 @@
     android:layout_height="match_parent"
     android:background="#e3e3e3"
     android:orientation="vertical"
-    android:weightSum="3" >
+    android:weightSum="4" >
 
     <LinearLayout
         android:id="@+id/Chart_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_height="0px"
+        android:layout_weight="1"
         android:orientation="vertical" />
 
-    <com.technion.coolie.studybuddy.views.NowLayout
-        android:id="@+id/course_list"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:numColumns="@integer/stb_num_of_columns" >
-    </com.technion.coolie.studybuddy.views.NowLayout>
+        android:layout_height="0px"
+        android:layout_weight="3"
+        android:orientation="vertical" >
+
+        <com.technion.coolie.studybuddy.views.NowLayout
+            android:id="@+id/course_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="@integer/stb_num_of_columns" >
+        </com.technion.coolie.studybuddy.views.NowLayout>
+    </LinearLayout>
 
 </LinearLayout>
