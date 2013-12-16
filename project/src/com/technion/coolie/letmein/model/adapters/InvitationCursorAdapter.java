@@ -28,7 +28,7 @@ public class InvitationCursorAdapter extends BaseInvitationAdapter {
 		builder.date(DateFormat.getDateFormat(context).parse(
 				c.getString(c.getColumnIndex(Contract.Invitation.DATE))));
 
-		builder.contactId(c.getString(c.getColumnIndex(Contract.Invitation.CONTACT_ID)));
+		builder.contactId(c.getLong(c.getColumnIndex(Contract.Invitation.CONTACT_ID)));
 
 		builder.status(Enum.valueOf(Invitation.Status.class,
 				c.getString(c.getColumnIndex(Contract.Invitation.STATUS))));
@@ -69,7 +69,7 @@ public class InvitationCursorAdapter extends BaseInvitationAdapter {
 	}
 
 	@Override
-	protected ContactView getContactViewById(final String contactId) {
+	protected ContactView getContactViewById(final Long contactId) {
 		final ContactView $ = new ContactView();
 		$.ContactName = "Contact Name";
 		$.ContactImageId = R.drawable.lmi_google_man;

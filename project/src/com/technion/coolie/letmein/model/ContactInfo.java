@@ -5,8 +5,9 @@ public class  ContactInfo {
 	public Long id;
 	public String imageUri;
 	public String phoneNumber;
+	public String email;
 	
-	public ContactInfo(String name,Long id,String imageUri,String phoneNumber)
+	public ContactInfo(String name,Long id,String imageUri,String phoneNumber,String email)
 	{
 		this.name = name;
 		this.id = id;

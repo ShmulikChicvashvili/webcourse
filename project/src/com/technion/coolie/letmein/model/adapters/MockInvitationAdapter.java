@@ -19,15 +19,15 @@ public class MockInvitationAdapter extends BaseInvitationAdapter {
 		final Calendar c = Calendar.getInstance();
 
 		c.add(Calendar.HOUR_OF_DAY, 9);
-		final Invitation dad = Invitation.builder().contactId("dad").contactName("Dad")
+		final Invitation dad = Invitation.builder().contactId((long) 0).contactName("Dad")
 				.date(c.getTime()).build();
 
 		c.add(Calendar.DAY_OF_YEAR, 2);
-		final Invitation friend = Invitation.builder().contactId("friend")
+		final Invitation friend = Invitation.builder().contactId((long) 1)
 				.contactName("My best friend").date(c.getTime()).build();
 
 		c.add(Calendar.WEEK_OF_YEAR, 1);
-		final Invitation abed = Invitation.builder().contactId("abed").contactName("Abed")
+		final Invitation abed = Invitation.builder().contactId((long) 2).contactName("Abed")
 				.date(c.getTime()).build();
 
 		return Arrays.asList(dad, friend, abed);
@@ -64,7 +64,7 @@ public class MockInvitationAdapter extends BaseInvitationAdapter {
 	}
 
 	@Override
-	protected ContactView getContactViewById(final String contactId) {
+	protected ContactView getContactViewById(final Long contactId) {
 		return mockContactViewsById.get(contactId);
 	}
 }

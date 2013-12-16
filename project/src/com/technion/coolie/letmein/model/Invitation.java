@@ -25,7 +25,7 @@ public class Invitation {
 	private Status status;
 
 	@DatabaseField
-	private String contactId;
+	private Long contactId;
 
 	@DatabaseField
 	private String contactName;
@@ -53,11 +53,11 @@ public class Invitation {
 		return id;
 	}
 
-	public String getContactId() {
+	public Long getContactId() {
 		return contactId;
 	}
 
-	private void setContactId(final String contactId) {
+	private void setContactId(final Long contactId) {
 		this.contactId = contactId;
 	}
 
@@ -139,7 +139,7 @@ public class Invitation {
 			invitation = i;
 		}
 
-		public Builder contactId(final String contactId) {
+		public Builder contactId(final Long contactId) {
 			invitation.setContactId(contactId);
 			return this;
 		}
