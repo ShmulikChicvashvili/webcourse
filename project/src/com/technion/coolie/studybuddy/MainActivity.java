@@ -1,5 +1,7 @@
 package com.technion.coolie.studybuddy;
 
+import org.achartengine.GraphicalView;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -18,6 +20,7 @@ import com.technion.coolie.studybuddy.views.StudyBuddyActivity;
 public class MainActivity extends StudyBuddyActivity
 {
 
+	GraphicalView graphView;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -38,15 +41,15 @@ public class MainActivity extends StudyBuddyActivity
 
 		// ANNA GRAPH HERE - JUST REMOVE COMMENTS TO SEE
 		LinearLayout _layout = (LinearLayout) findViewById(R.id.Chart_layout);
-		_layout.addView(GraphFactory.getSampleCourseProgress(getBaseContext()),
-				new LayoutParams(LayoutParams.WRAP_CONTENT,
-						LayoutParams.WRAP_CONTENT));
+		graphView = (GraphicalView)GraphFactory.getSampleCourseProgress(getBaseContext());
+		_layout.addView(graphView);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(
 			com.actionbarsherlock.view.MenuItem item)
 	{
+		
 		Intent intent = null;
 		switch (item.getItemId())
 		{

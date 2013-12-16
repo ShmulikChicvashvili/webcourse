@@ -26,9 +26,8 @@ public class GraphFactory {
 
 		name2progress.put("HWs", Integer.valueOf(6));
 		name2progress.put("Tutorials", Integer.valueOf(4));
-		name2progress.put("Tuts Video", Integer.valueOf(7));
 		name2progress.put("Lectures", Integer.valueOf(5));
-		name2progress.put("Lec Video", Integer.valueOf(5));
+		name2progress.put("Video", Integer.valueOf(9));
 
 		return getCourseProgressGraph(ctx, name2progress, CURRENT_WEEK,
 				LAST_WEEK);
