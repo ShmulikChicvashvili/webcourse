@@ -3,6 +3,7 @@ package com.technion.coolie.joinin.subactivities;
 import java.util.List;
 import java.util.Vector;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
 
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -28,7 +30,6 @@ import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.OnTabRefresh;
 import com.technion.coolie.joinin.gui.WrapperView;
-import com.technion.coolie.joinin.map.MainMapActivity;
 
 /**
  * 
@@ -99,47 +100,47 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
     mViewPager.setCurrentItem(getIntent().getExtras().getInt(INTENT_TAB_POS));
   }
   
-  MenuItem mItemEdit;
-  MenuItem mItemDiscard;
-  MenuItem mItemRefresh;
-  MenuItem mItemSerch;
-  MenuItem mItemConnect;
-  
-  @Override public boolean onCreateOptionsMenu(final Menu menu) {
-	  super.onCreateOptionsMenu(menu); 
-	  if(mViewPager.getCurrentItem()== TAB_EVENT_INFO){
-		  
-		  if(mEvent.getOwner().equals(mAccount.getUsername())){
-			 
-			  mItemEdit = menu.add("Edit");
-			  mItemEdit.setIcon(R.drawable.ji_content_edit);
-			  mItemEdit.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-			  
-			  mItemDiscard = menu.add("Discard");
-			  mItemDiscard.setIcon(R.drawable.ji_content_discard);
-			  mItemDiscard.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		  }
-		  
-	  }else if (mViewPager.getCurrentItem()== TAB_EVENT_ATTENDING){
-		 
-//		  mItemRefresh = menu.add("Refresh");
-//		  mItemRefresh.setIcon(R.drawable.ji_refresh);
-//		  mItemRefresh.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//  MenuItem mItemEdit;
+//  MenuItem mItemDiscard;
+//  MenuItem mItemRefresh;
+//  MenuItem mItemSerch;
+//  MenuItem mItemConnect;
+//  
+//  @Override public boolean onCreateOptionsMenu(final Menu menu) {
+//	  super.onCreateOptionsMenu(menu); 
+//	  if(mViewPager.getCurrentItem()== TAB_EVENT_INFO){
 //		  
-//		  mItemSerch = menu.add("Serch");
-//		  mItemSerch.setIcon(R.drawable.ji_search_white);
-//		  mItemSerch.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//		  if(mEvent.getOwner().equals(mAccount.getUsername())){
+//			 
+//			  mItemEdit = menu.add("Edit");
+//			  mItemEdit.setIcon(R.drawable.ji_content_edit);
+//			  mItemEdit.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//			  
+//			  mItemDiscard = menu.add("Discard");
+//			  mItemDiscard.setIcon(R.drawable.ji_content_discard);
+//			  mItemDiscard.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//		  }
 //		  
-//		  mItemConnect = menu.add("Connect");
-//		  mItemConnect.setIcon(R.drawable.ji_social_share);
-//		  mItemConnect.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		  
-	  }else if ((mViewPager.getCurrentItem()== TAB_EVENT_MESSAGING)){
-		  // currently no menu items
-	  }
-
-	  return true;
-  }
+//	  }else if (mViewPager.getCurrentItem()== TAB_EVENT_ATTENDING){
+//		 
+////		  mItemRefresh = menu.add("Refresh");
+////		  mItemRefresh.setIcon(R.drawable.ji_refresh);
+////		  mItemRefresh.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+////		  
+////		  mItemSerch = menu.add("Serch");
+////		  mItemSerch.setIcon(R.drawable.ji_search_white);
+////		  mItemSerch.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+////		  
+////		  mItemConnect = menu.add("Connect");
+////		  mItemConnect.setIcon(R.drawable.ji_social_share);
+////		  mItemConnect.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//		  
+//	  }else if ((mViewPager.getCurrentItem()== TAB_EVENT_MESSAGING)){
+//		  // currently no menu items
+//	  }
+//
+//	  return true;
+//  }
 
   // check if "edit" was successful
   @Override 
@@ -151,18 +152,80 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
   }
   
   
-  @Override public boolean onOptionsItemSelected(final MenuItem item) {
+//  @Override public boolean onOptionsItemSelected(final MenuItem item) {
+//
+//	   if(item == mItemEdit) {
+//		   Intent intent = new Intent(thisOne, CreateEventActivity.class);
+//		   intent.putExtra("account", getAccount());
+//		   intent.putExtra("event", new ClientEvent(getEvent()));
+//		   startActivityForResult(intent, EDITED);
+//		   // not here
+//		   //setResult(MainActivity.RESULT_EDIT_EVENT , new Intent().putExtra("event", getEvent()));
+// 
+//	   } else if (item == mItemDiscard){
+//		   
+//		    //showProgressBar(eventO2);
+//		    ClientProxy.deleteEvent(getEvent().getId(), new OnDone<Void>() {
+//		      @Override public void onDone(final Void t) {
+//		        //hideProgressBar(eventO2);
+//		    	  setResult(MainActivity.RESULT_REMOVE_EVENT , new Intent().putExtra("event", getEvent()));
+//
+//		    	  new CalendarHandler(thisOne).deleteEvent(thisOne, getEvent());
+//		        //((Activity)thisOne).setResult(MainMapActivity.RESULT_DELETE, new Intent().putExtra("event", getEvent()));
+//		        ((Activity)thisOne).finish();
+//		      }
+//		    }, new OnError(((Activity)thisOne)) {
+//		      @Override public void beforeHandlingError() {
+//		        //hideProgressBar(eventO2);
+//		      }
+//		    });
+//		   
+//	   }else if (item == mItemRefresh){
+//		   
+//	   }else if (item == mItemSerch){
+//		   
+//	   }else if (item == mItemConnect){
+//		   
+//	   }else{
+//		   this.finish();
+//		   return true; 
+//	   }
+//	
+//	   return true;
+//  }
+  
+  
+ //  @Override protected void invalidate
+  
+  
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+	  super.onCreateOptionsMenu(menu);
+	  if(mViewPager.getCurrentItem()== TAB_EVENT_INFO){
+		  if(mEvent.getOwner().equals(mAccount.getUsername())){
+			  MenuInflater inflater = getSupportMenuInflater();
+			  inflater.inflate(R.menu.ji_activity_event_menu, menu);
+		  }
 
-	   if(item == mItemEdit) {
-		   Intent intent = new Intent(thisOne, CreateEventActivity.class);
-		   intent.putExtra("account", getAccount());
-		   intent.putExtra("event", new ClientEvent(getEvent()));
-		   startActivityForResult(intent, EDITED);
-		   // not here
-		   //setResult(MainActivity.RESULT_EDIT_EVENT , new Intent().putExtra("event", getEvent()));
- 
-	   } else if (item == mItemDiscard){
-		   
+	  }
+	  else{
+		  MenuInflater inflater = getSupportMenuInflater();
+		  inflater.inflate(R.menu.ji_empty_action_bar_menu, menu);
+	  }
+	  return true;
+
+  }
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.edit_item:
+			   Intent intent = new Intent(thisOne, CreateEventActivity.class);
+			   intent.putExtra("account", getAccount());
+			   intent.putExtra("event", new ClientEvent(getEvent()));
+			   startActivityForResult(intent, EDITED);
+			return true;
+		case R.id.discard_item:
 		    //showProgressBar(eventO2);
 		    ClientProxy.deleteEvent(getEvent().getId(), new OnDone<Void>() {
 		      @Override public void onDone(final Void t) {
@@ -178,21 +241,14 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
 		        //hideProgressBar(eventO2);
 		      }
 		    });
-		   
-	   }else if (item == mItemRefresh){
-		   
-	   }else if (item == mItemSerch){
-		   
-	   }else if (item == mItemConnect){
-		   
-	   }else{ return false; }
-	
-	   return true;
-  }
-  
-  
- //  @Override protected void invalidate
-  
+			return true;
+		case android.R.id.home:
+			this.finish();
+          return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
   
   @Override protected void onNewIntent(final Intent intent) {
     mEvent = (ClientEvent) intent.getExtras().get("event");
@@ -227,7 +283,8 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
     tabHost.addTab(tabSpec);
   }
   
-  @Override public void onTabChanged(final String tag) {
+  @SuppressLint("NewApi")
+@Override public void onTabChanged(final String tag) {
     mViewPager.setCurrentItem(mTabHost.getCurrentTab());
     invalidateOptionsMenu();
   }
