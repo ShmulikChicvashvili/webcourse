@@ -8,7 +8,7 @@ public class User implements IUser{
 	public String id;
 	public String name;
 	public Title title;
-	public Date lastMining = new Date();
+	public Date lastMining;
 	public int totalTechoins;
 	public int bankAccount;
 	
@@ -17,7 +17,7 @@ public class User implements IUser{
 	public int likesNum = 0; // likes that the user did
 	public int likesOnPostsNum = 0; // likes on posts
 	
-	public ArrayList<Post> posts;
+	public ArrayList<Post> posts = new ArrayList<Post>();
 	
 	private static User mUser = null;
 		

@@ -7,8 +7,8 @@ public class Post extends UserActivity {
 	  Date date;
 	  int technionValue = 5;
 	  String userID;
-	  int likesCount;
-	  int commentCount;
+	  int likesCount = 0;
+	  int commentCount = 0;
 	  
 	  /**
 	   * @param id1

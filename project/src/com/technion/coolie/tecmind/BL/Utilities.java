@@ -27,19 +27,29 @@ public class Utilities {
 		String name;
 	}
 	
-	public static void calculatePosts(Post post, int numOfPosts){
-		if (post != null) {
-			User.getUserInstance(null).totalTechoins += (post.technionValue)*numOfPosts;
-		}
+	public static void calculatePosts(int numOfPosts){
+		User checkUser = User.getUserInstance(null);
+		Post temp = new Post(null, null, null, 0, 0);
+		User.getUserInstance(null).postsNum += numOfPosts;
+		User.getUserInstance(null).totalTechoins += (temp.technionValue)*numOfPosts;
+		
 	}
 	
 	public static void calculateComments(Post post, int numOfComments){
 		
 		if (post != null) {
 			if (post.commentCount < numOfComments) {
+				User checkUser = User.getUserInstance(null);
+				// dummy comment to get the value of one comment
 				Comment temp = new Comment(null, null, 0, 0);
+				
+				// calculates how many comments were collected
 				int diff = numOfComments - post.commentCount;
+				// updates the commentCount of the post
+				post.commentCount += numOfComments;
+				// updates the commentNum of the user
 				User.getUserInstance(null).commentsNum += diff;
+				// updates the amount of Techoins of the user
 				User.getUserInstance(null).totalTechoins += diff*temp.technionValue;
 			}
 		}
@@ -48,10 +58,18 @@ public class Utilities {
 	public static void calculateLikes(Post post, int numOfLikes){
 		
 		if (post != null) {
-			if (post.commentCount < numOfLikes) {
+			if (post.likesCount < numOfLikes) {
+				User checkUser = User.getUserInstance(null);
+				// dummy like to get the value of one like
 				Like temp = new Like(null, null, 0);
+				
+				// calculates how many likes were collected
 				int diff = numOfLikes - post.likesCount;
-				User.getUserInstance(null).commentsNum += diff;
+				// updates the likesCount of the post
+				post.likesCount += numOfLikes;
+				// updates the likestNum of the user
+				User.getUserInstance(null).likesOnPostsNum += diff;
+				// updates the amount of Techoins of the user
 				User.getUserInstance(null).totalTechoins += diff*temp.technionValue;
 			}
 		}

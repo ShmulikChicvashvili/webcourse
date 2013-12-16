@@ -5,9 +5,9 @@ import java.util.Date;
 public class Comment extends UserActivity {
 	  String id;
 	  Date date;
-	  int technionValue;
-	  int userID = 2;
-	  int likesCount;
+	  int technionValue = 2;
+	  int userID;
+	  int likesCount = 0;
 	
 	  /**
 	   * @param id1

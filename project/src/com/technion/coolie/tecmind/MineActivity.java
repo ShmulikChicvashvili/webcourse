@@ -108,10 +108,16 @@ public class MineActivity extends CoolieActivity {
 	  		        GraphObject gO = response.getGraphObject();
 	  		        
 	  		       Mine.getMineInstance(userId).mineUserPosts(gO);
-	  		        
+	  		       User tempUser = User.getUserInstance(null); 
+	  		       Mine.getMineInstance(null).endMining();
 //	  		      Toast.makeText(getApplicationContext(), id,
 //	  	        		Toast.LENGTH_LONG).show();
-	  		        
+	  		     System.out.println("*****After Mining******");
+	  		     System.out.println("The number of posts after mining is:" + User.getUserInstance(null).postsNum);
+	  		     System.out.println("The number of comments after mining is:" + User.getUserInstance(null).commentsNum);
+	  		     System.out.println("The number of likes after mining is:" + User.getUserInstance(null).likesOnPostsNum);
+	  		   System.out.println("The amount of Techoins i have is:" + User.getUserInstance(null).totalTechoins);
+	  		     System.out.println("The last mining date is:" + User.getUserInstance(null).lastMining.toString());
   		        }
   		    }
   		).executeAsync();

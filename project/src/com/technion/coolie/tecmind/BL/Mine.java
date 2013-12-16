@@ -63,7 +63,9 @@ public class Mine implements IMine {
 	        int postsCounter = 0;
 	        int commentsOfPostsCounter = 0;
 	        int likesOfPostsCounter = 0;
+	        Post post = null;
 		try {
+			User checkUser = User.getUserInstance(null);
 			arr = jso.getJSONArray( "data" );
 	        for ( int i = 0; i < ( arr.length() ); i++ ) {
 	            JSONObject json_obj = arr.getJSONObject( i );
@@ -88,10 +90,8 @@ public class Mine implements IMine {
 			         /* gets the post id */
 			         postId = json_obj.getString("id");
 			         
-	            
-	           
-		            // counts all likes of the post in the certain group
 		            if (mTechGroups.contains(groupId)) {
+		            	 // counts all likes of the post in the certain group
 		        	   if (json_obj.toString().contains("\"likes\":")){
 			            	likes = ((JSONArray)((JSONObject)json_obj.get("likes")).get("data")).toString();
 			            	likesArr = new Gson().fromJson(likes, new TypeToken<ArrayList<Utilities.LikesObject>>() 
@@ -115,27 +115,34 @@ public class Mine implements IMine {
 		        		   postsCounter++;
 		        		   
 		        		   /* adds the post to the user's posts list */
-		        		   Post newPost = new Post(postId, createTimeDate, mUserId, likesOfPostsCounter, commentsOfPostsCounter);
+		        		   Post newPost = new Post(postId, createTimeDate, mUserId, 0, 0);
 		        		   User.getUserInstance(null).posts.add(newPost);
 		        	   }
 		            }
+		            
+		            post = User.getUserInstance(null).getPostById(postId);
+			        Utilities.calculateComments(post, commentsOfPostsCounter);
+			        Utilities.calculateLikes(post, likesOfPostsCounter);
+			        likesOfPostsCounter = 0;
+			        commentsOfPostsCounter = 0;
 	            }
 	        }
 	        
-	        System.out.println("*****Counters******");
-	        System.out.println(postsCounter);
-	        System.out.println(commentsOfPostsCounter);
-	        System.out.println(likesOfPostsCounter);
+	        User tempUser = User.getUserInstance(null); 
 	        
-	        Post post = User.getUserInstance(null).getPostById(postId);
-	        Utilities.calculatePosts(post, postsCounter);
-	        Utilities.calculateComments(post, commentsOfPostsCounter);
-	        Utilities.calculateLikes(post, likesOfPostsCounter);
+	        Utilities.calculatePosts(postsCounter);
+
+	        
 	        
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void endMining() {
+		User.getUserInstance(null).lastMining = new Date();
+		
 	}
 	
 
