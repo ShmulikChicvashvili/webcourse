@@ -6,7 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,12 +34,14 @@ public class CoursesAndExamsFragment extends Fragment {
 		mViewPager = (ViewPager) view.findViewById(R.id.pager);
 		mViewPager.setOffscreenPageLimit(2);
 		mTabsAdapter = new TabsAdapter(getActivity(), mTabHost, mViewPager);
-
-		mTabsAdapter.addTab(mTabHost.newTabSpec("one").setIndicator("סמסטר קודם"),
+		mTabsAdapter.addTab(
+				mTabHost.newTabSpec("one").setIndicator("סמסטר קודם"),
 				PageOneFragment.class, null);
-		mTabsAdapter.addTab(mTabHost.newTabSpec("two").setIndicator("סמסטר נוכחי"),
+		mTabsAdapter.addTab(
+				mTabHost.newTabSpec("two").setIndicator("סמסטר נוכחי"),
 				PageTwoFragment.class, null);
-		mTabsAdapter.addTab(mTabHost.newTabSpec("three").setIndicator("סמסטר הבא"),
+		mTabsAdapter.addTab(
+				mTabHost.newTabSpec("three").setIndicator("סמסטר הבא"),
 				PageThreeFragment.class, null);
 
 		if (savedInstanceState != null) {
@@ -60,7 +62,7 @@ public class CoursesAndExamsFragment extends Fragment {
 	 * switch to the correct paged in the ViewPager whenever the selected tab
 	 * changes.
 	 */
-	public static class TabsAdapter extends FragmentPagerAdapter implements
+	public static class TabsAdapter extends FragmentStatePagerAdapter implements
 			TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
 		private final Context mContext;
 		private final TabHost mTabHost;

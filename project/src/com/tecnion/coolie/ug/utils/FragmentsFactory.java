@@ -21,9 +21,9 @@ public class FragmentsFactory {
 	}
 
 	public static Fragment getCoursesAndExamsLargeFragment() {
-		if (_coursesAndExamsLargeFragment == null) {
-			_coursesAndExamsLargeFragment = new CoursesAndExamsFragment();
-		}
+		// if (_coursesAndExamsLargeFragment == null) {
+		_coursesAndExamsLargeFragment = new CoursesAndExamsFragment();
+		// }
 		return _coursesAndExamsLargeFragment;
 	}
 
