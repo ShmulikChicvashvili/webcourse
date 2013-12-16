@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart.Type;
 
 import com.technion.coolie.studybuddy.models.Course;
@@ -16,22 +17,22 @@ import android.view.View;
 
 public class GraphFactory {
 	// TODO Dima API FOR Weekly Graph
-	public static View getWeeklyProgressGraph(Context ctx,
-			Date firstDayOfWeek, int[] weeklyProgress) {
-
-		// stub:
-		return getSampleCourseProgress(ctx);
-
+	public static GraphicalView getWeeklyProgressGraph(Context ctx, Date firstDayOfWeek,
+			int[] weeklyProgress) {
+		WeeklyProgress wp = new WeeklyProgress(firstDayOfWeek, weeklyProgress);
+		return ChartFactory.getBarChartView(ctx, wp.getDataset(),
+				wp.getRenderer(), Type.DEFAULT);
 	}
-	
-	
+
 	/**
 	 * Creates progress graph
 	 * 
 	 * @param ctx
-	 * @param name2progress study resource -> num week progress
-	 * @param currentWeek 
-	 * @param lastWeek (usually Semester.WEEKS_IN_SEMESTER)
+	 * @param name2progress
+	 *            study resource -> num week progress
+	 * @param currentWeek
+	 * @param lastWeek
+	 *            (usually Semester.WEEKS_IN_SEMESTER)
 	 * @return
 	 */
 	public static View getCourseProgressGraph(Context ctx,
@@ -43,7 +44,6 @@ public class GraphFactory {
 
 	}
 
-	
 	// TODO DIMA, do something like this in course view
 	/**
 	 * Example how to extract the needed information for progress graph from
@@ -54,7 +54,8 @@ public class GraphFactory {
 	 * @param s
 	 * @return progress graph
 	 */
-	public static View getProgressGraphFromCourseAndSemester(Context ctx, Course c, Semester s) {
+	public static View getProgressGraphFromCourseAndSemester(Context ctx,
+			Course c, Semester s) {
 		final int CURRENT_WEEK = s.getSemesterWeek(new Date());
 		final int LAST_WEEK = Semester.WEEKS_IN_SEMESTER;
 
@@ -65,12 +66,13 @@ public class GraphFactory {
 					Integer.valueOf(sr.getDoneItemsCount()));
 		}
 
-		return getCourseProgressGraph(ctx, name2progress, CURRENT_WEEK, LAST_WEEK);
+		return getCourseProgressGraph(ctx, name2progress, CURRENT_WEEK,
+				LAST_WEEK);
 	}
 
-	
 	/**
 	 * Bare-bones example.
+	 * 
 	 * @param ctx
 	 * @return
 	 */
@@ -84,6 +86,7 @@ public class GraphFactory {
 		name2progress.put("Lectures", Integer.valueOf(5));
 		name2progress.put("Video", Integer.valueOf(9));
 
-		return getCourseProgressGraph(ctx, name2progress, CURRENT_WEEK, LAST_WEEK);
+		return getCourseProgressGraph(ctx, name2progress, CURRENT_WEEK,
+				LAST_WEEK);
 	}
 }

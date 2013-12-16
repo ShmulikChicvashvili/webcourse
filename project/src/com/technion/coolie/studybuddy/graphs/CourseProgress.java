@@ -5,14 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.achartengine.model.CategorySeries;
 import org.achartengine.model.XYMultipleSeriesDataset;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import android.graphics.Color;
 import android.graphics.Paint.Align;
-import android.graphics.Typeface;
 
 public class CourseProgress {
 	private Map<String, Integer> name2progress;
@@ -24,22 +22,6 @@ public class CourseProgress {
 		this.name2progress = name2progress;
 		this.currentWeek = currentWeek;
 		this.lastWeek = lastWeek;
-	}
-
-	protected static XYMultipleSeriesDataset buildBarDataset(String[] titles,
-			List<double[]> values) {
-		XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-		int length = titles.length;
-		for (int i = 0; i < length; i++) {
-			CategorySeries series = new CategorySeries(titles[i]);
-			double[] v = values.get(i);
-			int seriesLength = v.length;
-			for (int k = 0; k < seriesLength; k++) {
-				series.add(v[k]);
-			}
-			dataset.addSeries(series.toXYSeries());
-		}
-		return dataset;
 	}
 
 	XYMultipleSeriesDataset getDataset() {
@@ -56,7 +38,7 @@ public class CourseProgress {
 			progressWeeks[i++] = progress.doubleValue();
 		}
 		values.add(progressWeeks);
-		return buildBarDataset(titles, values);
+		return Progress.buildBarDataset(titles, values);
 	}
 
 	XYMultipleSeriesRenderer getRenderer() {
@@ -114,7 +96,7 @@ public class CourseProgress {
 				setMarginsColor(Color.argb(0xff,0xf3, 0xf3, 0xf3));
 				setBackgroundColor(Color.WHITE);
 				setXLabelsColor(Color.BLACK);
-				//setYLabelsColor(Color.BLACK, 1);
+				setYLabelsColor(0, Color.BLACK);
 			}
 		};
 		return renderer;
