@@ -76,6 +76,7 @@ public class CategoryEventActivity extends CoolieActivity {
 	  ArrayList<ClientEvent> mList = null;
 	  private ArrayList<String> mListDataHeader = null;	
 	  private HashMap<String, List<ClientEvent>> mListDataChild = null;
+	  private HashMap<String,HashMap<String, List<ClientEvent>>> mListChild = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,11 +115,10 @@ public class CategoryEventActivity extends CoolieActivity {
    	 // go here if events empty
    	 if(mListDataHeader == null){
    		 mListDataHeader = new ArrayList<String>();
-   		 mListDataChild = new HashMap<String, List<ClientEvent>>();
    		 prepareListData();
    	 }    	     	     	 
    	 // setting list adapter
-   	 expListView.setAdapter(new ExpandableListAdapter(this, this , mListDataHeader, mListDataChild));
+   	 expListView.setAdapter(new ExpandableListAdapter(this, this , mListDataHeader, mListDataChild,true));
    	 // set listeners
    	 expListView.setOnChildClickListener(new OnChildClickListener() {	 
    		 @Override
@@ -137,17 +137,10 @@ public class CategoryEventActivity extends CoolieActivity {
    	 });
     }
     private void prepareListData() {
-   	 ArrayList<ClientEvent> attendingArr = new ArrayList<ClientEvent>();
-   	 ArrayList<ClientEvent> myEventsArr = new ArrayList<ClientEvent>();
-   	 getEventsAttending(attendingArr);
-   	 getMyEvents(myEventsArr);
-   	 //Create Headers
-   	 mListDataHeader.add("I'm Attending");
-   	 mListDataHeader.add("My Events");   
-   	 // Add attending events
-   	 mListDataChild.put(mListDataHeader.get(0), attendingArr);
-   	 // Add My events
-   	 mListDataChild.put(mListDataHeader.get(1), myEventsArr);
+     mListChild = new HashMap<String,HashMap<String, List<ClientEvent>>>();
+     mListDataChild = new HashMap<String, List<ClientEvent>>();
+     mListDataChild = new HashMap<String, List<ClientEvent>>();
+   	 getDates();
     }
     
     private void getEventsAttending(final ArrayList<ClientEvent> attendingArr){
@@ -159,6 +152,19 @@ public class CategoryEventActivity extends CoolieActivity {
     private void getMyEvents(final ArrayList<ClientEvent> myEventsArr){
     	for (ClientEvent c :mList){
     		myEventsArr.add(c);
+    	}
+    }
+    
+    private void getDates(){
+    	String date;
+   	 	ArrayList<ClientEvent> mTmp = new ArrayList<ClientEvent>();
+    	for (ClientEvent c :mList){
+    		date = c.getWhen().toString();
+    		if (!mListDataHeader.contains(date)){		
+    			mListDataHeader.add(date);
+    			mListDataChild.put(date, new ArrayList<ClientEvent>());
+    		}
+    		mListDataChild.get(date).add(c);
     	}
     }
 

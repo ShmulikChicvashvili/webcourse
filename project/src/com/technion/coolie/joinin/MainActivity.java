@@ -99,7 +99,7 @@ public class MainActivity extends CoolieActivity {
     		 prepareListData();
     	 }    	     	     	 
     	 // setting list adapter
-    	 expListView.setAdapter(new ExpandableListAdapter(this, this , mListDataHeader, mListDataChild));
+    	 expListView.setAdapter(new ExpandableListAdapter(this, this , mListDataHeader, mListDataChild,false));
     	 // set listeners
     	 expListView.setOnChildClickListener(new OnChildClickListener() {	 
     		 @Override
