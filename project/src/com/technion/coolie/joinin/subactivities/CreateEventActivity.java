@@ -505,4 +505,10 @@ public class CreateEventActivity extends CoolieActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
+	
+	  @Override
+	  public void onBackPressed() {
+	      setResult(RESULT_CANCELED);
+	      finish();
+	  }
 }

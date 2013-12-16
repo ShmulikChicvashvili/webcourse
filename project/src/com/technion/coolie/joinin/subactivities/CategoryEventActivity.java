@@ -86,6 +86,8 @@ public class CategoryEventActivity extends CoolieActivity {
 		setContentView(R.layout.ji__expandable_view);
 		mList = (ArrayList<ClientEvent>) getIntent().getExtras().get("category");
 		mLoggedAccount = (ClientAccount) getIntent().getExtras().get("account");
+	    mListDataChild = new HashMap<String, List<ClientEvent>>();
+	    mListDataHeader = new ArrayList<String>();
 		fetchEvents();
 	}
 	
@@ -112,16 +114,38 @@ public class CategoryEventActivity extends CoolieActivity {
 		}
 	}
 	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	    super.onActivityResult(requestCode, resultCode, data);
+
+	    if (requestCode == 0) {
+	        if (resultCode == RESULT_CANCELED) {   	
+	        }
+	        else{
+	        	ClientEvent e =	(ClientEvent) data.getExtras().get("event");
+	        	mListDataChild.get(e.getWhen().toString()).remove(e);
+	        	if (mListDataChild.get(e.getWhen().toString()).size() == 0){
+	        		mListDataChild.remove((e.getWhen().toString()));
+	        		mListDataHeader.remove(e.getWhen().toString());
+	        	}
+	        	fetchEvents();
+	        }
+	    }
+	}
+	
     private void fetchEvents(){   
    	 // get the list view
    	 ExpandableListView expListView = (ExpandableListView) findViewById(R.id.expendable_list);
-   	 // go here if events empty
-   	 if(mListDataHeader == null){
-   		 mListDataHeader = new ArrayList<String>();
-   		 prepareListData();
-   	 }    	     	     	 
+   	 // go here if events empty    	  
+   	if (mListDataHeader.size() == 0){
+   		prepareListData();
+   	}
    	 // setting list adapter
    	 expListView.setAdapter(new ExpandableListAdapter(this, this , mListDataHeader, mListDataChild,true));
+   	 //checking just in case 
+   	 if (mListDataHeader.size() > 0){
+   		expListView.expandGroup(0);
+   	 }
    	 // set listeners
    	 expListView.setOnChildClickListener(new OnChildClickListener() {	 
    		 @Override
@@ -132,18 +156,12 @@ public class CategoryEventActivity extends CoolieActivity {
 			 Intent startEventActivity = new Intent(CategoryEventActivity.this, EventActivity.class);
 			 startEventActivity.putExtra("event", eventDetails);
 			 startEventActivity.putExtra("account", mLoggedAccount);
-			 startActivityForResult(startEventActivity, 1);
+			 startActivityForResult(startEventActivity, 0);
 			 return true;
    		 }
    	 });
     }
     private void prepareListData() {
-     mListDataChild = new HashMap<String, List<ClientEvent>>();
-   	 getDates();
-    }
-    
-    
-    private void getDates(){
     	String date;
     	for (ClientEvent c :mList){
     		date = c.getWhen().toString();
@@ -163,5 +181,5 @@ public class CategoryEventActivity extends CoolieActivity {
     		});
     	}
     }
-	
+    	
 }
