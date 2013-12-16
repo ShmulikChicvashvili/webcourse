@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +23,8 @@ import com.technion.coolie.teletech.ContactSummaryFragment.OnContactSelectedList
 import com.technion.coolie.teletech.api.ITeletech;
 import com.technion.coolie.teletech.api.TeletechFactory;
 
-public class MainActivity extends CoolieActivity implements OnContactSelectedListener {
+public class MainActivity extends CoolieActivity implements
+		OnContactSelectedListener {
 
 	public static List<ContactInformation> master;
 
@@ -39,32 +39,43 @@ public class MainActivity extends CoolieActivity implements OnContactSelectedLis
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		createDBFromStub();
-		//
-		master = db.getAllContacts();
+
+		// master = db.getAllContacts();
+
 		contacts = new LinkedList<ContactInformation>();
 		contacts.addAll(master);
+
+		System.out.println("GOT HERE");
+
 		final ActionBar actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
 		super.setContentView(R.layout.teletech_main);
 		// TODO: fetch the data from the server and put it back to the DB.
 
 		if (findViewById(com.technion.coolie.R.id.fragment_container) != null) {
-			final FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-			trans.replace(com.technion.coolie.R.id.fragment_container, new ContactSummaryFragment());
+			final FragmentTransaction trans = getSupportFragmentManager()
+					.beginTransaction();
+			trans.replace(com.technion.coolie.R.id.fragment_container,
+					new ContactSummaryFragment());
 			trans.commit();
 		}
 
 	}
 
 	private void createDBFromStub() {
-		System.out.println("GOT HERE");
-		new ClientAsyncContacts() {
-			@Override
-			protected void onPostExecute(final String result) {
-				db.insertContacts(MainActivity.master);
-			}
-		}.execute();
+
+		// new ClientAsyncContacts() {
+		// @Override
+		// protected void onPostExecute(final String result) {
+		master = new ContactsTest().contactList;
+		System.out.println("master size is: " + master.size());
+		db.insertContacts(master);
+		// }
+		// }.execute();
 	}
 
 	// @Override
@@ -79,8 +90,8 @@ public class MainActivity extends CoolieActivity implements OnContactSelectedLis
 
 	@Override
 	public void onContactSelected(final int position) {
-		final FullContactInformation contact = (FullContactInformation) getSupportFragmentManager().findFragmentById(
-				com.technion.coolie.R.id.contact_fragment);
+		final FullContactInformation contact = (FullContactInformation) getSupportFragmentManager()
+				.findFragmentById(com.technion.coolie.R.id.contact_fragment);
 		if (contact != null)
 			// This means that the layout is large and that we only need to
 			// update the view to display.
@@ -92,15 +103,18 @@ public class MainActivity extends CoolieActivity implements OnContactSelectedLis
 			final Bundle args = new Bundle();
 			args.putInt(FullContactInformation.ARG_POSITION_STRING, position);
 			newContact.setArguments(args);
-			final FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-			trans.replace(com.technion.coolie.R.id.fragment_container, newContact);
+			final FragmentTransaction trans = getSupportFragmentManager()
+					.beginTransaction();
+			trans.replace(com.technion.coolie.R.id.fragment_container,
+					newContact);
 			trans.addToBackStack(null);
 			trans.commit();
 		}
 	}
 
 	public void onPhoneNumberClicked(final View v) {
-		final String phone_no = ((TextView) v).getText().toString().replaceAll("-", "");
+		final String phone_no = ((TextView) v).getText().toString()
+				.replaceAll("-", "");
 		if (phone_no.equals("NA"))
 			return;
 		final Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -133,7 +147,8 @@ public class MainActivity extends CoolieActivity implements OnContactSelectedLis
 		inflater.inflate(com.technion.coolie.R.menu.menu, menu);
 
 		// Text changed listener for search implementation.
-		searchView = (SearchView) menu.findItem(com.technion.coolie.R.id.search).getActionView();
+		searchView = (SearchView) menu
+				.findItem(com.technion.coolie.R.id.search).getActionView();
 		searchView.setOnQueryTextListener(new OnQueryTextListener() {
 
 			@Override
@@ -154,12 +169,11 @@ public class MainActivity extends CoolieActivity implements OnContactSelectedLis
 
 	private class ClientAsyncContacts extends AsyncTask<Void, Void, String> {
 
-		
-		
 		@Override
-		protected void onPreExecute() {			
+		protected void onPreExecute() {
 			super.onPreExecute();
-			Toast.makeText(getApplicationContext(), "Loading...", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), "Loading...",
+					Toast.LENGTH_LONG).show();
 		}
 
 		@Override
