@@ -224,19 +224,22 @@ public class MainActivity extends CoolieActivity {
      }     
      
      public void sortEvents(ArrayList<ClientEvent> attendingArr,ArrayList<ClientEvent> myEventsArr){
+    	 if (attendingArr.size()>0){
     	 Collections.sort(mListDataChild.get(attendingArr), new Comparator<ClientEvent>(){
     		 @Override
     		 public int compare(ClientEvent lhs, ClientEvent rhs) {
     			 return (int)(lhs.getWhen().getTime() - rhs.getWhen().getTime());
     		 }
     	 });
-
+    	 }
+    	 if (myEventsArr.size()>0){
     	 Collections.sort(mListDataChild.get(myEventsArr), new Comparator<ClientEvent>(){
     		 @Override
     		 public int compare(ClientEvent lhs, ClientEvent rhs) {
     			 return (int)(lhs.getWhen().getTime() - rhs.getWhen().getTime());
     		 }
     	 });
+    	 }
      }
      
 }//MainActivity
