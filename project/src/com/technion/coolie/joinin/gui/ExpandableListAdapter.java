@@ -23,13 +23,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<ClientEvent>> _listDataChild;
+    private boolean _showHours; 
  
     public ExpandableListAdapter(Context context, Activity act, List<String> listDataHeader,
-            HashMap<String, List<ClientEvent>> listChildData) {
+            HashMap<String, List<ClientEvent>> listChildData, boolean showHours) {
         _context = context;
         _listDataHeader = listDataHeader;
         _listDataChild = listChildData;
         _activity = act;
+        _showHours =showHours; 
     }
  
     @Override
@@ -70,7 +72,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		//img.setImageResource(R.drawable.skel_module2);
 		name.setText(eventDetails.getName());
 		location.setText(eventDetails.getAddress());
-		date.setText(eventDetails.getWhen().toString());
+		if (_showHours){
+			date.setText(eventDetails.getWhen().printTime());
+		}
+		else{
+			date.setText(eventDetails.getWhen().toString());	
+		}
 		Drawable icon = eventDetails.getEventType().getDrawable(_activity);
 		img.setImageDrawable(icon);
     }
