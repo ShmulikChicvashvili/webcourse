@@ -22,7 +22,7 @@ import com.technion.coolie.studybuddy.views.StudyBuddyActivity;
 public class MainActivity extends StudyBuddyActivity
 {
 
-	GraphicalView	graphView;
+	GraphicalView graphView;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -32,7 +32,8 @@ public class MainActivity extends StudyBuddyActivity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item)
+	public boolean onOptionsItemSelected(
+			com.actionbarsherlock.view.MenuItem item)
 	{
 
 		Intent intent = null;
@@ -68,17 +69,17 @@ public class MainActivity extends StudyBuddyActivity
 		DataStore.setContext(this);
 
 		NowLayout layout = (NowLayout) findViewById(R.id.course_list);
-		
+
 		CourseListAdapter adapter = new CourseListAdapter(this);
 		layout.setAdapter(adapter);
 		DataStore.getInstance().addObserver(adapter);
-		
+
 		// WeeklyGraph
 		LinearLayout _layout = (LinearLayout) findViewById(R.id.Chart_layout);
-
+		
 		Date today = new Date();
 		graphView = GraphFactory.getWeeklyProgressGraph(getBaseContext(),
-						today, DataStore.getInstance().getWorkStats(today, 7));
+				today, DataStore.getInstance().getWorkStats(today, 7));
 
 		_layout.addView(graphView);
 	}
