@@ -1,20 +1,14 @@
 package com.technion.coolie.letmein;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -42,11 +36,15 @@ import com.technion.coolie.letmein.model.Contract;
 import com.technion.coolie.letmein.model.Invitation;
 import com.technion.coolie.letmein.model.Invitation.Status;
 import com.technion.coolie.letmein.model.adapters.ContactsAdapter;
-import com.technion.coolie.letmein.model.adapters.OldContactsAdapter;
+import com.technion.coolie.letmein.service.InvitationSender;
+import com.technion.coolie.letmein.service.InvitationSender.ConnectionException;
+import com.technion.coolie.letmein.service.InvitationSender.InvitationFormatException;
+import com.technion.coolie.letmein.service.InvitationSender.InvitationLimitExceededException;
+import com.technion.coolie.letmein.service.InvitationSender.LoginException;
+import com.technion.coolie.letmein.service.InvitationSender.UnknownErrorException;
+import com.technion.coolie.letmein.util.AsyncTaskResult;
 
-
-public class InvitationActivity extends DatabaseActivity implements
-		CalendarSupplier {
+public class InvitationActivity extends DatabaseActivity implements CalendarSupplier {
 
 	private static final int DROP_DOWN_LAYOUT_INDEX = android.R.layout.simple_dropdown_item_1line;
 
@@ -65,7 +63,7 @@ public class InvitationActivity extends DatabaseActivity implements
 	private long currentSelectedId = -1;
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(final Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.lmi_menu, menu);
 
 		menu.findItem(R.id.lmi_search).setVisible(false);
@@ -78,7 +76,7 @@ public class InvitationActivity extends DatabaseActivity implements
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.lmi_done:
 			executeInvitation();
@@ -96,20 +94,20 @@ public class InvitationActivity extends DatabaseActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lmi_activity_invitation);
 
-		TextWatcher updateEnabilityWatcher = new TextWatcher() {
+		final TextWatcher updateEnabilityWatcher = new TextWatcher() {
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
+			public void onTextChanged(final CharSequence s, final int start, final int before,
+					final int count) {
 				updateEnabilityOfDoneItem();
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
+			public void beforeTextChanged(final CharSequence s, final int start, final int count,
+					final int after) {
 			}
 
 			@Override
-			public void afterTextChanged(Editable s) {
+			public void afterTextChanged(final Editable s) {
 			}
 		};
 
@@ -131,8 +129,7 @@ public class InvitationActivity extends DatabaseActivity implements
 		 * return false; } });
 		 */
 
-		friendImage = (ImageView) InvitationActivity.this
-				.findViewById(R.id.lmi_friend_image);
+		friendImage = (ImageView) InvitationActivity.this.findViewById(R.id.lmi_friend_image);
 
 		friendCarNumberEdit = (EditText) findViewById(R.id.lmi_friend_car_number_edit);
 		friendCarNumberEdit.addTextChangedListener(updateEnabilityWatcher);
@@ -142,7 +139,7 @@ public class InvitationActivity extends DatabaseActivity implements
 		datePicker = (TextView) findViewById(R.id.lmi_date_picker);
 		datePicker.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				new DatePickerFragment().show(getSupportFragmentManager(),
 						DatePickerFragment.class.getSimpleName());
 			}
@@ -152,7 +149,7 @@ public class InvitationActivity extends DatabaseActivity implements
 		timePicker = (TextView) findViewById(R.id.lmi_time_picker);
 		timePicker.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				new TimePickerFragment().show(getSupportFragmentManager(),
 						TimePickerFragment.class.getSimpleName());
 			}
@@ -161,25 +158,21 @@ public class InvitationActivity extends DatabaseActivity implements
 
 		friendCarColorEdit = (AutoCompleteTextView) findViewById(R.id.lmi_friend_car_color_edit);
 		friendCarColorEdit.addTextChangedListener(updateEnabilityWatcher);
-		friendCarColorEdit.setAdapter(new ArrayAdapter<String>(
-				InvitationActivity.this, DROP_DOWN_LAYOUT_INDEX, getResources()
-						.getStringArray(R.array.lmi_car_colors)));
-		friendCarColorEdit
-				.setOnEditorActionListener(new OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(final TextView v,
-							final int actionId, final KeyEvent event) {
-						if (actionId == EditorInfo.IME_ACTION_NEXT) {
-							final InputMethodManager inputMethodManager = (InputMethodManager) InvitationActivity.this
-									.getSystemService(Activity.INPUT_METHOD_SERVICE);
-							inputMethodManager.hideSoftInputFromWindow(
-									InvitationActivity.this.getCurrentFocus()
-											.getWindowToken(), 0);
-						}
+		friendCarColorEdit.setAdapter(new ArrayAdapter<String>(InvitationActivity.this,
+				DROP_DOWN_LAYOUT_INDEX, getResources().getStringArray(R.array.lmi_car_colors)));
+		friendCarColorEdit.setOnEditorActionListener(new OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_NEXT) {
+					final InputMethodManager inputMethodManager = (InputMethodManager) InvitationActivity.this
+							.getSystemService(Context.INPUT_METHOD_SERVICE);
+					inputMethodManager.hideSoftInputFromWindow(InvitationActivity.this
+							.getCurrentFocus().getWindowToken(), 0);
+				}
 
-						return false;
-					}
-				});
+				return false;
+			}
+		});
 	}
 
 	private void updateEnabilityOfDoneItem() {
@@ -197,24 +190,19 @@ public class InvitationActivity extends DatabaseActivity implements
 		new AutoCompletionGatheringTask().execute();
 	}
 
-	private class AutoCompletionGatheringTask extends
-			AsyncTask<Void, Void, ContactsAdapter> {
+	private class AutoCompletionGatheringTask extends AsyncTask<Void, Void, ContactsAdapter> {
 
 		@Override
 		protected ContactsAdapter doInBackground(final Void... params) {
 
-			String packName = InvitationActivity.this.getPackageName();
-			Uri defaultPicPath = Uri.parse("android.resource://" + packName
-					+ "/" + R.drawable.lmi_google_man);
+			final String packName = getPackageName();
+			final Uri defaultPicPath = Uri.parse("android.resource://" + packName + "/"
+					+ R.drawable.lmi_google_man);
 
-			List<ContactInfo> l = ContactsUtils
-					.getAllContacts(InvitationActivity.this
-							.getContentResolver());
-			for (ContactInfo ci : l) {
-				if (ci.imageUri == null) {
+			final List<ContactInfo> l = ContactsUtils.getAllContacts(getContentResolver());
+			for (final ContactInfo ci : l)
+				if (ci.imageUri == null)
 					ci.imageUri = defaultPicPath.toString();
-				}
-			}
 
 			return new ContactsAdapter(InvitationActivity.this, l);
 		}
@@ -223,48 +211,40 @@ public class InvitationActivity extends DatabaseActivity implements
 		protected void onPostExecute(final ContactsAdapter adapter) {
 			friendNameEdit.setAdapter(adapter);
 
-			OnItemClickListener itemClickListener = new OnItemClickListener() {
+			final OnItemClickListener itemClickListener = new OnItemClickListener() {
 				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1,
-						int position, long id) {
-					ContactInfo hm = (ContactInfo) arg0.getAdapter().getItem(
-							position);
+				public void onItemClick(final AdapterView<?> arg0, final View arg1,
+						final int position, final long id) {
+					final ContactInfo hm = (ContactInfo) arg0.getAdapter().getItem(position);
 					friendImage.setImageURI(Uri.parse(hm.imageUri));
 					friendCellphoneEdit.setText(hm.phoneNumber);
-					InvitationActivity.this.currentSelectedId = hm.id;
+					currentSelectedId = hm.id;
 
 					(new AsyncTask<Long, Void, Invitation>() {
 						@Override
-						protected Invitation doInBackground(Long... params) {
+						protected Invitation doInBackground(final Long... params) {
 							List<Invitation> l;
 							try {
-								l = getHelper()
-										.getDataDao()
-										.queryBuilder()
-										.limit(1L)
-										.orderBy(Contract.Invitation.DATE,
-												false)
-										.where()
-										.eq(Contract.Invitation.CONTACT_ID,
-												params[0]).query();
-								if (l.size() > 0) {
+								l = getHelper().getDataDao().queryBuilder().limit(1L)
+										.orderBy(Contract.Invitation.DATE, false).where()
+										.eq(Contract.Invitation.CONTACT_ID, params[0]).query();
+								if (l.size() > 0)
 									return l.get(0);
-								} else {
+								else
 									return null;
-								}
 
-							} catch (SQLException e) {
+							} catch (final SQLException e) {
 								return null;
 							}
 						}
 
 						@Override
-						protected void onPostExecute(Invitation inv) {
+						protected void onPostExecute(final Invitation inv) {
 							if (inv != null) {
 								friendCarNumberEdit.setText(inv.getCarNumber());
 								friendCarColorEdit.setText(inv.getCarColor());
-								friendCarCompanySpinner.setSelection(inv
-										.getCarManufacturer().ordinal());
+								friendCarCompanySpinner.setSelection(inv.getCarManufacturer()
+										.ordinal());
 							}
 						}
 
@@ -281,20 +261,15 @@ public class InvitationActivity extends DatabaseActivity implements
 	public void onSaveInstanceState(final Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 
-		savedInstanceState.putCharSequence(
-				String.valueOf(R.id.lmi_friend_name_edit),
+		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_name_edit),
 				friendNameEdit.getText());
-		savedInstanceState.putCharSequence(
-				String.valueOf(R.id.lmi_friend_cellphone_edit),
+		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_cellphone_edit),
 				friendCellphoneEdit.getText());
-		savedInstanceState.putCharSequence(
-				String.valueOf(R.id.lmi_friend_car_number_edit),
+		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_car_number_edit),
 				friendCarNumberEdit.getText());
-		savedInstanceState.putInt(
-				String.valueOf(R.id.lmi_friend_car_company_edit),
+		savedInstanceState.putInt(String.valueOf(R.id.lmi_friend_car_company_edit),
 				friendCarCompanySpinner.getSelectedItemPosition());
-		savedInstanceState.putCharSequence(
-				String.valueOf(R.id.lmi_friend_car_color_edit),
+		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_car_color_edit),
 				friendCarColorEdit.getText());
 		savedInstanceState.putIntArray(Consts.CALENDAR_INFO, cal.backup());
 	}
@@ -330,51 +305,80 @@ public class InvitationActivity extends DatabaseActivity implements
 		if (isUserForgotAField(friendName, carNumber, carColor))
 			return;
 
-		final Invitation i = Invitation.builder()
-				.contactId(this.currentSelectedId).date(cal.getTime())
-				.status(Status.CREATED).contactName(friendName)
-				.contactPhoneNumber(friendCellphone).carNumber(carNumber)
-				.carManufacturer(carCompany).carColor(carColor).build();
+		final Invitation i = Invitation.builder().contactId(currentSelectedId).date(cal.getTime())
+				.status(Status.CREATED).contactName(friendName).contactPhoneNumber(friendCellphone)
+				.carNumber(carNumber).carManufacturer(carCompany).carColor(carColor).build();
 
 		getHelper().getDataDao().create(i);
 
-		if (!(getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE)
-				.getBoolean(Consts.IS_FIRST_INVITATION_INPUT, false))) {
-			
-			getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE).edit()
-			.putBoolean(Consts.IS_FIRST_INVITATION_INPUT, true).apply();
-			
-			new AlertDialog.Builder(this)
-					.setTitle(R.string.lmi_first_inv_title)
-					.setMessage(R.string.lmi_first_inv_text)
-					.setPositiveButton("OK",
-							new DialogInterface.OnClickListener() {
-								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
-									finish();
-								}
-							}).setNegativeButton("", null).setCancelable(false)
-					.show();
+		getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE).getBoolean(
+				Consts.IS_LOGGED_IN, false);
 
-			
-		} else {
+		final String username = getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE)
+				.getString(Consts.USERNAME, "");
+
+		final String password = getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE)
+				.getString(Consts.PASSWORD, "");
+
+		(new AsyncTask<Object, Void, AsyncTaskResult<Boolean>>() {
+			@Override
+			protected AsyncTaskResult<Boolean> doInBackground(final Object... params) {
+				AsyncTaskResult<Boolean> $;
+				try {
+					$ = new AsyncTaskResult<Boolean>(InvitationSender.addInvitation(
+							(String) params[0], (String) params[1], (Invitation) params[2]));
+				} catch (final ConnectionException e) {
+					$ = new AsyncTaskResult<Boolean>(e);
+				} catch (final UnknownErrorException e) {
+					$ = new AsyncTaskResult<Boolean>(e);
+				} catch (final LoginException e) {
+					$ = new AsyncTaskResult<Boolean>(e);
+				} catch (final InvitationFormatException e) {
+					$ = new AsyncTaskResult<Boolean>(e);
+				} catch (final InvitationLimitExceededException e) {
+					$ = new AsyncTaskResult<Boolean>(e);
+				}
+
+				return $;
+			}
+
+			@Override
+			protected void onPostExecute(final AsyncTaskResult<Boolean> result) {
+				if (result.getError() == null)
+					// TODO
+					return;
+			}
+
+		}).execute(username, password, i);
+
+		if (!(getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE).getBoolean(
+				Consts.IS_FIRST_INVITATION_INPUT, false))) {
+
+			getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE).edit()
+					.putBoolean(Consts.IS_FIRST_INVITATION_INPUT, true).apply();
+
+			new AlertDialog.Builder(this).setTitle(R.string.lmi_first_inv_title)
+					.setMessage(R.string.lmi_first_inv_text)
+					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(final DialogInterface dialog, final int which) {
+							finish();
+						}
+					}).setNegativeButton("", null).setCancelable(false).show();
+
+		} else
 			finish();
-		}
 
 	}
 
-	private boolean isUserForgotAField(final String friendName,
-			final String carNumber, final String carColor) {
+	private boolean isUserForgotAField(final String friendName, final String carNumber,
+			final String carColor) {
 		if ("".equals(friendName))
-			Toast.makeText(getApplicationContext(), "insert name",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "insert name", Toast.LENGTH_SHORT).show();
 		else if ("".equals(carNumber))
-			Toast.makeText(getApplicationContext(), "insert car number",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "insert car number", Toast.LENGTH_SHORT).show();
 		else if ("".equals(carColor))
-			Toast.makeText(getApplicationContext(), "insert car color",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "insert car color", Toast.LENGTH_SHORT).show();
 		else
 			return false;
 
@@ -382,13 +386,13 @@ public class InvitationActivity extends DatabaseActivity implements
 	}
 
 	@Override
-	public void setDate(int year, int month, int day) {
+	public void setDate(final int year, final int month, final int day) {
 		cal.setDate(year, month, day);
 		datePicker.setText(cal.parseDate());
 	}
 
 	@Override
-	public void setTime(int hour, int minute) {
+	public void setTime(final int hour, final int minute) {
 		cal.setTime(hour, minute);
 		timePicker.setText(cal.parseTime());
 	}

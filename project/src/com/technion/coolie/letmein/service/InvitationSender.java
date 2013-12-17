@@ -263,7 +263,7 @@ public class InvitationSender implements Closeable {
 		}
 	}
 
-	public static void addInvitation(final String username, final String password,
+	public static Boolean addInvitation(final String username, final String password,
 			final Invitation invitation) throws LoginException, ConnectionException,
 			InvitationFormatException, InvitationLimitExceededException, UnknownErrorException {
 		if (username == null || password == null || invitation == null) {
@@ -271,14 +271,18 @@ public class InvitationSender implements Closeable {
 			throw new IllegalArgumentException("Received null pointer");
 		}
 
+		// Boolean $ = false;
+
 		InvitationSender sender = null;
 		try {
 			sender = new InvitationSender(SITE_URL);
 			sender.doAddInvitation(username, password, new InvitationParcel(invitation));
+			return true;
 		} finally {
 			if (sender != null)
 				sender.close();
 		}
+		// return $;
 	}
 
 	private void doLogin(final String username, final String password) throws ConnectionException,

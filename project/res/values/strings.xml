@@ -15,7 +15,7 @@
     <string name="lmi_privacy_message">Who does it better than us?</string>
     <string name="lmi_login_failed_title">Login failed</string>
     <string name="lmi_login_failed_message">Login failed, check user and password</string>
-    <string name="lmi_login_successfull_message">Login successfull, user and password saved</string>
+    <string name="lmi_login_successfull_message">Login successful, user and password saved</string>
     <string name="lmi_login_username_defaultInitial">ST_</string>
     <string name="lmi_username">Username</string>
     <string name="lmi_username_hint">Username</string>

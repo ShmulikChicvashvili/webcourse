@@ -114,21 +114,22 @@ public class LoginActivity extends CoolieActivity {
 			return;
 		}
 
-		
-		
 		// HACK for testing
 		if (HacksEnabledClass.TestHackesEnabled) {
 			if (username.contains("asd")) {
 				endLogin(true);
+				return;
 			}
-	
+		}
+
 		(new AsyncTask<String, Void, AsyncTaskResult<Boolean>>() {
 			@Override
-			protected AsyncTaskResult<Boolean> doInBackground(final String... params) {
+			protected AsyncTaskResult<Boolean> doInBackground(
+					final String... params) {
 				AsyncTaskResult<Boolean> $;
 				try {
-					$ = new AsyncTaskResult<Boolean>(InvitationSender.isLoginValid(params[0],
-							params[1]));
+					$ = new AsyncTaskResult<Boolean>(
+							InvitationSender.isLoginValid(params[0], params[1]));
 				} catch (final ConnectionException e) {
 					$ = new AsyncTaskResult<Boolean>(e);
 				} catch (final UnknownErrorException e) {
@@ -144,12 +145,11 @@ public class LoginActivity extends CoolieActivity {
 					LoginActivity.this.endLogin(result.getResult());
 					return;
 				}
+				// TODO:: HANDLE ERRORS
 			}
 
 		}).execute(username, password);
-				// TODO:: HANDLE ERRORS
-		}
-		
+
 	}
 
 	private void endLogin(Boolean loginSuccess) {
@@ -159,8 +159,8 @@ public class LoginActivity extends CoolieActivity {
 			saveLoginData(username, password);
 
 			Toast.makeText(getApplicationContext(),
-					R.string.lmi_login_successfull_message,
-					Toast.LENGTH_SHORT).show();
+					R.string.lmi_login_successfull_message, Toast.LENGTH_SHORT)
+					.show();
 			finish();
 		} else {
 			new AlertDialog.Builder(LoginActivity.this)
