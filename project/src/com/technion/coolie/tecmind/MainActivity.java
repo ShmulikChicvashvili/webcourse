@@ -23,6 +23,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.Request;
@@ -77,14 +78,14 @@ public class MainActivity extends CoolieActivity {
 	            	if (user != null) {
 	            		
 	            		/* tries to get the userId from the device's storage */
-	            		try {
-	            			BufferedReader reader = new BufferedReader(new FileReader("techmine"));
-							userId = reader.readLine();
-						} catch (IOException e) {
-							Toast.makeText(getApplicationContext(), "Problem while reading from data storage",
-			  	  	        		Toast.LENGTH_LONG).show();
-						}
-	
+//	            		try {
+//	            			BufferedReader reader = new BufferedReader(new FileReader("techmine"));
+//							userId = reader.readLine();
+//						} catch (IOException e) {
+////							Toast.makeText(getApplicationContext(), "Problem while reading from data storage",
+////			  	  	        		Toast.LENGTH_LONG).show();
+//						}
+//	
 	            		if (userId == null) {
 	            			/* updates the user id from Facebook */
 	            			userId = user.getId();
@@ -106,10 +107,11 @@ public class MainActivity extends CoolieActivity {
 	            		}
 	            		userName = user.getFirstName() + " " + user.getLastName();
 	            		User.getUserInstance(userId);
+	            		User.getUserInstance(null).name = userName;
 	            		
 	            		Assert.assertEquals(userId, User.getUserInstance(null).id);
-	  	  		      	Toast.makeText(getApplicationContext(), "OPENED",
-	  	  	        		Toast.LENGTH_LONG).show();
+//	  	  		      	Toast.makeText(getApplicationContext(), "OPENED",
+//	  	  	        		Toast.LENGTH_LONG).show();
 	  	  		      
 	  	  		      	initiateFromServer();
 	  	  		      
@@ -160,8 +162,8 @@ public class MainActivity extends CoolieActivity {
 			  try {
 				  userPostsFromServer = new ServeGetAllPostsOfUser().execute().get();
 			  } catch (Exception e) {
-				  Toast.makeText(getApplicationContext(), "Problem in get all posts from server",
-						  Toast.LENGTH_LONG).show();
+//				  Toast.makeText(getApplicationContext(), "Problem in get all posts from server",
+//						  Toast.LENGTH_LONG).show();
 			  } 
 	
 			  for (TecPost tp : userPostsFromServer) {
@@ -177,7 +179,7 @@ public class MainActivity extends CoolieActivity {
 
 			@Override
 			protected TecUser doInBackground(Void... arg0) {
-				TecUser userToServer = new TecUser(userId, null, null, null, 0, 0);
+				TecUser userToServer = new TecUser(userId, null, null, null, 0, 0, 0, 0, 0, 0);
 				return connector.getUser(userToServer);
 				
 			}
@@ -196,7 +198,7 @@ public class MainActivity extends CoolieActivity {
 			@Override
 			protected ReturnCode doInBackground(Void... arg0) {
 				Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
-				TecUser userToSever = new TecUser(userId, userName, TecUserTitle.ATUDAI, lastMining, 0, 0);
+				TecUser userToSever = new TecUser(userId, userName, TecUserTitle.ATUDAI, lastMining, 0, 0, 0, 0, 0, 0);
 				return connector.addUser(userToSever);
 				
 			}
@@ -214,12 +216,22 @@ public class MainActivity extends CoolieActivity {
 			@Override
 			protected List<TecPost> doInBackground(Void... arg0) {
 				Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
-				TecUser userToSever = new TecUser(userId, userName, TecUserTitle.ATUDAI, lastMining, 0, 0);
+				TecUser userToSever = new TecUser(userId, userName, TecUserTitle.ATUDAI, lastMining, 0, 0, 0, 0, 0, 0);
 				return connector.getAllUserPosts(userToSever);
 				
 			}
 
 		}
+	  
+		//TODO: DELETE THE BUTTON!!!!!!!!!
+		public void mine(View view) {
+		    Intent intent = new Intent(MainActivity.this, MineActivity.class);
+		    startActivity(intent);
+		}
+
+
+		
+		
 }
 		
 
