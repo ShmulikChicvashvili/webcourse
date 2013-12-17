@@ -118,9 +118,12 @@ public class CategoryEventActivity extends CoolieActivity {
 	        if (resultCode == RESULT_CANCELED) {   	
 	        }
 	        else{
-	        	ClientEvent e =	(ClientEvent) data.getExtras().get("event");
+//	        	ClientEvent e =	(ClientEvent) data.getExtras().get("event");
+	        	if (checkModified()){
+	        		showData();
 	        	}
-	        	showData();
+	        }
+	
 	        }
 	    }
 	
@@ -189,6 +192,28 @@ public class CategoryEventActivity extends CoolieActivity {
 		else{
 			return EventsDB.DB.getCategoryOther();
 		}
+	}
+	
+	private boolean checkModified(){
+		if (mCategory == "MOVIE"){
+			return EventsDB.DB.IsModified(EventsDB.DB.CAT_MOVIE);
+		}
+		if (mCategory == "STUDY"){
+			return EventsDB.DB.IsModified(EventsDB.DB.CAT_STUDY);
+		}
+		if (mCategory == "NIGHT_LIFE"){
+			return EventsDB.DB.IsModified(EventsDB.DB.CAT_NIGHT_LIFE);
+		}
+		if (mCategory == "SPORT"){
+			return EventsDB.DB.IsModified(EventsDB.DB.CAT_SPORT);
+		}
+		if (mCategory == "FOOD"){
+			return EventsDB.DB.IsModified(EventsDB.DB.CAT_FOOD);
+		}
+		if (mCategory == "OTHER"){
+			return EventsDB.DB.IsModified(EventsDB.DB.CAT_OTHER);
+		}
+		return false;
 	}
     	
 }
