@@ -3,29 +3,29 @@
     
     <PreferenceCategory
         android:title="@string/am_task_pref_task_info"
-        android:key="task_pref_task_info" >
+        android:key="am_task_pref_task_info" >
         
         <EditTextPreference 
-	        android:key="task_pref_task_name"
+	        android:key="am_task_pref_task_name"
 	        android:title="@string/am_task_pref_task_name"
 	        android:summary="@string/am_task_pref_task_name_sum"
 	        android:defaultValue="" />
         
         <EditTextPreference 
-	        android:key="task_pref_course_name"
+	        android:key="am_task_pref_course_name"
 	        android:title="@string/am_task_pref_course_name"
 	        android:summary="@string/am_task_pref_course_name_sum"
 	        android:defaultValue="" />
         
         <EditTextPreference 
-	        android:key="task_pref_course_id"
+	        android:key="am_task_pref_course_id"
 	        android:title="@string/am_task_pref_course_id"
 	        android:summary="@string/am_task_pref_course_id_sum"
 	        android:inputType="number"
 	        android:defaultValue="" />
         
         <com.technion.coolie.assignmentor.DatePreference
-            android:key="task_pref_due_date"
+            android:key="am_task_pref_due_date"
 	        android:title="@string/am_task_pref_due_date"
 	        android:summary="@string/am_task_pref_due_date_sum"
 	        android:defaultValue="1" />
@@ -34,7 +34,7 @@
         
     <PreferenceCategory
         android:title="@string/am_task_pref_properties_title"
-        android:key="task_pref_properties_title" >
+        android:key="am_task_pref_properties_title" >
         
 	<!-- Will host some of the task's properties. added at runtime. -->
         
@@ -42,10 +42,10 @@
     
     <PreferenceCategory
         android:title="@string/am_pref_reminder_title"
-        android:key="task_pref_reminder_title" >
+        android:key="am_task_pref_reminder_title" >
         
         <ListPreference
-	        android:key="task_pref_reminder"
+	        android:key="am_task_pref_reminder"
 	        android:title="@string/am_task_pref_reminder"
 	        android:summary="@string/am_pref_reminder_default_value"
 	        android:dialogTitle="@string/am_pref_reminder_dialog_title"
@@ -60,7 +60,7 @@
         
         <Preference
             android:title="@string/am_task_pref_course_website" 
-            android:key="task_pref_course_website" >
+            android:key="am_task_pref_course_website" >
             
         </Preference>
         

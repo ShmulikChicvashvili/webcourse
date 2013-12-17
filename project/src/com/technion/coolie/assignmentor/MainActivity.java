@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
@@ -64,7 +65,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		Calendars._ID,							// 0
 		Calendars.ACCOUNT_NAME, 				// 1
 		Calendars.CALENDAR_DISPLAY_NAME,		// 2
-		Calendars.OWNER_ACCOUNT
+		Calendars.OWNER_ACCOUNT					// 3
 	};
 	
 	// The indices for the projection array above.
@@ -80,6 +81,8 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 	public static final String COURSE_LIST = "CourseList";
 	public static final String DATA_FETCHED = "com.technion.coolie.assignmentor.DATA_FETCHED";
 	
+	public static final String KEY_AM_PREFS_SORT_BY = "am_prefs_sort_by";
+	
 	public static MyAdapter mAdapter;
 	
 	private AlarmManager alarmMgr;
@@ -89,6 +92,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 	private ProgressBar mProgressBar;
 	private TextView progressPercent;
 	private TextView emptyViewRefreshTv;
+	private MySqliteOpenHelper dbHelper;	
 	
 	// Temporary list to hold course ids.
 	ArrayList<String> courseList = new ArrayList<String>();
@@ -114,7 +118,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 				String action = i.getAction();
 				if (action.equals(DATA_FETCHED)) {
 					Log.i(MainActivity.AM_TAG, "broadcast DATA_FETCHED received!");
-					mAdapter.updateView();
+					mAdapter.openDB();
 				}
 			}
 		};
@@ -126,6 +130,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		
 		mListView = (EnhancedListView) findViewById(R.id.am_technion_tasks_listview);
 		mAdapter = new MyAdapter(this);
+		mAdapter.openDB();
 		mListView.setAdapter(mAdapter);
 		mListView.setEmptyView(findViewById(R.id.am_technion_tasks_empty_view));
 		emptyViewRefreshTv = (TextView) findViewById(R.id.am_empty_view_refresh);
@@ -182,7 +187,6 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			@Override
 			public Undoable onDismiss(EnhancedListView listView,final int position) {
 				final TasksInfo removedItem = (TasksInfo) mAdapter.getItem(position);
-//				final boolean isDone = removedItem.isDone;
 				mAdapter.remove(position);
 				return new EnhancedListView.Undoable() {
 					
@@ -200,6 +204,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		mListView.setUndoHideDelay(3000);
 		mListView.enableSwipeToDismiss();
 		mListView.setSwipeDirection(EnhancedListView.SwipeDirection.BOTH);
+		mListView.setRequireTouchBeforeDismiss(false);
 		
 		// Setting a temporary course list to fetch from the web.
 		// This list is passed to the service in the intent's extra data.
@@ -209,6 +214,9 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		courseList.add("236523");
 		courseList.add("236350");
 		courseList.add("236360");
+//		courseList.add("234118");
+//		courseList.add("234122");
+//		courseList.add("234123");
 		
 	}
 	
@@ -236,6 +244,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 	protected void onResume() {
 		IntentFilter intentFilter = new IntentFilter(DATA_FETCHED);
 		registerReceiver(mReceiver, intentFilter);
+		mAdapter.openDB();
 		super.onResume();
 	}
 	
@@ -278,31 +287,37 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		SharedPreferences.Editor editor = prefs.edit();
 		
 		switch(item.getItemId()) {
 		
 			case R.id.action_sort_by_due_date:
-//				Toast.makeText(this, "Sorting By Due Date", Toast.LENGTH_SHORT).show();
-				Collections.sort(mAdapter.myItems, new TasksInfoComparator(0));
-				mAdapter.updateView();
+				editor.putInt(KEY_AM_PREFS_SORT_BY, 0);
+				editor.commit();
+//				Collections.sort(mAdapter.myItems, new TasksInfoComparator(0));
+				mAdapter.openDB();
 				break;
 				
 			case R.id.action_sort_by_diff:
-//				Toast.makeText(this, "Sorting By Difficulty Level", Toast.LENGTH_SHORT).show();
-				Collections.sort(mAdapter.myItems, new TasksInfoComparator(1));
-				mAdapter.updateView();
+				editor.putInt(KEY_AM_PREFS_SORT_BY, 1);
+				editor.commit();
+//				Collections.sort(mAdapter.myItems, new TasksInfoComparator(1));
+				mAdapter.openDB();
 				break;
 				
 			case R.id.action_sort_by_imp:
-//				Toast.makeText(this, "Sorting By Importance Level", Toast.LENGTH_SHORT).show();
-				Collections.sort(mAdapter.myItems, new TasksInfoComparator(2));
-				mAdapter.updateView();
+				editor.putInt(KEY_AM_PREFS_SORT_BY, 2);
+				editor.commit();
+//				Collections.sort(mAdapter.myItems, new TasksInfoComparator(2));
+				mAdapter.openDB();
 				break;
 				
 			case R.id.action_sort_by_prog:
-//				Toast.makeText(this, "Sorting By Progress Level", Toast.LENGTH_SHORT).show();
-				Collections.sort(mAdapter.myItems, new TasksInfoComparator(3));
-				mAdapter.updateView();
+				editor.putInt(KEY_AM_PREFS_SORT_BY, 3);
+				editor.commit();
+//				Collections.sort(mAdapter.myItems, new TasksInfoComparator(3));
+				mAdapter.openDB();;
 				break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -354,7 +369,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		
 		private Context context;
 		private LayoutInflater inflater;
-		ArrayList<TasksInfo> myItems;
+		List<TasksInfo> myItems;
 		private Integer totalNumOfTasks;
 		private Integer numOfDoneTasks;
 		private ImageSwitcher mSwitcher;
@@ -362,13 +377,15 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		
 		public MyAdapter(Context c) {
 			this.context = c;
-	
+			
+			dbHelper = new MySqliteOpenHelper(c);
+			
 			this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
 			totalNumOfTasks = 0;
 			numOfDoneTasks = 0;
 			
-			myItems = new ArrayList<TasksInfo>();
+			myItems = dbHelper.getAllTasks();
 			fadeIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
 			fadeIn.setDuration(1000);
 			fadeOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
@@ -378,6 +395,12 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			mSwitcher.setOutAnimation(fadeOut);
 			mSwitcher.setFactory(this);
 			updateProgress();
+		}
+		
+		public void openDB() {
+			Log.i(AM_TAG, "MyAdapter -> openDB() -> DB size: " + String.valueOf(dbHelper.getTaskCount()));
+			myItems = dbHelper.getAllTasks();
+			updateView();
 		}
 		
 		@Override
@@ -409,6 +432,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		}
 		
 		public boolean isDone(int position) {
+			
 			return myItems.get(position).isDone;
 		}
 		
@@ -454,25 +478,26 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		}
 		
 		public void remove(int position) {
-			if (myItems.get(position).isDone) numOfDoneTasks--;
-			totalNumOfTasks--;
+			
+			long taskId = myItems.get(position).id;
+//			if (myItems.get(position).isDone) numOfDoneTasks--;
+//			totalNumOfTasks--;
 			myItems.remove(position);
+			dbHelper.deleteTask(taskId);
 			updateView();
 		}
 		
-		// Used to insert tasks manually.
+		// Used to insert tasks manually or by pressing undo after swipe.
 		public void insert(int position, TasksInfo newTask) {
 			
-			if (position >= 0) {
+			if (position >= 0 && !myItems.contains(newTask)) {
 				// Task is re-added (user deleted and then pressed undo) to its original position.
-				if (newTask.isDone) { 
-					numOfDoneTasks++;
-				}
+				dbHelper.createTask(newTask);
 				myItems.add(position, newTask);
 			} else {
+				dbHelper.createTask(newTask);
 				myItems.add(newTask);
 			}
-			totalNumOfTasks++;
 			updateView();
 		}
 		
@@ -483,8 +508,9 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		public void insertFetched(TasksInfo fetchedTask) {
 			Log.i(AM_TAG, "insertFetched -> myItems size (before adding): " + String.valueOf(myItems.size()));
 			myItems.add(fetchedTask);
+			dbHelper.createTask(fetchedTask);
 			Log.i(AM_TAG, "insertFetched -> myItems size (after adding): " + String.valueOf(myItems.size()));
-			totalNumOfTasks++;
+			totalNumOfTasks = myItems.size();
 			
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 			boolean notif = prefs.getBoolean(GeneralSettings.KEY_GS_NOTIF_SYNC, true);
@@ -504,36 +530,42 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		
 		public void updateView() {
 			notifyDataSetChanged();
+			totalNumOfTasks = myItems.size();
+			countDoneTasks();
 			updateProgress();
 		}
 		
+		private void countDoneTasks() {
+			numOfDoneTasks = 0;
+			for (TasksInfo task : myItems) {
+				if (task.isDone) numOfDoneTasks++;
+			}
+		}
+		
 		public void markAsDone(int position) {
-			myItems.get(position).isDone = true;
-			myItems.get(position).taskName.setSpan(new StrikethroughSpan(), 0, 
-					myItems.get(position).taskName.length(), 0);
-			numOfDoneTasks++;
+			TasksInfo task = myItems.get(position);
+			task.changeStatus(true);
+			dbHelper.updateTask(task);
 			updateView();
 		}
 		
 		public void markAsUndone(int position) {
-			myItems.get(position).isDone = false;
-			StrikethroughSpan[] stspans = myItems.get(position).taskName.getSpans(0, 
-					myItems.get(position).taskName.length(), StrikethroughSpan.class);
-			for(StrikethroughSpan st : stspans) {
-				myItems.get(position).taskName.removeSpan(st);
-			}
-			numOfDoneTasks--;
+			TasksInfo task = myItems.get(position);
+			task.changeStatus(false);
+			dbHelper.updateTask(task);
 			updateView();
 		}
 		
-		public ArrayList<TasksInfo> getList() {
+		public List<TasksInfo> getList() {
 			return myItems;
 		}
 		
 		public void setProperties(int position, int difficulty, int importance, int progress) {
-			myItems.get(position).difficulty = difficulty;
-			myItems.get(position).importance = importance;
-			myItems.get(position).progress = progress;
+			TasksInfo task = myItems.get(position);
+			task.difficulty = difficulty;
+			task.importance = importance;
+			task.progress = progress;
+			dbHelper.updateTask(task);
 		}
 		
 		public void updateTaskFromSharedPrefs(int position) {
@@ -547,6 +579,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			task.difficulty = sharedPrefs.getInt(TaskSettingsFragment.KEY_TS_DIFFICULTY, 0);
 			task.importance = sharedPrefs.getInt(TaskSettingsFragment.KEY_TS_IMPORTANCE, 0);
 			task.progress = sharedPrefs.getInt(TaskSettingsFragment.KEY_TS_PROGRESS, 0);
+			dbHelper.updateTask(task);
 			
 			updateView();
 		}
@@ -711,143 +744,70 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 	}
 }
 
-class TasksInfo {
-	SpannableString taskName;
-	String courseId, courseName, dueDate;
-	Boolean isDone = false;
-	int difficulty, importance, progress;
-	// Used to store the task's event id on google calendar.
-	long eventID;
-	String url;
-	
-	public TasksInfo(SpannableString taskName, String courseName, String courseId, String dueDate) {
-		this.taskName = taskName;
-		this.courseName = courseName;
-		this.courseId = courseId;
-		this.dueDate = dueDate;
-	}
-	
-	public String[] getStringArrInfo() {
-		return new String[] { taskName.toString(), courseName, courseId, dueDate };
-	}
-	
-	public int[] getIntArrInfo() {
-		return new int[] { difficulty, importance, progress };
-	}
-	
-	// Eclipse Auto-Generated functions hashCode() and equals()
-	// Used to compare new fetched tasks against tasks in the list.
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((courseId == null) ? 0 : courseId.hashCode());
-		result = prime * result
-				+ ((courseName == null) ? 0 : courseName.hashCode());
-		result = prime * result + ((dueDate == null) ? 0 : dueDate.hashCode());
-		result = prime * result
-				+ ((taskName == null) ? 0 : taskName.hashCode());
-		return result;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		TasksInfo other = (TasksInfo) obj;
-		if (courseId == null) {
-			if (other.courseId != null)
-				return false;
-		} else if (!courseId.equals(other.courseId))
-			return false;
-		if (courseName == null) {
-			if (other.courseName != null)
-				return false;
-		} else if (!courseName.equals(other.courseName))
-			return false;
-		if (dueDate == null) {
-			if (other.dueDate != null)
-				return false;
-		} else if (!dueDate.equals(other.dueDate))
-			return false;
-		if (taskName == null) {
-			if (other.taskName != null)
-				return false;
-		} else if (!(taskName.toString()).equals(other.taskName.toString()))
-			return false;
-		return true;
-	}
-}
-
 //TasksInfo comparator, compares to tasks according to the parameter passed to the c'tor.
 // sortBy values: 0 - due date. 1 - difficulty. 2 - importance. 3 - progress.
-class TasksInfoComparator implements Comparator<TasksInfo> {
-	
-	private int sortBy;
-	
-	public TasksInfoComparator(int sortBy) {
-		this.sortBy = sortBy;
-	}
-	
-	@Override
-	public int compare(TasksInfo task1, TasksInfo task2) {
-		switch(sortBy) {
-		
-		case 0:
-			return datesCompare(fixDate(task1.dueDate), fixDate(task2.dueDate));
-			
-		case 1:
-			return task2.difficulty - task1.difficulty;
-			
-		case 2:
-			return task2.importance - task1.importance;
-			
-		case 3:
-			return task2.progress - task1.progress;
-			
-		default:
-			return 1;
-		}
-		
-	}
-	
-	private String fixDate(String date) {
-		if (date == null || date.isEmpty()) return "";
-    	String[] dateArr = date.split("/");
-    	String day = dateArr[0];
-    	String month = dateArr[1];
-    	String year = dateArr[2];
-    	if (day.length() != 2) day = "0" + day;
-    	if (month.length() != 2) month = "0" + month;
-    	if (year.length() == 2) year = "20" + year;
-    	return day + "/" + month + "/" + year;
-    }
-	
-	// If date2 is after date1 return -1.
-    // if date2 is before date1 return 1.
-    // if date2 equals date1 return 0.
-    private int datesCompare(String date1, String date2) {
-    	
-    	String[] date1Arr = date1.split("/");
-    	String[] date2Arr = date2.split("/");
-    	if (date1Arr.length < 3) return -1;
-    	else if (date2Arr.length < 3) return 1;
-    	int year = date1Arr[2].compareTo(date2Arr[2]);
-	    if (year == 0) {
-		   int month = date1Arr[1].compareTo(date2Arr[1]);
-		   if (month == 0) {
-			   return date1Arr[0].compareTo(date2Arr[0]);
-		   } else {
-		  	   return month;
-		   }
-	    } else {
-		    return year;
-  	    }
-    }
-	
-}
+//class TasksInfoComparator implements Comparator<TasksInfo> {
+//	
+//	private int sortBy;
+//	
+//	public TasksInfoComparator(int sortBy) {
+//		this.sortBy = sortBy;
+//	}
+//	
+//	@Override
+//	public int compare(TasksInfo task1, TasksInfo task2) {
+//		switch(sortBy) {
+//		
+//		case 0:
+//			return datesCompare(fixDate(task1.dueDate), fixDate(task2.dueDate));
+//			
+//		case 1:
+//			return task2.difficulty - task1.difficulty;
+//			
+//		case 2:
+//			return task2.importance - task1.importance;
+//			
+//		case 3:
+//			return task2.progress - task1.progress;
+//			
+//		default:
+//			return 1;
+//		}
+//		
+//	}
+//	
+//	private String fixDate(String date) {
+//		if (date == null || date.isEmpty()) return "";
+//    	String[] dateArr = date.split("/");
+//    	String day = dateArr[0];
+//    	String month = dateArr[1];
+//    	String year = dateArr[2];
+//    	if (day.length() != 2) day = "0" + day;
+//    	if (month.length() != 2) month = "0" + month;
+//    	if (year.length() == 2) year = "20" + year;
+//    	return day + "/" + month + "/" + year;
+//    }
+//	
+//	// If date2 is after date1 return -1.
+//    // if date2 is before date1 return 1.
+//    // if date2 equals date1 return 0.
+//    private int datesCompare(String date1, String date2) {
+//    	
+//    	String[] date1Arr = date1.split("/");
+//    	String[] date2Arr = date2.split("/");
+//    	if (date1Arr.length < 3) return -1;
+//    	else if (date2Arr.length < 3) return 1;
+//    	int year = date1Arr[2].compareTo(date2Arr[2]);
+//	    if (year == 0) {
+//		   int month = date1Arr[1].compareTo(date2Arr[1]);
+//		   if (month == 0) {
+//			   return date1Arr[0].compareTo(date2Arr[0]);
+//		   } else {
+//		  	   return month;
+//		   }
+//	    } else {
+//		    return year;
+//  	    }
+//    }
+//	
+//}

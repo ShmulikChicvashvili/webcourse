@@ -157,7 +157,7 @@ public class TaskParser extends IntentService {
     
     public void addTaskToList(TasksInfo newTask) {
     	
-    	ArrayList<TasksInfo> tasksList = MainActivity.mAdapter.getList();
+    	ArrayList<TasksInfo> tasksList = (ArrayList<TasksInfo>) MainActivity.mAdapter.getList();
     	
     	if (tasksList.contains(newTask)) {
     		Log.i(MainActivity.AM_TAG, "*** " + newTask.taskName + " - " + newTask.courseName + " Already in the list! ***");

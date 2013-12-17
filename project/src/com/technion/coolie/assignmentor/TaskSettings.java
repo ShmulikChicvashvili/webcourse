@@ -30,18 +30,13 @@ public class TaskSettings extends CoolieActivity {
 		String subtitle = task.taskName + " - " + task.courseName;
 		getActionBar().setSubtitle(subtitle);
 		
-//		String[] info = getIntent().getStringArrayExtra("info");
-//		int[] properties = getIntent().getIntArrayExtra("properties");
 		Log.i(MainActivity.AM_TAG, "TaskSettings -> onCreate -> item position: " + String.valueOf(position));
-		
 		
 		TaskSettingsFragment settingsFrag = new TaskSettingsFragment();
 		
 		// Add the tasks data to the bundle and pass it to the fragment.
 		Bundle args = new Bundle();
 		args.putInt("position", position);
-//		b.putStringArray("info", info);
-//		b.putIntArray("properties", properties);
 		settingsFrag.setArguments(args);
 		getFragmentManager().beginTransaction().replace(android.R.id.content, settingsFrag).commit();
 
@@ -51,23 +46,18 @@ public class TaskSettings extends CoolieActivity {
 		
 	}
 	
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//
-//		return super.onCreateOptionsMenu(menu);
-//	}
-	
 	public static class TaskSettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
 
-		public static final String KEY_TS_TASK_NAME = "task_pref_task_name";
-		public static final String KEY_TS_COURSE_NAME = "task_pref_course_name";
-		public static final String KEY_TS_COURSE_ID = "task_pref_course_id";
-		public static final String KEY_TS_DUE_DATE = "task_pref_due_date";
-		public static final String KEY_TS_DIFFICULTY = "task_pref_difficulty";
-		public static final String KEY_TS_IMPORTANCE = "task_pref_importance";
-		public static final String KEY_TS_PROGRESS = "task_pref_progress";
-		public static final String KEY_TS_TASK_REMINDER = "task_pref_reminder";
-		public static final String KEY_TS_COURSE_WEBSITE = "task_pref_course_website";
+		public static final String KEY_TS_TASK_NAME = "am_task_pref_task_name";
+		public static final String KEY_TS_COURSE_NAME = "am_task_pref_course_name";
+		public static final String KEY_TS_COURSE_ID = "am_task_pref_course_id";
+		public static final String KEY_TS_DUE_DATE = "am_task_pref_due_date";
+		public static final String KEY_TS_DIFFICULTY = "am_task_pref_difficulty";
+		public static final String KEY_TS_IMPORTANCE = "am_task_pref_importance";
+		public static final String KEY_TS_PROGRESS = "am_task_pref_progress";
+		public static final String KEY_TS_TASK_REMINDER = "am_task_pref_reminder";
+		public static final String KEY_TS_COURSE_WEBSITE = "am_task_pref_course_website";
+		public static final String KEY_TS_PROPERTIES_CTGRY = "am_task_pref_properties_title";
 		
 		private Context c;
 		
@@ -87,7 +77,7 @@ public class TaskSettings extends CoolieActivity {
 			
 			// Initialize special preferences such as rating bars (difficulty, importance) 
 			// and seek bar (progress).
-			PreferenceCategory preferenceCategory = (PreferenceCategory) findPreference("task_pref_properties_title");
+			PreferenceCategory preferenceCategory = (PreferenceCategory) findPreference(KEY_TS_PROPERTIES_CTGRY);
 			
 			RatingPreference difficultyPref = new RatingPreference(c);
 			difficultyPref.setKey(KEY_TS_DIFFICULTY);
@@ -146,8 +136,14 @@ public class TaskSettings extends CoolieActivity {
 			findPreference(KEY_TS_COURSE_ID).setSummary(task.courseId);
 			findPreference(KEY_TS_DUE_DATE).setSummary(task.dueDate);
 			findPreference(KEY_TS_COURSE_NAME).setSummary(task.courseName);
-			Intent myIntent = new Intent("android.intent.action.VIEW", Uri.parse(task.url));
-			findPreference(KEY_TS_COURSE_WEBSITE).setIntent(myIntent);
+			String url = task.url;
+			Preference courseWebsitePref = findPreference(KEY_TS_COURSE_WEBSITE); 
+			if (url == null || url.isEmpty()) {
+				courseWebsitePref.setEnabled(false);
+			} else {
+				Intent myIntent = new Intent("android.intent.action.VIEW", Uri.parse(task.url));
+				courseWebsitePref.setIntent(myIntent);
+			}
 			RatingPreference ratingPref = (RatingPreference) findPreference(KEY_TS_DIFFICULTY);
 			ratingPref.setRating(task.difficulty);
 			
@@ -156,6 +152,8 @@ public class TaskSettings extends CoolieActivity {
 			
 			SeekBarPreference sbPref = (SeekBarPreference) findPreference(KEY_TS_PROGRESS);
 			sbPref.setProgress(task.progress);
+			
+			
 			
 		}
 		

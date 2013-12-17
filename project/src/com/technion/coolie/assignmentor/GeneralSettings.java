@@ -11,10 +11,10 @@ import android.preference.PreferenceManager;
 
 public class GeneralSettings extends PreferenceActivity implements OnSharedPreferenceChangeListener {
 	
-	public static final String KEY_GS_CALENDAR_SYNC = "pref_sync";
-	public static final String KEY_GS_NOTIF_SYNC = "pref_notif";
-	public static final String KEY_GS_UPDATES_FREQ = "pref_updates_freq";
-	public static final String KEY_GS_REMINDER = "pref_reminder";
+	public static final String KEY_GS_CALENDAR_SYNC = "am_pref_sync";
+	public static final String KEY_GS_NOTIF_SYNC = "am_pref_notif";
+	public static final String KEY_GS_UPDATES_FREQ = "am_pref_updates_freq";
+	public static final String KEY_GS_REMINDER = "am_pref_reminder";
 	
 	@SuppressWarnings("deprecation")
 	@Override

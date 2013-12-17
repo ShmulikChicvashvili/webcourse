@@ -3,15 +3,15 @@
 
     <PreferenceCategory
         android:title="@string/am_pref_sync_title"
-        android:key="pref_key_sync_settings" >
+        android:key="am_pref_key_sync_settings" >
         
 	    <CheckBoxPreference 
-	        android:key="pref_sync"
+	        android:key="am_pref_sync"
 	        android:title="@string/am_pref_sync"
 	        android:defaultValue="false" />
 	    
 	    <ListPreference 
-	        android:key="pref_updates_freq"
+	        android:key="am_pref_updates_freq"
 	        android:title="@string/am_pref_updates_freq"
 	        android:summary="@string/am_pref_updates_freq_sum"
 	        android:dialogTitle="@string/am_pref_updates_dialog_title"
@@ -20,7 +20,7 @@
 	        android:defaultValue="@string/am_pref_updates_default_value" />
 	    
 	    <CheckBoxPreference 
-	        android:key="pref_notif"
+	        android:key="am_pref_notif"
 	        android:title="@string/am_pref_notif"
 	        android:defaultValue="true" />
 	    
@@ -28,10 +28,10 @@
 	
     <PreferenceCategory
         android:title="@string/am_pref_reminder_title"
-        android:key="pref_key_reminder_settings" >
+        android:key="am_pref_key_reminder_settings" >
 	    
 	    <ListPreference
-	        android:key="pref_reminder"
+	        android:key="am_pref_reminder"
 	        android:title="@string/am_pref_reminder"
 	        android:summary="@string/am_pref_reminder_sum"
 	        android:dialogTitle="@string/am_pref_reminder_dialog_title"
