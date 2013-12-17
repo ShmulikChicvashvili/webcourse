@@ -116,6 +116,7 @@ public class CategoriesActivity extends CoolieActivity {
 	        else{
 //	        	ClientEvent e =	(ClientEvent) data.getExtras().get("event");
 	        	if (checkModified()){
+	        		clearModifiedDB();
 	        		showData();
 	        	}
 	        }
@@ -145,7 +146,7 @@ public class CategoriesActivity extends CoolieActivity {
 				CategoryListAdapter adp =(CategoryListAdapter) parent.getAdapter();
 				CategoryItem item = adp.getItem(position);	
 				String category = item.title;
-				List<ClientEvent> list = getCategoryByString(category);
+				List<ClientEvent> list = EventsDB.DB.getCategoryByString(category);
 				if (list.size() > 0){
 					startActivity(new Intent(CategoriesActivity.this, CategoryEventActivity.class).putExtra("category", item.title).putExtra("account", mLoggedAccount));
 				} 
@@ -155,29 +156,9 @@ public class CategoriesActivity extends CoolieActivity {
 
 	}
 	
-	private List<ClientEvent> getCategoryByString(String s){
-		if (s == EventType.MOVIE.toString()) {
-			return EventsDB.DB.getCategoryMovie();
-		}
-		else if (s == EventType.STUDY.toString()){
-			return EventsDB.DB.getCategoryStudy();
-		}
-		else if (s == EventType.NIGHT_LIFE.toString()) {
-			return EventsDB.DB.getCategoryNightLife();
-		}
-		else if (s == EventType.SPORT.toString()){
-			return EventsDB.DB.getCategorySport();
-		}
-		else if (s == EventType.FOOD.toString()) {
-			return EventsDB.DB.getCategoryFood();
-		}
-		else{
-			return EventsDB.DB.getCategoryOther();
-		}
-	}
 	
 	private boolean checkModified(){
-		if (EventsDB.DB.IsModified(EventsDB.DB.CAT_MOVIE)){
+		if (EventsDB.DB.IsModified(EventsDB.DB.CAT_MOVIE)){		
 			return true;
 		}
 		if (EventsDB.DB.IsModified(EventsDB.DB.CAT_FOOD)){
@@ -196,6 +177,20 @@ public class CategoriesActivity extends CoolieActivity {
 			return true;
 		}
 		return false;
+	}
+	
+	void clearModifiedDB(){
+		EventsDB.DB.ClearModified(EventsDB.DB.CAT_MOVIE);
+
+		EventsDB.DB.ClearModified(EventsDB.DB.CAT_STUDY);
+
+		EventsDB.DB.ClearModified(EventsDB.DB.CAT_NIGHT_LIFE);
+
+		EventsDB.DB.ClearModified(EventsDB.DB.CAT_SPORT);
+
+		EventsDB.DB.ClearModified(EventsDB.DB.CAT_FOOD);
+
+		EventsDB.DB.ClearModified(EventsDB.DB.CAT_OTHER);
 	}
 	
 	  @Override

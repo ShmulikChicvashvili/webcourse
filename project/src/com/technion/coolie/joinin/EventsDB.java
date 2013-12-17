@@ -217,6 +217,27 @@ public enum EventsDB {
 			SetModified(getFlag(newEvent.getEventType()));
 		}
 	}
+	
+	public List<ClientEvent> getCategoryByString(String s){
+		if (s.equals(EventType.MOVIE.toString())) {
+			return EventsDB.DB.getCategoryMovie();
+		}
+		else if (s.equals(EventType.STUDY.toString())){
+			return EventsDB.DB.getCategoryStudy();
+		}
+		else if (s.equals(EventType.NIGHT_LIFE.toString())) {
+			return EventsDB.DB.getCategoryNightLife();
+		}
+		else if (s.equals(EventType.SPORT.toString())){
+			return EventsDB.DB.getCategorySport();
+		}
+		else if (s.equals(EventType.FOOD.toString())) {
+			return EventsDB.DB.getCategoryFood();
+		}
+		else{
+			return EventsDB.DB.getCategoryOther();
+		}
+	}
 
 }//EventsDB
 
