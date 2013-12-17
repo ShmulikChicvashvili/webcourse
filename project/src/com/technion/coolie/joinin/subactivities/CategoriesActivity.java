@@ -47,6 +47,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
+import com.technion.coolie.joinin.EventsDB;
 import com.technion.coolie.joinin.calander.CalendarEventDatabase.NotFoundException;
 import com.technion.coolie.joinin.calander.CalendarHandler;
 import com.technion.coolie.joinin.communication.ClientProxy;
@@ -68,18 +69,14 @@ import android.app.ProgressDialog;
 
 public class CategoriesActivity extends CoolieActivity {
 	  final Activity mContext = this;
-	  public static ClientAccount mLoggedAccount = null;
-	  private ListView mainListView ;  
-	  private ArrayAdapter<String> listAdapter ; 
-	  private HashMap<String,ArrayList<ClientEvent>> mMap = new HashMap<String, ArrayList<ClientEvent>>();
+	  public static ClientAccount mLoggedAccount = null; 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ji_activity_categories);
 		mLoggedAccount = (ClientAccount) getIntent().getExtras().get("account");
-		prepareData();
-		showDat();
+		showData();
 	}
 	
 //	protected void onResume()
@@ -110,68 +107,58 @@ public class CategoriesActivity extends CoolieActivity {
 		}
 	}
 	
-	public void prepareData(){
-        mMap.put(EventType.FOOD.toString(), new ArrayList<ClientEvent>());
-        mMap.put(EventType.MOVIE.toString(), new ArrayList<ClientEvent>());
-        mMap.put(EventType.NIGHT_LIFE.toString(), new ArrayList<ClientEvent>());
-        mMap.put(EventType.OTHER.toString(), new ArrayList<ClientEvent>());
-        mMap.put(EventType.SPORT.toString(), new ArrayList<ClientEvent>());
-        mMap.put(EventType.STUDY.toString(), new ArrayList<ClientEvent>());
-                       
-        getAllEvents();
-        		
-	}
-	
-	public void showDat(){    
-        CategoryItem categoryItem[] = new CategoryItem[]
-        {
-         
-            new CategoryItem(R.drawable.ji_movie_icon, EventType.MOVIE.toString(),String.valueOf(mMap.get(EventType.MOVIE.toString()).size()),"Invite people to watch a movie!"),
-            new CategoryItem(R.drawable.ji_study_icon, EventType.STUDY.toString(), String.valueOf(mMap.get(EventType.STUDY.toString()).size()),"Orgenize or join study groups!"),
-            new CategoryItem(R.drawable.ji_sports_icon, EventType.SPORT.toString(),String.valueOf(mMap.get(EventType.SPORT.toString()).size()),"Orgenize or join sporting events!"),
-            new CategoryItem(R.drawable.ji_food_icon,  EventType.FOOD.toString(), String.valueOf(mMap.get(EventType.FOOD.toString()).size()),"Order food together!"),
-            new CategoryItem(R.drawable.ji_night_life_icon, EventType.NIGHT_LIFE.toString(),String.valueOf(mMap.get(EventType.NIGHT_LIFE.toString()).size()),"Invite or join social events!"),
-        };
-        
-        CategoryListAdapter adapter = new CategoryListAdapter(this, 
-                R.layout.ji_categories_list_item, categoryItem);
-        
-        mainListView = (ListView) findViewById( R.id.categorymainListView );         
-        mainListView.setAdapter(adapter);
-        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+	public void showData(){        
+		CategoryItem categoryItem[] = new CategoryItem[]
+				{
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                int position, long id) {
-            	CategoryListAdapter adp =(CategoryListAdapter) parent.getAdapter();
-            	CategoryItem item = adp.getItem(position);	
-            	String category = item.title;
-            	if (mMap.get(category).size() > 0){
-            		startActivity(new Intent(CategoriesActivity.this, CategoryEventActivity.class).putExtra("category", mMap.get(category)).putExtra("account", mLoggedAccount));
-            	} 
-            }
+				new CategoryItem(R.drawable.ji_movie_icon, EventType.MOVIE.toString(),String.valueOf(EventsDB.DB.getCategoryMovie().size()),"Invite people to watch a movie!"),
+				new CategoryItem(R.drawable.ji_study_icon, EventType.STUDY.toString(), String.valueOf(EventsDB.DB.getCategoryStudy().size()),"Orgenize or join study groups!"),
+				new CategoryItem(R.drawable.ji_sports_icon, EventType.SPORT.toString(),String.valueOf(EventsDB.DB.getCategorySport().size()),"Orgenize or join sporting events!"),
+				new CategoryItem(R.drawable.ji_food_icon,  EventType.FOOD.toString(), String.valueOf(EventsDB.DB.getCategoryFood().size()),"Order food together!"),
+				new CategoryItem(R.drawable.ji_night_life_icon, EventType.NIGHT_LIFE.toString(),String.valueOf(EventsDB.DB.getCategoryNightLife().size()),"Invite or join social events!"),
+				};
 
-          });
-		
+		CategoryListAdapter adapter = new CategoryListAdapter(this, 
+				R.layout.ji_categories_list_item, categoryItem);
+		ListView mainListView ; 
+		mainListView = (ListView) findViewById( R.id.categorymainListView );         
+		mainListView.setAdapter(adapter);
+		mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-	}
-	
-	private void getAllEvents(){	     
-		final ProgressDialog pd = ProgressDialog.show(this, "Join-In", "Loading Events");
-		pd.setCancelable(false);
-		//Fetch My events from server    	 
-		ClientProxy.getAllEvents(new OnDone<List<ClientEvent>>() {
-			@Override public void onDone(final List<ClientEvent> ces) {	
-				for (ClientEvent clientEvent : ces) {
-					mMap.get(clientEvent.getEventType().toString()).add(clientEvent);
-				}				
-				pd.dismiss();
-				showDat();
+			@Override
+			public void onItemClick(AdapterView<?> parent, final View view,
+					int position, long id) {
+				CategoryListAdapter adp =(CategoryListAdapter) parent.getAdapter();
+				CategoryItem item = adp.getItem(position);	
+				String category = item.title;
+				List<ClientEvent> list = getCategoryByString(category);
+				if (list.size() > 0){
+					startActivity(new Intent(CategoriesActivity.this, CategoryEventActivity.class).putExtra("category", item.title).putExtra("account", mLoggedAccount));
+				} 
 			}
-		}, new OnError(this) {
-			@Override public void beforeHandlingError() {
-				pd.dismiss();
-			}
+
 		});
-	}	
+
+	}
+	
+	private List<ClientEvent> getCategoryByString(String s){
+		if (s == EventType.MOVIE.toString()) {
+			return EventsDB.DB.getCategoryMovie();
+		}
+		else if (s == EventType.STUDY.toString()){
+			return EventsDB.DB.getCategoryStudy();
+		}
+		else if (s == EventType.NIGHT_LIFE.toString()) {
+			return EventsDB.DB.getCategoryNightLife();
+		}
+		else if (s == EventType.SPORT.toString()){
+			return EventsDB.DB.getCategorySport();
+		}
+		else if (s == EventType.FOOD.toString()) {
+			return EventsDB.DB.getCategoryFood();
+		}
+		else{
+			return EventsDB.DB.getCategoryOther();
+		}
+	}
 }
