@@ -46,5 +46,6 @@
     <string name="lmi_discard">Discard</string>
     <string name="lmi_first_inv_title">Car info was Saved!</string>
     <string name="lmi_first_inv_text">LetMeIn saves all inputted car info, so you will never have to do it again!</string>
+    <string name="lmi_status_image">The contact\'s status</string>
 
 </resources>

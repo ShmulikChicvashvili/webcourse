@@ -19,8 +19,11 @@ import android.widget.Toast;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
-import com.technion.coolie.letmein.scapping.Scrapper;
 
+import com.technion.coolie.letmein.service.InvitationSender;
+import com.technion.coolie.letmein.service.InvitationSender.ConnectionException;
+import com.technion.coolie.letmein.service.InvitationSender.UnknownErrorException;
+import com.technion.coolie.letmein.util.AsyncTaskResult;
 import com.technion.coolie.letmein.model.HacksEnabledClass;
 
 public class LoginActivity extends CoolieActivity {
@@ -111,25 +114,42 @@ public class LoginActivity extends CoolieActivity {
 			return;
 		}
 
+		
+		
 		// HACK for testing
 		if (HacksEnabledClass.TestHackesEnabled) {
 			if (username.contains("asd")) {
 				endLogin(true);
-			} else {
-				(new AsyncTask<String, Void, Boolean>() {
-					@Override
-					protected Boolean doInBackground(String... params) {
-						return Scrapper.CheckLogin(params[0], params[1]);
-					}
-
-					@Override
-					protected void onPostExecute(Boolean result) {
-						LoginActivity.this.endLogin(result);
-					}
-
-				}).execute(username, password);
 			}
+	
+		(new AsyncTask<String, Void, AsyncTaskResult<Boolean>>() {
+			@Override
+			protected AsyncTaskResult<Boolean> doInBackground(final String... params) {
+				AsyncTaskResult<Boolean> $;
+				try {
+					$ = new AsyncTaskResult<Boolean>(InvitationSender.isLoginValid(params[0],
+							params[1]));
+				} catch (final ConnectionException e) {
+					$ = new AsyncTaskResult<Boolean>(e);
+				} catch (final UnknownErrorException e) {
+					$ = new AsyncTaskResult<Boolean>(e);
+				}
+
+				return $;
+			}
+
+			@Override
+			protected void onPostExecute(final AsyncTaskResult<Boolean> result) {
+				if (result.getError() == null) {
+					LoginActivity.this.endLogin(result.getResult());
+					return;
+				}
+			}
+
+		}).execute(username, password);
+				// TODO:: HANDLE ERRORS
 		}
+		
 	}
 
 	private void endLogin(Boolean loginSuccess) {

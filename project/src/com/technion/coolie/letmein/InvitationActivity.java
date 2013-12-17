@@ -43,7 +43,7 @@ import com.technion.coolie.letmein.model.Invitation;
 import com.technion.coolie.letmein.model.Invitation.Status;
 import com.technion.coolie.letmein.model.adapters.ContactsAdapter;
 import com.technion.coolie.letmein.model.adapters.OldContactsAdapter;
-import com.technion.coolie.letmein.scapping.Scrapper;
+
 
 public class InvitationActivity extends DatabaseActivity implements
 		CalendarSupplier {
@@ -264,7 +264,7 @@ public class InvitationActivity extends DatabaseActivity implements
 								friendCarNumberEdit.setText(inv.getCarNumber());
 								friendCarColorEdit.setText(inv.getCarColor());
 								friendCarCompanySpinner.setSelection(inv
-										.getCarCompany().ordinal());
+										.getCarManufacturer().ordinal());
 							}
 						}
 
