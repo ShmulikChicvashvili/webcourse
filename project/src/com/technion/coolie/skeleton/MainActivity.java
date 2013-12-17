@@ -3,6 +3,7 @@ package com.technion.coolie.skeleton;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -24,11 +25,13 @@ import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.CoolieNotification;
 import com.technion.coolie.R;
 
+@SuppressLint("ValidFragment")
 public class MainActivity extends CoolieActivity {
 
 	private GridView mostUsedGrid;
 	private ViewPager mViewPager;
-	
+	int selectedTabIndex = 0; // used in onResume to restore the selected tab in orientation change
+	private static String KEY_VIEWPAGER_SAVE_STATE = "VIEW_PAGER_SELECTED_TAB";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,6 +74,11 @@ public class MainActivity extends CoolieActivity {
 								position);
 					}
 				});
+		
+
+		if(savedInstanceState!=null)
+			selectedTabIndex = savedInstanceState.getInt(KEY_VIEWPAGER_SAVE_STATE);
+			
 	}
 	
 	@Override
@@ -125,6 +133,9 @@ public class MainActivity extends CoolieActivity {
 	    actionBar.addTab(actionBar.newTab().setText(R.string.skel_tab_title_alphabetical).setTabListener(tabListener));
 	    actionBar.addTab(actionBar.newTab().setText(R.string.skel_tab_title_most_used).setTabListener(tabListener));
 	    actionBar.addTab(actionBar.newTab().setText(R.string.skel_tab_title_feeds).setTabListener(tabListener));
+	
+	    actionBar.setSelectedNavigationItem(selectedTabIndex);
+
 	}
 	
 
@@ -161,6 +172,7 @@ public class MainActivity extends CoolieActivity {
 			super(c);
 		}
 
+		@SuppressLint("ValidFragment")
 		@Override
 		int compareModules(CoolieModule m1, CoolieModule m2) {
 			return m1.getName(mContext).compareTo(m2.getName(mContext));
@@ -210,6 +222,7 @@ public class MainActivity extends CoolieActivity {
 		}
 	}
 	
+	@SuppressLint("ValidFragment")
 	private class FeedsFragment extends Fragment {
 		FeedsAdapter adp;
 		@Override
@@ -235,4 +248,10 @@ public class MainActivity extends CoolieActivity {
 		}
 	}
 
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		if(((ViewPager) findViewById(R.id.skel_main_view_pager)) != null)
+			savedInstanceState.putInt(KEY_VIEWPAGER_SAVE_STATE, ((ViewPager) findViewById(R.id.skel_main_view_pager)).getCurrentItem());
+		super.onSaveInstanceState(savedInstanceState);
+	}
 }
