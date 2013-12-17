@@ -53,10 +53,9 @@ public class CoursePresenter
 		return course.getStudyItemsLabels(resourceName);
 	}
 
-	public boolean isTaskDone(int position)
+	public boolean isTaskDone(String resourceName, int position)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return course.isTaskDone(resourceName, position);
 	}
 
 	public void toggleTask(String resourceName, int position)

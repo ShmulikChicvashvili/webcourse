@@ -160,7 +160,7 @@ public class ResourceGridAdapter extends BaseAdapter implements Observer
 
 		}
 
-		boolean marked = presenter.isTaskDone(position);
+		boolean marked = presenter.isTaskDone(resourceName, position);
 
 		textView.setStriked(marked);
 		textView.setText(getItem(position).toString());
