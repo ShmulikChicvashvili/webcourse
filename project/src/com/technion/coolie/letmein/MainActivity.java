@@ -3,68 +3,79 @@ package com.technion.coolie.letmein;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.FrameLayout;
 
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.widget.SearchView;
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.adapters.BaseInvitationAdapter;
 import com.technion.coolie.letmein.model.adapters.InvitationAdapter;
 import com.technion.coolie.letmein.model.adapters.MockInvitationAdapter;
 
-public class MainActivity extends DatabaseActivity implements InvitationListFragment.AdapterSupplier,
-		EmptyInvitationListFragment.OnNewInvitationListener {
+public class MainActivity extends DatabaseActivity implements
+		InvitationListFragment.AdapterSupplier {
 
 	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
-	private BaseInvitationAdapter invitationAdapter;
 
 	private Button loginButton;
+	private Button watchDemoButton;
+	private Fragment welcomeFragment;
+
+	private BaseInvitationAdapter invitationAdapter;
 	private boolean isLoggedIn;
-	
+	private boolean isAddInvitationItemVisible = false;
+
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	    MenuInflater inflater = this.getSupportMenuInflater();
-	    inflater.inflate(R.menu.lmi_menu, menu);
+	public boolean onCreateOptionsMenu(final Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.lmi_menu, menu);
 
-	    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.lmi_search).getActionView();
-        if (null != searchView )
-        {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-            searchView.setIconifiedByDefault(false);   
-        }
+		menu.findItem(R.id.lmi_done).setVisible(false);
+		menu.findItem(R.id.lmi_discard).setVisible(false);
+		menu.findItem(R.id.lmi_add_invitation).setVisible(isAddInvitationItemVisible);
 
-        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() 
-        {
-            public boolean onQueryTextChange(String newText) 
-            {
-                // this is your adapter that will be filtered
-                //adapter.getFilter().filter(newText);
-            	Toast.makeText(MainActivity.this, "Gilad FIX ME!!(" + newText + ")", Toast.LENGTH_SHORT).show();
-                return true;
-            }
+		final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+		final SearchView searchView = (SearchView) menu.findItem(R.id.lmi_search).getActionView();
+		if (null != searchView) {
+			searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+			searchView.setIconifiedByDefault(false);
+		}
 
-            public boolean onQueryTextSubmit(String query) 
-            {
-                // this is your adapter that will be filtered
-                //adapter.getFilter().filter(query);
-                Toast.makeText(MainActivity.this, "Gilad FIX ME!!(" + query + ")", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        };
-        searchView.setOnQueryTextListener(queryTextListener);
-        searchView.setQueryHint(getResources().getString(R.string.lmi_search_hint));
+		final SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+			@Override
+			public boolean onQueryTextChange(final String newText) {
+				getAdapter().getFilter().filter(newText);
+				return true;
+			}
 
-        return super.onCreateOptionsMenu(menu);
-        
+			@Override
+			public boolean onQueryTextSubmit(final String query) {
+				getAdapter().getFilter().filter(query);
+				return true;
+			}
+		};
+		searchView.setOnQueryTextListener(queryTextListener);
+		searchView.setQueryHint(getResources().getString(R.string.lmi_search_hint));
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.lmi_add_invitation:
+			onNewInvitation();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	@Override
@@ -79,6 +90,16 @@ public class MainActivity extends DatabaseActivity implements InvitationListFrag
 				startActivity(new Intent(MainActivity.this, LoginActivity.class));
 			}
 		});
+
+		watchDemoButton = (Button) findViewById(R.id.lmi_watch_demo_button);
+		watchDemoButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(MainActivity.this, DemoActivity.class));
+			}
+		});
+
+		welcomeFragment = getSupportFragmentManager().findFragmentById(R.id.lmi_welcome_fragment);
 	}
 
 	@Override
@@ -88,31 +109,47 @@ public class MainActivity extends DatabaseActivity implements InvitationListFrag
 		// For better performance:
 		isLoggedIn = isLoggedIn || isUserLoggedIn();
 
-		if (isLoggedIn)
-			loginButton.setVisibility(View.GONE);
+		invitationAdapter = isLoggedIn ? new InvitationAdapter(MainActivity.this, getHelper())
+				: new MockInvitationAdapter(MainActivity.this);
 
-		new UpdateInvitationsTask().execute();
-	}
+		Fragment listFragment = invitationAdapter.isEmpty() ? new EmptyInvitationListFragment()
+				: new InvitationListFragment();
 
-	private class UpdateInvitationsTask extends AsyncTask<Void, Void, BaseInvitationAdapter> {
-		@Override
-		protected BaseInvitationAdapter doInBackground(final Void... params) {
-			if (isLoggedIn)
-				return new InvitationAdapter(MainActivity.this, getHelper());
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.lmi_invitation_list_container, listFragment).commit();
 
-			return new MockInvitationAdapter(MainActivity.this);
+		if (!isLoggedIn) {
+			if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+				findViewById(R.id.lmi_body_fragment).setVisibility(View.GONE);
+				findViewById(R.id.lmi_seperator).setVisibility(View.GONE);
+			}
+			return;
 		}
 
-		@Override
-		protected void onPostExecute(final BaseInvitationAdapter adapter) {
-			invitationAdapter = adapter;
+		welcomeFragment.getView().setVisibility(View.GONE);
 
-			final Fragment fragment = adapter.isEmpty() ? new EmptyInvitationListFragment()
-					: new InvitationListFragment();
+		isAddInvitationItemVisible = true;
+		supportInvalidateOptionsMenu();
 
-			getSupportFragmentManager().beginTransaction()
-					.replace(R.id.lmi_invitation_list_container, fragment).commit();
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+			return;
+
+		FrameLayout invitationViewFragme = (FrameLayout) findViewById(R.id.lmi_body_fragment);
+
+		if (invitationAdapter.isEmpty()) {
+			invitationViewFragme.setVisibility(View.GONE);
+			return;
 		}
+
+		invitationViewFragme.setVisibility(View.VISIBLE);
+
+		Fragment fragment = new InvitationViewFragment();
+		Bundle bundle = new Bundle();
+		bundle.putInt(Consts.POSITION, 0);
+		fragment.setArguments(bundle);
+
+		getSupportFragmentManager().beginTransaction().replace(R.id.lmi_body_fragment, fragment)
+				.commit();
 	}
 
 	private boolean isUserLoggedIn() {
@@ -122,7 +159,6 @@ public class MainActivity extends DatabaseActivity implements InvitationListFrag
 				Consts.IS_LOGGED_IN, false);
 	}
 
-	@Override
 	public void onNewInvitation() {
 		startActivity(new Intent(MainActivity.this, InvitationActivity.class));
 	}
@@ -130,5 +166,23 @@ public class MainActivity extends DatabaseActivity implements InvitationListFrag
 	@Override
 	public BaseInvitationAdapter getAdapter() {
 		return invitationAdapter;
+	}
+
+	@Override
+	public void changeInvitationView(int position) {
+		Bundle args = new Bundle();
+		args.putInt(Consts.POSITION, position);
+
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			Fragment fragment = new InvitationViewFragment();
+			fragment.setArguments(args);
+
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.lmi_body_fragment, fragment).commit();
+		} else {
+			Intent intent = new Intent(MainActivity.this, InvitationViewActivity.class);
+			intent.putExtras(args);
+			startActivity(intent);
+		}
 	}
 }

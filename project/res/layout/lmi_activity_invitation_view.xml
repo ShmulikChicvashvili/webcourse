@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/TableLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/lmi_layout_margin" >
+
+    <View
+        android:id="@+id/lmi_just_for_alignment"
+        android:layout_width="@dimen/lmi_components_margin"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Friend name"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textColor="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/lmi_friend_name_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/lmi_just_for_alignment"
+        android:text="Ron Cohen"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lmi_friend_name_edit"
+        android:paddingTop="@dimen/lmi_components_margin"
+        android:text="Phone number"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textColor="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/lmi_friend_cellphone_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lmi_friend_name_edit"
+        android:layout_toRightOf="@+id/lmi_just_for_alignment"
+        android:paddingTop="@dimen/lmi_components_margin"
+        android:text="0505839234"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lmi_friend_cellphone_edit"
+        android:paddingTop="@dimen/lmi_components_margin"
+        android:text="Car number"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textColor="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/lmi_friend_car_number_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lmi_friend_cellphone_edit"
+        android:layout_toRightOf="@+id/lmi_just_for_alignment"
+        android:paddingTop="@dimen/lmi_components_margin"
+        android:text="43280321"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lmi_friend_car_number_edit"
+        android:paddingTop="@dimen/lmi_components_margin"
+        android:text="Car manifacturer"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textColor="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/lmi_friend_car_company_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lmi_friend_car_number_edit"
+        android:layout_toRightOf="@+id/lmi_just_for_alignment"
+        android:paddingTop="@dimen/lmi_components_margin"
+        android:text="Mazda"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lmi_friend_car_company_edit"
+        android:paddingTop="@dimen/lmi_components_margin"
+        android:text="Car color"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textColor="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/lmi_friend_car_color_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lmi_friend_car_company_edit"
+        android:layout_toRightOf="@+id/lmi_just_for_alignment"
+        android:paddingTop="@dimen/lmi_components_margin"
+        android:text="White"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+</RelativeLayout>

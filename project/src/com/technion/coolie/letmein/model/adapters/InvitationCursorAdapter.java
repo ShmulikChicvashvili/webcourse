@@ -6,34 +6,36 @@ import java.util.List;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.text.format.DateFormat;
 import android.util.Log;
 
-import com.technion.coolie.R;
 import com.technion.coolie.letmein.Consts;
+import com.technion.coolie.letmein.model.ContactsUtils;
 import com.technion.coolie.letmein.model.Contract;
 import com.technion.coolie.letmein.model.Invitation;
 
 public class InvitationCursorAdapter extends BaseInvitationAdapter {
 	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
+	private final Uri DEFAULT_THUMBNAIL_URI;
 	private static final long NUM_ITEMS_TO_LOAD = 20;
 	private final List<Invitation> invitations;
 
 	private final Context context;
 
 	private Invitation invitationFromCursor(final Cursor c) throws ParseException {
-		final Invitation i = new Invitation();
+		final Invitation.Builder builder = Invitation.builder();
 
 		// TODO:: Figure how is date actually formatted (currently, not sure...)
-		i.setDate(DateFormat.getDateFormat(context).parse(
+		builder.date(DateFormat.getDateFormat(context).parse(
 				c.getString(c.getColumnIndex(Contract.Invitation.DATE))));
 
-		i.setContactId(c.getString(c.getColumnIndex(Contract.Invitation.CONTACT_ID)));
+		builder.contactId(c.getLong(c.getColumnIndex(Contract.Invitation.CONTACT_ID)));
 
-		i.setStatus(Enum.valueOf(Invitation.Status.class,
+		builder.status(Enum.valueOf(Invitation.Status.class,
 				c.getString(c.getColumnIndex(Contract.Invitation.STATUS))));
 
-		return i;
+		return builder.build();
 	}
 
 	private List<Invitation> getInvitations() {
@@ -59,20 +61,27 @@ public class InvitationCursorAdapter extends BaseInvitationAdapter {
 	public InvitationCursorAdapter(final Context context) {
 		super(context);
 
+		DEFAULT_THUMBNAIL_URI = Uri.parse("android.resource://" + context.getPackageName()
+				+ "/drawable/lmi_google_man");
+
 		this.context = context;
 		this.invitations = getInvitations();
 	}
 
 	@Override
-	protected List<Invitation> getInvitationList() {
+	protected List<Invitation> getFullDataset() {
 		return invitations;
 	}
 
 	@Override
-	protected ContactView getContactViewById(final String contactId) {
+	protected ContactView getContactViewById(final Long contactId) {
 		final ContactView $ = new ContactView();
 		$.ContactName = "Contact Name";
-		$.ContactImageId = R.drawable.lmi_facebook_man;
+
+		Uri imageUri = ContactsUtils.contactIdToTumbnailPhoto(contactId,
+				context.getContentResolver());
+		$.ContactImageUri = (imageUri == null) ? DEFAULT_THUMBNAIL_URI : imageUri;
+
 		return $;
 	}
 

@@ -7,67 +7,82 @@ import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
+import android.net.Uri;
 
-import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.Invitation;
 
 public class MockInvitationAdapter extends BaseInvitationAdapter {
-	private static final List<Invitation> mockInvitations = initInvitations();
-	private static final Map<String, ContactView> mockContactViewsById = initContactViews();
+	private final List<Invitation> mockInvitations;
+	private final Map<Long, ContactView> mockContactViewsById;
+	private final Context context;
 
-	private static List<Invitation> initInvitations() {
+	private static final long DAD_ID = 0L;
+	private static final long FRIEND_ID = 1L;
+	private static final long ABED_ID = 2L;
+	
+	private static final String DAD_NAME = "Dad";
+	private static final String FRIEND_NAME = "My best friend";
+	private static final String ABED_NAME = "Abed";
+	
+	private Uri getDrawableUri(String drawable) {
+		return Uri.parse("android.resource://" + context.getPackageName() + "/drawable/" + drawable);
+	}
+
+	private List<Invitation> initInvitations() {
 		final Calendar c = Calendar.getInstance();
 
-		final Invitation dad = new Invitation();
-		dad.setContactId("dad");
 		c.add(Calendar.HOUR_OF_DAY, 9);
-		dad.setDate(c.getTime());
+		final Invitation dad = Invitation.builder().contactId(DAD_ID)
+				.contactName(DAD_NAME).date(c.getTime()).build();
 
-		final Invitation friend = new Invitation();
-		friend.setContactId("friend");
 		c.add(Calendar.DAY_OF_YEAR, 2);
-		friend.setDate(c.getTime());
+		final Invitation friend = Invitation.builder().contactId(FRIEND_ID)
+				.contactName(FRIEND_NAME).date(c.getTime()).build();
 
-		final Invitation abed = new Invitation();
-		abed.setContactId("abed");
 		c.add(Calendar.WEEK_OF_YEAR, 1);
-		abed.setDate(c.getTime());
+		final Invitation abed = Invitation.builder().contactId(ABED_ID)
+				.contactName(ABED_NAME).date(c.getTime()).build();
 
 		return Arrays.asList(dad, friend, abed);
 	}
 
-	private static Map<String, ContactView> initContactViews() {
-		final Map<String, ContactView> $ = new HashMap<String, ContactView>();
+	private Map<Long, ContactView> initContactViews() {
+		final Map<Long, ContactView> $ = new HashMap<Long, ContactView>();
 
 		final ContactView dad = new ContactView();
-		dad.ContactName = "Dad";
-		dad.ContactImageId = R.drawable.lmi_dad;
-		$.put("dad", dad);
+		dad.ContactName = DAD_NAME;
+		dad.ContactImageUri = getDrawableUri("lmi_dad");
+		$.put(DAD_ID, dad);
 
 		final ContactView friend = new ContactView();
-		friend.ContactName = "My best friend";
-		friend.ContactImageId = R.drawable.lmi_winger;
-		$.put("friend", friend);
+		friend.ContactName = FRIEND_NAME;
+		friend.ContactImageUri = getDrawableUri("lmi_winger");
+		$.put(FRIEND_ID, friend);
 
 		final ContactView abed = new ContactView();
-		abed.ContactName = "Abed";
-		abed.ContactImageId = R.drawable.lmi_abed;
-		$.put("abed", abed);
+		abed.ContactName = ABED_NAME;
+		abed.ContactImageUri = getDrawableUri("lmi_abed");
+		$.put(ABED_ID, abed);
 
 		return $;
 	}
 
 	public MockInvitationAdapter(final Context context) {
 		super(context);
+		
+		this.context = context;
+		
+		mockInvitations = initInvitations();
+		mockContactViewsById = initContactViews();
 	}
 
 	@Override
-	protected List<Invitation> getInvitationList() {
+	protected List<Invitation> getFullDataset() {
 		return mockInvitations;
 	}
 
 	@Override
-	protected ContactView getContactViewById(final String contactId) {
+	protected ContactView getContactViewById(final Long contactId) {
 		return mockContactViewsById.get(contactId);
 	}
 }

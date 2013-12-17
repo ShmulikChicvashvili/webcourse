@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/lmi_welcome_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:paddingBottom="@dimen/lmi_components_margin"
+        android:text="@string/lmi_welcome_message"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <View
+        android:id="@+id/lmi_just_for_alignment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_below="@+id/lmi_welcome_message"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/lmi_login_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/lmi_just_for_alignment"
+        android:layout_below="@+id/lmi_welcome_message"
+        android:layout_marginRight="@dimen/lmi_components_margin"
+        android:background="@drawable/lmi_btn_green"
+        android:text="@string/lmi_login_to_use"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/lmi_watch_demo_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lmi_just_for_alignment"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/lmi_welcome_message"
+        android:layout_marginLeft="@dimen/lmi_components_margin"
+        android:background="@drawable/lmi_btn_blue"
+        android:text="@string/lmi_watch_demo"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <View
+        android:id="@+id/lmi_devider"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@+id/lmi_login_button"
+        android:layout_marginTop="@dimen/lmi_layout_margin"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lmi_devider"
+        android:gravity="center"
+        android:paddingTop="@dimen/lmi_layout_margin"
+        android:text="This could be you:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+</RelativeLayout>

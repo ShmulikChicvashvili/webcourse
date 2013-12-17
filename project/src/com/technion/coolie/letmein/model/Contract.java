@@ -21,13 +21,14 @@ public final class Contract {
 		public static final String MIMETYPE_NAME = AUTHORITY + ".provider";
 
 		// Fields
-		public static final String CONTACT_ID = "contactId";
 		public static final String DATE = "date";
 		public static final String STATUS = "status";
-		public static final String FRIEND_NAME = "friendName";
-		public static final String FRIEND_CELLPHONE = "friendCellphone";
+
+		public static final String CONTACT_ID = "contactId";
+		public static final String CONTACT_NAME = "contactName";
+		public static final String CONTACT_PHONE_NUMBER = "contactPhoneNumber";
 		public static final String CAR_NUMBER = "carNumber";
-		public static final String CAR_COMPANY = "carCompany";
+		public static final String CAR_MANUFACTURER = "carManufacturer";
 		public static final String CAR_COLOR = "carColor";
 
 		// Content URI pattern code

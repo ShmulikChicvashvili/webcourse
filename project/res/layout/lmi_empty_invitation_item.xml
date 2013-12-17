@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:onClick="emptyStateListAction" >
+    android:layout_height="match_parent" >
 
     <ImageView
-        android:id="@+id/lmi_add"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:id="@+id/lmi_arrow"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:contentDescription="@string/lmi_invite_contact"
+        android:paddingRight="?attr/actionBarSize"
+        android:scaleType="fitStart"
+        android:src="@drawable/lmi_arrow" />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/lmi_add_a_friend_message"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/lmi_invite_contact"
+        android:paddingTop="@dimen/lmi_components_margin"
         android:scaleType="fitXY"
-        android:src="@drawable/lmi_plus" />
+        android:src="@drawable/lmi_car" />
 
     <TextView
+        android:id="@+id/lmi_add_a_friend_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lmi_add"
-        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/lmi_arrow"
+        android:layout_toLeftOf="@+id/lmi_arrow"
+        android:paddingRight="@dimen/lmi_components_margin"
         android:text="@string/lmi_empty_list_message"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
