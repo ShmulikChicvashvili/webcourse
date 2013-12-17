@@ -19,7 +19,7 @@ public class GraphFactory
 {
 	// TODO Dima API FOR Weekly Graph
 	public static GraphicalView getWeeklyProgressGraph(Context ctx,
-			Date firstDayOfWeek, int[] weeklyProgress)
+			Date firstDayOfWeek, Integer[] weeklyProgress)
 	{
 		WeeklyProgress wp = new WeeklyProgress(firstDayOfWeek, weeklyProgress);
 		return ChartFactory.getBarChartView(ctx, wp.getDataset(),
@@ -65,7 +65,7 @@ public class GraphFactory
 
 		final Map<String, Integer> name2progress = new LinkedHashMap<String, Integer>();
 
-		for (StudyResource sr : c.getStudyResources())
+		for (StudyResource sr : c.getAllStudyResources())
 		{
 			name2progress.put(sr.getName(),
 					Integer.valueOf(sr.getDoneItemsCount()));

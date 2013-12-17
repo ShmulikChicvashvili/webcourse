@@ -14,35 +14,44 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 
-public class WeeklyProgress {
-	private Date firstDayOfWeek;
-	//private int[] weeklyProgress;
-	private Double[] dailyProgress;
+public class WeeklyProgress
+{
+	private Date		firstDayOfWeek;
+	// private int[] weeklyProgress;
+	private Double[]	dailyProgress;
 
-	WeeklyProgress(Date firstDayOfWeek, int[] weeklyProgress) {
+	WeeklyProgress(Date firstDayOfWeek, Integer[] weeklyProgress)
+	{
 		this.firstDayOfWeek = new Date(firstDayOfWeek.getTime());
-		
-		this.dailyProgress = new Double[weeklyProgress.length];
+
+		dailyProgress = new Double[weeklyProgress.length];
 		for (int i = 0; i < dailyProgress.length; ++i)
+		{
 			dailyProgress[i] = Double.valueOf(weeklyProgress[i]);
+		}
 	}
 
-	XYMultipleSeriesDataset getDataset() {
+	XYMultipleSeriesDataset getDataset()
+	{
 		String[] titles = new String[] { "Daily Progress" };
 		List<double[]> values = new ArrayList<double[]>();
 
 		double[] dailyProgress = new double[this.dailyProgress.length];
 		for (int i = 0; i < dailyProgress.length; ++i)
+		{
 			dailyProgress[i] = this.dailyProgress[i].doubleValue();
+		}
 
 		values.add(dailyProgress);
 
 		return Progress.buildBarDataset(titles, values);
 	}
 
-	XYMultipleSeriesRenderer getRenderer() {
+	XYMultipleSeriesRenderer getRenderer()
+	{
 		@SuppressWarnings("serial")
-		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer() {
+		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer()
+		{
 			{
 				setChartTitle("Daily Progress");
 				setOrientation(Orientation.HORIZONTAL);
@@ -84,7 +93,8 @@ public class WeeklyProgress {
 				Calendar c = new GregorianCalendar();
 				c.setTime(firstDayOfWeek);
 
-				for (int i = 0; i < dailyProgress.length; ++i) {
+				for (int i = 0; i < dailyProgress.length; ++i)
+				{
 					String date = c.get(Calendar.DAY_OF_MONTH) + "."
 							+ c.get(Calendar.MONTH);
 					addXTextLabel(i + 1, date);
@@ -92,9 +102,11 @@ public class WeeklyProgress {
 				}
 
 				setXLabels(0); // Hides numbers from, leaves only text
-				setYLabels(Collections.max(Arrays.asList(dailyProgress)).intValue());
+				setYLabels(Collections.max(Arrays.asList(dailyProgress))
+						.intValue());
 
-				addSeriesRenderer(new SimpleSeriesRenderer() {
+				addSeriesRenderer(new SimpleSeriesRenderer()
+				{
 					{
 						setDisplayChartValues(true);
 						setChartValuesTextSize(25);
