@@ -51,6 +51,7 @@ import com.technion.coolie.R;
 import com.technion.coolie.R.id;
 import com.technion.coolie.R.layout;
 import com.technion.coolie.R.menu;
+import com.technion.coolie.joinin.EventsDB;
 import com.technion.coolie.joinin.LoginDialog;
 import com.technion.coolie.joinin.MainActivity;
 import com.technion.coolie.joinin.calander.CalendarEventDatabase.NotFoundException;
@@ -76,19 +77,14 @@ public class CategoryEventActivity extends CoolieActivity {
 	  final Activity mContext = this;
 	  public static ClientAccount mLoggedAccount = null;
 	  String mCategory ;
-	  ArrayList<ClientEvent> mList = null;
-	  private ArrayList<String> mListDataHeader = null;	
-	  private HashMap<String, List<ClientEvent>> mListDataChild = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ji__expandable_view);
-		mList = (ArrayList<ClientEvent>) getIntent().getExtras().get("category");
+		mCategory = (String) getIntent().getExtras().get("category");
 		mLoggedAccount = (ClientAccount) getIntent().getExtras().get("account");
-	    mListDataChild = new HashMap<String, List<ClientEvent>>();
-	    mListDataHeader = new ArrayList<String>();
-		fetchEvents();
+	    showData();
 	}
 	
 	@Override
@@ -122,28 +118,44 @@ public class CategoryEventActivity extends CoolieActivity {
 	        if (resultCode == RESULT_CANCELED) {   	
 	        }
 	        else{
-	        	ClientEvent e =	(ClientEvent) data.getExtras().get("event");
-	        	mListDataChild.get(e.getWhen().toString()).remove(e);
-	        	if (mListDataChild.get(e.getWhen().toString()).size() == 0){
-	        		mListDataChild.remove((e.getWhen().toString()));
-	        		mListDataHeader.remove(e.getWhen().toString());
+//	        	ClientEvent e =	(ClientEvent) data.getExtras().get("event");
+	        	if (checkModified()){
+	        		showData();
 	        	}
-	        	fetchEvents();
+	        }
+	
 	        }
 	    }
-	}
 	
-    private void fetchEvents(){   
+    private void showData(){   
+    	ArrayList<String> listDataHeader = new ArrayList<String>();
+    	HashMap<String, List<ClientEvent>> listDataChild = new HashMap<String, List<ClientEvent>>();
+    	String date;
+    	List<ClientEvent> mList = getCategoryByString(mCategory);
+    	for (ClientEvent c :mList){
+    		date = c.getWhen().toString();
+    		if (!listDataHeader.contains(date)){		
+    			listDataHeader.add(date);
+    			listDataChild.put(date, new ArrayList<ClientEvent>());
+    		}
+    		listDataChild.get(date).add(c);
+    	}
+    	Collections.sort(listDataHeader);
+    	for (String s : listDataHeader){
+    		Collections.sort(listDataChild.get(s), new Comparator<ClientEvent>(){
+    			@Override
+    			public int compare(ClientEvent lhs, ClientEvent rhs) {
+    				return (int)(lhs.getWhen().getTime() - rhs.getWhen().getTime());
+    			}
+    		});
+    	}
+    
    	 // get the list view
    	 ExpandableListView expListView = (ExpandableListView) findViewById(R.id.expendable_list);
-   	 // go here if events empty    	  
-   	if (mListDataHeader.size() == 0){
-   		prepareListData();
-   	}
    	 // setting list adapter
-   	 expListView.setAdapter(new ExpandableListAdapter(this, this , mListDataHeader, mListDataChild,true));
+   	 expListView.setAdapter(new ExpandableListAdapter(this, this , listDataHeader, listDataChild,true));
    	 //checking just in case 
-   	 if (mListDataHeader.size() > 0){
+   	 if (listDataHeader.size() > 0){
    		expListView.expandGroup(0);
    	 }
    	 // set listeners
@@ -161,25 +173,47 @@ public class CategoryEventActivity extends CoolieActivity {
    		 }
    	 });
     }
-    private void prepareListData() {
-    	String date;
-    	for (ClientEvent c :mList){
-    		date = c.getWhen().toString();
-    		if (!mListDataHeader.contains(date)){		
-    			mListDataHeader.add(date);
-    			mListDataChild.put(date, new ArrayList<ClientEvent>());
-    		}
-    		mListDataChild.get(date).add(c);
-    	}
-    	Collections.sort(mListDataHeader);
-    	for (String s : mListDataHeader){
-    		Collections.sort(mListDataChild.get(s), new Comparator<ClientEvent>(){
-    			@Override
-    			public int compare(ClientEvent lhs, ClientEvent rhs) {
-    				return (int)(lhs.getWhen().getTime() - rhs.getWhen().getTime());
-    			}
-    		});
-    	}
-    }
+	private List<ClientEvent> getCategoryByString(String s){
+		if (s == EventType.MOVIE.toString()) {
+			return EventsDB.DB.getCategoryMovie();
+		}
+		else if (s == EventType.STUDY.toString()){
+			return EventsDB.DB.getCategoryStudy();
+		}
+		else if (s == EventType.NIGHT_LIFE.toString()) {
+			return EventsDB.DB.getCategoryNightLife();
+		}
+		else if (s == EventType.SPORT.toString()){
+			return EventsDB.DB.getCategorySport();
+		}
+		else if (s == EventType.FOOD.toString()) {
+			return EventsDB.DB.getCategoryFood();
+		}
+		else{
+			return EventsDB.DB.getCategoryOther();
+		}
+	}
+	
+	private boolean checkModified(){
+		if (mCategory == "MOVIE"){
+			return EventsDB.DB.IsModified(EventsDB.DB.CAT_MOVIE);
+		}
+		if (mCategory == "STUDY"){
+			return EventsDB.DB.IsModified(EventsDB.DB.CAT_STUDY);
+		}
+		if (mCategory == "NIGHT_LIFE"){
+			return EventsDB.DB.IsModified(EventsDB.DB.CAT_NIGHT_LIFE);
+		}
+		if (mCategory == "SPORT"){
+			return EventsDB.DB.IsModified(EventsDB.DB.CAT_SPORT);
+		}
+		if (mCategory == "FOOD"){
+			return EventsDB.DB.IsModified(EventsDB.DB.CAT_FOOD);
+		}
+		if (mCategory == "OTHER"){
+			return EventsDB.DB.IsModified(EventsDB.DB.CAT_OTHER);
+		}
+		return false;
+	}
     	
 }
