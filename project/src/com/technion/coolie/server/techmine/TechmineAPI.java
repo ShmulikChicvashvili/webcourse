@@ -61,12 +61,13 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public TecTopBestPost getTopBestPost(TecTopBestPost topBestPost) {
+  public List<TecTopBestPost> getTopBestPost() {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.GET_TOP_BEST_POST.toString(),
-        TechmineEnum.TOP_BEST_POST.value(), gson.toJson(topBestPost)),
-        TecTopBestPost.class);
+        TechmineEnum.GET_TOP_BEST_POST.toString()),
+        new TypeToken<List<TecTopBestPost>>() {
+          // default usage
+        }.getType());
   }
 
   @Override
@@ -86,12 +87,13 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public TecTopBestComment getTopBestComment(TecTopBestComment topBestComment) {
+  public List<TecTopBestComment> getTopBestComment() {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.GET_TOP_BEST_COMMENT.toString(),
-        TechmineEnum.TOP_BEST_COMMENT.value(), gson.toJson(topBestComment)),
-        TecTopBestComment.class);
+        TechmineEnum.GET_TOP_BEST_COMMENT.toString()),
+        new TypeToken<List<TecTopBestComment>>() {
+          // default usage
+        }.getType());
   }
 
   @Override
@@ -176,6 +178,22 @@ public class TechmineAPI implements ITechmineAPI {
         new TypeToken<List<TecPost>>() {
           // default usage
         }.getType());
+  }
+
+  @Override
+  public ReturnCode addTecPostList(List<TecPost> posts) {
+    return ReturnCode.valueOf(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.ADD_TEC_POST_LIST.toString(),
+        TechmineEnum.TEC_POST.value(), gson.toJson(posts)));
+  }
+
+  @Override
+  public ReturnCode addTecCommentList(List<TecComment> comments) {
+    return ReturnCode.valueOf(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.ADD_TEC_COMMENT_LIST.toString(),
+        TechmineEnum.TEC_COMMENT.value(), gson.toJson(comments)));
   }
 
 }
