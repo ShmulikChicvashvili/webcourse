@@ -58,7 +58,7 @@ public class InvitationViewActivity extends DatabaseActivity {
 		friendNameEdit.setText(invitation.getContactName());
 		friendCellphoneEdit.setText(invitation.getContactPhoneNumber());
 		friendCarNumberEdit.setText(invitation.getCarNumber());
-		friendCarCompanySpinner.setSelection(invitation.getCarCompany().ordinal());
+		friendCarCompanySpinner.setSelection(invitation.getCarManufacturer().ordinal());
 		friendCarColorEdit.setText(invitation.getCarColor());
 
 		MyCalendar cal = new MyCalendar();

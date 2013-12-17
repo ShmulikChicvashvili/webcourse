@@ -129,8 +129,9 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 				final FilterResults $ = new FilterResults();
 
 				if (constraint == null || constraint.length() <= 0) {
-					$.values = new DatasetHolder(getFullDataset());
-					$.count = 1;
+					final List<Invitation> dataset = getFullDataset();
+					$.values = new DatasetHolder(dataset);
+					$.count = dataset.size();
 
 					return $;
 				}
@@ -144,7 +145,7 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 						filtered.add(i);
 
 				$.values = new DatasetHolder(filtered);
-				$.count = 1;
+				$.count = filtered.size();
 
 				return $;
 			}

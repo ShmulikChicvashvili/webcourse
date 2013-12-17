@@ -19,7 +19,10 @@ import android.widget.Toast;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
-import com.technion.coolie.letmein.scapping.Scrapper;
+import com.technion.coolie.letmein.service.InvitationSender;
+import com.technion.coolie.letmein.service.InvitationSender.ConnectionException;
+import com.technion.coolie.letmein.service.InvitationSender.UnknownErrorException;
+import com.technion.coolie.letmein.util.AsyncTaskResult;
 
 public class LoginActivity extends CoolieActivity {
 
@@ -29,22 +32,25 @@ public class LoginActivity extends CoolieActivity {
 	private TextView privacyTextView;
 	private TextView loginButton;
 
-	protected void onCreate(Bundle savedInstanceState) {
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lmi_activity_login);
 
-		TextWatcher updateEnabilityWatcher = new TextWatcher() {
+		final TextWatcher updateEnabilityWatcher = new TextWatcher() {
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(final CharSequence s, final int start, final int before,
+					final int count) {
 				updateEnabilityOfLoginButton();
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			public void beforeTextChanged(final CharSequence s, final int start, final int count,
+					final int after) {
 			}
 
 			@Override
-			public void afterTextChanged(Editable s) {
+			public void afterTextChanged(final Editable s) {
 			}
 		};
 
@@ -54,10 +60,9 @@ public class LoginActivity extends CoolieActivity {
 		passwordEditText = (EditText) findViewById(R.id.lmi_edit_password);
 		passwordEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_DONE) {
+			public boolean onEditorAction(final TextView v, final int actionId, final KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_DONE)
 					startLogin();
-				}
 
 				return false;
 			}
@@ -70,7 +75,7 @@ public class LoginActivity extends CoolieActivity {
 		privacyTextView = (TextView) findViewById(R.id.lmi_privacy);
 		privacyTextView.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				new AlertDialog.Builder(LoginActivity.this).setTitle(R.string.lmi_privacy_title)
 						.setMessage(R.string.lmi_privacy_message).show();
 			}
@@ -79,7 +84,7 @@ public class LoginActivity extends CoolieActivity {
 		loginButton = (Button) findViewById(R.id.lmi_login_exec_button);
 		loginButton.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View v) {
+			public void onClick(final View v) {
 				startLogin();
 			}
 		});
@@ -92,77 +97,86 @@ public class LoginActivity extends CoolieActivity {
 	}
 
 	private void startLogin() {
-		String username = usernameEditText.getText().toString();
-		String password = passwordEditText.getText().toString();
+		final String username = usernameEditText.getText().toString();
+		final String password = passwordEditText.getText().toString();
 
-		if (isUserForgotAField(username, password)) {
+		if (isUserForgotAField(username, password))
 			/*
 			 * A toast is given to the user inside the method
 			 * "isUserForgotAField".
 			 */
 			return;
-		}
 
 		// HACK for testing
-		if (username.equals("asd") || password.equals("asd")) {
+		if (username.equals("asd") || password.equals("asd"))
 			endLogin(true);
-		} else {
-			(new AsyncTask<String, Void, Boolean>() {
+		else
+			(new AsyncTask<String, Void, AsyncTaskResult<Boolean>>() {
 				@Override
-				protected Boolean doInBackground(String... params) {
-					return Scrapper.CheckLogin(params[0], params[1]);
+				protected AsyncTaskResult<Boolean> doInBackground(final String... params) {
+					AsyncTaskResult<Boolean> $;
+					try {
+						$ = new AsyncTaskResult<Boolean>(InvitationSender.isLoginValid(params[0],
+								params[1]));
+					} catch (final ConnectionException e) {
+						$ = new AsyncTaskResult<Boolean>(e);
+					} catch (final UnknownErrorException e) {
+						$ = new AsyncTaskResult<Boolean>(e);
+					}
+
+					return $;
 				}
 
 				@Override
-				protected void onPostExecute(Boolean result) {
-					LoginActivity.this.endLogin(result);
-				}
+				protected void onPostExecute(final AsyncTaskResult<Boolean> result) {
+					if (result.getError() == null) {
+						LoginActivity.this.endLogin(result.getResult());
+						return;
+					}
 
+					// TODO:: HANDLE ERRORS
+				}
 			}).execute(username, password);
-		}
 
 		Toast.makeText(getApplicationContext(), "Login with username " + username,
 				Toast.LENGTH_SHORT).show();
 	}
 
-	private void endLogin(Boolean loginSuccess) {
+	private void endLogin(final Boolean loginSuccess) {
 		if (loginSuccess) {
-			String username = usernameEditText.getText().toString();
-			String password = passwordEditText.getText().toString();
+			final String username = usernameEditText.getText().toString();
+			final String password = passwordEditText.getText().toString();
 			saveLoginData(username, password);
 
 			Toast.makeText(getApplicationContext(), "Login successfull, user and password saved",
 					Toast.LENGTH_SHORT).show();
 			finish();
-		} else {
+		} else
 			new AlertDialog.Builder(LoginActivity.this).setTitle(R.string.lmi_login_failed_title)
 					.setMessage(R.string.lmi_login_failed_message).show();
-
-		}
 	}
 
-	private void saveLoginData(String username, String password) {
+	private void saveLoginData(final String username, final String password) {
 		getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE).edit()
 				.putString(Consts.USERNAME, username).putString(Consts.PASSWORD, password)
 				.putBoolean(Consts.IS_LOGGED_IN, true).apply();
 	}
 
-	private boolean isUserForgotAField(String username, String password) {
-		if ("".equals(username)) {
+	private boolean isUserForgotAField(final String username, final String password) {
+		if ("".equals(username))
 			Toast.makeText(getApplicationContext(), R.string.lmi_enter_username, Toast.LENGTH_SHORT)
 					.show();
-		} else if ("".equals(password)) {
+		else if ("".equals(password))
 			Toast.makeText(getApplicationContext(), R.string.lmi_enter_password, Toast.LENGTH_SHORT)
 					.show();
-		} else {
+		else
 			return false;
-		}
 
 		return true;
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
+	public void onSaveInstanceState(final Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 
 		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_edit_username),
@@ -172,7 +186,7 @@ public class LoginActivity extends CoolieActivity {
 	}
 
 	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
+	public void onRestoreInstanceState(final Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 
 		usernameEditText.setText(savedInstanceState.getCharSequence(String
