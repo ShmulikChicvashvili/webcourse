@@ -24,19 +24,18 @@ public class UgCourse implements IUgCourse {
 
   @Override
   public List<CourseServer> getAllCourses(Semester semester) {
-    String $ = Communicator
-        .execute(servletName, FUNCTION,
-            UgCourseFunctions.GET_ALL_COURSES.value(), "semester",
-            toJson(semester));
+    String $ = Communicator.execute(servletName, FUNCTION,
+        UgCourseFunctions.GET_COURSES_BY_SEMESTER.value(), "semester",
+        toJson(semester));
 
     return convertJsonToCoursesList($);
   }
 
   @Override
   public List<CourseServer> getCourses(List<CourseKey> courseKeys) {
-    String $ = Communicator
-        .execute(servletName, FUNCTION, UgCourseFunctions.GET_COURSES.value(),
-            "courseKeys", toJson(courseKeys));
+    String $ = Communicator.execute(servletName, FUNCTION,
+        UgCourseFunctions.GET_COURSES_BY_KEY.value(), "courseKeys",
+        toJson(courseKeys));
 
     return convertJsonToCoursesList($);
   }

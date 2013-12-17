@@ -7,8 +7,8 @@ package com.technion.coolie.server.ug.courses;
  * 
  */
 public enum UgCourseFunctions {
-  GET_COURSES("GET_COURSES"), GET_ALL_COURSES("GET_ALL_COURSES"), GET_STUDENT_COURSES(
-      "GET_STUDENT_COURSES");
+  GET_STUDENT_COURSES("GET_STUDENT_COURSES"), GET_COURSES_BY_SEMESTER(
+      "GET_COURSES_BY_SEMESTER"), GET_COURSES_BY_KEY("GET_COURSES_BY_KEY");
 
   private final String value;
 
