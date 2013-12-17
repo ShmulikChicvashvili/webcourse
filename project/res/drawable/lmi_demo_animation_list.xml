@@ -3,10 +3,16 @@
     android:oneshot="false" >
 
     <item
-        android:drawable="@drawable/lmi_koala"
+        android:drawable="@drawable/lmi_demo1"
         android:duration="3000" />
     <item
-        android:drawable="@drawable/lmi_penguins"
+        android:drawable="@drawable/lmi_demo2"
+        android:duration="3000" />
+    <item
+        android:drawable="@drawable/lmi_demo3"
+        android:duration="3000" />
+    <item
+        android:drawable="@drawable/lmi_demo4"
         android:duration="3000" />
 
 </animation-list>

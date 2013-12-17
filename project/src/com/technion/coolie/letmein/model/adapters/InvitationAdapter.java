@@ -55,8 +55,8 @@ public class InvitationAdapter extends BaseInvitationAdapter {
 			i = databaseHelper.getDataDao().queryBuilder().where()
 					.eq(Contract.Invitation.CONTACT_ID, contactId).queryForFirst();
 		} catch (final SQLException e) {
-			Log.e(LOG_TAG,
-					"getContactViewById(String contactId): Couldn't get invitation by contactId", e);
+			Log.e(LOG_TAG, "getContactViewById(): Couldn't get invitation by contactId "
+					+ contactId, e);
 			throw new RuntimeException(e);
 		}
 

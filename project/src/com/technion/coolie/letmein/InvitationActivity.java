@@ -351,9 +351,34 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 
 			@Override
 			protected void onPostExecute(final AsyncTaskResult<Boolean> result) {
-				if (result.getError() == null)
-					// TODO
+				final Exception e = result.getError();
+				if (e == null)
 					return;
+				if (e instanceof ConnectionException) {
+					Toast.makeText(InvitationActivity.this, "There was a connection problem",
+							Toast.LENGTH_LONG).show();
+					return;
+				}
+				if (e instanceof UnknownErrorException) {
+					Toast.makeText(InvitationActivity.this, "There was a unknown problem",
+							Toast.LENGTH_LONG).show();
+					return;
+				}
+				if (e instanceof LoginException) {
+					Toast.makeText(InvitationActivity.this, "There was a login problem",
+							Toast.LENGTH_LONG).show();
+					return;
+				}
+				if (e instanceof InvitationFormatException) {
+
+					Toast.makeText(InvitationActivity.this, "There was a format problem",
+							Toast.LENGTH_LONG).show();
+					return;
+				}
+
+				if (e instanceof InvitationLimitExceededException)
+					Toast.makeText(InvitationActivity.this, "There was a Limit problem",
+							Toast.LENGTH_LONG).show();
 			}
 
 		}).execute(username, password, i);
