@@ -22,11 +22,12 @@ import com.technion.coolie.studybuddy.models.WorkStats;
 public class WorkStatsTest
 {
 
-	private WorkStats	stats	= new WorkStats();	;
+	private WorkStats	stats	= WorkStats.getInstance();	;
 
 	@Before
 	public void setUp() throws Exception
 	{
+		WorkStats.clear();
 	}
 
 	@After

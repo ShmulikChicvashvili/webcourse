@@ -6,22 +6,28 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.field.types.DateType;
 import com.j256.ormlite.field.types.UuidType;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-
-import com.technion.coolie.studybuddy.models.*;
+import com.technion.coolie.studybuddy.models.Course;
+import com.technion.coolie.studybuddy.models.Semester;
+import com.technion.coolie.studybuddy.models.Stat;
+import com.technion.coolie.studybuddy.models.StudyItem;
+import com.technion.coolie.studybuddy.models.StudyResource;
+import com.technion.coolie.studybuddy.models.WorkStats;
 
 public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper
 {
 
-	private static final String				DATABASE_NAME		= "stb_data.db";
-	private static final int				DATABASE_VERSION	= 1;
-	private Dao<Course, Integer>			courseDao;
-	private Dao<Semester, UuidType>			semesterDao;
-	private Dao<StudyResource, UuidType>	resourceDao;
-	private Dao<StudyItem, UuidType>		itemDao;
+	private static final String								DATABASE_NAME		= "stb_data.db";
+	private static final int								DATABASE_VERSION	= 1;
+	private RuntimeExceptionDao<Course, String>				courseDao;
+	private RuntimeExceptionDao<Semester, UuidType>			semesterDao;
+	private RuntimeExceptionDao<StudyResource, UuidType>	resourceDao;
+	private RuntimeExceptionDao<StudyItem, UuidType>		itemDao;
+	private RuntimeExceptionDao<Stat, DateType>				statDao;
 
 	// private Dao<Exam, UuidType> examDao;
 
@@ -30,11 +36,11 @@ public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
-	public Dao<Course, Integer> getCourseDao() throws SQLException
+	public RuntimeExceptionDao<Course, String> getCourseDao()
 	{
 		if (courseDao == null)
 		{
-			courseDao = getDao(Course.class);
+			courseDao = getRuntimeExceptionDao(Course.class);
 		}
 
 		return courseDao;
@@ -50,35 +56,50 @@ public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper
 	// return examDao;
 	// }
 
-	public Dao<Semester, UuidType> getSemesterDao() throws SQLException
+	public RuntimeExceptionDao<Semester, UuidType> getSemesterDao()
 	{
 		if (semesterDao == null)
 		{
-			semesterDao = getDao(Semester.class);
+			semesterDao = getRuntimeExceptionDao(Semester.class);
 		}
 
 		return semesterDao;
 	}
 
-	public Dao<StudyItem, UuidType> getStudyItemsDao() throws SQLException
+	public RuntimeExceptionDao<Stat, DateType> getStatDao()
+	{
+		if (statDao == null)
+		{
+			statDao = getRuntimeExceptionDao(Stat.class);
+		}
+
+		return statDao;
+	}
+
+	public RuntimeExceptionDao<StudyItem, UuidType> getStudyItemsDao()
 	{
 		if (itemDao == null)
 		{
-			itemDao = getDao(StudyItem.class);
+			itemDao = getRuntimeExceptionDao(StudyItem.class);
 		}
 
 		return itemDao;
 	}
 
-	public Dao<StudyResource, UuidType> getStudyResourceDao()
-					throws SQLException
+	public RuntimeExceptionDao<StudyResource, UuidType> getStudyResourceDao()
 	{
 		if (resourceDao == null)
 		{
-			resourceDao = getDao(StudyResource.class);
+			resourceDao = getRuntimeExceptionDao(StudyResource.class);
 		}
 
 		return resourceDao;
+	}
+
+	public RuntimeExceptionDao<WorkStats, String> getWorkStatsDao()
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -89,6 +110,8 @@ public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper
 			TableUtils.createTable(cs, Course.class);
 			TableUtils.createTable(cs, StudyResource.class);
 			TableUtils.createTable(cs, StudyItem.class);
+			TableUtils.createTable(cs, Stat.class);
+			TableUtils.createTable(cs, Semester.class);
 		} catch (SQLException e)
 		{
 			// TODO Auto-generated catch block
@@ -106,4 +129,14 @@ public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper
 
 	}
 
+	@Override
+	public void close()
+	{
+		super.close();
+		courseDao = null;
+		resourceDao = null;
+		itemDao = null;
+		semesterDao = null;
+		statDao = null;
+	}
 }

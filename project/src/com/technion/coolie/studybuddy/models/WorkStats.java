@@ -11,10 +11,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class WorkStats
-{
+import com.technion.coolie.studybuddy.data.CompositeVisitor;
 
-	class DateRange implements Iterable<Date>
+public enum WorkStats implements CompositeElement
+{
+	workStats;
+
+	private class DateRange implements Iterable<Date>
 	{
 
 		private final Date	d1;
@@ -62,23 +65,46 @@ public class WorkStats
 		}
 	}
 
-	Map<Date, Stat>	stats	= new HashMap<Date, Stat>();
+	private static Map<Date, Stat>	statsMap	= new HashMap<Date, Stat>();
+
+	public static WorkStats getInstance()
+	{
+		return workStats;
+	}
+
+	public static void loadStats(List<Stat> stats)
+	{
+		for (Stat s : stats)
+		{
+			statsMap.put(s.getDate(), s);
+		}
+	}
+
+	@Override
+	public void accept(CompositeVisitor cv)
+	{
+		for (Stat s : statsMap.values())
+		{
+			cv.visit(s);
+		}
+
+	}
 
 	public void decreaseDoneForDate(Date d)
 	{
 		Date n = nullifyDate(d);
-		if (!stats.containsKey(n))
+		if (!statsMap.containsKey(n))
 			return;
 
-		stats.get(n).decreaseDone();
+		statsMap.get(n).decreaseDone();
 
 	}
 
 	public int getStatsForDate(Date date)
 	{
 		Date n = nullifyDate(date);
-		if (stats.containsKey(n))
-			return stats.get(n).getAmountDone();
+		if (statsMap.containsKey(n))
+			return statsMap.get(n).getAmountDone();
 
 		return 0;
 	}
@@ -91,9 +117,9 @@ public class WorkStats
 
 		for (Date d : range(n1, n2))
 		{
-			if (stats.containsKey(d))
+			if (statsMap.containsKey(d))
 			{
-				values.add(stats.get(d).getAmountDone());
+				values.add(statsMap.get(d).getAmountDone());
 			} else
 			{
 				values.add(0);
@@ -127,16 +153,22 @@ public class WorkStats
 	private Stat findOrAllocateStat(Date d)
 	{
 		Date n = nullifyDate(d);
-		if (stats.containsKey(n))
-			return stats.get(n);
+		if (statsMap.containsKey(n))
+			return statsMap.get(n);
 
 		Stat s = new Stat(d);
-		stats.put(s.getDate(), s);
+		statsMap.put(s.getDate(), s);
 		return s;
 	}
 
 	private Iterable<Date> range(Date n1, Date n2)
 	{
 		return new DateRange(n1, n2);
+	}
+
+	public static void clear()
+	{
+		statsMap.clear();
+
 	}
 }

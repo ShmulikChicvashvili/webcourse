@@ -1,6 +1,9 @@
 package com.technion.coolie.studybuddy.models;
 
-import static com.technion.coolie.studybuddy.utils.Utils.*;
+import static com.technion.coolie.studybuddy.utils.Utils.filter;
+import static com.technion.coolie.studybuddy.utils.Utils.findFirst;
+import static com.technion.coolie.studybuddy.utils.Utils.map;
+import static com.technion.coolie.studybuddy.utils.Utils.sorted;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,15 +11,17 @@ import java.util.UUID;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.technion.coolie.studybuddy.data.CompositeVisitor;
 
 @DatabaseTable
-public class StudyResource
+public class StudyResource implements CompositeElement
 {
 	public static final String	LECTURES	= "Lectures";
 	public static final String	TUTORIALS	= "Tutorials";
 	// public static final String VIDEO_LECTURES = "Video Lectures";
 	// public static final String VIDEO_TUTORIALS = "Video Tutorials";
 	// public static final String SYLLABUS_TOPICS = "Syllabus Topics";
+	public static final String	COURSE_ID	= "course_id";
 
 	@DatabaseField(generatedId = true)
 	private UUID				id;
@@ -26,7 +31,7 @@ public class StudyResource
 
 	private List<StudyItem>		items		= new ArrayList<StudyItem>();
 
-	@DatabaseField(foreign = true, canBeNull = false, index = true)
+	@DatabaseField(foreign = true, canBeNull = false, index = true, columnName = COURSE_ID)
 	private Course				course;
 
 	public static void attachItemsList(StudyResource sr, List<StudyItem> list)
@@ -55,9 +60,20 @@ public class StudyResource
 	{
 	}
 
+	@Override
+	public void accept(CompositeVisitor cv)
+	{
+		for (StudyItem item : items)
+		{
+			cv.visit(item);
+		}
+
+	}
+
 	public void addItem(StudyItem item)
 	{
 		items.add(item);
+		item.setStudyResource(this);
 	}
 
 	public List<String> getAllItemsLabels()
@@ -183,6 +199,10 @@ public class StudyResource
 	private void setStudyItems(List<StudyItem> list)
 	{
 		items.addAll(list);
+		for (StudyItem studyItem : list)
+		{
+			studyItem.setStudyResource(this);
+		}
 	}
 
 	private void toggleDone(int id)

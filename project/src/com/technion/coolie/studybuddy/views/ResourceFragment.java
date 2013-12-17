@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.adapters.ResourceGridAdapter;
+import com.technion.coolie.studybuddy.data.DataStore;
 
 public class ResourceFragment extends SherlockFragment implements CrossGesture
 {
@@ -117,6 +118,8 @@ public class ResourceFragment extends SherlockFragment implements CrossGesture
 						.setText(ResourceName);
 		resourceAdapter = new ResourceGridAdapter(this, false, courseID,
 						ResourceName);
+
+		DataStore.getInstance().addObserver(resourceAdapter);
 		((NowLayout) view.findViewById(R.id.listView1))
 						.setAdapter(resourceAdapter);
 		doneLayout = (NowLayout) view.findViewById(R.id.done_items);

@@ -48,4 +48,9 @@ public class CoursePresenter
 		return course.getStudyItemsRemaining(resourceName);
 	}
 
+	public List<String> getStudyItemsAll(String resourceName)
+	{
+		return course.getStudyItemsLabels(resourceName);
+	}
+
 }

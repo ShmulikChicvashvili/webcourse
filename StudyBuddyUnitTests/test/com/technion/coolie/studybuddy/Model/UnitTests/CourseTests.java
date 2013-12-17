@@ -121,7 +121,7 @@ public class CourseTests
 						WEEKS_IN_SEMESTER));
 
 		assertThat(c.getStudyItemsTotal(), is(WEEKS_IN_SEMESTER));
-		assertThat(c.getStudyItemsLabels().size(), is(WEEKS_IN_SEMESTER));
+		assertThat(c.getStudyItemsLabels("LEC").size(), is(WEEKS_IN_SEMESTER));
 
 	}
 
@@ -131,8 +131,6 @@ public class CourseTests
 		Course c = new Course("123", "name");
 
 		assertThat(c.getStudyItemsTotal(), is(0));
-		assertThat(c.getStudyItemsLabels(),
-						is(Collections.<String> emptyList()));
 
 	}
 
@@ -147,9 +145,10 @@ public class CourseTests
 
 		when(sr.getTotalItemCount()).thenReturn(3);
 		when(sr.getAllItemsLabels()).thenReturn(items);
+		when(sr.getName()).thenReturn("LEC");
 
 		assertThat(c.getStudyItemsTotal(), is(3));
-		assertThat(c.getStudyItemsLabels(), is(items));
+		assertThat(c.getStudyItemsLabels("LEC"), is(items));
 
 	}
 

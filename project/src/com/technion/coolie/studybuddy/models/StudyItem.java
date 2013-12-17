@@ -11,6 +11,8 @@ import com.technion.coolie.studybuddy.utils.Utils.Matcher;
 public class StudyItem implements Comparable<StudyItem>
 {
 
+	public static final String					STUDYRESOURCE_ID	= "study_resource_id";
+
 	@DatabaseField(generatedId = true)
 	private UUID								id;
 
@@ -23,52 +25,52 @@ public class StudyItem implements Comparable<StudyItem>
 	@DatabaseField
 	private boolean								done;
 
-	@DatabaseField(foreign = true, canBeNull = false, index = true)
+	@DatabaseField(foreign = true, canBeNull = false, index = true, columnName = STUDYRESOURCE_ID)
 	private StudyResource						studyResource;
 
-	public static Matcher<StudyItem>			doneMatcher		= new Matcher<StudyItem>()
-																{
-
-																	@Override
-																	public boolean matches(StudyItem item)
+	public static Matcher<StudyItem>			doneMatcher			= new Matcher<StudyItem>()
 																	{
-																		return item.isDone();
-																	}
 
-																};
+																		@Override
+																		public boolean matches(StudyItem item)
+																		{
+																			return item.isDone();
+																		}
 
-	public static Matcher<StudyItem>			notDoneMathcer	= new Matcher<StudyItem>()
-																{
+																	};
 
-																	@Override
-																	public boolean matches(StudyItem item)
+	public static Matcher<StudyItem>			notDoneMathcer		= new Matcher<StudyItem>()
 																	{
-																		return !item.isDone();
-																	}
 
-																};
+																		@Override
+																		public boolean matches(StudyItem item)
+																		{
+																			return !item.isDone();
+																		}
 
-	public static Mapper<StudyItem, Integer>	mapToNum		= new Mapper<StudyItem, Integer>()
-																{
+																	};
 
-																	@Override
-																	public Integer map(StudyItem item)
+	public static Mapper<StudyItem, Integer>	mapToNum			= new Mapper<StudyItem, Integer>()
 																	{
-																		return item.getNum();
-																	}
 
-																};
+																		@Override
+																		public Integer map(StudyItem item)
+																		{
+																			return item.getNum();
+																		}
 
-	public static Mapper<StudyItem, String>		mapToLabel		= new Mapper<StudyItem, String>()
-																{
+																	};
 
-																	@Override
-																	public String map(StudyItem item)
+	public static Mapper<StudyItem, String>		mapToLabel			= new Mapper<StudyItem, String>()
 																	{
-																		return item.getLabel();
-																	}
 
-																};
+																		@Override
+																		public String map(StudyItem item)
+																		{
+																			return item.getLabel();
+																		}
+
+																	};
 
 	public static Matcher<StudyItem> getMaxIdFilter(final int max)
 	{
@@ -147,6 +149,12 @@ public class StudyItem implements Comparable<StudyItem>
 	public void markUndone()
 	{
 		done = false;
+	}
+
+	public void setStudyResource(StudyResource sr)
+	{
+		studyResource = sr;
+
 	}
 
 	public void toggleDone()

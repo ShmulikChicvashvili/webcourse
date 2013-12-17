@@ -2,6 +2,8 @@ package com.technion.coolie.studybuddy.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
@@ -24,7 +26,7 @@ import com.technion.coolie.studybuddy.presenters.CoursePresenter;
 import com.technion.coolie.studybuddy.views.ResourceFragment;
 import com.technion.coolie.studybuddy.views.StrikeThrowTextView;
 
-public class ResourceGridAdapter extends BaseAdapter
+public class ResourceGridAdapter extends BaseAdapter implements Observer
 {
 	public interface CrossGesture
 	{
@@ -57,6 +59,7 @@ public class ResourceGridAdapter extends BaseAdapter
 	private ResourceFragment	fragment;
 
 	private CoursePresenter		presenter;
+	private String				resourceName;
 
 	/**
 	 * @param context
@@ -71,17 +74,17 @@ public class ResourceGridAdapter extends BaseAdapter
 						Context.LAYOUT_INFLATER_SERVICE);
 		this.done = done;
 		items = new ArrayList<String>();
-		// course = DataStore.coursesById.get(courseId);
 
 		presenter = DataStore.getInstance().getCoursePresenter(courseId);
 
-		if (done)
-		{
-			items.addAll(presenter.getStudyItemsDone(resourceName));
-		} else
-		{
-			items.addAll(presenter.getStudyItemsRemaining(resourceName));
-		}
+		// if (done)
+		// {
+		this.resourceName = resourceName;
+		items = (presenter.getStudyItemsAll(this.resourceName));
+		// } else
+		// {
+		// items = (presenter.getStudyItemsRemaining(resourceName));
+		// }
 	}
 
 	public void addItem(View view)
@@ -93,9 +96,7 @@ public class ResourceGridAdapter extends BaseAdapter
 			items.remove("example");
 			notChanged = false;
 		}
-
 		notifyDataSetChanged();
-
 	}
 
 	@Override
@@ -190,5 +191,12 @@ public class ResourceGridAdapter extends BaseAdapter
 	public void stopDraging()
 	{
 		dragedView = null;
+	}
+
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		items = (presenter.getStudyItemsAll(resourceName));
+		notifyDataSetChanged();
 	}
 }

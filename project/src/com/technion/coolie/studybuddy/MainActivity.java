@@ -32,8 +32,7 @@ public class MainActivity extends StudyBuddyActivity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(
-			com.actionbarsherlock.view.MenuItem item)
+	public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item)
 	{
 
 		Intent intent = null;
@@ -66,7 +65,7 @@ public class MainActivity extends StudyBuddyActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stb_view_main);
 
-		DataStore.getInstance().initContext(this);
+		DataStore.setContext(this);
 
 		NowLayout layout = (NowLayout) findViewById(R.id.course_list);
 
@@ -79,7 +78,7 @@ public class MainActivity extends StudyBuddyActivity
 
 		Date today = new Date();
 		graphView = GraphFactory.getWeeklyProgressGraph(getBaseContext(),
-				today, DataStore.getInstance().getWorkStats(today, 7));
+						today, DataStore.getInstance().getWorkStats(today, 7));
 
 		_layout.addView(graphView);
 	}

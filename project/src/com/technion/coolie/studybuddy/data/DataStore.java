@@ -1,5 +1,6 @@
 package com.technion.coolie.studybuddy.data;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,7 +18,9 @@ import android.content.Context;
 import android.preference.PreferenceManager;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.Dao;
 import com.technion.coolie.studybuddy.exceptions.CourseAlreadyExistsException;
+import com.technion.coolie.studybuddy.models.CompositeElement;
 import com.technion.coolie.studybuddy.models.Course;
 import com.technion.coolie.studybuddy.models.Semester;
 import com.technion.coolie.studybuddy.models.StudyResource;
@@ -26,15 +29,14 @@ import com.technion.coolie.studybuddy.presenters.CourseListPresenter;
 import com.technion.coolie.studybuddy.presenters.CoursePresenter;
 import com.technion.coolie.studybuddy.presenters.EditCoursePresenter;
 
-public class DataStore extends Observable
+public class DataStore extends Observable implements CompositeElement
 {
 	private static String[]				menus			= new String[] {
-			"Tasks", "Courses"			};
+					"Tasks", "Courses"					};
 
 	public static final String			SEMESTERSTART	= "stb_semester_start";
 	public static final String			SEMESTERLENGTH	= "stb_simester_length";
 
-	public static Set<Course>			coursesSet		= new HashSet<Course>();
 	public static List<Course>			coursesList		= new ArrayList<Course>();
 	public static Map<String, Course>	coursesById		= new LinkedHashMap<String, Course>();
 	public static Semester				semester		= new Semester();
@@ -54,6 +56,10 @@ public class DataStore extends Observable
 
 	private static DataStore			dataStore;
 
+	private static Context				context;
+
+	private WorkStats					workStats;
+
 	public static void destroyHelper()
 	{
 		OpenHelperManager.releaseHelper();
@@ -70,11 +76,17 @@ public class DataStore extends Observable
 		return editPresenter;
 	}
 
+	public static SBDatabaseHelper getHelper()
+	{
+		return dbHelper;
+
+	}
+
 	public static DataStore getInstance()
 	{
 		if (dataStore == null)
 		{
-			dataStore = new DataStore();
+			dataStore = new DataStore(context);
 		}
 
 		return dataStore;
@@ -105,6 +117,11 @@ public class DataStore extends Observable
 		dbHelper = OpenHelperManager.getHelper(context, SBDatabaseHelper.class);
 	}
 
+	public static void setContext(Context context)
+	{
+		DataStore.context = context.getApplicationContext();
+	}
+
 	@SuppressLint("SimpleDateFormat")
 	private static Date parseStartDateFromPreferences(Context context)
 	{
@@ -112,31 +129,49 @@ public class DataStore extends Observable
 		try
 		{
 			return format.parse(PreferenceManager.getDefaultSharedPreferences(
-					context).getString(SEMESTERSTART, "1970.01.01"));
+							context).getString(SEMESTERSTART, "1970.01.01"));
 		} catch (ParseException e)
 		{
 		}
 		return new Date();
 	}
 
-	private Context		context;
-
-	private WorkStats	workStats;
-
 	/**
 	 * 
 	 */
-	private DataStore()
+	private DataStore(Context context)
 	{
-
 		OpenHelperManager.setOpenHelperClass(SBDatabaseHelper.class);
-		loadCourses();
-		loadWorkStats();
+		RecursiveDBLoader.getInstance().visit(this);
+		semester.setStartDate(parseStartDateFromPreferences(context));
 	}
 
-	public void addCourse(String newCourseId, String courseName,
-			int numLectures, int numTutorials)
-			throws CourseAlreadyExistsException
+	@Override
+	public void accept(CompositeVisitor cv)
+	{
+		cv.visit(semester);
+		cv.visit(WorkStats.getInstance());
+
+		for (Course c : coursesList)
+		{
+			cv.visit(c);
+		}
+
+	}
+
+	public void addCourse(Course c)
+	{
+		coursesList.add(c);
+		coursesById.put(c.getId(), c);
+		Collections.sort(coursesList);
+
+	}
+
+	public void addCourse(	String newCourseId,
+							String courseName,
+							int numLectures,
+							int numTutorials)
+					throws CourseAlreadyExistsException
 	{
 
 		if (coursesById.containsKey(newCourseId))
@@ -144,44 +179,47 @@ public class DataStore extends Observable
 
 		Course c = new Course(newCourseId, courseName);
 		c.addStudyResource(StudyResource.createWithItems(
-				StudyResource.LECTURES, numLectures));
+						StudyResource.LECTURES, numLectures));
 		c.addStudyResource(StudyResource.createWithItems(
-				StudyResource.TUTORIALS, numTutorials));
+						StudyResource.TUTORIALS, numTutorials));
 
-		coursesSet.add(c);
-		coursesList.add(c);
-		coursesById.put(String.valueOf(newCourseId), c);
-		Collections.sort(coursesList);
+		addCourse(c);
+
+		RecursiveDBStorer.getInstance().visit(c);
 
 		setChanged();
 		notifyObservers(DataStore.CLASS_LIST);
 
 	}
 
-	public void editCourse(String courseID, String newCourseId,
-			String courseName, int numLectures, int numTutorials)
-			throws CourseAlreadyExistsException
+	public void editCourse(	String courseID,
+							String newCourseId,
+							String courseName,
+							int numLectures,
+							int numTutorials)
+					throws CourseAlreadyExistsException
 	{
-
-		if (coursesById.containsKey(newCourseId))
-			throw new CourseAlreadyExistsException();
 
 		Course c = coursesById.get(courseID);
 
-		c.setID(newCourseId);
+		if (false == newCourseId.equals(courseID))
+		{
+			if (coursesById.containsKey(newCourseId))
+				throw new CourseAlreadyExistsException();
+
+			coursesById.remove(courseID);
+			// this also updates the object!
+			dbHelper.getCourseDao().updateId(c, newCourseId);
+
+			coursesById.put(String.valueOf(newCourseId), c);
+		}
+
 		c.setName(courseName);
 		c.resizeStudyResource(StudyResource.LECTURES, numLectures);
 		c.resizeStudyResource(StudyResource.TUTORIALS, numTutorials);
 
-		if (courseID != newCourseId)
-		{
-			coursesById.remove(courseID);
-			coursesById.put(String.valueOf(newCourseId), c);
+		RecursiveDBStorer.getInstance().visit(c);
 
-			// TODO add persistance logic
-		}
-
-		// TODO add persistance logic
 		setChanged();
 		notifyObservers(DataStore.CLASS_LIST);
 	}
@@ -194,36 +232,8 @@ public class DataStore extends Observable
 	public Integer[] getWorkStats(Date today, int days)
 	{
 
-		return workStats.getStatsLastXDays(today, days);
+		return WorkStats.getInstance().getStatsLastXDays(today, days);
 
 	}
 
-	public void initContext(Context context)
-	{
-		this.context = context.getApplicationContext();
-		semester.setStartDate(parseStartDateFromPreferences(context));
-	}
-
-	public void loadCourses()
-	{
-
-		try
-		{
-			addCourse("234123", "Operating systems", 14, 14);
-			addCourse("234247", "Algorithms", 12, 12);
-			addCourse("236353", "Automata and Formal Languages", 12, 12);
-			addCourse("134058", "Biology 1", 12, 12);
-		} catch (CourseAlreadyExistsException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	private void loadWorkStats()
-	{
-		workStats = new WorkStats();
-
-	}
 }

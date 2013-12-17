@@ -13,10 +13,11 @@ import java.util.Set;
 import android.text.TextUtils.StringSplitter;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.technion.coolie.studybuddy.data.CompositeVisitor;
 
 import static com.technion.coolie.studybuddy.utils.Utils.*;
 
-public class Course implements Comparable<Course>
+public class Course implements Comparable<Course>, CompositeElement
 {
 
 	// private List<Exam> exams = new ArrayList<Exam>();
@@ -24,8 +25,15 @@ public class Course implements Comparable<Course>
 	@DatabaseField(id = true)
 	private String				id;
 
+	@DatabaseField
 	private String				name;
+
 	private List<StudyResource>	trackedResouces	= new ArrayList<StudyResource>();
+
+	public static void addStudyResources(Course c, List<StudyResource> resources)
+	{
+		c.addStudyResources(resources);
+	}
 
 	private static String radomId()
 	{
@@ -51,11 +59,6 @@ public class Course implements Comparable<Course>
 		this.name = name;
 	}
 
-	public void addStudyResource(StudyResource r)
-	{
-		trackedResouces.add(r);
-	}
-
 	// public List<Exam> getExams()
 	// {
 	// return exams;
@@ -75,6 +78,22 @@ public class Course implements Comparable<Course>
 	// {
 	// this.exams.addAll(exams);
 	// }
+
+	@Override
+	public void accept(CompositeVisitor cv)
+	{
+		for (StudyResource r : trackedResouces)
+		{
+			cv.visit(r);
+		}
+
+	}
+
+	public void addStudyResource(StudyResource r)
+	{
+		trackedResouces.add(r);
+		r.setCourse(this);
+	}
 
 	@Override
 	public int compareTo(Course another)
@@ -169,14 +188,12 @@ public class Course implements Comparable<Course>
 		return getResourceByName(resourceName).getItemsDoneLabels();
 	}
 
-	public List<String> getStudyItemsLabels()
+	public List<String> getStudyItemsLabels(String resourceName)
 	{
-		List<String> labels = new ArrayList<String>(getStudyItemsTotal());
-		for (StudyResource sr : trackedResouces)
-		{
-			labels.addAll(sr.getAllItemsLabels());
-		}
-		return labels;
+		if (null == getResourceByName(resourceName))
+			return Collections.<String> emptyList();
+
+		return getResourceByName(resourceName).getAllItemsLabels();
 	}
 
 	public List<String> getStudyItemsRemaining(String resourceName)
@@ -237,14 +254,13 @@ public class Course implements Comparable<Course>
 		return String.valueOf(id) + " " + name;
 	}
 
-	private void addStudyResources(Collection<StudyResource> r)
+	private void addStudyResources(Collection<StudyResource> list)
 	{
-		trackedResouces.addAll(r);
-	}
-
-	private void addStudyResources(StudyResource... r)
-	{
-		trackedResouces.addAll(Arrays.asList(r));
+		trackedResouces.addAll(list);
+		for (StudyResource studyResource : list)
+		{
+			studyResource.setCourse(this);
+		}
 	}
 
 	private StudyResource getResourceByName(String name)
