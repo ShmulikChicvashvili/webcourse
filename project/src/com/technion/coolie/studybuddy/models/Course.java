@@ -272,4 +272,14 @@ public class Course implements Comparable<Course>, CompositeElement
 
 		return null;
 	}
+
+	public boolean isTaskDone(String resourceName, int position)
+	{
+		StudyResource sr = getResourceByName(resourceName);
+
+		if (sr == null)
+			return false;
+
+		return sr.isTaskDone(position);
+	}
 }

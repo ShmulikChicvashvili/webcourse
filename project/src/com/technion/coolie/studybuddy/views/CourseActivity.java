@@ -66,7 +66,7 @@ public class CourseActivity extends StudyBuddyActivity implements
 		case 1:
 		case 2:
 			ResourceFragment fragment1 = ResourceFragment.newInstance(
-							presenter.getResourceName(itemPosition),
+							presenter.getResourceName(itemPosition - 1),
 							courseNumber);
 
 			ft.replace(R.id.stb_container, fragment1).commit();
