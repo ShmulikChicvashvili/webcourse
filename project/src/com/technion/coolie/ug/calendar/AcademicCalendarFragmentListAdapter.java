@@ -1,9 +1,11 @@
 package com.technion.coolie.ug.calendar;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -58,12 +60,12 @@ public class AcademicCalendarFragmentListAdapter extends BaseAdapter {
 				.findViewById(R.id.ug_academic_calendar_fragment_event);
 		eventTextView.setText(event.getEvent());
 
-		final String d = event.getStartingDay().get(Calendar.DAY_OF_MONTH)
-				+ "/" + event.getStartingDay().get(Calendar.MONTH) + "/"
-				+ event.getStartingDay().get(Calendar.YEAR);
 		final TextView dateTextView = (TextView) convertView
 				.findViewById(R.id.ug_academic_calendar_fragment_date);
-		dateTextView.setText(d);
+		final SimpleDateFormat formatter = new SimpleDateFormat(
+				"dd/MM/yyyy", Locale.getDefault());
+		final Calendar cal = event.getStartingDay();
+		dateTextView.setText(formatter.format(cal.getTime()));
 
 		return convertView;
 	}
