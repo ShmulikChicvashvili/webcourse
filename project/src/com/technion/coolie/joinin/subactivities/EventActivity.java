@@ -62,6 +62,7 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
   private ViewPager mViewPager;
   private PagerAdapter mPagerAdapter;
   protected static final int EDITED = 69;
+  public static final int RESULT_REFRESH = 500;
   Context thisOne = this;
   ClientEvent mEvent;
   ClientAccount mAccount;
@@ -299,14 +300,14 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
     mViewPager.setOnPageChangeListener(this);
   }
   
-  // older TeamApp version - won't work
-//  @Override protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-//    super.onActivityResult(requestCode, resultCode, data);
-//    if (resultCode != MainMapActivity.RESULT_REFRESH)
-//      return;
-//    mEvent = (ClientEvent) data.getExtras().get("event");
-//    onRefresh(TAB_EVENT_INFO);
-//  }
+  
+  @Override protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    if (resultCode != RESULT_REFRESH)
+      return;
+    mEvent = (ClientEvent) data.getExtras().get("event");
+    onRefresh(TAB_EVENT_INFO);
+  }
   
   /**
    * A simple factory that returns dummy views to the Tabhost

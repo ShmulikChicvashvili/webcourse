@@ -216,7 +216,7 @@ public class CreateEventActivity extends CoolieActivity {
 				} catch (final NotFoundException nfe) {
 					// Do nothing...
 				}
-				setResult(MainMapActivity.RESULT_REFRESH,
+				setResult(EventActivity.RESULT_REFRESH,
 						new Intent().putExtra("event", e));
 				finish();
 			}
@@ -249,7 +249,9 @@ public class CreateEventActivity extends CoolieActivity {
 												new Intent().putExtra("event",
 														e));
 										finish();
-									}
+										setResult(EventActivity.RESULT_REFRESH, 
+												new Intent().putExtra("event", e) );
+									}			
 								});
 					}
 				}, new OnError(this) {
