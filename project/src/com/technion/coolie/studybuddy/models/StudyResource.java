@@ -1,30 +1,45 @@
 package com.technion.coolie.studybuddy.models;
 
-import static com.technion.coolie.studybuddy.utils.Utils.asSortedList;
-import static com.technion.coolie.studybuddy.utils.Utils.filter;
-import static com.technion.coolie.studybuddy.utils.Utils.map;
+import static com.technion.coolie.studybuddy.utils.Utils.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+@DatabaseTable
 public class StudyResource
 {
 	public static final String	LECTURES	= "Lectures";
 	public static final String	TUTORIALS	= "Tutorials";
+	// public static final String VIDEO_LECTURES = "Video Lectures";
+	// public static final String VIDEO_TUTORIALS = "Video Tutorials";
+	// public static final String SYLLABUS_TOPICS = "Syllabus Topics";
+
+	@DatabaseField(generatedId = true)
+	private UUID				id;
+
+	@DatabaseField
+	private String				name;
+
+	private List<StudyItem>		items		= new ArrayList<StudyItem>();
+
+	@DatabaseField(foreign = true, canBeNull = false, index = true)
+	private Course				course;
+
+	public static void attachItemsList(StudyResource sr, List<StudyItem> list)
+	{
+		sr.setStudyItems(list);
+	}
 
 	public static StudyResource createWithItems(String label, Integer num)
 	{
 		StudyResource sr = new StudyResource();
 		sr.setName(label);
 
-		for (int i = 0; i < num; i++)
-		{
-			sr.addItem(new StudyItem(i + 1));
-		}
+		sr.addRange(1, num);
 		return sr;
 	}
 
@@ -35,16 +50,6 @@ public class StudyResource
 		sr.addItems(list);
 		return sr;
 	}
-
-	@DatabaseField(generatedId = true)
-	private UUID			id;
-	@DatabaseField
-	private String			name;
-
-	// @ForeignCollectionField(eager = true)
-	private List<StudyItem>	items	= new ArrayList<StudyItem>();
-
-	private Course			parent;
 
 	public StudyResource()
 	{
@@ -66,6 +71,11 @@ public class StudyResource
 		return list;
 	}
 
+	public Course getCourse()
+	{
+		return course;
+	}
+
 	public int getDoneItemsCount()
 	{
 		return getItemsDone().size();
@@ -73,44 +83,39 @@ public class StudyResource
 
 	public List<StudyItem> getItemsDone()
 	{
-		return filter(items, StudyItem.doneMatcher());
+		return filter(items, StudyItem.doneMatcher);
 	}
 
 	public List<Integer> getItemsDoneIds()
 	{
-		return asSortedList(map(getItemsDone(), StudyItem.getNumMapper()));
+		return (map(sorted(getItemsDone()), StudyItem.mapToNum));
 	}
 
 	public List<String> getItemsDoneLabels()
 	{
 
-		return asSortedList(map(getItemsDone(), StudyItem.getLabelMapper()));
+		return (map(sorted(getItemsDone()), StudyItem.mapToLabel));
 	}
 
 	public List<StudyItem> getItemsRemaining()
 	{
-		return filter(items, StudyItem.notDoneMatcher());
+		return filter(items, StudyItem.notDoneMathcer);
 	}
 
 	public List<Integer> getItemsRemainingIds()
 	{
-		return asSortedList(map(getItemsRemaining(), StudyItem.getNumMapper()));
+		return (map((sorted(getItemsRemaining())), StudyItem.mapToNum));
 	}
 
 	public List<String> getItemsRemainingLabels()
 	{
-		return asSortedList(map(getItemsRemaining(), StudyItem.getLabelMapper()));
+		return (map(sorted(getItemsRemaining()), StudyItem.mapToLabel));
 
 	}
 
 	public String getName()
 	{
 		return name;
-	}
-
-	public Course getParent()
-	{
-		return parent;
 	}
 
 	public int getRemainingItemsCount()
@@ -138,31 +143,18 @@ public class StudyResource
 
 		if (newSize < items.size())
 		{
-			Collection<StudyItem> toRemove = new ArrayList<StudyItem>();
-
-			for (StudyItem i : items)
-			{
-				if (i.getNum() > newSize)
-				{
-					toRemove.add(i);
-				}
-			}
-
-			items.removeAll(toRemove);
+			items.removeAll(filter(items, StudyItem.getMaxIdFilter(newSize)));
 		}
 		if (newSize > items.size())
 		{
-			for (int i = items.size() + 1; i <= newSize; ++i)
-			{
-				items.add(new StudyItem(i));
-			}
+			addRange(items.size() + 1, newSize - items.size());
 		}
 
 	}
 
-	public void setParent(Course parent)
+	public void setCourse(Course parent)
 	{
-		this.parent = parent;
+		course = parent;
 	}
 
 	private void addItems(List<String> list)
@@ -174,18 +166,30 @@ public class StudyResource
 		}
 	}
 
+	private void addRange(int from, int amount)
+	{
+		for (int i = from; i < from + amount; i++)
+		{
+			addItem(new StudyItem(i));
+		}
+	}
+
 	private void setName(String name)
 	{
 		this.name = name;
 
 	}
 
+	private void setStudyItems(List<StudyItem> list)
+	{
+		items.addAll(list);
+	}
+
 	private void toggleDone(int id)
 	{
-		List<StudyItem> result = filter(items, StudyItem.getNumFilter(id));
-		if (result.size() < 1)
+		StudyItem item = findFirst(items, StudyItem.getNumFilter(id));
+		if (item == null)
 			return;
-		result.get(0).toggleDone();
-
+		item.toggleDone();
 	}
 }
