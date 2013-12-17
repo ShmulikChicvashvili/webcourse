@@ -6,4 +6,11 @@
         android:icon="@drawable/stb_edit"
         android:title="@string/stb_add_course">
     </item>
+     <item
+        android:id="@+id/stb_discard_curse"
+        android:showAsAction="always"
+        android:icon="@drawable/stb_discard"
+        android:title="@string/stb_course_discard">
+    </item>
+        
 </menu>

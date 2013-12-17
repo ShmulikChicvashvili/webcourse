@@ -98,6 +98,9 @@ public class CourseActivity extends StudyBuddyActivity implements
 			intent.putExtra(EditCourse.COURSE_ID, courseNumber);
 			startActivity(intent);
 			return true;
+		case R.id.stb_discard_curse:
+//			DataStore.getInstance().deleteCourse(courseNumber);
+			NavUtils.navigateUpFromSameTask(this);
 		}
 		return super.onOptionsItemSelected(item);
 	}
