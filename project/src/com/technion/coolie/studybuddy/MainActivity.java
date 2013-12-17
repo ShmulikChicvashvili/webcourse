@@ -24,7 +24,8 @@ import com.technion.coolie.studybuddy.views.StudyBuddyActivity;
 public class MainActivity extends StudyBuddyActivity implements Observer
 {
 
-	GraphicalView	graphView;
+	GraphicalView			graphView;
+	private LinearLayout	_layout;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -76,26 +77,25 @@ public class MainActivity extends StudyBuddyActivity implements Observer
 		DataStore.getInstance().addObserver(adapter);
 
 		// WeeklyGraph
-		LinearLayout _layout = (LinearLayout) findViewById(R.id.Chart_layout);
+		_layout = (LinearLayout) findViewById(R.id.Chart_layout);
 
 		updateGraphView();
-
-		_layout.addView(graphView);
 
 		DataStore.getInstance().addObserver(this);
 	}
 
 	private void updateGraphView()
 	{
+		_layout.removeAllViews();
 		Date today = new Date();
 		graphView = GraphFactory.getWeeklyProgressGraph(getBaseContext(),
 						today, DataStore.getInstance().getWorkStats(today, 7));
+		_layout.addView(graphView);
 	}
 
 	@Override
 	public void update(Observable observable, Object data)
 	{
 		updateGraphView();
-
 	}
 }

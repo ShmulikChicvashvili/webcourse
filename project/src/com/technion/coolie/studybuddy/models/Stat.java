@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.technion.coolie.studybuddy.data.DataStore;
 
 public class Stat
 {
@@ -48,6 +49,8 @@ public class Stat
 	public void addDone()
 	{
 		amountDone++;
+		// TODO: hack for speed
+		DataStore.getHelper().getStatDao().createOrUpdate(this);
 	}
 
 	public void decreaseDone()
@@ -55,11 +58,13 @@ public class Stat
 		if (amountDone == 0)
 			return;
 		amountDone--;
+		DataStore.getHelper().getStatDao().createOrUpdate(this);
 	}
 
 	public void clearDone()
 	{
 		amountDone = 0;
+		DataStore.getHelper().getStatDao().createOrUpdate(this);
 	}
 
 	public int getAmountDone()

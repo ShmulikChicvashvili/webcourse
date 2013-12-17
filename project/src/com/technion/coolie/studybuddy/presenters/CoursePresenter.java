@@ -8,11 +8,12 @@ import java.util.Observable;
 import com.technion.coolie.studybuddy.data.DataStore;
 import com.technion.coolie.studybuddy.data.RecursiveDBStorer;
 import com.technion.coolie.studybuddy.models.Course;
+import com.technion.coolie.studybuddy.models.WorkStats;
 
 public class CoursePresenter extends Observable
 {
-	String courseNumber;
-	Course course;
+	String	courseNumber;
+	Course	course;
 
 	public CoursePresenter(String courseNumber)
 	{
@@ -63,6 +64,14 @@ public class CoursePresenter extends Observable
 	public void toggleTask(String resourceName, int position)
 	{
 		course.toggleTask(resourceName, position);
+
+		if (course.isTaskDone(resourceName, position))
+		{
+			WorkStats.getInstance().increaseDoneForDate(new Date());
+		} else
+		{
+			WorkStats.getInstance().decreaseDoneForDate(new Date());
+		}
 		DataStore.getInstance().notifyCourseAdapters(course);
 	}
 
