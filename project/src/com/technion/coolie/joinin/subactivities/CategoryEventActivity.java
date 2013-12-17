@@ -114,6 +114,7 @@ public class CategoryEventActivity extends CoolieActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (EventsDB.DB.getCategoryByString(mCategory).size() == 0){
+			checkModified(); //clear modified field
 			this.finish();
 			return;
 		}
