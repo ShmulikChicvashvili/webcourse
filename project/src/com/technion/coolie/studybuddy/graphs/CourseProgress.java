@@ -61,7 +61,7 @@ public class CourseProgress
 				setChartTitleTextSize(20);
 // 				setLabelsTextSize(19);
 				setLabelsTextSize(17);
-//				setMargins(new int[] { 25, 20, 100, 20 }); // right, top, left,
+				setMargins(new int[] { 25, 20, 100, 20 }); // right, top, left,
 															// bottom
 
 				setShowGrid(true);
