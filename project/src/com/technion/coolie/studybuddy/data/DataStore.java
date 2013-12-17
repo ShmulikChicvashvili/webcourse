@@ -1,24 +1,20 @@
 package com.technion.coolie.studybuddy.data;
 
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
-import java.util.Set;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.preference.PreferenceManager;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
-import com.j256.ormlite.dao.Dao;
 import com.technion.coolie.studybuddy.exceptions.CourseAlreadyExistsException;
 import com.technion.coolie.studybuddy.models.CompositeElement;
 import com.technion.coolie.studybuddy.models.Course;
@@ -149,7 +145,14 @@ public class DataStore extends Observable implements CompositeElement
 	@Override
 	public void accept(CompositeVisitor cv)
 	{
-		cv.visit(semester);
+		// cv.visit(semester);
+		List<Semester> list = getHelper().getSemesterDao().queryForAll();
+
+		if (list.size() > 0)
+		{
+			semester = list.get(0);
+		}
+
 		cv.visit(WorkStats.getInstance());
 
 		for (Course c : coursesList)
@@ -240,7 +243,7 @@ public class DataStore extends Observable implements CompositeElement
 	{
 		setChanged();
 		notifyObservers();
-		RecursiveDBStorer.getInstance().visit(course);
+		// RecursiveDBStorer.getInstance().visit(course);
 	}
 
 }

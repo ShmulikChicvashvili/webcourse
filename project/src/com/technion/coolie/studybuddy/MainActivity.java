@@ -1,6 +1,8 @@
 package com.technion.coolie.studybuddy;
 
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.achartengine.GraphicalView;
 
@@ -19,10 +21,10 @@ import com.technion.coolie.studybuddy.views.NowLayout;
 import com.technion.coolie.studybuddy.views.StbSettingsActivity;
 import com.technion.coolie.studybuddy.views.StudyBuddyActivity;
 
-public class MainActivity extends StudyBuddyActivity
+public class MainActivity extends StudyBuddyActivity implements Observer
 {
 
-	GraphicalView graphView;
+	GraphicalView	graphView;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -32,8 +34,7 @@ public class MainActivity extends StudyBuddyActivity
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(
-			com.actionbarsherlock.view.MenuItem item)
+	public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item)
 	{
 
 		Intent intent = null;
@@ -76,11 +77,25 @@ public class MainActivity extends StudyBuddyActivity
 
 		// WeeklyGraph
 		LinearLayout _layout = (LinearLayout) findViewById(R.id.Chart_layout);
-		
-		Date today = new Date();
-		graphView = GraphFactory.getWeeklyProgressGraph(getBaseContext(),
-				today, DataStore.getInstance().getWorkStats(today, 7));
+
+		updateGraphView();
 
 		_layout.addView(graphView);
+
+		DataStore.getInstance().addObserver(this);
+	}
+
+	private void updateGraphView()
+	{
+		Date today = new Date();
+		graphView = GraphFactory.getWeeklyProgressGraph(getBaseContext(),
+						today, DataStore.getInstance().getWorkStats(today, 7));
+	}
+
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		updateGraphView();
+
 	}
 }

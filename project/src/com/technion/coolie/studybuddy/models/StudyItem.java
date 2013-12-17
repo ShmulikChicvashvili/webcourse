@@ -1,9 +1,12 @@
 package com.technion.coolie.studybuddy.models;
 
+import static com.technion.coolie.studybuddy.data.DataStore.getHelper;
+
 import java.util.UUID;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.technion.coolie.studybuddy.data.DataStore;
 import com.technion.coolie.studybuddy.utils.Utils.Mapper;
 import com.technion.coolie.studybuddy.utils.Utils.Matcher;
 
@@ -160,5 +163,7 @@ public class StudyItem implements Comparable<StudyItem>
 	public void toggleDone()
 	{
 		done = !done;
+		// TODO temporary fix for slowness
+		getHelper().getStudyItemsDao().createOrUpdate(this);
 	}
 }

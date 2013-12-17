@@ -8,6 +8,7 @@ import android.text.format.DateUtils;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import com.technion.coolie.studybuddy.data.DataStore;
 import com.technion.coolie.studybuddy.views.StbSettingsActivity;
 
 @DatabaseTable(tableName = "semesters")
@@ -63,6 +64,9 @@ public class Semester
 
 		// preset endDate
 		endDate = new Date(startDate.getTime() + WEEKS_IN_SEMESTER
-				* DateUtils.WEEK_IN_MILLIS);
+						* DateUtils.WEEK_IN_MILLIS);
+
+		// TODO : refactor that to datastore
+		DataStore.getHelper().getSemesterDao().createOrUpdate(this);
 	}
 }
