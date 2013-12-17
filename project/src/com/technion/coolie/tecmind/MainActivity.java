@@ -24,6 +24,8 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.Request;
@@ -52,13 +54,16 @@ public class MainActivity extends CoolieActivity {
 		Session currentSession;
 		TecUser tecUser;
 		List<TecPost> userPostsFromServer;
-		
+		TextView total;
+		TextView Mylevel;
 	
 	  @Override
 	  public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.techmind_activity_my_title);
-
+	    total = (TextView) findViewById(R.id.total_text);
+	    Mylevel = (TextView) findViewById(R.id.level_text);	
+	    
 	    /* start Facebook Login */
 	    openActiveSession(this, true, new Session.StatusCallback() {
 
@@ -145,6 +150,7 @@ public class MainActivity extends CoolieActivity {
 		  User check = User.getUserInstance(null);
 		  try {
 			  tecUser = new ServerGetUserData().execute().get();
+			  initiateActivityFields(tecUser);
 		  } catch (Exception e) {
 			Toast.makeText(getApplicationContext(), "Problem in get user posts from server",
 	        		Toast.LENGTH_LONG).show();
@@ -170,11 +176,27 @@ public class MainActivity extends CoolieActivity {
 				  User.getUserInstance(null).posts.add(new Post(tp.getId(), tp.getDate(),
 							tp.getUserID(), tp.getLikesCount(), tp.getCommentCount()));
 			}
-		  }
-		  
-		  
+		  } 
 	  }
-	  
+		private void initiateActivityFields(TecUser tecUser2) {
+			total.setText(tecUser2.getTotalTechoins());
+			String level = tecUser2.getTitle().value();
+			Mylevel.setText(level);
+			if (level.contentEquals("ATUDAI"))
+				return;
+			ImageView atudaiStar = (ImageView) findViewById(R.id.atudai_star);
+			atudaiStar.setVisibility(ImageView.INVISIBLE);
+			if (level.contentEquals("NERD")) {
+				ImageView nerdStar = (ImageView) findViewById(R.id.cool_nerd_star);
+				nerdStar.setVisibility(ImageView.VISIBLE);
+			} else if (level.contentEquals("KNIGHT NERD")) {
+				ImageView soliderNerdStar = (ImageView) findViewById(R.id.solider_nerd_star);
+				soliderNerdStar.setVisibility(ImageView.VISIBLE);
+			} else if (level.contentEquals("SUPER NERD")) {
+				ImageView superNerdStar = (ImageView) findViewById(R.id.super_nerd_star);
+				superNerdStar.setVisibility(ImageView.VISIBLE);
+			}
+		}
 	  class ServerGetUserData extends AsyncTask<Void, Void, TecUser> {
 
 			@Override
