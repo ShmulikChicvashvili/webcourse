@@ -43,6 +43,10 @@ public class MineActivity extends CoolieActivity {
 	List<String> permissions;
 	String userId;
 	TechmineAPI connector = new TechmineAPI();
+	public static Date exMiningDate;
+	public static Date newMiningDate;
+	int exTotal;
+	public static int totalDelta;
 	
 	
 	@Override
@@ -53,7 +57,14 @@ public class MineActivity extends CoolieActivity {
 	    currentSession = Session.getActiveSession();
         if (currentSession != null && currentSession.isOpened()) {
         	userId = User.getUserInstance(null).id;
+        	
+        	/* saves the last date of mining and the last total amount of Techoins */
+        	exMiningDate = User.getUserInstance(null).lastMining;
+        	exTotal = User.getUserInstance(null).totalTechoins;
+        	/* mine the new posts, comments and likes */
             mining();
+
+            
         }
 	  }
 
@@ -72,6 +83,12 @@ public class MineActivity extends CoolieActivity {
 	  		       Mine.getMineInstance(userId).mineUserPosts(gO);
 	  		       User tempUser = User.getUserInstance(null); 
 	  		       Mine.getMineInstance(null).endMining();
+	  		       
+	  	           /* sets the total Techoins diff */
+	  	           totalDelta = User.getUserInstance(null).totalTechoins - exTotal;
+	  	           newMiningDate = User.getUserInstance(null).lastMining;
+	  		       
+	  	            /* updates the last mining in server */
 	  		       updateServer();
 //	  		      Toast.makeText(getApplicationContext(), id,
 //	  	        		Toast.LENGTH_LONG).show();
