@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.technion.coolie.tecmind.server.Communicator;
+import com.technion.coolie.tecmind.server.Communicator;;
 
 /**
  * 

@@ -1,5 +1,4 @@
 package com.technion.coolie.tecmind.server;
-
 import java.util.List;
 
 /**

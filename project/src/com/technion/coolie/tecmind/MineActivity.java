@@ -1,11 +1,12 @@
 package com.technion.coolie.tecmind;
 
-import java.util.ArrayList;
+import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.Assert;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -44,51 +45,13 @@ public class MineActivity extends CoolieActivity {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.techmind_activity_mine);
 
-	    /* start Facebook Login */
-	    openActiveSession(this, true, new Session.StatusCallback() {
-
-	      /* callback when session changes state */
-	      @Override
-	      public void call(Session session, SessionState state, Exception exception) {
-	        if (session.isOpened()) {
-	        	currentSession = session;
-
-	          /* make request to the /me API */
-	          Request.newMeRequest(session, new Request.GraphUserCallback() {
-
-	            /* callback after Graph API response with user object */
-	            @Override
-	            public void onCompleted(GraphUser user, Response response) {		    
-	            	if (user != null) {
-	            		userId = user.getId();
-	            		
-	            		User.getUserInstance(userId);
-	            		Assert.assertEquals(userId, User.getUserInstance(null).id);
-	  	  		      	Toast.makeText(getApplicationContext(), "OPENED",
-	  	  	        		Toast.LENGTH_LONG).show();
-	  	  		      
-	  	  		      	//initiateFromServer();
-	  	  		      
-	            		mining();
-	            	}
-	             }
-	          }).executeAsync();
-	        }		        
-	      }
-	    }, Arrays.asList("user_groups","user_activities","user_likes"));
+	    currentSession = Session.getActiveSession();
+        if (currentSession != null && currentSession.isOpened()) {
+            mining();
+        }
 	  }
 
-	private static Session openActiveSession(Activity activity, boolean allowLoginUI, 
-			StatusCallback callback, List<String> permissions) {
-	    OpenRequest openRequest = new OpenRequest(activity).setPermissions(permissions).setCallback(callback);
-	    Session session = new Session.Builder(activity).build();
-	    if (SessionState.CREATED_TOKEN_LOADED.equals(session.getState()) || allowLoginUI) {
-	        Session.setActiveSession(session);
-	        session.openForRead(openRequest);
-	        return session;
-	    }
-	    return null;
-	}
+
 	
 	  @Override
 	  public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -147,6 +110,8 @@ public class MineActivity extends CoolieActivity {
 
 	
 		}
+	  
+
 	  
 }
 

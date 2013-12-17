@@ -7,8 +7,6 @@ import java.net.URLEncoder;
 import java.util.Scanner;
 
 import javax.net.ssl.HttpsURLConnection;
-//TODO: change Communicator to real one
-
 
 /**
  * Created on 07/11/2013
@@ -23,7 +21,7 @@ public class Communicator {
   public static String execute(String... strs) {
     String $ = "";
     try {
-      URL url = new URL("https://teak-amphora-430.appspot.com/" + strs[0]);
+      URL url = new URL("https://symmetric-card-417.appspot.com/" + strs[0]);
       String param = encodeParams(strs);
       HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
       con.setDoOutput(true);
