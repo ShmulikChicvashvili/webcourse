@@ -75,12 +75,18 @@ public class Mine implements IMine {
 			         
 			         /* gets the time stamps of creating the post and the last update */
 			         updateTimeString =  json_obj.get("updated_time").toString();
-					 Date updateTimeDate = Utilities.parseDate(updateTimeString);
+			         Date updateTimeDate = Utilities.parseDate(updateTimeString);
+			         Long time = updateTimeDate.getTime();
+			         time +=(2*60*60*1000);
+			         updateTimeDate = new Date(time);
+					 
 
 					 createTimeString =  json_obj.get("created_time").toString();
 			         Date createTimeDate = Utilities.parseDate(createTimeString);
+			         time = createTimeDate.getTime();
+			         time +=(2*60*60*1000);
+			         createTimeDate = new Date(time);
 			         
-			         Assert.assertEquals(mUserId, User.getUserInstance(null).id);
 			         				         
 			         /* if post hasn't been updated after last mining */
 			         if (updateTimeDate.before(User.getUserInstance(mUserId).lastMining) ) {
@@ -133,7 +139,7 @@ public class Mine implements IMine {
 	        Utilities.calculatePosts(postsCounter);
 	        
  		     System.out.println("*****FROM MINE******");
- 		     System.out.println("The number of posts after mining is:" + User.getUserInstance(null).postsNum);
+ 		     System.out.println("The number of posts after mining is:" + postsCounter);
  		     System.out.println("The number of comments after mining is:" + User.getUserInstance(null).commentsNum);
  		     System.out.println("The number of likes after mining is:" + User.getUserInstance(null).likesOnPostsNum);
  		     System.out.println("The amount of Techoins i have is:" + User.getUserInstance(null).totalTechoins);
