@@ -45,12 +45,12 @@ public class RecentAccountActivity extends SherlockFragment {
 
 	private void setValueTexts(int userPost, int userComments, int userLikes) {
 		postValue
-				.setText(String.valueOf(Utilities.calculatePostsAux(userPost)));
+				.setText(String.valueOf(Utilities.calculatePostsAux(userPost)) + "   Techions");
 		commentsValue.setText(String.valueOf(Utilities
-				.calculateCommentsAux(userComments)));
+				.calculateCommentsAux(userComments)) + "   Techions");
 		likesValue.setText(String.valueOf(Utilities
-				.calculatelikesAux(userLikes)));
-		totalTechions.setText(User.getUserInstance(null).totalTechoins);
+				.calculatelikesAux(userLikes)) + "   Techions");
+		totalTechions.setText(String.valueOf(User.getUserInstance(null).totalTechoins) +  "   Techions");
 	}
 
 	private void initiateNumViews() {

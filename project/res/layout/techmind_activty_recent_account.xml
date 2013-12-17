@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:weightSum="5" >
+    android:weightSum="4" >
 
     <TextView
         android:id="@+id/title"
@@ -17,8 +17,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Summary of your Account details"
-        android:paddingBottom="100dp"
-        android:paddingTop="100dp"
+        android:paddingBottom="5dp"
+        android:paddingTop="10dp"
         android:gravity="center" />
 
     <RelativeLayout
@@ -32,7 +32,8 @@
             android:id="@+id/number_posts"
             style="@style/techmindTitleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+              android:paddingRight="10dp" />
         <TextView
             android:id="@+id/rec_posts"
             style="@style/techmindTitleSmall"
@@ -45,7 +46,8 @@
             android:id="@+id/current_posts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/rec_posts" />
+            android:layout_toRightOf="@id/rec_posts" 
+            android:layout_alignBottom="@id/rec_posts"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -57,7 +59,8 @@
             android:id="@+id/number_comments"
             style="@style/techmindTitleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" 
+             android:paddingRight="10dp"/>
         <TextView
             android:id="@+id/r_comments"
             style="@style/techmindTitleSmall"
@@ -70,7 +73,8 @@
             android:id="@+id/current_comments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/r_comments" />
+            android:layout_toRightOf="@id/r_comments"
+            android:layout_alignBottom="@id/r_comments" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -84,7 +88,8 @@
             android:id="@+id/number_likes"
             style="@style/techmindTitleSmall"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" 
+            android:paddingRight="10dp"/>
 
         <TextView
             android:id="@+id/rec_likes"
@@ -98,14 +103,15 @@
             android:id="@+id/current_likes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/rec_likes" />
+            android:layout_toRightOf="@id/rec_likes"
+            android:layout_alignBottom="@id/rec_likes" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/total_layout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin" >
 
@@ -114,13 +120,15 @@
             style="@style/techmindTitleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Your total techions :" />
+            android:text="Your total techions :"
+            android:paddingRight="10dp" />
 
         <TextView
             android:id="@+id/current_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/tot" />
+            android:layout_toRightOf="@id/tot" 
+             android:layout_alignBottom="@id/tot"/>
     </RelativeLayout>
 
     <ImageView
