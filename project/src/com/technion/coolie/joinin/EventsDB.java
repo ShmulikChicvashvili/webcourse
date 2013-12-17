@@ -75,13 +75,13 @@ public enum EventsDB {
 	}
 	
 	
-	public void Initialize(final Activity ac, final Runnable doneFetching){
-		final ProgressDialog pd = ProgressDialog.show(ac, "Join-In", "Fetching events from server");
-		allocateMemory();
+	public void Initialize(final Activity ac, final Runnable doneFetching, final Runnable onError){
+		final ProgressDialog pd = ProgressDialog.show(ac, "Join-In", "Fetching events from server");		
 		pd.setCancelable(false);
 		//Fetch My events from server    	 
 		ClientProxy.getAllEvents(new OnDone<List<ClientEvent>>() {
 			@Override public void onDone(final List<ClientEvent> ces) {								
+				allocateMemory();
 				sortEvents(ces);
 				pd.dismiss();
 				doneFetching.run();
@@ -89,6 +89,7 @@ public enum EventsDB {
 		}, new OnError(ac) {
 			@Override public void beforeHandlingError() {
 				pd.dismiss();
+				onError.run();
 			}
 		});
 	}
@@ -119,7 +120,7 @@ public enum EventsDB {
 	} 
 	
 	private void sortEvents(final List<ClientEvent> events){
-		FacebookUser user = new FacebookUser(FacebookLogin.getLoggedUser().getName(), FacebookLogin.getLoggedUser().getUsername());		
+		FacebookUser user = FacebookLogin.getLoggedUser().toFacebookUser();		
 		for (ClientEvent ce : events) {
 			if(ce.getOwner().equals(user.getUsername())){
 				mMyEvents.add(ce);

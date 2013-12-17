@@ -95,7 +95,7 @@ public class MainActivity extends CoolieActivity {
     		 if (account != null) {
     			 mLoggedAccount = account;
     			 mJoinInPref.edit().clear().putString("account", mLoggedAccount.toJson()).commit();
-    			 EventsDB.DB.Initialize(MainActivity.this, onDBDoneInitialize);
+    			 EventsDB.DB.Initialize(MainActivity.this, onDBDoneInitialize, onConnectionError);
     		 } 
     		 //Login fail
     		 else{
@@ -166,6 +166,13 @@ public class MainActivity extends CoolieActivity {
 		@Override
 		public void run() {
 			showEvents();
+		}
+	};
+	
+	private final Runnable onConnectionError = new Runnable() {		
+		@Override
+		public void run() {
+			mLoginDialog.show();
 		}
 	};
 	

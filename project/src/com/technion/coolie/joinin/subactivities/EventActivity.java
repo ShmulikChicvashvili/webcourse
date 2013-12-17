@@ -67,6 +67,7 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
   ClientEvent mEvent;
   ClientAccount mAccount;
   WrapperView mWrapper;
+  private boolean mOngoingServerAction = false;
   
   @Override protected void onCreate(final android.os.Bundle savedInstanceState) {
     
@@ -220,7 +221,11 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
 			   startActivityForResult(intent, EDITED);
 			return true;
 		case R.id.discard_item:
+			if (mOngoingServerAction)
+				return true;
 		    //showProgressBar(eventO2);
+			mOngoingServerAction = true;
+			item.setActionView(R.layout.ji_refresh_layout);
 		    ClientProxy.deleteEvent(getEvent().getId(), new OnDone<Void>() {
 		      @Override public void onDone(final Void t) {
 		        //hideProgressBar(eventO2);
@@ -232,6 +237,8 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
 		      }
 		    }, new OnError(((Activity)thisOne)) {
 		      @Override public void beforeHandlingError() {
+		    	  item.setActionView(null);
+		    	  mOngoingServerAction = false;
 		        //hideProgressBar(eventO2);
 		      }
 		    });

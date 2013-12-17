@@ -86,6 +86,8 @@ public class CreateEventActivity extends CoolieActivity {
 	private static final int MAX_DESCRIPTION = 400;
 	private static final int MAX_TITLE = 50;
 	private static final int MAX_LOCATION = 50;
+	private MenuItem mRefreshMenuItem = null;
+	private boolean mOngoingServerRequest = false;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -205,6 +207,8 @@ public class CreateEventActivity extends CoolieActivity {
 
 	void modifyEvent(final ClientEvent oe, final ClientEvent e) {
 		//showProgressBar(createEvent);
+		mOngoingServerRequest = true;
+		mRefreshMenuItem.setActionView(R.layout.ji_refresh_layout);
 		ClientProxy.modifyEvent(e, new OnDone<Boolean>() {
 			@Override
 			public void onDone(final Boolean t) {
@@ -223,6 +227,8 @@ public class CreateEventActivity extends CoolieActivity {
 		}, new OnError(this) {
 			@Override
 			public void beforeHandlingError() {
+				mRefreshMenuItem.setActionView(null);
+				mOngoingServerRequest = false;				
 				//hideProgressBar(createEvent);
 			}
 		});
@@ -230,6 +236,8 @@ public class CreateEventActivity extends CoolieActivity {
 
 	void addNewEvent(final ClientEvent e) {
 		//showProgressBar(createEvent);
+		mOngoingServerRequest = true;
+		mRefreshMenuItem.setActionView(R.layout.ji_refresh_layout);		
 		ClientProxy.addEvent(e, new TeamAppFacebookEvent(e.getId(),
 				eventFBid != null ? eventFBid.longValue() : -1),
 				new ClientProxy.OnDone<Long>() {
@@ -256,7 +264,9 @@ public class CreateEventActivity extends CoolieActivity {
 					}
 				}, new OnError(this) {
 					@Override
-					public void beforeHandlingError() {
+					public void beforeHandlingError() {						
+						mRefreshMenuItem.setActionView(null);
+						mOngoingServerRequest = false;
 						//hideProgressBar(createEvent);
 					}
 				});
@@ -474,6 +484,7 @@ public class CreateEventActivity extends CoolieActivity {
 		super.onCreateOptionsMenu(menu);
 		MenuInflater inflater = getSupportMenuInflater();
 		inflater.inflate(R.menu.join_in_create_event_activity_itemlist, menu);
+		mRefreshMenuItem = menu.findItem(R.id.accept_item);
 		return true;
 
 	}
@@ -494,9 +505,11 @@ public class CreateEventActivity extends CoolieActivity {
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.search_item:
-			return true;
+//		case R.id.search_item:
+//			return true;
 		case R.id.accept_item:
+			if(mOngoingServerRequest)
+				return true;
 			final ClientEvent e = (ClientEvent) getIntent().getExtras().get("event");
 //			if (e != null)
 //				showDetails(e);
