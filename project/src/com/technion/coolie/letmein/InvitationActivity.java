@@ -302,8 +302,11 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				.getSelectedItemPosition()];
 		final String carColor = friendCarColorEdit.getText().toString();
 
-		if (isUserForgotAField(friendName, carNumber, carColor))
+		if (isUserPickedTimeInThePast()) {
+			Toast.makeText(getApplicationContext(),
+					R.string.lmi_user_picked_time_in_the_past_message, Toast.LENGTH_SHORT).show();
 			return;
+		}
 
 		final Invitation i = Invitation.builder().contactId(currentSelectedId).date(cal.getTime())
 				.status(Status.CREATED).contactName(friendName).contactPhoneNumber(friendCellphone)
@@ -371,18 +374,12 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 
 	}
 
-	private boolean isUserForgotAField(final String friendName, final String carNumber,
-			final String carColor) {
-		if ("".equals(friendName))
-			Toast.makeText(getApplicationContext(), "insert name", Toast.LENGTH_SHORT).show();
-		else if ("".equals(carNumber))
-			Toast.makeText(getApplicationContext(), "insert car number", Toast.LENGTH_SHORT).show();
-		else if ("".equals(carColor))
-			Toast.makeText(getApplicationContext(), "insert car color", Toast.LENGTH_SHORT).show();
-		else
-			return false;
+	private boolean isUserPickedTimeInThePast() {
+		MyCalendar now = new MyCalendar();
 
-		return true;
+		return now.getYear() > cal.getYear() || now.getMonth() > cal.getMonth()
+				|| now.getDay() > cal.getDay() || now.getHour() > cal.getHour()
+				|| now.getMinute() > cal.getMinute();
 	}
 
 	@Override
