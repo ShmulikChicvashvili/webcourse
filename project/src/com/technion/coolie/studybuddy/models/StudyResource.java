@@ -6,12 +6,10 @@ import static com.technion.coolie.studybuddy.utils.Utils.map;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 
 public class StudyResource
 {

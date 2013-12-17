@@ -57,11 +57,11 @@ public class CourseProgress
 				setZoomEnabled(false);
 				setPanEnabled(false);
 				setBarSpacing(0.5);
-				setAxisTitleTextSize(16);
-				setChartTitleTextSize(20);
-				// setLabelsTextSize(19);
-				setLabelsTextSize(17);
-				setMargins(new int[] { 25, 20, 100, 20 }); // right, top, left,
+//				setAxisTitleTextSize(16);
+//				setChartTitleTextSize(20);
+// 				setLabelsTextSize(19);
+//				setLabelsTextSize(17);
+//				setMargins(new int[] { 25, 20, 100, 20 }); // right, top, left,
 															// bottom
 
 				setShowGrid(true);
@@ -94,7 +94,7 @@ public class CourseProgress
 				setYLabels(15);
 
 				SimpleSeriesRenderer r = new SimpleSeriesRenderer();
-				r.setColor(Color.RED);
+				r.setColor(Color.CYAN);
 				addSeriesRenderer(r);
 				r = new SimpleSeriesRenderer();
 				r.setColor(Color.GREEN);
