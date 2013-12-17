@@ -3,14 +3,16 @@ package com.technion.coolie.studybuddy.presenters;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
 import com.technion.coolie.studybuddy.data.DataStore;
+import com.technion.coolie.studybuddy.data.RecursiveDBStorer;
 import com.technion.coolie.studybuddy.models.Course;
 
-public class CoursePresenter
+public class CoursePresenter extends Observable
 {
-	String	courseNumber;
-	Course	course;
+	String courseNumber;
+	Course course;
 
 	public CoursePresenter(String courseNumber)
 	{
@@ -60,7 +62,8 @@ public class CoursePresenter
 
 	public void toggleTask(String resourceName, int position)
 	{
-		course.toggleTask(resourceName,position);
+		course.toggleTask(resourceName, position);
+		DataStore.getInstance().notifyCourseAdapters(course);
 	}
 
 }

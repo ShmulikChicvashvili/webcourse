@@ -68,11 +68,11 @@ public class MainActivity extends StudyBuddyActivity
 		DataStore.setContext(this);
 
 		NowLayout layout = (NowLayout) findViewById(R.id.course_list);
-
+		
 		CourseListAdapter adapter = new CourseListAdapter(this);
 		layout.setAdapter(adapter);
 		DataStore.getInstance().addObserver(adapter);
-
+		
 		// WeeklyGraph
 		LinearLayout _layout = (LinearLayout) findViewById(R.id.Chart_layout);
 
