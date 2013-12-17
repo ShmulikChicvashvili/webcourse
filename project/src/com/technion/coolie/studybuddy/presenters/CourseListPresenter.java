@@ -2,29 +2,29 @@ package com.technion.coolie.studybuddy.presenters;
 
 import com.technion.coolie.studybuddy.data.DataStore;
 
-public class MainPresenter
+public class CourseListPresenter
 {
 
-	public MainPresenter()
+	public CourseListPresenter()
 	{
 	}
 
-	public String getCourseNameById(int id)
+	public String getNameById(int id)
 	{
 		return DataStore.coursesById.get(id).getName();
 	}
 
-	public int getCoursesCount()
+	public int getCount()
 	{
 		return DataStore.coursesList.size();
 	}
 
-	public String getCourseIdStringByPosition(int position)
+	public String getIdByPosition(int position)
 	{
 		return DataStore.coursesList.get(position).getIdAsString();
 	}
 
-	public String getCourseNameByPosition(int position)
+	public String getNameByPosition(int position)
 	{
 		return DataStore.coursesList.get(position).getName();
 	}

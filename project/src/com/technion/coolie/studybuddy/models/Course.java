@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.j256.ormlite.field.DatabaseField;
@@ -22,6 +24,7 @@ public class Course implements Comparable<Course>
 		return String.valueOf(randomInt(999999));
 
 	}
+
 	@DatabaseField(id = true)
 	private String						id;
 	private String						name;
@@ -75,7 +78,7 @@ public class Course implements Comparable<Course>
 	public int compareTo(Course another)
 	{
 		return another.getNumStudyItemsRemaining()
-				- getNumStudyItemsRemaining();
+						- getNumStudyItemsRemaining();
 	}
 
 	@Override
@@ -136,6 +139,18 @@ public class Course implements Comparable<Course>
 		}
 		return total;
 
+	}
+
+	public Map<String, Integer> getProgressMap()
+	{
+		Map<String, Integer> map = new HashMap<String, Integer>(
+						trackedResouces.size());
+
+		for (StudyResource r : trackedResouces)
+		{
+			map.put(r.getName(), r.getDoneItemsCount());
+		}
+		return map;
 	}
 
 	public int getResourceTotalItemCount(String name)

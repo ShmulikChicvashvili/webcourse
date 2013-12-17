@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 
 import com.actionbarsherlock.view.Menu;
 import com.technion.coolie.R;
-import com.technion.coolie.studybuddy.adapters.CourseAdapter;
+import com.technion.coolie.studybuddy.adapters.CourseListAdapter;
 import com.technion.coolie.studybuddy.data.DataStore;
 import com.technion.coolie.studybuddy.graphs.GraphFactory;
 import com.technion.coolie.studybuddy.views.EditCourse;
@@ -24,32 +24,11 @@ public class MainActivity extends StudyBuddyActivity
 
 	GraphicalView	graphView;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.technion.coolie.CoolieActivity#onCreate(android.os.Bundle)
-	 */
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.stb_view_main);
-
-		// DataStore.addFakeCourses();
-
-		NowLayout layout = (NowLayout) findViewById(R.id.course_list);
-
-		CourseAdapter adapter = new CourseAdapter(this);
-		layout.setAdapter(adapter);
-
-		// WeeklyGraph
-		LinearLayout _layout = (LinearLayout) findViewById(R.id.Chart_layout);
-
-		Date today = new Date();
-		graphView = GraphFactory.getWeeklyProgressGraph(getBaseContext(),
-				today, DataStore.getInstance().getWorkStats(today, 7));
-
-		_layout.addView(graphView);
+		getSherlock().getMenuInflater().inflate(R.menu.stb_main_menu, menu);
+		return true;
 	}
 
 	@Override
@@ -76,10 +55,32 @@ public class MainActivity extends StudyBuddyActivity
 		return super.onOptionsItemSelected(item);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.technion.coolie.CoolieActivity#onCreate(android.os.Bundle)
+	 */
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu)
+	protected void onCreate(Bundle savedInstanceState)
 	{
-		getSherlock().getMenuInflater().inflate(R.menu.stb_main_menu, menu);
-		return true;
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.stb_view_main);
+
+		DataStore.getInstance().initContext(this);
+
+		NowLayout layout = (NowLayout) findViewById(R.id.course_list);
+
+		CourseListAdapter adapter = new CourseListAdapter(this);
+		layout.setAdapter(adapter);
+		DataStore.getInstance().addObserver(adapter);
+
+		// WeeklyGraph
+		LinearLayout _layout = (LinearLayout) findViewById(R.id.Chart_layout);
+
+		Date today = new Date();
+		graphView = GraphFactory.getWeeklyProgressGraph(getBaseContext(),
+				today, DataStore.getInstance().getWorkStats(today, 7));
+
+		_layout.addView(graphView);
 	}
 }

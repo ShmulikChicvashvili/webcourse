@@ -14,19 +14,37 @@ import com.technion.coolie.studybuddy.views.StbSettingsActivity;
 public class Semester
 {
 
-	public final static int WEEKS_IN_SEMESTER = 14;
-	private final static long MILISECONDS_IN_WEEK = 1000 * 60 * 60 * 24 * 7;
+	public final static int	WEEKS_IN_SEMESTER	= 14;
+
+	// private final static long MILISECONDS_IN_WEEK = 1000 * 60 * 60 * 24 * 7;
+
+	public static int countWeeksBetween(Date start, Date end)
+	{
+		int result = (int) ((end.getTime() - start.getTime()) / DateUtils.WEEK_IN_MILLIS);
+		return result;
+	}
 
 	@DatabaseField(generatedId = true)
-	private UUID id;
+	private UUID	id;
 	@DatabaseField
-	private Date startDate;
+	private Date	startDate;
+
 	@DatabaseField
-	private Date endDate;
+	private Date	endDate;
 
 	public Semester()
 	{
 
+	}
+
+	public Date getEndDate()
+	{
+		return endDate;
+	}
+
+	public int getSemesterWeek(Date today)
+	{
+		return Semester.countWeeksBetween(startDate, today) + 1;
 	}
 
 	public Date getStartDate()
@@ -34,42 +52,17 @@ public class Semester
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate)
-	{
-		this.startDate = startDate;
-	}
-
-	public Date getEndDate(Context context)
-	{
-		if (endDate == null)
-		{
-			// TODO change to actual date now ask the shared preferences if null
-			endDate = new Date(StbSettingsActivity
-					.getSemesterStartDate(context).getTime()
-					+ StbSettingsActivity.getSemesterLength(context)
-					* DateUtils.WEEK_IN_MILLIS);
-		}
-		return endDate;
-
-	}
-
 	public void setEndDate(Date endDate)
 	{
 		this.endDate = endDate;
 	}
 
-	public int getSemesterWeek(Date today, Context context)
+	public void setStartDate(Date startDate)
 	{
-		if (startDate == null)
-		{
-			startDate = StbSettingsActivity.getSemesterStartDate(context);
-		}
-		return Semester.countWeeksBetween(startDate, today) + 1;
-	}
+		this.startDate = startDate;
 
-	public static int countWeeksBetween(Date start, Date end)
-	{
-		int result = (int) ((end.getTime() - start.getTime()) / MILISECONDS_IN_WEEK);
-		return result;
+		// preset endDate
+		endDate = new Date(startDate.getTime() + WEEKS_IN_SEMESTER
+				* DateUtils.WEEK_IN_MILLIS);
 	}
 }

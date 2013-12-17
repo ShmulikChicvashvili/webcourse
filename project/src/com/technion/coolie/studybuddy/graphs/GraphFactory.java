@@ -17,15 +17,6 @@ import android.view.View;
 
 public class GraphFactory
 {
-	// TODO Dima API FOR Weekly Graph
-	public static GraphicalView getWeeklyProgressGraph(Context ctx,
-			Date firstDayOfWeek, Integer[] weeklyProgress)
-	{
-		WeeklyProgress wp = new WeeklyProgress(firstDayOfWeek, weeklyProgress);
-		return ChartFactory.getBarChartView(ctx, wp.getDataset(),
-				wp.getRenderer(), Type.DEFAULT);
-	}
-
 	/**
 	 * Creates progress graph
 	 * 
@@ -38,41 +29,13 @@ public class GraphFactory
 	 * @return
 	 */
 	public static View getCourseProgressGraph(Context ctx,
-			Map<String, Integer> name2progress, int currentWeek, int lastWeek)
+			Map<String, Integer> name2progress, int currentWeek, int semesterLength)
 	{
 		CourseProgress cp = new CourseProgress(name2progress, currentWeek,
-				lastWeek);
+				semesterLength);
 		return ChartFactory.getBarChartView(ctx, cp.getDataset(),
 				cp.getRenderer(), Type.STACKED);
 
-	}
-
-	// TODO DIMA, do something like this in course view
-	/**
-	 * Example how to extract the needed information for progress graph from
-	 * Course and Semester.
-	 * 
-	 * @param ctx
-	 * @param c
-	 * @param s
-	 * @return progress graph
-	 */
-	public static View getProgressGraphFromCourseAndSemester(Context ctx,
-			Course c, Semester s)
-	{
-		final int CURRENT_WEEK = s.getSemesterWeek(new Date(), ctx);
-		final int LAST_WEEK = Semester.WEEKS_IN_SEMESTER;
-
-		final Map<String, Integer> name2progress = new LinkedHashMap<String, Integer>();
-
-		for (StudyResource sr : c.getAllStudyResources())
-		{
-			name2progress.put(sr.getName(),
-					Integer.valueOf(sr.getDoneItemsCount()));
-		}
-
-		return getCourseProgressGraph(ctx, name2progress, CURRENT_WEEK,
-				LAST_WEEK);
 	}
 
 	/**
@@ -94,5 +57,13 @@ public class GraphFactory
 
 		return getCourseProgressGraph(ctx, name2progress, CURRENT_WEEK,
 				LAST_WEEK);
+	}
+
+	public static GraphicalView getWeeklyProgressGraph(Context ctx,
+			Date firstDayOfWeek, Integer[] weeklyProgress)
+	{
+		WeeklyProgress wp = new WeeklyProgress(firstDayOfWeek, weeklyProgress);
+		return ChartFactory.getBarChartView(ctx, wp.getDataset(),
+				wp.getRenderer(), Type.DEFAULT);
 	}
 }

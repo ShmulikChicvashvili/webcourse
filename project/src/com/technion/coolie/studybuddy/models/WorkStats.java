@@ -14,70 +14,6 @@ import java.util.Map;
 public class WorkStats
 {
 
-	Map<Date, Stat>	stats	= new HashMap<Date, Stat>();
-
-	public int getStatsForDate(Date date)
-	{
-		Date n = nullifyDate(date);
-		if (stats.containsKey(n))
-			return stats.get(n).getAmountDone();
-
-		return 0;
-	}
-
-	public void increaseDoneForDate(Date d)
-	{
-		Stat s = findOrAllocateStat(d);
-		s.addDone();
-	}
-
-	private Stat findOrAllocateStat(Date d)
-	{
-		Date n = nullifyDate(d);
-		if (stats.containsKey(n))
-			return stats.get(n);
-
-		Stat s = new Stat(d);
-		stats.put(s.getDate(), s);
-		return s;
-	}
-
-	public void decreaseDoneForDate(Date d)
-	{
-		Date n = nullifyDate(d);
-		if (!stats.containsKey(n))
-			return;
-
-		stats.get(n).decreaseDone();
-
-	}
-
-	public Integer[] getStatsForRange(Date d1, Date d2)
-	{
-		Date n1 = nullifyDate(d1);
-		Date n2 = nullifyDate(d2);
-		List<Integer> values = new ArrayList<Integer>();
-
-		for (Date d : range(n1, n2))
-		{
-			if (stats.containsKey(d))
-			{
-				values.add(stats.get(d).getAmountDone());
-			} else
-			{
-				values.add(0);
-			}
-
-		}
-
-		return values.toArray(new Integer[values.size()]);
-	}
-
-	private Iterable<Date> range(Date n1, Date n2)
-	{
-		return new DateRange(n1, n2);
-	}
-
 	class DateRange implements Iterable<Date>
 	{
 
@@ -126,6 +62,48 @@ public class WorkStats
 		}
 	}
 
+	Map<Date, Stat>	stats	= new HashMap<Date, Stat>();
+
+	public void decreaseDoneForDate(Date d)
+	{
+		Date n = nullifyDate(d);
+		if (!stats.containsKey(n))
+			return;
+
+		stats.get(n).decreaseDone();
+
+	}
+
+	public int getStatsForDate(Date date)
+	{
+		Date n = nullifyDate(date);
+		if (stats.containsKey(n))
+			return stats.get(n).getAmountDone();
+
+		return 0;
+	}
+
+	public Integer[] getStatsForRange(Date d1, Date d2)
+	{
+		Date n1 = nullifyDate(d1);
+		Date n2 = nullifyDate(d2);
+		List<Integer> values = new ArrayList<Integer>();
+
+		for (Date d : range(n1, n2))
+		{
+			if (stats.containsKey(d))
+			{
+				values.add(stats.get(d).getAmountDone());
+			} else
+			{
+				values.add(0);
+			}
+
+		}
+
+		return values.toArray(new Integer[values.size()]);
+	}
+
 	public Integer[] getStatsLastXDays(Date today, int days)
 	{
 		Date last = nullifyDate(today);
@@ -138,5 +116,27 @@ public class WorkStats
 
 		return getStatsForRange(first, last);
 
+	}
+
+	public void increaseDoneForDate(Date d)
+	{
+		Stat s = findOrAllocateStat(d);
+		s.addDone();
+	}
+
+	private Stat findOrAllocateStat(Date d)
+	{
+		Date n = nullifyDate(d);
+		if (stats.containsKey(n))
+			return stats.get(n);
+
+		Stat s = new Stat(d);
+		stats.put(s.getDate(), s);
+		return s;
+	}
+
+	private Iterable<Date> range(Date n1, Date n2)
+	{
+		return new DateRange(n1, n2);
 	}
 }

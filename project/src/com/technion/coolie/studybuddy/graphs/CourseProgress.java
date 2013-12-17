@@ -16,14 +16,14 @@ public class CourseProgress
 {
 	private Map<String, Integer>	name2progress;
 	private int						currentWeek;
-	private int						lastWeek;
+	private int						semesterLength;
 
 	CourseProgress(Map<String, Integer> name2progress, int currentWeek,
-			int lastWeek)
+			int semesterLength)
 	{
 		this.name2progress = name2progress;
 		this.currentWeek = currentWeek;
-		this.lastWeek = lastWeek;
+		this.semesterLength = semesterLength;
 	}
 
 	XYMultipleSeriesDataset getDataset()
@@ -79,7 +79,7 @@ public class CourseProgress
 				// setTextTypeface(Typeface.MONOSPACE);
 
 				setYAxisMin(0);
-				setYAxisMax(lastWeek);
+				setYAxisMax(semesterLength);
 
 				setXAxisMin(0.5);
 				setXAxisMax(name2progress.size() + 0.5);

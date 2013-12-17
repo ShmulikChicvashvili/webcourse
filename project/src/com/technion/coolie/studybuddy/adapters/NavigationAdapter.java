@@ -43,7 +43,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 		case 3:
 			return null;
 		case 1:
-			return DataStore.getMainPresenter().getCourseNameByPosition(
+			return DataStore.getMainPresenter().getNameByPosition(
 					childPosition);
 
 		default:
@@ -78,7 +78,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 					// fragment.selectItem(childPosition);
 					Intent intent = new Intent(context, CourseActivity.class);
 					intent.putExtra(CourseActivity.COURSE_ID,
-							DataStore.getMainPresenter().getCourseIdStringByPosition(childPosition));
+							DataStore.getMainPresenter().getIdByPosition(childPosition));
 					context.startActivity(intent);
 				}
 			});
@@ -101,7 +101,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 		case 3:
 			return 0;
 		case 1:
-			return DataStore.getMainPresenter().getCoursesCount();
+			return DataStore.getMainPresenter().getCount();
 
 		default:
 			break;

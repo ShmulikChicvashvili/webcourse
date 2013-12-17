@@ -14,18 +14,18 @@ import android.widget.TextView;
 
 import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.data.DataStore;
-import com.technion.coolie.studybuddy.presenters.MainPresenter;
+import com.technion.coolie.studybuddy.presenters.CourseListPresenter;
 import com.technion.coolie.studybuddy.views.CourseActivity;
 
-public class CourseAdapter extends BaseAdapter implements Observer
+public class CourseListAdapter extends BaseAdapter implements Observer
 {
 	private LayoutInflater	mInflater;
-	private MainPresenter	presenter;
+	private CourseListPresenter	presenter;
 
 	/**
 	 * 
 	 */
-	public CourseAdapter(Context context)
+	public CourseListAdapter(Context context)
 	{
 		super();
 		mInflater = (LayoutInflater) context
@@ -36,13 +36,13 @@ public class CourseAdapter extends BaseAdapter implements Observer
 	@Override
 	public int getCount()
 	{
-		return DataStore.getMainPresenter().getCoursesCount();
+		return DataStore.getMainPresenter().getCount();
 	}
 
 	@Override
 	public Object getItem(int position)
 	{
-		return presenter.getCourseNameByPosition(position);
+		return presenter.getNameByPosition(position);
 	}
 
 	@Override
@@ -64,9 +64,9 @@ public class CourseAdapter extends BaseAdapter implements Observer
 		}
 
 		ViewHolder holder = (ViewHolder) view.getTag();
-		holder.courseName.setText(presenter.getCourseNameByPosition(position));
+		holder.courseName.setText(presenter.getNameByPosition(position));
 		holder.courseNumber.setText(presenter
-				.getCourseIdStringByPosition(position));
+				.getIdByPosition(position));
 		view.setOnClickListener(new OnClickListenerImplementation(position));
 		return view;
 	}
@@ -97,7 +97,7 @@ public class CourseAdapter extends BaseAdapter implements Observer
 		{
 			Intent intent = new Intent(v.getContext(), CourseActivity.class);
 			intent.putExtra(CourseActivity.COURSE_ID,
-					presenter.getCourseIdStringByPosition(position));
+					presenter.getIdByPosition(position));
 			v.getContext().startActivity(intent);
 
 		}
