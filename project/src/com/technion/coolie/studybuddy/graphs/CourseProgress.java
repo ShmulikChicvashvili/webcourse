@@ -12,19 +12,22 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import android.graphics.Color;
 import android.graphics.Paint.Align;
 
-public class CourseProgress {
-	private Map<String, Integer> name2progress;
-	private int currentWeek;
-	private int lastWeek;
+public class CourseProgress
+{
+	private Map<String, Integer>	name2progress;
+	private int						currentWeek;
+	private int						lastWeek;
 
 	CourseProgress(Map<String, Integer> name2progress, int currentWeek,
-			int lastWeek) {
+			int lastWeek)
+	{
 		this.name2progress = name2progress;
 		this.currentWeek = currentWeek;
 		this.lastWeek = lastWeek;
 	}
 
-	XYMultipleSeriesDataset getDataset() {
+	XYMultipleSeriesDataset getDataset()
+	{
 		String[] titles = new String[] { "Total", "Done" };
 		List<double[]> values = new ArrayList<double[]>();
 
@@ -34,16 +37,19 @@ public class CourseProgress {
 
 		double[] progressWeeks = new double[name2progress.size()];
 		int i = 0;
-		for (Integer progress : name2progress.values()) {
+		for (Integer progress : name2progress.values())
+		{
 			progressWeeks[i++] = progress.doubleValue();
 		}
 		values.add(progressWeeks);
 		return Progress.buildBarDataset(titles, values);
 	}
 
-	XYMultipleSeriesRenderer getRenderer() {
-		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer() {
-			private static final long serialVersionUID = -1671341831565113605L;
+	XYMultipleSeriesRenderer getRenderer()
+	{
+		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer()
+		{
+			private static final long	serialVersionUID	= -1671341831565113605L;
 
 			{
 				setOrientation(Orientation.VERTICAL);
@@ -53,23 +59,24 @@ public class CourseProgress {
 				setBarSpacing(0.5);
 				setAxisTitleTextSize(16);
 				setChartTitleTextSize(20);
-				//setLabelsTextSize(19);
+				// setLabelsTextSize(19);
 				setLabelsTextSize(17);
-				setMargins(new int[] { 25, 20, 100, 20 }); // right, top, left, bottom
+				setMargins(new int[] { 25, 20, 100, 20 }); // right, top, left,
+															// bottom
 
 				setShowGrid(true);
 				setShowAxes(false);
-				
+
 				setXLabelsAlign(Align.RIGHT);
 				setYLabelsAlign(Align.CENTER);
-				
+
 				setXLabelsPadding(0);
-				
+
 				setYLabelsPadding(20);
 				setYLabelsVerticalPadding(-10);
 				// renderer.setYLabelsVerticalPadding(10);
-				//setLabelsTextSize(12);
-				//setTextTypeface(Typeface.MONOSPACE);
+				// setLabelsTextSize(12);
+				// setTextTypeface(Typeface.MONOSPACE);
 
 				setYAxisMin(0);
 				setYAxisMax(lastWeek);
@@ -78,11 +85,12 @@ public class CourseProgress {
 				setXAxisMax(name2progress.size() + 0.5);
 
 				int i = 0;
-				for (String name : name2progress.keySet()) {
+				for (String name : name2progress.keySet())
+				{
 					addXTextLabel(++i, name);
 				}
-				
-				setXLabels(0);		// Hides numbers from, leaves only text 
+
+				setXLabels(0); // Hides numbers from, leaves only text
 				setYLabels(15);
 
 				SimpleSeriesRenderer r = new SimpleSeriesRenderer();
@@ -91,9 +99,9 @@ public class CourseProgress {
 				r = new SimpleSeriesRenderer();
 				r.setColor(Color.GREEN);
 				addSeriesRenderer(r);
-				
+
 				setApplyBackgroundColor(true);
-				setMarginsColor(Color.argb(0xff,0xf3, 0xf3, 0xf3));
+				setMarginsColor(Color.argb(0xff, 0xf3, 0xf3, 0xf3));
 				setBackgroundColor(Color.WHITE);
 				setXLabelsColor(Color.BLACK);
 				setYLabelsColor(0, Color.BLACK);
