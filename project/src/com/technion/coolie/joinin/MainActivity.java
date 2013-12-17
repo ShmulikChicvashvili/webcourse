@@ -36,6 +36,10 @@ import com.technion.coolie.joinin.subactivities.EventActivity;
 
 
 public class MainActivity extends CoolieActivity {	
+	public MainActivity(){
+		int i = 0;
+		i++;
+	}
 
 	public static final String PREFS_NAME = "com.technion.coolie.joinin";
 	
@@ -95,7 +99,7 @@ public class MainActivity extends CoolieActivity {
         	 mLoginDialog = new LoginDialog(this, afterLogin);
     		 FacebookLogin.login(this, afterLogin);
     	 }else{
-    		 getEvents();
+    		 showEvents();
     	 }
      }
      
@@ -107,7 +111,7 @@ public class MainActivity extends CoolieActivity {
     		 if (account != null) {
     			 mLoggedAccount = account;
     			 mJoinInPref.edit().clear().putString("account", mLoggedAccount.toJson()).commit();
-    			 getEvents();
+    			 EventsDB.DB.Initialize(MainActivity.this, onDBDoneInitialize);
     		 } 
     		 //Login fail
     		 else{
@@ -162,60 +166,44 @@ public class MainActivity extends CoolieActivity {
      }
      
      
-     private void getEvents(){
-    	 final ProgressDialog pd = ProgressDialog.show(this, "Join-In", "Fetching events from server");
-    	 final ExpandableListView expListView = (ExpandableListView) findViewById(R.id.expendable_list);
-    	 pd.setCancelable(false);
-    	 //Fetch attending events from server
-    	 ClientProxy.getEventsAttending(mLoggedAccount.getUsername(), new OnDone<List<ClientEvent>>() {
-    		 @Override public void onDone(final List<ClientEvent> es) {   
-    			 pd.dismiss();			 
-    			 if (es.size() > 0){
-    				 
-    				 ArrayList<ClientEvent> attending = new ArrayList<ClientEvent>();
-    				 ArrayList<ClientEvent> myEvents = new ArrayList<ClientEvent>();
-    				 String userName = mLoggedAccount.getUsername();
-    				 for (final ClientEvent e : es) {
-    					 if (userName == e.getOwner()){
-    						 myEvents.add(e);    						 
-    					 }else{
-    						 attending.add(e);    						 
-    					 }    					 
-    				 }    				     				 
-    				 ArrayList<String> headers = new ArrayList<String>();
-    				 HashMap<String, List<ClientEvent>> events = new HashMap<String, List<ClientEvent>>();
-    				 if (attending.size() > 0){
-    					 headers.add("I'm attending");
-    					 Collections.sort(attending, sortEvents);
-    					 events.put("I'm attending", attending);
-    				 }
-    				 if (myEvents.size() > 0 ){
-    					 headers.add("My Events");
-    					 Collections.sort(myEvents, sortEvents);
-    					 events.put("My Events", myEvents);
-    				 }
-    				 expListView.setAdapter(new ExpandableListAdapter(MainActivity.this, MainActivity.this, 
-    						 headers, events,false));
-    				 for (int i = 0; i < headers.size(); ++i){
-    					 expListView.expandGroup(i);
-    				 } 
-    			 }else{
-    	    		 startActivityForResult(new Intent(MainActivity.this, CategoriesActivity.class).putExtra("account", mLoggedAccount)
-    	    				 , REQUEST_CATEGORIES_ACTIVITY);
-    			 }
-    		 }
-    	 }, new OnError(this) {
-    		 @Override public void beforeHandlingError() {
-    			 pd.dismiss();
-    		 }
-    	 });
-     }      
-     
-     
-     private final Comparator<ClientEvent> sortEvents = new Comparator<ClientEvent>() {		
+     private final Runnable onDBDoneInitialize = new Runnable() {		
+		@Override
+		public void run() {
+			showEvents();
+		}
+	};
+	
+	private void showEvents(){
+		List<ClientEvent> myEvents = EventsDB.DB.getMyEvents();
+		List<ClientEvent> attending = EventsDB.DB.getImAttending();
+		ArrayList<String> headers = new ArrayList<String>();			 
+		HashMap<String, List<ClientEvent>> events = new HashMap<String, List<ClientEvent>>();
+		if	(myEvents.size() > 0){
+			headers.add("My Events");
+			Collections.sort(myEvents, sortByTime);
+			events.put("My Events", myEvents);
+		}
+		if (attending.size() > 0){
+			headers.add("I'm Attending");
+			Collections.sort(attending, sortByTime);
+			events.put("I'm Attending", attending);
+		}
+		if (headers.size() == 0){
+			startActivityForResult(new Intent(MainActivity.this, CategoriesActivity.class).putExtra("account", mLoggedAccount)
+    				 , REQUEST_CATEGORIES_ACTIVITY);
+		}else{
+			ExpandableListView expListView = (ExpandableListView) findViewById(R.id.expendable_list);
+			expListView.setAdapter(new ExpandableListAdapter(MainActivity.this, MainActivity.this, 
+					 headers, events, false));
+			expListView.expandGroup(0);
+		}
+	} 
+	
+	private Comparator<ClientEvent> sortByTime = new Comparator<ClientEvent>() {		
 		@Override
 		public int compare(ClientEvent lhs, ClientEvent rhs) {
 			return (int)(lhs.getWhen().getTime() - rhs.getWhen().getTime());
 		}
 	};
+             
 }//MainActivity
