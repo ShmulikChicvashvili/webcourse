@@ -66,8 +66,8 @@ public class CourseOverViewFragment extends SherlockFragment
 
 		View view = inflater.inflate(R.layout.stb_view_course_main, container,
 				false);
-		NowLayout layout = (NowLayout) view.findViewById(R.id.course_list);
-		layout.setAdapter(new TaskAdapter(getActivity()));
+//		NowLayout layout = (NowLayout) view.findViewById(R.id.course_list);
+//		layout.setAdapter(new TaskAdapter(getActivity()));
 		LinearLayout linearLayout = (LinearLayout) view
 				.findViewById(R.id.Chart_layout);
 		View barChartView = GraphFactory.getCourseProgressGraph(
