@@ -86,7 +86,7 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 		holder.chart.addView(barChartView);
 		holder.courseName.setText(courseName);
 		holder.courseNumber.setText(courseNumber);
-		view.setOnClickListener(new OnClickListenerImplementation(position));
+		view.setOnClickListener(new IndexedOnclickListener(position));
 		return view;
 	}
 
@@ -104,12 +104,12 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 		return view;
 	}
 
-	private final class OnClickListenerImplementation implements
+	private final class IndexedOnclickListener implements
 			OnClickListener
 	{
 		private final int position;
 
-		private OnClickListenerImplementation(int position)
+		private IndexedOnclickListener(int position)
 		{
 			this.position = position;
 		}

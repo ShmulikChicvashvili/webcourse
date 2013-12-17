@@ -3,6 +3,6 @@
      <integer name="stb_config_slide_time">800</integer>
    
      <integer name="stb_num_of_columns">1</integer>
-     <integer name="stb_num_of_columns_resourse">5</integer>
+     <integer name="stb_num_of_columns_resourse">4</integer>
      
 </resources>
