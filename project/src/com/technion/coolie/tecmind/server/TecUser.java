@@ -23,13 +23,18 @@ public class TecUser implements IGetters {
    * @param bankAccount1
    */
   public TecUser(String id1, String name1, TecUserTitle title1,
-      Date lastMining1, int totalTechoins1, int bankAccount1) {
+      Date lastMining1, int totalTechoins1, int bankAccount1, int commentsNum1, int postsNum1, int likesNum1
+      , int likeOnPostsNum1) {
     this.id = id1;
     this.name = name1;
     this.title = title1;
     this.lastMining = lastMining1;
     this.totalTechoins = totalTechoins1;
     this.bankAccount = bankAccount1;
+    this.commentsNum = commentsNum1;
+    this.postsNum = postsNum1;
+    this.likesNum = likesNum1;
+    this.likeOnPostsNum = likeOnPostsNum1;
   }
 
   TecUser() {

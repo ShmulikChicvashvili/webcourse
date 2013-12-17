@@ -159,4 +159,12 @@ public interface ITechmineAPI {
    * @return - List<TecPost> which includes all user's posts
    */
   public List<TecPost> getAllUserPosts(TecUser user);
+
+  /**
+   * 
+   * @param posts
+   *          - the list of TecPost to add
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode addTecPostList(List<TecPost> posts);
 }

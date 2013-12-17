@@ -2,6 +2,8 @@ package com.technion.coolie.tecmind;
 
 import java.io.FileOutputStream;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -24,8 +26,11 @@ import com.facebook.model.GraphUser;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.tecmind.BL.Mine;
+import com.technion.coolie.tecmind.BL.Post;
 import com.technion.coolie.tecmind.BL.Title;
 import com.technion.coolie.tecmind.BL.User;
+import com.technion.coolie.tecmind.server.ReturnCode;
+import com.technion.coolie.tecmind.server.TecPost;
 import com.technion.coolie.tecmind.server.TecUser;
 import com.technion.coolie.tecmind.server.TecUserTitle;
 import com.technion.coolie.tecmind.server.TechmineAPI;
@@ -37,7 +42,7 @@ public class MineActivity extends CoolieActivity {
 	Session.NewPermissionsRequest newPermissionsRequest;
 	List<String> permissions;
 	String userId;
-	TechmineAPI connector;
+	TechmineAPI connector = new TechmineAPI();
 	
 	
 	@Override
@@ -47,16 +52,14 @@ public class MineActivity extends CoolieActivity {
 
 	    currentSession = Session.getActiveSession();
         if (currentSession != null && currentSession.isOpened()) {
+        	userId = User.getUserInstance(null).id;
             mining();
         }
 	  }
 
 
-	
-
 	  
 	  void mining() {
-  		
 		 		  
 		/* make Facebook API call */
   		new Request(currentSession, userId + "/feed", 
@@ -64,48 +67,65 @@ public class MineActivity extends CoolieActivity {
 
   		        public void onCompleted(Response response) {
   		        	
-	  		        GraphObject gO = response.getGraphObject();
+	  		       GraphObject gO = response.getGraphObject();
 	  		        
 	  		       Mine.getMineInstance(userId).mineUserPosts(gO);
 	  		       User tempUser = User.getUserInstance(null); 
 	  		       Mine.getMineInstance(null).endMining();
+	  		       updateServer();
 //	  		      Toast.makeText(getApplicationContext(), id,
 //	  	        		Toast.LENGTH_LONG).show();
 	  		     System.out.println("*****After Mining******");
 	  		     System.out.println("The number of posts after mining is:" + User.getUserInstance(null).postsNum);
 	  		     System.out.println("The number of comments after mining is:" + User.getUserInstance(null).commentsNum);
 	  		     System.out.println("The number of likes after mining is:" + User.getUserInstance(null).likesOnPostsNum);
-	  		   System.out.println("The amount of Techoins i have is:" + User.getUserInstance(null).totalTechoins);
+	  		     System.out.println("The amount of Techoins i have is:" + User.getUserInstance(null).totalTechoins);
 	  		     System.out.println("The last mining date is:" + User.getUserInstance(null).lastMining.toString());
   		        }
   		    }
   		).executeAsync();
   	}
 	 
-	  void initiateFromServer() {
-		  new ServerUserData().execute();
+	  void updateServer() {
+		  new ServerUpdateUserData().execute();
 		  
 	  }
 	  
-	  class ServerUserData extends AsyncTask<Void, Void, TecUser> {
+	  class ServerUpdateUserData extends AsyncTask<Void, Void, ReturnCode> {
 
+		  	ReturnCode addUserMessage;
+		  	ReturnCode updatePostsMessage;
 			@Override
-			protected TecUser doInBackground(Void... arg0) {
-				TecUser userToServer = new TecUser(userId, null, null, null, 0, 0);
-				return connector.getUser(userToServer);
+			protected ReturnCode doInBackground(Void... arg0) {
+				TecUserTitle titleToServer = TecUserTitle.valueOf(User.getUserInstance(null).title.value());
+				TecUser userToSever = new TecUser(User.getUserInstance(null).id, User.getUserInstance(null).name, 
+						titleToServer , User.getUserInstance(null).lastMining, 
+						User.getUserInstance(null).totalTechoins, User.getUserInstance(null).bankAccount
+						,User.getUserInstance(null).commentsNum, User.getUserInstance(null).postsNum
+						, User.getUserInstance(null).likesNum, User.getUserInstance(null).likesOnPostsNum);
+				addUserMessage = connector.addUser(userToSever);	
 				
+				List<TecPost> postsToServer = new LinkedList<TecPost>();
+				for (Post p : User.getUserInstance(null).posts) {
+					TecPost newTecPost = new TecPost(p.id, p.date, p.technionValue, p.userID,
+						     p.likesCount, p.commentCount);
+					postsToServer.add(newTecPost);
+				}
+				updatePostsMessage = connector.addTecPostList(postsToServer);
+				return addUserMessage;
 			}
 
 			@Override
-			protected void onPostExecute(TecUser result) {
-				User.getUserInstance(result.getId());
-				User.getUserInstance(null).initiateFieldsFromServer(result.getName(), Title.ATUDAI ,
-						result.getLastMining(), result.getTotalTechoins(), result.getBankAccount());
-				
+			protected void onPostExecute(ReturnCode result) {
+				Toast.makeText(getApplicationContext(), "Add user message: " + addUserMessage.value(),
+		        		Toast.LENGTH_LONG).show();		
+				Toast.makeText(getApplicationContext(), "Update posts message: " + updatePostsMessage.value(),
+		        		Toast.LENGTH_LONG).show();		
 			}
 
-	
 		}
+	  
+	  
 	  
 
 	  

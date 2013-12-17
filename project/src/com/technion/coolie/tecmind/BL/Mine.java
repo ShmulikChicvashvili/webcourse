@@ -131,7 +131,13 @@ public class Mine implements IMine {
 	        User tempUser = User.getUserInstance(null); 
 	        
 	        Utilities.calculatePosts(postsCounter);
-
+	        
+ 		     System.out.println("*****FROM MINE******");
+ 		     System.out.println("The number of posts after mining is:" + User.getUserInstance(null).postsNum);
+ 		     System.out.println("The number of comments after mining is:" + User.getUserInstance(null).commentsNum);
+ 		     System.out.println("The number of likes after mining is:" + User.getUserInstance(null).likesOnPostsNum);
+ 		     System.out.println("The amount of Techoins i have is:" + User.getUserInstance(null).totalTechoins);
+ 		     System.out.println("The last mining date is:" + User.getUserInstance(null).lastMining.toString());
 	        
 	        
 		} catch (JSONException e) {
@@ -139,9 +145,23 @@ public class Mine implements IMine {
 			e.printStackTrace();
 		}
 	}
-
+	
+	
+	@Override
 	public void endMining() {
 		User.getUserInstance(null).lastMining = new Date();
+		
+	}
+
+	@Override
+	public void mineUserComments(GraphObject gO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mineUserLikes(GraphObject gO) {
+		// TODO Auto-generated method stub
 		
 	}
 	

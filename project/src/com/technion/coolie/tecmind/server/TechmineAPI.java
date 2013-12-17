@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.technion.coolie.tecmind.server.Communicator;;
+import com.technion.coolie.tecmind.server.Communicator;
 
 /**
  * 
@@ -175,6 +175,14 @@ public class TechmineAPI implements ITechmineAPI {
         new TypeToken<List<TecPost>>() {
           // default usage
         }.getType());
+  }
+
+  @Override
+  public ReturnCode addTecPostList(List<TecPost> posts) {
+    return ReturnCode.valueOf(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.ADD_TEC_POST_LIST.toString(),
+        TechmineEnum.TEC_POST.value(), gson.toJson(posts)));
   }
 
 }

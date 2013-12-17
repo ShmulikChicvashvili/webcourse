@@ -3,12 +3,12 @@ package com.technion.coolie.tecmind.BL;
 import java.util.Date;
 
 public class Post extends UserActivity {
-	  String id;
-	  Date date;
-	  int technionValue = 5;
-	  String userID;
-	  int likesCount = 0;
-	  int commentCount = 0;
+	  public String id;
+	  public Date date;
+	  public int technionValue = 5;
+	  public String userID;
+	  public int likesCount = 0;
+	  public int commentCount = 0;
 	  
 	  /**
 	   * @param id1
