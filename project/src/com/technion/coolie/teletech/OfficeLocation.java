@@ -31,8 +31,9 @@ public class OfficeLocation {
 	@Override
 	public String toString() {
 		String officeLocation;
-		
-		if (faculty == null && officeRoom == null)
+
+		if (faculty == null && officeRoom == null || "NA".equals(faculty)
+				&& "NA".equals(officeRoom))
 			officeLocation = "No room specified";
 		else if (faculty == null)
 			officeLocation = officeRoom;
@@ -40,7 +41,7 @@ public class OfficeLocation {
 			officeLocation = faculty;
 		else
 			officeLocation = faculty + " " + officeRoom;
-		
+
 		return officeLocation;
 	}
 

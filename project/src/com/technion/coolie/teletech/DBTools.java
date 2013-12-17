@@ -32,12 +32,12 @@ public class DBTools extends SQLiteOpenHelper {
 		String createContactsDB = "CREATE TABLE IF NOT EXISTS contacts (contactId INTEGER PRIMARY KEY UNIQUE, firstName TEXT, "
 				+ "lastName TEXT, position TEXT, faculty TEXT, officeBuilding TEXT, officeRoom TEXT, "
 				+ "officeNumber TEXT, mobileNumber TEXT, homeNumber TEXT, emailAddress TEXT, officeHour TEXT, "
-				+ "additionalInfo TEXT, websiteAddress TEXT, timestamp TEXT)";
+				+ "additionalInfo TEXT, websiteAddress TEXT, timestamp TEXT, favourite INTEGER)";
 
 		String createFavouritesDB = "CREATE TABLE IF NOT EXISTS favourites (contactId INTEGER PRIMARY KEY UNIQUE, firstName TEXT, "
 				+ "lastName TEXT, position TEXT, faculty TEXT, officeBuilding TEXT, officeRoom TEXT, "
 				+ "officeNumber TEXT, mobileNumber TEXT, homeNumber TEXT, emailAddress TEXT, officeHour TEXT, "
-				+ "additionalInfo TEXT, websiteAddress TEXT, timestamp TEXT)";
+				+ "additionalInfo TEXT, websiteAddress TEXT, timestamp TEXT, favourite INTEGER)";
 
 		database.execSQL(createContactsDB);
 		database.execSQL(createFavouritesDB);
@@ -118,6 +118,7 @@ public class DBTools extends SQLiteOpenHelper {
 		values.put("additionalInfo", contact.additionalInformation());
 		values.put("websiteAddress", contact.website());
 		values.put("timestamp", contact.timeStamp());
+		values.put("favourite", contact.isFavourite() ? 1 : 0);
 
 	}
 
@@ -209,10 +210,11 @@ public class DBTools extends SQLiteOpenHelper {
 						cursor.getString(7), cursor.getString(10),
 						setOfficeHours(cursor.getString(11)),
 						cursor.getString(12), cursor.getString(13));
-				contact.setID(cursor.getLong(0));
+				contact.setID(Long.valueOf(cursor.getString(0)));
 
 				contact.setMobileNumber(cursor.getString(8));
 				contact.setHomeNumber(cursor.getString(9));
+				contact.setFavourite(cursor.getInt(15) == 1);
 				result.add(contact);
 
 			} while (cursor.moveToNext());
@@ -253,6 +255,7 @@ public class DBTools extends SQLiteOpenHelper {
 
 				result.setMobileNumber(cursor.getString(8));
 				result.setHomeNumber(cursor.getString(9));
+				result.setFavourite(cursor.getInt(15) == 1);
 
 			} while (cursor.moveToNext());
 
