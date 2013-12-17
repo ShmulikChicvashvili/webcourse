@@ -66,6 +66,10 @@ public class CategoryListAdapter extends ArrayAdapter<CategoryItem> {
         TextView txtNumEvents;
         TextView txtDesd;
     }
+    
+    public CategoryItem[] getItems(){
+    	return data;
+    }
 	
 }
 

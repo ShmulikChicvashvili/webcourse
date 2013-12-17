@@ -114,17 +114,10 @@ public class CategoryEventActivity extends CoolieActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);
 
-	    if (requestCode == 0) {
-	        if (resultCode == RESULT_CANCELED) {   	
-	        }
-	        else{
-//	        	ClientEvent e =	(ClientEvent) data.getExtras().get("event");
 	        	if (checkModified()){
 	        		showData();
 	        	}
-	        }
 	
-	        }
 	    }
 	
     private void showData(){   
@@ -175,32 +168,32 @@ public class CategoryEventActivity extends CoolieActivity {
     }
 	
 	private boolean checkModified(){
-		if (mCategory == "MOVIE"){
+		if (mCategory.equals( EventType.MOVIE.toString())){
 			boolean b =EventsDB.DB.IsModified(EventsDB.DB.CAT_MOVIE);
 			EventsDB.DB.ClearModified(EventsDB.DB.CAT_MOVIE);
 			return b;
 		}
-		if (mCategory == "STUDY"){
+		if (mCategory.equals( EventType.STUDY.toString())){
 			boolean b = EventsDB.DB.IsModified(EventsDB.DB.CAT_STUDY);
 			EventsDB.DB.ClearModified(EventsDB.DB.CAT_STUDY);
 			return b;
 		}
-		if (mCategory == "NIGHT_LIFE"){
+		if (mCategory.equals( EventType.NIGHT_LIFE.toString())){
 			boolean b =  EventsDB.DB.IsModified(EventsDB.DB.CAT_NIGHT_LIFE);
 			EventsDB.DB.ClearModified(EventsDB.DB.CAT_NIGHT_LIFE);
 			return b;
 		}
-		if (mCategory == "SPORT"){
+		if (mCategory.equals( EventType.SPORT.toString())){
 			boolean b =  EventsDB.DB.IsModified(EventsDB.DB.CAT_SPORT);
 			EventsDB.DB.ClearModified(EventsDB.DB.CAT_SPORT);
 			return b;
 		}
-		if (mCategory == "FOOD"){
+		if (mCategory.equals( EventType.FOOD.toString())){
 			boolean b =  EventsDB.DB.IsModified(EventsDB.DB.CAT_FOOD);
 			EventsDB.DB.ClearModified(EventsDB.DB.CAT_FOOD);
 			return b;
 		}
-		if (mCategory == "OTHER"){
+		if (mCategory.equals( EventType.OTHER.toString())){
 			boolean b =  EventsDB.DB.IsModified(EventsDB.DB.CAT_OTHER);
 			EventsDB.DB.ClearModified(EventsDB.DB.CAT_OTHER);
 			return b;

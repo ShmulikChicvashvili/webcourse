@@ -70,6 +70,7 @@ import android.app.ProgressDialog;
 public class CategoriesActivity extends CoolieActivity {
 	  final Activity mContext = this;
 	  public static ClientAccount mLoggedAccount = null; 
+	  CategoryListAdapter adapter = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,15 +112,17 @@ public class CategoriesActivity extends CoolieActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);
 
-	        if (resultCode == RESULT_CANCELED) {   	
-	        }
-	        else{
-//	        	ClientEvent e =	(ClientEvent) data.getExtras().get("event");
-	        	if (checkModified()){
-	        		clearModifiedDB();
-	        		showData();
-	        	}
-	        }
+
+		        adapter.getItems()[0].num = String.valueOf(EventsDB.DB.getCategoryMovie().size());
+		        adapter.getItems()[1].num = String.valueOf(EventsDB.DB.getCategoryStudy().size());
+		        adapter.getItems()[2].num = String.valueOf(EventsDB.DB.getCategorySport().size());
+		        adapter.getItems()[3].num = String.valueOf(EventsDB.DB.getCategoryFood().size());
+		        adapter.getItems()[4].num = String.valueOf(EventsDB.DB.getCategoryNightLife().size());
+		        ListView mainListView  = (ListView) findViewById( R.id.categorymainListView );
+		        mainListView.setAdapter(adapter);	
+	        	
+//	        adapter.getItems()[5].num = String.valueOf(EventsDB.DB.getCategoryOther().size());
+	        
 	    }
 	
 	public void showData(){        
@@ -133,7 +136,7 @@ public class CategoriesActivity extends CoolieActivity {
 				new CategoryItem(R.drawable.ji_night_life_icon, EventType.NIGHT_LIFE.toString(),String.valueOf(EventsDB.DB.getCategoryNightLife().size()),"Invite or join social events!"),
 				};
 
-		CategoryListAdapter adapter = new CategoryListAdapter(this, 
+		adapter = new CategoryListAdapter(this, 
 				R.layout.ji_categories_list_item, categoryItem);
 		ListView mainListView ; 
 		mainListView = (ListView) findViewById( R.id.categorymainListView );         
@@ -148,7 +151,7 @@ public class CategoriesActivity extends CoolieActivity {
 				String category = item.title;
 				List<ClientEvent> list = EventsDB.DB.getCategoryByString(category);
 				if (list.size() > 0){
-					startActivity(new Intent(CategoriesActivity.this, CategoryEventActivity.class).putExtra("category", item.title).putExtra("account", mLoggedAccount));
+					startActivityForResult(new Intent(CategoriesActivity.this, CategoryEventActivity.class).putExtra("category", item.title).putExtra("account", mLoggedAccount),0);
 				} 
 			}
 

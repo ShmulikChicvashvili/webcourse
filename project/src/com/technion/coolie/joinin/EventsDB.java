@@ -62,7 +62,7 @@ public enum EventsDB {
 		mCategoryNightLife = new ArrayList<ClientEvent>();
 		mCategorySport = new ArrayList<ClientEvent>();
 		mCategoryOther = new ArrayList<ClientEvent>();	
-		mModified = new boolean[]{true, true, true, true, true, true, true};
+		mModified = new boolean[]{true, true, true, true, true, true, true, true};
 	}
 	
 	public void clearAllData(){
