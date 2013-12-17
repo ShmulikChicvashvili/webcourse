@@ -36,11 +36,6 @@ import com.technion.coolie.joinin.subactivities.EventActivity;
 
 
 public class MainActivity extends CoolieActivity {	
-	public MainActivity(){
-		int i = 0;
-		i++;
-	}
-
 	public static final String PREFS_NAME = "com.technion.coolie.joinin";
 	
 	//Result codes
@@ -205,5 +200,10 @@ public class MainActivity extends CoolieActivity {
 			return (int)(lhs.getWhen().getTime() - rhs.getWhen().getTime());
 		}
 	};
+	@Override
+	public void onDestroy(){		
+		EventsDB.DB.clearAllData();
+		super.onDestroy();
+	}
              
 }//MainActivity

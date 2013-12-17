@@ -19,16 +19,15 @@ import com.technion.coolie.joinin.facebook.FacebookUser;
 public enum EventsDB {
 	DB;
 	
-	private List<ClientEvent> mMyEvents = new ArrayList<ClientEvent>();
-	private List<ClientEvent> mImAttending = new ArrayList<ClientEvent>();
-	private List<ClientEvent> mCategoryMovie = new ArrayList<ClientEvent>();
-	private List<ClientEvent> mCategoryStudy = new ArrayList<ClientEvent>();
-	private List<ClientEvent> mCategoryFood = new ArrayList<ClientEvent>();
-	private List<ClientEvent> mCategoryNightLife = new ArrayList<ClientEvent>();
-	private List<ClientEvent> mCategorySport = new ArrayList<ClientEvent>();
-	private List<ClientEvent> mCategoryOther = new ArrayList<ClientEvent>();	
-	
-	private boolean[] mModified = new boolean[]{true, true, true, true, true, true, true};
+	private List<ClientEvent> mMyEvents = null;
+	private List<ClientEvent> mImAttending = null;
+	private List<ClientEvent> mCategoryMovie = null;
+	private List<ClientEvent> mCategoryStudy = null;
+	private List<ClientEvent> mCategoryFood = null;
+	private List<ClientEvent> mCategoryNightLife = null;
+	private List<ClientEvent> mCategorySport = null;
+	private List<ClientEvent> mCategoryOther = null;		
+	private boolean[] mModified = null;
 	
 		
 	public int CAT_FOOD  	  = 0;
@@ -53,15 +52,41 @@ public enum EventsDB {
 		return mModified[entry];
 	}
 	
+	private void allocateMemory(){
+		mMyEvents = new ArrayList<ClientEvent>();
+		mImAttending = new ArrayList<ClientEvent>();
+		mCategoryMovie = new ArrayList<ClientEvent>();
+		mCategoryStudy = new ArrayList<ClientEvent>();
+		mCategoryFood = new ArrayList<ClientEvent>();
+		mCategoryNightLife = new ArrayList<ClientEvent>();
+		mCategorySport = new ArrayList<ClientEvent>();
+		mCategoryOther = new ArrayList<ClientEvent>();	
+		mModified = new boolean[]{true, true, true, true, true, true, true};
+	}
+	
+	public void clearAllData(){
+		mMyEvents = null;
+		mImAttending = null;
+		mCategoryMovie = null;
+		mCategoryStudy = null;
+		mCategoryFood = null;
+		mCategoryNightLife = null;
+		mCategorySport = null;
+		mCategoryOther = null;	
+		mModified = null;
+	}
+	
+	
 	public void Initialize(final Activity ac, final Runnable doneFetching){
 		final ProgressDialog pd = ProgressDialog.show(ac, "Join-In", "Fetching events from server");
+		allocateMemory();
 		pd.setCancelable(false);
 		//Fetch My events from server    	 
 		ClientProxy.getAllEvents(new OnDone<List<ClientEvent>>() {
 			@Override public void onDone(final List<ClientEvent> ces) {								
 				sortEvents(ces);
 				pd.dismiss();
-				new Handler().post(doneFetching);
+				doneFetching.run();
 			}
 		}, new OnError(ac) {
 			@Override public void beforeHandlingError() {
@@ -98,7 +123,7 @@ public enum EventsDB {
 	private void sortEvents(final List<ClientEvent> events){
 		FacebookUser user = new FacebookUser(FacebookLogin.getLoggedUser().getName(), FacebookLogin.getLoggedUser().getUsername());		
 		for (ClientEvent ce : events) {
-			if(ce.getOwner() == user.getUsername()){
+			if(ce.getOwner().equals(user.getUsername())){
 				mMyEvents.add(ce);
 			}else if(ce.isSubscribed(user)){
 				mImAttending.add(ce);
