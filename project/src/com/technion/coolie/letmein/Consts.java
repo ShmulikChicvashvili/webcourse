@@ -15,4 +15,6 @@ public interface Consts {
 	public static final String CALENDAR_INFO = LETMEIN_PREFIX + "calendar_info";
 	
 	public static final String POSITION = LETMEIN_PREFIX + "position";
+	
+	public static final String IMAGE_URI = LETMEIN_PREFIX + "image_uri";
 }

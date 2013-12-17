@@ -49,6 +49,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 
 	private final MyCalendar cal = new MyCalendar();
 	private boolean isDoneItemEnabled = false;
+	private Uri uri;
 
 	private AutoCompleteTextView friendNameEdit;
 	private EditText friendCellphoneEdit;
@@ -215,7 +216,9 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				public void onItemClick(final AdapterView<?> arg0, final View arg1,
 						final int position, final long id) {
 					final ContactInfo hm = (ContactInfo) arg0.getAdapter().getItem(position);
-					friendImage.setImageURI(Uri.parse(hm.imageUri));
+
+					uri = Uri.parse(hm.imageUri);
+					friendImage.setImageURI(uri);
 					friendCellphoneEdit.setText(hm.phoneNumber);
 					currentSelectedId = hm.id;
 
@@ -270,6 +273,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				friendCarCompanySpinner.getSelectedItemPosition());
 		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_friend_car_color_edit),
 				friendCarColorEdit.getText());
+		savedInstanceState.putParcelable(Consts.IMAGE_URI, uri);
 		savedInstanceState.putIntArray(Consts.CALENDAR_INFO, cal.backup());
 	}
 
@@ -287,6 +291,8 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				.valueOf(R.id.lmi_friend_car_company_edit)));
 		friendCarColorEdit.setText(savedInstanceState.getCharSequence(String
 				.valueOf(R.id.lmi_friend_car_color_edit)));
+		uri = (Uri) savedInstanceState.getParcelable(Consts.IMAGE_URI);
+		friendImage.setImageURI(uri);
 
 		cal.restore(savedInstanceState.getIntArray(Consts.CALENDAR_INFO));
 		datePicker.setText(cal.parseDate());
