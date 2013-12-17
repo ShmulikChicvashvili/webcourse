@@ -11,6 +11,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class CourseTests
 
 		StudyResource r = new StudyResource();
 		s.addStudyResource(r);
-		assertThat(s.getStudyResources(), is(asSet(r)));
+		assertThat(s.getAllStudyResources(), is((Collection) Arrays.asList(r)));
 	}
 
 	// @Test
@@ -70,8 +71,8 @@ public class CourseTests
 	public void gettingStudyResourcesWithoutAllocationShouldBeEmpty()
 	{
 		Course s = new Course();
-		assertThat(s.getStudyResources(),
-				is(Collections.<StudyResource> emptySet()));
+		assertThat(s.getAllStudyResources(),
+				is((Collection) Collections.<StudyResource> emptyList()));
 	}
 
 	@Before
@@ -89,9 +90,9 @@ public class CourseTests
 	@Test
 	public void subjectReturnsCorrectNameAndCourseNumber() throws Exception
 	{
-		Course s = new Course(123, "name");
+		Course s = new Course("123", "name");
 
-		assertThat(s.getId(), is(123));
+		assertThat(s.getId(), is("123"));
 		assertThat(s.getName(), is("name"));
 
 	}
@@ -99,7 +100,7 @@ public class CourseTests
 	@Test
 	public void subjectWithoutResourceReturnsZeroTasks() throws Exception
 	{
-		Course c = new Course(123, "name");
+		Course c = new Course("123", "name");
 
 		assertThat(c.getStudyItemsTotal(), is(0));
 		assertThat(c.getStudyItems(), is(Collections.<StudyItem> emptyList()));
