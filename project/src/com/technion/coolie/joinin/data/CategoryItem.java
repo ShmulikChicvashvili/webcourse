@@ -3,17 +3,17 @@ package com.technion.coolie.joinin.data;
 public class CategoryItem {
 	public int icon;
     public String title;
-	public int icon2;
     public String num;
+    public String desc;
     public CategoryItem(){
         super();
     }
     
-    public CategoryItem(int icon, String title,int icon2,String num) {
+    public CategoryItem(int icon, String title, String num, String desc) {
         super();
         this.icon = icon;
         this.title = title;
-        this.icon2 = icon2;
         this.num = num;
+        this.desc = desc;
     }
 }
