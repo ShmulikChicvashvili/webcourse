@@ -164,12 +164,12 @@ public enum EventsDB {
 	private List<ClientEvent> getList(EventType eventType) {
 		List<ClientEvent> list = null;
 		switch (eventType){
-			case MOVIE : list = getCategoryMovie();
-			case STUDY : list = getCategoryStudy();
-			case FOOD : list = getCategoryFood(); 
-			case NIGHT_LIFE : list = getCategoryNightLife(); 
-			case SPORT : list = getCategorySport(); 
-			case OTHER : list = getCategoryOther();
+			case MOVIE : list = getCategoryMovie(); break;
+			case STUDY : list = getCategoryStudy(); break;
+			case FOOD : list = getCategoryFood(); break;
+			case NIGHT_LIFE : list = getCategoryNightLife(); break; 
+			case SPORT : list = getCategorySport(); break;
+			case OTHER : list = getCategoryOther(); break;
 		}
 		return list;
 	}
@@ -177,12 +177,12 @@ public enum EventsDB {
 	private int getFlag(EventType eventType) {
 		int flag = 0;
 		switch (eventType){
-			case MOVIE : flag =  CAT_MOVIE;
-			case STUDY : flag =  CAT_STUDY;
-			case FOOD : flag =  CAT_FOOD; 
-			case NIGHT_LIFE : flag =  CAT_NIGHT_LIFE; 
-			case SPORT : flag =  CAT_SPORT; 
-			case OTHER : flag =  CAT_OTHER;
+			case MOVIE : flag =  CAT_MOVIE; break;
+			case STUDY : flag =  CAT_STUDY; break;
+			case FOOD : flag =  CAT_FOOD;  break;
+			case NIGHT_LIFE : flag =  CAT_NIGHT_LIFE; break; 
+			case SPORT : flag =  CAT_SPORT;  break;
+			case OTHER : flag =  CAT_OTHER; break;
 		}
 		return flag;
 	}
