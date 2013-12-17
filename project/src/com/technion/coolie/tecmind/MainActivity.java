@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -14,8 +15,14 @@ import java.util.concurrent.ExecutionException;
 import junit.framework.Assert;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.Request;
@@ -50,13 +57,14 @@ public class MainActivity extends CoolieActivity {
 	  public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.techmind_activity_my_title);
-	    
+
 	    /* start Facebook Login */
 	    openActiveSession(this, true, new Session.StatusCallback() {
 
 	      /* callback when session changes state */
 	      @Override
 	      public void call(Session session, SessionState state, Exception exception) {
+
 	        if (session.isOpened()) {
 	        	currentSession = session;
 
@@ -125,7 +133,11 @@ public class MainActivity extends CoolieActivity {
 	    return null;
 	}
 	  
-	  
+	  @Override
+	  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	      super.onActivityResult(requestCode, resultCode, data);
+	      Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+	  }
 	  
 	  void initiateFromServer() {
 		  User check = User.getUserInstance(null);
