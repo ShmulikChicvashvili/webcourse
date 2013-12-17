@@ -13,9 +13,6 @@ import com.technion.coolie.letmein.model.Invitation;
 import com.technion.coolie.letmein.model.adapters.InvitationAdapter;
 
 public class InvitationViewActivity extends DatabaseActivity {
-
-	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
-
 	private AutoCompleteTextView friendNameEdit;
 	private EditText friendCellphoneEdit;
 	private EditText friendCarNumberEdit;
@@ -26,7 +23,7 @@ public class InvitationViewActivity extends DatabaseActivity {
 	private ImageView friendImage;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lmi_activity_invitation);
 
@@ -41,9 +38,9 @@ public class InvitationViewActivity extends DatabaseActivity {
 
 		disableComponents();
 
-		int position = getIntent().getExtras().getInt(Consts.POSITION);
-		Invitation invitation = new InvitationAdapter(InvitationViewActivity.this, getHelper())
-				.getItem(position);
+		final int position = getIntent().getExtras().getInt(Consts.POSITION);
+		final Invitation invitation = new InvitationAdapter(InvitationViewActivity.this,
+				getHelper()).getItem(position);
 
 		friendNameEdit.setText(invitation.getContactName());
 		friendCellphoneEdit.setText(invitation.getContactPhoneNumber());
@@ -51,7 +48,7 @@ public class InvitationViewActivity extends DatabaseActivity {
 		friendCarCompanySpinner.setSelection(invitation.getCarManufacturer().ordinal());
 		friendCarColorEdit.setText(invitation.getCarColor());
 
-		MyCalendar cal = new MyCalendar();
+		final MyCalendar cal = new MyCalendar();
 		cal.restoreFromTime(invitation.getDate());
 		datePicker.setText(cal.parseDate());
 		timePicker.setText(cal.parseTime());

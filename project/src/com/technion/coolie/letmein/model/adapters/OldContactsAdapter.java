@@ -1,13 +1,11 @@
 package com.technion.coolie.letmein.model.adapters;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
 import android.net.Uri;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +15,13 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.model.ContactInfo;
-import com.technion.coolie.letmein.model.Invitation;
-import com.technion.coolie.letmein.model.adapters.BaseInvitationAdapter.ContactView;
 
 public class OldContactsAdapter extends BaseAdapter implements Filterable {
 	private final Context context;
 	private List<ContactInfo> displayedDataset;
-	private List<ContactInfo> dataset;
+	private final List<ContactInfo> dataset;
 
 	private List<ContactInfo> getDisplayedDataset() {
 		if (displayedDataset == null)
@@ -34,7 +29,7 @@ public class OldContactsAdapter extends BaseAdapter implements Filterable {
 
 		return displayedDataset;
 	}
-	
+
 	protected List<ContactInfo> getFullDataset() {
 		return dataset;
 	}
@@ -43,13 +38,10 @@ public class OldContactsAdapter extends BaseAdapter implements Filterable {
 		displayedDataset = dataset;
 	}
 
-
-	public OldContactsAdapter(Context context,List<ContactInfo> dataset)
-	{
+	public OldContactsAdapter(final Context context, final List<ContactInfo> dataset) {
 		this.dataset = dataset;
 		this.context = context;
 	}
-
 
 	private static class ViewHolder {
 		public TextView Name;
@@ -65,7 +57,8 @@ public class OldContactsAdapter extends BaseAdapter implements Filterable {
 			$ = convertView;
 			holder = (ViewHolder) $.getTag();
 		} else {
-			$ = LayoutInflater.from(context).inflate(R.layout.lmi_contacts_autocomplete_layout, null);
+			$ = LayoutInflater.from(context).inflate(R.layout.lmi_contacts_autocomplete_layout,
+					null);
 			holder = initViewHolder($);
 			$.setTag(holder);
 		}
@@ -100,7 +93,6 @@ public class OldContactsAdapter extends BaseAdapter implements Filterable {
 	public long getItemId(final int position) {
 		return getItem(position).id;
 	}
-	
 
 	@Override
 	public Filter getFilter() {
@@ -127,8 +119,7 @@ public class OldContactsAdapter extends BaseAdapter implements Filterable {
 						Locale.getDefault());
 				final List<ContactInfo> filtered = new LinkedList<ContactInfo>();
 				for (final ContactInfo i : getFullDataset())
-					if (i.name.toLowerCase(Locale.getDefault())
-							.startsWith(lowerCaseConstraint))
+					if (i.name.toLowerCase(Locale.getDefault()).startsWith(lowerCaseConstraint))
 						filtered.add(i);
 
 				$.values = filtered;

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +12,10 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-
-
 import com.technion.coolie.R;
 
-
-public abstract class OneAdapterToRuleThemAll<ContainedClass, ViewHolderClass> extends
-		BaseAdapter implements Filterable {
+public abstract class OneAdapterToRuleThemAll<ContainedClass, ViewHolderClass> extends BaseAdapter
+		implements Filterable {
 
 	public interface Connector<ContainedClass, ViewHolderClass> {
 		public void setViewFromInvitation(final ViewHolderClass holder,
@@ -28,13 +24,14 @@ public abstract class OneAdapterToRuleThemAll<ContainedClass, ViewHolderClass> e
 		public ViewHolderClass initViewHolder(final View view);
 
 		public String getFilteredValue(ContainedClass instance);
+
 		public Long getItemId(ContainedClass instance);
 	}
 
-	private Connector<ContainedClass, ViewHolderClass> instance;
+	private final Connector<ContainedClass, ViewHolderClass> instance;
 	protected final Context context;
 	private List<ContainedClass> displayedDataset;
-	private List<ContainedClass> dataset;
+	private final List<ContainedClass> dataset;
 
 	private List<ContainedClass> getDisplayedDataset() {
 		if (displayedDataset == null)
@@ -51,17 +48,15 @@ public abstract class OneAdapterToRuleThemAll<ContainedClass, ViewHolderClass> e
 		displayedDataset = dataset;
 	}
 
-	public OneAdapterToRuleThemAll(Context context,
-			List<ContainedClass> dataset,
-			Connector<ContainedClass, ViewHolderClass> instance) {
+	public OneAdapterToRuleThemAll(final Context context, final List<ContainedClass> dataset,
+			final Connector<ContainedClass, ViewHolderClass> instance) {
 		this.dataset = dataset;
 		this.context = context;
 		this.instance = instance;
 	}
 
 	@Override
-	public View getView(final int position, final View convertView,
-			final ViewGroup parent) {
+	public View getView(final int position, final View convertView, final ViewGroup parent) {
 		View $;
 		ViewHolderClass holder;
 
@@ -69,8 +64,8 @@ public abstract class OneAdapterToRuleThemAll<ContainedClass, ViewHolderClass> e
 			$ = convertView;
 			holder = (ViewHolderClass) $.getTag();
 		} else {
-			$ = LayoutInflater.from(context).inflate(
-					R.layout.lmi_contacts_autocomplete_layout, null);
+			$ = LayoutInflater.from(context).inflate(R.layout.lmi_contacts_autocomplete_layout,
+					null);
 			holder = this.instance.initViewHolder($);
 			$.setTag(holder);
 		}
@@ -99,15 +94,13 @@ public abstract class OneAdapterToRuleThemAll<ContainedClass, ViewHolderClass> e
 		return new Filter() {
 			@SuppressWarnings("unchecked")
 			@Override
-			protected void publishResults(final CharSequence constraint,
-					final FilterResults results) {
+			protected void publishResults(final CharSequence constraint, final FilterResults results) {
 				setDisplayedDataset((List<ContainedClass>) results.values);
 				notifyDataSetChanged();
 			}
 
 			@Override
-			protected FilterResults performFiltering(
-					final CharSequence constraint) {
+			protected FilterResults performFiltering(final CharSequence constraint) {
 				final FilterResults $ = new FilterResults();
 
 				if (constraint == null || constraint.length() <= 0) {
@@ -117,14 +110,12 @@ public abstract class OneAdapterToRuleThemAll<ContainedClass, ViewHolderClass> e
 					return $;
 				}
 
-				final String lowerCaseConstraint = constraint.toString()
-						.toLowerCase(Locale.getDefault());
+				final String lowerCaseConstraint = constraint.toString().toLowerCase(
+						Locale.getDefault());
 				final List<ContainedClass> filtered = new LinkedList<ContainedClass>();
 				for (final ContainedClass i : getFullDataset())
-					if (OneAdapterToRuleThemAll.this.instance
-							.getFilteredValue(i)
-							.toLowerCase(Locale.getDefault())
-							.startsWith(lowerCaseConstraint))
+					if (OneAdapterToRuleThemAll.this.instance.getFilteredValue(i)
+							.toLowerCase(Locale.getDefault()).startsWith(lowerCaseConstraint))
 						filtered.add(i);
 
 				$.values = filtered;
