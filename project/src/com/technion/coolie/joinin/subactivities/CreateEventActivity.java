@@ -112,6 +112,26 @@ public class CreateEventActivity extends CoolieActivity {
 		date = new EventDate(Calendar.getInstance().getTimeInMillis());
 		updateListeners();
 	}
+	
+	private boolean checkDate(){	
+		EventDate today = new EventDate(Calendar.getInstance().getTimeInMillis());
+		if ((date.getTime() - today.getTime()) > 0){
+			dateInput.setError(null);	
+			timeInput.setError(null);
+			return true;			
+		}			
+		int year = date.getYear() - today.getYear();
+		int month = date.getMonth() - today.getMonth();
+		int day = date.getDay() - today.getDay();
+		if (year < 0 || month < 0 || day < 0){
+			dateInput.setError(getString(R.string.wrong_date));	
+			timeInput.setError(null);
+		}else{
+			timeInput.setError(getString(R.string.wrong_time));
+			dateInput.setError(null);
+		}		
+		return false;
+	}
 
 	/**
 	 * create button listeners
@@ -251,14 +271,10 @@ public class CreateEventActivity extends CoolieActivity {
 								thisActivity, e,
 								new CalendarHandler.Listener() {
 									@Override
-									public void onDone() {
-										setResult(
-												MainMapActivity.RESULT_REFRESH,
-												new Intent().putExtra("event",
-														e));
-										finish();
+									public void onDone() {										
 										setResult(EventActivity.RESULT_REFRESH, 
 												new Intent().putExtra("event", e) );
+										finish();
 									}			
 								});
 					}
@@ -352,11 +368,13 @@ public class CreateEventActivity extends CoolieActivity {
 	 * @return true iff all input paramaters don't cross the characters limit
 	 */
 	private boolean checkParams() {
-		return checkParamsField(titleInput, MAX_TITLE)
-				&& checkParamsField(descriptionInput, MAX_DESCRIPTION)
-				&& checkParamsField(locationInput, MAX_LOCATION)
-				&& checkEmpty(titleInput) && checkEmpty(locationInput);
+		boolean res = true;
+		res &= checkParamsField(titleInput, MAX_TITLE) && checkEmpty(titleInput);
+		res &= checkParamsField(descriptionInput, MAX_DESCRIPTION);
+		res &= checkParamsField(locationInput, MAX_LOCATION) && checkEmpty(locationInput);
+		return res & checkDate();
 	}
+	
 
 	/**
 	 * Checks the edit text for a limited size
@@ -369,8 +387,11 @@ public class CreateEventActivity extends CoolieActivity {
 	 */
 	@SuppressWarnings("boxing")
 	private boolean checkParamsField(final EditText t, final int size) {
-		if (t.getText().length() <= size)
+		if (t.getText().length() <= size){
+			t.setError(null);
 			return true;
+		}
+			
 		t.setError(String.format(getString(R.string.text_overflow), size));
 		return false;
 	}
@@ -383,8 +404,10 @@ public class CreateEventActivity extends CoolieActivity {
 	 * @return true iff the edit text contains an empty string
 	 */
 	private boolean checkEmpty(final EditText t) {
-		if (t.getText().toString().trim().length() >= 0)
+		if (t.getText().toString().trim().length() > 0){
+			t.setError(null);
 			return true;
+		}			
 		t.setError(getString(R.string.text_empty));
 		return false;
 	}
