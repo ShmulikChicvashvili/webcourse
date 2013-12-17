@@ -2,13 +2,10 @@ package com.technion.coolie.studybuddy.views;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnDragListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -59,7 +56,7 @@ public class ResourceFragment extends SherlockFragment implements CrossGesture
 
 	private OnFragmentInteractionListener	mListener;
 
-	private NowLayout						doneLayout;
+	// private NowLayout doneLayout;
 
 	private ResourceGridAdapter				doneAdapter;
 
@@ -118,51 +115,49 @@ public class ResourceFragment extends SherlockFragment implements CrossGesture
 						.setText(ResourceName);
 		resourceAdapter = new ResourceGridAdapter(this, false, courseID,
 						ResourceName);
-
-		DataStore.getInstance().addObserver(resourceAdapter);
-		((NowLayout) view.findViewById(R.id.listView1))
+		((NowLayout) view.findViewById(R.id.stb_resource_list))
 						.setAdapter(resourceAdapter);
-		doneLayout = (NowLayout) view.findViewById(R.id.done_items);
-		doneAdapter = new ResourceGridAdapter(this, true, courseID,
-						ResourceName);
-		doneLayout.setAdapter(doneAdapter);
-		doneLayout.setOnDragListener(new OnDragListener()
-		{
-
-			@Override
-			public boolean onDrag(View v, DragEvent event)
-			{
-				switch (event.getAction())
-				{
-				case DragEvent.ACTION_DRAG_STARTED:
-					v.setBackgroundResource(R.drawable.stb_blue_backgroud);
-					resourceAdapter.startDraging((View) event.getLocalState());
-					break;
-				case DragEvent.ACTION_DRAG_ENTERED:
-					v.setBackgroundResource(R.drawable.stb_red_backgroud);
-					break;
-				case DragEvent.ACTION_DRAG_EXITED:
-					v.setBackgroundColor(Color.WHITE);
-					break;
-				case DragEvent.ACTION_DROP:
-					// Dropped, reassign View to ViewGroup
-					View view = (View) event.getLocalState();
-					resourceAdapter.removeItem(view);
-					doneAdapter.addItem(view);
-					view.setVisibility(View.VISIBLE);
-					break;
-				case DragEvent.ACTION_DRAG_ENDED:
-					v.setBackgroundColor(Color.WHITE);
-					View view1 = (View) event.getLocalState();
-					view1.setVisibility(View.VISIBLE);
-					resourceAdapter.stopDraging();
-
-				default:
-					break;
-				}
-				return true;
-			}
-		});
+		// doneLayout = (NowLayout) view.findViewById(R.id.done_items);
+		// doneAdapter = new ResourceGridAdapter(this, true, courseID,
+		// ResourceName);
+		// doneLayout.setAdapter(doneAdapter);
+		// doneLayout.setOnDragListener(new OnDragListener()
+		// {
+		//
+		// @Override
+		// public boolean onDrag(View v, DragEvent event)
+		// {
+		// switch (event.getAction())
+		// {
+		// case DragEvent.ACTION_DRAG_STARTED:
+		// v.setBackgroundResource(R.drawable.stb_blue_backgroud);
+		// resourceAdapter.startDraging((View) event.getLocalState());
+		// break;
+		// case DragEvent.ACTION_DRAG_ENTERED:
+		// v.setBackgroundResource(R.drawable.stb_red_backgroud);
+		// break;
+		// case DragEvent.ACTION_DRAG_EXITED:
+		// v.setBackgroundColor(Color.WHITE);
+		// break;
+		// case DragEvent.ACTION_DROP:
+		// // Dropped, reassign View to ViewGroup
+		// View view = (View) event.getLocalState();
+		// resourceAdapter.removeItem(view);
+		// doneAdapter.addItem(view);
+		// view.setVisibility(View.VISIBLE);
+		// break;
+		// case DragEvent.ACTION_DRAG_ENDED:
+		// v.setBackgroundColor(Color.WHITE);
+		// View view1 = (View) event.getLocalState();
+		// view1.setVisibility(View.VISIBLE);
+		// resourceAdapter.stopDraging();
+		//
+		// default:
+		// break;
+		// }
+		// return true;
+		// }
+		// });
 		return view;
 	}
 

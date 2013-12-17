@@ -18,7 +18,7 @@ import com.technion.coolie.studybuddy.presenters.CoursePresenter;
 
 public class CourseOverViewFragment extends SherlockFragment
 {
-	public static final String	courseNumberArg	= "courseNameArg";
+	public static final String courseNumberArg = "courseNameArg";
 
 	public static CourseOverViewFragment newInstance(String courseNumber)
 	{
@@ -30,11 +30,11 @@ public class CourseOverViewFragment extends SherlockFragment
 		return fragment;
 	}
 
-	private String			courseNumber;
+	private String courseNumber;
 
-	private Course			course;
+	private Course course;
 
-	private CoursePresenter	presenter;
+	private CoursePresenter presenter;
 
 	/*
 	 * (non-Javadoc)
@@ -64,16 +64,16 @@ public class CourseOverViewFragment extends SherlockFragment
 	{
 		presenter = DataStore.getInstance().getCoursePresenter(courseNumber);
 
-		View view = inflater.inflate(	R.layout.stb_view_course_main,
-										container,
-										false);
+		View view = inflater.inflate(R.layout.stb_view_course_main, container,
+				false);
 		NowLayout layout = (NowLayout) view.findViewById(R.id.course_list);
 		layout.setAdapter(new TaskAdapter(getActivity()));
-		LinearLayout linearLayout = (LinearLayout) view.findViewById(R.id.Chart_layout);
-		View barChartView = GraphFactory.getCourseProgressGraph(inflater.getContext(),
-																presenter.getProgressMap(),
-																presenter.getCurrentWeekNum(new Date()),
-																presenter.getSemesterLength());
+		LinearLayout linearLayout = (LinearLayout) view
+				.findViewById(R.id.Chart_layout);
+		View barChartView = GraphFactory.getCourseProgressGraph(
+				inflater.getContext(), presenter.getProgressMap(),
+				presenter.getCurrentWeekNum(new Date()),
+				presenter.getSemesterLength());
 		linearLayout.addView(barChartView);
 		return view;
 

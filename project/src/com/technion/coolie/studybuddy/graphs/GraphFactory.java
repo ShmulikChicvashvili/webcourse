@@ -8,10 +8,6 @@ import org.achartengine.ChartFactory;
 import org.achartengine.GraphicalView;
 import org.achartengine.chart.BarChart.Type;
 
-import com.technion.coolie.studybuddy.models.Course;
-import com.technion.coolie.studybuddy.models.Semester;
-import com.technion.coolie.studybuddy.models.StudyResource;
-
 import android.content.Context;
 import android.view.View;
 

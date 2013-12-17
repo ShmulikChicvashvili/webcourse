@@ -1,16 +1,14 @@
 package com.technion.coolie.studybuddy.models;
 
+import static com.technion.coolie.studybuddy.utils.Utils.randomInt;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import android.text.TextUtils.StringSplitter;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.technion.coolie.studybuddy.data.CompositeVisitor;
