@@ -147,18 +147,30 @@ public class MainActivity extends CoolieActivity implements
 
 	void addToFavourites() {
 		// TODO CHANGE LATER
-		int position = FullContactInformation.position();
-		ContactInformation contact = MainActivity.contacts.get(position);
-		contact.setFavourite(true);
-		db.insertFavourite(contact);
+
+		final int position = FullContactInformation.position();
+
+		// added if for OutOfBoundsException
+		if (position < MainActivity.contacts.size()) {
+			final ContactInformation contact = MainActivity.contacts
+					.get(position);
+			contact.setFavourite(true);
+			db.insertFavourite(contact);
+		}
+
 	}
 
 	void removeFromFavourites() {
 		// TODO CHANGE LATER
-		int position = FullContactInformation.position();
-		ContactInformation contact = MainActivity.contacts.get(position);
-		contact.setFavourite(false);
-		db.deleteFavourite(contact.ID().toString());
+
+		final int position = FullContactInformation.position();
+		// added if for OutOfBoundsException
+		if (position < MainActivity.contacts.size()) {
+			final ContactInformation contact = MainActivity.contacts
+					.get(position);
+			contact.setFavourite(false);
+			db.deleteFavourite(contact.ID().toString());
+		}
 	}
 
 	@Override

@@ -4,50 +4,60 @@ import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import com.actionbarsherlock.view.Menu;
-
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.actionbarsherlock.view.Menu;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.teletech.api.ITeletech;
 import com.technion.coolie.teletech.api.TeletechFactory;
 
-public class MainActivitySplash extends CoolieActivity {
+public class SplashActivity extends CoolieActivity {
 	public static final long MILLISECONDS_PER_DAY = 86400000;
 	private static DBTools dataBase = null;
 	public static List<ContactInformation> master = null;
-	
+
 	private TextView progress;
-	
+
 	ProgressBar splashProgress;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main_activity_splash);
+		setContentView(R.layout.teletech_splash);
 		progress = (TextView) findViewById(com.technion.coolie.R.id.progress_text);
-		
+
 		splashProgress = (ProgressBar) findViewById(com.technion.coolie.R.id.splash_progress_bar);
-		
+
 		dataBase = new DBTools(this);
 
-		// in the future - start of off-UI-thread section
 		final SharedPreferences prefs = getPreferences(MODE_PRIVATE);
 		final long timeStamp = prefs.getLong("TeletechTimestamp", -1);
-		if (timeStamp == -1
-				|| new Date().getTime() - timeStamp >= MILLISECONDS_PER_DAY) {
+
+		if (timeStamp == -1 && !isNetworkAvailable()) {
+			Toast.makeText(
+					this,
+					"No network access for first activation,  shutting down...",
+					10000).show();
+			finish();
+		}
+
+		else if ((timeStamp == -1 || new Date().getTime() - timeStamp >= MILLISECONDS_PER_DAY)
+				&& isNetworkAvailable()) {
 			final boolean wasServerRequestSent = prefs.getBoolean(
 					"WasTeletechServerRequestSent", false);
 			if (!wasServerRequestSent)
 				new AsyncServerContactsRequest().execute();
-
 
 		} else
 			new AsyncDBContactsRequest().execute();
@@ -61,6 +71,8 @@ public class MainActivitySplash extends CoolieActivity {
 		final Intent showContacts = new Intent(this, MainActivity.class);
 		startActivity(showContacts);
 		finish();
+		splashProgress.setVisibility(View.GONE);
+
 		// TODO Auto-generated method stub
 
 	}
@@ -68,13 +80,21 @@ public class MainActivitySplash extends CoolieActivity {
 	@Override
 	public boolean onCreateOptionsMenu(final Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getSupportMenuInflater().inflate(com.technion.coolie.R.menu.main_activity_splash, menu);
+		getSupportMenuInflater().inflate(
+				com.technion.coolie.R.menu.main_activity_splash, menu);
 		return true;
+	}
+
+	private boolean isNetworkAvailable() {
+		final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		final NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 
 	private class AsyncServerContactsRequest extends
 	AsyncTask<Void, String, String> {
-		
+
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -83,7 +103,7 @@ public class MainActivitySplash extends CoolieActivity {
 
 		@Override
 		protected String doInBackground(final Void... params) {
-			//			dataBase.clearTables();
+			// dataBase.clearTables();
 			final SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE)
 					.edit();
 			final ITeletech teletech = TeletechFactory.getTeletech();
@@ -141,10 +161,8 @@ public class MainActivitySplash extends CoolieActivity {
 		@Override
 		protected void onPostExecute(final Void result) {
 			super.onPostExecute(result);
-			splashProgress.setVisibility(View.GONE);
 			finishSplash();
 		}
-
 
 	}
 

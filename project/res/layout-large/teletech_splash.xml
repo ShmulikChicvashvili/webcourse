@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivitySplash" >
+    tools:context=".SplashActivity" >
 
     <ImageView
         android:id="@+id/imageView2"
@@ -16,7 +16,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="14dp"
         android:contentDescription="technion_logo"
-        android:src="@drawable/technion_logo" />
+        android:src="@drawable/teletech_technion_logo" />
 
     <ImageView
         android:id="@+id/imageView1"
