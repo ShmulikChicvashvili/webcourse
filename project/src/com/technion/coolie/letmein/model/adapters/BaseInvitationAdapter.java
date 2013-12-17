@@ -45,7 +45,7 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 		public int ContactImageId;
 	}
 
-	protected abstract ContactView getContactViewById(String contactId);
+	protected abstract ContactView getContactViewById(Long contactId);
 
 	private static class ViewHolder {
 		public TextView Name;

@@ -42,5 +42,7 @@
     <string name="lmi_insert_car_color">Insert car color</string>
     <string name="lmi_done">Done</string>
     <string name="lmi_discard">Discard</string>
+    <string name="lmi_status_image">Invitation\'s status</string>
+    <string name="lmi_user_picked_time_in_the_past_message">You must pick time of arrival that takes place in the future!</string>
 
 </resources>

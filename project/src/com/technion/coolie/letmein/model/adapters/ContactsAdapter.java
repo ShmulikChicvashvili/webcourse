@@ -1,12 +1,17 @@
 package com.technion.coolie.letmein.model.adapters;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
+import com.technion.coolie.letmein.InvitationActivity;
 import com.technion.coolie.letmein.model.ContactInfo;
 import com.technion.coolie.letmein.model.ContactInfoViewHolder;
 import com.technion.coolie.letmein.model.Invitation;
@@ -25,13 +31,11 @@ import com.technion.coolie.letmein.model.adapters.BaseInvitationAdapter.ContactV
 import com.technion.coolie.letmein.model.adapters.OneAdapterToRuleThemAll.Connector;
 
 public class ContactsAdapter extends
-		OneAdapterToRuleThemAll<ContactInfo, ContactInfoViewHolder> implements
-		Filterable {
+		OneAdapterToRuleThemAll<ContactInfo, ContactInfoViewHolder> {
 
-	public ContactsAdapter(Context context, List<ContactInfo> dataset) {
+	public ContactsAdapter(Context context,List<ContactInfo> dataSet) {
 		super(
-				context,
-				dataset,
+				context,dataSet,
 				new OneAdapterToRuleThemAll.Connector<ContactInfo, ContactInfoViewHolder>() {
 
 					@Override
@@ -40,7 +44,10 @@ public class ContactsAdapter extends
 						holder.Name.setText(invitation.name);
 						holder.Image
 								.setImageURI(Uri.parse(invitation.imageUri));
-
+						if (invitation.email != null)
+						{
+							holder.Email.setText(invitation.email);
+						}
 					}
 
 					@Override
@@ -50,6 +57,8 @@ public class ContactsAdapter extends
 								.findViewById(R.id.lmi_contacts_auto_name);
 						$.Image = (ImageView) view
 								.findViewById(R.id.lmi_contacts_auto_image);
+						$.Email = (TextView) view
+								.findViewById(R.id.lmi_contacts_auto_email);
 						return $;
 					}
 
@@ -65,4 +74,6 @@ public class ContactsAdapter extends
 
 				});
 	}
+
+	
 }

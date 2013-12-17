@@ -23,10 +23,9 @@
         android:layout_toLeftOf="@+id/lmi_friend_image"
         android:completionThreshold="1"
         android:ems="10"
+        android:imeOptions="actionNext"
         android:hint="@string/lmi_friend_name"
         android:inputType="textPersonName" >
-
-        <requestFocus />
     </com.technion.coolie.letmein.ContactsAutoCompleteTextView>
 
     <EditText

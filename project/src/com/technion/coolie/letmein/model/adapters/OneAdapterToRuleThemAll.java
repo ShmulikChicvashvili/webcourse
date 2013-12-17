@@ -1,28 +1,24 @@
 package com.technion.coolie.letmein.model.adapters;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
 import android.net.Uri;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.TextView;
+
+
 
 import com.technion.coolie.R;
-import com.technion.coolie.letmein.model.ContactInfo;
-import com.technion.coolie.letmein.model.Invitation;
-import com.technion.coolie.letmein.model.adapters.BaseInvitationAdapter.ContactView;
 
-public class OneAdapterToRuleThemAll<ContainedClass, ViewHolderClass> extends
+
+public abstract class OneAdapterToRuleThemAll<ContainedClass, ViewHolderClass> extends
 		BaseAdapter implements Filterable {
 
 	public interface Connector<ContainedClass, ViewHolderClass> {
@@ -36,7 +32,7 @@ public class OneAdapterToRuleThemAll<ContainedClass, ViewHolderClass> extends
 	}
 
 	private Connector<ContainedClass, ViewHolderClass> instance;
-	private final Context context;
+	protected final Context context;
 	private List<ContainedClass> displayedDataset;
 	private List<ContainedClass> dataset;
 

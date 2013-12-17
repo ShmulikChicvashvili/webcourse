@@ -40,7 +40,7 @@ public class InvitationAdapter extends BaseInvitationAdapter {
 	}
 
 	@Override
-	protected ContactView getContactViewById(final String contactId) {
+	protected ContactView getContactViewById(final Long contactId) {
 		Invitation i;
 
 		try {
