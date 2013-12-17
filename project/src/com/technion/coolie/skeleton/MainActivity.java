@@ -26,9 +26,8 @@ import com.technion.coolie.R;
 
 public class MainActivity extends CoolieActivity {
 
-	private ViewPager mViewPager;
 	private GridView mostUsedGrid;
-	private ViewPagerAdapter mDemoCollectionPagerAdapter;
+	private ViewPager mViewPager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +59,7 @@ public class MainActivity extends CoolieActivity {
 		
 		mViewPager = (ViewPager) findViewById(R.id.skel_main_view_pager);
 
-		mDemoCollectionPagerAdapter = new ViewPagerAdapter(
+		ViewPagerAdapter mDemoCollectionPagerAdapter = new ViewPagerAdapter(
 			getSupportFragmentManager(), MainActivity.this, getFragments());
 		mViewPager.setAdapter(mDemoCollectionPagerAdapter);
 		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {

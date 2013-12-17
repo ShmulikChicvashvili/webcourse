@@ -38,6 +38,8 @@
         
         <service android:name="com.technion.coolie.skeleton.HtmlGrabberService" >
         </service>
+        <service android:name="com.technion.coolie.skeleton.CoolieServerInterfaceService" >
+        </service>
         
         <!-- Assign Mentor -->        
         <activity
