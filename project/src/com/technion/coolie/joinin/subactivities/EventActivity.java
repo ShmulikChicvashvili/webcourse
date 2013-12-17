@@ -143,15 +143,7 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
 //	  return true;
 //  }
 
-  // check if "edit" was successful
-  @Override 
-  protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-	  if(requestCode == EDITED && resultCode == MainActivity.RESULT_EDIT_EVENT){
-		  setResult(MainActivity.RESULT_EDIT_EVENT , 
-				  new Intent().putExtra("event", data.getExtras().getParcelable("event")));		  
-	  }
-  }
-  
+  // check if "edit" was successful  
   
 //  @Override public boolean onOptionsItemSelected(final MenuItem item) {
 //

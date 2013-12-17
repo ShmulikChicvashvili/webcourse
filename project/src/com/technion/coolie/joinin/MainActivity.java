@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,9 +20,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gcm.GCMRegistrar;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
-import com.technion.coolie.joinin.communication.ClientProxy;
-import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
-import com.technion.coolie.joinin.communication.ClientProxy.OnError;
 import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.facebook.FacebookLogin;
@@ -36,20 +32,13 @@ import com.technion.coolie.joinin.subactivities.EventActivity;
 
 
 public class MainActivity extends CoolieActivity {	
-	public static final String PREFS_NAME = "com.technion.coolie.joinin";
-	
-	//Result codes
-	private static final int BASE_RESULT 		 = 100;
-	public static  final int RESULT_REMOVE_EVENT = BASE_RESULT + 1;
-	public static  final int RESULT_ADD_EVENT 	 = BASE_RESULT + 2;
-	public static  final int RESULT_EDIT_EVENT 	 = BASE_RESULT + 3;
-	public static  final int RESULT_JOIN_EVENT 	 = BASE_RESULT + 4;
+	public final String PREFS_NAME = "com.technion.coolie.joinin";
 	//Request codes
-	private static final int BASE_REQUEST 				   = 200;
-	public static  final int REQUEST_EVENT_ACTIVITY		   = BASE_REQUEST + 1;
-	public static  final int REQUEST_CREATE_EVENT_ACTIVITY = BASE_REQUEST + 2;
-	public static  final int REQUEST_CATEGORIES_ACTIVITY   = BASE_REQUEST + 3;
-	
+	private   final int BASE_REQUEST 				   = 200;
+	private   final int REQUEST_EVENT_ACTIVITY		   = BASE_REQUEST + 1;
+	private   final int REQUEST_CREATE_EVENT_ACTIVITY  = BASE_REQUEST + 2;
+	private   final int REQUEST_CATEGORIES_ACTIVITY    = BASE_REQUEST + 3;
+
 	//Private members	
 	private ClientAccount mLoggedAccount = null;
 	private SharedPreferences mJoinInPref = null;
@@ -122,25 +111,11 @@ public class MainActivity extends CoolieActivity {
     		 FacebookLogin.onResult(this, requestCode, resultCode, data);
     		 return;
     	 }
-    	 switch(requestCode){
-    	 case REQUEST_CREATE_EVENT_ACTIVITY:
-    		 checkIfDBEmpty();
-    		 break;
-    	 case REQUEST_EVENT_ACTIVITY:
-    		 checkIfDBEmpty();
-    		 break;
-    	 case REQUEST_CATEGORIES_ACTIVITY:
-    		 checkIfDBEmpty();
-    		 break;    	 
-    	 default:
-    	 }
-     }
-
-     void checkIfDBEmpty(){
     	 if (EventsDB.DB.getImAttending().size() == 0 && EventsDB.DB.getMyEvents().size() == 0){
-    		this.finish(); 
+    		 finish();
+    	 }else{
+    		 showEvents();    		 
     	 }
-    	 else showEvents();
      }
      
      @Override
@@ -178,6 +153,10 @@ public class MainActivity extends CoolieActivity {
 	};
 	
 	private void showEvents(){
+		if (!EventsDB.DB.IsModified(EventsDB.DB.IM_ATTENDING) && !EventsDB.DB.IsModified(EventsDB.DB.MY_EVENTS))
+			return;
+		EventsDB.DB.ClearModified(EventsDB.DB.IM_ATTENDING);
+		EventsDB.DB.ClearModified(EventsDB.DB.MY_EVENTS);
 		List<ClientEvent> myEvents = EventsDB.DB.getMyEvents();
 		List<ClientEvent> attending = EventsDB.DB.getImAttending();
 		ArrayList<String> headers = new ArrayList<String>();			 
