@@ -15,7 +15,7 @@ public class ContactSummaryFragment extends SherlockListFragment {
 
 	OnContactSelectedListener mCallback;
 	// TODO : remove this!!
-	public static ContactsAdapter adapter;
+	// public static ContactsAdapter adapter;
 
 	DBTools db;
 
@@ -27,11 +27,12 @@ public class ContactSummaryFragment extends SherlockListFragment {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		db = new DBTools(getActivity());
-		final int layout = com.technion.coolie.R.layout.teletech_contact_list;
+		// final int layout =
+		// com.technion.coolie.R.layout.teletech_contact_list;
 
-		adapter = new ContactsAdapter(getSherlockActivity(), layout,
-				MainActivity.contacts);
-		setListAdapter(adapter);
+		// adapter = new ContactsAdapter(getSherlockActivity(), layout,
+		// MainActivity.contacts);
+		setListAdapter(MainActivity.adapter);
 
 	}
 

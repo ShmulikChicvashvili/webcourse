@@ -33,6 +33,8 @@ public class MainActivity extends CoolieActivity implements
 
 	public static List<ContactInformation> contacts;
 
+	public static ContactsAdapter adapter;
+
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
 
 	SearchView searchView;
@@ -54,14 +56,11 @@ public class MainActivity extends CoolieActivity implements
 		contacts = new LinkedList<ContactInformation>();
 		contacts.addAll(master);
 
-		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
-
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		final int layout = com.technion.coolie.R.layout.teletech_contact_list;
+		adapter = new ContactsAdapter(getApplicationContext(), layout, contacts);
 
 		super.setContentView(R.layout.teletech_main);
 
-		setTabs(actionBar);
 		// TODO: fetch the data from the server and put it back to the DB.
 
 		if (findViewById(com.technion.coolie.R.id.fragment_container) != null) {
@@ -71,13 +70,20 @@ public class MainActivity extends CoolieActivity implements
 					new ContactSummaryFragment());
 			trans.commit();
 		}
+		setActionBar();
 
 	}
 
 	/**
 	 * @param actionBar
 	 */
-	private void setTabs(final ActionBar actionBar) {
+	private void setActionBar() {
+
+		final ActionBar actionBar = getSupportActionBar();
+		actionBar.setDisplayShowTitleEnabled(false);
+
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
 		ActionBar.Tab tabContacts = actionBar.newTab();
 		tabContacts.setText("ALL CONTACTS");
 		tabContacts.setTabListener(this);
@@ -125,7 +131,8 @@ public class MainActivity extends CoolieActivity implements
 			final FullContactInformation newContact = new FullContactInformation();
 			final Bundle args = new Bundle();
 			args.putInt(FullContactInformation.ARG_POSITION_STRING, position);
-			args.putBoolean(FullContactInformation.ARG_FAVOURITE_STRING, favoriteSelected);
+			args.putBoolean(FullContactInformation.ARG_FAVOURITE_STRING,
+					favoriteSelected);
 			newContact.setArguments(args);
 			final FragmentTransaction trans = getSupportFragmentManager()
 					.beginTransaction();
@@ -207,7 +214,7 @@ public class MainActivity extends CoolieActivity implements
 
 			@Override
 			public boolean onQueryTextChange(String textToSearch) {
-				ContactSummaryFragment.adapter.getFilter().filter(textToSearch);
+				adapter.getFilter().filter(textToSearch);
 				return false;
 			}
 
@@ -216,13 +223,6 @@ public class MainActivity extends CoolieActivity implements
 	}
 
 	private class ClientAsyncContacts extends AsyncTask<Void, Void, String> {
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			Toast.makeText(getApplicationContext(), "Loading...",
-					Toast.LENGTH_LONG).show();
-		}
 
 		@Override
 		protected String doInBackground(final Void... params) {
@@ -261,8 +261,10 @@ public class MainActivity extends CoolieActivity implements
 			favoriteSelected = true;
 			contacts.addAll(favourites);
 		}
-
-		ContactSummaryFragment.adapter.notifyDataSetChanged();
+		if (adapter == null)
+			Toast.makeText(getApplicationContext(), "ADAPTER IS NULL",
+					Toast.LENGTH_SHORT).show();
+		adapter.notifyDataSetChanged();
 
 	}
 
