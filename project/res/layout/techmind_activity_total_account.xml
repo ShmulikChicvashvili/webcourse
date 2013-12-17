@@ -10,42 +10,46 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin" >
 
+    <TextView
+        android:id="@+id/total_title"
+        style="@style/techmindTitleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="20dp"
+        android:text="You mined:" />
+
     <RelativeLayout
         android:id="@+id/total_layout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin" >
 
         <TextView
-            android:id="@+id/total_title"
-            style="@style/techmindTitleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="You mined:" />
-
-        <TextView
             android:id="@+id/total_data"
             style="@style/techmindTitleSmall"
+            android:paddingRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/total_title"
-            android:layout_toRightOf="@id/total_title" />
+            />
+
+        <TextView
+            style="@style/techmindTitleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Techions" 
+             android:layout_alignBottom="@id/total_data"
+            android:layout_toRightOf="@id/total_data"/>
     </RelativeLayout>
-    
-          <TextView
-        style="@style/techmindTitleSmall"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="50dp"
-        android:text="Techions" />
+
     <RelativeLayout
-        android:layout_marginTop="100dp"
         android:id="@+id/from_layout"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="80dp"
         android:layout_weight="1"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin" >
@@ -55,16 +59,17 @@
             style="@style/techmindTitleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingRight="10dp"
             android:text="from: " />
 
         <TextView
             android:id="@+id/from_data"
-            style="@style/techmindTitleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/from_title"
             android:layout_toRightOf="@id/from_title" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/to_layout"
         android:layout_width="fill_parent"
@@ -78,11 +83,11 @@
             style="@style/techmindTitleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingRight="10dp"
             android:text="to:" />
 
         <TextView
             android:id="@+id/to_data"
-            style="@style/techmindTitleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/to_title"

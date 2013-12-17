@@ -37,9 +37,11 @@ public class TotalAccountActivity extends SherlockFragment {
 		View inflateView = (LinearLayout) inflater.inflate(
 				R.layout.techmind_activity_total_account, container, false);
 		TextView from = (TextView) inflateView.findViewById(R.id.from_data);
-		from.setText(MineActivity.exMiningDate.toString());
+		int index = MineActivity.exMiningDate.toString().indexOf("GMT");
+		from.setText(MineActivity.exMiningDate.toString().subSequence(0, index));
 		TextView to = (TextView) inflateView.findViewById(R.id.to_data);
-		to.setText(MineActivity.newMiningDate.toString());
+		index = MineActivity.newMiningDate.toString().indexOf("GMT");
+		to.setText(MineActivity.newMiningDate.toString().subSequence(0, index));
 		TextView total = (TextView) inflateView.findViewById(R.id.total_data);
 		total.setText(String.valueOf(MineActivity.totalDelta));
 		return inflateView;
