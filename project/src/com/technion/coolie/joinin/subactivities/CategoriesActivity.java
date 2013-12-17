@@ -197,4 +197,10 @@ public class CategoriesActivity extends CoolieActivity {
 		}
 		return false;
 	}
+	
+	  @Override
+	  public void onBackPressed() {
+	      setResult(RESULT_CANCELED);
+	      finish();
+	  }
 }
