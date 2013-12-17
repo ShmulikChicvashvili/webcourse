@@ -131,7 +131,7 @@ public class CategoryEventActivity extends CoolieActivity {
     	ArrayList<String> listDataHeader = new ArrayList<String>();
     	HashMap<String, List<ClientEvent>> listDataChild = new HashMap<String, List<ClientEvent>>();
     	String date;
-    	List<ClientEvent> mList = getCategoryByString(mCategory);
+    	List<ClientEvent> mList = EventsDB.DB.getCategoryByString(mCategory);
     	for (ClientEvent c :mList){
     		date = c.getWhen().toString();
     		if (!listDataHeader.contains(date)){		
@@ -173,45 +173,37 @@ public class CategoryEventActivity extends CoolieActivity {
    		 }
    	 });
     }
-	private List<ClientEvent> getCategoryByString(String s){
-		if (s == EventType.MOVIE.toString()) {
-			return EventsDB.DB.getCategoryMovie();
-		}
-		else if (s == EventType.STUDY.toString()){
-			return EventsDB.DB.getCategoryStudy();
-		}
-		else if (s == EventType.NIGHT_LIFE.toString()) {
-			return EventsDB.DB.getCategoryNightLife();
-		}
-		else if (s == EventType.SPORT.toString()){
-			return EventsDB.DB.getCategorySport();
-		}
-		else if (s == EventType.FOOD.toString()) {
-			return EventsDB.DB.getCategoryFood();
-		}
-		else{
-			return EventsDB.DB.getCategoryOther();
-		}
-	}
 	
 	private boolean checkModified(){
 		if (mCategory == "MOVIE"){
-			return EventsDB.DB.IsModified(EventsDB.DB.CAT_MOVIE);
+			boolean b =EventsDB.DB.IsModified(EventsDB.DB.CAT_MOVIE);
+			EventsDB.DB.ClearModified(EventsDB.DB.CAT_MOVIE);
+			return b;
 		}
 		if (mCategory == "STUDY"){
-			return EventsDB.DB.IsModified(EventsDB.DB.CAT_STUDY);
+			boolean b = EventsDB.DB.IsModified(EventsDB.DB.CAT_STUDY);
+			EventsDB.DB.ClearModified(EventsDB.DB.CAT_STUDY);
+			return b;
 		}
 		if (mCategory == "NIGHT_LIFE"){
-			return EventsDB.DB.IsModified(EventsDB.DB.CAT_NIGHT_LIFE);
+			boolean b =  EventsDB.DB.IsModified(EventsDB.DB.CAT_NIGHT_LIFE);
+			EventsDB.DB.ClearModified(EventsDB.DB.CAT_NIGHT_LIFE);
+			return b;
 		}
 		if (mCategory == "SPORT"){
-			return EventsDB.DB.IsModified(EventsDB.DB.CAT_SPORT);
+			boolean b =  EventsDB.DB.IsModified(EventsDB.DB.CAT_SPORT);
+			EventsDB.DB.ClearModified(EventsDB.DB.CAT_SPORT);
+			return b;
 		}
 		if (mCategory == "FOOD"){
-			return EventsDB.DB.IsModified(EventsDB.DB.CAT_FOOD);
+			boolean b =  EventsDB.DB.IsModified(EventsDB.DB.CAT_FOOD);
+			EventsDB.DB.ClearModified(EventsDB.DB.CAT_FOOD);
+			return b;
 		}
 		if (mCategory == "OTHER"){
-			return EventsDB.DB.IsModified(EventsDB.DB.CAT_OTHER);
+			boolean b =  EventsDB.DB.IsModified(EventsDB.DB.CAT_OTHER);
+			EventsDB.DB.ClearModified(EventsDB.DB.CAT_OTHER);
+			return b;
 		}
 		return false;
 	}
