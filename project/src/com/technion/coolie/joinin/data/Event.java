@@ -362,4 +362,8 @@ public class Event {
   public int getConfirmed() {
     return mSubscribed.size();
   }
+  
+  public boolean isSubscribed(FacebookUser user){
+	  return mSubscribed.contains(user);
+  }
 }
