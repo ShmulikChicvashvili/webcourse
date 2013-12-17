@@ -12,6 +12,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.facebook.HttpMethod;
@@ -38,6 +41,8 @@ import com.technion.coolie.tecmind.server.TechmineAPI;
 
 public class MineActivity extends CoolieActivity {
 	
+	RelativeLayout mineLayout;
+	LinearLayout progressBar;
 	Session currentSession;
 	Session.NewPermissionsRequest newPermissionsRequest;
 	List<String> permissions;
@@ -48,12 +53,35 @@ public class MineActivity extends CoolieActivity {
 	int exTotal;
 	public static int totalDelta;
 	
+	public void myAccountNav(View view) {
+	    Intent intent = new Intent(MineActivity.this, MyAccountActivity.class);
+	    startActivity(intent);
+	    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+	}
+
+	public void mineNav(View view) {
+	    Intent intent = new Intent(MineActivity.this, MineActivity.class);
+	    startActivity(intent);
+	    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+	}
+	public void myTitleNav(View view) {
+	    Intent intent = new Intent(MineActivity.this, MainActivity.class);
+	    startActivity(intent);
+	    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+	}
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.techmind_activity_mine);
+	    
+	    mineLayout = (RelativeLayout) findViewById(R.id.mine_layout);
+	    progressBar = (LinearLayout) findViewById(R.id.progressBarLayout);
+	    progressBar.setVisibility(View.VISIBLE);
 
+	    addInnerNavigationDrawer(R.layout.techmind_drawer_btn);
+	    
 	    currentSession = Session.getActiveSession();
         if (currentSession != null && currentSession.isOpened()) {
         	userId = User.getUserInstance(null).id;
@@ -90,14 +118,19 @@ public class MineActivity extends CoolieActivity {
 	  		       
 	  	            /* updates the last mining in server */
 	  		       updateServer();
-//	  		      Toast.makeText(getApplicationContext(), id,
-//	  	        		Toast.LENGTH_LONG).show();
+	  		       
 	  		     System.out.println("*****After Mining******");
 	  		     System.out.println("The number of posts after mining is:" + User.getUserInstance(null).postsNum);
 	  		     System.out.println("The number of comments after mining is:" + User.getUserInstance(null).commentsNum);
 	  		     System.out.println("The number of likes after mining is:" + User.getUserInstance(null).likesOnPostsNum);
 	  		     System.out.println("The amount of Techoins i have is:" + User.getUserInstance(null).totalTechoins);
 	  		     System.out.println("The last mining date is:" + User.getUserInstance(null).lastMining.toString());
+	  		     
+		  		    progressBar.setVisibility(View.GONE);
+		  		    //mineLayout.setVisibility(View.GONE);
+		  		    Intent intent = new Intent(MineActivity.this, MyAccountActivity.class);
+		  		    startActivity(intent);
+		  		    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
   		        }
   		    }
   		).executeAsync();
@@ -134,10 +167,7 @@ public class MineActivity extends CoolieActivity {
 
 			@Override
 			protected void onPostExecute(ReturnCode result) {
-				Toast.makeText(getApplicationContext(), "Add user message: " + addUserMessage.value(),
-		        		Toast.LENGTH_LONG).show();		
-				Toast.makeText(getApplicationContext(), "Update posts message: " + updatePostsMessage.value(),
-		        		Toast.LENGTH_LONG).show();		
+					
 			}
 
 		}

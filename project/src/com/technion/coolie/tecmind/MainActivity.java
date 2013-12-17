@@ -27,7 +27,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -48,6 +49,8 @@ import com.technion.coolie.tecmind.server.TecUserTitle;
 import com.technion.coolie.tecmind.server.TechmineAPI;
 
 public class MainActivity extends CoolieActivity {
+	LinearLayout progressBar;
+	RelativeLayout myTitleLayout;
 		TechmineAPI connector = new TechmineAPI();
 		String userId;
 		String userName;
@@ -57,10 +60,33 @@ public class MainActivity extends CoolieActivity {
 		TextView total;
 		TextView Mylevel;
 	
+		public void myAccountNav(View view) {
+		    Intent intent = new Intent(MainActivity.this, MyAccountActivity.class);
+		    startActivity(intent);
+		    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+		}
+
+		public void mineNav(View view) {
+		    Intent intent = new Intent(MainActivity.this, MineActivity.class);
+		    startActivity(intent);
+		    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+		}
+		public void myTitleNav(View view) {
+		    Intent intent = new Intent(MainActivity.this, MainActivity.class);
+		    startActivity(intent);
+		    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+		}
+		
 	  @Override
 	  public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.techmind_activity_my_title);
+	    progressBar = (LinearLayout) findViewById(R.id.progressBarLayout);
+	    myTitleLayout = (RelativeLayout) findViewById(R.id.my_title_main_layout);
+	    progressBar.setVisibility(View.VISIBLE);
+		myTitleLayout.setVisibility(View.INVISIBLE);
+	
+	    addInnerNavigationDrawer(R.layout.techmind_drawer_btn);
 	    total = (TextView) findViewById(R.id.total_text);
 	    Mylevel = (TextView) findViewById(R.id.level_text);	
 	    
@@ -114,12 +140,13 @@ public class MainActivity extends CoolieActivity {
 	            		User.getUserInstance(userId);
 	            		User.getUserInstance(null).name = userName;
 	            		
-	            		Assert.assertEquals(userId, User.getUserInstance(null).id);
-//	  	  		      	Toast.makeText(getApplicationContext(), "OPENED",
-//	  	  	        		Toast.LENGTH_LONG).show();
+	            		
 	  	  		      
 	  	  		      	initiateFromServer();
-	  	  		      
+	  	  		      	
+	  	  		      	progressBar.setVisibility(View.INVISIBLE);
+	  	  				myTitleLayout.setVisibility(View.VISIBLE);
+	  	  				  	  		        
 	            	}
 	             }
 	          }).executeAsync();
@@ -152,8 +179,7 @@ public class MainActivity extends CoolieActivity {
 			  tecUser = new ServerGetUserData().execute().get();
 			  initiateActivityFields(tecUser);
 		  } catch (Exception e) {
-			Toast.makeText(getApplicationContext(), "Problem in get user posts from server",
-	        		Toast.LENGTH_LONG).show();
+
 		  } 
 
 		  if (tecUser == null) {
@@ -168,8 +194,7 @@ public class MainActivity extends CoolieActivity {
 			  try {
 				  userPostsFromServer = new ServeGetAllPostsOfUser().execute().get();
 			  } catch (Exception e) {
-//				  Toast.makeText(getApplicationContext(), "Problem in get all posts from server",
-//						  Toast.LENGTH_LONG).show();
+
 			  } 
 	
 			  for (TecPost tp : userPostsFromServer) {
@@ -227,8 +252,7 @@ public class MainActivity extends CoolieActivity {
 
 			@Override
 			protected void onPostExecute(ReturnCode result) {
-				Toast.makeText(getApplicationContext(), result.value(),
-		        		Toast.LENGTH_LONG).show();
+
 			}
 
 		}
@@ -245,14 +269,7 @@ public class MainActivity extends CoolieActivity {
 
 		}
 	  
-		//TODO: DELETE THE BUTTON!!!!!!!!!
-		public void mine(View view) {
-		    Intent intent = new Intent(MainActivity.this, MineActivity.class);
-		    startActivity(intent);
-		}
-
-
-		
+	
 		
 }
 		
