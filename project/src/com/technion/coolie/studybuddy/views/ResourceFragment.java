@@ -115,6 +115,9 @@ public class ResourceFragment extends SherlockFragment implements CrossGesture
 						.setText(ResourceName);
 		resourceAdapter = new ResourceGridAdapter(this, false, courseID,
 						ResourceName);
+
+		DataStore.getInstance().addObserver(resourceAdapter);
+
 		((NowLayout) view.findViewById(R.id.stb_resource_list))
 						.setAdapter(resourceAdapter);
 		// doneLayout = (NowLayout) view.findViewById(R.id.done_items);

@@ -53,4 +53,10 @@ public class CoursePresenter
 		return course.getStudyItemsLabels(resourceName);
 	}
 
+	public boolean isTaskDone(int position)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

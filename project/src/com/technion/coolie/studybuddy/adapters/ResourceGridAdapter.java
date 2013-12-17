@@ -160,8 +160,7 @@ public class ResourceGridAdapter extends BaseAdapter implements Observer
 
 		}
 
-		boolean marked = false;
-		// TODO Dima fill marked with the resourse status
+		boolean marked = presenter.isTaskDone(position);
 
 		textView.setStriked(marked);
 		textView.setText(getItem(position).toString());
