@@ -243,7 +243,7 @@ public class DataStore extends Observable implements CompositeElement
 	{
 		setChanged();
 		notifyObservers();
-		RecursiveDBStorer.getInstance().visit(course);
+		// RecursiveDBStorer.getInstance().visit(course);
 	}
 
 }
