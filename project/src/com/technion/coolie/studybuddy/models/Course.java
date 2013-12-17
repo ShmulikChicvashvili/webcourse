@@ -21,17 +21,17 @@ public class Course implements Comparable<Course>
 
 	// private List<Exam> exams = new ArrayList<Exam>();
 
+	@DatabaseField(id = true)
+	private String				id;
+
+	private String				name;
+	private List<StudyResource>	trackedResouces	= new ArrayList<StudyResource>();
+
 	private static String radomId()
 	{
 		return String.valueOf(randomInt(999999));
 
 	}
-
-	@DatabaseField(id = true)
-	private String				id;
-	private String				name;
-
-	private List<StudyResource>	trackedResouces	= new ArrayList<StudyResource>();
 
 	public Course()
 	{
@@ -174,8 +174,7 @@ public class Course implements Comparable<Course>
 		List<String> labels = new ArrayList<String>(getStudyItemsTotal());
 		for (StudyResource sr : trackedResouces)
 		{
-			labels.addAll(sr.getItemsRemainingLabels());
-			labels.addAll(sr.getItemsRemainingLabels());
+			labels.addAll(sr.getAllItemsLabels());
 		}
 		return labels;
 	}

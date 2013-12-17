@@ -22,24 +22,12 @@ public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper
 	private Dao<Semester, UuidType>			semesterDao;
 	private Dao<StudyResource, UuidType>	resourceDao;
 	private Dao<StudyItem, UuidType>		itemDao;
-	private Dao<Exam, UuidType>				examDao;
+
+	// private Dao<Exam, UuidType> examDao;
 
 	public SBDatabaseHelper(Context context)
 	{
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-	}
-
-	@Override
-	public void onCreate(SQLiteDatabase db, ConnectionSource cs)
-	{
-		// TableUtils.createTable(cs, null);
-
-	}
-
-	@Override
-	public void onUpgrade(SQLiteDatabase db, ConnectionSource cs,
-			int oldVersion, int newVersion)
-	{
 	}
 
 	public Dao<Course, Integer> getCourseDao() throws SQLException
@@ -52,6 +40,16 @@ public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper
 		return courseDao;
 	}
 
+	// public Dao<Exam, UuidType> getExamDao() throws SQLException
+	// {
+	// if (examDao == null)
+	// {
+	// examDao = getDao(Exam.class);
+	// }
+	//
+	// return examDao;
+	// }
+
 	public Dao<Semester, UuidType> getSemesterDao() throws SQLException
 	{
 		if (semesterDao == null)
@@ -60,17 +58,6 @@ public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper
 		}
 
 		return semesterDao;
-	}
-
-	public Dao<StudyResource, UuidType> getStudyResourceDao()
-			throws SQLException
-	{
-		if (resourceDao == null)
-		{
-			resourceDao = getDao(StudyResource.class);
-		}
-
-		return resourceDao;
 	}
 
 	public Dao<StudyItem, UuidType> getStudyItemsDao() throws SQLException
@@ -83,14 +70,40 @@ public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper
 		return itemDao;
 	}
 
-	public Dao<Exam, UuidType> getExamDao() throws SQLException
+	public Dao<StudyResource, UuidType> getStudyResourceDao()
+					throws SQLException
 	{
-		if (examDao == null)
+		if (resourceDao == null)
 		{
-			examDao = getDao(Exam.class);
+			resourceDao = getDao(StudyResource.class);
 		}
 
-		return examDao;
+		return resourceDao;
+	}
+
+	@Override
+	public void onCreate(SQLiteDatabase db, ConnectionSource cs)
+	{
+		try
+		{
+			TableUtils.createTable(cs, Course.class);
+			TableUtils.createTable(cs, StudyResource.class);
+			TableUtils.createTable(cs, StudyItem.class);
+		} catch (SQLException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void onUpgrade(	SQLiteDatabase db,
+							ConnectionSource cs,
+							int oldVersion,
+							int newVersion)
+	{
+
 	}
 
 }
