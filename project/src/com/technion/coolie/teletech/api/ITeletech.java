@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.technion.coolie.teletech.ContactInformation;
 
+
 /**
  * Created on 6.12.2013
  * 

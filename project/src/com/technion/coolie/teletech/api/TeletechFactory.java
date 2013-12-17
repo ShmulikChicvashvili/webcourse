@@ -2,6 +2,7 @@ package com.technion.coolie.teletech.api;
 
 import com.technion.coolie.teletech.manager.Teletech;
 
+
 /**
  * Created on 6.12.2013
  * 
@@ -13,7 +14,7 @@ public class TeletechFactory {
    * 
    * @return instance of Teletech that implements ITeletech
    */
-  public static ITeletech getTeletechAPI() {
+  public static ITeletech getTeletech() {
     return new Teletech();
   }
 }

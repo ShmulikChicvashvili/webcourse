@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -23,8 +22,6 @@ import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.teletech.ContactSummaryFragment.OnContactSelectedListener;
-import com.technion.coolie.teletech.api.ITeletech;
-import com.technion.coolie.teletech.api.TeletechFactory;
 
 public class MainActivity extends CoolieActivity implements
 		OnContactSelectedListener, TabListener {
@@ -39,8 +36,6 @@ public class MainActivity extends CoolieActivity implements
 
 	SearchView searchView;
 
-	// TODO: remove this
-
 	boolean favoriteSelected = false;
 
 	DBTools db = new DBTools(this);
@@ -49,9 +44,7 @@ public class MainActivity extends CoolieActivity implements
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		createDBFromStub();
-
-		// master = db.getAllContacts();
+		master = db.getAllContacts();
 
 		contacts = new LinkedList<ContactInformation>();
 		contacts.addAll(master);
@@ -60,8 +53,6 @@ public class MainActivity extends CoolieActivity implements
 		adapter = new ContactsAdapter(getApplicationContext(), layout, contacts);
 
 		super.setContentView(R.layout.teletech_main);
-
-		// TODO: fetch the data from the server and put it back to the DB.
 
 		if (findViewById(com.technion.coolie.R.id.fragment_container) != null) {
 			final FragmentTransaction trans = getSupportFragmentManager()
@@ -74,9 +65,6 @@ public class MainActivity extends CoolieActivity implements
 
 	}
 
-	/**
-	 * @param actionBar
-	 */
 	private void setActionBar() {
 
 		final ActionBar actionBar = getSupportActionBar();
@@ -95,27 +83,6 @@ public class MainActivity extends CoolieActivity implements
 		actionBar.addTab(tabFavs);
 	}
 
-	private void createDBFromStub() {
-
-		// new ClientAsyncContacts() {
-		// @Override
-		// protected void onPostExecute(final String result) {
-		master = new ContactsTest().contactList;
-		System.out.println("master size is: " + master.size());
-		db.insertContacts(master);
-		// }
-		// }.execute();
-	}
-
-	// @Override
-	// protected void onDestroy() {
-	// super.onDestroy();
-	// clearDBStub();
-	// }
-	//
-	// private void clearDBStub() {
-	// db.clearTables();
-	// }
 
 	@Override
 	public void onContactSelected(final int position) {
@@ -220,18 +187,6 @@ public class MainActivity extends CoolieActivity implements
 
 		});
 		return true;
-	}
-
-	private class ClientAsyncContacts extends AsyncTask<Void, Void, String> {
-
-		@Override
-		protected String doInBackground(final Void... params) {
-			final ITeletech teletechAPI = TeletechFactory.getTeletechAPI();
-
-			MainActivity.master = teletechAPI.getAllContacts();
-			return null;
-		}
-
 	}
 
 	@Override

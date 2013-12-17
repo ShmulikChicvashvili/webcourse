@@ -30,9 +30,18 @@ public class OfficeLocation {
 
 	@Override
 	public String toString() {
-		if (faculty == null || officeRoom == null)
-			return "TD";
-		return faculty + " " + officeRoom;
+		String officeLocation;
+		
+		if (faculty == null && officeRoom == null)
+			officeLocation = "No room specified";
+		else if (faculty == null)
+			officeLocation = officeRoom;
+		else if (officeRoom == null)
+			officeLocation = faculty;
+		else
+			officeLocation = faculty + " " + officeRoom;
+		
+		return officeLocation;
 	}
 
 }

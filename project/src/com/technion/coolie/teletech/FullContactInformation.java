@@ -52,8 +52,6 @@ public class FullContactInformation extends SherlockFragment {
 
 	public void updateContactInformationView(final int position) {
 
-		System.out.println("hello trying to inflate the layout, the list is"
-				+ MainActivity.contacts.size());
 
 		final ContactInformation currentContact = MainActivity.contacts
 				.get(position);

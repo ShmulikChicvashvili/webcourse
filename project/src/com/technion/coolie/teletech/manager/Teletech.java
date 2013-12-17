@@ -25,6 +25,7 @@ public class Teletech implements ITeletech {
 
   @Override
   public List<ContactInformation> getAllContacts() {
+	  Log.v("got here!!","tag");
     String serverResult = communicator.execute(servletName, FUNCTION,
         TeletechFunctions.GET_ALL_CONTACTS.value());
     Log.v("tag", serverResult);
@@ -32,7 +33,7 @@ public class Teletech implements ITeletech {
         new TypeToken<List<ContactInformation>>() {/*
                                                     * The type target for Gson
                                                     */
-		}.getType());
-	}
+        }.getType());
+  }
 
 }

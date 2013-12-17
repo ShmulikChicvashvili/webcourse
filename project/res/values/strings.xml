@@ -3,10 +3,15 @@
 
     <string name="app_name">Coolie</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">Welcome to</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+
     <color name="blue_holo_light">#38c0f4</color>
+
     <string name="search_title">Search</string>
     <string name="favourite">Favourites</string>
+    <string name="title_activity_main_activity_splash">MainActivitySplash</string>
+    <string name="starting_up_">Starting up...</string>
+
 </resources>
