@@ -312,8 +312,6 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 				.status(Status.CREATED).contactName(friendName).contactPhoneNumber(friendCellphone)
 				.carNumber(carNumber).carManufacturer(carCompany).carColor(carColor).build();
 
-		getHelper().getDataDao().create(i);
-
 		getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE).getBoolean(
 				Consts.IS_LOGGED_IN, false);
 
@@ -328,6 +326,7 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 			protected AsyncTaskResult<Boolean> doInBackground(final Object... params) {
 				AsyncTaskResult<Boolean> $;
 				try {
+					getHelper().getDataDao().create((Invitation) params[2]);
 					$ = new AsyncTaskResult<Boolean>(InvitationSender.addInvitation(
 							(String) params[0], (String) params[1], (Invitation) params[2]));
 				} catch (final ConnectionException e) {
@@ -375,11 +374,8 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	}
 
 	private boolean isUserPickedTimeInThePast() {
-		MyCalendar now = new MyCalendar();
-
-		return now.getYear() > cal.getYear() || now.getMonth() > cal.getMonth()
-				|| now.getDay() > cal.getDay() || now.getHour() > cal.getHour()
-				|| now.getMinute() > cal.getMinute();
+		final MyCalendar now = new MyCalendar();
+		return cal.getTime().getTime() <= now.getTime().getTime();
 	}
 
 	@Override

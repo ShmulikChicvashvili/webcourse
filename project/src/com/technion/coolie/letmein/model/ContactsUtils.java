@@ -89,9 +89,7 @@ public class ContactsUtils {
 			final List<String> projection = new ArrayList<String>();
 			projection.add(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
 			projection.add(ContactsContract.CommonDataKinds.StructuredName.CONTACT_ID);
-
-			if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
-				projection.add(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI);
+			projection.add(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI);
 
 			final Cursor nameCur = contentResolver.query(
 					ContactsContract.Data.CONTENT_URI,
@@ -103,10 +101,16 @@ public class ContactsUtils {
 							Long.toString(id) },
 					ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME);
 
-			while (nameCur.moveToNext())
-				$ = Uri.parse(nameCur.getString(nameCur
-						.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI)));
+			while (nameCur.moveToNext()) {
+				final String uriString = nameCur
+						.getString(nameCur
+								.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_THUMBNAIL_URI));
+				if (uriString != null)
+					$ = Uri.parse(uriString);
+				else
+					$ = null;
 
+			}
 		}
 		return $;
 	}
