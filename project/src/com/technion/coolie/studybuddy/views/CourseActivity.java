@@ -12,10 +12,13 @@ import android.widget.ArrayAdapter;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.Menu;
 import com.technion.coolie.R;
+import com.technion.coolie.studybuddy.data.DataStore;
+import com.technion.coolie.studybuddy.models.StudyResource;
+import com.technion.coolie.studybuddy.presenters.CoursePresenter;
 import com.technion.coolie.studybuddy.views.ResourceFragment.OnFragmentInteractionListener;
 
 public class CourseActivity extends StudyBuddyActivity implements
-		ActionBar.OnNavigationListener, OnFragmentInteractionListener
+				ActionBar.OnNavigationListener, OnFragmentInteractionListener
 {
 
 	public static final String	COURSE_ID	= "COURSE_ID";
@@ -34,6 +37,8 @@ public class CourseActivity extends StudyBuddyActivity implements
 	ViewPager					mViewPager;
 
 	private String				courseNumber;
+
+	private CoursePresenter		presenter;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
@@ -55,13 +60,14 @@ public class CourseActivity extends StudyBuddyActivity implements
 		{
 		case 0:
 			Fragment fragment = CourseOverViewFragment
-					.newInstance(courseNumber);
+							.newInstance(courseNumber);
 			ft.replace(R.id.stb_container, fragment).commit();
 			break;
 		case 1:
 		case 2:
 			ResourceFragment fragment1 = ResourceFragment.newInstance(
-					itemPosition == 1 ? "Lecture" : "Tutorial", courseNumber);
+							presenter.getResourceName(itemPosition),
+							courseNumber);
 
 			ft.replace(R.id.stb_container, fragment1).commit();
 			break;
@@ -79,8 +85,7 @@ public class CourseActivity extends StudyBuddyActivity implements
 	 * actionbarsherlock.view.MenuItem)
 	 */
 	@Override
-	public boolean onOptionsItemSelected(
-			com.actionbarsherlock.view.MenuItem item)
+	public boolean onOptionsItemSelected(com.actionbarsherlock.view.MenuItem item)
 	{
 		switch (item.getItemId())
 		{
@@ -103,19 +108,22 @@ public class CourseActivity extends StudyBuddyActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.stb_activity_course);
 		Bundle data = getIntent().getExtras();
+
 		if (data.containsKey(COURSE_ID))
 		{
 			courseNumber = data.getString(COURSE_ID);
 			getSherlock().getActionBar().setTitle(courseNumber);
 		}
+		presenter = DataStore.getInstance().getCoursePresenter(courseNumber);
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		actionBar.setListNavigationCallbacks(
 		// Specify a SpinnerAdapter to populate the dropdown list.
-				new ArrayAdapter<String>(actionBar.getThemedContext(),
-						android.R.layout.simple_list_item_1,
-						android.R.id.text1, new String[] { "OverView",
-								"Lectures", "Tutorials" }), this);
+						new ArrayAdapter<String>(actionBar.getThemedContext(),
+										android.R.layout.simple_list_item_1,
+										android.R.id.text1, new String[] {
+														"OverView", "Lectures",
+														"Tutorials" }), this);
 
 	}
 

@@ -19,21 +19,23 @@ import com.technion.coolie.studybuddy.adapters.ResourceGridAdapter;
 public class ResourceFragment extends SherlockFragment implements CrossGesture
 {
 
-	private static final String ResourceTypeArg = "ResourseType";
+	/**
+	 * This interface must be implemented by activities that contain this
+	 * fragment to allow an interaction in this fragment to be communicated to
+	 * the activity and potentially other fragments contained in that activity.
+	 * <p>
+	 * See the Android Training lesson <a href=
+	 * "http://developer.android.com/training/basics/fragments/communicating.html"
+	 * >Communicating with Other Fragments</a> for more information.
+	 */
+	public interface OnFragmentInteractionListener
+	{
+		public void onFragmentInteraction(Uri uri);
+	}
 
-	private static final String COURSEID = "courseId";
+	private static final String	RESOURCE_NAME	= "resourceName";
 
-	private String ResourceType;
-
-	private OnFragmentInteractionListener mListener;
-
-	private NowLayout doneLayout;
-
-	private ResourceGridAdapter doneAdapter;
-
-	private ResourceGridAdapter resourceAdapter;
-
-	private String courseID;
+	private static final String	COURSEID		= "courseId";
 
 	/**
 	 * Factory Method for new Fragment generation
@@ -41,20 +43,54 @@ public class ResourceFragment extends SherlockFragment implements CrossGesture
 	 * @param resourceType
 	 * @return
 	 */
-	public static ResourceFragment newInstance(String resourceType,
-			String courseID)
+	public static ResourceFragment newInstance(	String resourceType,
+												String courseID)
 	{
 		ResourceFragment fragment = new ResourceFragment();
 		Bundle args = new Bundle();
-		args.putString(ResourceTypeArg, resourceType);
+		args.putString(RESOURCE_NAME, resourceType);
 		args.putString(COURSEID, courseID);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
+	private String							ResourceName;
+
+	private OnFragmentInteractionListener	mListener;
+
+	private NowLayout						doneLayout;
+
+	private ResourceGridAdapter				doneAdapter;
+
+	private ResourceGridAdapter				resourceAdapter;
+
+	private String							courseID;
+
 	public ResourceFragment()
 	{
 		// Required empty public constructor
+	}
+
+	@Override
+	public void onAttach(Activity activity)
+	{
+		super.onAttach(activity);
+		try
+		{
+			mListener = (OnFragmentInteractionListener) activity;
+		} catch (ClassCastException e)
+		{
+			throw new ClassCastException(activity.toString()
+							+ " must implement OnFragmentInteractionListener");
+		}
+	}
+
+	public void onButtonPressed(Uri uri)
+	{
+		if (mListener != null)
+		{
+			mListener.onFragmentInteraction(uri);
+		}
 	}
 
 	@Override
@@ -63,26 +99,29 @@ public class ResourceFragment extends SherlockFragment implements CrossGesture
 		super.onCreate(savedInstanceState);
 		if (getArguments() != null)
 		{
-			ResourceType = getArguments().getString(ResourceTypeArg);
+			ResourceName = getArguments().getString(RESOURCE_NAME);
 			courseID = getArguments().getString(COURSEID);
 		}
 	}
 
 	@SuppressLint("NewApi")
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState)
+	public View onCreateView(	LayoutInflater inflater,
+								ViewGroup container,
+								Bundle savedInstanceState)
 	{
 		// Inflate the layout for this fragment
 		View view = inflater.inflate(R.layout.stb_view_resource, container,
-				false);
+						false);
 		((TextView) view.findViewById(R.id.resource_type))
-				.setText(ResourceType);
-		resourceAdapter = new ResourceGridAdapter(this, true, courseID);
+						.setText(ResourceName);
+		resourceAdapter = new ResourceGridAdapter(this, false, courseID,
+						ResourceName);
 		((NowLayout) view.findViewById(R.id.listView1))
-				.setAdapter(resourceAdapter);
+						.setAdapter(resourceAdapter);
 		doneLayout = (NowLayout) view.findViewById(R.id.done_items);
-		doneAdapter = new ResourceGridAdapter(this, false, courseID);
+		doneAdapter = new ResourceGridAdapter(this, true, courseID,
+						ResourceName);
 		doneLayout.setAdapter(doneAdapter);
 		doneLayout.setOnDragListener(new OnDragListener()
 		{
@@ -124,47 +163,11 @@ public class ResourceFragment extends SherlockFragment implements CrossGesture
 		return view;
 	}
 
-	public void onButtonPressed(Uri uri)
-	{
-		if (mListener != null)
-		{
-			mListener.onFragmentInteraction(uri);
-		}
-	}
-
-	@Override
-	public void onAttach(Activity activity)
-	{
-		super.onAttach(activity);
-		try
-		{
-			mListener = (OnFragmentInteractionListener) activity;
-		} catch (ClassCastException e)
-		{
-			throw new ClassCastException(activity.toString()
-					+ " must implement OnFragmentInteractionListener");
-		}
-	}
-
 	@Override
 	public void onDetach()
 	{
 		super.onDetach();
 		mListener = null;
-	}
-
-	/**
-	 * This interface must be implemented by activities that contain this
-	 * fragment to allow an interaction in this fragment to be communicated to
-	 * the activity and potentially other fragments contained in that activity.
-	 * <p>
-	 * See the Android Training lesson <a href=
-	 * "http://developer.android.com/training/basics/fragments/communicating.html"
-	 * >Communicating with Other Fragments</a> for more information.
-	 */
-	public interface OnFragmentInteractionListener
-	{
-		public void onFragmentInteraction(Uri uri);
 	}
 
 	@Override

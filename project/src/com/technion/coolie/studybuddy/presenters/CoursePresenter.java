@@ -1,6 +1,7 @@
 package com.technion.coolie.studybuddy.presenters;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import com.technion.coolie.studybuddy.data.DataStore;
@@ -27,9 +28,24 @@ public class CoursePresenter
 		return course.getProgressMap();
 	}
 
+	public String getResourceName(int itemPosition)
+	{
+		return course.getResourceName(itemPosition);
+	}
+
 	public int getSemesterLength()
 	{
 		return DataStore.semester.WEEKS_IN_SEMESTER;
+	}
+
+	public List<String> getStudyItemsDone(String resourceName)
+	{
+		return course.getStudyItemsDone(resourceName);
+	}
+
+	public List<String> getStudyItemsRemaining(String resourceName)
+	{
+		return course.getStudyItemsRemaining(resourceName);
 	}
 
 }

@@ -15,42 +15,8 @@ import com.j256.ormlite.field.ForeignCollectionField;
 
 public class StudyResource
 {
-	public static final String		LECTURES	= "Lectures";
-	public static final String		TUTORIALS	= "Tutorials";
-
-	@DatabaseField(generatedId = true)
-	private UUID					id;
-	@DatabaseField
-	private String					name;
-	@ForeignCollectionField(eager = true)
-	private Collection<StudyItem>	items;
-	private Course					parent;
-
-	public Course getParent()
-	{
-		return parent;
-	}
-
-	public void setParent(Course parent)
-	{
-		this.parent = parent;
-	}
-
-	public static StudyResource fromItemList(String name, List<String> list)
-	{
-		StudyResource sr = new StudyResource();
-		sr.setName(name);
-		sr.addItems(list);
-		return sr;
-	}
-
-	private void allocateItemsCollection()
-	{
-		if (null == items)
-		{
-			items = new ArrayList<StudyItem>();
-		}
-	}
+	public static final String	LECTURES	= "Lectures";
+	public static final String	TUTORIALS	= "Tutorials";
 
 	public static StudyResource createWithItems(String label, Integer num)
 	{
@@ -64,51 +30,42 @@ public class StudyResource
 		return sr;
 	}
 
-	public void addItem(StudyItem item)
+	public static StudyResource fromItemList(String name, List<String> list)
 	{
-		if (null == items)
-		{
-			allocateItemsCollection();
-		}
-
-		items.add(item);
+		StudyResource sr = new StudyResource();
+		sr.setName(name);
+		sr.addItems(list);
+		return sr;
 	}
+
+	@DatabaseField(generatedId = true)
+	private UUID			id;
+	@DatabaseField
+	private String			name;
+
+	// @ForeignCollectionField(eager = true)
+	private List<StudyItem>	items	= new ArrayList<StudyItem>();
+
+	private Course			parent;
 
 	public StudyResource()
 	{
 	}
 
-	private void addItems(List<String> list)
+	public void addItem(StudyItem item)
 	{
-		if (null == items)
-		{
-			allocateItemsCollection();
-		}
-
-		int i = items.size();
-		for (String str : list)
-		{
-			items.add(new StudyItem(++i, str));
-		}
+		items.add(item);
 	}
 
-	public List<StudyItem> getItemsDone()
+	public List<String> getAllItemsLabels()
 	{
-		if (null == items)
-		{
-			allocateItemsCollection();
-		}
 
-		return filter(items, StudyItem.doneMatcher());
-	}
-
-	public List<StudyItem> getItemsRemaining()
-	{
-		if (null == items)
+		List<String> list = new ArrayList<String>(items.size());
+		for (StudyItem item : items)
 		{
-			allocateItemsCollection();
+			list.add(item.getLabel());
 		}
-		return filter(items, StudyItem.notDoneMatcher());
+		return list;
 	}
 
 	public int getDoneItemsCount()
@@ -116,9 +73,9 @@ public class StudyResource
 		return getItemsDone().size();
 	}
 
-	public int getRemainingItemsCount()
+	public List<StudyItem> getItemsDone()
 	{
-		return getItemsRemaining().size();
+		return filter(items, StudyItem.doneMatcher());
 	}
 
 	public List<Integer> getItemsDoneIds()
@@ -132,6 +89,11 @@ public class StudyResource
 		return asSortedList(map(getItemsDone(), StudyItem.getLabelMapper()));
 	}
 
+	public List<StudyItem> getItemsRemaining()
+	{
+		return filter(items, StudyItem.notDoneMatcher());
+	}
+
 	public List<Integer> getItemsRemainingIds()
 	{
 		return asSortedList(map(getItemsRemaining(), StudyItem.getNumMapper()));
@@ -143,12 +105,23 @@ public class StudyResource
 
 	}
 
+	public String getName()
+	{
+		return name;
+	}
+
+	public Course getParent()
+	{
+		return parent;
+	}
+
+	public int getRemainingItemsCount()
+	{
+		return getItemsRemaining().size();
+	}
+
 	public int getTotalItemCount()
 	{
-		if (null == items)
-		{
-			allocateItemsCollection();
-		}
 		return items.size();
 	}
 
@@ -162,50 +135,8 @@ public class StudyResource
 		toggleDone(id);
 	}
 
-	private void setName(String name)
-	{
-		this.name = name;
-
-	}
-
-	private void toggleDone(int id)
-	{
-		if (null == items)
-		{
-			allocateItemsCollection();
-		}
-
-		List<StudyItem> result = filter(items, StudyItem.getNumFilter(id));
-		if (result.size() < 1)
-			return;
-		result.get(0).toggleDone();
-
-	}
-
-	public List<StudyItem> getAllItems()
-	{
-		if (null == items)
-		{
-			allocateItemsCollection();
-		}
-
-		List<StudyItem> list = new ArrayList<StudyItem>();
-		list.addAll(items);
-		Collections.sort(list);
-		return list;
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
 	public void resizeTo(int newSize)
 	{
-		if (null == items)
-		{
-			allocateItemsCollection();
-		}
 
 		if (newSize < items.size())
 		{
@@ -228,6 +159,35 @@ public class StudyResource
 				items.add(new StudyItem(i));
 			}
 		}
+
+	}
+
+	public void setParent(Course parent)
+	{
+		this.parent = parent;
+	}
+
+	private void addItems(List<String> list)
+	{
+		int i = items.size();
+		for (String str : list)
+		{
+			items.add(new StudyItem(++i, str));
+		}
+	}
+
+	private void setName(String name)
+	{
+		this.name = name;
+
+	}
+
+	private void toggleDone(int id)
+	{
+		List<StudyItem> result = filter(items, StudyItem.getNumFilter(id));
+		if (result.size() < 1)
+			return;
+		result.get(0).toggleDone();
 
 	}
 }

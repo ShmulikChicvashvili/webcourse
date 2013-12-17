@@ -9,6 +9,7 @@ import static org.hamcrest.number.OrderingComparison.lessThan;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.anyString;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -68,11 +69,26 @@ public class CourseTests
 	// }
 
 	@Test
+	public void courseOrderingByUndoneTasksWorks() throws Exception
+	{
+		Course c1 = new Course();
+		Course c2 = new Course();
+		Course c3 = new Course();
+		c1.addStudyResource(StudyResource.createWithItems("LEC", 3));
+		c2.addStudyResource(StudyResource.createWithItems("LEC", 4));
+		c3.addStudyResource(StudyResource.createWithItems("LEC", 4));
+
+		assertThat(c2, lessThan(c1));
+		assertThat(c2, comparesEqualTo(c3));
+
+	}
+
+	@Test
 	public void gettingStudyResourcesWithoutAllocationShouldBeEmpty()
 	{
 		Course s = new Course();
 		assertThat(s.getAllStudyResources(),
-				is((Collection) Collections.<StudyResource> emptyList()));
+						is((Collection) Collections.<StudyResource> emptyList()));
 	}
 
 	@Before
@@ -98,12 +114,25 @@ public class CourseTests
 	}
 
 	@Test
+	public void subjectWithDefaultResourceReturnsItsTasks() throws Exception
+	{
+		Course c = new Course(123, "name");
+		c.addStudyResource(StudyResource.createWithItems("LEC",
+						WEEKS_IN_SEMESTER));
+
+		assertThat(c.getStudyItemsTotal(), is(WEEKS_IN_SEMESTER));
+		assertThat(c.getStudyItemsLabels().size(), is(WEEKS_IN_SEMESTER));
+
+	}
+
+	@Test
 	public void subjectWithoutResourceReturnsZeroTasks() throws Exception
 	{
 		Course c = new Course("123", "name");
 
 		assertThat(c.getStudyItemsTotal(), is(0));
-		assertThat(c.getStudyItems(), is(Collections.<StudyItem> emptyList()));
+		assertThat(c.getStudyItemsLabels(),
+						is(Collections.<String> emptyList()));
 
 	}
 
@@ -114,26 +143,13 @@ public class CourseTests
 		StudyResource sr = mock(StudyResource.class);
 		c.addStudyResource(sr);
 
-		List<StudyItem> items = Arrays.asList(mock(StudyItem.class),
-				mock(StudyItem.class), mock(StudyItem.class));
+		List<String> items = Arrays.asList("1", "2", "3");
 
 		when(sr.getTotalItemCount()).thenReturn(3);
-		when(sr.getAllItems()).thenReturn(items);
+		when(sr.getAllItemsLabels()).thenReturn(items);
 
 		assertThat(c.getStudyItemsTotal(), is(3));
-		assertThat(c.getStudyItems(), is(items));
-
-	}
-
-	@Test
-	public void subjectWithDefaultResourceReturnsItsTasks() throws Exception
-	{
-		Course c = new Course(123, "name");
-		c.addStudyResource(StudyResource.createWithItems("LEC",
-				WEEKS_IN_SEMESTER));
-
-		assertThat(c.getStudyItemsTotal(), is(WEEKS_IN_SEMESTER));
-		assertThat(c.getStudyItems().size(), is(WEEKS_IN_SEMESTER));
+		assertThat(c.getStudyItemsLabels(), is(items));
 
 	}
 
@@ -144,29 +160,15 @@ public class CourseTests
 		StudyResource sr = mock(StudyResource.class);
 		c.addStudyResource(sr);
 
-		List<StudyItem> items = Arrays.asList(mock(StudyItem.class),
-				mock(StudyItem.class), mock(StudyItem.class));
+		List<String> items = Arrays.asList("1", "2", "3");
 
+		String name = "name";
 		when(sr.getRemainingItemsCount()).thenReturn(3);
-		when(sr.getItemsRemaining()).thenReturn(items);
+		when(sr.getItemsRemainingLabels()).thenReturn(items);
+		when(sr.getName()).thenReturn(name);
 
 		assertThat(c.getNumStudyItemsRemaining(), is(3));
-		assertThat(c.getStudyItemsRemaining(), is(items));
-
-	}
-
-	@Test
-	public void courseOrderingByUndoneTasksWorks() throws Exception
-	{
-		Course c1 = new Course();
-		Course c2 = new Course();
-		Course c3 = new Course();
-		c1.addStudyResource(StudyResource.createWithItems("LEC", 3));
-		c2.addStudyResource(StudyResource.createWithItems("LEC", 4));
-		c3.addStudyResource(StudyResource.createWithItems("LEC", 4));
-
-		assertThat(c2, lessThan(c1));
-		assertThat(c2, comparesEqualTo(c3));
+		assertThat(c.getStudyItemsRemaining(name), is(items));
 
 	}
 
