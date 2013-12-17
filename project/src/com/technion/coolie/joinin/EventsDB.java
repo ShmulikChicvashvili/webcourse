@@ -15,6 +15,7 @@ import com.technion.coolie.joinin.communication.ClientProxy.OnError;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.facebook.FacebookLogin;
 import com.technion.coolie.joinin.facebook.FacebookUser;
+import com.technion.coolie.joinin.map.EventType;
 
 public enum EventsDB {
 	DB;
@@ -124,5 +125,76 @@ public enum EventsDB {
 			}
 		}		
 	}		
+	
+	public void joinEevnt(ClientEvent event){
+		getImAttending().add(event);
+		SetModified(IM_ATTENDING);
+	}
+	
+	public void leaveEvent(ClientEvent event){
+		getImAttending().remove(event);
+		SetModified(IM_ATTENDING);
+	}
+	
+	private List<ClientEvent> getList(EventType eventType) {
+		List<ClientEvent> list = null;
+		switch (eventType){
+			case MOVIE : list = getCategoryMovie();
+			case STUDY : list = getCategoryStudy();
+			case FOOD : list = getCategoryFood(); 
+			case NIGHT_LIFE : list = getCategoryNightLife(); 
+			case SPORT : list = getCategorySport(); 
+			case OTHER : list = getCategoryOther();
+		}
+		return list;
+	}
+	
+	private int getFlag(EventType eventType) {
+		int flag = 0;
+		switch (eventType){
+			case MOVIE : flag =  CAT_MOVIE;
+			case STUDY : flag =  CAT_STUDY;
+			case FOOD : flag =  CAT_FOOD; 
+			case NIGHT_LIFE : flag =  CAT_NIGHT_LIFE; 
+			case SPORT : flag =  CAT_SPORT; 
+			case OTHER : flag =  CAT_OTHER;
+		}
+		return flag;
+	}
+	
+	public void discardEvent(ClientEvent event){
+		getMyEvents().remove(event);
+		SetModified(MY_EVENTS);
+		getList(event.getEventType()).remove(event);
+		SetModified(getFlag(event.getEventType()));
+	}
+	
+	public void addNewEvent(ClientEvent event){
+		getMyEvents().add(event);
+		SetModified(MY_EVENTS);
+		getList(event.getEventType()).add(event);
+		SetModified(getFlag(event.getEventType()));
+	}
+	
+	private void resetEntry(List<ClientEvent> list, ClientEvent oldObj, ClientEvent newObj){
+		list.set(list.indexOf(oldObj), newObj);
+	}
+	
+	public void editEvent(ClientEvent oldEvent, ClientEvent newEvent){
+		
+		resetEntry(getMyEvents(), oldEvent, newEvent);
+		SetModified(MY_EVENTS);
+		
+		if(oldEvent.getEventType().equals(newEvent.getEventType())){
+			resetEntry(getList(oldEvent.getEventType()), oldEvent, newEvent);
+			SetModified(getFlag(oldEvent.getEventType()));
+		}else{
+			getList(oldEvent.getEventType()).remove(oldEvent);
+			SetModified(getFlag(oldEvent.getEventType()));
+			getList(newEvent.getEventType()).add(newEvent);
+			SetModified(getFlag(newEvent.getEventType()));
+		}
+	}
+
 }//EventsDB
 

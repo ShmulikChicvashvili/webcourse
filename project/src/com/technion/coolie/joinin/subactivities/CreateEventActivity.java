@@ -14,7 +14,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -39,7 +38,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
-import com.technion.coolie.joinin.MainActivity;
+import com.technion.coolie.joinin.EventsDB;
 import com.technion.coolie.joinin.calander.CalendarEventDatabase.NotFoundException;
 import com.technion.coolie.joinin.calander.CalendarHandler;
 import com.technion.coolie.joinin.communication.ClientProxy;
@@ -54,6 +53,7 @@ import com.technion.coolie.joinin.facebook.FacebookQueries;
 import com.technion.coolie.joinin.facebook.FacebookQueries.OnGetUserEventsReturns;
 import com.technion.coolie.joinin.map.EventType;
 import com.technion.coolie.joinin.map.MainMapActivity;
+
 
 /**
  * 
@@ -203,11 +203,12 @@ public class CreateEventActivity extends CoolieActivity {
 		updateDateOnView();
 	}
 
-	void modifyEvent(final ClientEvent e) {
+	void modifyEvent(final ClientEvent oe, final ClientEvent e) {
 		//showProgressBar(createEvent);
 		ClientProxy.modifyEvent(e, new OnDone<Boolean>() {
 			@Override
 			public void onDone(final Boolean t) {
+				EventsDB.DB.editEvent(oe,e);
 				//hideProgressBar(createEvent);
 				try {
 					new CalendarHandler(thisActivity).updateEvent(thisActivity,
@@ -236,6 +237,7 @@ public class CreateEventActivity extends CoolieActivity {
 					@Override
 					public void onDone(final Long i) {
 						//hideProgressBar(createEvent);
+						EventsDB.DB.addNewEvent(e);
 						e.setId(i);
 						new CalendarHandler(thisActivity).setNewEvent(
 								thisActivity, e,
@@ -394,11 +396,11 @@ public class CreateEventActivity extends CoolieActivity {
 		if (e != null) {
 			toAdd.setUsers(e.getUsers());
 			toAdd.setId(e.getId());
-			modifyEvent(toAdd);
-			setResult(MainActivity.RESULT_EDIT_EVENT , new Intent().putExtra("event", toAdd));
+			modifyEvent(e,toAdd);
+			//setResult(MainActivity.RESULT_EDIT_EVENT , new Intent().putExtra("event", toAdd));
 		} else{
 			addNewEvent(toAdd);
-			setResult(MainActivity.RESULT_ADD_EVENT , new Intent().putExtra("event", toAdd));
+			//setResult(MainActivity.RESULT_ADD_EVENT , new Intent().putExtra("event", toAdd));
 		}
 	}
 
@@ -505,10 +507,4 @@ public class CreateEventActivity extends CoolieActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
-	  @Override
-	  public void onBackPressed() {
-	      setResult(RESULT_CANCELED);
-	      finish();
-	  }
 }
