@@ -134,6 +134,7 @@ public class CategoriesActivity extends CoolieActivity {
 				new CategoryItem(R.drawable.ji_sports_icon, EventType.SPORT.toString(),String.valueOf(EventsDB.DB.getCategorySport().size()),"Orgenize or join sporting events!"),
 				new CategoryItem(R.drawable.ji_food_icon,  EventType.FOOD.toString(), String.valueOf(EventsDB.DB.getCategoryFood().size()),"Order food together!"),
 				new CategoryItem(R.drawable.ji_night_life_icon, EventType.NIGHT_LIFE.toString(),String.valueOf(EventsDB.DB.getCategoryNightLife().size()),"Invite or join social events!"),
+				new CategoryItem(R.drawable.ji_other_icon, EventType.OTHER.toString(),String.valueOf(EventsDB.DB.getCategoryOther().size()),"Some other things"),
 				};
 
 		adapter = new CategoryListAdapter(this, 

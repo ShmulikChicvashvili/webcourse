@@ -111,12 +111,29 @@ public class MainActivity extends CoolieActivity {
     		 FacebookLogin.onResult(this, requestCode, resultCode, data);
     		 return;
     	 }
-    	 if (EventsDB.DB.getImAttending().size() == 0 && EventsDB.DB.getMyEvents().size() == 0){
-    		 finish();
-    	 }else{
-    		 showEvents();    		 
-    	 }
+    	 switch(requestCode){
+    	 case REQUEST_EVENT_ACTIVITY:
+    	 case REQUEST_CREATE_EVENT_ACTIVITY:
+    		 if(dbEmpty()){
+    			 startActivityForResult(new Intent(this, CategoriesActivity.class).putExtra("account", mLoggedAccount)
+    					 , REQUEST_CATEGORIES_ACTIVITY);
+    		 }else{
+    			 showEvents();
+    		 }
+    		 break;
+    	 case REQUEST_CATEGORIES_ACTIVITY:
+    		 if(dbEmpty()){
+    			 finish();
+    		 }else{
+    			 showEvents();
+    		 }
+    		 break;    			
+    	 }   	     	     	
      }
+     
+     private boolean dbEmpty(){
+		 return EventsDB.DB.getImAttending().size() == 0 && EventsDB.DB.getMyEvents().size() == 0;
+	 }
      
      @Override
      public boolean onCreateOptionsMenu(Menu menu) {
