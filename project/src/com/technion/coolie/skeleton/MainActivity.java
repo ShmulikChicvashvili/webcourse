@@ -30,42 +30,59 @@ public class MainActivity extends CoolieActivity {
 
 	private GridView mostUsedGrid;
 	private ViewPager mViewPager;
-	int selectedTabIndex = 0; // used in onResume to restore the selected tab in orientation change
+	int selectedTabIndex = 0; // used in onResume to restore the selected tab in
+								// orientation change
 	private static String KEY_VIEWPAGER_SAVE_STATE = "VIEW_PAGER_SELECTED_TAB";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.skel_activity_main);
 
-		/*HtmlRequestHandler hg = new HtmlRequestHandler(getApplicationContext())
-		{
-			@Override
-			public void handleResult(String result, CoolieStatus status) {
-				Log.v("RESULT",result);			
+		/*
+		 * HtmlRequestHandler hg = new
+		 * HtmlRequestHandler(getApplicationContext()) {
+		 * 
+		 * @Override public void handleResult(String result, CoolieStatus
+		 * status) { Log.v("RESULT",result); } }; hg.getHtmlSource(
+		 * "http://techmvs.technion.ac.il:80/cics/wmn/wmngrad?ORD=1",
+		 * HtmlRequestHandler.Account.NONE);
+		 */
+		if (savedInstanceState == null) {
+			// this means that its the first time we run the app 
+			// so its ok to display these demo notifications..
+			CoolieNotification c1;
+			try {
+				c1 = new CoolieNotification(
+						"Demo Notification 1",
+						"This notification simulates Tech Library notification.",
+						(Activity) CoolieModule.TECHLIBRARY.getActivity()
+								.newInstance(),
+						CoolieNotification.Priority.IMMEDIATELY, true, this);
+				CoolieNotification c2 = new CoolieNotification(
+						"Demo Notification 2",
+						"This notification simulates StudyBuddy notification.",
+						(Activity) CoolieModule.STUDYBUDDY.getActivity()
+								.newInstance(),
+						CoolieNotification.Priority.IN_A_DAY, true, this);
+				c1.sendNotification();
+				c2.sendNotification();
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		};
-		hg.getHtmlSource("http://techmvs.technion.ac.il:80/cics/wmn/wmngrad?ORD=1", HtmlRequestHandler.Account.NONE);
-*/
-		CoolieNotification c1;
-		try {
-			c1 = new CoolieNotification("Demo Notification 1", "This notification simulates Tech Library notification.", (Activity) CoolieModule.TECHLIBRARY.getActivity().newInstance(), CoolieNotification.Priority.IMMEDIATELY, true, this);
-			CoolieNotification c2 = new CoolieNotification("Demo Notification 2", "This notification simulates StudyBuddy notification.",(Activity) CoolieModule.STUDYBUDDY.getActivity().newInstance(), CoolieNotification.Priority.IN_A_DAY, true, this);
-			c1.sendNotification();
-			c2.sendNotification();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		
+
 		mViewPager = (ViewPager) findViewById(R.id.skel_main_view_pager);
 
 		ViewPagerAdapter mDemoCollectionPagerAdapter = new ViewPagerAdapter(
-			getSupportFragmentManager(), MainActivity.this, getFragments());
+				getSupportFragmentManager(), MainActivity.this, getFragments());
 		mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+		mViewPager
+				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
 					public void onPageSelected(int position) {
 						// When swiping between pages, select the
@@ -74,23 +91,22 @@ public class MainActivity extends CoolieActivity {
 								position);
 					}
 				});
-		
 
-		if(savedInstanceState!=null)
-			selectedTabIndex = savedInstanceState.getInt(KEY_VIEWPAGER_SAVE_STATE);
-			
+		if (savedInstanceState != null)
+			selectedTabIndex = savedInstanceState
+					.getInt(KEY_VIEWPAGER_SAVE_STATE);
+
 	}
-	
+
 	@Override
 	protected void onResume() {
-		if(mostUsedGrid==null)
+		if (mostUsedGrid == null)
 			addTabsToActionbar(mViewPager);
 		else
-			((MostUsedAdapter)mostUsedGrid.getAdapter()).sortAgain();
+			((MostUsedAdapter) mostUsedGrid.getAdapter()).sortAgain();
 		super.onResume();
 	}
 
-	
 	private List<Fragment> getFragments() {
 		List<Fragment> fList = new ArrayList<Fragment>();
 		fList.add(new AlphabeticalModulesFragment());
@@ -99,57 +115,59 @@ public class MainActivity extends CoolieActivity {
 
 		return fList;
 	}
-	
-	private void addTabsToActionbar(final ViewPager mViewPager){
-	    final ActionBar actionBar = getSupportActionBar();
 
-	    // Specify that tabs should be displayed in the action bar.
-	    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+	private void addTabsToActionbar(final ViewPager mViewPager) {
+		final ActionBar actionBar = getSupportActionBar();
 
-	    // Create a tab listener that is called when the user changes tabs.
-	    ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+		// Specify that tabs should be displayed in the action bar.
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+		// Create a tab listener that is called when the user changes tabs.
+		ActionBar.TabListener tabListener = new ActionBar.TabListener() {
 
 			@Override
 			public void onTabSelected(Tab tab, FragmentTransaction ft) {
-				
-                getSupportActionBar().setSelectedNavigationItem(tab.getPosition());
-	            mViewPager.setCurrentItem(tab.getPosition(),true);
+
+				getSupportActionBar().setSelectedNavigationItem(
+						tab.getPosition());
+				mViewPager.setCurrentItem(tab.getPosition(), true);
 			}
 
 			@Override
 			public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void onTabReselected(Tab tab, FragmentTransaction ft) {
 				// TODO Auto-generated method stub
-				
-			}
-	    };
 
-	    
-	    actionBar.addTab(actionBar.newTab().setText(R.string.skel_tab_title_alphabetical).setTabListener(tabListener));
-	    actionBar.addTab(actionBar.newTab().setText(R.string.skel_tab_title_most_used).setTabListener(tabListener));
-	    actionBar.addTab(actionBar.newTab().setText(R.string.skel_tab_title_feeds).setTabListener(tabListener));
-	
-	    actionBar.setSelectedNavigationItem(selectedTabIndex);
+			}
+		};
+
+		actionBar.addTab(actionBar.newTab()
+				.setText(R.string.skel_tab_title_alphabetical)
+				.setTabListener(tabListener));
+		actionBar.addTab(actionBar.newTab()
+				.setText(R.string.skel_tab_title_most_used)
+				.setTabListener(tabListener));
+		actionBar.addTab(actionBar.newTab()
+				.setText(R.string.skel_tab_title_feeds)
+				.setTabListener(tabListener));
+
+		actionBar.setSelectedNavigationItem(selectedTabIndex);
 
 	}
-	
 
-	
-	
-	
 	private class ViewPagerAdapter extends FragmentPagerAdapter {
 		List<Fragment> fragments;
 
-		public ViewPagerAdapter(FragmentManager fm, Context c, List<Fragment> fragments) {
+		public ViewPagerAdapter(FragmentManager fm, Context c,
+				List<Fragment> fragments) {
 			super(fm);
 			this.fragments = fragments;
 		}
-
 
 		@Override
 		public Fragment getItem(int arg0) {
@@ -163,9 +181,8 @@ public class MainActivity extends CoolieActivity {
 			return fragments.size();
 		}
 
-		
 	}
-	
+
 	private class AlphabeticalModulesAdapter extends MainScreenModulesAdapter {
 
 		public AlphabeticalModulesAdapter(Context c) {
@@ -184,17 +201,18 @@ public class MainActivity extends CoolieActivity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			
-		    View view = inflater.inflate(R.layout.skel_main_modules_grid, container, false);
-	        GridView gridview = (GridView) view.findViewById(R.id.skel_main_modules_grid);
+
+			View view = inflater.inflate(R.layout.skel_main_modules_grid,
+					container, false);
+			GridView gridview = (GridView) view
+					.findViewById(R.id.skel_main_modules_grid);
 			gridview.setAdapter(new AlphabeticalModulesAdapter(getActivity()));
 
 			return view;
 		}
-		
+
 	}
-	
-	
+
 	private class MostUsedAdapter extends MainScreenModulesAdapter {
 
 		public MostUsedAdapter(Context c) {
@@ -203,44 +221,48 @@ public class MainActivity extends CoolieActivity {
 
 		@Override
 		int compareModules(CoolieModule m1, CoolieModule m2) {
-			if (m1.getUsageCounter()<m2.getUsageCounter())
+			if (m1.getUsageCounter() < m2.getUsageCounter())
 				return 1;
 			return -1;
 		}
 	}
-	
-	private class MostUsedModulesFragment  extends Fragment {
+
+	private class MostUsedModulesFragment extends Fragment {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			
-		    View view = inflater.inflate(R.layout.skel_main_modules_grid, container, false);
-	        mostUsedGrid = (GridView) view.findViewById(R.id.skel_main_modules_grid);
-	        mostUsedGrid.setAdapter(new MostUsedAdapter(getActivity()));
+
+			View view = inflater.inflate(R.layout.skel_main_modules_grid,
+					container, false);
+			mostUsedGrid = (GridView) view
+					.findViewById(R.id.skel_main_modules_grid);
+			mostUsedGrid.setAdapter(new MostUsedAdapter(getActivity()));
 
 			return view;
 		}
 	}
-	
+
 	@SuppressLint("ValidFragment")
 	private class FeedsFragment extends Fragment {
 		FeedsAdapter adp;
+
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View view = null;
-			if(adp == null)
-			{
-		    view = inflater.inflate(R.layout.skel_feeds_screen, container, false);
-	        ListView listView = (ListView) view.findViewById(R.id.skel_feeds_list);
-	        
-	        adp = new FeedsAdapter(getActivity());
-	        listView.setAdapter(adp);
+			if (adp == null) {
+				view = inflater.inflate(R.layout.skel_feeds_screen, container,
+						false);
+				ListView listView = (ListView) view
+						.findViewById(R.id.skel_feeds_list);
+
+				adp = new FeedsAdapter(getActivity());
+				listView.setAdapter(adp);
 			}
-			
+
 			return view;
 		}
-		
+
 		@Override
 		public void onResume() {
 			adp.notifyDataSetChanged();
@@ -250,8 +272,10 @@ public class MainActivity extends CoolieActivity {
 
 	@Override
 	public void onSaveInstanceState(Bundle savedInstanceState) {
-		if(((ViewPager) findViewById(R.id.skel_main_view_pager)) != null)
-			savedInstanceState.putInt(KEY_VIEWPAGER_SAVE_STATE, ((ViewPager) findViewById(R.id.skel_main_view_pager)).getCurrentItem());
+		if (((ViewPager) findViewById(R.id.skel_main_view_pager)) != null)
+			savedInstanceState.putInt(KEY_VIEWPAGER_SAVE_STATE,
+					((ViewPager) findViewById(R.id.skel_main_view_pager))
+							.getCurrentItem());
 		super.onSaveInstanceState(savedInstanceState);
 	}
 }
