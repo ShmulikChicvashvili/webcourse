@@ -23,6 +23,7 @@ public abstract class StudyBuddyActivity extends CoolieActivity
 		ExpandableListView view = (ExpandableListView) addInnerNavigationDrawer(R.layout.stb_view_navigation);
 		NavigationAdapter navigationAdapter = new NavigationAdapter(this);
 		view.setAdapter(navigationAdapter);
+		view.expandGroup(1);
 		DataStore.initHelper(this);
 	}
 

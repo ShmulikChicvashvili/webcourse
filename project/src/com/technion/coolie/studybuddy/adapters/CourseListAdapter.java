@@ -19,8 +19,8 @@ import com.technion.coolie.studybuddy.views.CourseActivity;
 
 public class CourseListAdapter extends BaseAdapter implements Observer
 {
-	private LayoutInflater	mInflater;
-	private CourseListPresenter	presenter;
+	private LayoutInflater mInflater;
+	private CourseListPresenter presenter;
 
 	/**
 	 * 
@@ -64,9 +64,11 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 		}
 
 		ViewHolder holder = (ViewHolder) view.getTag();
-		holder.courseName.setText(presenter.getNameByPosition(position));
-		holder.courseNumber.setText(presenter
-				.getIdByPosition(position));
+		String courseName = presenter.getNameByPosition(position);
+		if (courseName.length() > 12)
+			courseName = courseName.substring(0, 12) + "...";
+		holder.courseName.setText(courseName);
+		holder.courseNumber.setText(presenter.getIdByPosition(position));
 		view.setOnClickListener(new OnClickListenerImplementation(position));
 		return view;
 	}
@@ -85,7 +87,7 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 	private final class OnClickListenerImplementation implements
 			OnClickListener
 	{
-		private final int	position;
+		private final int position;
 
 		private OnClickListenerImplementation(int position)
 		{
@@ -105,8 +107,8 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 
 	private class ViewHolder
 	{
-		public TextView	courseName;
-		public TextView	courseNumber;
+		public TextView courseName;
+		public TextView courseNumber;
 	}
 
 	@Override

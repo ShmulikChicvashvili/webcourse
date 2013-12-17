@@ -29,7 +29,7 @@ import com.technion.coolie.studybuddy.presenters.EditCoursePresenter;
 public class DataStore extends Observable
 {
 	private static String[]				menus			= new String[] {
-			"Tasks", "Courses", "Crazy mode"			};
+			"Tasks", "Courses"			};
 
 	public static final String			SEMESTERSTART	= "stb_semester_start";
 	public static final String			SEMESTERLENGTH	= "stb_simester_length";

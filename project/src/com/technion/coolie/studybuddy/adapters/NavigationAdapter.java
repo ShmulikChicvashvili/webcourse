@@ -40,11 +40,10 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 		{
 		case 0:
 		case 2:
-		case 3:
 			return null;
 		case 1:
-			return DataStore.getMainPresenter().getNameByPosition(
-					childPosition);
+			return DataStore.getMainPresenter()
+					.getNameByPosition(childPosition);
 
 		default:
 			break;
@@ -77,16 +76,18 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 				{
 					// fragment.selectItem(childPosition);
 					Intent intent = new Intent(context, CourseActivity.class);
-					intent.putExtra(CourseActivity.COURSE_ID,
-							DataStore.getMainPresenter().getIdByPosition(childPosition));
+					intent.putExtra(CourseActivity.COURSE_ID, DataStore
+							.getMainPresenter().getIdByPosition(childPosition));
 					context.startActivity(intent);
 				}
 			});
 			convertView.setTag(new ViewHolder(childText));
 		}
 		childText = ((ViewHolder) convertView.getTag()).getTextView();
-		childText
-				.setText("	" + (String) getChild(groupPosition, childPosition));
+		String courseName = getChild(groupPosition, childPosition).toString();
+		if (courseName.length() > 12)
+			courseName = courseName.substring(0, 12) + "...";
+		childText.setText("	" + courseName);
 		convertView.setTag(new ViewHolder(childText));
 		return convertView;
 	}
