@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.InvitationListFragment.AdapterSupplier;
+import com.technion.coolie.letmein.model.ContactsUtils;
 import com.technion.coolie.letmein.model.Invitation;
 
 public class InvitationViewFragment extends Fragment {
@@ -69,10 +70,11 @@ public class InvitationViewFragment extends Fragment {
 		cal.restoreFromTime(invitation.getDate());
 		datePicker.setText(cal.parseDate());
 		timePicker.setText(cal.parseTime());
-		// friendImage TODO
+
+		friendImage.setImageURI(ContactsUtils.contactIdToTumbnailPhoto(invitation.getContactId(),
+				getActivity().getContentResolver()));
 
 		disableComponents();
-		System.out.println("now disabled");
 		return view;
 	}
 
