@@ -3,7 +3,6 @@ package com.technion.coolie.studybuddy.models;
 import static com.technion.coolie.studybuddy.utils.Utils.randomInt;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,8 +11,6 @@ import java.util.Map;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.technion.coolie.studybuddy.data.CompositeVisitor;
-
-import static com.technion.coolie.studybuddy.utils.Utils.*;
 
 public class Course implements Comparable<Course>, CompositeElement
 {
@@ -271,5 +268,11 @@ public class Course implements Comparable<Course>, CompositeElement
 		}
 
 		return null;
+	}
+
+	public void toggleTask(String resourceName, int position)
+	{
+		StudyResource sr = getResourceByName(resourceName);
+		sr.toggleTask(position);
 	}
 }

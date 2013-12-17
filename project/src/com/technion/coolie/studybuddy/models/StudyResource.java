@@ -212,4 +212,9 @@ public class StudyResource implements CompositeElement
 			return;
 		item.toggleDone();
 	}
+
+	public void toggleTask(int position)
+	{
+		items.get(position).toggleDone();
+	}
 }

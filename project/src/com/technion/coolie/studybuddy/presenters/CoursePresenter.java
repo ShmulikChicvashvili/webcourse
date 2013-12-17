@@ -59,4 +59,9 @@ public class CoursePresenter
 		return false;
 	}
 
+	public void toggleTask(String resourceName, int position)
+	{
+		course.toggleTask(resourceName,position);
+	}
+
 }
