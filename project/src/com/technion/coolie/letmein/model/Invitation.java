@@ -101,8 +101,8 @@ public class Invitation {
 		this.carNumber = carNumber;
 	}
 
-	public CarManufacturer getCarCompany() {
-		return this.carManufacturer;
+	public CarManufacturer getCarManufacturer() {
+		return carManufacturer;
 	}
 
 	private void setCarManufacturer(final CarManufacturer carManufacturer) {
