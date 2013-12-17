@@ -61,7 +61,7 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public List<TecTopBestPost> getTopBestPost() {
+  public List<TecPost> getTopBestPosts() {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TOP_BEST_POST.toString()),
@@ -87,7 +87,7 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public List<TecTopBestComment> getTopBestComment() {
+  public List<TecComment> getTopBestComments() {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TOP_BEST_COMMENT.toString()),

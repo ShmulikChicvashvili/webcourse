@@ -54,7 +54,7 @@ public interface ITechmineAPI {
   /**
    * @return - top 10 TopBestPost by their technionValue field
    */
-  public List<TecTopBestPost> getTopBestPost();
+  public List<TecPost> getTopBestPosts();
 
   /**
    * 
@@ -77,7 +77,7 @@ public interface ITechmineAPI {
   /**
    * @return - top 10 TecTopBestComment by their technionValue field
    */
-  public List<TecTopBestComment> getTopBestComment();
+  public List<TecComment> getTopBestComments();
 
   /**
    * 
