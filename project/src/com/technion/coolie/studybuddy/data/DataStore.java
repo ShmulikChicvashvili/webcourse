@@ -2,44 +2,65 @@ package com.technion.coolie.studybuddy.data;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import android.content.Context;
 import java.util.Observable;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
+import com.technion.coolie.studybuddy.exceptions.CourseAlreadyExistsException;
 import com.technion.coolie.studybuddy.models.Course;
 import com.technion.coolie.studybuddy.models.Semester;
 import com.technion.coolie.studybuddy.models.StudyResource;
+import com.technion.coolie.studybuddy.models.WorkStats;
 import com.technion.coolie.studybuddy.presenters.EditCoursePresenter;
 import com.technion.coolie.studybuddy.presenters.MainPresenter;
-import com.technion.coolie.studybuddy.utils.SparseArrayMap;
 
 public class DataStore extends Observable
 {
-	private static String[] menus = new String[] { "Tasks", "Courses",
-			"Crazy mode" };
-	public static List<Course> coursesList = new ArrayList<Course>();
-	public static Map<String, Course> coursesById = new LinkedHashMap<String, Course>();
-	public static Semester semester = new Semester();
-	private static SBDatabaseHelper dbHelper;
+	private static String[]				menus			= new String[] {
+			"Tasks", "Courses", "Crazy mode"			};
+	public static Set<Course>			coursesSet		= new HashSet<Course>();
+	public static List<Course>			coursesList		= new ArrayList<Course>();
+	public static Map<String, Course>	coursesById		= new LinkedHashMap<String, Course>();
+	public static Semester				semester		= new Semester();
+	private static SBDatabaseHelper		dbHelper;
 
-	private static MainPresenter mainPresenter;
-	private static EditCoursePresenter editPresenter;
+	private static MainPresenter		mainPresenter;
+	private static EditCoursePresenter	editPresenter;
 
-	public static final int taskForCourse = 14;
-	public static final String CLASS_LIST = "classes";
+	public static final int				taskForCourse	= 14;
+	public static final String			CLASS_LIST		= "classes";
 
 	static
 	{
 		// OpenHelperManager.setOpenHelperClass(SBDatabaseHelper.class);
-		addFakeCourses();
+		// loadCourses();
 	}
 
-	private static DataStore dataStore;
+	private static DataStore			dataStore;
+
+	public static void destroyHelper()
+	{
+		OpenHelperManager.releaseHelper();
+		dbHelper = null;
+	}
+
+	public static EditCoursePresenter getEditCoursePresenter()
+	{
+		if (null == editPresenter)
+		{
+			editPresenter = new EditCoursePresenter();
+		}
+
+		return editPresenter;
+	}
 
 	public static DataStore getInstance()
 	{
@@ -51,37 +72,6 @@ public class DataStore extends Observable
 		return dataStore;
 	}
 
-	/**
-	 * 
-	 */
-	public DataStore()
-	{
-		super();
-	}
-
-	public static void addFakeCourses()
-	{
-
-		coursesList.add(new Course(234123, "Operating systems"));
-		coursesList.add(new Course(234247, "Algorithms"));
-		coursesList.add(new Course(236353, "Automata and Formal Languages"));
-		coursesList.add(new Course(134058, "Biology 1"));
-
-		for (Course c : coursesList)
-		{
-			int i = 4;
-			c.addStudyResources(StudyResource.createWithItems(
-					StudyResource.LECTURES, i--));
-		}
-
-		for (Course c : coursesList)
-		{
-			coursesById.put(String.valueOf(c.getId()), c);
-		}
-
-		Collections.sort(coursesList);
-	}
-
 	public static MainPresenter getMainPresenter()
 	{
 		if (null == mainPresenter)
@@ -90,16 +80,6 @@ public class DataStore extends Observable
 		}
 
 		return mainPresenter;
-	}
-
-	public static EditCoursePresenter getEditCoursePresenter()
-	{
-		if (null == editPresenter)
-		{
-			editPresenter = new EditCoursePresenter();
-		}
-
-		return editPresenter;
 	}
 
 	public static String getMenu(int position)
@@ -117,15 +97,50 @@ public class DataStore extends Observable
 		dbHelper = OpenHelperManager.getHelper(context, SBDatabaseHelper.class);
 	}
 
-	public static void destroyHelper()
+	private WorkStats	workStats;
+
+	/**
+	 * 
+	 */
+	private DataStore()
 	{
-		OpenHelperManager.releaseHelper();
-		dbHelper = null;
+
+		OpenHelperManager.setOpenHelperClass(SBDatabaseHelper.class);
+		loadCourses();
+		loadWorkStats();
 	}
 
-	public void editCourse(int courseID, int newCourseId, String courseName,
+	public void addCourse(String newCourseId, String courseName,
 			int numLectures, int numTutorials)
+			throws CourseAlreadyExistsException
 	{
+
+		if (coursesById.containsKey(newCourseId))
+			throw new CourseAlreadyExistsException();
+
+		Course c = new Course(newCourseId, courseName);
+		c.addStudyResource(StudyResource.createWithItems(
+				StudyResource.LECTURES, numLectures));
+		c.addStudyResource(StudyResource.createWithItems(
+				StudyResource.TUTORIALS, numTutorials));
+
+		coursesSet.add(c);
+		coursesList.add(c);
+		coursesById.put(String.valueOf(newCourseId), c);
+		Collections.sort(coursesList);
+
+		setChanged();
+		notifyObservers(DataStore.CLASS_LIST);
+
+	}
+
+	public void editCourse(String courseID, String newCourseId,
+			String courseName, int numLectures, int numTutorials) throws CourseAlreadyExistsException
+	{
+		
+		if (coursesById.containsKey(newCourseId))
+			throw new CourseAlreadyExistsException();
+		
 		Course c = coursesById.get(courseID);
 
 		c.setID(newCourseId);
@@ -146,21 +161,33 @@ public class DataStore extends Observable
 		notifyObservers(DataStore.CLASS_LIST);
 	}
 
-	public void addCourse(int newCourseId, String courseName, int numLectures,
-			int numTutorials)
+	public Integer[] getWorkStats(Date today, int days)
 	{
-		Course c = new Course(newCourseId, courseName);
-		c.addStudyResource(StudyResource.createWithItems(
-				StudyResource.LECTURES, numLectures));
-		c.addStudyResource(StudyResource.createWithItems(
-				StudyResource.TUTORIALS, numTutorials));
 
-		coursesList.add(c);
-		coursesById.put(String.valueOf(newCourseId), c);
-		Collections.sort(coursesList);
+		return workStats.getStatsLastXDays(today, days);
 
-		setChanged();
-		notifyObservers(DataStore.CLASS_LIST);
+	}
+
+	public void loadCourses()
+	{
+
+		try
+		{
+			addCourse("234123", "Operating systems", 14, 14);
+			addCourse("234247", "Algorithms", 12, 12);
+			addCourse("236353", "Automata and Formal Languages", 12, 12);
+			addCourse("134058", "Biology 1", 12, 12);
+		} catch (CourseAlreadyExistsException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private void loadWorkStats()
+	{
+		workStats = new WorkStats();
 
 	}
 }
