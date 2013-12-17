@@ -1,75 +1,79 @@
 package com.technion.coolie.studybuddy.presenters;
 
 import com.technion.coolie.studybuddy.data.DataStore;
+import com.technion.coolie.studybuddy.exceptions.CourseAlreadyExistsException;
 
 public class EditCoursePresenter
 {
 
-	private String courseID = "";
-	private boolean isSet = false;
+	private String	oldCourseID	= "";
+	private boolean	isEditMode	= false;
 
 	public EditCoursePresenter()
 	{
 
 	}
 
-	public boolean setCourse(String courseID)
+	public void commitCourse(String newCourseId, String courseName,
+			int numLectures, int numTutorials)
+			throws CourseAlreadyExistsException
 	{
-		if (!DataStore.coursesById.containsKey(courseID))
+		if (isEditMode)
 		{
-			// TODO Dima please check an issue where we enter this if and the
-			// course exist in the datastore. that caused a bug that made the
-			// course uneditable
-			isSet = true;
-			return false;
+			DataStore.getInstance().editCourse(oldCourseID, newCourseId,
+					courseName, numLectures, numTutorials);
+		} else
+		{
+			DataStore.getInstance().addCourse(newCourseId, courseName,
+					numLectures, numTutorials);
 		}
-
-		this.courseID = courseID;
-		isSet = true;
-		return true;
-	}
-
-	public String getCourseName()
-	{
-		if (!isSet)
-			return "";
-
-		return DataStore.coursesById.get(courseID).getName();
 
 	}
 
 	public String getCourseIdAsString()
 	{
-		if (!isSet)
+		if (!isEditMode)
 			return "";
 
-		return DataStore.coursesById.get(courseID).getIdAsString();
+		return DataStore.coursesById.get(oldCourseID).getIdAsString();
+
+	}
+
+	public String getCourseName()
+	{
+		if (!isEditMode)
+			return "";
+
+		return DataStore.coursesById.get(oldCourseID).getName();
 
 	}
 
 	public int getCourseResourceAmount(String name)
 	{
-		if (!isSet)
+		if (!isEditMode)
 			return 0;
 
-		return DataStore.coursesById.get(courseID).getResourceTotalItemCount(
-				name);
+		return DataStore.coursesById.get(oldCourseID)
+				.getResourceTotalItemCount(name);
 	}
 
-	public void commitCourse(String newCourseId, String courseName,
-			int numLectures, int numTutorials)
+	public void reset()
 	{
-		if (isSet)
-		{// TODO Change editCourse to accept String insted of int
-			DataStore.getInstance().editCourse(Integer.valueOf(courseID),
-					Integer.parseInt(newCourseId), courseName, numLectures,
-					numTutorials);
-		} else
-		{
-			DataStore.getInstance().addCourse(Integer.parseInt(newCourseId),
-					courseName, numLectures, numTutorials);
-		}
+		oldCourseID = "";
+		isEditMode = false;
 
+	}
+
+	public void setCourse(String courseID)
+	{
+		if (!DataStore.coursesById.containsKey(courseID))
+			// TODO Dima please check an issue where we enter this if and the
+			// course exist in the datastore. that caused a bug that made the
+			// course uneditable
+			return;
+
+		oldCourseID = courseID;
+		isEditMode = true;
 	}
 
 }
