@@ -48,7 +48,7 @@ public class ResourceGridAdapter extends BaseAdapter
 
 	// private Context context;
 	private LayoutInflater		mInflater;
-	private boolean				mode;
+	private boolean				done;
 	private List<String>		items;
 	private boolean				notChanged	= true;
 	private FlingDetector		listener;
@@ -69,7 +69,7 @@ public class ResourceGridAdapter extends BaseAdapter
 		listener = new FlingDetector();
 		mInflater = (LayoutInflater) fragment.getActivity().getSystemService(
 						Context.LAYOUT_INFLATER_SERVICE);
-		mode = done;
+		this.done = done;
 		items = new ArrayList<String>();
 		// course = DataStore.coursesById.get(courseId);
 
@@ -138,7 +138,7 @@ public class ResourceGridAdapter extends BaseAdapter
 					// TODO object checked and shoul be treated
 				}
 			});
-			if (!mode)
+			if (done)
 			{
 				textView.setStriked(true);
 			}
@@ -146,7 +146,7 @@ public class ResourceGridAdapter extends BaseAdapter
 			textView.setText(getItem(position).toString());
 			convertView = textView;
 
-			if (mode)
+			if (done)
 			{
 				convertView.setOnTouchListener(new OnTouchListener()
 				{
