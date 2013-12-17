@@ -8,15 +8,25 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.technion.coolie.studybuddy.utils.Utils;
+import com.j256.ormlite.field.DatabaseField;
+
+import static com.technion.coolie.studybuddy.utils.Utils.*;
 
 public class Course implements Comparable<Course>
 {
 
 	// private List<Exam> exams = new ArrayList<Exam>();
-	private Set<StudyResource>	trackedResouces	= new HashSet<StudyResource>();
-	private int					id;
-	private String				name;
+
+	private static String radomId()
+	{
+		return String.valueOf(randomInt(999999));
+
+	}
+	@DatabaseField(id = true)
+	private String						id;
+	private String						name;
+
+	private Collection<StudyResource>	trackedResouces	= new ArrayList<StudyResource>();
 
 	public Course()
 	{
@@ -24,16 +34,21 @@ public class Course implements Comparable<Course>
 		name = String.valueOf(id);
 	}
 
-	private static int radomId()
+	public Course(int id, String name)
 	{
-		return Utils.randomInt(999999);
-
+		this.id = String.valueOf(id);
+		this.name = name;
 	}
 
-	public Course(int id, String name)
+	public Course(String id, String name)
 	{
 		this.id = id;
 		this.name = name;
+	}
+
+	public void addStudyResource(StudyResource r)
+	{
+		trackedResouces.add(r);
 	}
 
 	// public List<Exam> getExams()
@@ -56,54 +71,60 @@ public class Course implements Comparable<Course>
 	// this.exams.addAll(exams);
 	// }
 
-	public String getName()
+	@Override
+	public int compareTo(Course another)
 	{
-		return name;
+		return another.getNumStudyItemsRemaining()
+				- getNumStudyItemsRemaining();
 	}
 
-	public int getId()
+	@Override
+	public boolean equals(Object obj)
 	{
-		return id;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Course other = (Course) obj;
+		if (id == null)
+		{
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
-	public Set<StudyResource> getStudyResources()
+	public Collection<StudyResource> getAllStudyResources()
 	{
 		return trackedResouces;
 	}
 
-	public void addStudyResource(StudyResource r)
+	public String getId()
 	{
-		trackedResouces.add(r);
+		return id;
 	}
 
-	public void addStudyResources(StudyResource... r)
+	// public void addStudyResources(StudyResource... r)
+	// {
+	// trackedResouces.addAll(Arrays.asList(r));
+	// }
+	//
+	// public void addStudyResources(Collection<StudyResource> r)
+	// {
+	// trackedResouces.addAll(r);
+	// }
+
+	public String getIdAsString()
 	{
-		trackedResouces.addAll(Arrays.asList(r));
+		return String.valueOf(id);
 	}
 
-	public void addStudyResources(Collection<StudyResource> r)
+	public String getName()
 	{
-		trackedResouces.addAll(r);
-	}
-
-	public int getStudyItemsTotal()
-	{
-		int sum = 0;
-		for (StudyResource sr : trackedResouces)
-		{
-			sum += sr.getTotalItemCount();
-		}
-		return sum;
-	}
-
-	public List<StudyItem> getStudyItems()
-	{
-		List<StudyItem> list = new ArrayList<StudyItem>();
-		for (StudyResource sr : trackedResouces)
-		{
-			list.addAll(sr.getAllItems());
-		}
-		return list;
+		return name;
 	}
 
 	public int getNumStudyItemsRemaining()
@@ -115,6 +136,24 @@ public class Course implements Comparable<Course>
 		}
 		return total;
 
+	}
+
+	public int getResourceTotalItemCount(String name)
+	{
+		if (null == getResourceByName(name))
+			return 0;
+
+		return getResourceByName(name).getTotalItemCount();
+	}
+
+	public List<StudyItem> getStudyItems()
+	{
+		List<StudyItem> list = new ArrayList<StudyItem>();
+		for (StudyResource sr : trackedResouces)
+		{
+			list.addAll(sr.getAllItems());
+		}
+		return list;
 	}
 
 	public List<StudyItem> getStudyItemsRemaining()
@@ -129,45 +168,43 @@ public class Course implements Comparable<Course>
 
 	}
 
-	@Override
-	public int compareTo(Course another)
+	public int getStudyItemsTotal()
 	{
-		return another.getNumStudyItemsRemaining()
-				- getNumStudyItemsRemaining();
-	}
-
-	@Override
-	public String toString()
-	{
-		return String.valueOf(id) + " " + name;
-	}
-
-	public String getIdAsString()
-	{
-		return String.valueOf(id);
-	}
-
-	public int getResourceTotalItemCount(String name)
-	{
-		if (null == getResourceByName(name))
-			return 0;
-
-		return getResourceByName(name).getTotalItemCount();
-	}
-
-	private StudyResource getResourceByName(String name)
-	{
-		
+		int sum = 0;
 		for (StudyResource sr : trackedResouces)
 		{
-			if (sr.getName() == name)
-				return sr;
+			sum += sr.getTotalItemCount();
 		}
-
-		return null;
+		return sum;
 	}
 
-	public void setID(int newCourseId)
+	@Override
+	public int hashCode()
+	{
+		return id.hashCode();
+	}
+
+	public void initResources()
+	{
+		trackedResouces = new ArrayList<StudyResource>();
+		;
+	}
+
+	public void resizeStudyResource(String name, int newSize)
+	{
+		StudyResource r = getResourceByName(name);
+
+		if (null == r)
+		{
+			addStudyResource(StudyResource.createWithItems(name, newSize));
+			return;
+		}
+
+		r.resizeTo(newSize);
+
+	}
+
+	public void setID(String newCourseId)
 	{
 		id = newCourseId;
 	}
@@ -177,17 +214,21 @@ public class Course implements Comparable<Course>
 		name = courseName;
 	}
 
-	public void resizeStudyResource(String name, int newSize)
+	@Override
+	public String toString()
 	{
-		StudyResource r = getResourceByName(name);
+		return String.valueOf(id) + " " + name;
+	}
 
-		if (null == r)
+	private StudyResource getResourceByName(String name)
+	{
+
+		for (StudyResource sr : trackedResouces)
 		{
-			StudyResource.createWithItems(name, newSize);
-			return;
+			if (sr.getName() == name)
+				return sr;
 		}
 
-		r.resizeTo(newSize);
-
+		return null;
 	}
 }
