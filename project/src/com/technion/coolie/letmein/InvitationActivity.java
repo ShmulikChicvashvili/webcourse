@@ -3,9 +3,7 @@ package com.technion.coolie.letmein;
 import java.sql.SQLException;
 import java.util.List;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -47,6 +45,7 @@ import com.technion.coolie.letmein.util.AsyncTaskResult;
 public class InvitationActivity extends DatabaseActivity implements CalendarSupplier {
 
 	private static final int DROP_DOWN_LAYOUT_INDEX = android.R.layout.simple_dropdown_item_1line;
+	private static final int TIME_AFTER_NOW = 5;
 
 	private final MyCalendar cal = new MyCalendar();
 	private boolean isDoneItemEnabled = false;
@@ -70,8 +69,6 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 		menu.findItem(R.id.lmi_add_invitation).setVisible(false);
 		menu.findItem(R.id.lmi_done).setEnabled(isDoneItemEnabled);
 
-		// TODO: discuss about it:
-		// return super.onCreateOptionsMenu(menu);
 		return true;
 	}
 
@@ -93,6 +90,8 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lmi_activity_invitation);
+
+		cal.setTime(cal.getHour(), cal.getMinute() + TIME_AFTER_NOW);
 
 		final TextWatcher updateEnabilityWatcher = new TextWatcher() {
 			@Override
@@ -359,18 +358,22 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 			getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE).edit()
 					.putBoolean(Consts.IS_FIRST_INVITATION_INPUT, true).apply();
 
-			new AlertDialog.Builder(this).setTitle(R.string.lmi_first_inv_title)
-					.setMessage(R.string.lmi_first_inv_text)
-					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(final DialogInterface dialog, final int which) {
-							finish();
-						}
-					}).setNegativeButton("", null).setCancelable(false).show();
+			Toast.makeText(getApplicationContext(), R.string.lmi_first_inv_text, Toast.LENGTH_SHORT)
+					.show();
 
-		} else
-			finish();
+			// new
+			// AlertDialog.Builder(this).setTitle(R.string.lmi_first_inv_title)
+			// .setMessage(R.string.lmi_first_inv_text)
+			// .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+			// @Override
+			// public void onClick(final DialogInterface dialog, final int
+			// which) {
+			// finish();
+			// }
+			// }).setNegativeButton("", null).setCancelable(false).show();
+		}
 
+		finish();
 	}
 
 	private boolean isUserPickedTimeInThePast() {
