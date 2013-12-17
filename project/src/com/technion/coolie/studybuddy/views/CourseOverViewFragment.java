@@ -72,10 +72,10 @@ public class CourseOverViewFragment extends SherlockFragment implements
 		this.inflater = inflater;
 		fragmentView = inflater.inflate(R.layout.stb_view_course_main,
 				container, false);
-		NowLayout layout = (NowLayout) fragmentView
-				.findViewById(R.id.course_list);
+		//NowLayout layout = (NowLayout) fragmentView
+			//	.findViewById(R.id.course_list);
 
-		layout.setAdapter(new TaskAdapter(getActivity()));
+		//layout.setAdapter(new TaskAdapter(getActivity()));
 		drawGraph();
 
 		return fragmentView;
