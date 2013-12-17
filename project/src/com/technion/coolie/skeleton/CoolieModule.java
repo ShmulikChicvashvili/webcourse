@@ -62,6 +62,10 @@ public enum CoolieModule {
 		feedList = new ArrayList<CoolieModule.Feed>();
 		resetFeedCounter();
 		isFavorite = false;
+		
+		usageCounter = 0;
+		feedCount = 0;
+		lastUsed = null;
 	}
 	
 	public void serilize(CoolieModule source){
@@ -133,6 +137,7 @@ public enum CoolieModule {
 	public void addUsage()
 	{
 		this.usageCounter++;
+		this.setLastUsage();
 
 	}
 	public boolean isFavorite()
