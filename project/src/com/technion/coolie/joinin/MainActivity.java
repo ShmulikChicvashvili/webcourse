@@ -124,15 +124,24 @@ public class MainActivity extends CoolieActivity {
     	 }
     	 switch(requestCode){
     	 case REQUEST_CREATE_EVENT_ACTIVITY:
+    		 checkIfDBEmpty();
     		 break;
     	 case REQUEST_EVENT_ACTIVITY:
+    		 checkIfDBEmpty();
     		 break;
     	 case REQUEST_CATEGORIES_ACTIVITY:
+    		 checkIfDBEmpty();
     		 break;    	 
     	 default:
     	 }
      }
 
+     void checkIfDBEmpty(){
+    	 if (EventsDB.DB.getImAttending().size() == 0 && EventsDB.DB.getMyEvents().size() == 0){
+    		this.finish(); 
+    	 }
+    	 else showEvents();
+     }
      
      @Override
      public boolean onCreateOptionsMenu(Menu menu) {
