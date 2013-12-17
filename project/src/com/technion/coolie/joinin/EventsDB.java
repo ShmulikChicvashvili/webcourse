@@ -1,13 +1,10 @@
 package com.technion.coolie.joinin;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.os.Handler;
 
 import com.technion.coolie.joinin.communication.ClientProxy;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
