@@ -9,9 +9,18 @@
         android:id="@+id/eventImageView"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_margin="10dp"	/>
+        android:gravity="center_vertical"
+        android:layout_margin="15dp"	
+        android:src="@drawable/skel_facebook_icon" />
+   
+  <!--   <ImageView
+        android:id="@+id/arrow"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:layout_margin="15dp"	
+        android:src="@drawable/skel_facebook_icon" />  -->
         
     <TextView
         android:id="@+id/eventNameText"
@@ -19,14 +28,16 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:layout_toRightOf="@id/eventImageView"
-        android:layout_alignTop="@id/eventImageView"	/>
+        android:layout_alignTop="@id/eventImageView"
+        android:text="@string/abs__action_bar_home_description"	/>
     
      <TextView
         android:id="@+id/eventDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/eventNameText"
-        android:layout_below="@id/eventNameText"	/>
+        android:layout_below="@id/eventNameText"
+         android:text="@string/abs__action_bar_home_description"	/>
      
      <TextView
         android:id="@+id/eventLocation"
@@ -34,7 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/eventDate"
         android:layout_toRightOf="@id/eventDate"	
-        android:layout_marginLeft="7dp"	/>
+        android:layout_marginLeft="7dp"	
+         android:text="@string/abs__action_bar_home_description"	/>
 
 
 </RelativeLayout>
