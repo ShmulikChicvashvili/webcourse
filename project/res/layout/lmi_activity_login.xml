@@ -10,7 +10,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="True"
         android:hint="@string/lmi_username_hint"
-        android:singleLine="true" >
+        android:singleLine="true"
+        android:text="@string/lmi_login_username_defaultInitial" 
+        >
 
         <requestFocus />
     </EditText>

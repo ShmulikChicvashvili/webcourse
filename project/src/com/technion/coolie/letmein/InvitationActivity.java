@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -240,7 +243,10 @@ public class InvitationActivity extends DatabaseActivity implements
 										.queryBuilder()
 										.limit(1L)
 										.orderBy(Contract.Invitation.DATE,
-												false).query();
+												false)
+										.where()
+										.eq(Contract.Invitation.CONTACT_ID,
+												params[0]).query();
 								if (l.size() > 0) {
 									return l.get(0);
 								} else {
@@ -332,7 +338,30 @@ public class InvitationActivity extends DatabaseActivity implements
 
 		getHelper().getDataDao().create(i);
 
-		finish();
+		if (!(getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE)
+				.getBoolean(Consts.IS_FIRST_INVITATION_INPUT, false))) {
+			
+			getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE).edit()
+			.putBoolean(Consts.IS_FIRST_INVITATION_INPUT, true).apply();
+			
+			new AlertDialog.Builder(this)
+					.setTitle(R.string.lmi_first_inv_title)
+					.setMessage(R.string.lmi_first_inv_text)
+					.setPositiveButton("OK",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									finish();
+								}
+							}).setNegativeButton("", null).setCancelable(false)
+					.show();
+
+			
+		} else {
+			finish();
+		}
+
 	}
 
 	private boolean isUserForgotAField(final String friendName,

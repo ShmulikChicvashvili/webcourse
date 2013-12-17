@@ -21,6 +21,8 @@ import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.letmein.scapping.Scrapper;
 
+import com.technion.coolie.letmein.model.HacksEnabledClass;
+
 public class LoginActivity extends CoolieActivity {
 
 	private EditText usernameEditText;
@@ -35,12 +37,14 @@ public class LoginActivity extends CoolieActivity {
 
 		TextWatcher updateEnabilityWatcher = new TextWatcher() {
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
 				updateEnabilityOfLoginButton();
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 			}
 
 			@Override
@@ -52,16 +56,18 @@ public class LoginActivity extends CoolieActivity {
 		usernameEditText.addTextChangedListener(updateEnabilityWatcher);
 
 		passwordEditText = (EditText) findViewById(R.id.lmi_edit_password);
-		passwordEditText.setOnEditorActionListener(new OnEditorActionListener() {
-			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				if (actionId == EditorInfo.IME_ACTION_DONE) {
-					startLogin();
-				}
+		passwordEditText
+				.setOnEditorActionListener(new OnEditorActionListener() {
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (actionId == EditorInfo.IME_ACTION_DONE) {
+							startLogin();
+						}
 
-				return false;
-			}
-		});
+						return false;
+					}
+				});
 		passwordEditText.addTextChangedListener(updateEnabilityWatcher);
 
 		getAPaswordTextView = (TextView) findViewById(R.id.lmi_get_a_password);
@@ -71,7 +77,8 @@ public class LoginActivity extends CoolieActivity {
 		privacyTextView.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				new AlertDialog.Builder(LoginActivity.this).setTitle(R.string.lmi_privacy_title)
+				new AlertDialog.Builder(LoginActivity.this)
+						.setTitle(R.string.lmi_privacy_title)
 						.setMessage(R.string.lmi_privacy_message).show();
 			}
 		});
@@ -87,7 +94,8 @@ public class LoginActivity extends CoolieActivity {
 	}
 
 	private void updateEnabilityOfLoginButton() {
-		loginButton.setEnabled(!"".equals(usernameEditText.getText().toString())
+		loginButton.setEnabled(!""
+				.equals(usernameEditText.getText().toString())
 				&& !"".equals(passwordEditText.getText().toString()));
 	}
 
@@ -104,25 +112,24 @@ public class LoginActivity extends CoolieActivity {
 		}
 
 		// HACK for testing
-		if (username.equals("asd") || password.equals("asd")) {
-			endLogin(true);
-		} else {
-			(new AsyncTask<String, Void, Boolean>() {
-				@Override
-				protected Boolean doInBackground(String... params) {
-					return Scrapper.CheckLogin(params[0], params[1]);
-				}
+		if (HacksEnabledClass.TestHackesEnabled) {
+			if (username.contains("asd")) {
+				endLogin(true);
+			} else {
+				(new AsyncTask<String, Void, Boolean>() {
+					@Override
+					protected Boolean doInBackground(String... params) {
+						return Scrapper.CheckLogin(params[0], params[1]);
+					}
 
-				@Override
-				protected void onPostExecute(Boolean result) {
-					LoginActivity.this.endLogin(result);
-				}
+					@Override
+					protected void onPostExecute(Boolean result) {
+						LoginActivity.this.endLogin(result);
+					}
 
-			}).execute(username, password);
+				}).execute(username, password);
+			}
 		}
-
-		Toast.makeText(getApplicationContext(), "Login with username " + username,
-				Toast.LENGTH_SHORT).show();
 	}
 
 	private void endLogin(Boolean loginSuccess) {
@@ -131,11 +138,13 @@ public class LoginActivity extends CoolieActivity {
 			String password = passwordEditText.getText().toString();
 			saveLoginData(username, password);
 
-			Toast.makeText(getApplicationContext(), "Login successfull, user and password saved",
+			Toast.makeText(getApplicationContext(),
+					R.string.lmi_login_successfull_message,
 					Toast.LENGTH_SHORT).show();
 			finish();
 		} else {
-			new AlertDialog.Builder(LoginActivity.this).setTitle(R.string.lmi_login_failed_title)
+			new AlertDialog.Builder(LoginActivity.this)
+					.setTitle(R.string.lmi_login_failed_title)
 					.setMessage(R.string.lmi_login_failed_message).show();
 
 		}
@@ -143,17 +152,18 @@ public class LoginActivity extends CoolieActivity {
 
 	private void saveLoginData(String username, String password) {
 		getSharedPreferences(Consts.PREF_FILE, Context.MODE_PRIVATE).edit()
-				.putString(Consts.USERNAME, username).putString(Consts.PASSWORD, password)
+				.putString(Consts.USERNAME, username)
+				.putString(Consts.PASSWORD, password)
 				.putBoolean(Consts.IS_LOGGED_IN, true).apply();
 	}
 
 	private boolean isUserForgotAField(String username, String password) {
 		if ("".equals(username)) {
-			Toast.makeText(getApplicationContext(), R.string.lmi_enter_username, Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(getApplicationContext(),
+					R.string.lmi_enter_username, Toast.LENGTH_SHORT).show();
 		} else if ("".equals(password)) {
-			Toast.makeText(getApplicationContext(), R.string.lmi_enter_password, Toast.LENGTH_SHORT)
-					.show();
+			Toast.makeText(getApplicationContext(),
+					R.string.lmi_enter_password, Toast.LENGTH_SHORT).show();
 		} else {
 			return false;
 		}
@@ -165,9 +175,11 @@ public class LoginActivity extends CoolieActivity {
 	public void onSaveInstanceState(Bundle savedInstanceState) {
 		super.onSaveInstanceState(savedInstanceState);
 
-		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_edit_username),
+		savedInstanceState.putCharSequence(
+				String.valueOf(R.id.lmi_edit_username),
 				usernameEditText.getText());
-		savedInstanceState.putCharSequence(String.valueOf(R.id.lmi_edit_password),
+		savedInstanceState.putCharSequence(
+				String.valueOf(R.id.lmi_edit_password),
 				passwordEditText.getText());
 	}
 
