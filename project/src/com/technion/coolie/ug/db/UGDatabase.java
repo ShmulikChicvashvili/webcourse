@@ -45,26 +45,26 @@ public enum UGDatabase {
 
 	private void initCourses() {
 
+		Calendar cal = Calendar.getInstance();
+		Calendar cal2 = Calendar.getInstance();
+		cal2.add(Calendar.HOUR, 1);
+		
+		
 		groups = new ArrayList<RegistrationGroup>(Arrays.asList(
 				new RegistrationGroup(12, Arrays.asList(new Meeting("12",
-						"Mr. Yossi happy", DayOfWeek.SUNDAY, Calendar
-								.getInstance().getTime(), Calendar
-								.getInstance().getTime(), "Ulman 329")), Arrays
-						.asList(new Meeting("111", "Mr. Avi katz",
-								DayOfWeek.SUNDAY, Calendar.getInstance()
-										.getTime(), Calendar.getInstance()
-										.getTime(), "Humanistics 329")), 0),
+						"יוסי קופרמן", DayOfWeek.TUESDAY, 
+								cal.getTime(), cal2.getTime(), "אולמן 309")), Arrays
+						.asList(new Meeting("111", "מר. אבי כץ",
+								DayOfWeek.SUNDAY, cal.getTime(), cal2
+										.getTime(), "הומניסטים 329")), 0),
 				new RegistrationGroup(13, Arrays.asList(new Meeting("13",
-						"Prof. Monik", DayOfWeek.SUNDAY, Calendar.getInstance()
+						"פרופ. שי עציוני", DayOfWeek.THURSDAY, Calendar.getInstance()
 								.getTime(), Calendar.getInstance().getTime(),
-						"Taub 10")), Arrays.asList(new Meeting("122",
-						"Mr. Dani Cooperman", DayOfWeek.SUNDAY, Calendar
-								.getInstance().getTime(), Calendar
-								.getInstance().getTime(), "Humanistics 329"),
+						"טאוב 10")), Arrays.asList(new Meeting("122",
+						"מר דני קופרמן", DayOfWeek.SUNDAY, cal.getTime(), cal2.getTime(), "פישבך 303"),
 
-				new Meeting("123", "Mr. Moshe Rozenblum", DayOfWeek.SUNDAY,
-						Calendar.getInstance().getTime(), Calendar
-								.getInstance().getTime(), "Humanistics 329")),
+				new Meeting("123", "מר משה רוזנבלום", DayOfWeek.WEDNESDAY,
+						cal.getTime(), cal2.getTime(), "טאוב 2")),
 						25)));
 
 		allCourses = new ArrayList<Course>(
@@ -73,44 +73,44 @@ public enum UGDatabase {
 
 						new Course(
 								"233245",
-								"Introduction to complicated algorithems 4",
+								"מבוא לבינה מלאכותית",
 								2.0f,
 								"During the class we will talk about the high level design and your personal roles. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
 								new Semester(2013, SemesterSeason.WINTER),
-								Faculty.HUMANITIES, new GregorianCalendar(2014,
+								Faculty.CS, new GregorianCalendar(2014,
 										2, 11), new GregorianCalendar(2014, 2,
 										11), null, null, null),
 
-						new Course("074957", "Convoluted systems 2", 5.0f, "",
+						new Course("074957", "תורת הגרפים", 5.0f, "",
 								new Semester(2013, SemesterSeason.WINTER),
-								Faculty.ARCHITECTURE, new GregorianCalendar(
+								Faculty.CS, new GregorianCalendar(
 										2014, 2, 11), new GregorianCalendar(
 										2014, 2, 11), null, null, groups),
 
-						new Course("043932", "Data Structures", 2.0f, "",
+						new Course("043932", "מבני נתונים", 2.0f, "",
 								new Semester(2013, SemesterSeason.SPRING),
-								Faculty.HUMANITIES, new GregorianCalendar(2014,
+								Faculty.CS, new GregorianCalendar(2014,
 										2, 11), new GregorianCalendar(2014, 2,
 										11), null, null, groups),
 
 						new Course(
 								"232932",
-								"logic in software",
+								"לוגיקה ותורת הקבוצות",
 								5.0f,
 								"Brain-Machine interfaces will fundamentally change the way humans interact with the world in the 21st century. By creating a direct channel of communication between the mind and devices external to it, this class of technology provides individuals with the ability to bypass their body entirely, and control their environment using thought alone.",
 								new Semester(2013, SemesterSeason.SPRING),
-								Faculty.ARCHITECTURE, new GregorianCalendar(
+								Faculty.CS, new GregorianCalendar(
 										2014, 2, 11), new GregorianCalendar(
 										2014, 2, 11), null, null, groups),
 
 						new Course("232932",
-								"Advanced practices in formal design", 5.0f,
+								"מפרטים פורמליים במערכות מורכבות", 5.0f,
 								"", new Semester(2013, SemesterSeason.WINTER),
-								Faculty.ARCHITECTURE, new GregorianCalendar(
+								Faculty.CS, new GregorianCalendar(
 										2014, 2, 11), new GregorianCalendar(
 										2014, 2, 11), null, null, groups),
 
-						new Course("012985", "Physics 2mm", 5.0f, "",
+						new Course("012985", "פיסיקה 2ממ", 5.0f, "",
 								new Semester(2013, SemesterSeason.SPRING),
 								Faculty.PHYS,
 								new GregorianCalendar(2014, 2, 11),
@@ -119,7 +119,7 @@ public enum UGDatabase {
 
 						new Course(
 								"045932",
-								"logic and formal languages",
+								"שפות תכנות",
 								2.5f,
 								"Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
 								new Semester(2013, SemesterSeason.WINTER),
@@ -129,17 +129,17 @@ public enum UGDatabase {
 
 						new Course(
 								"011236",
-								"Algebra 2mm",
+								"אלגברה 2ממ",
 								5.0f,
 								"Dont even ask how hard this course is. You should be prepared for work hard.",
 								new Semester(2013, SemesterSeason.WINTER),
-								Faculty.ARCHITECTURE, new GregorianCalendar(
+								Faculty.MATH, new GregorianCalendar(
 										2014, 2, 11), new GregorianCalendar(
 										2014, 2, 11), null, null, groups),
 
 						new Course(
 								"123932",
-								"Software engineering",
+								"מבוא להנדסת תוכנה",
 								5.0f,
 								"Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
 								new Semester(2013, SemesterSeason.WINTER),
@@ -149,7 +149,7 @@ public enum UGDatabase {
 
 						new Course(
 								"023422",
-								"Intoduction to formal design",
+								"מבוא לעיצוב",
 								5.0f,
 								"Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
 								new Semester(2013, SemesterSeason.WINTER),
@@ -159,17 +159,17 @@ public enum UGDatabase {
 
 						new Course(
 								"243411",
-								"System Programming",
+								"תכנון מערכתי 2",
 								2.0f,
 								"Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
 								new Semester(2013, SemesterSeason.WINTER),
-								Faculty.CS, new GregorianCalendar(2013, 2, 11),
+								Faculty.ARCHITECTURE, new GregorianCalendar(2013, 2, 11),
 								new GregorianCalendar(2014, 3, 11), null, null,
 								groups),
 
 						new Course(
 								"025629",
-								"Operation systems",
+								"מערכות הפעלה",
 								4.5f,
 								"Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
 								new Semester(2013, SemesterSeason.WINTER),
@@ -179,11 +179,11 @@ public enum UGDatabase {
 
 						new Course(
 								"012342",
-								"System operations",
+								"חקר החלל",
 								5.0f,
 								"Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
 								new Semester(2013, SemesterSeason.WINTER),
-								Faculty.ARCHITECTURE, new GregorianCalendar(
+								Faculty.AE, new GregorianCalendar(
 										2014, 2, 11), new GregorianCalendar(
 										2014, 2, 11), null, null, groups)
 

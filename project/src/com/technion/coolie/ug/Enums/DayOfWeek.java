@@ -6,43 +6,43 @@ public enum DayOfWeek implements Serializable {
 	SUNDAY {
 		@Override
 		public String toSingleLetter() {
-			return "A";
+			return "א";
 		}
 	},
 	MONDAY {
 		@Override
 		public String toSingleLetter() {
-			return "B";
+			return "ב";
 		}
 	},
 	TUESDAY {
 		@Override
 		public String toSingleLetter() {
-			return "C";
+			return "ג";
 		}
 	},
 	WEDNESDAY {
 		@Override
 		public String toSingleLetter() {
-			return "D";
+			return "ד";
 		}
 	},
 	THURSDAY {
 		@Override
 		public String toSingleLetter() {
-			return "E";
+			return "ה";
 		}
 	},
 	FRIDAY {
 		@Override
 		public String toSingleLetter() {
-			return "F";
+			return "ו";
 		}
 	},
 	SATURDAY {
 		@Override
 		public String toSingleLetter() {
-			return "S";
+			return "ש";
 		}
 	};
 

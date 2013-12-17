@@ -110,9 +110,9 @@ public class CourseDisplayFragment extends Fragment {
 
 	private void makeGroupsHeader() {
 
-		final MeetingDisplay explanationHeader = new MeetingDisplay("ID",
-				"Type", "Lecturer", "location", "start Time", "end Time",
-				"Avl. places", "day");
+		final MeetingDisplay explanationHeader = new MeetingDisplay("מס",
+				"סוג", "מרצה", "מיקום", "שעת התחלה", "שעת סיום",
+				"מקום פנוי", "יום");
 		final View v = addMeeting(explanationHeader);
 		v.setBackgroundResource(R.drawable.ug_course_label_text_container);
 
@@ -133,10 +133,10 @@ public class CourseDisplayFragment extends Fragment {
 		// do all meetings
 		if (group.getLectures() != null)
 			for (final Meeting meeting : group.getLectures())
-				addMeeting(new MeetingDisplay(meeting, "lecture"));
+				addMeeting(new MeetingDisplay(meeting, "הרצאה"));
 		if (group.getTutorials() != null)
 			for (final Meeting meeting : group.getTutorials())
-				addMeeting(new MeetingDisplay(meeting, "tutorial"));
+				addMeeting(new MeetingDisplay(meeting, "תרגול"));
 		addSeperatorLine();
 	}
 
