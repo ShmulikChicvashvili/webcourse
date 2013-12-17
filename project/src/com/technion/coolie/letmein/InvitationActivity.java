@@ -330,14 +330,24 @@ public class InvitationActivity extends DatabaseActivity implements CalendarSupp
 							(String) params[0], (String) params[1], (Invitation) params[2]));
 				} catch (final ConnectionException e) {
 					$ = new AsyncTaskResult<Boolean>(e);
+					Toast.makeText(InvitationActivity.this, "There was a connection problem",
+							Toast.LENGTH_LONG).show();
 				} catch (final UnknownErrorException e) {
 					$ = new AsyncTaskResult<Boolean>(e);
+					Toast.makeText(InvitationActivity.this, "There was a unknown problem",
+							Toast.LENGTH_LONG).show();
 				} catch (final LoginException e) {
 					$ = new AsyncTaskResult<Boolean>(e);
+					Toast.makeText(InvitationActivity.this, "There was a login problem",
+							Toast.LENGTH_LONG).show();
 				} catch (final InvitationFormatException e) {
 					$ = new AsyncTaskResult<Boolean>(e);
+					Toast.makeText(InvitationActivity.this, "There was a format problem",
+							Toast.LENGTH_LONG).show();
 				} catch (final InvitationLimitExceededException e) {
 					$ = new AsyncTaskResult<Boolean>(e);
+					Toast.makeText(InvitationActivity.this, "There was a Limit problem",
+							Toast.LENGTH_LONG).show();
 				}
 
 				return $;
