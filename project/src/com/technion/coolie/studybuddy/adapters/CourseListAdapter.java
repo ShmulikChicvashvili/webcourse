@@ -135,9 +135,9 @@ public class CourseListAdapter extends BaseAdapter implements Observer
 	@Override
 	public void update(Observable observable, Object data)
 	{
-		String change = (String) data;
-		if (change != DataStore.CLASS_LIST)
-			return;
+//		String change = (String) data;
+//		if (change != DataStore.CLASS_LIST)
+//			return;
 
 		notifyDataSetChanged();
 

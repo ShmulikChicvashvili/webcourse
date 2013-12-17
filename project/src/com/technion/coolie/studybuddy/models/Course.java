@@ -1,13 +1,4 @@
 package com.technion.coolie.studybuddy.models;
-	public void toggleTask(String resourceName, int position)
-	{
-		StudyResource sr = getResourceByName(resourceName);
-		sr.toggleTask(position);
-	}
-
-
-
-
 
 import static com.technion.coolie.studybuddy.utils.Utils.randomInt;
 
@@ -284,7 +275,7 @@ public class Course implements Comparable<Course>, CompositeElement
 		StudyResource sr = getResourceByName(resourceName);
 		sr.toggleTask(position);
 	}
-}
+
 	public boolean isTaskDone(String resourceName, int position)
 	{
 		StudyResource sr = getResourceByName(resourceName);
