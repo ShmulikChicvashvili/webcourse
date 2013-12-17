@@ -5,6 +5,6 @@
     <string name="skel_nonfavorite_modules_title">Other Apps</string>
     
     <string name="skel_tab_title_alphabetical">Alphabetical</string>
-    <string name="skel_tab_title_recently_used">Recently Used</string>
+    <string name="skel_tab_title_most_used">Most Used</string>
     <string name="skel_tab_title_feeds">Feeds</string>
 </resources>

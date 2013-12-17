@@ -1,13 +1,12 @@
 package com.technion.coolie;
 
-import com.technion.coolie.R;
 import com.technion.coolie.skeleton.CoolieNotificationManager;
 
 import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 
-public class CollieNotification {
+public class CoolieNotification {
 	private Priority mPriority;
 	private String mTitle;
 	private String mText;
@@ -31,7 +30,7 @@ public class CollieNotification {
 	 * @param addToFeeds - should the notification should <b>also</b> be displayed in the news feed.
 	 * @param context
 	 */
-	public CollieNotification(String title, String text, Activity resultActivity, Priority priority, boolean addToFeeds, Context context)
+	public CoolieNotification(String title, String text, Activity resultActivity, Priority priority, boolean addToFeeds, Context context)
 	{
 		 mTitle = title;
 		 mText = text;
@@ -50,7 +49,7 @@ public class CollieNotification {
 		/*if(mPriority == Priority.IMMEDIATELY)
 		{*/
 			NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
-		    .setSmallIcon(R.drawable.ic_launcher)	//TODO - CHANGE!
+		    .setSmallIcon(CoolieModuleManager.getMyModule(mResultActivity.getClass()).getPhotoRes())
 		    .setContentTitle(mTitle)
 		    .setContentText(mText);
 			
