@@ -112,13 +112,16 @@ public class CategoryEventActivity extends CoolieActivity {
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-	    super.onActivityResult(requestCode, resultCode, data);
+		super.onActivityResult(requestCode, resultCode, data);
+		if (EventsDB.DB.getCategoryByString(mCategory).size() == 0){
+			this.finish();
+			return;
+		}
+		if (checkModified()){
+			showData();
+		}
 
-	        	if (checkModified()){
-	        		showData();
-	        	}
-	
-	    }
+	}
 	
     private void showData(){   
     	ArrayList<String> listDataHeader = new ArrayList<String>();
