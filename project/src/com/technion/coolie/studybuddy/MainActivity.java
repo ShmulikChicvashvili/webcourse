@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.actionbarsherlock.view.Menu;
 import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.adapters.CourseAdapter;
+import com.technion.coolie.studybuddy.data.DataStore;
 import com.technion.coolie.studybuddy.graphs.GraphFactory;
 import com.technion.coolie.studybuddy.views.EditCourse;
 import com.technion.coolie.studybuddy.views.NowLayout;
@@ -21,7 +22,7 @@ import com.technion.coolie.studybuddy.views.StudyBuddyActivity;
 public class MainActivity extends StudyBuddyActivity
 {
 
-	GraphicalView graphView;
+	GraphicalView	graphView;
 
 	/*
 	 * (non-Javadoc)
@@ -43,9 +44,11 @@ public class MainActivity extends StudyBuddyActivity
 
 		// WeeklyGraph
 		LinearLayout _layout = (LinearLayout) findViewById(R.id.Chart_layout);
-		Date d = new Date();
-		graphView = GraphFactory.getWeeklyProgressGraph(getBaseContext(), d,
-				new int[] { 1, 1, 2, 3, 5, 8, 13 });
+
+		Date today = new Date();
+		graphView = GraphFactory.getWeeklyProgressGraph(getBaseContext(),
+				today, DataStore.getInstance().getWorkStats(today, 7));
+
 		_layout.addView(graphView);
 	}
 
