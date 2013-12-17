@@ -47,5 +47,6 @@
     <string name="lmi_first_inv_title">Car info was Saved!</string>
     <string name="lmi_first_inv_text">LetMeIn saves all inputted car info, so you will never have to do it again!</string>
     <string name="lmi_status_image">The contact\'s status</string>
+    <string name="lmi_user_picked_time_in_the_past_message">You must pick time of arrival that takes place in the future!</string>
 
 </resources>
