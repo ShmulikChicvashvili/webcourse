@@ -1,6 +1,8 @@
 package com.technion.coolie.studybuddy.views;
 
 import java.util.Date;
+import java.util.Observable;
+import java.util.Observer;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,9 +18,11 @@ import com.technion.coolie.studybuddy.graphs.GraphFactory;
 import com.technion.coolie.studybuddy.models.Course;
 import com.technion.coolie.studybuddy.presenters.CoursePresenter;
 
-public class CourseOverViewFragment extends SherlockFragment
+public class CourseOverViewFragment extends SherlockFragment implements
+		Observer
 {
 	public static final String courseNumberArg = "courseNameArg";
+	private LayoutInflater inflater;
 
 	public static CourseOverViewFragment newInstance(String courseNumber)
 	{
@@ -35,6 +39,7 @@ public class CourseOverViewFragment extends SherlockFragment
 	private Course course;
 
 	private CoursePresenter presenter;
+	private View fragmentView;
 
 	/*
 	 * (non-Javadoc)
@@ -45,6 +50,7 @@ public class CourseOverViewFragment extends SherlockFragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		DataStore.getInstance().addObserver(this);
 		if (getArguments() != null)
 		{
 			courseNumber = getArguments().getString(courseNumberArg);
@@ -63,19 +69,35 @@ public class CourseOverViewFragment extends SherlockFragment
 			Bundle savedInstanceState)
 	{
 		presenter = DataStore.getInstance().getCoursePresenter(courseNumber);
+		this.inflater = inflater;
+		fragmentView = inflater.inflate(R.layout.stb_view_course_main,
+				container, false);
+		NowLayout layout = (NowLayout) fragmentView
+				.findViewById(R.id.course_list);
 
-		View view = inflater.inflate(R.layout.stb_view_course_main, container,
-				false);
-		NowLayout layout = (NowLayout) view.findViewById(R.id.course_list);
 		layout.setAdapter(new TaskAdapter(getActivity()));
-		LinearLayout linearLayout = (LinearLayout) view
+		drawGraph();
+
+		return fragmentView;
+
+	}
+
+	@Override
+	public void update(Observable observable, Object data)
+	{
+		if (fragmentView != null)
+			drawGraph();
+	}
+
+	private void drawGraph()
+	{
+		LinearLayout linearLayout = (LinearLayout) fragmentView
 				.findViewById(R.id.Chart_layout);
 		View barChartView = GraphFactory.getCourseProgressGraph(
 				inflater.getContext(), presenter.getProgressMap(),
 				presenter.getCurrentWeekNum(new Date()),
 				presenter.getSemesterLength());
 		linearLayout.addView(barChartView);
-		return view;
-
 	}
+
 }

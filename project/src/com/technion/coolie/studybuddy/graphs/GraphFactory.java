@@ -25,7 +25,8 @@ public class GraphFactory
 	 * @return
 	 */
 	public static View getCourseProgressGraph(Context ctx,
-			Map<String, Integer> name2progress, int currentWeek, int semesterLength)
+			Map<String, Integer> name2progress, int currentWeek,
+			int semesterLength)
 	{
 		CourseProgress cp = new CourseProgress(name2progress, currentWeek,
 				semesterLength);

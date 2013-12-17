@@ -113,7 +113,7 @@ public class ResourceGridAdapter extends BaseAdapter implements Observer
 
 	@SuppressLint("NewApi")
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
+	public View getView(final int position, View convertView, ViewGroup parent)
 	{
 		StrikeThrowTextView textView = null;
 		if (convertView == null)
@@ -130,7 +130,7 @@ public class ResourceGridAdapter extends BaseAdapter implements Observer
 					((StrikeThrowTextView) v)
 									.setStriked(!((StrikeThrowTextView) v)
 													.isStriked());
-					// TODO object checked and shoul be treated
+					presenter.toggleTask(resourceName,position);
 				}
 			});
 
