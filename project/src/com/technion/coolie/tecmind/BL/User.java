@@ -41,12 +41,17 @@ public class User implements IUser{
 
 	@Override
 	public void initiateFieldsFromServer(String sName, Title sTitle,
-			Date sLastMining, int sTotalTechoins, int sBankAccount) {
+			Date sLastMining, int sTotalTechoins, int sBankAccount, int sPosts, int sComments,
+			int sLikes, int sLikesOnPosts) {
 		name = sName;
 		title = sTitle;
 		lastMining = sLastMining;
 		totalTechoins = sTotalTechoins;
 		bankAccount = sBankAccount;
+		postsNum = sPosts;
+		likesNum = sLikes;
+		likesOnPostsNum = sLikesOnPosts;
+		commentsNum = sComments;
 		
 	}
 	

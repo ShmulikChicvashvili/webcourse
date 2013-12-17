@@ -9,10 +9,10 @@ public class TecUser implements IGetters {
   Date lastMining;
   int totalTechoins;
   int bankAccount;
-  int commentsNum;
-  int postsNum;
-  int likesNum;
-  int likeOnPostsNum;
+  public int commentsNum;
+  public int postsNum;
+  public int likesNum;
+  public int likeOnPostsNum;
 
   /**
    * @param id1

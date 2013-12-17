@@ -189,8 +189,11 @@ public class MainActivity extends CoolieActivity {
 		  }
 		  else {
 			  User.getUserInstance(tecUser.getId());
-			  User.getUserInstance(null).initiateFieldsFromServer(tecUser.getName(), Title.ATUDAI, /*TODO: CHANGE*/
-						tecUser.getLastMining(), tecUser.getTotalTechoins(), tecUser.getBankAccount());
+			  
+			  User.getUserInstance(null).initiateFieldsFromServer(tecUser.getName(), 
+					  Title.valueOf(tecUser.getTitle().value()),
+						tecUser.getLastMining(), tecUser.getTotalTechoins(), tecUser.getBankAccount(), tecUser.postsNum, tecUser.commentsNum
+						, tecUser.likesNum, tecUser.likeOnPostsNum);
 			  try {
 				  userPostsFromServer = new ServeGetAllPostsOfUser().execute().get();
 			  } catch (Exception e) {
