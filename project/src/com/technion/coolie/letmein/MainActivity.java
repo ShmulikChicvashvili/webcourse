@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -27,8 +26,8 @@ public class MainActivity extends DatabaseActivity implements
 	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
 
 	private Button loginButton;
-	private TextView welcomeMessageTextView;
 	private Button watchDemoButton;
+	private Fragment welcomeFragment;
 
 	private BaseInvitationAdapter invitationAdapter;
 	private boolean isLoggedIn;
@@ -92,8 +91,6 @@ public class MainActivity extends DatabaseActivity implements
 			}
 		});
 
-		welcomeMessageTextView = (TextView) findViewById(R.id.lmi_welcome_message);
-
 		watchDemoButton = (Button) findViewById(R.id.lmi_watch_demo_button);
 		watchDemoButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -101,6 +98,8 @@ public class MainActivity extends DatabaseActivity implements
 				startActivity(new Intent(MainActivity.this, DemoActivity.class));
 			}
 		});
+
+		welcomeFragment = getSupportFragmentManager().findFragmentById(R.id.lmi_welcome_fragment);
 	}
 
 	@Override
@@ -119,12 +118,15 @@ public class MainActivity extends DatabaseActivity implements
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.lmi_invitation_list_container, listFragment).commit();
 
-		if (!isLoggedIn)
+		if (!isLoggedIn) {
+			if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+				findViewById(R.id.lmi_body_fragment).setVisibility(View.GONE);
+				findViewById(R.id.lmi_seperator).setVisibility(View.GONE);
+			}
 			return;
+		}
 
-		loginButton.setVisibility(View.GONE);
-		welcomeMessageTextView.setVisibility(View.GONE);
-		watchDemoButton.setVisibility(View.GONE);
+		welcomeFragment.getView().setVisibility(View.GONE);
 
 		isAddInvitationItemVisible = true;
 		supportInvalidateOptionsMenu();
