@@ -12,11 +12,22 @@ import java.util.UUID;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
 
+@DatabaseTable
 public class StudyResource
 {
-	public static final String	LECTURES	= "Lectures";
-	public static final String	TUTORIALS	= "Tutorials";
+	public static final String	LECTURES		= "Lectures";
+	public static final String	TUTORIALS		= "Tutorials";
+	public static final String	VIDEO_LECTURES	= "Video Lectures";
+	public static final String	VIDEO_TUTORIALS	= "Video Tutorials";
+	public static final String	SYLLABUS_TOPICS	= "Syllabus Topics";
+
+	public static void attachItemsToResource(	StudyResource sr,
+												List<StudyItem> list)
+	{
+		sr.setStudyItems(list);
+	}
 
 	public static StudyResource createWithItems(String label, Integer num)
 	{
@@ -40,13 +51,15 @@ public class StudyResource
 
 	@DatabaseField(generatedId = true)
 	private UUID			id;
+
 	@DatabaseField
 	private String			name;
 
 	// @ForeignCollectionField(eager = true)
 	private List<StudyItem>	items	= new ArrayList<StudyItem>();
 
-	private Course			parent;
+	@DatabaseField
+	private Course			course;
 
 	public StudyResource()
 	{
@@ -112,7 +125,7 @@ public class StudyResource
 
 	public Course getParent()
 	{
-		return parent;
+		return course;
 	}
 
 	public int getRemainingItemsCount()
@@ -164,7 +177,7 @@ public class StudyResource
 
 	public void setParent(Course parent)
 	{
-		this.parent = parent;
+		course = parent;
 	}
 
 	private void addItems(List<String> list)
@@ -180,6 +193,11 @@ public class StudyResource
 	{
 		this.name = name;
 
+	}
+
+	private void setStudyItems(List<StudyItem> list)
+	{
+		items.addAll(list);
 	}
 
 	private void toggleDone(int id)
