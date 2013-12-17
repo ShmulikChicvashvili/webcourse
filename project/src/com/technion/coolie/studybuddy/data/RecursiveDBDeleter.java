@@ -9,21 +9,21 @@ import com.technion.coolie.studybuddy.models.StudyItem;
 import com.technion.coolie.studybuddy.models.StudyResource;
 import com.technion.coolie.studybuddy.models.WorkStats;
 
-public enum RecursiveDBStorer implements CompositeVisitor
+public enum RecursiveDBDeleter implements CompositeVisitor
 {
-	dbStorer;
+	dbDeleter;
 
-	public static RecursiveDBStorer getInstance()
+	public static RecursiveDBDeleter getInstance()
 	{
-		return dbStorer;
+		return dbDeleter;
 
 	}
 
 	@Override
 	public void visit(Course c)
 	{
-		getHelper().getCourseDao().createOrUpdate(c);
 		c.accept(this);
+		getHelper().getCourseDao().delete(c);
 	}
 
 	@Override
@@ -35,27 +35,27 @@ public enum RecursiveDBStorer implements CompositeVisitor
 	@Override
 	public void visit(Semester s)
 	{
-		getHelper().getSemesterDao().createOrUpdate(s);
+		getHelper().getSemesterDao().delete(s);
 	}
 
 	@Override
 	public void visit(Stats s)
 	{
-		getHelper().getStatDao().createOrUpdate(s);
+		getHelper().getStatDao().delete(s);
 	}
 
 	@Override
 	public void visit(StudyItem it)
 	{
-		getHelper().getStudyItemsDao().createOrUpdate(it);
+		getHelper().getStudyItemsDao().delete(it);
 
 	}
 
 	@Override
 	public void visit(StudyResource sr)
 	{
-		getHelper().getStudyResourceDao().createOrUpdate(sr);
 		sr.accept(this);
+		getHelper().getStudyResourceDao().createOrUpdate(sr);
 	}
 
 	@Override

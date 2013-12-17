@@ -3,24 +3,29 @@ package com.technion.coolie.studybuddy.models;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.UUID;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 import com.technion.coolie.studybuddy.data.DataStore;
 
-public class Stat
+@DatabaseTable
+public class Stats
 {
-	@DatabaseField(id = true)
+	@DatabaseField(generatedId = true)
+	private UUID			id;
 	private Date			date;
 	private static Calendar	cal;
 	@DatabaseField
 	private int				amountDone;
 
-	public Stat()
+	public Stats()
 	{
 
 	}
 
-	public Stat(Date d)
+	public Stats(Date d)
 	{
 		date = nullifyDate(d);
 		amountDone = 0;

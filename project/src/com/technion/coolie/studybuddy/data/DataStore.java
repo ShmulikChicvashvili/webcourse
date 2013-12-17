@@ -246,4 +246,11 @@ public class DataStore extends Observable implements CompositeElement
 		// RecursiveDBStorer.getInstance().visit(course);
 	}
 
+	public void deleteCourse(String courseNumber)
+	{
+		Course c = coursesById.remove(courseNumber);
+		coursesList.remove(c);
+
+	}
+
 }

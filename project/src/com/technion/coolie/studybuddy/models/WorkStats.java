@@ -1,6 +1,6 @@
 package com.technion.coolie.studybuddy.models;
 
-import static com.technion.coolie.studybuddy.models.Stat.nullifyDate;
+import static com.technion.coolie.studybuddy.models.Stats.nullifyDate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -65,16 +65,16 @@ public enum WorkStats implements CompositeElement
 		}
 	}
 
-	private static Map<Date, Stat>	statsMap	= new HashMap<Date, Stat>();
+	private static Map<Date, Stats>	statsMap	= new HashMap<Date, Stats>();
 
 	public static WorkStats getInstance()
 	{
 		return workStats;
 	}
 
-	public static void loadStats(List<Stat> stats)
+	public static void loadStats(List<Stats> stats)
 	{
-		for (Stat s : stats)
+		for (Stats s : stats)
 		{
 			statsMap.put(s.getDate(), s);
 		}
@@ -83,7 +83,7 @@ public enum WorkStats implements CompositeElement
 	@Override
 	public void accept(CompositeVisitor cv)
 	{
-		for (Stat s : statsMap.values())
+		for (Stats s : statsMap.values())
 		{
 			cv.visit(s);
 		}
@@ -146,17 +146,17 @@ public enum WorkStats implements CompositeElement
 
 	public void increaseDoneForDate(Date d)
 	{
-		Stat s = findOrAllocateStat(d);
+		Stats s = findOrAllocateStat(d);
 		s.addDone();
 	}
 
-	private Stat findOrAllocateStat(Date d)
+	private Stats findOrAllocateStat(Date d)
 	{
 		Date n = nullifyDate(d);
 		if (statsMap.containsKey(n))
 			return statsMap.get(n);
 
-		Stat s = new Stat(d);
+		Stats s = new Stats(d);
 		statsMap.put(s.getDate(), s);
 		return s;
 	}

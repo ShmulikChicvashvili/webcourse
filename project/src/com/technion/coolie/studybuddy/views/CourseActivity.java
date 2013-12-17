@@ -99,7 +99,7 @@ public class CourseActivity extends StudyBuddyActivity implements
 			startActivity(intent);
 			return true;
 		case R.id.stb_discard_curse:
-//			DataStore.getInstance().deleteCourse(courseNumber);
+			DataStore.getInstance().deleteCourse(courseNumber);
 			NavUtils.navigateUpFromSameTask(this);
 		}
 		return super.onOptionsItemSelected(item);

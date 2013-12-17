@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.technion.coolie.studybuddy.models.Course;
 import com.technion.coolie.studybuddy.models.Semester;
-import com.technion.coolie.studybuddy.models.Stat;
+import com.technion.coolie.studybuddy.models.Stats;
 import com.technion.coolie.studybuddy.models.StudyItem;
 import com.technion.coolie.studybuddy.models.StudyResource;
 import com.technion.coolie.studybuddy.models.WorkStats;
@@ -66,7 +66,7 @@ public enum RecursiveDBLoader implements CompositeVisitor
 	}
 
 	@Override
-	public void visit(Stat s)
+	public void visit(Stats s)
 	{
 		return;
 	}
@@ -105,7 +105,7 @@ public enum RecursiveDBLoader implements CompositeVisitor
 	@Override
 	public void visit(WorkStats ws)
 	{
-		List<Stat> results = getHelper().getStatDao().queryForAll();
+		List<Stats> results = getHelper().getStatDao().queryForAll();
 
 		WorkStats.loadStats(results);
 
