@@ -6,16 +6,18 @@ import java.util.List;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.text.format.DateFormat;
 import android.util.Log;
 
-import com.technion.coolie.R;
 import com.technion.coolie.letmein.Consts;
+import com.technion.coolie.letmein.model.ContactsUtils;
 import com.technion.coolie.letmein.model.Contract;
 import com.technion.coolie.letmein.model.Invitation;
 
 public class InvitationCursorAdapter extends BaseInvitationAdapter {
 	private final String LOG_TAG = Consts.LOG_PREFIX + getClass().getSimpleName();
+	private final Uri DEFAULT_THUMBNAIL_URI;
 	private static final long NUM_ITEMS_TO_LOAD = 20;
 	private final List<Invitation> invitations;
 
@@ -59,6 +61,9 @@ public class InvitationCursorAdapter extends BaseInvitationAdapter {
 	public InvitationCursorAdapter(final Context context) {
 		super(context);
 
+		DEFAULT_THUMBNAIL_URI = Uri.parse("android.resource://" + context.getPackageName()
+				+ "/drawable/lmi_google_man");
+
 		this.context = context;
 		this.invitations = getInvitations();
 	}
@@ -72,7 +77,11 @@ public class InvitationCursorAdapter extends BaseInvitationAdapter {
 	protected ContactView getContactViewById(final Long contactId) {
 		final ContactView $ = new ContactView();
 		$.ContactName = "Contact Name";
-		$.ContactImageId = R.drawable.lmi_google_man;
+
+		Uri imageUri = ContactsUtils.contactIdToTumbnailPhoto(contactId,
+				context.getContentResolver());
+		$.ContactImageUri = (imageUri == null) ? DEFAULT_THUMBNAIL_URI : imageUri;
+
 		return $;
 	}
 

@@ -46,4 +46,21 @@
         android:text="@string/lmi_watch_demo"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
+    <View
+        android:id="@+id/lmi_devider"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@+id/lmi_login_button"
+        android:layout_marginTop="@dimen/lmi_layout_margin"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lmi_devider"
+        android:gravity="center"
+        android:paddingTop="@dimen/lmi_layout_margin"
+        android:text="This could be you:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
 </RelativeLayout>

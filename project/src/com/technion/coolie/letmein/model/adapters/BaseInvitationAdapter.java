@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
+import android.net.Uri;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,7 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 
 	protected static class ContactView {
 		public String ContactName;
-		public int ContactImageId;
+		public Uri ContactImageUri;
 	}
 
 	protected abstract ContactView getContactViewById(Long contactId);
@@ -77,7 +78,7 @@ public abstract class BaseInvitationAdapter extends BaseAdapter implements Filte
 		holder.TimeOfArrival.setText("Arriving "
 				+ DateUtils.getRelativeTimeSpanString(invitation.getDate().getTime(),
 						new Date().getTime(), DateUtils.MINUTE_IN_MILLIS));
-		holder.Image.setImageResource(cv.ContactImageId);
+		holder.Image.setImageURI(cv.ContactImageUri);
 	}
 
 	private ViewHolder initViewHolder(final View view) {
