@@ -91,7 +91,7 @@ public class TaskSettings extends CoolieActivity {
 			
 			RatingPreference difficultyPref = new RatingPreference(c);
 			difficultyPref.setKey(KEY_TS_DIFFICULTY);
-			difficultyPref.setTitle(R.string.task_pref_difficulty);
+			difficultyPref.setTitle(R.string.am_task_pref_difficulty);
 			difficultyPref.setDefaultValue(1);
 			difficultyPref.setMax(5);
 			difficultyPref.setOnPreferenceChangeListener(new PrefsRatingBarListener(difficultyPref));
@@ -99,7 +99,7 @@ public class TaskSettings extends CoolieActivity {
 			
 			RatingPreference importancePref = new RatingPreference(c);
 			importancePref.setKey(KEY_TS_IMPORTANCE);
-			importancePref.setTitle(R.string.task_pref_importance);
+			importancePref.setTitle(R.string.am_task_pref_importance);
 			importancePref.setDefaultValue(1);
 			importancePref.setMax(5);
 			importancePref.setOnPreferenceChangeListener(new PrefsRatingBarListener(importancePref));
@@ -108,7 +108,7 @@ public class TaskSettings extends CoolieActivity {
 			ProgressPreference progressPref = new ProgressPreference(c);
 			progressPref.setKey(KEY_TS_PROGRESS);
 			
-			progressPref.setTitle(R.string.task_pref_progress);
+			progressPref.setTitle(R.string.am_task_pref_progress);
 			progressPref.setDefaultValue(0);
 			progressPref.setMax(100);
 			progressPref.setOnPreferenceChangeListener(new PrefsSeekBarListener(progressPref));

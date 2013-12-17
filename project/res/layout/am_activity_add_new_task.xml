@@ -30,7 +30,7 @@
 			        android:layout_height="match_parent"
 			        android:layout_gravity="center"
 			        android:background="@drawable/am_btn_cab_done_holo_light"
-			        android:text="CANCEL"
+			        android:text="@android:string/cancel"
 			        android:textSize="14sp" />
 			
 			</LinearLayout>
@@ -50,7 +50,7 @@
 			        android:layout_height="match_parent"
 			        android:layout_gravity="center"
 			        android:background="@drawable/am_btn_cab_done_holo_light"
-			        android:text="ADD"
+			        android:text="@android:string/ok"
 			        android:textSize="14sp" />
 			
 			</LinearLayout>
@@ -74,7 +74,7 @@
 		        android:layout_margin="10dp"
 		        android:singleLine="true"
 		        android:inputType="text"
-		        android:hint="@string/new_task_name_hint" />
+		        android:hint="@string/am_new_task_name_hint" />
 		    
 		    <EditText 
 		        android:id="@+id/am_new_task_course_name_edittext"
@@ -85,7 +85,7 @@
 		        android:layout_margin="10dp"
 		        android:singleLine="true"
 		        android:inputType="text"
-		        android:hint="@string/new_task_course_name_hint" />
+		        android:hint="@string/am_new_task_course_name_hint" />
 		    
 		    
 		    <EditText 
@@ -96,7 +96,7 @@
 		        android:padding="3dp"
 		        android:layout_margin="10dp"
 		        android:inputType="number"
-		        android:hint="@string/new_task_course_id_hint" />
+		        android:hint="@string/am_new_task_course_id_hint" />
 		    
 		    <TextView 
 		        android:id="@+id/am_new_task_due_date_title"
@@ -107,7 +107,7 @@
 		        android:textAppearance="@android:style/TextAppearance.Small"
 		        android:textColor="@android:color/secondary_text_dark_nodisable"
 		        android:padding="3dp"
-		        android:text="@string/new_task_due_date_title" />
+		        android:text="@string/am_new_task_due_date_title" />
 		    
 		    <TextView
 		        style="@style/Sherlock.__Widget.Holo.Spinner"
@@ -127,7 +127,7 @@
 		        android:textAppearance="@android:style/TextAppearance.Small"
 		        android:textColor="@android:color/secondary_text_dark_nodisable"
 		        android:padding="3dp"
-		        android:text="@string/task_pref_difficulty" />
+		        android:text="@string/am_task_pref_difficulty" />
 		    
 		    <RatingBar
 		        android:id="@+id/am_new_task_difficulty_rating_bar"
@@ -149,7 +149,7 @@
 		        android:textAppearance="@android:style/TextAppearance.Small"
 		        android:textColor="@android:color/secondary_text_dark_nodisable"
 		        android:padding="3dp"
-		        android:text="@string/task_pref_importance" />
+		        android:text="@string/am_task_pref_importance" />
 		    
 		    <RatingBar
 		        android:id="@+id/am_new_task_importance_rating_bar"

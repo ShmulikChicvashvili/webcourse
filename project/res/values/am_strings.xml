@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Coolie</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="drawer_open">open</string>
-    <string name="drawer_close">close</string>
-    
     <!-- ############################ AsignMentor Strings ############################ -->
     
-    <string name="action_sort_by">Sort By</string>
-    <string name="action_new_task">New Task</string>
-    <string name="technion_tasks_progress_percent">100%</string>
+    <!-- Action bar items titles -->
+    <string name="am_action_settings">Settings</string>
+    <string name="am_action_new_task">New Task</string>
     
+    <string name="am_action_sort_by_due_date">Sort By Due Date</string>
+	<string name="am_action_sort_by_diff">Sort By Difficulty</string>
+	<string name="am_action_sort_by_imp">Sort By Importance</string>
+	<string name="am_action_sort_by_prog">Sort By Progress</string>
+    
+    <!-- Progress bar percentage initial value -->
+    <string name="am_technion_tasks_progress_percent">100%</string>
+    
+    <!-- Empty view strings -->
     <string name="am_empty_view">No New Tasks!</string>
     <string name="am_empty_view_refresh"><u>Click here to check for new tasks online</u></string>
     
-    <string name="pref_sync">Sync with Google Calendar</string>
-    <string name="pref_updates_freq">Updates Frequency</string>
-    <string name="pref_updates_freq_sum">Once a Day</string>
-    <string name="pref_updates_dialog_title">Look For Updates Every</string>
-    <string-array name="pref_updates_dialog_values">
+    <!-- General settings strings -->
+    <string name="am_pref_sync_title">Sync</string>
+    <string name="am_pref_sync">Sync with Google Calendar</string>
+    
+    <string name="am_pref_notif">Notify On New Tasks</string>
+    
+    <string name="am_pref_updates_freq">Updates Frequency</string>
+    <string name="am_pref_updates_freq_sum">Once a Day</string>
+    
+    <string name="am_pref_updates_dialog_title">Look For Updates Every</string>
+    <string-array name="am_pref_updates_dialog_values">
         <item>Never</item>
 	    <item>8 Hours</item>
 	    <item>12 Hours</item>
@@ -31,12 +40,13 @@
 	    <item>5 Days</item>
 	    <item>1 Week</item>
 	</string-array>
-	<string name="pref_updates_default_value">Never</string>
+	<string name="am_pref_updates_default_value">Never</string>
 	
-    <string name="pref_reminder">Set reminder for new Tasks</string>
-    <string name="pref_reminder_sum">1 Day Before Due Day</string>
-    <string name="pref_reminder_dialog_title">New Tasks Reminder</string>
-    <string-array name="pref_reminder_dialog_values">
+    <string name="am_pref_reminder_title">Reminders</string>
+    <string name="am_pref_reminder">Set reminder for new Tasks</string>
+    <string name="am_pref_reminder_sum">1 Day Before Due Day</string>
+    <string name="am_pref_reminder_dialog_title">New Tasks Reminder</string>
+    <string-array name="am_pref_reminder_dialog_values">
         <item>No Reminder</item>
 	    <item>Morning Of Due Date</item>
 	    <item>1 Day Before</item>
@@ -44,59 +54,39 @@
 	    <item>3 Days Before</item>
 	    <item>4 Days Before</item>
 	</string-array>
-	<string name="pref_reminder_default_value">No Reminder</string>
+	<string name="am_pref_reminder_default_value">No Reminder</string>
     
-    <string name="pref_sync_title">Sync</string>
-    <string name="pref_reminder_title">Reminders</string>
+    <!-- Task's settings strings -->
+    <string name="am_task_pref_task_info">Task Info</string>
+    <string name="am_task_pref_task_name">Task Name</string>
+    <string name="am_task_pref_task_name_sum">H.W #</string>
+    <string name="am_task_pref_course_name">Course Name</string>
+    <string name="am_task_pref_course_name_sum">Android Project #</string>
+    <string name="am_task_pref_course_id">Course Number</string>
+    <string name="am_task_pref_course_id_sum">236503</string>
+    <string name="am_task_pref_due_date">Due Date</string>
+    <string name="am_task_pref_due_date_sum">1/7/2014</string>
+    <string name="am_task_pref_reminder">Set reminder</string>
+    <string name="am_task_pref_difficulty">Task difficulty</string>
     
-    <string name="task_pref_task_info">Task Info</string>
-    <string name="task_pref_task_name">Task Name</string>
-    <string name="task_pref_task_name_sum">H.W #</string>
-    <string name="task_pref_course_name">Course Name</string>
-    <string name="task_pref_course_name_sum">Android Project #</string>
-    <string name="task_pref_course_id">Course Number</string>
-    <string name="task_pref_course_id_sum">236503</string>
-    <string name="task_pref_due_date">Due Date</string>
-    <string name="task_pref_due_date_sum">1/7/2014</string>
-    <string name="task_pref_reminder">Set reminder</string>
-    <string name="task_pref_difficulty">Task difficulty</string>
-	<string name="task_pref_scale_default_value">3</string>
-    
-    <string name="task_pref_importance">Task importance</string>
-    <string name="task_pref_progress">Task progress</string>
-	<string name="task_pref_progress_default_value">0</string>
+    <string name="am_task_pref_importance">Task importance</string>
+    <string name="am_task_pref_progress">Task progress</string>
 	
-    <string name="task_pref_course_website">Course Website</string>
-	<string name="task_pref_properties_title">Task Properties</string>
-	<string name="task_pref_extra_info_title">Extra Info</string>
+    <string name="am_task_pref_course_website">Course Website</string>
+	<string name="am_task_pref_properties_title">Task Properties</string>
+	<string name="am_task_pref_extra_info_title">Extra Info</string>
 	
-	<string name="action_sort_by_due_date">Sort By Due Date</string>
-	<string name="action_sort_by_diff">Sort By Difficulty</string>
-	<string name="action_sort_by_imp">Sort By Importance</string>
-	<string name="action_sort_by_prog">Sort By Progress</string>
+	<!-- New task's screen strings -->
+	<string name="am_new_task_name_hint">Tasks Name</string>
+	<string name="am_new_task_course_name_hint">Course Name</string>
+	<string name="am_new_task_course_id_hint">Course Id</string>
+	<string name="am_new_task_due_date_title">Due Date</string>
 	
-	<string-array name="sort_by">
-	    <item>Due Date</item>
-	    <item>Difficulty</item>
-	    <item>Importance</item>
-	    <item>Progress</item>
-	</string-array>
-	
-	<string name="new_task_name_hint">Tasks Name</string>
-	<string name="new_task_course_name_hint">Course Name</string>
-	<string name="new_task_course_id_hint">Course Id</string>
-	<string name="new_task_due_date_title">Due Date</string>
-	
-	<string name="action_new_task_add_ok">Add</string>
-	<string name="action_new_task_add_cancel">Cancel</string>
-	
-	<string name="due_date_pref_set">Set</string>
-	<string name="due_date_pref_cancel">Cancel</string>
-	
-	<string name="undo">Undo</string>
-	<string name="undo_all">Undo All</string>
-    <string name="item_deleted">Item deleted</string>
-    <string name="n_items_deleted">%1$s items deleted</string>
+	<!-- Enhanced listview undo strings -->
+	<string name="am_undo">Undo</string>
+	<string name="am_undo_all">Undo All</string>
+    <string name="am_item_deleted">Item deleted</string>
+    <string name="am_n_items_deleted">%1$s items deleted</string>
     
     <!-- ############################################################################# -->
     

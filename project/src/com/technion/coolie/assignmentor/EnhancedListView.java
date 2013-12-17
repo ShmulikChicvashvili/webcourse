@@ -817,14 +817,14 @@ public class EnhancedListView extends ListView {
     private void changePopupText() {
         String msg = null;
         if(mUndoActions.size() > 1) {
-            msg = getResources().getString(R.string.n_items_deleted, mUndoActions.size());
+            msg = getResources().getString(R.string.am_n_items_deleted, mUndoActions.size());
         } else if(mUndoActions.size() >= 1) {
             // Set title from single undoable or when no multiple deletion string
             // is given
             msg = mUndoActions.get(mUndoActions.size() - 1).getTitle();
 
             if(msg == null) {
-                msg = getResources().getString(R.string.item_deleted);
+                msg = getResources().getString(R.string.am_item_deleted);
             }
         }
         mUndoPopupTextView.setText(msg);
@@ -836,9 +836,9 @@ public class EnhancedListView extends ListView {
     private void changeButtonLabel() {
         String msg;
         if(mUndoActions.size() > 1 && mUndoStyle == UndoStyle.COLLAPSED_POPUP) {
-            msg = getResources().getString(R.string.undo_all);
+            msg = getResources().getString(R.string.am_undo_all);
         } else {
-            msg = getResources().getString(R.string.undo);
+            msg = getResources().getString(R.string.am_undo);
         }
         mUndoButton.setText(msg);
     }

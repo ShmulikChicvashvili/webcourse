@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:padding="7dp"
         android:layout_alignParentRight="true"
-        android:text="@string/technion_tasks_progress_percent" />
+        android:text="@string/am_technion_tasks_progress_percent" />
    	
     <com.technion.coolie.assignmentor.EnhancedListView 
         android:id="@+id/am_technion_tasks_listview"

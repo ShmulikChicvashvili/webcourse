@@ -196,7 +196,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		
 		// Set swipe-to-delete configuration. 
 		mListView.setSwipingLayout(R.id.am_list_item_layout);
-		mListView.setUndoStyle(EnhancedListView.UndoStyle.SINGLE_POPUP);
+		mListView.setUndoStyle(EnhancedListView.UndoStyle.MULTILEVEL_POPUP);
 		mListView.setUndoHideDelay(3000);
 		mListView.enableSwipeToDismiss();
 		mListView.setSwipeDirection(EnhancedListView.SwipeDirection.BOTH);
@@ -314,14 +314,14 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		getSupportMenuInflater().inflate(R.menu.am_main, menu);
 		// Giving the settings button item some random id number.
 		int settingsButtonId = 509;
-		MenuItem settingsButton = menu.add(0, settingsButtonId, 0, "Settings");
+		MenuItem settingsButton = menu.add(0, settingsButtonId, 0, getResources().getString(R.string.am_action_settings));
 		settingsButton.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		settingsButton.setIcon(R.drawable.am_settings);
 		settingsButton.setOnMenuItemClickListener(this);
 		
 		// Giving the new task button some random id number.
 		int newTaskButtonId = 547;
-		MenuItem newTaskButton = menu.add(0, newTaskButtonId, 0, "New Task");
+		MenuItem newTaskButton = menu.add(0, newTaskButtonId, 0, getResources().getString(R.string.am_action_new_task));
 		newTaskButton.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		newTaskButton.setIcon(R.drawable.am_new_task);
 		newTaskButton.setOnMenuItemClickListener(this);
@@ -486,15 +486,18 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			Log.i(AM_TAG, "insertFetched -> myItems size (after adding): " + String.valueOf(myItems.size()));
 			totalNumOfTasks++;
 			
-			// Pop up notification that a new task was found.
-			String notificationText = fetchedTask.taskName + " - " + fetchedTask.courseName;
-			CollieNotification cn = new CollieNotification("New H.W!", notificationText, 
-					MainActivity.this, CollieNotification.Priority.IMMEDIATELY, 
-					true, getApplicationContext());
-			cn.sendNotification();
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+			boolean notif = prefs.getBoolean(GeneralSettings.KEY_GS_NOTIF_SYNC, true);
+			if (notif) {
+				// If notifications are on, pop a notification that a new task was found.
+				String notificationText = fetchedTask.taskName + " - " + fetchedTask.courseName;
+				CollieNotification cn = new CollieNotification("New H.W!", notificationText, 
+						MainActivity.this, CollieNotification.Priority.IMMEDIATELY, 
+						true, getApplicationContext());
+				cn.sendNotification();
+			}
 			
 			// If a due date is present, insert to calendar.
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 			boolean sync = prefs.getBoolean(GeneralSettings.KEY_GS_CALENDAR_SYNC, false);
 			if (sync && checkDueDate(fetchedTask.dueDate)) insertToCalendar(fetchedTask);
 		}
