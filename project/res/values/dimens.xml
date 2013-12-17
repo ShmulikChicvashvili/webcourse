@@ -3,6 +3,8 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="half_activity_horizontal_margin">8dp</dimen>
+    <dimen name="half_activity_vertical_margin">8dp</dimen>
     <dimen name="lmi_layout_margin">16dp</dimen>
     <dimen name="lmi_components_margin">5dip</dimen>
     <dimen name="lmi_contact_image_size">70dp</dimen>
