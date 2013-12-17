@@ -42,7 +42,8 @@ import com.technion.coolie.letmein.model.Invitation;
 
 public class InvitationSender implements Closeable {
 
-	private static final String LOG_TAG = InvitationSender.class.getSimpleName();
+	private static final String LOG_TAG = com.technion.coolie.letmein.Consts.LOG_PREFIX
+			+ InvitationSender.class.getSimpleName();
 	private static final long VERSION_UID = 1L;
 	private static final String SITE_URL = "https://portal.technion.ac.il";
 
@@ -168,9 +169,7 @@ public class InvitationSender implements Closeable {
 	}
 
 	private String executeRequest(final HttpUriRequest request) throws IOException {
-		final String $ = httpClient.execute(request, responseHandler);
-		System.out.println($);
-		return $;
+		return httpClient.execute(request, responseHandler);
 	}
 
 	private String getAttributeValueByName(final Document document, final String attribute)
@@ -487,7 +486,7 @@ public class InvitationSender implements Closeable {
 						+ "Async\uE004true\uE005"
 						+ "FocusInfo\uE004@{\"sFocussedId\": \"aaaa.CreateCarNotifView.visitorCarTypeKey-btn\"}\uE005"
 						+ "Hash\uE004\uE005DomChanged\uE004false\uE005IsDirty\uE004false\uE003\uE002"
-						+ "EnqueueCardinality\uE004single\uE003\uE002\uE003", i.getArrivalTime());
+						+ "EnqueueCardinality\uE004single\uE003\uE002\uE003", i.getArrivalDate());
 
 		postSAPAjaxEvents(events);
 	}

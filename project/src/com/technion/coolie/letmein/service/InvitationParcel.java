@@ -4,10 +4,16 @@ import java.text.SimpleDateFormat;
 import java.util.EnumMap;
 import java.util.Locale;
 
+import android.util.Log;
+
 import com.technion.coolie.letmein.CarManufacturer;
+import com.technion.coolie.letmein.Consts;
 import com.technion.coolie.letmein.model.Invitation;
 
 public class InvitationParcel {
+	private static final String LOG_TAG = Consts.LOG_PREFIX
+			+ InvitationParcel.class.getSimpleName();
+
 	private final String contactName;
 
 	private final String carNumber;
@@ -25,6 +31,8 @@ public class InvitationParcel {
 
 		arrivalTime = new SimpleDateFormat("HH:mm", Locale.US).format(i.getDate());
 		arrivalDate = new SimpleDateFormat("dd.MM.yyyy", Locale.US).format(i.getDate());
+
+		Log.d(LOG_TAG, "Generating invitation parcel" + toString());
 	}
 
 	public String getContactName() {
@@ -49,6 +57,12 @@ public class InvitationParcel {
 
 	public String getArrivalDate() {
 		return arrivalDate;
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + ": [" + contactName + " " + carNumber + " "
+				+ carManufacturer + " " + carColor + " " + arrivalTime + " " + arrivalDate + "]";
 	}
 
 	private static class CarManufacturerParcel {
