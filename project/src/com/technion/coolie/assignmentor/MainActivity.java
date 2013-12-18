@@ -114,10 +114,10 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			
 			@Override
 			public void onReceive(Context c, Intent i) {
-				Log.i(AM_TAG, "broadcast received!");
+//				Log.i(AM_TAG, "broadcast received!");
 				String action = i.getAction();
 				if (action.equals(DATA_FETCHED)) {
-					Log.i(MainActivity.AM_TAG, "broadcast DATA_FETCHED received!");
+//					Log.i(MainActivity.AM_TAG, "broadcast DATA_FETCHED received!");
 					mAdapter.openDB();
 				}
 			}
@@ -176,7 +176,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 				Intent myIntent = new Intent(getApplicationContext(), TaskSettings.class);
 				myIntent.putExtra("position", position);
 				startActivityForResult(myIntent, TASK_SETTINGS_REQUEST, opts.toBundle());
-				Log.i(AM_TAG, "Long click on item: " + String.valueOf(position));
+//				Log.i(AM_TAG, "Long click on item: " + String.valueOf(position));
 				return true;
 			}
 		});
@@ -209,15 +209,20 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		// Setting a temporary course list to fetch from the web.
 		// This list is passed to the service in the intent's extra data.
 		// Start the update service by pressing 'Sort by progress' on the overflow menu.
-		courseList.add("234107");
+		courseList.add("234107"); 
 		courseList.add("234114");
 		courseList.add("236523");
 		courseList.add("236350");
 		courseList.add("236360");
-//		courseList.add("234118");
-//		courseList.add("234122");
-//		courseList.add("234123");
-		
+		courseList.add("234118");
+		courseList.add("234122");
+		courseList.add("234123");
+		courseList.add("234325");
+		courseList.add("234141");
+		courseList.add("234218");
+		courseList.add("234247");
+
+
 	}
 	
 	private void prepareTaskPreference(int position) {
@@ -276,7 +281,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			if (resultCode == RESULT_OK) {
 				int position = data.getIntExtra("position", -1);
 				mAdapter.updateTaskFromSharedPrefs(position);
-				Log.i(AM_TAG, "Result OK from tasks settings at position: " + String.valueOf(position));
+//				Log.i(AM_TAG, "Result OK from tasks settings at position: " + String.valueOf(position));
 			} else {
 				
 			}
@@ -398,7 +403,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		}
 		
 		public void openDB() {
-			Log.i(AM_TAG, "MyAdapter -> openDB() -> DB size: " + String.valueOf(dbHelper.getTaskCount()));
+//			Log.i(AM_TAG, "MyAdapter -> openDB() -> DB size: " + String.valueOf(dbHelper.getTaskCount()));
 			myItems = dbHelper.getAllTasks();
 			updateView();
 		}
@@ -506,10 +511,10 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		// a service running on thread different than the UI thread, hence, calling
 		// notifyDataSetChange() will throw an exception.
 		public void insertFetched(TasksInfo fetchedTask) {
-			Log.i(AM_TAG, "insertFetched -> myItems size (before adding): " + String.valueOf(myItems.size()));
+//			Log.i(AM_TAG, "insertFetched -> myItems size (before adding): " + String.valueOf(myItems.size()));
 			myItems.add(fetchedTask);
 			dbHelper.createTask(fetchedTask);
-			Log.i(AM_TAG, "insertFetched -> myItems size (after adding): " + String.valueOf(myItems.size()));
+//			Log.i(AM_TAG, "insertFetched -> myItems size (after adding): " + String.valueOf(myItems.size()));
 			totalNumOfTasks = myItems.size();
 			
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -620,16 +625,16 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 				
 				calendarIds.add(CalID);
 				
-				Log.i(AM_TAG, "** CalID = " + String.valueOf(CalID) + " displayName = " + displayName
-						+ " accountName = " + accountName + " ownerName = " + ownerName);
+//				Log.i(AM_TAG, "** CalID = " + String.valueOf(CalID) + " displayName = " + displayName
+//						+ " accountName = " + accountName + " ownerName = " + ownerName);
 			}
 			
 			String eventTitle = newTask.courseId + " " + newTask.courseName + " - " + newTask.taskName;
 			int[] dayMonthYear = dueDateIntArr(newTask.dueDate);
 			
 			for (Long id : calendarIds) {
-				Log.i(AM_TAG, "Inserting Task: " + eventTitle
-						+ " To calendar: " + String.valueOf(id));
+//				Log.i(AM_TAG, "Inserting Task: " + eventTitle
+//						+ " To calendar: " + String.valueOf(id));
 				long startMillis = 0;
 				long endMillis = 0;
 				Calendar beginTime = Calendar.getInstance();

@@ -30,7 +30,7 @@ public class TaskSettings extends CoolieActivity {
 		String subtitle = task.taskName + " - " + task.courseName;
 		getActionBar().setSubtitle(subtitle);
 		
-		Log.i(MainActivity.AM_TAG, "TaskSettings -> onCreate -> item position: " + String.valueOf(position));
+//		Log.i(MainActivity.AM_TAG, "TaskSettings -> onCreate -> item position: " + String.valueOf(position));
 		
 		TaskSettingsFragment settingsFrag = new TaskSettingsFragment();
 		
@@ -73,7 +73,7 @@ public class TaskSettings extends CoolieActivity {
 			addPreferencesFromResource(R.xml.am_task_preferences);
 			
 			int position = getArguments().getInt("position");
-			Log.i(MainActivity.AM_TAG, "Setting properties for item at position: " + String.valueOf(position));
+//			Log.i(MainActivity.AM_TAG, "Setting properties for item at position: " + String.valueOf(position));
 			
 			// Initialize special preferences such as rating bars (difficulty, importance) 
 			// and seek bar (progress).
@@ -126,7 +126,7 @@ public class TaskSettings extends CoolieActivity {
 		
 		private void setTaskProperties() {
 			int position = getArguments().getInt("position");
-			Log.i(MainActivity.AM_TAG, "Setting properties for item at position: " + String.valueOf(position));
+//			Log.i(MainActivity.AM_TAG, "Setting properties for item at position: " + String.valueOf(position));
 			
 			TasksInfo task = (TasksInfo) MainActivity.mAdapter.getItem(position);
 			
