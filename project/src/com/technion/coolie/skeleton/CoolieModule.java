@@ -47,6 +47,7 @@ public enum CoolieModule {
 	private Package pack;
 	private int settingScreenXmlRes;
 	private Date lastUsed;
+	private boolean isFavorite;
 	
 	CoolieModule(int nameResource,int descriptionResource,int photoRes,Class<?> activity,Package pack,int settingScreenXmlRes)
 	{
@@ -60,6 +61,11 @@ public enum CoolieModule {
 		
 		feedList = new ArrayList<CoolieModule.Feed>();
 		resetFeedCounter();
+		isFavorite = false;
+		
+		usageCounter = 0;
+		feedCount = 0;
+		lastUsed = null;
 	}
 	
 	public void serilize(CoolieModule source){
@@ -74,6 +80,7 @@ public enum CoolieModule {
 		this.pack = source.pack;
 		this.settingScreenXmlRes = source.settingScreenXmlRes;
 		this.lastUsed = source.lastUsed;
+		this.isFavorite = source.isFavorite;
 	}
 	
 	public String getName(Context c) {
@@ -130,7 +137,50 @@ public enum CoolieModule {
 	public void addUsage()
 	{
 		this.usageCounter++;
+		this.setLastUsage();
 
 	}
+	public boolean isFavorite()
+	{
+		return isFavorite;
+	}
+	public void setFavorite()
+	{
+		this.isFavorite = true;
+	}
+	public void setNotFavorite()
+	{
+		this.isFavorite = false;
+	}
+	
+	public void setLastUsage(Date date) {
+		this.lastUsed = date;
+	}
+	
+	public void setActivity(Class<?> activity){
+		this.activity = activity;
+	}
+	
+	public void setDescription()
+	{
+		this.isFavorite = false;
+	}
+	public void setUsageCounter(int usageCounter){
+		this.usageCounter = usageCounter;
+	}
+	
+	public static class serializeClass{
+		public int usageCounter;
+		public boolean isFavorite;
+		public String activityString;
+		public Date lastUsed;
+		
+		/*public serializeClass(int usageCounter, boolean isFavorite, Class<?> activity, Date lastUsed){
+			this.usageCounter = usageCounter;
+			this.isFavorite = isFavorite;
+			this.activity = activity;
+			this.lastUsed = lastUsed;
+		}*/
+	};
 }
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    style="@style/Button.Small" >
+    
+    <ImageView android:id="@+id/skel_feed_image"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
+    />
+    
+    <TextView android:id="@+id/skel_feed_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/skel_feed_image"
+        android:layout_alignParentTop="true"
+     	android:textSize="28sp"
+     	style="@style/Button"
+     	android:lines="1"
+        />
+    
+    <TextView android:id="@+id/skel_feed_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/skel_feed_image"
+        android:layout_below="@id/skel_feed_title"
+     	android:textSize="24sp"
+     	style="@style/Button"
+     	android:lines="2"
+        />
+    
+       <TextView android:id="@+id/skel_feed_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+     	android:textSize="18sp"
+     	style="@style/Button"
+     	android:lines="1"
+        /> "
+
+</RelativeLayout>

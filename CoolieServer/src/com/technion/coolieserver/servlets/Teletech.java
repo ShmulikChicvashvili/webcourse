@@ -6,10 +6,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
+import com.google.gson.Gson;
 import com.technion.coolieserver.framework.Authentication;
+import com.technion.coolieserver.teletech.ReturnCodeTeletech;
+import com.technion.coolieserver.teletech.TeletechFunctions;
+import com.technion.coolieserver.teletech.TeletechManager;
 
 public class Teletech extends HttpServlet {
   /**
@@ -17,29 +18,26 @@ public class Teletech extends HttpServlet {
    */
   private static final long serialVersionUID = 5487793867572491524L;
 
+  // private final TeletechManager teletech = new TeletechManager();
+
   @Override
   public void doPost(HttpServletRequest req, HttpServletResponse resp)
       throws IOException {
     if (!Authentication.checkAuth(req))
-      resp.getWriter().println("ERROR");
-    // Sender sender = new Sender("AIzaSyCoK8xKlOlE7VC73Rih6UiytrWHpdFNslY");
-    // Message message = new Message.Builder().addData("myKey",
-    // "myValue").build();
-    // Result result = null;
-    // try {
-    // result = sender.send(message, req.getParameter("regID"), 5);
-    // } catch (Exception e) {
-    // resp.getWriter().println(e.toString());
-    // }
-    // if (result != null)
-    // Log.debug("*****ERROR: " + result.getErrorCodeName());
-    String regID = req.getParameter("regID");
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity device = new Entity("device");
-    device.setProperty("regID", regID);
-    datastore.put(device);
-    resp.getWriter()
-        .println(Communicator.execute("", "registration_id", regID));
+      resp.getWriter().println(ReturnCodeTeletech.NO_OAUTH);
+    Gson gson = new Gson();
+    String $ = "";
+    String function = req.getParameter("function");
+    try {
+      switch (TeletechFunctions.valueOf(function)) {
+      case GET_ALL_CONTACTS:
+        $ = gson.toJson(TeletechManager.getAllContacts());
+        break;
+      }
+      resp.getWriter().print($);
+    } catch (IllegalArgumentException e) {
+      resp.getWriter().println(ReturnCodeTeletech.NO_SUCH_FUNCTION);
+    }
 
   }
 }

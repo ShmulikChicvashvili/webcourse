@@ -12,7 +12,10 @@ import com.technion.coolieserver.techmine.appfiles.TopBestPost;
 import com.technion.coolieserver.techmine.appfiles.User;
 import com.technion.coolieserver.techoins.appfiles.BankAccount;
 import com.technion.coolieserver.techoins.appfiles.TechoinsTransfer;
-import com.technion.coolieserver.ug.Course;
+import com.technion.coolieserver.teletech.appfiles.ContactInformation;
+import com.technion.coolieserver.ug.framework.CourseServer;
+import com.technion.coolieserver.ug.framework.CourseToTrack;
+import com.technion.coolieserver.ug.framework.GroupOfCoursesServer;
 
 /**
  * 
@@ -23,8 +26,6 @@ import com.technion.coolieserver.ug.Course;
  */
 public class OfyService {
   static {
-    factory().register(Course.class);
-    factory().register(BankAccount.class);
     factory().register(TechoinsTransfer.class);
     factory().register(User.class);
     factory().register(TopBestComment.class);
@@ -33,6 +34,11 @@ public class OfyService {
     factory().register(TecLike.class);
     factory().register(TecComment.class);
     factory().register(ParkingLot.class);
+    factory().register(ContactInformation.class);
+    factory().register(CourseServer.class);
+    factory().register(GroupOfCoursesServer.class);
+    factory().register(BankAccount.class);
+    factory().register(CourseToTrack.class);
   }
 
   public static Objectify ofy() {

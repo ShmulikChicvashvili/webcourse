@@ -36,7 +36,7 @@ public abstract class HtmlGrabber {
 	 * the string from the URL
 	 * 
 	 */
-	enum Account {
+	public enum Account {
 		NONE, UG, GOOGLE, FACEBOOK, MATHNET, MOODLE, WEBCOURSE, PHMOODLE;
 	};
 
@@ -81,6 +81,7 @@ public abstract class HtmlGrabber {
 				//TODO handle errors
 					String result = bundle.getString(HtmlGrabberService.RESULT);
 					handleResult(result, status);
+					mContext.unregisterReceiver(receiver);
 			}
 		}
 	};
