@@ -144,6 +144,12 @@ public class MainActivity extends CoolieActivity {
 	            		
 	  	  		      	initiateFromServer();
 	  	  		      	initiateActivityFields();
+	  	  		      	
+	  	  		      	/* initiates fields in case of "My Account" */
+	  	  		      	MineActivity.exMiningDate = User.getUserInstance(null).lastMining;
+	  	  		      	MineActivity.newMiningDate = User.getUserInstance(null).lastMining;
+	  	  		      	MineActivity.totalDelta = User.getUserInstance(null).totalTechoins;
+	  	  		      	
 	  	  		      	progressBar.setVisibility(View.INVISIBLE);
 	  	  				myTitleLayout.setVisibility(View.VISIBLE);
 	  	  				  	  		        
