@@ -1,5 +1,7 @@
 package com.technion.coolie.studybuddy.data;
 
+import static com.technion.coolie.studybuddy.data.DataStore.getHelper;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -145,12 +147,10 @@ public class DataStore extends Observable implements CompositeElement
 	@Override
 	public void accept(CompositeVisitor cv)
 	{
-		// cv.visit(semester);
-		List<Semester> list = getHelper().getSemesterDao().queryForAll();
 
-		if (list.size() > 0)
+		if (semester != null)
 		{
-			semester = list.get(0);
+			cv.visit(semester);
 		}
 
 		cv.visit(WorkStats.getInstance());

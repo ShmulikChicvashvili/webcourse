@@ -69,6 +69,7 @@ public class ResourceGridAdapter extends BaseAdapter implements Observer
 		items = new ArrayList<String>();
 
 		presenter = DataStore.getInstance().getCoursePresenter(courseId);
+		presenter.addObserver(this);
 
 		// if (done)
 		// {
@@ -130,7 +131,7 @@ public class ResourceGridAdapter extends BaseAdapter implements Observer
 					((StrikeThrowTextView) v)
 									.setStriked(!((StrikeThrowTextView) v)
 													.isStriked());
-					presenter.toggleTask(resourceName,position);
+					presenter.toggleTask(resourceName, position);
 				}
 			});
 

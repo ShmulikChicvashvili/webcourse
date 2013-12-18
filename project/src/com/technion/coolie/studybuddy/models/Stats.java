@@ -15,6 +15,7 @@ public class Stats
 {
 	@DatabaseField(generatedId = true)
 	private UUID			id;
+	@DatabaseField
 	private Date			date;
 	private static Calendar	cal;
 	@DatabaseField

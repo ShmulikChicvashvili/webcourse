@@ -73,6 +73,9 @@ public class CoursePresenter extends Observable
 			WorkStats.getInstance().decreaseDoneForDate(new Date());
 		}
 		DataStore.getInstance().notifyCourseAdapters(course);
+
+		setChanged();
+		notifyObservers();
 	}
 
 }

@@ -56,6 +56,14 @@ public enum RecursiveDBLoader implements CompositeVisitor
 			visit(c);
 		}
 
+		List<Semester> list = getHelper().getSemesterDao().queryForAll();
+
+		if (list.size() > 0)
+		{
+			DataStore.semester = list.get(0);
+		}
+
+		visit(WorkStats.getInstance());
 	}
 
 	@Override
