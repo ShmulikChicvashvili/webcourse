@@ -92,7 +92,7 @@ public class MineActivity extends CoolieActivity {
         	/* mine the new posts, comments and likes */
             mining();
 
-            
+            updateServer();
         }
 	  }
 
@@ -167,7 +167,10 @@ public class MineActivity extends CoolieActivity {
 
 			@Override
 			protected void onPostExecute(ReturnCode result) {
-					
+//				Toast.makeText(getApplicationContext(), "updated user" + addUserMessage.value(),
+//		        		Toast.LENGTH_LONG).show();
+//				Toast.makeText(getApplicationContext(), updatePostsMessage.value(),
+//		        		Toast.LENGTH_LONG).show();
 			}
 
 		}

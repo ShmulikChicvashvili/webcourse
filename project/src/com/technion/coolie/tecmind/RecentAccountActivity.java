@@ -31,7 +31,7 @@ public class RecentAccountActivity extends SherlockFragment {
 		initiateValueViews();
 		int userPost = User.getUserInstance(null).postsNum;
 		int userComments = User.getUserInstance(null).commentsNum;
-		int userLikes = User.getUserInstance(null).likesNum;
+		int userLikes = User.getUserInstance(null).likesNum + User.getUserInstance(null).likesOnPostsNum;
 		setNumTexts(userPost, userComments, userLikes);
 		setValueTexts(userPost, userComments, userLikes);
 		return inflateView;

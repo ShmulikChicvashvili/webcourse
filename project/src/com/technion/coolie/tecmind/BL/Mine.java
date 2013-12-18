@@ -89,7 +89,7 @@ public class Mine implements IMine {
 			         
 			         				         
 			         /* if post hasn't been updated after last mining */
-			         if (updateTimeDate.before(User.getUserInstance(mUserId).lastMining) ) {
+			         if (updateTimeDate.before(User.getUserInstance(null).lastMining) ) {
 			        	 break;
 			         }
 			         
@@ -117,7 +117,7 @@ public class Mine implements IMine {
 			           }
 		        	   
 		        	   /* if post hasn't been published before last mining count post */
-		        	   if (createTimeDate.after(User.getUserInstance(mUserId).lastMining) ) {
+		        	   if (createTimeDate.after(User.getUserInstance(null).lastMining) ) {
 		        		   postsCounter++;
 		        		   
 		        		   /* adds the post to the user's posts list */

@@ -28,13 +28,13 @@ public class User implements IUser{
 	
 	/* Return User Instance if already have been created, initiate new one otherwise */
 	public static User getUserInstance(String id) {
-		if (mUser != null) {
+		if (mUser == null) {
 			/* if curr session is not active update */
-			return mUser;
-		} else {
-			mUser = new User(id);
-			return mUser;
-		}
+			mUser = new User(id);		
+		} 
+		
+		return mUser;
+		
 		
 		
 	}

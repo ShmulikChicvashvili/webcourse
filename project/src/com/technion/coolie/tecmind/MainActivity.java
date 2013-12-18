@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
@@ -52,7 +53,7 @@ public class MainActivity extends CoolieActivity {
 	LinearLayout progressBar;
 	RelativeLayout myTitleLayout;
 		TechmineAPI connector = new TechmineAPI();
-		String userId;
+		String userId = null;
 		String userName;
 		Session currentSession;
 		TecUser tecUser;
@@ -79,6 +80,7 @@ public class MainActivity extends CoolieActivity {
 		
 	  @Override
 	  public void onCreate(Bundle savedInstanceState) {
+		  
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.techmind_activity_my_title);
 	    progressBar = (LinearLayout) findViewById(R.id.progressBarLayout);
@@ -90,6 +92,7 @@ public class MainActivity extends CoolieActivity {
 	    total = (TextView) findViewById(R.id.total_text);
 	    Mylevel = (TextView) findViewById(R.id.level_text);	
 	    
+	   
 	    /* start Facebook Login */
 	    openActiveSession(this, true, new Session.StatusCallback() {
 
@@ -120,6 +123,7 @@ public class MainActivity extends CoolieActivity {
 	            		if (userId == null) {
 	            			/* updates the user id from Facebook */
 	            			userId = user.getId();
+	    	  	  		    userName = user.getFirstName();
 	            			
 	          			  /* adds the user ID to data storage of the device at the first time */
 //	          			  String techMineFileName = "techmine"; // TODO: Check with Nitzan Gur
@@ -137,13 +141,9 @@ public class MainActivity extends CoolieActivity {
 	          			  
 	            		}
 	            		userName = user.getFirstName() + " " + user.getLastName();
-	            		User.getUserInstance(userId);
-	            		User.getUserInstance(null).name = userName;
 	            		
-	            		
-	  	  		      
 	  	  		      	initiateFromServer();
-	  	  		      	
+	  	  		      	initiateActivityFields();
 	  	  		      	progressBar.setVisibility(View.INVISIBLE);
 	  	  				myTitleLayout.setVisibility(View.VISIBLE);
 	  	  				  	  		        
@@ -174,10 +174,9 @@ public class MainActivity extends CoolieActivity {
 	  }
 	  
 	  void initiateFromServer() {
-		  User check = User.getUserInstance(null);
 		  try {
 			  tecUser = new ServerGetUserData().execute().get();
-			  initiateActivityFields(tecUser);
+			 
 		  } catch (Exception e) {
 
 		  } 
@@ -185,6 +184,7 @@ public class MainActivity extends CoolieActivity {
 		  if (tecUser == null) {
 			  /* adds the user to the server at the first time */
 			  new ServerAddUser().execute();
+			  
 			  
 		  }
 		  else {
@@ -206,9 +206,12 @@ public class MainActivity extends CoolieActivity {
 			}
 		  } 
 	  }
-		private void initiateActivityFields(TecUser tecUser2) {
-			total.setText(tecUser2.getTotalTechoins());
-			String level = tecUser2.getTitle().value();
+	  
+	  
+		private void initiateActivityFields() {
+			User check = User.getUserInstance(null);
+			total.setText(String.valueOf(User.getUserInstance(null).totalTechoins));
+			String level = User.getUserInstance(null).title.value();
 			Mylevel.setText(level);
 			if (level.contentEquals("ATUDAI"))
 				return;
@@ -224,7 +227,11 @@ public class MainActivity extends CoolieActivity {
 				ImageView superNerdStar = (ImageView) findViewById(R.id.super_nerd_star);
 				superNerdStar.setVisibility(ImageView.VISIBLE);
 			}
-		}
+		
+	}
+
+		
+		
 	  class ServerGetUserData extends AsyncTask<Void, Void, TecUser> {
 
 			@Override
@@ -265,8 +272,20 @@ public class MainActivity extends CoolieActivity {
 			@Override
 			protected List<TecPost> doInBackground(Void... arg0) {
 				Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
-				TecUser userToSever = new TecUser(userId, userName, TecUserTitle.ATUDAI, lastMining, 0, 0, 0, 0, 0, 0);
+				TecUser userToSever = new TecUser(userId, null, null, lastMining, 0, 0, 0, 0, 0, 0);
 				return connector.getAllUserPosts(userToSever);
+				
+			}
+
+		}
+	  
+	  class ServerRemoveUser extends AsyncTask<Void, Void, ReturnCode> {
+
+			@Override
+			protected ReturnCode doInBackground(Void... arg0) {
+				Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
+				TecUser userToSever = new TecUser("574717953", null, null, lastMining, 0, 0, 0, 0, 0, 0);
+				return connector.removeUser(userToSever);
 				
 			}
 
