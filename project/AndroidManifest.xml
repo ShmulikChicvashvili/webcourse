@@ -11,7 +11,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- Join-In permission -->
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />  
+  <!-- Join-In permission -->
     <permission
         android:name="com.technion.coolie.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -229,12 +231,20 @@
             android:parentActivityName="com.technion.coolie.joinin.subactivities.CategoriesActivity"
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>
-        
-        <!-- Let Me In --> 
+
+        <!-- Let Me In -->
+        <provider
+            android:name="com.technion.coolie.letmein.model.InvitationProvider"
+            android:authorities="com.technion.coolie.letmein"
+            android:exported="false" />
+
         <activity
-            android:theme="@style/Theme.Sherlock.Light"            
             android:name="com.technion.coolie.letmein.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/lmi_searchable" />
         </activity>
         
         <!-- Studdy Buddy -->
