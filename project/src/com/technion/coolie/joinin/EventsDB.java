@@ -150,13 +150,22 @@ public enum EventsDB {
 	}		
 	
 	public void joinEevnt(ClientEvent event){
+		refreshCategories(event);
 		getImAttending().add(event);
 		SetModified(IM_ATTENDING);
 	}
 	
 	public void leaveEvent(ClientEvent event){
+		refreshCategories(event);
 		getImAttending().remove(event);
 		SetModified(IM_ATTENDING);
+	}
+	
+	private void refreshCategories(ClientEvent event){
+		List<ClientEvent> list = getList(event.getEventType());
+		list.remove(event);
+		list.add(event);
+		SetModified(getFlag(event.getEventType()));
 	}
 	
 	private List<ClientEvent> getList(EventType eventType) {
