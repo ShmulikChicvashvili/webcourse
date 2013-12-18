@@ -6,6 +6,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <string name="title_activity_categories">CategoriesActivity</string>
+    <string name="title_activity_category_event">CategoryEventActivity</string>
     <string name="lmi_search">Search</string>
     <string name="lmi_search_label">LetMeInSearch</string>
     <string name="lmi_search_hint">Type Friend\'s name</string>
