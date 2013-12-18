@@ -41,7 +41,7 @@
 		android:paddingTop="8dp"   >	
 		     
  	   <ViewStub android:id="@+id/skel_btn1"
- 	    android:layout="@layout/skel_big_button_layout"
+ 	    android:layout="@layout/skel_module_button_layout"
  	    android:inflatedId="@+id/skel_bigbtn1layout"
 		android:layout_width="0dp"
 		android:layout_weight="0.5"
@@ -51,7 +51,7 @@
         android:layout_width="16dp"             
          /> 	   
        <ViewStub android:id="@+id/skel_btn2"
- 	    android:layout="@layout/skel_big_button_layout"
+ 	    android:layout="@layout/skel_module_button_layout"
  	    android:inflatedId="@+id/skel_bigbtn2layout"
 		android:layout_width="0dp"
 		android:layout_weight="0.5"
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
 		android:paddingTop="8dp"   >	     
  	   <ViewStub android:id="@+id/skel_btn3"
- 	    android:layout="@layout/skel_small_button_layout"
+ 	    android:layout="@layout/skel_module_button_layout"
  	    android:inflatedId="@+id/skel_smallbtn3layout"
 		android:layout_width="0dp"
 		android:layout_weight="0.33"
@@ -98,7 +98,7 @@
         android:layout_width="16dp"              
          />	   
        <ViewStub android:id="@+id/skel_btn4"
- 	    android:layout="@layout/skel_small_button_layout"
+ 	    android:layout="@layout/skel_module_button_layout"
  	    android:inflatedId="@+id/skel_smallbtn4layout"
 		android:layout_width="0dp"
 		android:layout_weight="0.33"
@@ -109,7 +109,7 @@
          />
        
        <ViewStub android:id="@+id/skel_btn5"
- 	    android:layout="@layout/skel_small_button_layout"
+ 	    android:layout="@layout/skel_module_button_layout"
  	    android:inflatedId="@+id/skel_smallbtn5layout"
 		android:layout_width="0dp"
 		android:layout_weight="0.33"
@@ -122,7 +122,7 @@
 		android:paddingTop="8dp"   >
  	     
  	   <ViewStub android:id="@+id/skel_btn6"
- 	    android:layout="@layout/skel_small_button_layout"
+ 	    android:layout="@layout/skel_module_button_layout"
  	    android:inflatedId="@+id/skel_smallbtn6layout"
 		android:layout_width="0dp"
 		android:layout_weight="0.33"
@@ -132,7 +132,7 @@
         android:layout_width="16dp"       
          /> 	   
        <ViewStub android:id="@+id/skel_btn7"
- 	    android:layout="@layout/skel_small_button_layout"
+ 	    android:layout="@layout/skel_module_button_layout"
  	    android:inflatedId="@+id/skel_smallbtn7layout"
 		android:layout_width="0dp"
 		android:layout_weight="0.33"
@@ -143,7 +143,7 @@
          />
        
           <ViewStub android:id="@+id/skel_btn8"
- 	    android:layout="@layout/skel_small_button_layout"
+ 	    android:layout="@layout/skel_module_button_layout"
  	    android:inflatedId="@+id/skel_smallbtn8layout"
 		android:layout_width="0dp"
 		android:layout_weight="0.33"
@@ -157,7 +157,7 @@
 		android:paddingTop="8dp"   >
  	     
  	   <ViewStub android:id="@+id/skel_btn9"
- 	    android:layout="@layout/skel_small_button_layout"
+ 	    android:layout="@layout/skel_module_button_layout"
  	    android:inflatedId="@+id/skel_smallbtn10layout"
 		android:layout_width="0dp"
 		android:layout_weight="0.33"
@@ -167,7 +167,7 @@
         android:layout_width="16dp"       
          /> 	   
        <ViewStub android:id="@+id/skel_btn10"
- 	    android:layout="@layout/skel_small_button_layout"
+ 	    android:layout="@layout/skel_module_button_layout"
  	    android:inflatedId="@+id/skel_smallbtn10layout"
 		android:layout_width="0dp"
 		android:layout_weight="0.33"
