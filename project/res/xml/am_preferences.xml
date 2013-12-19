@@ -2,43 +2,38 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory
-        android:title="@string/am_pref_sync_title"
-        android:key="am_pref_key_sync_settings" >
-        
-	    <CheckBoxPreference 
-	        android:key="am_pref_sync"
-	        android:title="@string/am_pref_sync"
-	        android:defaultValue="false" />
-	    
-	    <ListPreference 
-	        android:key="am_pref_updates_freq"
-	        android:title="@string/am_pref_updates_freq"
-	        android:summary="@string/am_pref_updates_freq_sum"
-	        android:dialogTitle="@string/am_pref_updates_dialog_title"
-	        android:entries="@array/am_pref_updates_dialog_values"
-	        android:entryValues="@array/am_pref_updates_dialog_values"
-	        android:defaultValue="@string/am_pref_updates_default_value" />
-	    
-	    <CheckBoxPreference 
-	        android:key="am_pref_notif"
-	        android:title="@string/am_pref_notif"
-	        android:defaultValue="true" />
-	    
-	</PreferenceCategory>    
-	
+        android:key="am_pref_key_sync_settings"
+        android:title="@string/am_pref_sync_title" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="am_pref_sync"
+            android:title="@string/am_pref_sync" />
+
+        <ListPreference
+            android:defaultValue="@string/am_pref_updates_default_value"
+            android:dialogTitle="@string/am_pref_updates_dialog_title"
+            android:entries="@array/am_pref_updates_dialog_values"
+            android:entryValues="@array/am_pref_updates_dialog_values"
+            android:key="am_pref_updates_freq"
+            android:summary="@string/am_pref_updates_freq_sum"
+            android:title="@string/am_pref_updates_freq" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="am_pref_notif"
+            android:title="@string/am_pref_notif" />
+    </PreferenceCategory>
     <PreferenceCategory
-        android:title="@string/am_pref_reminder_title"
-        android:key="am_pref_key_reminder_settings" >
-	    
-	    <ListPreference
-	        android:key="am_pref_reminder"
-	        android:title="@string/am_pref_reminder"
-	        android:summary="@string/am_pref_reminder_sum"
-	        android:dialogTitle="@string/am_pref_reminder_dialog_title"
-	        android:entries="@array/am_pref_reminder_dialog_values"
-	        android:entryValues="@array/am_pref_reminder_dialog_values"
-	        android:defaultValue="@string/am_pref_reminder_default_value" />
-	    
-	</PreferenceCategory>
+        android:key="am_pref_key_reminder_settings"
+        android:title="@string/am_pref_reminder_title" >
+        <ListPreference
+            android:defaultValue="@string/am_pref_reminder_default_value"
+            android:dialogTitle="@string/am_pref_reminder_dialog_title"
+            android:entries="@array/am_pref_reminder_dialog_values"
+            android:entryValues="@array/am_pref_reminder_dialog_values"
+            android:key="am_pref_reminder"
+            android:summary="@string/am_pref_reminder_sum"
+            android:title="@string/am_pref_reminder" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

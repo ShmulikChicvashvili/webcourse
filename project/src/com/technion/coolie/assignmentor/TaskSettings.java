@@ -5,6 +5,7 @@ import com.sileria.android.view.SeekBarPreference;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+@SuppressLint("NewApi")
 public class TaskSettings extends CoolieActivity {
 	
 	@Override

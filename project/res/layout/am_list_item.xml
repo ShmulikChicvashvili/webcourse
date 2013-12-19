@@ -5,47 +5,46 @@
     android:layout_height="match_parent"
     android:background="@drawable/am_list_item_bg" >
 
-    <TextView 
+    <TextView
         android:id="@+id/am_list_item_due_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-		android:layout_alignParentRight="true"
-		android:textAppearance="@android:style/TextAppearance.Small"
-		android:textColor="@android:color/secondary_text_dark_nodisable"
-        android:text="Due Date" />
-    
-    <TextView 
+        android:text="Due Date"
+        android:textAppearance="@android:style/TextAppearance.Small"
+        android:textColor="@android:color/secondary_text_dark_nodisable" />
+
+    <TextView
         android:id="@+id/am_list_item_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-		android:layout_below="@+id/am_list_item_due_date"
-		android:layout_alignParentLeft="true"
-		android:layout_marginBottom="5dp"
-		android:textAppearance="@android:style/TextAppearance.Large"
-        android:text="H.W #" />
-    
-    <TextView 
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/am_list_item_due_date"
+        android:layout_marginBottom="5dp"
+        android:text="H.W #"
+        android:textAppearance="@android:style/TextAppearance.Large" />
+
+    <TextView
         android:id="@+id/am_list_item_course_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-		android:layout_alignBaseline="@+id/am_list_item_course_name"
-		android:layout_below="@+id/am_list_item_task"
+        android:layout_alignBaseline="@+id/am_list_item_course_name"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/am_list_item_task"
         android:layout_marginRight="8dp"
+        android:text="Course ID"
         android:textAppearance="@android:style/TextAppearance.Small"
-        android:textColor="@android:color/secondary_text_dark_nodisable"
-        android:text="Course ID" />
-    
-    <TextView 
+        android:textColor="@android:color/secondary_text_dark_nodisable" />
+
+    <TextView
         android:id="@+id/am_list_item_course_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/am_list_item_task"
-		android:layout_toRightOf="@+id/am_list_item_course_id"
-		android:textAppearance="@android:style/TextAppearance.Small"
-		android:textColor="@android:color/secondary_text_dark_nodisable"
-        android:text="Course Name" />
+        android:layout_toRightOf="@+id/am_list_item_course_id"
+        android:text="Course Name"
+        android:textAppearance="@android:style/TextAppearance.Small"
+        android:textColor="@android:color/secondary_text_dark_nodisable" />
 
-    
 </RelativeLayout>
