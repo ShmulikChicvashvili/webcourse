@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+     >
+
+
+	<!-- FACULTY -->
+    
+    <TextView
+        android:id="@+id/faculty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/personFirstName"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/position"
+        android:text="Computer Science"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <!-- POSITION -->
+    
+    <TextView
+        android:id="@+id/position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/faculty"
+        android:layout_alignBottom="@+id/faculty"
+        android:layout_alignLeft="@+id/personFirstName"
+        android:text="Student"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    
+    <!-- LAST NAME -->
+
+    <TextView
+        android:id="@+id/personLastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/personFirstName"
+        android:layout_alignBottom="@+id/personFirstName"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@+id/personFirstName"
+        android:text="Aloni"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/abs__primary_text_holo_light" />
+
+    <!-- COMMA -->
+    
+    <TextView
+        android:id="@+id/comma"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/personFirstName"
+        android:layout_toRightOf="@+id/position"
+        android:text=","
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <!-- FIRST NAME -->
+    
+    <TextView
+        android:id="@+id/personFirstName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Argaman"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/abs__primary_text_holo_light" />
+
+    <!-- CONTACT IMAGE -->
+
+    <!-- CALL BUTTON -->
+    
+
+
+</RelativeLayout>

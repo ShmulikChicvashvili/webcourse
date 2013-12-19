@@ -17,7 +17,7 @@ public enum CoolieModule {
 	TECHLIBRARY	(R.string.lib_name, R.string.lib_description,  R.drawable.lib_icon, com.technion.coolie.techlibrary.MainActivity.class, Package.getPackage("com.technion.coolie.techlibrary"), 0),
 	TECHPARK	(R.string.park_name, R.string.park_description,  R.drawable.park_icon, com.technion.coolie.techpark.MainActivity.class, Package.getPackage("com.technion.coolie.techpark"), 0),
 //	SKELETON	(R.string.skel_name, R.string.skel_description,  R.drawable.ic_launcher, com.technion.coolie.skeleton.MainActivity.class, Package.getPackage("com.technion.coolie.skeleton"), 0),
-	TELETECH	(R.string.tele_name, R.string.tele_description,  R.drawable.tele_icon, com.technion.coolie.teletech.MainActivity.class, Package.getPackage("com.technion.coolie.teletech"), 0),
+	TELETECH	(R.string.tele_name, R.string.tele_description,  R.drawable.tele_icon, com.technion.coolie.teletech.PhoneBookActivity.class, Package.getPackage("com.technion.coolie.teletech"), 0),
 	TECMIND		(R.string.mind_name, R.string.mind_description,  R.drawable.mind_icon, com.technion.coolie.tecmind.MainActivity.class, Package.getPackage("com.technion.coolie.tecmind"), 0),
 	ASSIGNMENTOR(R.string.am_name, R.string.am_description,  R.drawable.am_icon, com.technion.coolie.assignmentor.MainActivity.class, Package.getPackage("com.technion.coolie.assignmentor"), 0),
 	TECHTRADE	(R.string.trad_name, R.string.trad_description,  R.drawable.trad_icon, com.technion.coolie.techtrade.MainActivity.class, Package.getPackage("com.technion.coolie.techtrade"), 0),
