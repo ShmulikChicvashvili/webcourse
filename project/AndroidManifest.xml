@@ -306,8 +306,78 @@
         </activity>
 
         <!-- TecMind -->
-        <activity
+         <activity
             android:name="com.technion.coolie.tecmind.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >
+                        <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.technion.coolie.tecmind.MineActivity"
+            android:noHistory="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >
+
+        </activity>
+        
+        <activity
+            android:name="com.technion.coolie.tecmind.MyAccountActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >
+
+        </activity>
+        <activity
+            android:name="com.technion.coolie.tecmind.RecentAccountActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >            
+        </activity>
+        <activity
+            android:name="com.technion.coolie.tecmind.TotalAccountActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >            
+        </activity>
+        
+                <activity
+            android:name="com.technion.coolie.tecmind.TopTenActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >
+
+        </activity>
+        <activity
+            android:name="com.technion.coolie.tecmind.TopMinersActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >            
+        </activity>
+     
+        
+        
+        
+        <activity
+            android:name="com.technion.coolie.tecmind.ReportsActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.tecmind.ReportClassActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.tecmind.ReportSpamActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.com.technion.coolie.tecmind.ReportStudentActivity"           
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.techcom.technion.coolie.tecmind.ReportStaffActivity"       
             android:label="@string/app_name"
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>
