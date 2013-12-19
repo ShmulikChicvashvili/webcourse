@@ -98,8 +98,10 @@ public class TaskParser extends IntentService {
     					}
     			}
     			
-    			// Need to check that lastTable != null !!!
-    			Elements tableElements = lastTable.select("table:matches(" + taskRegExp1 
+    			Element body = lastTable.child(0);
+    			
+    			// Need to check that body != null !!!
+    			Elements tableElements = body.select("table:matches(" + taskRegExp1 
     					+ "|" + taskRegExp2 + "|" + taskRegExp3 + "|" + taskRegExp4 + "|" 
     					+ taskRegExp5 + "|" + taskRegExp6 + "|" + taskRegExp7 + "|" 
     					+ taskRegExp8 + "|" + taskRegExp9 + "|" + taskRegExp10 
@@ -225,6 +227,7 @@ public class TaskParser extends IntentService {
     		String name1 = pair1.first;
     		String name2 = pair2.first;
     		Integer name1Number = Integer.valueOf(name1.replaceAll("[^0-9]", ""));
+    		Log.i(MainActivity.AM_TAG, "name2 is: " + name2);
     		Integer name2Number = Integer.valueOf(name2.replaceAll("[^0-9]", ""));
     		if (name2Number >= name1Number) {
     			if (name2Number > name1Number) newList.clear();
