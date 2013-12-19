@@ -1,0 +1,33 @@
+<resources>
+
+    <!-- Strings related to main lib activity -->
+    <string name="lib_module_name">TechLibrary</string>
+
+    <!-- Strings related to login -->
+    <string name="lib_title_activity_login">Sign in</string>
+    <string name="lib_prompt_id">Id</string>
+    <string name="lib_prompt_password">Password</string>
+    <string name="lib_action_sign_in"><b>Sign in</b></string>
+    <string name="lib_action_sign_in_short">Sign in</string>
+    <string name="lib_action_forgot_password">Recover lost password</string>
+    <string name="lib_action_logout">Logout</string>
+    <string name="lib_login_progress_signing_in">Signing in&#8230;</string>
+    <string name="lib_login_no_connection">No connection</string>
+    <string name="lib_error_invalid_id">This id number is invalid</string>
+    <string name="lib_error_invalid_password">This password is too short</string>
+    <string name="lib_error_incorrect_password">This password is incorrect</string>
+    <string name="lib_error_field_required">This field is required</string>
+
+    <!-- Strings related to profile -->
+    <string name="lib_title_activity_profile">Profile</string>
+    <string name="lib_profileMessage">Your Profile:</string>
+    <string name="lib_profileFields">First Name:\nLast Name:\nId:\nAddress:\nEmail:\nPhone Number:\nHome Library:\nEducation Status:</string>
+
+    <!-- Strings related to library card -->
+    <string name="lib_title_activity_library_card">Library Card</string>
+    <string name="lib_requests">Requests</string>
+    <string name="lib_loans">Loans</string>
+    <string name="lib_title_duedate">Due-Date</string>
+    <string name="lib_title_books">Books</string>
+
+</resources>
