@@ -1,249 +1,169 @@
 package com.technion.coolie.teletech;
 
-import java.util.LinkedList;
+import java.util.Date;
 import java.util.List;
 
+import junit.framework.Assert;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.app.ActionBar.TabListener;
 import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.widget.SearchView;
-import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
-import com.technion.coolie.teletech.ContactSummaryFragment.OnContactSelectedListener;
+import com.technion.coolie.teletech.api.ITeletech;
+import com.technion.coolie.teletech.api.TeletechFactory;
 
-public class MainActivity extends CoolieActivity implements
-		OnContactSelectedListener, TabListener {
+public class MainActivity extends CoolieActivity {
+	public static final long MILLISECONDS_PER_DAY = 86400000;
+	private static DBTools dataBase = null;
+	public static List<ContactInformation> master = null;
 
-	public static List<ContactInformation> master;
+	private TextView progress;
 
-	public static List<ContactInformation> contacts;
-
-	public static ContactsAdapter adapter;
-
-	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-
-	SearchView searchView;
-
-	boolean favoriteSelected = false;
-
-	DBTools db = new DBTools(this);
+	ProgressBar splashProgress;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.teletech_splash);
+		progress = (TextView) findViewById(com.technion.coolie.R.id.progress_text);
 
-		master = db.getAllContacts();
+		splashProgress = (ProgressBar) findViewById(com.technion.coolie.R.id.splash_progress_bar);
 
-		contacts = new LinkedList<ContactInformation>();
-		contacts.addAll(master);
+		dataBase = new DBTools(this);
 
-		final int layout = com.technion.coolie.R.layout.teletech_contact_list;
-		adapter = new ContactsAdapter(getApplicationContext(), layout, contacts);
+		final SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+		final long timeStamp = prefs.getLong("TeletechTimestamp", -1);
 
-		super.setContentView(R.layout.teletech_main);
-
-		if (findViewById(com.technion.coolie.R.id.fragment_container) != null) {
-			final FragmentTransaction trans = getSupportFragmentManager()
-					.beginTransaction();
-			trans.replace(com.technion.coolie.R.id.fragment_container,
-					new ContactSummaryFragment());
-			trans.commit();
-		}
-		setActionBar();
-
-	}
-
-	private void setActionBar() {
-
-		final ActionBar actionBar = getSupportActionBar();
-		actionBar.setDisplayShowTitleEnabled(false);
-
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-		ActionBar.Tab tabContacts = actionBar.newTab();
-		tabContacts.setText("ALL CONTACTS");
-		tabContacts.setTabListener(this);
-		actionBar.addTab(tabContacts);
-
-		ActionBar.Tab tabFavs = actionBar.newTab();
-		tabFavs.setText("FAVOURITES");
-		tabFavs.setTabListener(this);
-		actionBar.addTab(tabFavs);
-	}
-
-
-	@Override
-	public void onContactSelected(final int position) {
-		final FullContactInformation contact = (FullContactInformation) getSupportFragmentManager()
-				.findFragmentById(com.technion.coolie.R.id.contact_fragment);
-		if (contact != null)
-			// This means that the layout is large and that we only need to
-			// update the view to display.
-			contact.updateContactInformationView(position);
-		else {
-			// We are in a small layout and we need to replace the fragment that
-			// is presented.
-			final FullContactInformation newContact = new FullContactInformation();
-			final Bundle args = new Bundle();
-			args.putInt(FullContactInformation.ARG_POSITION_STRING, position);
-			args.putBoolean(FullContactInformation.ARG_FAVOURITE_STRING,
-					favoriteSelected);
-			newContact.setArguments(args);
-			final FragmentTransaction trans = getSupportFragmentManager()
-					.beginTransaction();
-			trans.replace(com.technion.coolie.R.id.fragment_container,
-					newContact);
-			trans.addToBackStack(null);
-			trans.commit();
-		}
-	}
-
-	public void onPhoneNumberClicked(final View v) {
-		final String phone_no = ((TextView) v).getText().toString()
-				.replaceAll("-", "");
-		if (phone_no.equals("NA"))
-			return;
-		final Intent callIntent = new Intent(Intent.ACTION_CALL);
-		callIntent.setData(Uri.parse("tel:" + phone_no));
-		startActivity(callIntent);
-	}
-
-	public void onEmailClicked(final View v) {
-		final Intent intent = new Intent(Intent.ACTION_VIEW);
-		final String mailTo = ((TextView) v).getText().toString();
-		if (mailTo == null)
-			return;
-		intent.setData(Uri.parse("mailto:" + mailTo));
-		startActivity(intent);
-	}
-
-	public void onWebsiteClicked(final View v) {
-		final String website = ((TextView) v).getText().toString();
-		if (website == null)
-			return;
-		final Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(website));
-		startActivity(i);
-	}
-
-	public void onCheckboxClicked(View v) {
-		boolean checked = ((CheckBox) v).isChecked();
-		if (checked)
-			addToFavourites();
-		else
-			removeFromFavourites();
-	}
-
-	void addToFavourites() {
-		// TODO CHANGE LATER
-
-		final int position = FullContactInformation.position();
-
-		// added if for OutOfBoundsException
-		if (position < MainActivity.contacts.size()) {
-			final ContactInformation contact = MainActivity.contacts
-					.get(position);
-			contact.setFavourite(true);
-			db.insertFavourite(contact);
+		if (timeStamp == -1 && !isNetworkAvailable()) {
+			Toast.makeText(
+					this,
+					"No network access for first activation,  shutting down...",
+					10000).show();
+			finish();
 		}
 
-	}
+		else if ((timeStamp == -1 || new Date().getTime() - timeStamp >= MILLISECONDS_PER_DAY)
+				&& isNetworkAvailable()) {
+			final boolean wasServerRequestSent = prefs.getBoolean(
+					"WasTeletechServerRequestSent", false);
+			if (!wasServerRequestSent)
+				new AsyncServerContactsRequest().execute();
 
-	void removeFromFavourites() {
-		// TODO CHANGE LATER
-
-		final int position = FullContactInformation.position();
-		// added if for OutOfBoundsException
-		if (position < MainActivity.contacts.size()) {
-			final ContactInformation contact = MainActivity.contacts
-					.get(position);
-			contact.setFavourite(false);
-			db.deleteFavourite(contact.ID().toString());
-		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Create ActionBar.
-		MenuInflater inflater = getSupportMenuInflater();
-		inflater.inflate(com.technion.coolie.R.menu.menu, menu);
-
-		// Text changed listener for search implementation.
-		searchView = (SearchView) menu
-				.findItem(com.technion.coolie.R.id.search).getActionView();
-		searchView.setOnQueryTextListener(new OnQueryTextListener() {
-
-			@Override
-			public boolean onQueryTextSubmit(String arg0) {
-
-				return false;
-			}
-
-			@Override
-			public boolean onQueryTextChange(String textToSearch) {
-				adapter.getFilter().filter(textToSearch);
-				return false;
-			}
-
-		});
-		return true;
-	}
-
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-		// Restore the previously serialized current tab position.
-		if (savedInstanceState.containsKey(STATE_SELECTED_NAVIGATION_ITEM))
-			getSupportActionBar().setSelectedNavigationItem(
-					savedInstanceState.getInt(STATE_SELECTED_NAVIGATION_ITEM));
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		// Serialize the current tab position.
-		outState.putInt(STATE_SELECTED_NAVIGATION_ITEM, getSupportActionBar()
-				.getSelectedNavigationIndex());
-	}
-
-	@Override
-	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		List<ContactInformation> favourites = db.getAllFavourites();
-
-		favoriteSelected = false;
-		contacts.clear();
-		if (tab.getPosition() == 0)
-			contacts.addAll(master);
-		else {
-			favoriteSelected = true;
-			contacts.addAll(favourites);
-		}
-		if (adapter == null)
-			Toast.makeText(getApplicationContext(), "ADAPTER IS NULL",
-					Toast.LENGTH_SHORT).show();
-		adapter.notifyDataSetChanged();
+		} else
+			new AsyncDBContactsRequest().execute();
 
 	}
 
-	@Override
-	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+	// public static DBTools dataBase(){
+	// return dataBase;
+	// }
+	private void finishSplash() {
+		final Intent showContacts = new Intent(this, PhoneBookActivity.class);
+		startActivity(showContacts);
+		finish();
+		splashProgress.setVisibility(View.GONE);
+
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-		//
+	public boolean onCreateOptionsMenu(final Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getSupportMenuInflater().inflate(
+				com.technion.coolie.R.menu.main_activity_splash, menu);
+		return true;
+	}
+
+	private boolean isNetworkAvailable() {
+		final ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		final NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}
+
+	private class AsyncServerContactsRequest extends
+	AsyncTask<Void, String, String> {
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			splashProgress.setVisibility(View.VISIBLE);
+		}
+
+		@Override
+		protected String doInBackground(final Void... params) {
+			// dataBase.clearTables();
+			final SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE)
+					.edit();
+			final ITeletech teletech = TeletechFactory.getTeletech();
+
+			// publish progress here
+			editor.putBoolean("WasTeletechServerRequestSent", true).commit();
+			publishProgress("Downloading contacts...");
+			master = teletech.getAllContacts();
+			Assert.assertNotNull(master);
+
+			// publish progress here
+			publishProgress("Storing contacts...");
+			dataBase.insertContacts(master);
+			editor.putLong("TeletechTimestamp", new Date().getTime());
+			editor.putBoolean("WasTeletechServerRequestSent", false);
+			editor.commit();
+
+			return Integer.toString(master.size());
+		}
+
+		@Override
+		protected void onProgressUpdate(final String... values) {
+			super.onProgressUpdate(values);
+			progress.setText(values[0]);
+
+		}
+
+		@Override
+		protected void onPostExecute(final String s) {
+			progress.setText("Saved " + s + " contacts locally");
+			final SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE)
+					.edit();
+			editor.putString("TeletechNumberOfDBContacts", s).commit();
+			finishSplash();
+		}
+
+	}
+
+	private class AsyncDBContactsRequest extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(final Void... params) {
+			// publish progress here
+			publishProgress();
+			master = dataBase.getAllContacts();
+			return null;
+		}
+
+		@Override
+		protected void onProgressUpdate(final Void... values) {
+			super.onProgressUpdate(values);
+			progress.setText("Opening contact list...");
+		}
+
+		@Override
+		protected void onPostExecute(final Void result) {
+			super.onPostExecute(result);
+			finishSplash();
+		}
+
 	}
 
 }

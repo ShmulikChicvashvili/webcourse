@@ -32,7 +32,7 @@ public class ContactSummaryFragment extends SherlockListFragment {
 
 		// adapter = new ContactsAdapter(getSherlockActivity(), layout,
 		// MainActivity.contacts);
-		setListAdapter(MainActivity.adapter);
+		setListAdapter(PhoneBookActivity.adapter);
 
 	}
 

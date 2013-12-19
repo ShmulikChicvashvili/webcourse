@@ -90,8 +90,8 @@ public class ContactsAdapter extends ArrayAdapter<ContactInformation> {
 
 			@Override
 			protected void publishResults(CharSequence constraint, FilterResults results) {
-				MainActivity.contacts.clear();
-				MainActivity.contacts.addAll((List<ContactInformation>) results.values);
+				PhoneBookActivity.contacts.clear();
+				PhoneBookActivity.contacts.addAll((List<ContactInformation>) results.values);
 				notifyDataSetChanged();
 			}
 
@@ -100,8 +100,8 @@ public class ContactsAdapter extends ArrayAdapter<ContactInformation> {
 				FilterResults result = new FilterResults();
 				// if the constrain is empty return the original list
 				if (constraint.length() == 0) {
-					result.values = MainActivity.master;
-					result.count = MainActivity.master.size();
+					result.values = PhoneBookActivity.master;
+					result.count = PhoneBookActivity.master.size();
 					return result;
 				}
 
@@ -110,7 +110,7 @@ public class ContactsAdapter extends ArrayAdapter<ContactInformation> {
 				String contactfilterFirstName;
 				String contactfilterLastName;
 
-				for (ContactInformation contact : MainActivity.contacts) {
+				for (ContactInformation contact : PhoneBookActivity.contacts) {
 					contactfilterFirstName = contact.firstName().toLowerCase() + " " + contact.lastName().toLowerCase();
 					contactfilterLastName = contact.lastName().toLowerCase() + " " + contact.firstName().toLowerCase();
 					if (contactfilterFirstName.startsWith(filterName) || contactfilterLastName.startsWith(filterName))

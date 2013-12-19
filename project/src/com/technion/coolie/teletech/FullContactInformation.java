@@ -53,7 +53,7 @@ public class FullContactInformation extends SherlockFragment {
 	public void updateContactInformationView(final int position) {
 
 
-		final ContactInformation currentContact = MainActivity.contacts
+		final ContactInformation currentContact = PhoneBookActivity.contacts
 				.get(position);
 
 		updateMainInfo(currentContact);
