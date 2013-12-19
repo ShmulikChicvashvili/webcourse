@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/categoryImageView"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ji_sports_icon"
+        android:layout_margin="20dp"/>
+
+    <TextView
+        android:id="@+id/categoryNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/categoryImageView"
+        android:layout_toRightOf="@id/categoryImageView"
+        android:textSize="20sp" 
+        android:text="@string/com_facebook_loading"/>
+    
+    <TextView
+        android:id="@+id/categoryDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/categoryNameText"
+        android:layout_toRightOf="@id/categoryImageView"
+        android:layout_alignBottom="@id/categoryImageView"
+        android:textSize="14sp"
+        android:textColor="#0A72AF"
+        android:text="@string/com_facebook_loading"/>
+
+   <ImageView
+        android:id="@+id/CategoryCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"  />  
+
+
+    <TextView
+        android:id="@+id/categoryNumEvents"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:textColor="#0A72AF"
+        android:textSize="12sp"
+        android:textAlignment="center"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:gravity="center|center_vertical" 
+        android:background="@drawable/small_blue_circle"
+        android:layout_centerVertical="true"	/>
+
+</RelativeLayout>

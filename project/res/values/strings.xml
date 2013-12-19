@@ -3,10 +3,62 @@
 
     <string name="app_name">Coolie</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">Welcome to</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
     <string name="app_id">222327407950326</string>
     
    
+    <string name="title_activity_categories">CategoriesActivity</string>
+    <string name="title_activity_category_event">CategoryEventActivity</string>
+    <string name="lmi_search">Search</string>
+    <string name="lmi_search_label">LetMeInSearch</string>
+    <string name="lmi_search_hint">Type Friend\'s name</string>
+    <string name="lmi_login_to_use">Start using Let Me In</string>
+    <string name="lmi_get_a_password_link"><a href="http://www.stackoverflow.com">Get a password</a></string>
+    <string name="lmi_privacy_title">Privacy</string>
+    <string name="lmi_privacy_message">Who does it better than us?</string>
+    <string name="lmi_login_failed_title">Login failed</string>
+    <string name="lmi_login_failed_message">Login failed, check user and password</string>
+    <string name="lmi_login_successfull_message">Login successful, user and password saved</string>
+    <string name="lmi_login_username_defaultInitial">ST_</string>
+    <string name="lmi_username">Username</string>
+    <string name="lmi_username_hint">Username</string>
+    <string name="lmi_password_hint">Password</string>
+    <string name="lmi_login">Login</string>
+    <string name="lmi_enter_username">Enter your username</string>
+    <string name="lmi_enter_password">Enter your password</string>
+    <string name="lmi_empty_list_message">A friend is coming over? Let him in!</string>
+    <string name="lmi_contact_time_of_arrival">Time of arrival</string>
+    <string name="lmi_contact_image">Contact\'s image</string>
+    <string name="lmi_invite_contact">Invite contact</string>
+    <string name="lmi_friend_name">Friend name</string>
+    <string name="lmi_friend_cellphone_number">Friend cellphone</string>
+    <string name="lmi_friend_car_number">Car number</string>
+    <string name="lmi_friend_car_company">Car company</string>
+    <string name="lmi_friend_car_color_edit">Car color</string>
+    <string name="lmi_time_of_arrival">Time of arrival</string>
+    <string name="lmi_date_of_arrival">Date of arrival</string>
+    <string name="lmi_execute_invitation">Let him in!</string>
+    <string name="lmi_add_invitation">Add invitation</string>
+    <string name="lmi_welcome_message">Invite friends in just a few clicks</string>
+    <string name="lmi_watch_demo">Watch demo</string>
+    <string name="lmi_demo_image">Demo images</string>
+    <string name="lmi_insert_name">Insert name</string>
+    <string name="lmi_insert_car_number">Insert car number</string>
+    <string name="lmi_insert_car_color">Insert car color</string>
+    <string name="lmi_done">Done</string>
+    <string name="lmi_discard">Discard</string>
+    <string name="lmi_first_inv_title">Car info was Saved!</string>
+    <string name="lmi_first_inv_text">LetMeIn saves all inputted car info, so you will never have to do it again!</string>
+    <string name="lmi_status_image">The contact\'s status</string>
+    <string name="lmi_user_picked_time_in_the_past_message">You must pick time of arrival that takes place in the future!</string>
+
+    <color name="blue_holo_light">#38c0f4</color>
+
+    <string name="search_title">Search</string>
+    <string name="favourite">Favourites</string>
+    <string name="title_activity_main_activity_splash">MainActivitySplash</string>
+    <string name="starting_up_">Starting up...</string>
+
 </resources>
