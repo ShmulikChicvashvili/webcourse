@@ -20,7 +20,19 @@ public class UgEvent implements IUgEvent {
   @Override
   public List<AcademicCalendarEvent> getAllAcademicEvents() {
     String $ = Communicator.execute(servletName);
-    return new Gson().fromJson($, new TypeToken<List<AcademicCalendarEvent>>() {
-    }.getType());
+    return convertJsonToList($);
+  }
+
+  /**
+   * Convert json to list
+   * 
+   * @param json
+   *          the json string
+   * @return list of courses
+   */
+  private List<AcademicCalendarEvent> convertJsonToList(String json) {
+    return new Gson().fromJson(json,
+        new TypeToken<List<AcademicCalendarEvent>>() {
+        }.getType());
   }
 }

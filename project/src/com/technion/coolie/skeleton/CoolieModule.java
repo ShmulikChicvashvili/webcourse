@@ -62,6 +62,10 @@ public enum CoolieModule {
 		feedList = new ArrayList<CoolieModule.Feed>();
 		resetFeedCounter();
 		isFavorite = false;
+		
+		usageCounter = 0;
+		feedCount = 0;
+		lastUsed = null;
 	}
 	
 	public void serilize(CoolieModule source){
@@ -133,6 +137,7 @@ public enum CoolieModule {
 	public void addUsage()
 	{
 		this.usageCounter++;
+		this.setLastUsage();
 
 	}
 	public boolean isFavorite()
@@ -147,5 +152,35 @@ public enum CoolieModule {
 	{
 		this.isFavorite = false;
 	}
+	
+	public void setLastUsage(Date date) {
+		this.lastUsed = date;
+	}
+	
+	public void setActivity(Class<?> activity){
+		this.activity = activity;
+	}
+	
+	public void setDescription()
+	{
+		this.isFavorite = false;
+	}
+	public void setUsageCounter(int usageCounter){
+		this.usageCounter = usageCounter;
+	}
+	
+	public static class serializeClass{
+		public int usageCounter;
+		public boolean isFavorite;
+		public String activityString;
+		public Date lastUsed;
+		
+		/*public serializeClass(int usageCounter, boolean isFavorite, Class<?> activity, Date lastUsed){
+			this.usageCounter = usageCounter;
+			this.isFavorite = isFavorite;
+			this.activity = activity;
+			this.lastUsed = lastUsed;
+		}*/
+	};
 }
 

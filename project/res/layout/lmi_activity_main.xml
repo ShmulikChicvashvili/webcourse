@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/lmi_layout_margin" >
+
+    <fragment
+        android:id="@+id/lmi_welcome_fragment"
+        android:name="com.technion.coolie.letmein.WelcomeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <fragment
+        android:id="@+id/lmi_invitation_list_container"
+        android:name="com.technion.coolie.letmein.InvitationListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="@dimen/lmi_components_margin" />
+
+</LinearLayout>

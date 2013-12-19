@@ -22,7 +22,7 @@ public class UgPayments implements IUgPayments {
   public List<Payment> getStudentPayments(Student student) {
     String $ = Communicator.execute(servletName, "student", toJson(student));
 
-    return convertJsonToCoursesList($);
+    return convertJsonToList($);
   }
 
   /**
@@ -32,7 +32,7 @@ public class UgPayments implements IUgPayments {
    *          the json string
    * @return list of payments
    */
-  private List<Payment> convertJsonToCoursesList(String json) {
+  private List<Payment> convertJsonToList(String json) {
     return new Gson().fromJson(json, new TypeToken<List<Payment>>() {
     }.getType());
   }

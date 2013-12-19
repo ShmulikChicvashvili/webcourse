@@ -22,10 +22,10 @@ public class UgGradeSheet implements IUgGradeSheet {
   public List<AccomplishedCourse> getMyGradesSheet(Student student) {
     String $ = Communicator.execute(servletName, "student", toJson(student));
 
-    return convertJsonToCoursesList($);
+    return convertJsonToList($);
   }
 
-  private List<AccomplishedCourse> convertJsonToCoursesList(String json) {
+  private List<AccomplishedCourse> convertJsonToList(String json) {
     return new Gson().fromJson(json, new TypeToken<List<AccomplishedCourse>>() {
     }.getType());
   }

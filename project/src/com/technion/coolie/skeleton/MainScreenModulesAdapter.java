@@ -95,11 +95,16 @@ public abstract class MainScreenModulesAdapter extends BaseAdapter {
 			public void onClick(View v) {
 				curr.addUsage();
 		        Intent intent = new Intent(mContext, curr.getActivity());
-		        mContext.startActivity(intent);
-				
+		        mContext.startActivity(intent);				
 			}
 		});
 		return v;
+	}
+	
+	public void sortAgain()
+	{
+		Arrays.sort(modules, comp);
+		notifyDataSetChanged();
 	}
 	
 	
