@@ -3,15 +3,16 @@ package com.technion.coolie.studybuddy.models;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Observable;
 import java.util.UUID;
 
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.technion.coolie.studybuddy.data.DataStore;
+import com.technion.coolie.studybuddy.persistors.PersistMessages;
 
 @DatabaseTable
-public class Stats
+public class DailyStatistic extends Observable
 {
 	@DatabaseField(generatedId = true)
 	private UUID			id;
@@ -20,19 +21,22 @@ public class Stats
 	private static Calendar	cal;
 	@DatabaseField
 	private int				amountDone;
+	@DatabaseField
+	// (foreign = true, foreignAutoRefresh = true)
+	private WorkStats		parent;
 
-	public Stats()
+	public DailyStatistic()
 	{
 
 	}
 
-	public Stats(Date d)
+	public DailyStatistic(Date d)
 	{
-		date = nullifyDate(d);
+		date = setMidnight(d);
 		amountDone = 0;
 	}
 
-	public static Date nullifyDate(Date d)
+	public static Date setMidnight(Date d)
 	{
 		if (null == cal)
 		{
@@ -57,6 +61,7 @@ public class Stats
 		amountDone++;
 		// TODO: hack for speed
 		DataStore.getHelper().getStatDao().createOrUpdate(this);
+		notifyObservers(PersistMessages.UPDATE);
 	}
 
 	public void decreaseDone()
@@ -65,17 +70,18 @@ public class Stats
 			return;
 		amountDone--;
 		DataStore.getHelper().getStatDao().createOrUpdate(this);
-	}
-
-	public void clearDone()
-	{
-		amountDone = 0;
-		DataStore.getHelper().getStatDao().createOrUpdate(this);
+		setChanged();
+		notifyObservers(PersistMessages.UPDATE);
 	}
 
 	public int getAmountDone()
 	{
 		return amountDone;
+	}
+
+	public void setParent(WorkStats workStats)
+	{
+		parent = workStats;
 	}
 
 }

@@ -14,7 +14,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.technion.coolie.studybuddy.models.Course;
 import com.technion.coolie.studybuddy.models.Semester;
-import com.technion.coolie.studybuddy.models.Stats;
+import com.technion.coolie.studybuddy.models.DailyStatistic;
 import com.technion.coolie.studybuddy.models.StudyItem;
 import com.technion.coolie.studybuddy.models.StudyResource;
 import com.technion.coolie.studybuddy.models.WorkStats;
@@ -28,7 +28,7 @@ public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper
 	private RuntimeExceptionDao<Semester, UuidType>			semesterDao;
 	private RuntimeExceptionDao<StudyResource, UuidType>	resourceDao;
 	private RuntimeExceptionDao<StudyItem, UuidType>		itemDao;
-	private RuntimeExceptionDao<Stats, UuidType>			statDao;
+	private RuntimeExceptionDao<DailyStatistic, UuidType>			statDao;
 
 	// private Dao<Exam, UuidType> examDao;
 
@@ -67,11 +67,11 @@ public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper
 		return semesterDao;
 	}
 
-	public RuntimeExceptionDao<Stats, UuidType> getStatDao()
+	public RuntimeExceptionDao<DailyStatistic, UuidType> getStatDao()
 	{
 		if (statDao == null)
 		{
-			statDao = getRuntimeExceptionDao(Stats.class);
+			statDao = getRuntimeExceptionDao(DailyStatistic.class);
 		}
 
 		return statDao;
@@ -111,7 +111,7 @@ public class SBDatabaseHelper extends OrmLiteSqliteOpenHelper
 			TableUtils.createTable(cs, Course.class);
 			TableUtils.createTable(cs, StudyResource.class);
 			TableUtils.createTable(cs, StudyItem.class);
-			TableUtils.createTable(cs, Stats.class);
+			TableUtils.createTable(cs, DailyStatistic.class);
 			TableUtils.createTable(cs, Semester.class);
 		} catch (SQLException e)
 		{

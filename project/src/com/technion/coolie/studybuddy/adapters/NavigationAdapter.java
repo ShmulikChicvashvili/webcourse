@@ -17,19 +17,19 @@ import com.technion.coolie.studybuddy.views.TasksActivity;
 public class NavigationAdapter extends BaseExpandableListAdapter
 {
 
-	private LayoutInflater mInflater;
+	private LayoutInflater	mInflater;
 	/**
 	 * 
 	 */
 
-	private Context context;
+	private Context			context;
 
 	public NavigationAdapter(Context context)
 	{
 		super();
 		this.context = context;
 		mInflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		//
 	}
 
@@ -43,7 +43,7 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 			return null;
 		case 1:
 			return DataStore.getMainPresenter()
-					.getNameByPosition(childPosition);
+							.getNameByPosition(childPosition);
 
 		default:
 			break;
@@ -54,39 +54,31 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 	@Override
 	public long getChildId(int groupPosition, int childPosition)
 	{
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public View getChildView(int groupPosition, final int childPosition,
-			boolean isLastChild, View convertView, ViewGroup parent)
+	public View getChildView(	int groupPosition,
+								final int childPosition,
+								boolean isLastChild,
+								View convertView,
+								ViewGroup parent)
 	{
 		TextView childText = null;
 		if (convertView == null)
 		{
 			convertView = mInflater.inflate(R.layout.stb_view_list_item, null);
 			childText = (TextView) convertView
-					.findViewById(R.id.drawer_list_item_text);
-			childText.setOnClickListener(new OnClickListener()
-			{
-
-				@Override
-				public void onClick(View v)
-				{
-					// fragment.selectItem(childPosition);
-					Intent intent = new Intent(context, CourseActivity.class);
-					intent.putExtra(CourseActivity.COURSE_ID, DataStore
-							.getMainPresenter().getIdByPosition(childPosition));
-					context.startActivity(intent);
-				}
-			});
+							.findViewById(R.id.drawer_list_item_text);
+			childText.setOnClickListener(new OpenCourseOnClick(childPosition));
 			convertView.setTag(new ViewHolder(childText));
 		}
 		childText = ((ViewHolder) convertView.getTag()).getTextView();
 		String courseName = getChild(groupPosition, childPosition).toString();
 		if (courseName.length() > 12)
+		{
 			courseName = courseName.substring(0, 12) + "...";
+		}
 		childText.setText("	" + courseName);
 		convertView.setTag(new ViewHolder(childText));
 		return convertView;
@@ -130,15 +122,17 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 	}
 
 	@Override
-	public View getGroupView(final int groupPosition, boolean isExpanded,
-			View convertView, ViewGroup parent)
+	public View getGroupView(	final int groupPosition,
+								boolean isExpanded,
+								View convertView,
+								ViewGroup parent)
 	{
 		TextView groupText = null;
 		if (convertView == null)
 		{
 			convertView = mInflater.inflate(R.layout.stb_view_list_item, null);
 			groupText = (TextView) convertView
-					.findViewById(R.id.drawer_list_item_text);
+							.findViewById(R.id.drawer_list_item_text);
 			convertView.setTag(new ViewHolder(groupText));
 			if (groupPosition == 0)
 			{
@@ -173,9 +167,29 @@ public class NavigationAdapter extends BaseExpandableListAdapter
 		return false;
 	}
 
+	private final class OpenCourseOnClick implements OnClickListener
+	{
+		private final int	childPosition;
+
+		private OpenCourseOnClick(int childPosition)
+		{
+			this.childPosition = childPosition;
+		}
+
+		@Override
+		public void onClick(View v)
+		{
+			// fragment.selectItem(childPosition);
+			Intent intent = new Intent(context, CourseActivity.class);
+			intent.putExtra(CourseActivity.COURSE_ID,
+							DataStore.getCourseIdByPosition(childPosition));
+			context.startActivity(intent);
+		}
+	}
+
 	private class ViewHolder
 	{
-		private TextView textView;
+		private TextView	textView;
 
 		/**
 		 * @param textView

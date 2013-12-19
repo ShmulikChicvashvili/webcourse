@@ -1,6 +1,6 @@
 package com.technion.coolie.studybuddy.models;
 
-import static com.technion.coolie.studybuddy.models.Stats.nullifyDate;
+import static com.technion.coolie.studybuddy.models.DailyStatistic.setMidnight;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,22 +11,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.technion.coolie.studybuddy.data.CompositeVisitor;
 
 public enum WorkStats implements CompositeElement
 {
 	workStats;
 
-	private class DateRange implements Iterable<Date>
+	private class DaysRange implements Iterable<Date>
 	{
 
-		private final Date	d1;
-		private final Date	d2;
+		private final Date	startDate;
+		private final Date	endDate;
 
-		public DateRange(Date d1, Date d2)
+		public DaysRange(Date startDate, Date endDate)
 		{
-			this.d1 = (d1);
-			this.d2 = (d2);
+			this.startDate = (startDate);
+			this.endDate = (endDate);
 		}
 
 		@Override
@@ -37,13 +38,13 @@ public enum WorkStats implements CompositeElement
 				private final Calendar	cal;
 				{
 					cal = new GregorianCalendar();
-					cal.setTime(d1);
+					cal.setTime(startDate);
 				}
 
 				@Override
 				public boolean hasNext()
 				{
-					return !cal.getTime().after(d2);
+					return !cal.getTime().after(endDate);
 				}
 
 				@Override
@@ -65,16 +66,16 @@ public enum WorkStats implements CompositeElement
 		}
 	}
 
-	private static Map<Date, Stats>	statsMap	= new HashMap<Date, Stats>();
+	private static Map<Date, DailyStatistic>	statsMap	= new HashMap<Date, DailyStatistic>();
 
 	public static WorkStats getInstance()
 	{
 		return workStats;
 	}
 
-	public static void loadStats(List<Stats> stats)
+	public void loadStats(List<DailyStatistic> stats)
 	{
-		for (Stats s : stats)
+		for (DailyStatistic s : stats)
 		{
 			statsMap.put(s.getDate(), s);
 		}
@@ -83,7 +84,7 @@ public enum WorkStats implements CompositeElement
 	@Override
 	public void accept(CompositeVisitor cv)
 	{
-		for (Stats s : statsMap.values())
+		for (DailyStatistic s : statsMap.values())
 		{
 			cv.visit(s);
 		}
@@ -92,7 +93,7 @@ public enum WorkStats implements CompositeElement
 
 	public void decreaseDoneForDate(Date d)
 	{
-		Date n = nullifyDate(d);
+		Date n = setMidnight(d);
 		if (!statsMap.containsKey(n))
 			return;
 
@@ -102,7 +103,7 @@ public enum WorkStats implements CompositeElement
 
 	public int getStatsForDate(Date date)
 	{
-		Date n = nullifyDate(date);
+		Date n = setMidnight(date);
 		if (statsMap.containsKey(n))
 			return statsMap.get(n).getAmountDone();
 
@@ -111,11 +112,11 @@ public enum WorkStats implements CompositeElement
 
 	public Integer[] getStatsForRange(Date d1, Date d2)
 	{
-		Date n1 = nullifyDate(d1);
-		Date n2 = nullifyDate(d2);
+		Date n1 = setMidnight(d1);
+		Date n2 = setMidnight(d2);
 		List<Integer> values = new ArrayList<Integer>();
 
-		for (Date d : range(n1, n2))
+		for (Date d : daysInRange(n1, n2))
 		{
 			if (statsMap.containsKey(d))
 			{
@@ -132,7 +133,7 @@ public enum WorkStats implements CompositeElement
 
 	public Integer[] getStatsLastXDays(Date today, int days)
 	{
-		Date last = nullifyDate(today);
+		Date last = setMidnight(today);
 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(last);
@@ -146,29 +147,36 @@ public enum WorkStats implements CompositeElement
 
 	public void increaseDoneForDate(Date d)
 	{
-		Stats s = findOrAllocateStat(d);
+		DailyStatistic s = findOrAllocateStat(d);
 		s.addDone();
 	}
 
-	private Stats findOrAllocateStat(Date d)
+	private DailyStatistic findOrAllocateStat(Date d)
 	{
-		Date n = nullifyDate(d);
+		Date n = setMidnight(d);
 		if (statsMap.containsKey(n))
 			return statsMap.get(n);
 
-		Stats s = new Stats(d);
+		DailyStatistic s = new DailyStatistic(d);
 		statsMap.put(s.getDate(), s);
 		return s;
 	}
 
-	private Iterable<Date> range(Date n1, Date n2)
+	private Iterable<Date> daysInRange(Date n1, Date n2)
 	{
-		return new DateRange(n1, n2);
+		return new DaysRange(n1, n2);
 	}
 
 	public static void clear()
 	{
 		statsMap.clear();
+
+	}
+
+	public void insert(DailyStatistic dailyStatistic)
+	{
+		statsMap.put(dailyStatistic.getDate(), dailyStatistic);
+		dailyStatistic.setParent(this);
 
 	}
 }

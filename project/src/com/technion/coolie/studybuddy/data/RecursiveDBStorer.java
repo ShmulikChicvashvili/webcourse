@@ -4,7 +4,7 @@ import static com.technion.coolie.studybuddy.data.DataStore.getHelper;
 
 import com.technion.coolie.studybuddy.models.Course;
 import com.technion.coolie.studybuddy.models.Semester;
-import com.technion.coolie.studybuddy.models.Stats;
+import com.technion.coolie.studybuddy.models.DailyStatistic;
 import com.technion.coolie.studybuddy.models.StudyItem;
 import com.technion.coolie.studybuddy.models.StudyResource;
 import com.technion.coolie.studybuddy.models.WorkStats;
@@ -40,7 +40,7 @@ public enum RecursiveDBStorer implements CompositeVisitor
 	}
 
 	@Override
-	public void visit(Stats s)
+	public void visit(DailyStatistic s)
 	{
 		getHelper().getStatDao().createOrUpdate(s);
 	}

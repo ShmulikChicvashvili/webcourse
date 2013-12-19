@@ -15,6 +15,7 @@ import com.actionbarsherlock.view.Menu;
 import com.technion.coolie.R;
 import com.technion.coolie.studybuddy.adapters.CourseListAdapter;
 import com.technion.coolie.studybuddy.data.DataStore;
+import com.technion.coolie.studybuddy.models.WorkStats;
 import com.technion.coolie.studybuddy.graphs.GraphFactory;
 import com.technion.coolie.studybuddy.views.EditCourse;
 import com.technion.coolie.studybuddy.views.NowLayout;
@@ -24,7 +25,7 @@ import com.technion.coolie.studybuddy.views.StudyBuddyActivity;
 public class MainActivity extends StudyBuddyActivity implements Observer
 {
 
-	GraphicalView			graphView;
+	private GraphicalView	graphView;
 	private LinearLayout	_layout;
 
 	@Override
@@ -45,7 +46,7 @@ public class MainActivity extends StudyBuddyActivity implements Observer
 
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
-		case R.id.stb_add_curse:
+		case R.id.stb_add_course:
 			intent = new Intent(this, EditCourse.class);
 			startActivity(intent);
 			return true;
