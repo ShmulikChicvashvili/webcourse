@@ -85,47 +85,46 @@ public class TaskParser extends IntentService {
     			String courseName = courseInfo[1].trim();
     			Log.i(MainActivity.AM_TAG, "Course Id: " + courseId + " Course Name: " + courseName);
     			
-    			// Most inner table that contains 'Assignment' title is always after the comment: <!--START-->
-    			// We find that comment and get it's sibling node.
     			Element lastTable = null;
+    			// Find the element which has a child node with comment <!--WebCourse:Content-->
+    			// This element has a table child element which holds all the data we seek.
     			for (Element e : doc.getAllElements()) {
     				for (Node n : e.childNodes())
-    					if (n instanceof Comment && (((Comment) n).getData().equals("START"))) {
+    					if (n instanceof Comment && (((Comment) n).getData().equals("WebCourse:Content"))) {
     						Comment c = ((Comment) n);
-    						Log.i(MainActivity.AM_TAG, "comment found: " + c.getData());
-    						lastTable = e.child(0);
+    						Log.i(MainActivity.AM_TAG, "comment found: " + c.getData() + " element is: " 
+    								+ e.nodeName());
+    						lastTable = e.select("table").first();
     					}
     			}
     			
-    			Element lastTableBody = lastTable.child(0);
-    			Element lastTableFirstTrElement = lastTableBody.child(0);
-    			Element tdElement = lastTableFirstTrElement.child(1);
-    			
-    			Elements tableElements = tdElement.select("table:matches(" + taskRegExp1 
+    			// Need to check that lastTable != null !!!
+    			Elements tableElements = lastTable.select("table:matches(" + taskRegExp1 
     					+ "|" + taskRegExp2 + "|" + taskRegExp3 + "|" + taskRegExp4 + "|" 
     					+ taskRegExp5 + "|" + taskRegExp6 + "|" + taskRegExp7 + "|" 
     					+ taskRegExp8 + "|" + taskRegExp9 + "|" + taskRegExp10 
     					+ "|" + taskRegExp11 + ")");
     			
-    			// tableElements hold all the elements in which the hw info is located. the first element
-    			// is the outer table, and all the hw tables children of that table.
-    			// We remove that table, and left with hw table elements only.
-    			if (!tableElements.isEmpty()) tableElements.remove(0);
+    			
+    			Log.i(MainActivity.AM_TAG, "number of table elements found: " + String.valueOf(tableElements.size()));
+    			
     			
     			ArrayList<Pair<String, String>> namesAndDates = new ArrayList<Pair<String,String>>();
     			if (!tableElements.isEmpty()) {
     				// Add the first hw table element found to the list.
-    				Element first = tableElements.first();
-    				Elements trElements = first.select("tr");
+    				Element firstTable = tableElements.first();
+    				
     				// First tr element holds the hw title.
-    				Element trFirst = trElements.first();
+    				Element trFirst = firstTable.select("tr").first();
     				if (trFirst != null) {
     					String name = trFirst.text();
-    					Element body = trFirst.parent();
-    					Elements datesElements = body.select("tr:matchesOwn(Due date)");
-    					Element dateElement = datesElements.first();
+    					Log.i(MainActivity.AM_TAG, "hw found: " + name);
+//    					Element body = trFirst.parent();
+    					Elements trElements = firstTable.select("tr:matchesOwn(Due date&" 
+    																+ dueDateRegExp + ")");
+    					Element dateElement = trElements.first();
     					if (dateElement != null) { 
-    						datesElements = trElements.select(":matchesOwn(" + dueDateRegExp + ")");
+    						Elements datesElements = dateElement.select("td:matchesOwn(" + dueDateRegExp + ")");
     						dateElement = datesElements.first();
     					}
     					// Checking if due date exists.
@@ -143,16 +142,17 @@ public class TaskParser extends IntentService {
     				// Iterate over the rest of the elements and populate the list with the latest
     				// HW found. We use a list for cases there's more than one HW with same due date.
     				for (int i = 1; i < tableElements.size(); i++) {
-    					Element e = tableElements.get(i);
-    					trElements = e.select("tr");
-    					trFirst = trElements.first();
+    					Element table = tableElements.get(i);
+//    					trElements = e.select("tr");
+    					trFirst = tableElements.first();
     					if (trFirst != null) {
     						String name = trFirst.text();
-    						Element body = trFirst.parent();
-    						Elements datesElements = body.select("tr:matchesOwn(Due date)");
-    						Element dateElement = datesElements.first();
+    						
+    						Elements trElements = firstTable.select("tr:matchesOwn(Due date&" 
+																	+ dueDateRegExp + ")");
+    						Element dateElement = trElements.first();
     						if (dateElement != null) { 
-    							datesElements = dateElement.select("td:matchesOwn(" + dueDateRegExp + ")");
+    							Elements datesElements = dateElement.select("td:matchesOwn(" + dueDateRegExp + ")");
     							dateElement = datesElements.first();
     						}
         					// Checking if due date exists.
