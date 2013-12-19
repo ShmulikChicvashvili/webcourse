@@ -7,7 +7,8 @@ package com.technion.coolie.server.webcourse.manager;
  * 
  */
 public enum WebcourseFunctions {
-  GET_STAFF_INFO("GET_STAFF_INFO");
+  GET_STAFF_INFO("GET_STAFF_INFO"), GET_ANNOUNCEMENT("GET_ANNOUNCEMENT"), GET_ASSIGNMENT(
+      "GET_ANNOUNCEMENT");
 
   private final String value;
 
