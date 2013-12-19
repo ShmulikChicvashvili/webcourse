@@ -6,6 +6,9 @@
     <string name="hello_world">Welcome to</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
+    <string name="app_id">222327407950326</string>
+    
+   
     <string name="title_activity_categories">CategoriesActivity</string>
     <string name="title_activity_category_event">CategoryEventActivity</string>
     <string name="lmi_search">Search</string>
