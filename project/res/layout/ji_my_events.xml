@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ji_bg"
+    >
+    
+  <TextView
+        android:paddingTop="5dp"
+        android:text="@string/my_own_events"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    android:id="@+id/event_title"
+		style="@style/Teamapp"
+		android:textSize="28sp"
+		android:gravity="center"
+	      />  
+
+	<View 
+	    android:layout_width="match_parent"
+	    android:layout_height="1dp" 
+	    android:background="#FFaaaaaa"
+	    android:paddingBottom="5dp">   
+	</View>      
+
+    <ListView 
+      android:layout_width="wrap_content"   
+      android:layout_height="wrap_content" 
+      android:layout_weight="15"    
+      android:id="@+id/mainListView"
+      android:drawSelectorOnTop="true"
+      android:cacheColorHint="#00000000"
+      android:background="#00000000">  
+    </ListView>
+   
+ 
+    <TextView
+        android:paddingTop="5dp"
+        android:text="@string/my_registered_events"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    android:id="@+id/attending"
+		style="@style/Teamapp"
+		android:textSize="28sp"
+		android:gravity="center"
+	      />  
+
+	<View 
+	    android:layout_width="match_parent"
+	    android:layout_height="1dp" 
+	    android:background="#FFaaaaaa"
+	    android:paddingBottom="5dp">   
+	</View>
+	
+   <ListView 
+      android:layout_width="wrap_content"   
+      android:layout_height="wrap_content" 
+      android:layout_weight="15"  
+      android:id="@+id/mainListView2"
+      android:drawSelectorOnTop="true"
+      android:cacheColorHint="#00000000"
+      android:background="#00000000">  
+    </ListView>
+
+</LinearLayout>

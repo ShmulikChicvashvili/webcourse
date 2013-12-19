@@ -1,6 +1,5 @@
 package com.technion.coolie.server.techmine;
 
-
 public class TecTopBestPost implements IGetters {
 
   String id;
