@@ -125,7 +125,7 @@
     <string name="pref_details_cancel">Receive notification when an event you attend to is canceled</string>
     <string name="title_activity_groups_from_facebook">GroupsFromFacebook</string>
     <string name="title_activity_tutorial">TutorialActivity</string>
-    
+
     <!-- Tutorial -->
     <string name="pref_previously_started">firstime</string>
     <string name="tut1">Welcome to TeamApp.\nYou are the blue dot.\nThese are all the events happening around you\n(Swipe to advance)\n(Or press Back to go to the app)</string>

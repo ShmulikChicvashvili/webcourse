@@ -5,107 +5,107 @@
     android:background="#fffeff" >
 
     <ImageView
-    	android:id="@+id/eventCat"
+        android:id="@+id/eventCat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="7dp"
+        android:layout_margin="10dp"
         android:paddingLeft="@dimen/dp7"
-        android:src="@drawable/ji_other_icon" 
-        android:layout_margin="10dp"/>
+        android:paddingRight="7dp"
+        android:src="@drawable/ji_other_icon" />
 
     <TextView
-	    android:id="@+id/eventTitle"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:text="Large Text"
-	    android:textAppearance="?android:attr/textAppearanceLarge"
-	    android:textColor="#1a0825"
-	    android:textSize="@dimen/pt10"
-	    android:typeface="normal" 
-	    android:layout_toRightOf="@id/eventCat"
-	    android:layout_alignBottom="@id/eventCat"
-	    android:padding="@dimen/dp7"	/>
-    
+        android:id="@+id/eventTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/eventCat"
+        android:layout_toRightOf="@id/eventCat"
+        android:padding="@dimen/dp7"
+        android:text="Large Text"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#1a0825"
+        android:textSize="@dimen/pt10"
+        android:typeface="normal" />
+
     <ImageButton
-	    android:id="@+id/joinImgBtn"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:paddingRight="@dimen/dp7"
-	    android:layout_marginRight="10dp"
-	    android:layout_alignBottom="@id/eventTitle" 
-	    android:layout_alignParentRight="true"
-	    android:background="@drawable/colorBlue"/>
-    
+        android:id="@+id/joinImgBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/eventTitle"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/colorBlue"
+        android:paddingRight="@dimen/dp7" />
+
     <TextView
-	    android:id="@+id/eventComing"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="center"
-	    android:layout_marginRight="10dp"
-	    android:text="@string/at"
-	    android:textAppearance="?android:attr/textAppearanceSmall"
-	    android:layout_below="@id/eventCat"   
-	    android:layout_alignLeft="@id/eventCat"
-	    android:padding="@dimen/dp7"	/>
+        android:id="@+id/eventComing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/eventCat"
+        android:layout_below="@id/eventCat"
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp"
+        android:padding="@dimen/dp7"
+        android:text="@string/at"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-     <TextView
-	     android:id="@+id/eventDate"
-	     android:layout_width="wrap_content"
-	     android:layout_height="wrap_content"
-	     android:text="Medium Text"
-	     android:textAppearance="?android:attr/textAppearanceMedium"
-	     android:textColor="#3a3a3a"
-	     android:textSize="@dimen/pt8"
-	     android:typeface="normal"
-	     android:layout_alignBottom="@id/eventComing" 
-	     android:layout_toRightOf="@id/eventComing"	
-	     android:padding="@dimen/dp7"	/>
-	   
-      <TextView
-	      android:id="@+id/messageContent"
-	      android:layout_width="wrap_content"
-	      android:layout_height="wrap_content"
-	      android:layout_gravity="center"
-	      android:layout_marginRight="10dp"
-	      android:text="@string/in"
-	      android:textAppearance="?android:attr/textAppearanceSmall"
-	      android:layout_below="@id/eventComing"   
-	      android:layout_alignLeft="@id/eventCat" 
-	      android:padding="@dimen/dp7"		/>
+    <TextView
+        android:id="@+id/eventDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/eventComing"
+        android:layout_toRightOf="@id/eventComing"
+        android:padding="@dimen/dp7"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#3a3a3a"
+        android:textSize="@dimen/pt8"
+        android:typeface="normal" />
 
-       <TextView
-	       android:id="@+id/eventAddress"
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:text="Medium Text"
-	       android:textAppearance="?android:attr/textAppearanceMedium"
-	       android:textColor="#3a3a3a"
-	       android:textSize="@dimen/pt8"
-	       android:typeface="normal" 
-	       android:layout_alignBottom="@id/messageContent" 
-	       android:layout_toRightOf="@id/messageContent"
-	       android:padding="@dimen/dp7"	/>
+    <TextView
+        android:id="@+id/messageContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/eventCat"
+        android:layout_below="@id/eventComing"
+        android:layout_gravity="center"
+        android:layout_marginRight="10dp"
+        android:padding="@dimen/dp7"
+        android:text="@string/in"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-       <ScrollView
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_below="@id/messageContent"
-		    android:layout_alignLeft="@id/eventCat"
-		    android:padding="@dimen/dp7"  >
+    <TextView
+        android:id="@+id/eventAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/messageContent"
+        android:layout_toRightOf="@id/messageContent"
+        android:padding="@dimen/dp7"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#3a3a3a"
+        android:textSize="@dimen/pt8"
+        android:typeface="normal" />
 
-            <TextView
-	            android:id="@+id/eventDesc"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="Event Description"
-	            android:textColor="#000000"
-	            android:textSize="@dimen/pt8"
-	            android:padding="10dp"
-	            android:typeface="normal" 	/>
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/eventCat"
+        android:layout_below="@id/messageContent"
+        android:padding="@dimen/dp7" >
 
-        </ScrollView>
-        
-<!--  <ImageButton
+        <TextView
+            android:id="@+id/eventDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Event Description"
+            android:textColor="#000000"
+            android:textSize="@dimen/pt8"
+            android:typeface="normal" />
+    </ScrollView>
+
+    <!--
+      <ImageButton
             android:id="@+id/directionsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -113,16 +113,18 @@
             android:layout_centerVertical="true"
             android:background="#00000000"
             android:padding="@dimen/dp7"
-            android:src="@drawable/ji_location_directions" />    -->       
-        
-  <!-- <ProgressBar
+            android:src="@drawable/ji_location_directions" />
+    -->
+
+
+    <!--
+       <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:visibility="gone"
-                android:padding="7dp" /> -->
-
-
+                android:padding="7dp" />
+    -->
 
 </RelativeLayout>

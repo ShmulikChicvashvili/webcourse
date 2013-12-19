@@ -2,17 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    >
+    android:orientation="horizontal" >
 
     <ImageView
         android:id="@+id/lmi_contacts_auto_image"
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:contentDescription="@string/hello_world"
-        android:src="@drawable/lmi_google_man"
         android:padding="10dp"
-    />
+        android:src="@drawable/lmi_google_man" />
 
     <TextView
         android:id="@+id/lmi_contacts_auto_name"

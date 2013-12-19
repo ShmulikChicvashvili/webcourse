@@ -31,7 +31,7 @@
             android:layout_marginLeft="16dp"
             android:layout_toRightOf="@+id/searchContact"
             android:src="@drawable/ic_action_search" />
-    </RelativeLayout>
+    </RelativeLayout>
     -->
 
     <ListView

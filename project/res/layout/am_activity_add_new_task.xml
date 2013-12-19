@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:baselineAligned="false"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:dividerPadding="12dp"
+                android:orientation="vertical"
+                android:showDividers="end" >
+
+                <Button
+                    android:id="@+id/am_new_task_button_cancel"
+                    style="@drawable/am_btn_cab_done_holo_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/am_btn_cab_done_holo_light"
+                    android:text="@android:string/cancel"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:dividerPadding="12dp"
+                android:orientation="vertical"
+                android:showDividers="beginning" >
+
+                <Button
+                    android:id="@+id/am_new_task_button_add"
+                    style="@drawable/am_btn_cab_done_holo_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:background="@drawable/am_btn_cab_done_holo_light"
+                    android:text="@android:string/ok"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/listDivider" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/am_new_task_name_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:hint="@string/am_new_task_name_hint"
+                android:inputType="text"
+                android:padding="3dp"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/am_new_task_course_name_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/am_new_task_name_edittext"
+                android:layout_margin="10dp"
+                android:hint="@string/am_new_task_course_name_hint"
+                android:inputType="text"
+                android:padding="3dp"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/am_new_task_course_id_edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/am_new_task_course_name_edittext"
+                android:layout_margin="10dp"
+                android:hint="@string/am_new_task_course_id_hint"
+                android:inputType="number"
+                android:padding="3dp" />
+
+            <TextView
+                android:id="@+id/am_new_task_due_date_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/am_new_task_course_id_edittext"
+                android:padding="3dp"
+                android:text="@string/am_new_task_due_date_title"
+                android:textAppearance="@android:style/TextAppearance.Small"
+                android:textColor="@android:color/secondary_text_dark_nodisable" />
+
+            <TextView
+                android:id="@+id/am_new_task_due_date_textview"
+                style="@style/Sherlock.__Widget.Holo.Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/am_new_task_due_date_title"
+                android:layout_margin="10dp"
+                android:padding="3dp" />
+
+            <TextView
+                android:id="@+id/am_new_task_difficulty_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/am_new_task_due_date_textview"
+                android:padding="3dp"
+                android:text="@string/am_task_pref_difficulty"
+                android:textAppearance="@android:style/TextAppearance.Small"
+                android:textColor="@android:color/secondary_text_dark_nodisable" />
+
+            <RatingBar
+                android:id="@+id/am_new_task_difficulty_rating_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/am_new_task_difficulty_title"
+                android:layout_margin="10dp"
+                android:numStars="5"
+                android:padding="3dp"
+                android:rating="0.0"
+                android:stepSize="1.0" />
+
+            <TextView
+                android:id="@+id/am_new_task_importance_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/am_new_task_difficulty_rating_bar"
+                android:padding="3dp"
+                android:text="@string/am_task_pref_importance"
+                android:textAppearance="@android:style/TextAppearance.Small"
+                android:textColor="@android:color/secondary_text_dark_nodisable" />
+
+            <RatingBar
+                android:id="@+id/am_new_task_importance_rating_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/am_new_task_importance_title"
+                android:layout_margin="10dp"
+                android:numStars="5"
+                android:padding="3dp"
+                android:rating="0.0"
+                android:stepSize="1.0" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

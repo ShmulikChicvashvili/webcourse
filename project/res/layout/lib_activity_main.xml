@@ -1,4 +1,5 @@
-<!-- <?xml version="1.0" encoding="utf-8"?>
+<!--
+ <?xml version="1.0" encoding="utf-8"?>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
@@ -13,13 +14,14 @@
             android:background="@drawable/grey_frame">
 		</FrameLayout>
         
-    </LinearLayout>
-     -->
+    </LinearLayout>
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MainTheme"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    style="@style/MainTheme" >"
+    android:orientation="vertical" >
+"
 
     <Button
         android:id="@+id/button2"
@@ -28,7 +30,4 @@
         android:layout_height="wrap_content"
         android:text="l.card" />
 
-
 </LinearLayout>
-
-

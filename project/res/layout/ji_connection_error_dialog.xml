@@ -25,7 +25,6 @@
             android:text="@string/connection_error_title"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#ffffff" />
-
     </LinearLayout>
 
     <TextView

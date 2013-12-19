@@ -16,7 +16,6 @@
     <string-array name="modules">
         <item name="skeletonActivity">skeletonActivity</item>
         <item name="techLibraryActivity">techLibraryActivity</item>
-        
     </string-array>
 
     <string name="am_description">This is module 1 description, it describes what the module does.</string>
@@ -30,4 +29,5 @@
     <string name="tele_description">This is module 9 description, it describes what the module does.</string>
     <string name="ug_description">This is module 10 description, it describes what the module does.</string>
     <string name="skel_description">Skeleton desc</string>
+
 </resources>
