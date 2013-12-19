@@ -4,16 +4,20 @@
     android:layout_height="match_parent"
     android:background="#fffeff" >
 
-   <!-- <LinearLayout
+    <!--
+        <LinearLayout
         android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/bottom"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:orientation="vertical" >   -->
-		
-     <!--    <EditText
+        android:orientation="vertical" >
+    -->
+
+
+    <!--
+             <EditText
             android:id="@+id/search_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,61 +26,63 @@
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:maxLines="1"
-            android:visibility="gone" />   -->
-        
-          <TextView
-            android:id="@+id/eventComingAtt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp10"
-            android:visibility="invisible"
-            android:text="@string/one_person"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000000" />
+            android:visibility="gone" />
+    -->
 
-       <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="4dp"
-            android:visibility="gone" /> 
+    <TextView
+        android:id="@+id/eventComingAtt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp10"
+        android:text="@string/one_person"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:visibility="invisible" />
 
-        <ScrollView
-            android:id="@+id/scrollList"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="4dp"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/scrollList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/eventComingAtt" >
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" 
-            android:layout_below="@id/eventComingAtt">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+  -->
 
-           <LinearLayout
+            <LinearLayout
+                android:id="@+id/attendingList"
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/showMore"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >  -->
+                android:layout_gravity="center"
+                android:background="#00000000"
+                android:padding="7dp"
+                android:src="@drawable/ji_navigation_expand"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
 
-                <LinearLayout
-                    android:id="@+id/attendingList"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical" >
-                </LinearLayout> 
+    <!-- </LinearLayout> -->
 
-                <ImageButton
-                    android:id="@+id/showMore"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-		            android:background="#00000000"
-		            android:padding="7dp"
-                    android:src="@drawable/ji_navigation_expand"/>
 
-            </LinearLayout>  
-
-        </ScrollView>
-
-   <!--  </LinearLayout>   -->
-
- <!--   <RelativeLayout
+    <!--
+        <RelativeLayout
         android:id="@+id/bottom"
         style="@style/PurpleActionBarBottom"
         android:layout_width="match_parent"
@@ -113,9 +119,12 @@
                 android:background="#00000000"
                 android:padding="12dp"
                 android:src="@drawable/ji_social_share" />
-        </LinearLayout>   -->
+        </LinearLayout>
+    -->
 
-    <!--     <ImageButton
+
+    <!--
+    <ImageButton
             android:id="@+id/importButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -125,6 +134,7 @@
             android:src="@drawable/ji_facebook_import"
             android:visibility="gone" />   
 
-    </RelativeLayout> -->
+    </RelativeLayout>
+    -->
 
 </RelativeLayout>

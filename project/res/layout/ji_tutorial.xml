@@ -4,25 +4,26 @@
     android:layout_height="match_parent"
     tools:context=".TutorialActivity" >
 
-    <ViewFlipper android:id="@+id/flipper" 
-		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent"> 
-	</ViewFlipper>
+    <ViewFlipper
+        android:id="@+id/flipper"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </ViewFlipper>
 
     <TextView
-	    android:id="@+id/help_text"
-	    android:background="@drawable/ji_tutorial_square"      
-	    android:scaleType="fitXY"
-	    android:layout_alignParentBottom="true"
-	    android:layout_centerHorizontal="true"
-	    android:layout_marginLeft="10dp"
-	    android:layout_marginRight="10dp"
-	    android:layout_marginTop="10dp"
-	    android:layout_marginBottom="50dp"
-	    android:padding="3dp"
-	    android:textAppearance="@android:style/TextAppearance.Medium"
-	    android:textColor="#fefefe"
-	    android:layout_width="wrap_content" 
-	    android:layout_height="wrap_content" />
+        android:id="@+id/help_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/ji_tutorial_square"
+        android:padding="3dp"
+        android:scaleType="fitXY"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textColor="#fefefe" />
 
 </RelativeLayout>

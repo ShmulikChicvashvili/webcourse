@@ -8,27 +8,27 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ProfileActivity" >
 
-   <TextView
-       android:id="@+id/profileHeader"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="@string/lib_profileMessage"
-       style="@style/Title" />
+    <TextView
+        android:id="@+id/profileHeader"
+        style="@style/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lib_profileMessage" />
 
-   <TextView
-       android:id="@+id/profileFields"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_below="@id/profileHeader"
-       android:text="@string/lib_profileFields" />
+    <TextView
+        android:id="@+id/profileFields"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileHeader"
+        android:text="@string/lib_profileFields" />
 
-   <TextView
-       android:id="@+id/profileInfo"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_below="@id/profileHeader"
-       android:layout_marginLeft="40dp"
-       android:layout_toRightOf="@id/profileFields"
-       android:gravity="left" />
+    <TextView
+        android:id="@+id/profileInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profileHeader"
+        android:layout_marginLeft="40dp"
+        android:layout_toRightOf="@id/profileFields"
+        android:gravity="left" />
 
 </RelativeLayout>

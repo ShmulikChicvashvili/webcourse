@@ -3,15 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
+
     <ExpandableListView
-                android:id="@+id/expendable_list"
-                android:layout_height="match_parent"
-                android:layout_width="match_parent"
-                
-                android:childDivider="#648EA4"
-                
-                /> 
-    
+        android:id="@+id/expendable_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:childDivider="#648EA4" />
 
 </LinearLayout>

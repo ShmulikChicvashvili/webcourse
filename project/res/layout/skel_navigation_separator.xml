@@ -3,18 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-    
-    <TextView android:id="@+id/skel_nav_separator_title"
-        android:gravity="start"
+
+    <TextView
+        android:id="@+id/skel_nav_separator_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="start"
         android:textColor="#FFF"
-        android:textSize="16sp"
-        />
-    
-    <View android:layout_height="2dp"
+        android:textSize="16sp" />
+
+    <View
         android:layout_width="fill_parent"
-        android:background="#FFF"
-        />
-    
+        android:layout_height="2dp"
+        android:background="#FFF" />
+
 </LinearLayout>

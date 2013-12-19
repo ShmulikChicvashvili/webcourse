@@ -39,7 +39,6 @@
             android:background="#00000000"
             android:padding="7dp"
             android:src="@drawable/ji_search" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -67,10 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
-
             </LinearLayout>
         </ScrollView>
-
     </LinearLayout>
 
 </LinearLayout>

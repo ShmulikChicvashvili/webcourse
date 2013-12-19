@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     >
+    android:layout_height="match_parent" >
 
+    <!-- FACULTY -->
 
-	<!-- FACULTY -->
-    
     <TextView
         android:id="@+id/faculty"
         android:layout_width="wrap_content"
@@ -18,7 +16,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <!-- POSITION -->
-    
+
     <TextView
         android:id="@+id/position"
         android:layout_width="wrap_content"
@@ -28,7 +26,7 @@
         android:layout_alignLeft="@+id/personFirstName"
         android:text="Student"
         android:textAppearance="?android:attr/textAppearanceSmall" />
-    
+
     <!-- LAST NAME -->
 
     <TextView
@@ -44,7 +42,7 @@
         android:textColor="@color/abs__primary_text_holo_light" />
 
     <!-- COMMA -->
-    
+
     <TextView
         android:id="@+id/comma"
         android:layout_width="wrap_content"
@@ -55,7 +53,7 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <!-- FIRST NAME -->
-    
+
     <TextView
         android:id="@+id/personFirstName"
         android:layout_width="wrap_content"
@@ -69,8 +67,7 @@
 
     <!-- CONTACT IMAGE -->
 
-    <!-- CALL BUTTON -->
-    
 
+    <!-- CALL BUTTON -->
 
 </RelativeLayout>

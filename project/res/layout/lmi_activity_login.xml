@@ -11,8 +11,7 @@
         android:layout_alignParentTop="True"
         android:hint="@string/lmi_username_hint"
         android:singleLine="true"
-        android:text="@string/lmi_login_username_defaultInitial" 
-        >
+        android:text="@string/lmi_login_username_defaultInitial" >
 
         <requestFocus />
     </EditText>
@@ -53,8 +52,8 @@
         android:layout_alignRight="@+id/lmi_login_exec_button"
         android:layout_below="@id/lmi_login_exec_button"
         android:layout_marginTop="@dimen/lmi_components_margin"
-        android:textColor="@android:color/darker_gray"
         android:text="@string/lmi_privacy_title"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@android:color/darker_gray" />
 
 </RelativeLayout>

@@ -3,37 +3,35 @@
     android:id="@+id/skel_drawer_layout"
     android:layout_width="fill_parent"
     android:layout_height="match_parent" >
-    
-    <ViewStub 
+
+    <ViewStub
         android:id="@+id/skel_layout_container"
         android:layout_width="match_parent"
-    	android:layout_height="match_parent"
-    	android:inflatedId="@+id/skel_main_layout"
-        />
-    
-    <LinearLayout 
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/skel_main_layout" />
+
+    <LinearLayout
         android:id="@+id/skel_left_drawer"
         android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-    	android:layout_gravity="start">
-    	
-    <ViewStub 
-        android:id="@+id/skel_inner_module_nav_container"
-        android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:inflatedId="@+id/skel_inner_module_nav_layout"
-        />
-    
-    <ListView
-        android:id="@+id/skel_modules_left_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:background="#111"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" />
+        android:layout_gravity="start"
+        android:orientation="vertical" >
+
+        <ViewStub
+            android:id="@+id/skel_inner_module_nav_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inflatedId="@+id/skel_inner_module_nav_layout" />
+
+        <ListView
+            android:id="@+id/skel_modules_left_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:background="#111"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp" />
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>
