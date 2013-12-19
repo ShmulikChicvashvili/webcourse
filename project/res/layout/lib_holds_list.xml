@@ -10,17 +10,44 @@
     tools:context=".LibraryCardActivity" >
 
     <TextView
+        android:id="@+id/lib_books"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+        android:text="@string/lib_title_books"
+        android:textSize="20sp" />
+    <!--
+    <TextView
+        android:id="@+id/lib_duedate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:text="@string/lib_title_duedate"
+        android:textSize="20sp" />
+         -->
+    <View
+        android:id="@+id/lib_line"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/lib_books"
+        android:background="#006CB3" />
+
+    <TextView
         android:id="@+id/empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/lib_line"
         android:gravity="center_vertical"
-        android:text="The list view is empty"
+        android:text="No books"
         android:textSize="30sp" />
 
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/lib_line"
         android:cacheColorHint="#00000000"
         android:listSelector="#b0b0b0" >
     </ListView>
