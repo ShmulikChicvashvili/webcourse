@@ -80,7 +80,7 @@ public class MainActivity extends CoolieActivity {
 		
 	  @Override
 	  public void onCreate(Bundle savedInstanceState) {
-		  
+//		  new ServerRemoveUser().execute();
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.techmind_activity_my_title);
 	    progressBar = (LinearLayout) findViewById(R.id.progressBarLayout);
@@ -189,9 +189,10 @@ public class MainActivity extends CoolieActivity {
 
 		  if (tecUser == null) {
 			  /* adds the user to the server at the first time */
+			  User.getUserInstance(userId);
+			  User.getUserInstance(null).name = userName;
+			  User.getUserInstance(null).title = Title.ATUDAI;
 			  new ServerAddUser().execute();
-			  
-			  
 		  }
 		  else {
 			  User.getUserInstance(tecUser.getId());
@@ -249,7 +250,7 @@ public class MainActivity extends CoolieActivity {
 
 			@Override
 			protected void onPostExecute(TecUser result) {
-				Toast.makeText(getApplicationContext(), "Hello " + result.getName(),
+				Toast.makeText(getApplicationContext(), "Hello " + userName,
 		        		Toast.LENGTH_LONG).show();
 			}
 

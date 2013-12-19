@@ -7,10 +7,10 @@ import java.util.List;
 public class User implements IUser{
 	public String id;
 	public String name;
-	public Title title;
-	public Date lastMining;
-	public int totalTechoins;
-	public int bankAccount;
+	public Title title = Title.ATUDAI;
+	public Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
+	public int totalTechoins = 0;
+	public int bankAccount = 0;
 	
 	public int commentsNum = 0;
 	public int postsNum = 0;
@@ -23,7 +23,6 @@ public class User implements IUser{
 		
 	private User(String userId) {
 		id = userId;
-		lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
 	}
 	
 	/* Return User Instance if already have been created, initiate new one otherwise */
