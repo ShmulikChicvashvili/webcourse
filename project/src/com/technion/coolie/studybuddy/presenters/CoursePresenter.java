@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Observable;
 
 import com.technion.coolie.studybuddy.data.DataStore;
-import com.technion.coolie.studybuddy.data.RecursiveDBStorer;
 import com.technion.coolie.studybuddy.models.Course;
 import com.technion.coolie.studybuddy.models.WorkStats;
 

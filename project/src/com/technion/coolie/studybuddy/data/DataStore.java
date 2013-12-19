@@ -117,7 +117,7 @@ public class DataStore extends Observable implements CompositeElement
 
 	public static void setContext(Context context)
 	{
-		DataStore.context = context.getApplicationContext();
+		DataStore.context = context;
 	}
 
 	@SuppressLint("SimpleDateFormat")
@@ -251,6 +251,14 @@ public class DataStore extends Observable implements CompositeElement
 		Course c = coursesById.remove(courseNumber);
 		coursesList.remove(c);
 
+	}
+
+	public static String getCourseIdByPosition(int childPosition)
+	{
+		if (childPosition < 0 || childPosition >= coursesList.size())
+			return "";
+
+		return coursesList.get(childPosition).getId();
 	}
 
 }

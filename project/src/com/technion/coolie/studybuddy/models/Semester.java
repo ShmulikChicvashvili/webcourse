@@ -17,8 +17,6 @@ public class Semester
 
 	public final static int	WEEKS_IN_SEMESTER	= 14;
 
-	// private final static long MILISECONDS_IN_WEEK = 1000 * 60 * 60 * 24 * 7;
-
 	public static int countWeeksBetween(Date start, Date end)
 	{
 		int result = (int) ((end.getTime() - start.getTime()) / DateUtils.WEEK_IN_MILLIS);
@@ -60,6 +58,8 @@ public class Semester
 
 	public void setStartDate(Date startDate)
 	{
+		// this.startDate = (startDate.getTime() == 0) ? new Date(113, 9, 13)
+		// : startDate;
 		this.startDate = startDate;
 
 		// preset endDate
