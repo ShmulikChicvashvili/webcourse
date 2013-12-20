@@ -3,6 +3,10 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+<<<<<<< HEAD
+   	<dimen name="stb_chart_width">-1dp</dimen>
+    <dimen name="stb_card_item_padding">8dp</dimen>
+=======
     <dimen name="half_activity_horizontal_margin">8dp</dimen>
     <dimen name="half_activity_vertical_margin">8dp</dimen>
     <dimen name="lmi_layout_margin">16dp</dimen>
@@ -23,4 +27,5 @@
     <dimen name="square_button_size">150dp</dimen>
     
 
+>>>>>>> d17304eb9e27d91dc4b28552b80524d70e455d13
 </resources>
