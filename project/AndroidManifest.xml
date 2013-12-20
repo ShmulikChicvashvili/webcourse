@@ -22,9 +22,9 @@
     <uses-permission android:name="com.technion.coolie.joinin.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <!--
@@ -299,41 +299,50 @@
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>
 
-        <!-- Tech Library -->
-        <activity
+        <!-- TechLibrary -->
+          <activity
             android:name="com.technion.coolie.techlibrary.MainActivity"
+            android:label="@string/lib_module_name"
             android:theme="@style/Theme.Sherlock.Light" >
-            android:label="@string/lib_module_name" >
         </activity>
         <activity
-            android:theme="@style/Theme.Sherlock.Light"
             android:name="com.technion.coolie.techlibrary.LoginActivity"
             android:label="@string/lib_title_activity_login"
             android:parentActivityName="com.technion.coolie.techlibrary.MainActivity"
+            android:theme="@style/Theme.Sherlock.Light"
             android:windowSoftInputMode="adjustResize|stateVisible" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.coolie.techlibrary.MainActivity" />
         </activity>
         <activity
-            android:theme="@style/Theme.Sherlock.Light"
             android:name="com.technion.coolie.techlibrary.ProfileActivity"
-            android:label="@string/lib_title_activity_profile" 
-            android:parentActivityName="com.technion.coolie.techlibrary.MainActivity">
+            android:label="@string/lib_title_activity_profile"
+            android:parentActivityName="com.technion.coolie.techlibrary.MainActivity"
+            android:theme="@style/Theme.Sherlock.Light" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.coolie.techlibrary.MainActivity" />
         </activity>
         <activity
-            android:theme="@style/Theme.Sherlock.Light"
-            android:name="com.technion.coolie.techlibrary.LibraryCardActivity"
-            android:label="@string/lib_title_activity_library_card"
-            android:parentActivityName="com.technion.coolie.techlibrary.MainActivity" 
-            >
+            android:name="com.technion.coolie.techlibrary.BookDescriptionActivity"
+            android:label="@string/lib_title_activity_book_description"
+            android:parentActivityName="com.technion.coolie.techlibrary.MainActivity"
+            android:theme="@style/Theme.Sherlock.Light" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.coolie.techlibrary.MainActivity" />
         </activity>
+        <activity
+            android:name="com.technion.coolie.techlibrary.OpenHoursScreens$LibraryDescriptionActivity"
+            android:label="@string/lib_title_activity_library_description"
+            android:parentActivityName="com.technion.coolie.techlibrary.MainActivity"
+            android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.techlibrary.MainActivity" />
+        </activity>
+
 
         <!-- TechPark -->
         <activity
