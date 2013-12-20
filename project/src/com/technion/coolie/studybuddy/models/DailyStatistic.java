@@ -9,7 +9,6 @@ import java.util.UUID;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.technion.coolie.studybuddy.data.DataStore;
-import com.technion.coolie.studybuddy.persistors.PersistMessages;
 
 @DatabaseTable
 public class DailyStatistic extends Observable
@@ -59,9 +58,9 @@ public class DailyStatistic extends Observable
 	public void addDone()
 	{
 		amountDone++;
-		// TODO: hack for speed
-		DataStore.getHelper().getStatDao().createOrUpdate(this);
-		notifyObservers(PersistMessages.UPDATE);
+//		// TODO: hack for speed
+//		DataStore.getHelper().getStatDao().createOrUpdate(this);
+//		notifyObservers(PersistMessages.UPDATE);
 	}
 
 	public void decreaseDone()
@@ -70,8 +69,8 @@ public class DailyStatistic extends Observable
 			return;
 		amountDone--;
 		DataStore.getHelper().getStatDao().createOrUpdate(this);
-		setChanged();
-		notifyObservers(PersistMessages.UPDATE);
+//		setChanged();
+//		notifyObservers(PersistMessages.UPDATE);
 	}
 
 	public int getAmountDone()
