@@ -205,18 +205,18 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		// Setting a temporary course list to fetch from the web.
 		// This list is passed to the service in the intent's extra data.
 		// Start the update service by pressing 'Sort by progress' on the overflow menu.
-		courseList.add("234107"); 
+//		courseList.add("234107"); 
 //		courseList.add("234114");
 //		courseList.add("236523");
 //		courseList.add("236350");
 //		courseList.add("236360");
-//		courseList.add("234118");
-//		courseList.add("234122");
-//		courseList.add("234123");
-//		courseList.add("234325");
-//		courseList.add("234141");
-//		courseList.add("234218");
-//		courseList.add("234247");
+		courseList.add("234118");
+		courseList.add("234122");
+		courseList.add("234123");
+		courseList.add("234325");
+		courseList.add("234141");
+		courseList.add("234218");
+		courseList.add("234247");
 
 
 	}
