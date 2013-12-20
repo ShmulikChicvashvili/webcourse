@@ -36,11 +36,15 @@ public class MyAccountActivity extends CoolieActivity {
 		ActionBar bar = getSupportActionBar();
 		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
-		Tab totTab = bar.newTab().setText("Total");
-		totTab.setTabListener(new TabListnerActivity(new TotalAccountActivity()));
-		Tab recTab = bar.newTab().setText("Recent");
-		recTab.setTabListener(new TabListnerActivity(new RecentAccountActivity()));
+		Tab totTab = bar.newTab().setText("Last Mine");
+		totTab.setTabListener(new TabListnerActivity(new RecentAccountActivity()));
+		Tab recTab = bar.newTab().setText("Total");
+		recTab.setTabListener(new TabListnerActivity(new TotalAccountActivity()));
 		bar.addTab(totTab);
 		bar.addTab(recTab);
 	}
+
+
+	
+	
 }

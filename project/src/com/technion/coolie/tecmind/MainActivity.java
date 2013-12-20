@@ -78,16 +78,22 @@ public class MainActivity extends CoolieActivity {
 		    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 		}
 		
+		
+		void firstInitiate() {
+			setContentView(R.layout.techmind_activity_my_title);
+		    progressBar = (LinearLayout) findViewById(R.id.progressBarLayout);
+		    myTitleLayout = (RelativeLayout) findViewById(R.id.my_title_main_layout);
+		    progressBar.setVisibility(View.VISIBLE);
+			myTitleLayout.setVisibility(View.INVISIBLE);
+		}
+		
 	  @Override
 	  public void onCreate(Bundle savedInstanceState) {
 //		  new ServerRemoveUser().execute();
 	    super.onCreate(savedInstanceState);
-	    setContentView(R.layout.techmind_activity_my_title);
-	    progressBar = (LinearLayout) findViewById(R.id.progressBarLayout);
-	    myTitleLayout = (RelativeLayout) findViewById(R.id.my_title_main_layout);
-	    progressBar.setVisibility(View.VISIBLE);
-		myTitleLayout.setVisibility(View.INVISIBLE);
-	
+	    
+	    firstInitiate();
+	    
 	    addInnerNavigationDrawer(R.layout.techmind_drawer_btn);
 	    total = (TextView) findViewById(R.id.total_text);
 	    Mylevel = (TextView) findViewById(R.id.level_text);	
@@ -111,7 +117,7 @@ public class MainActivity extends CoolieActivity {
 	            public void onCompleted(GraphUser user, Response response) {		    
 	            	if (user != null) {
 	            		
-	            		/* tries to get the userId from the device's storage */
+	            		/* tries to get the userId from the device's storage */ //TODO: add the writing to data storage
 //	            		try {
 //	            			BufferedReader reader = new BufferedReader(new FileReader("techmine"));
 //							userId = reader.readLine();
@@ -126,7 +132,7 @@ public class MainActivity extends CoolieActivity {
 	    	  	  		    userName = user.getFirstName();
 	            			
 	          			  /* adds the user ID to data storage of the device at the first time */
-//	          			  String techMineFileName = "techmine"; // TODO: Check with Nitzan Gur
+//	          			  String techMineFileName = "techmine"; 
 //	          			  FileOutputStream outputStream;
 //	
 //	          			  try {
@@ -143,12 +149,13 @@ public class MainActivity extends CoolieActivity {
 	            		userName = user.getFirstName() + " " + user.getLastName();
 	            		
 	  	  		      	initiateFromServer();
+	  	  		      
 	  	  		      	initiateActivityFields();
 	  	  		      	
-	  	  		      	/* initiates fields in case of "My Account" */
+	  	  		      	/* initiates fields in case of "My Account", user didn't mine yet */
 	  	  		      	MineActivity.exMiningDate = User.getUserInstance(null).lastMining;
-	  	  		      	MineActivity.newMiningDate = User.getUserInstance(null).lastMining;
-	  	  		      	MineActivity.totalDelta = User.getUserInstance(null).totalTechoins;
+	  	  		      	MineActivity.newMiningDate = null;
+	  	  		      	MineActivity.totalDelta = 0;
 	  	  		      	
 	  	  		      	progressBar.setVisibility(View.INVISIBLE);
 	  	  				myTitleLayout.setVisibility(View.VISIBLE);
@@ -160,6 +167,8 @@ public class MainActivity extends CoolieActivity {
 	      }
 	    }, Arrays.asList("user_groups","user_activities","user_likes"));
 	  }
+
+	  
 
 	private static Session openActiveSession(Activity activity, boolean allowLoginUI, 
 			StatusCallback callback, List<String> permissions) {
