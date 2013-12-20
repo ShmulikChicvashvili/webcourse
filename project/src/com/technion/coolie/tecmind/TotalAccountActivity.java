@@ -26,7 +26,7 @@ public class TotalAccountActivity extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		inflateView = (LinearLayout) inflater.inflate(
-				R.layout.techmind_activty_recent_account, container, false);
+				R.layout.techmind_activty_total_account, container, false);
 		initiateNumViews();
 		initiateValueViews();
 		
@@ -46,27 +46,27 @@ public class TotalAccountActivity extends SherlockFragment {
 
 	private void setValueTexts(int userPost, int userComments, int userLikes) {
 		postValue
-				.setText(String.valueOf(Utilities.calculatePostsAux(userPost)) + "   Techoins");
+				.setText(String.valueOf(Utilities.calculatePostsAux(userPost)));
 		commentsValue.setText(String.valueOf(Utilities
-				.calculateCommentsAux(userComments)) + "   Techoins");
+				.calculateCommentsAux(userComments)));
 		likesValue.setText(String.valueOf(Utilities
-				.calculatelikesAux(userLikes)) + "   Techoins");
+				.calculatelikesAux(userLikes)));
 		totalTechions.setText(String.valueOf(User.getUserInstance(null).totalTechoins) +  "   Techoins");
 	}
 
 	private void initiateNumViews() {
-		postNum = (TextView) inflateView.findViewById(R.id.number_posts);
-		commentsNum = (TextView) inflateView.findViewById(R.id.number_comments);
-		likesNum = (TextView) inflateView.findViewById(R.id.number_likes);
+		postNum = (TextView) inflateView.findViewById(R.id.total_account_number_posts);
+		commentsNum = (TextView) inflateView.findViewById(R.id.total_account_number_comments);
+		likesNum = (TextView) inflateView.findViewById(R.id.total_account_number_likes);
 
 	}
 	
 	private void initiateValueViews(){
-		postValue = (TextView) inflateView.findViewById(R.id.current_posts);
+		postValue = (TextView) inflateView.findViewById(R.id.total_account_current_posts);
 		commentsValue = (TextView) inflateView
-				.findViewById(R.id.current_comments);
-		likesValue = (TextView) inflateView.findViewById(R.id.current_likes);
-		totalTechions = (TextView) inflateView.findViewById(R.id.current_total);
+				.findViewById(R.id.total_account_current_comments);
+		likesValue = (TextView) inflateView.findViewById(R.id.total_account_current_likes);
+		totalTechions = (TextView) inflateView.findViewById(R.id.total_account_current_total);
 	}
 
 
