@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.technion.coolie.server.techmine;
 
 import java.util.List;

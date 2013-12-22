@@ -15,14 +15,18 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -32,6 +36,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.technion.coolie.CoolieAccount;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.R;
@@ -42,7 +47,6 @@ import com.technion.coolie.skeleton.CoolieStatus;
  */
 public class LoginActivity extends CoolieActivity {
 	// Keep track of the login task to ensure we can cancel it if requested.
-	private UserLoginTask mAuthTask = null;
 
 	// url for authentication
 	public static final String userAuthUrl_id = "https://aleph2.technion.ac.il/X?op=bor-auth&bor_id=";
@@ -64,7 +68,8 @@ public class LoginActivity extends CoolieActivity {
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
 
-	public SharedPreferences mSharedPref;
+	private SharedPreferences mSharedPref;
+	private Intent resultIntent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +80,13 @@ public class LoginActivity extends CoolieActivity {
 
 		Log.v("LoginActicity:", "login.....");
 
+		resultIntent = new Intent();
+		setResult(Activity.RESULT_CANCELED, resultIntent);
+
 		mSharedPref = getSharedPreferences(SHARED_PREF, 0);
 		if (mSharedPref.getBoolean(LOGGED_IN, false)) {
-			Intent resultIntent = new Intent();
 			setResult(Activity.RESULT_OK, resultIntent);
+			Log.v("LoginActicity:", "allready logged in!");
 			finish();
 		}
 
@@ -154,9 +162,7 @@ public class LoginActivity extends CoolieActivity {
 	 * and no actual login attempt is made.
 	 */
 	public void attemptLogin() {
-		if (mAuthTask != null) {
-			return;
-		}
+		Log.v("LoginActicity:", "start of attemptlogin.....");
 
 		// Reset errors.
 		mUserIdView.setError(null);
@@ -166,12 +172,14 @@ public class LoginActivity extends CoolieActivity {
 		mUserId = mUserIdView.getText().toString();
 		mPassword = mPasswordView.getText().toString();
 
-		boolean cancel = false;
+		Boolean cancel = false;
+
 		View focusView = null;
 
 		// Check for a valid password.
 		if (TextUtils.isEmpty(mPassword)) {
-			mPasswordView.setError(getString(R.string.lib_error_field_required));
+			mPasswordView
+					.setError(getString(R.string.lib_error_field_required));
 			focusView = mPasswordView;
 			cancel = true;
 		}
@@ -182,43 +190,57 @@ public class LoginActivity extends CoolieActivity {
 			focusView = mUserIdView;
 			cancel = true;
 		}
-		// else if (!mUserId.contains("@")) {
-		// mUserIdView.setError(getString(R.string.error_invalid_id));
-		// focusView = mUserIdView;
-		// cancel = true;
-		// }
 
 		if (cancel) {
 			// There was an error; don't attempt login and focus the first
 			// form field with an error.
 			focusView.requestFocus();
 		} else {
-			// Show a progress spinner, and kick off a background task to
-			// perform the user login attempt.
-			mLoginStatusMessageView.setText(R.string.lib_login_progress_signing_in);
-			showProgress(true);
+			// TODO: check for connection before we start!
+			if (!isOnline()) {
+				toastConnectionError();
+			} else {
+				// perform the user login attempt.
+				mLoginStatusMessageView
+						.setText(R.string.lib_login_progress_signing_in);
+				showProgress(true);
 
-			// code example for using html grabber!
-			// TODO: change code and use it.
-			HtmlGrabber hg = new HtmlGrabber(getApplicationContext()) {
-				@Override
-				public void handleResult(String result, CoolieStatus status) {
-					mAuthTask = new UserLoginTask(result);
-					mAuthTask.execute((Void) null);
-				}
-			};
-			String userAuthUrl = userAuthUrl_id + mUserId + userAuthUrl_pass
-					+ mPassword;
-			hg.getHtmlSource(userAuthUrl, HtmlGrabber.Account.NONE);
+				HtmlGrabber hg = new HtmlGrabber(this) {
+					@Override
+					public void handleResult(String result, CoolieStatus status) {
+						UserInfo user = null;
+
+						if (status == CoolieStatus.RESULT_OK) {
+							// Log.v("Login:", "graber result-" + result);
+							user = parseResult(result);
+
+							showProgress(false);
+
+							if (user != null) {
+								saveUserInfo(user);
+								setResult(Activity.RESULT_OK, resultIntent);
+								Log.v("LoginActicity:", "end of login.....");
+								finish();
+							} else { // !success
+								mPasswordView
+										.setError(getString(R.string.lib_error_incorrect_password));
+								mPasswordView.requestFocus();
+							}
+						} else {
+							// TODO: generate error
+						}
+
+					}
+				};
+				String userAuthUrl = userAuthUrl_id + mUserId
+						+ userAuthUrl_pass + mPassword;
+				hg.getHtmlSource(userAuthUrl, CoolieAccount.NONE);
+			}
 		}
 		Log.v("LoginActicity:", "end of attemptlogin.....");
 	}
 
-	private void toastConnectionError() {
-		Toast toast = Toast.makeText(this, "connection error",
-				Toast.LENGTH_LONG);
-		toast.show();
-	}
+	
 
 	/**
 	 * Shows the progress UI and hides the login form.
@@ -246,103 +268,54 @@ public class LoginActivity extends CoolieActivity {
 		}
 	}
 
-	/**
-	 * Represents an asynchronous login/registration task used to authenticate
-	 * the user.
-	 */
-	private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-		public UserInfo user = null;
-		private boolean mHasError;
-		private String result;
-
-		public UserLoginTask(String result) {
-			super();
-			this.result = result;
-			mHasError = false;
+	private UserInfo parseResult(String result) {
+		if (result.contains("<error>Error in Verification</error>")) {
+			return null;
 		}
+		UserInfoXMLHandler userXMLHandler = new UserInfoXMLHandler();
+		try {
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			SAXParser sp = spf.newSAXParser();
+			XMLReader xr = sp.getXMLReader();
 
-		// String convertStreamToString(InputStream is) {
-		// java.util.Scanner s = new java.util.Scanner(is, "UTF-8")
-		// .useDelimiter("\\A");
-		// return s.hasNext() ? s.next() : "";
-		// }
-
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			if (result.contains("<error>Error in Verification</error>")) {
-				return false;
-			}
-			UserInfoXMLHandler userXMLHandler = new UserInfoXMLHandler();
-			try {
-				SAXParserFactory spf = SAXParserFactory.newInstance();
-				SAXParser sp = spf.newSAXParser();
-				XMLReader xr = sp.getXMLReader();
-
-				/** Create handler to handle XML Tags ( extends DefaultHandler ) */
-				xr.setContentHandler(userXMLHandler);
-				xr.parse(new InputSource(new StringReader(result)));
-			} catch (Exception e) {
-				if ((e.getClass()) == java.net.UnknownHostException.class) {
-					mHasError = true;
-					return false;
-				}
-				if ((e.getClass() == SAXException.class)
-						&& (((SAXException) e).getMessage().equals("bad auth"))) {
-					return false;
-				}
-				Log.e("woooot:", "exception - " + e.getClass().toString(), e);
-			}
-			user = userXMLHandler.user;
-			return true;
+			/** Create handler to handle XML Tags ( extends DefaultHandler ) */
+			xr.setContentHandler(userXMLHandler);
+			xr.parse(new InputSource(new StringReader(result)));
+		} catch (Exception e) {
+			Log.e("woooot:", "exception - " + e.getClass().toString(), e);
+			// TODO: handle exceptions?
 		}
-
-		@Override
-		protected void onPostExecute(final Boolean success) {
-			mAuthTask = null;
-			showProgress(false);
-
-			if (success) {
-				SharedPreferences.Editor editor = mSharedPref.edit();
-				editor.putBoolean(LOGGED_IN, true);
-
-				// save the id (and not password) in lid_pref
-				editor.putString("user_id", mUserId);
-				// editor.putString("user_pass", mPassword);
-				// save the user info in the lib_pref
-				int index = user.fullName.indexOf(",");
-				editor.putString("user_first_name",
-						user.fullName.substring(index + 1));
-				editor.putString("user_last_name",
-						user.fullName.substring(0, index - 1));
-				editor.putString("user_address", user.address);
-				editor.putString("user_email", user.email);
-				editor.putString("user_telephone", user.telephone);
-				editor.putString("user_home_library", user.homeLibraryENG
-						+ " , " + user.homeLibraryHEB);
-				editor.putString("user_education_status", user.educationStatus);
-				editor.commit();
-
-				Intent resultIntent = new Intent();
-				setResult(Activity.RESULT_OK, resultIntent);
-				Log.v("LoginActicity:", "end of login.....");
-				finish();
-			} else if (mHasError) {
-				toastConnectionError();
-			} else { // !success
-				mPasswordView
-						.setError(getString(R.string.lib_error_incorrect_password));
-				mPasswordView.requestFocus();
-			}
-		}
-
-		@Override
-		protected void onCancelled() {
-			mAuthTask = null;
-			showProgress(false);
-			Intent resultIntent = new Intent();
-			setResult(Activity.RESULT_CANCELED, resultIntent);
-		}
+		return userXMLHandler.user;
 	}
+
+	private void saveUserInfo(UserInfo user) {
+		SharedPreferences.Editor editor = mSharedPref.edit();
+		editor.putBoolean(LOGGED_IN, true);
+
+		// save the id (and not password) in lid_pref
+		editor.putString("user_id", mUserId);
+		// editor.putString("user_pass", mPassword);
+		// save the user info in the lib_pref
+		int index = user.fullName.indexOf(",");
+		editor.putString("user_first_name", user.fullName.substring(index + 1));
+		editor.putString("user_last_name",
+				user.fullName.substring(0, index - 1));
+		editor.putString("user_address", user.address);
+		editor.putString("user_email", user.email);
+		editor.putString("user_telephone", user.telephone);
+		editor.putString("user_home_library", user.homeLibraryENG + " , "
+				+ user.homeLibraryHEB);
+		editor.putString("user_education_status", user.educationStatus);
+		editor.commit();
+	}
+
+	// @Override
+	// protected void onCancelled() {
+	// mAuthTask = null;
+	// showProgress(false);
+	// Intent resultIntent = new Intent();
+	// setResult(Activity.RESULT_CANCELED, resultIntent);
+	// }
 
 	/*
 	 * XML parser for user info.
@@ -360,6 +333,7 @@ public class LoginActivity extends CoolieActivity {
 			if (localName.equals("bor-auth")) {
 				/** Start */
 				user = new UserInfo();
+				Log.v("login:", "new user!");
 			}
 			if (localName.equals("error")) {
 				/* invalid id/pass. exit? */
@@ -407,8 +381,27 @@ public class LoginActivity extends CoolieActivity {
 				throws SAXException {
 			if (currentElement) {
 				currentValue = new String(ch, start, length);
+				currentValue.replace("&apos;", "'");
+				currentValue.replace("&quot;", "\"");
+				currentValue.replace("&amp;", "&");
 				currentElement = false;
 			}
 		}
+	}
+
+	private void toastConnectionError() {
+		Toast toast = Toast.makeText(this, "Connection error, try again later.",
+				Toast.LENGTH_LONG);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
+	}
+	
+	public boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		return false;
 	}
 }

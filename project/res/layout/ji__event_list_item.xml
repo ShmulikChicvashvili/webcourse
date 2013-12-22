@@ -2,51 +2,52 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:layout_margin="10dp">
-    
-   <ImageView
+    android:layout_margin="10dp"
+    android:orientation="vertical" >
+
+    <ImageView
         android:id="@+id/eventImageView"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
         android:gravity="center_vertical"
-        android:layout_margin="15dp"	
         android:src="@drawable/skel_facebook_icon" />
-   
-  <!--   <ImageView
+
+    <!--
+         <ImageView
         android:id="@+id/arrow"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:layout_alignParentRight="true"
         android:layout_margin="15dp"	
-        android:src="@drawable/skel_facebook_icon" />  -->
-        
+        android:src="@drawable/skel_facebook_icon" />
+    -->
+
     <TextView
         android:id="@+id/eventNameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_toRightOf="@id/eventImageView"
         android:layout_alignTop="@id/eventImageView"
-        android:text="@string/abs__action_bar_home_description"	/>
-    
-     <TextView
+        android:layout_toRightOf="@id/eventImageView"
+        android:text="@string/abs__action_bar_home_description"
+        android:textSize="20sp" />
+
+    <TextView
         android:id="@+id/eventDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/eventNameText"
         android:layout_below="@id/eventNameText"
-         android:text="@string/abs__action_bar_home_description"	/>
-     
-     <TextView
+        android:text="@string/abs__action_bar_home_description" />
+
+    <TextView
         android:id="@+id/eventLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/eventDate"
-        android:layout_toRightOf="@id/eventDate"	
-        android:layout_marginLeft="7dp"	
-         android:text="@string/abs__action_bar_home_description"	/>
-
+        android:layout_marginLeft="7dp"
+        android:layout_toRightOf="@id/eventDate"
+        android:text="@string/abs__action_bar_home_description" />
 
 </RelativeLayout>

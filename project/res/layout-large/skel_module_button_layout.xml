@@ -1,36 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/skel_big_button_layout"
+    style="@style/Button.Medium"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:clickable="true" 
-    style="@style/Button.Medium"
-    >
-    
+    android:clickable="true"
+    android:orientation="vertical" >
+
     <ImageView
         android:id="@+id/skel_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        
-        />
+        android:scaleType="fitCenter" />
+
     <TextView
-            android:id="@+id/skel_title"
-          	android:lines="2"
-            android:layout_width="match_parent"
-        	android:layout_height="wrap_content"
-            android:textSize="18sp"
-            style="@style/Button"
-             />
-    
+        android:id="@+id/skel_title"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="2"
+        android:textSize="18sp" />
+
     <TextView
-            android:id="@+id/skel_desc"
-            android:layout_width="match_parent"
-        	android:layout_height="wrap_content"
-        	android:lines="5"
-            android:ellipsize="end"
-            android:textSize="14sp"
-            style="@style/Button" />
+        android:id="@+id/skel_desc"
+        style="@style/Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="5"
+        android:textSize="14sp" />
+
 </LinearLayout>

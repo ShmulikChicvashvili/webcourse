@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <dimen name="lm2">16dip</dimen>
     <dimen name="dp10">10dp</dimen>
     <dimen name="dp7">7dp</dimen>
@@ -8,4 +9,5 @@
     <dimen name="pt8">8pt</dimen>
     <dimen name="pt6">6pt</dimen>
     <dimen name="dp20">20dp</dimen>
+
 </resources>

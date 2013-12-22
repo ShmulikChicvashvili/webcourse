@@ -21,6 +21,7 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
+import com.technion.coolie.CoolieAccount;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.CoolieNotification;
 import com.technion.coolie.R;
@@ -39,15 +40,9 @@ public class MainActivity extends CoolieActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.skel_activity_main);
 
-		/*
-		 * HtmlRequestHandler hg = new
-		 * HtmlRequestHandler(getApplicationContext()) {
-		 * 
-		 * @Override public void handleResult(String result, CoolieStatus
-		 * status) { Log.v("RESULT",result); } }; hg.getHtmlSource(
-		 * "http://techmvs.technion.ac.il:80/cics/wmn/wmngrad?ORD=1",
-		 * HtmlRequestHandler.Account.NONE);
-		 */
+		/*SignonDialog s = new SignonDialog(CoolieAccount.UG);
+		s.show(getSupportFragmentManager(), "dialog");*/
+
 		if (savedInstanceState == null) {
 			// this means that its the first time we run the app 
 			// so its ok to display these demo notifications..

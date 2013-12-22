@@ -2,10 +2,10 @@ package com.technion.coolie.server.webcourse.api;
 
 import java.util.List;
 
-import com.technion.coolie.server.webcourse.framework.AnnouncementsData;
-import com.technion.coolie.server.webcourse.framework.AssignmentData;
-import com.technion.coolie.server.webcourse.framework.CourseData;
-import com.technion.coolie.server.webcourse.framework.StaffData;
+import com.technion.coolie.webcourse.gr_plusplus.AnnouncementsData;
+import com.technion.coolie.webcourse.gr_plusplus.AssignmentData;
+import com.technion.coolie.webcourse.gr_plusplus.CourseData;
+import com.technion.coolie.webcourse.gr_plusplus.StaffData;
 
 /**
  * Created on 15.12.2013

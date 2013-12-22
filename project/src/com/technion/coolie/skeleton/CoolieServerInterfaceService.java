@@ -24,20 +24,20 @@ import com.technion.coolie.server.techoins.Product;
 import com.technion.coolie.server.techoins.TechoinsFactory;
 import com.technion.coolie.server.techoins.TechoinsTransfer;
 import com.technion.coolie.server.teletech.api.TeletechFactory;
-import com.technion.coolie.server.teletech.framework.ContactInformation;
 import com.technion.coolie.server.ug.ReturnCodesUg;
 import com.technion.coolie.server.ug.api.UgFactory;
-import com.technion.coolie.server.ug.framework.AcademicCalendarEvent;
-import com.technion.coolie.server.ug.framework.AccomplishedCourse;
-import com.technion.coolie.server.ug.framework.CourseKey;
-import com.technion.coolie.server.ug.framework.CourseServer;
-import com.technion.coolie.server.ug.framework.Exam;
-import com.technion.coolie.server.ug.framework.Payment;
-import com.technion.coolie.server.ug.framework.Semester;
-import com.technion.coolie.server.ug.framework.Student;
 import com.technion.coolie.server.webcourse.api.WebcourseFactory;
-import com.technion.coolie.server.webcourse.framework.CourseData;
-import com.technion.coolie.server.webcourse.framework.StaffData;
+import com.technion.coolie.teletech.ContactInformation;
+import com.technion.coolie.ug.Server.ServerCourse;
+import com.technion.coolie.ug.model.AcademicCalendarEvent;
+import com.technion.coolie.ug.model.AccomplishedCourse;
+import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.Exam;
+import com.technion.coolie.ug.model.Payment;
+import com.technion.coolie.ug.model.Semester;
+import com.technion.coolie.ug.model.Student;
+import com.technion.coolie.webcourse.gr_plusplus.CourseData;
+import com.technion.coolie.webcourse.gr_plusplus.StaffData;
 
 public class CoolieServerInterfaceService extends IntentService {
 
@@ -67,7 +67,7 @@ public class CoolieServerInterfaceService extends IntentService {
     switch (action) {
     case UG_GET_ALL_COURSES: {
       Semester semester = (Semester) arg0.getSerializableExtra(INPUT);
-      List<CourseServer> list;
+      List<ServerCourse> list;
       list = UgFactory.getUgCourse().getAllCourses(semester);
 
       intent.putExtra(STATUS, CoolieStatus.RESULT_OK);
@@ -79,7 +79,7 @@ public class CoolieServerInterfaceService extends IntentService {
 
     case UG_GET_COURSES: {
       List<CourseKey> listInput;
-      List<CourseServer> listOutput;
+      List<ServerCourse> listOutput;
       listInput = new Gson().fromJson(
           (String) arg0.getSerializableExtra(INPUT),
           new TypeToken<List<CourseKey>>() {
@@ -96,7 +96,7 @@ public class CoolieServerInterfaceService extends IntentService {
     case UG_GET_STUDENT_CURRENT_COURSES: {
       Student student;
       Semester semester;
-      List<CourseServer> listOutput;
+      List<ServerCourse> listOutput;
       student = new Gson().fromJson((String) arg0.getSerializableExtra(INPUT),
           Student.class);
       semester = new Gson().fromJson(

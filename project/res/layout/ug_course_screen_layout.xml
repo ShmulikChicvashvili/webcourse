@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  >
+    
+  <ScrollView 
+      android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <LinearLayout android:background="#112f" 
+        android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginTop="10dip"
+          android:layout_marginRight="10dip"
+          android:layout_marginLeft="10dip">
+        
+
+        
+<!-- <RadioGroup -->
+<!--     android:id="@+id/course_screen_semester_radio_group" -->
+<!--     android:layout_width="wrap_content" -->
+<!--     android:layout_height="wrap_content"  -->
+<!--     android:orientation="horizontal" -->
+<!--     android:layout_centerHorizontal="true" -->
+    
+<!--   > -->
+
+<!--     <RadioButton  -->
+<!--             android:id="@+id/course_screen_lastsemester" -->
+<!--         	android:text="חורף" -->
+<!--         	 android:textColor="@color/abs__background_holo_dark" -->
+<!--         	 android:checked="true" -->
+<!--         	 android:layout_gravity="right" -->
+        	
+<!--         /> -->
+
+<!--     <RadioButton -->
+<!--             android:id="@+id/course_screen_secondlastsemester" -->
+<!--         	android:text="אביב" -->
+<!--         	 android:textColor="@color/abs__background_holo_dark" -->
+<!--         	 android:layout_gravity="center" -->
+<!--          /> -->
+<!--      <RadioButton -->
+<!--             android:id="@+id/course_screen_threelastsemester" -->
+<!--         	android:text="קיץ" -->
+<!--         	 android:textColor="@color/abs__background_holo_dark" -->
+<!--         	 android:layout_gravity="right" -->
+<!--          /> -->
+    
+<!-- </RadioGroup> -->
+        
+
+<LinearLayout
+	    android:id="@+id/ug_course_screen_name_headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_gravity="right"
+          android:layout_marginTop="3dip"
+        android:background="@drawable/ug_course_text_header_group_container"
+        
+         > 
+
+<TextView
+            android:id="@+id/course_screen_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="default for debug" 
+            android:background="@drawable/ug_course_text_container"
+			android:layout_toLeftOf="@+id/ug_course_screen_name_header"            
+            />
+<TextView
+            android:id="@+id/ug_course_screen_name_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="שם קורס" 
+            android:textColor="#ffffff"
+            android:background="@drawable/ug_course_text_header_container"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/course_screen_name"
+            />
+</LinearLayout>
+
+
+<LinearLayout
+	    android:id="@+id/ug_course_screen_number_headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_gravity="right"
+          android:layout_marginTop="3dip"
+        android:background="@drawable/ug_course_text_header_group_container"
+        
+         > 
+
+<TextView
+            android:id="@+id/course_screen_number"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="233232" 
+            android:background="@drawable/ug_course_text_container"
+            
+            
+            />
+<TextView
+            android:id="@+id/ug_course_screen_number_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="מספר קורס" 
+            android:textColor="#ffffff"
+            android:background="@drawable/ug_course_text_header_container"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/course_screen_name"
+            />
+</LinearLayout>
+
+
+	<LinearLayout
+	    android:id="@+id/course_screen_view_headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_gravity="right"
+          android:layout_marginTop="3dip"
+        android:layout_below="@id/course_screen_name"
+         > 
+         
+	    <LinearLayout
+	    android:id="@+id/ug_course_screen_faculty_headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_gravity="right"
+        android:background="@drawable/ug_course_text_header_group_container"
+        >
+         <TextView
+            android:id="@+id/course_screen_faculty"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="תעשייה וניהול" 
+            android:background="@drawable/ug_course_text_container"
+            
+            android:layout_gravity="right"
+            
+            />
+         <TextView
+            android:id="@+id/ug_course_screen_faculty_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="פקולטה" 
+            android:textColor="#ffffff"
+            android:background="@drawable/ug_course_text_header_container"
+            android:layout_alignTop="@+id/course_screen_faculty"
+            />
+        </LinearLayout>
+         
+         <LinearLayout
+	    android:id="@+id/ug_course_screen_points_headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_gravity="right"
+          android:layout_marginTop="3dip"
+        android:background="@drawable/ug_course_text_header_group_container"
+        >
+         <TextView
+            android:id="@+id/course_screen_points"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="4.0" 
+            android:background="@drawable/ug_course_text_container"
+            
+            android:layout_gravity="right"
+            
+            />
+         <TextView
+            android:id="@+id/ug_course_screen_points_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:singleLine="true"
+            android:text="נק" 
+            android:textColor="#ffffff"
+            android:background="@drawable/ug_course_text_header_container"
+            android:layout_alignTop="@+id/course_screen_points"
+            />
+        </LinearLayout>
+         
+         
+         
+        
+        </LinearLayout>
+        
+         
+        <LinearLayout
+	    android:id="@+id/ug_course_screen_description_headline"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_gravity="right"
+          android:layout_marginTop="3dip"
+        android:background="@drawable/ug_course_text_header_group_container"
+        >
+
+	<TextView
+            android:id="@+id/course_screen_description"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:text="This is a description for allllllllllllllllll the goddamn people in the goddamn whole world to see the greatness in itself" 
+            android:background="@drawable/ug_course_text_container"
+            
+              android:layout_weight="16"
+            />
+	<TextView
+            android:id="@+id/ug_course_screen_description_header"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="right|center_vertical"
+            android:singleLine="true"
+            android:text="תיאור" 
+            android:textColor="#ffffff"
+            android:background="@drawable/ug_course_text_header_container"
+            android:layout_weight="1"
+            />
+	</LinearLayout>
+	
+	 <LinearLayout
+	     android:id="@+id/course_screen_exams_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="right"
+        android:layout_marginTop="3dip"
+        
+         > 
+	
+	      <LinearLayout
+	    android:id="@+id/ug_course_screen_examb_headline"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_gravity="right"
+          
+          android:layout_weight="1"
+        android:background="@drawable/ug_course_text_header_group_container"
+        >
+	     
+	     
+	<TextView
+            android:id="@+id/course_screen_exam_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 19/10/2030 " 
+            android:background="@drawable/ug_course_text_container"
+            
+            
+            
+            />
+	
+	<TextView
+            android:id="@+id/ug_course_screen_examb_header"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="right|center_vertical"
+            android:singleLine="true"
+            android:text="מועד ב" 
+            android:textColor="#ffffff"
+            android:background="@drawable/ug_course_text_header_container"
+           
+            />
+	</LinearLayout>
+	
+	       <LinearLayout
+	    android:id="@+id/ug_course_screen_exama_headline"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:layout_gravity="right"
+          android:layout_marginTop="3dip"
+          android:layout_weight="1"
+        android:background="@drawable/ug_course_text_header_group_container"
+        >
+	      
+	<TextView
+            android:id="@+id/course_screen_exam_a"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:text=" 19/10/2030" 
+            android:background="@drawable/ug_course_text_container"
+            
+            
+            />
+	
+	
+	<TextView
+            android:id="@+id/ug_course_screen_exama_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_vertical"
+            android:singleLine="true"
+            android:text="מועד א" 
+            android:textColor="#ffffff"
+            android:background="@drawable/ug_course_text_header_container"
+           
+            />
+	</LinearLayout>
+	
+	</LinearLayout>
+	
+	 <TextView
+            android:id="@+id/course_screen_groups_label"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:text="groups" 
+            android:background="@drawable/ug_course_label_text_container"
+    		android:layout_below="@id/course_screen_exams_layout"
+    		  android:layout_marginTop="5dp"
+        
+            
+            />
+	 
+	<LinearLayout 
+	    android:id="@+id/course_screen_groups_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
+        android:layout_below="@id/course_screen_groups_label"
+        android:orientation="vertical" 
+        android:layout_marginBottom="10dp"
+      >
+	    
+	</LinearLayout>
+
+	    </LinearLayout>
+	
+    
+    
+	    </ScrollView>  
+</RelativeLayout>

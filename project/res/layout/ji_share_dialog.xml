@@ -24,12 +24,11 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="7dp"
             android:text="@string/share_facebook"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textColor="#000000"
-            android:layout_marginRight="7dp" />
-
-    </LinearLayout>	
+            android:textColor="#000000" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/share_other"
@@ -43,7 +42,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ji_navigation_expand" />
-
     </LinearLayout>
 
 </LinearLayout>
