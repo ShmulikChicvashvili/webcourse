@@ -2,9 +2,11 @@ package com.technion.coolie.tecmind;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,6 +38,7 @@ import com.facebook.Session;
 import com.facebook.Session.OpenRequest;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
+import com.facebook.android.Facebook;
 import com.facebook.model.GraphUser;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -78,16 +81,22 @@ public class MainActivity extends CoolieActivity {
 		    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 		}
 		
+		
+		void firstInitiate() {
+			setContentView(R.layout.techmind_activity_my_title);
+		    progressBar = (LinearLayout) findViewById(R.id.progressBarLayout);
+		    myTitleLayout = (RelativeLayout) findViewById(R.id.my_title_main_layout);
+		    progressBar.setVisibility(View.VISIBLE);
+			myTitleLayout.setVisibility(View.INVISIBLE);
+		}
+		
 	  @Override
 	  public void onCreate(Bundle savedInstanceState) {
 //		  new ServerRemoveUser().execute();
 	    super.onCreate(savedInstanceState);
-	    setContentView(R.layout.techmind_activity_my_title);
-	    progressBar = (LinearLayout) findViewById(R.id.progressBarLayout);
-	    myTitleLayout = (RelativeLayout) findViewById(R.id.my_title_main_layout);
-	    progressBar.setVisibility(View.VISIBLE);
-		myTitleLayout.setVisibility(View.INVISIBLE);
-	
+	     
+	    firstInitiate();
+	    
 	    addInnerNavigationDrawer(R.layout.techmind_drawer_btn);
 	    total = (TextView) findViewById(R.id.total_text);
 	    Mylevel = (TextView) findViewById(R.id.level_text);	
@@ -111,48 +120,63 @@ public class MainActivity extends CoolieActivity {
 	            public void onCompleted(GraphUser user, Response response) {		    
 	            	if (user != null) {
 	            		
-	            		/* tries to get the userId from the device's storage */
-//	            		try {
-//	            			BufferedReader reader = new BufferedReader(new FileReader("techmine"));
-//							userId = reader.readLine();
-//						} catch (IOException e) {
-////							Toast.makeText(getApplicationContext(), "Problem while reading from data storage",
-////			  	  	        		Toast.LENGTH_LONG).show();
-//						}
-//	
+	            		
+	            		/******************************************************************/
+	            		//TODO: NEED TO THINK HOW TO DO IT!!!!!!!
+	            		
+	            		/* tries to get the userId from the device's storage */ //TODO: add the writing to data storage
+	            		try {
+							FileInputStream fileToRead = openFileInput("techmine");
+							InputStreamReader isr = new InputStreamReader(fileToRead);
+						    char[] inputBuffer = new char[100];
+						    isr.read(inputBuffer);
+						    String readString = new String(inputBuffer);
+						    
+						    String[] parts = readString.split("\\*");
+						    userId = parts[0]; 
+						    userName = parts[1]; 
+						    
+//						    Toast.makeText(getApplicationContext(), readString, Toast.LENGTH_LONG).show();
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
 	            		if (userId == null) {
 	            			/* updates the user id from Facebook */
 	            			userId = user.getId();
-	    	  	  		    userName = user.getFirstName();
+	    	  	  		    userName = user.getFirstName() + " " + user.getLastName();
 	            			
 	          			  /* adds the user ID to data storage of the device at the first time */
-//	          			  String techMineFileName = "techmine"; // TODO: Check with Nitzan Gur
-//	          			  FileOutputStream outputStream;
-//	
-//	          			  try {
-//	          			    outputStream = openFileOutput(techMineFileName, Context.MODE_PRIVATE);
-//	          			    outputStream.write(userId.getBytes());
-//	          			    outputStream.close();
-//	          			  } catch (Exception e) {
-//	          			    e.printStackTrace();
-//	          			  }
-	          			  
+			    	  	  	FileOutputStream outputStream;
+			    	  	  	try {
+			    	  	  	  outputStream = openFileOutput("techmine", Context.MODE_PRIVATE);
+			    	  	  	  outputStream.write((userId + "*").getBytes());
+			    	  	  	  outputStream.write(userName.getBytes());
+			    	  	  	  outputStream.close();
+			    	  	  	} catch (Exception e) {
+			    	  	  	  e.printStackTrace();
+			    	  	  	}
 	          		
-	          			  
 	            		}
-	            		userName = user.getFirstName() + " " + user.getLastName();
+	            		
+//	            		userName = user.getFirstName() + " " + user.getLastName();
 	            		
 	  	  		      	initiateFromServer();
+	  	  		      
 	  	  		      	initiateActivityFields();
 	  	  		      	
-	  	  		      	/* initiates fields in case of "My Account" */
+	  	  		      	/* initiates fields in case of "My Account", user didn't mine yet */
 	  	  		      	MineActivity.exMiningDate = User.getUserInstance(null).lastMining;
-	  	  		      	MineActivity.newMiningDate = User.getUserInstance(null).lastMining;
-	  	  		      	MineActivity.totalDelta = User.getUserInstance(null).totalTechoins;
+	  	  		      	MineActivity.newMiningDate = null;
+	  	  		      	MineActivity.totalDelta = 0;
 	  	  		      	
 	  	  		      	progressBar.setVisibility(View.INVISIBLE);
 	  	  				myTitleLayout.setVisibility(View.VISIBLE);
-	  	  				  	  		        
+	  	  			/******************************************************************/
 	            	}
 	             }
 	          }).executeAsync();
@@ -160,6 +184,8 @@ public class MainActivity extends CoolieActivity {
 	      }
 	    }, Arrays.asList("user_groups","user_activities","user_likes"));
 	  }
+
+	  
 
 	private static Session openActiveSession(Activity activity, boolean allowLoginUI, 
 			StatusCallback callback, List<String> permissions) {
