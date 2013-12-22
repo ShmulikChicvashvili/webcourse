@@ -1,0 +1,18 @@
+<resources>
+
+<<<<<<< HEAD
+    <!--
+         Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw600dp devices (e.g. 7" tablets) here.
+    -->
+   <dimen name="chart_width">320dp</dimen>
+=======
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="lmi_layout_margin">16dp</dimen>
+    <dimen name="lmi_components_margin">5dip</dimen>
+    <dimen name="lmi_contact_image_size">100dp</dimen>
+    <dimen name="lmi_status_image_size">50dp</dimen>
+
+>>>>>>> d17304eb9e27d91dc4b28552b80524d70e455d13
+</resources>
