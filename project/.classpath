@@ -13,8 +13,7 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="src" path="/actionbarsherlock"/>
-	<classpathentry kind="lib" path="libs/aniqroid.jar"/>
-	<classpathentry kind="lib" path="libs/nineoldandroids-2.4.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/aniqroid.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/nineoldandroids-2.4.0.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

@@ -53,7 +53,9 @@ public class TaskParser extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+    	
     	courseList = intent.getStringArrayListExtra(MainActivity.COURSE_LIST);
+    	
     	// If course list is empty stop service (no implicit call to stopSelf() is needed,
     	// all taking care of by super (IntentService).
     	if (courseList == null || courseList.size() == 0) return;
@@ -81,128 +83,123 @@ public class TaskParser extends IntentService {
     			String[] courseInfo = splitTitle[0].split("-");
     			String courseId = courseInfo[0].trim();
     			String courseName = courseInfo[1].trim();
-    			Log.i(MainActivity.AM_TAG, "Course Id: ");
     			
-//    			Element lastTable = null;
-//    			// Find the element which has a child node with comment <!--WebCourse:Content-->
-//    			// This element has a table child element which holds all the data we seek.
-//    			for (Element e : doc.getAllElements()) {
-//    				for (Node n : e.childNodes())
-//    					if (n instanceof Comment && (((Comment) n).getData().equals("WebCourse:Content"))) {
-//    						Comment c = ((Comment) n);
-//    						lastTable = e.select("table").first();
-//    					}
-//    			}
-//    			
-//    			Element body = lastTable.child(0);
-//    			
-//    			// Need to check that body != null !!!
-//    			Elements tableElements = body.select("table:matches(" + taskRegExp1 
-//    					+ "|" + taskRegExp2 + "|" + taskRegExp3 + "|" + taskRegExp4 + "|" 
-//    					+ taskRegExp5 + "|" + taskRegExp6 + "|" + taskRegExp7 + "|" 
-//    					+ taskRegExp8 + "|" + taskRegExp9 + "|" + taskRegExp10 
-//    					+ "|" + taskRegExp11 + ")");
-//    			
-//    			
-////    			Log.i(MainActivity.AM_TAG, "number of table elements found: " + String.valueOf(tableElements.size()));
-//    			
-//    			
-//    			ArrayList<Pair<String, String>> namesAndDates = new ArrayList<Pair<String,String>>();
-//    			if (!tableElements.isEmpty()) {
-//    				// Add the first hw table element found to the list.
-//    				Element firstTable = tableElements.get(0);
-//    				
-//    				// First tr element holds the hw title.
-//    				Element trFirst = firstTable.select("tr").first();
-//    				if (trFirst != null) {
-//    					String name = trFirst.text();
-////    					Log.i(MainActivity.AM_TAG, "hw found: " + name);
-////    					Element body = trFirst.parent();
-//    					Elements trElements = firstTable.select("tr:matches(" 
-//    												+ dueDateTitleRegExp + ")"); 
-////    					Log.i(MainActivity.AM_TAG, "number of elements containing dates: " + String.valueOf(trElements.size()));
-//    					Element dateElement = trElements.first();
-//    					if (dateElement != null) { 
-//    						Elements datesElements = dateElement.select("td:matches(" + dueDateRegExp + ")");
-//    						dateElement = datesElements.first();
-//    					}
-//    					// Checking if due date exists.
-//    					if (dateElement != null) {
-//    						String date = dateElement.text();
-//    						// In case the due date includes time, remove the time.
-//    						date = date.split(",")[0].trim();
-////    						Log.i(MainActivity.AM_TAG, "date found: " + date);
-//    						namesAndDates.add(new Pair<String, String>(name, date));
-//    					} else {
-//    						// In case due date not exists, use an empty string.
-//    						namesAndDates.add(new Pair<String, String>(name, ""));
-//    					}
-//    				}
-//    				
-//    				// Iterate over the rest of the elements and populate the list with the latest
-//    				// HW found. We use a list for cases there's more than one HW with same due date.
-//    				for (int i = 1; i < tableElements.size(); i++) {
-//    					Element table = tableElements.get(i);
-//    					firstTable = table.child(0);
-//        				
-//        				// First tr element holds the hw title.
-//        				trFirst = firstTable.select("tr").first();
-//        				
-//    					if (trFirst != null) {
-//    						String name = trFirst.text();
-////    						Log.i(MainActivity.AM_TAG, "hw found: " + name);
-//    						Elements trElements = firstTable.select("tr:matches(" + dueDateTitleRegExp + ")");
-//    						Element dateElement = trElements.first();
-//    						if (dateElement != null) { 
-//    							Elements datesElements = dateElement.select("td:matches(" + dueDateRegExp + ")");
-//    							dateElement = datesElements.first();
-//    						}
-//        					// Checking if due date exists.
-//        					if (dateElement != null) {
-//        						String date = dateElement.text();
-//        						// In case the due date includes time, remove the time.
-//        						date = date.split(",")[0].trim();
-////        						Log.i(MainActivity.AM_TAG, "date found: " + date);
-//        						String latestDate = namesAndDates.get(namesAndDates.size()-1).second;
-//        						if (latestDate.isEmpty()) {
-//        							// If the hw in the list has no due date, add the current hw to the list.
-//        							// Later we'll compare these hw's by name and find the latest.
-//        							namesAndDates.add(new Pair<String, String>(name, date));
-//        						} else {
-//        							// Compare the current date to the date in the list.
-//        							// If the current date is after the date in the list, replace it.
-//        							// If the current date is the same as the date in the list, add it.
-//        							int compare = datesCompare(latestDate, date);
-//        							if (compare <= 0) {
-//        								if (compare < 0) removePairs(namesAndDates);
-//        								namesAndDates.add(new Pair<String, String>(name, date));
-//        							}
-//        						}
-//        						
-//        					} else {
-//        						// In case due date not exists, use an empty string and add to the list.
-//        						namesAndDates.add(0, new Pair<String, String>(name, ""));
-//        					}
-//    					}
-//    				}
-//    			}
-////    			Log.i(MainActivity.AM_TAG, courseId + " - number of hws found: " + String.valueOf(namesAndDates.size()));
-//    			
-//    			namesAndDates = compareNames(namesAndDates);
-//    			
-//    			for (Pair<String, String> p : namesAndDates) {
-//    				String url = "http://webcourse.cs.technion.ac.il/" + courseId;
-//    				TasksInfo newTask = new TasksInfo(new SpannableString(p.first), courseName, courseId, 
-//    						p.second, false, 0, 0, 0, url);
-//    				addTaskToList(newTask);
-//    			}
+    			Element lastTable = null;
+    			// Find the element which has a child node with comment <!--WebCourse:Content-->
+    			// This element has a table child element which holds all the data we seek.
+    			for (Element e : doc.getAllElements()) {
+    				for (Node n : e.childNodes())
+    					if (n instanceof Comment && (((Comment) n).getData().equals("WebCourse:Content"))) {
+    						lastTable = e.select("table").first();
+    					}
+    			}
+    			if (lastTable == null) return;
+    			Element body = lastTable.child(0);
+    			
+    			// Each element in 'tableElements' holds the data for specific HW.
+    			Elements tableElements = body.select("table:matches(" + taskRegExp1 
+    					+ "|" + taskRegExp2 + "|" + taskRegExp3 + "|" + taskRegExp4 + "|" 
+    					+ taskRegExp5 + "|" + taskRegExp6 + "|" + taskRegExp7 + "|" 
+    					+ taskRegExp8 + "|" + taskRegExp9 + "|" + taskRegExp10 
+    					+ "|" + taskRegExp11 + ")");
+    			
+    			ArrayList<Pair<String, String>> namesAndDates = new ArrayList<Pair<String,String>>();
+    			// We add the first HW found to the list and then compare any other HW's found against the
+    			// HW that already in the list.
+    			if (!tableElements.isEmpty()) {
+    				Element firstTable = tableElements.get(0);
+    				
+    				// First tr element holds the hw title.
+    				Element trFirst = firstTable.select("tr").first();
+    				if (trFirst != null) {
+    					// First tr (row) element in the table holds the HW title.
+    					String name = trFirst.text();
+    					// We look for a row which contain the text "Due date". Some other rows in the table
+    					// may contain dates and by looking for that specific row, we make sure we find the
+    					// actual due date.
+    					Elements trElements = firstTable.select("tr:matches(" 
+    												+ dueDateTitleRegExp + ")"); 
+    					Element dateElement = trElements.first();
+    					if (dateElement != null) { 
+    						Elements datesElements = dateElement.select("td:matches(" + dueDateRegExp + ")");
+    						dateElement = datesElements.first();
+    						// Checking if due date exists.
+    						if (dateElement != null) {
+    							String date = dateElement.text();
+    							// In case the due date include time, remove the time.
+    							date = date.split(",")[0].trim();
+    							namesAndDates.add(new Pair<String, String>(name, date));
+    						}
+    					} else {
+    						// In case due date doesnt exist, use an empty string.
+    						namesAndDates.add(new Pair<String, String>(name, ""));
+    					}
+    				}
+    				
+    				// Iterate over the rest of the elements and populate the list with the latest
+    				// HW found. We use a list for cases there's more than one HW with same due date.
+    				for (int i = 1; i < tableElements.size(); i++) {
+    					Element table = tableElements.get(i);
+    					firstTable = table.child(0);
+        				
+        				// First tr element holds the hw title.
+        				trFirst = firstTable.select("tr").first();
+        				
+    					if (trFirst != null) {
+    						String name = trFirst.text();
+    						Elements trElements = firstTable.select("tr:matches(" + dueDateTitleRegExp + ")");
+    						Element dateElement = trElements.first();
+    						if (dateElement != null) { 
+    							Elements datesElements = dateElement.select("td:matches(" + dueDateRegExp + ")");
+    							dateElement = datesElements.first();
+    							// Checking if due date exists.
+    							if (dateElement != null) {
+    								String date = dateElement.text();
+    								// In case the due date includes time, remove the time.
+    								date = date.split(",")[0].trim();
+    								String latestDate = namesAndDates.get(namesAndDates.size()-1).second;
+    								if (latestDate.isEmpty()) {
+    									// If the hw in the list has no due date, add the current hw to the list.
+    									// Later we'll compare these hw's by name and find the latest.
+    									namesAndDates.add(new Pair<String, String>(name, date));
+    								} else {
+    									// Compare the current date to the date in the list.
+    									// If the current date is after the date in the list, replace it.
+    									// If the current date is the same as the date in the list, add it.
+    									int compare = datesCompare(latestDate, date);
+    									if (compare <= 0) {
+    										if (compare < 0) removePairs(namesAndDates);
+    										namesAndDates.add(new Pair<String, String>(name, date));
+    									}
+    								}
+    							}
+        					} else {
+        						// In case due date not exists, use an empty string and add to the list.
+        						namesAndDates.add(0, new Pair<String, String>(name, ""));
+        					}
+    					}
+    				}
+    			}
+    			Log.i(MainActivity.AM_TAG, courseId + " - number of hws found: " + String.valueOf(namesAndDates.size()));
+    			
+    			// At this point, the list contain only the latest HW found and HW's with no due date.
+    			// Now, we compare the HW's titles and keep the last HW only (i.e the HW with the highest number
+    			// in the title).
+    			namesAndDates = compareNames(namesAndDates);
+    			
+    			// Adding the HW's found to DB.
+    			for (Pair<String, String> p : namesAndDates) {
+    				String url = "http://webcourse.cs.technion.ac.il/" + courseId;
+    				TasksInfo newTask = new TasksInfo(new SpannableString(p.first), courseName, courseId, 
+    						p.second, false, 0, 0, 0, url);
+    				addTaskToList(newTask);
+    			}
 			}
 		};
-    		for (String url : urls) {
-    			// Fetch the html from web.
-    			Log.i(MainActivity.AM_TAG, "fetching: " + url);
-    			hg.getHtmlSource(url, HtmlGrabber.Account.NONE);
-    		}
+		for (String url : urls) {
+    		// Fetch the html from web.
+    		hg.getHtmlSource(url, HtmlGrabber.Account.NONE);
+		}
     }
     
     private void removePairs(ArrayList<Pair<String, String>> namesAndDates) {
