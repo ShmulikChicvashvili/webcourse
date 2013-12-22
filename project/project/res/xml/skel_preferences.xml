@@ -1,71 +1,59 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory 
-        android:title="Acounts"
-        android:key="Acounts">
-      
-        <Preference 
-            android:key="sign_in_with_facebook"
-            
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="Acounts"
+        android:title="Acounts" >
+        <Preference
             android:icon="@drawable/skel_facebook_icon"
+            android:key="sign_in_with_facebook"
             android:title="Facebook" />
-        <Preference 
-            android:key="sign_in_with_google"
-            
+        <Preference
             android:icon="@drawable/skel_google_icon"
+            android:key="sign_in_with_google"
             android:title="Google" />
-        
-        <Preference 
-            android:key="sign_in_with_UG"
+        <Preference
             android:icon="@drawable/skel_tech"
-           
+            android:key="sign_in_with_UG"
             android:title="UG" />
-        
-      
     </PreferenceCategory>
-    
-    <PreferenceCategory 
-        android:title="Module A"
-        android:key="module_a">
-      
-        <Preference 
+    <PreferenceCategory
+        android:key="module_a"
+        android:title="Module A" >
+        <Preference
             android:key="pref_a"
             android:title="Preference A" />
-     	<Preference 
+        <Preference
             android:key="pref_b"
             android:title="Preference B" />
-        <Preference 
+        <Preference
             android:key="pref_c"
             android:title="Preference C" />
     </PreferenceCategory>
-    
-        <PreferenceCategory 
-        android:title="Module B"
-        android:key="module_b">
-      
-        <Preference 
+    <PreferenceCategory
+        android:key="module_b"
+        android:title="Module B" >
+        <Preference
             android:key="pref_a"
             android:title="Preference A" />
-     	<Preference 
+        <Preference
             android:key="pref_b"
             android:title="Preference B" />
-        <Preference 
+        <Preference
             android:key="pref_c"
             android:title="Preference C" />
     </PreferenceCategory>
-    
-            <PreferenceCategory 
-        android:title="Module C"
-        android:key="module_c">
-      
-        <Preference 
+    <PreferenceCategory
+        android:key="module_c"
+        android:title="Module C" >
+        <Preference
             android:key="pref_a"
             android:title="Preference A" />
-     	<Preference 
+        <Preference
             android:key="pref_b"
             android:title="Preference B" />
-        <Preference 
+        <Preference
             android:key="pref_c"
             android:title="Preference C" />
     </PreferenceCategory>
-    
+
 </PreferenceScreen>

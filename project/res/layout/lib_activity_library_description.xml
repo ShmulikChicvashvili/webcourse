@@ -1,0 +1,189 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".LibraryDescriptionActivity" >
+
+    <TextView
+        android:id="@+id/lib_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="left"
+        android:text="English"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/lib_line"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/lib_name"
+        android:layout_marginBottom="20sp"
+        android:background="#006CB3" />
+
+    <ImageView
+        android:id="@+id/lib_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/lib_line"
+        android:layout_marginRight="@dimen/half_activity_horizontal_margin"
+        android:adjustViewBounds="true"
+        android:maxHeight="200dp"
+        android:maxWidth="200dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/lib_librarypic" />
+
+    <TextView
+        android:id="@+id/lib_head_librarien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/lib_line"
+        android:layout_toLeftOf="@id/lib_image"
+        android:gravity="left"
+        android:text="Head Librarian:"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lib_head_librarien_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_head_librarien"
+        android:layout_marginLeft="7sp"
+        android:gravity="left"
+        android:text="Author:"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/lib_phone_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/lib_head_librarien_name"
+        android:layout_toLeftOf="@id/lib_image"
+        android:gravity="left"
+        android:text="Phone:"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lib_phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_phone_title"
+        android:layout_marginLeft="7sp"
+        android:gravity="left"
+        android:text="Author:"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/lib_email_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/lib_phone_number"
+        android:layout_toLeftOf="@id/lib_image"
+        android:gravity="left"
+        android:text="Email:"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lib_email_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_email_title"
+        android:layout_marginLeft="7sp"
+        android:gravity="left"
+        android:text="Author:"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/lib_open_hours_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="left"
+        android:layout_below="@id/lib_email_data"
+        android:text="Library Open Hours"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/lib_line2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/lib_open_hours_title"
+        android:layout_marginBottom="20sp"
+        android:background="#006CB3" />
+
+    <TextView
+        android:id="@+id/lib_title_usual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/lib_line2"
+        android:gravity="left"
+        android:text="During Academic Year:"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/lib_usual_days"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_title_usual"
+        android:layout_marginLeft="7sp"
+        android:layout_marginRight="7sp"
+        android:gravity="left"
+        android:text="Tue, Thu:\nSun, Mon, Wed:"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/lib_usual_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_title_usual"
+        android:layout_toRightOf="@id/lib_title_usual"
+        android:gravity="left"
+        android:text="08:15 - 20:45\n08:15 - 21:45"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/lib_title_special"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/lib_usual_hours"
+        android:gravity="left"
+        android:text="During Summer Break:"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+  <TextView
+        android:id="@+id/lib_special_days"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_title_special"
+        android:layout_marginLeft="7sp"
+        android:layout_marginRight="7sp"
+        android:gravity="left"
+        android:text="Tue, Thu:\nSun, Mon, Wed:"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/lib_special_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_title_special"
+        android:layout_toRightOf="@id/lib_title_special"
+        android:gravity="left"
+        android:text="08:15 - 15:15\n08:15 - 14:00"
+        android:textSize="15sp" />
+</RelativeLayout>
