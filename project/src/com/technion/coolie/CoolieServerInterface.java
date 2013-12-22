@@ -24,7 +24,7 @@ import com.technion.coolie.skeleton.CoolieStatus;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
-import com.technion.coolie.webcourse.gr_plusplus.CourseData;
+import com.technion.coolie.webcourse.CourseData;
 
 //import com.technion.coolie.server.webcourse.framework.CourseData;
 

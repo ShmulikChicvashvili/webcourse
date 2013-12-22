@@ -36,8 +36,8 @@ import com.technion.coolie.ug.model.Exam;
 import com.technion.coolie.ug.model.Payment;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
-import com.technion.coolie.webcourse.gr_plusplus.CourseData;
-import com.technion.coolie.webcourse.gr_plusplus.StaffData;
+import com.technion.coolie.webcourse.CourseData;
+import com.technion.coolie.webcourse.StaffData;
 
 public class CoolieServerInterfaceService extends IntentService {
 
