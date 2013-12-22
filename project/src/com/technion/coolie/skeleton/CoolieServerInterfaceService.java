@@ -36,8 +36,8 @@ import com.technion.coolie.server.ug.framework.Payment;
 import com.technion.coolie.server.ug.framework.Semester;
 import com.technion.coolie.server.ug.framework.Student;
 import com.technion.coolie.server.webcourse.api.WebcourseFactory;
-import com.technion.coolie.server.webcourse.framework.CourseData;
-import com.technion.coolie.server.webcourse.framework.StaffData;
+import com.technion.coolie.webcourse.gr_plusplus.CourseData;
+import com.technion.coolie.webcourse.gr_plusplus.StaffData;
 
 public class CoolieServerInterfaceService extends IntentService {
 

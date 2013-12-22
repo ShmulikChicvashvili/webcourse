@@ -6,10 +6,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
 import com.technion.coolie.server.webcourse.api.IWebcourseManager;
-import com.technion.coolie.server.webcourse.framework.AnnouncementsData;
-import com.technion.coolie.server.webcourse.framework.AssignmentData;
-import com.technion.coolie.server.webcourse.framework.CourseData;
-import com.technion.coolie.server.webcourse.framework.StaffData;
+import com.technion.coolie.webcourse.gr_plusplus.AnnouncementsData;
+import com.technion.coolie.webcourse.gr_plusplus.AssignmentData;
+import com.technion.coolie.webcourse.gr_plusplus.CourseData;
+import com.technion.coolie.webcourse.gr_plusplus.StaffData;
 
 /**
  * Created on 15.12.2013

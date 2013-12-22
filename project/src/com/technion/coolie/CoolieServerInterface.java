@@ -4,8 +4,13 @@ package com.technion.coolie;
 
 import java.util.List;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.parkion.ParkingLot;
 import com.technion.coolie.server.techmine.TecComment;
 import com.technion.coolie.server.techmine.TecLike;
@@ -17,19 +22,12 @@ import com.technion.coolie.server.techoins.BankAccount;
 import com.technion.coolie.server.techoins.Product;
 import com.technion.coolie.server.techoins.TechoinsTransfer;
 import com.technion.coolie.server.ug.framework.CourseKey;
-import com.technion.coolie.server.ug.framework.CourseServer;
 import com.technion.coolie.server.ug.framework.Semester;
-import com.technion.coolie.server.ug.framework.SemesterSeason;
 import com.technion.coolie.server.ug.framework.Student;
-import com.technion.coolie.server.webcourse.framework.CourseData;
 import com.technion.coolie.skeleton.CoolieServerInterfaceService;
 import com.technion.coolie.skeleton.CoolieStatus;
-
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
+import com.technion.coolie.webcourse.gr_plusplus.CourseData;
+//import com.technion.coolie.server.webcourse.framework.CourseData;
 
 
 /*this is how u will use it on a your activity, u will need to create CoolieServerInterface for each function u do,
