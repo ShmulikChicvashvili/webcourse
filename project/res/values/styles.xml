@@ -40,5 +40,14 @@
         <item name="@android:windowEnterAnimation">@anim/am_popup_show</item>
         <item name="@android:windowExitAnimation">@anim/am_popup_hide</item>
     </style>
+    
+    
+   <style name="Theme.Transparent" parent="Theme.Sherlock.Light">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+    
 
 </resources>
