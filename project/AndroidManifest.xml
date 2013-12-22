@@ -127,6 +127,26 @@
                 android:value="com.technion.coolie.assignmentor.MainActivity" />
         </activity>
         
+        <activity
+            android:name="com.technion.coolie.assignmentor.AddNewTask"
+            android:theme="@style/Theme.Sherlock.Light"
+            android:label="@string/app_name" >
+            
+            <meta-data 
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.assignmentor.MainActivity" />
+        </activity>
+        
+        <service android:name="com.technion.coolie.assignmentor.TaskParser"
+     	    android:exported="false" />
+        
+        <receiver android:name="com.technion.coolie.assignmentor.MainActivity$BootReceiver"
+	        android:enabled="false">
+	    	<intent-filter>
+	       		 <action android:name="android.intent.action.BOOT_COMPLETED"/>
+	   		</intent-filter>
+		</receiver>
+        
         <!-- Join In -->
         
 	<activity
