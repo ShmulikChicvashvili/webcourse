@@ -1,2 +1,9 @@
 .metadata/
-bin/
+project/bin
+project/gen
+actionbarsherlock/bin
+android-support-v7-appcompat/
+actionbarsherlock/bin/*
+android-support-v7-appcompat/
+SherlockNavigationDrawer/
+actionbarsherlock/gen

@@ -28,7 +28,15 @@
 	<string name="lib_title_activity_library_card">Library Card</string>
 	<string name="lib_requests">Requests</string>
 	<string name="lib_loans">Loans</string>
+	<string name="lib_wish_list">Wish List</string>
+	
 	<string name="lib_title_duedate">Due-Date</string>
 	<string name="lib_title_books">Books</string>
+	<string name="lib_title_position">Position</string>
+	<string name="lib_title_book_description">Book Description</string>
 	
+	
+    <string name="lib_title_activity_book_description">Book Description</string>
+    <string name="lib_title_activity_library_description">Library Description</string>
+		
 </resources>

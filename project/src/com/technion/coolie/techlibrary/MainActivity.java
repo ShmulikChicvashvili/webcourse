@@ -18,76 +18,107 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 
-public class MainActivity extends CoolieActivity implements ActionBar.OnNavigationListener {
-	private String[] droplist = {"Library Card"};
+public class MainActivity extends CoolieActivity implements
+		ActionBar.OnNavigationListener {
+	private String[] droplist = {  "Library Card" , "Open Hours"};
 
-	private static final String LOGGED_IN = "is_logged";
+	// shared pref
+	private SharedPreferences mSharedPref;
+	private SharedPreferences.Editor mSharedPrefEditor;
 
-	@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.lib_activity_main);
-        
-        //setting the dropdown list
-        ArrayAdapter<String> list = new ArrayAdapter<String>(this, R.layout.sherlock_spinner_item, droplist);
-        
-        list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+	public static final String LOGGED_IN = "is_logged";
+	private static final String SHARED_PREF = "lib_pref";
+	//to save state of navigation list
+	private static final String LAST_VIEWED_FRAGMENT_TAG = "last_item";
 
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        getSupportActionBar().setListNavigationCallbacks(list, this);
-        
-        /*******************************************/
-        Button button2 = (Button) findViewById(R.id.button2);
-        button2.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(MainActivity.this, LibraryCardActivity.class);
-				startActivity(intent);
-			}
-		});
-        
-        //open shared file and set login as false if not exists.
-        SharedPreferences sharedPref = getSharedPreferences("lib_pref",
-				0);
-        if(!sharedPref.contains(LOGGED_IN)) {
-			SharedPreferences.Editor editor = sharedPref.edit();
-			editor.putBoolean(LOGGED_IN , false);
-        }
-	}
+	public static int currPosition;
 	
 	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Boolean result = super.onCreateOptionsMenu(menu);
-        
-        MenuItem profile = menu.add("Profile");
-        profile.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-        profile.setOnMenuItemClickListener(new OnMenuItemClickListener()
-        {
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.lib_activity_main);
+
+		// setting the dropdown list
+		ArrayAdapter<String> list = new ArrayAdapter<String>(this,
+				R.layout.sherlock_spinner_item, droplist);
+
+		list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+
+		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		getSupportActionBar().setListNavigationCallbacks(list, this);
+		//check if list item position is saved
+		getSupportActionBar().setSelectedNavigationItem(savedInstanceState != null
+	            ? savedInstanceState.getInt(LAST_VIEWED_FRAGMENT_TAG) : 0);
+
+		SharedPreferences sharedPref = getSharedPreferences("lib_pref", 0);
+		if (!sharedPref.contains(LOGGED_IN)) {
+			SharedPreferences.Editor editor = sharedPref.edit();
+			editor.putBoolean(LOGGED_IN, false);
+			editor.commit();
+		}
+
+		mSharedPref = getSharedPreferences(SHARED_PREF, 0);
+		mSharedPrefEditor = mSharedPref.edit();
+	}
+
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction();
+		if (itemPosition == 0) {
+			SherlockFragment frag = new LibraryCardFragment();
+			currPosition = 0;
+			transaction.replace(R.id.lib_frame_container, frag);
+		} else if (itemPosition == 1) {
+			SherlockFragment frag = new OpenHoursFragment();
+			currPosition = 1;
+			transaction.replace(R.id.lib_frame_container, frag);
+		} 
+		transaction.commit();
+		return true;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		super.onCreateOptionsMenu(menu);
+
+		// ~~~~~~~ PROFILE ~~~~~~~
+		MenuItem profile = menu.add("Profile");
+		profile.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		profile.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem item) {
-				Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+				Intent intent = new Intent(MainActivity.this,
+						ProfileActivity.class);
 				startActivity(intent);
 				return true;
 			}
 		});
-        return result;
-    }
+
+		// TODO: change order of menu items!
+		// ~~~~~~~ LOGOUT ~~~~~~~
+		MenuItem logout = menu.add("Logout");
+		logout.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+		logout.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+			@Override
+			public boolean onMenuItemClick(MenuItem item) {
+				mSharedPrefEditor.putBoolean(LOGGED_IN, false);
+				mSharedPrefEditor.commit();
+				
+				finish(); // work?
+				return true; // ????
+			}
+		});
+		return true;
+	}
 	
-	@Override
-    public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-//		SherlockFragment frag = new LibraryCardFragment();
-//        // we get the 'childFragmentManager' for our transaction
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        // make the back button return to the main screen
-//        // and supply the tag 'left' to the backstack
-////        transaction.addToBackStack("left");
-//        // add our new nested fragment
-//        transaction.add(frag, "left");
-//        // commit the transaction
-//        transaction.commit();
-//		
-        return true;
+
+    @Override
+	public void onSaveInstanceState(Bundle savedInstanceState)
+    {
+        super.onSaveInstanceState(savedInstanceState);
+      //save list item position
+        savedInstanceState.putInt(LAST_VIEWED_FRAGMENT_TAG, getSupportActionBar().getSelectedNavigationIndex());
     }
 }
-
-

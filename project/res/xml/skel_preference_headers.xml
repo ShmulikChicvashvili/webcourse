@@ -1,16 +1,12 @@
-<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
-		<header
-                android:fragment="com.technion.coolie.skeleton.PreferencesScreen$AccountFrag"
-               
-                android:title="ACCOUNTS">
-            
-                
-                
-        </header>
-        <header
-                android:fragment="com.technion.coolie.skeleton.PreferencesScreen$PreferenceFrag"
-               
-                android:title="APP-1">
-        </header>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <header
+        android:fragment="com.technion.coolie.skeleton.PreferencesScreen$AccountFrag"
+        android:title="ACCOUNTS" >
+    </header>
+    <header
+        android:fragment="com.technion.coolie.skeleton.PreferencesScreen$PreferenceFrag"
+        android:title="APP-1" >
+    </header>
 
 </preference-headers>

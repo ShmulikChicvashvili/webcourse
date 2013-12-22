@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
 import com.technion.coolie.server.webcourse.api.IWebcourseManager;
+import com.technion.coolie.server.webcourse.framework.AnnouncementsData;
+import com.technion.coolie.server.webcourse.framework.AssignmentData;
 import com.technion.coolie.server.webcourse.framework.CourseData;
 import com.technion.coolie.server.webcourse.framework.StaffData;
 
@@ -24,20 +26,25 @@ public class WebcourseManager implements IWebcourseManager {
     String $ = Communicator.execute(servletName, FUNCTION,
         WebcourseFunctions.GET_STAFF_INFO.value(), "courseData",
         toJson(courseData));
-    return convertToList($);
+    return new Gson().fromJson($, new TypeToken<List<StaffData>>() {
+    }.getType());
   }
 
-  /**
-   * Convert json to list
-   * 
-   * @param json
-   *          the json string
-   * @param the
-   *          type to convert
-   * @return list of type T
-   */
-  private List<StaffData> convertToList(String json) {
-    return new Gson().fromJson(json, new TypeToken<List<StaffData>>() {
+  @Override
+  public List<AnnouncementsData> getAnnouncement(CourseData courseData) {
+    String $ = Communicator.execute(servletName, FUNCTION,
+        WebcourseFunctions.GET_ANNOUNCEMENT.value(), "courseData",
+        toJson(courseData));
+    return new Gson().fromJson($, new TypeToken<List<AnnouncementsData>>() {
+    }.getType());
+  }
+
+  @Override
+  public List<AssignmentData> getAssignment(CourseData courseData) {
+    String $ = Communicator.execute(servletName, FUNCTION,
+        WebcourseFunctions.GET_ASSIGNMENT.value(), "courseData",
+        toJson(courseData));
+    return new Gson().fromJson($, new TypeToken<List<AssignmentData>>() {
     }.getType());
   }
 
@@ -50,4 +57,5 @@ public class WebcourseManager implements IWebcourseManager {
   private String toJson(Object jsonElement) {
     return new Gson().toJson(jsonElement);
   }
+
 }

@@ -2,6 +2,8 @@ package com.technion.coolie.server.webcourse.api;
 
 import java.util.List;
 
+import com.technion.coolie.server.webcourse.framework.AnnouncementsData;
+import com.technion.coolie.server.webcourse.framework.AssignmentData;
 import com.technion.coolie.server.webcourse.framework.CourseData;
 import com.technion.coolie.server.webcourse.framework.StaffData;
 
@@ -20,4 +22,8 @@ public interface IWebcourseManager {
    *         course.
    */
   public List<StaffData> getStaffInfo(CourseData courseData);
+
+  public List<AnnouncementsData> getAnnouncement(CourseData course);
+
+  public List<AssignmentData> getAssignment(CourseData course);
 }

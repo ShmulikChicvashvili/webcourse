@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="lmi_car_colors">
+        <item>White</item>
+        <item>Black</item>
+        <item>Red</item>
+    </string-array>
+
+</resources>

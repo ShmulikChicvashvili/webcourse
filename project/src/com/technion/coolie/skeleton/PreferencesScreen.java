@@ -5,6 +5,7 @@ import java.util.List;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.technion.coolie.R;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,13 +18,17 @@ public class PreferencesScreen extends SherlockPreferenceActivity {
 	  @Override
 	  public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-
+	    
 	    if (Build.VERSION.SDK_INT<Build.VERSION_CODES.HONEYCOMB) {
 	      addPreferencesFromResource(R.xml.skel_preferences);
+	      addPreferencesFromResource(R.xml.skel_accounts_preferences);
+	      
 	    }
 	  }
 
-	  @Override
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@Override
 	  public void onBuildHeaders(List<Header> target) {
 	    loadHeadersFromResource(R.xml.skel_preference_headers, target);
 	  }
@@ -33,7 +38,6 @@ public class PreferencesScreen extends SherlockPreferenceActivity {
 	    @Override
 	    public void onCreate(Bundle savedInstanceState) {
 	      super.onCreate(savedInstanceState);
-
 	      addPreferencesFromResource(R.xml.skel_preferences);
 	    }
 	  }
@@ -43,8 +47,8 @@ public class PreferencesScreen extends SherlockPreferenceActivity {
 	    @Override
 	    public void onCreate(Bundle savedInstanceState) {
 	      super.onCreate(savedInstanceState);
-
 	      addPreferencesFromResource(R.xml.skel_accounts_preferences);
 	    }
+	    
 	  }
 }
