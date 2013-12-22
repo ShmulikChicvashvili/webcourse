@@ -71,12 +71,12 @@ public abstract class HtmlGrabber {
 				//TODO handle errors
 					String result = bundle.getString(HtmlGrabberService.RESULT);
 					handleResult(result, status);
-					mContext.unregisterReceiver(receiver);
+					//mContext.unregisterReceiver(receiver);
 			}
 		}
 	};
 
-	protected void finalize() throws Throwable
+	public void finalize() throws Throwable
 	{
 		mContext.unregisterReceiver(receiver);
 	}
