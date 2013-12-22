@@ -8,7 +8,7 @@ import java.util.List;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.appengine.api.search.GeoPoint;
+import com.google.android.maps.GeoPoint;
 import com.google.gson.Gson;
 import com.technion.coolie.joinin.directions.TravelWay;
 import com.technion.coolie.joinin.facebook.FacebookUser;
