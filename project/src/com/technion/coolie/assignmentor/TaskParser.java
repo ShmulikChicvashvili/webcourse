@@ -10,6 +10,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
+import com.technion.coolie.CoolieAccount;
 import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.skeleton.CoolieStatus;
 
@@ -198,7 +199,7 @@ public class TaskParser extends IntentService {
 		};
 		for (String url : urls) {
     		// Fetch the html from web.
-    		hg.getHtmlSource(url, HtmlGrabber.Account.NONE);
+    		hg.getHtmlSource(url, CoolieAccount.NONE);
 		}
     }
     

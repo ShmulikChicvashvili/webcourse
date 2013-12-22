@@ -22,7 +22,7 @@ import android.os.Bundle;
  *			Log.v("RESULT",result);			
  *		}
  * };
- * hg.getHtmlSource("https://www.google.com/search?q=URL/", HtmlGrabber.Account.NONE);
+ * hg.getHtmlSource("https://www.google.com/search?q=URL/", CoolieAccount.NONE);
  * </code>
  * </pre>
  */
