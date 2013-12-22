@@ -1,57 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Coolie</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
-    
-    <!-- MainActivity -->
-    <string name="calendar">לוח שנה אקדמי</string>
-    <string name="course_and_exam">קורסים ומבחנים</string>
-    <string name="grade_sheet">גליון ציונים</string>
-    <string name="next_payment">חיוב שכר לימוד הבא : 12/12/2013</string>
-    
-    
-    
-    <!-- searchFragment -->
-   <string name="serach_course_hint">חפש קורס</string>
-    <string name="search_end_results">סוף תוצאות</string>
-    <color name="ug_search_list_view_color">#539DC2</color>
-
-    <!-- GradesSheet activity -->
-    <string name="title_activity_grades_sheet">GradesSheetActivity</string>
-    <string name="course_name">שם מקצוע</string>
-    <string name="points">נקודות</string>
-    <string name="grade">ציון</string>
-    <string name="average">ממוצע</string>
-    <string name="success_percentage">אחוז הצלחות</string>
-    <string name="accumulated_points">נקודות מצטברות</string>
-    <string name="semester_points">סה\"כ נקודות</string>
-    <string name="semester_avg">ממוצע</string>
-    <string name="title_activity_transparent">TransparentActivity</string>
-    
-    <string-array name="landscape_right_menu_buttons">
-        <item>גליון ציונים</item>
-        <item>קורסים ובחינות</item>
-        <item>לוח שנה אקדמי</item>
-       <!-- <item>תשולומים</item> -->
-       <!-- <item>קורסים למעקב</item> -->
-        <item>חיפוש קורסים</item>
-    </string-array>
-
-    <!-- CoursesAndExams Fragment -->
-    <string name="moedA">מועד א\'</string>
-    <string name="moedB">מועד ב\'</string>
-    <string name="no_exam">-----</string>
-    <string name="curren_semester">סמסטר נוכחי</string>
-    <string name="previous_semester">סמסטר קודם</string>
-    <string name="next_semester">סמסטר הבא</string>
-
-    <!-- AcademicCalendar Fragment -->
-    <string name="day">יום</string>
-    <string name="date">תאריך</string>
-    <string name="event">אירוע</string>
-
 </resources>
