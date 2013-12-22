@@ -24,7 +24,6 @@ import com.technion.coolie.server.techoins.Product;
 import com.technion.coolie.server.techoins.TechoinsFactory;
 import com.technion.coolie.server.techoins.TechoinsTransfer;
 import com.technion.coolie.server.teletech.api.TeletechFactory;
-import com.technion.coolie.server.teletech.framework.ContactInformation;
 import com.technion.coolie.server.ug.ReturnCodesUg;
 import com.technion.coolie.server.ug.api.UgFactory;
 import com.technion.coolie.server.ug.framework.AcademicCalendarEvent;
@@ -36,6 +35,7 @@ import com.technion.coolie.server.ug.framework.Payment;
 import com.technion.coolie.server.ug.framework.Semester;
 import com.technion.coolie.server.ug.framework.Student;
 import com.technion.coolie.server.webcourse.api.WebcourseFactory;
+import com.technion.coolie.teletech.ContactInformation;
 import com.technion.coolie.webcourse.gr_plusplus.CourseData;
 import com.technion.coolie.webcourse.gr_plusplus.StaffData;
 
