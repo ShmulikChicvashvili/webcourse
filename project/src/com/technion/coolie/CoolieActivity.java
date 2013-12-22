@@ -1,21 +1,12 @@
 package com.technion.coolie;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -23,19 +14,22 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.ActionProvider;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.LayoutInflater;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
-import com.technion.coolie.skeleton.CoolieModuleManager;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.technion.coolie.skeleton.CoolieModule;
+import com.technion.coolie.skeleton.NavigationModuleAdapter;
 import com.technion.coolie.skeleton.PreferencesScreen;
 
 public abstract class CoolieActivity extends SherlockFragmentActivity {
@@ -45,26 +39,41 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	ActionBarDrawerToggle mDrawerToggle;
 	View mainLayout;
 	View innerNavBar;
+	int mainLayoutRootId;
+	static boolean serilizeRestored = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		restoreModulesManager();
+
+		if (!serilizeRestored) {
+			restoreModulesManager();
+			serilizeRestored = true;
+		}
+
+		// Always add overflow button
 		try {
 			ViewConfiguration config = ViewConfiguration.get(this);
 			Field menuKeyField = ViewConfiguration.class
-			.getDeclaredField("sHasPermanentMenuKey");
+					.getDeclaredField("sHasPermanentMenuKey");
 			if (menuKeyField != null) {
-			menuKeyField.setAccessible(true);
-			menuKeyField.setBoolean(config, false);
+				menuKeyField.setAccessible(true);
+				menuKeyField.setBoolean(config, false);
 			}
-			} catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			}
-	
+		}
+
 		super.setContentView(R.layout.skel_navigation_drawer);
 		createNavBar();
+
+	}
+
+	@Override
+	protected void onResume() {
+		// if(!this.getClass().getPackage().getName().contains("skel"))
+		// CoolieModuleManager.getMyModule(this.getClass()).setLastUsage();
+		super.onResume();
 	}
 
 	@Override
@@ -100,6 +109,11 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 	@Override
 	public void setContentView(int layoutResID) {
+
+		LayoutInflater inf = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View v = inf.inflate(layoutResID, null);
+		mainLayoutRootId = v.getId();
+
 		ViewStub vs = (ViewStub) super.findViewById(R.id.skel_layout_container);
 		vs.setLayoutResource(layoutResID);
 		mainLayout = vs.inflate();
@@ -116,6 +130,9 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	// Searches for the view in child views context and main context.
 	@Override
 	public View findViewById(int id) {
+		if (id == mainLayoutRootId) {
+			return mainLayout;
+		}
 		if (mainLayout != null) {
 			if (mainLayout.findViewById(id) == null)
 				return super.findViewById(id);
@@ -163,18 +180,13 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 	// Creates the NavigationDrawer and sets the modules list content.
 	private void createNavBar() {
-		List<Map<String, String>> data = GetSampleData();
 		mDrawerLayout = (DrawerLayout) super
 				.findViewById(R.id.skel_drawer_layout);
 		mDrawerView = (LinearLayout) super.findViewById(R.id.skel_left_drawer);
 
-		SimpleAdapter adapter = new SimpleAdapter(this, data,
-				R.layout.skel_listitem_row, new String[] { "moduleIcon",
-						"moduleName" }, new int[] { R.id.skel_moduleIcon,
-						R.id.skel_moduleName });
 		mDrawerModulesList = ((ListView) mDrawerView
 				.findViewById(R.id.skel_modules_left_list));
-		mDrawerModulesList.setAdapter(adapter);
+		mDrawerModulesList.setAdapter(new NavigationModuleAdapter(this));
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
 		mDrawerLayout, /* DrawerLayout object */
@@ -212,52 +224,6 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		vs.setLayoutResource(layoutResID);
 		innerNavBar = vs.inflate();
 		return innerNavBar;
-	}
-
-	List<Map<String, String>> GetSampleData() {
-		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		Map map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module1);
-		map.put("moduleName", "module 1");
-		list.add(map);
-		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module2);
-		map.put("moduleName", "module 2");
-		list.add(map);
-		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module3);
-		map.put("moduleName", "module 3");
-		list.add(map);
-		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module4);
-		map.put("moduleName", "module 4");
-		list.add(map);
-		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module5);
-		map.put("moduleName", "module 5");
-		list.add(map);
-		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module6);
-		map.put("moduleName", "module 6");
-		list.add(map);
-		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module7);
-		map.put("moduleName", "module 7");
-		list.add(map);
-		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module8);
-		map.put("moduleName", "module 8");
-		list.add(map);
-		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module9);
-		map.put("moduleName", "module 9");
-		list.add(map);
-		map = new HashMap();
-		map.put("moduleIcon", R.drawable.skel_module10);
-		map.put("moduleName", "module 10");
-		list.add(map);
-
-		return list;
 	}
 
 	private android.view.MenuItem getMenuItem(final MenuItem item) {
@@ -471,76 +437,77 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 			}
 		};
 	}
-	
 
-	@Override
-	protected void onDestroy() {
-		serializeModulesManager();
-		super.onDestroy();
-	}
-	
-	/* used to save all the data relevant for the module,
-	 * so next run we get them again and display them.
-	 * data saved includes name, feeds, usageCount, ...
-	 * called in onDestroy.
+	/*
+	 * used to save all the data relevant for the module, so next run we get
+	 * them again and display them. data saved includes name, feeds, usageCount,
+	 * ... called in onDestroy.
 	 */
-	private void serializeModulesManager(){
-		try {
-			FileOutputStream fos = openFileOutput("modules.ser", Context.MODE_PRIVATE);
-			ObjectOutputStream out = new ObjectOutputStream(fos);
-			out.writeObject(CoolieModuleManager.values());
-			out.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private void serializeModulesManager() {
+
+		Gson gson = new Gson();
+
+		CoolieModule[] c = CoolieModule.values();
+
+		CoolieModule.serializeClass[] serializeArr = new CoolieModule.serializeClass[c.length];
+
+		for (int i = 0; i < c.length; i++) {
+			serializeArr[i] = new CoolieModule.serializeClass();
+			serializeArr[i].isFavorite = c[i].isFavorite();
+			serializeArr[i].activityString = c[i].getActivity().getName();
+			serializeArr[i].lastUsed = c[i].getLastUsed();
+			serializeArr[i].usageCounter = c[i].getUsageCounter();
 		}
-		
+
+		Type type = new TypeToken<CoolieModule.serializeClass[]>() {
+		}.getType();
+
+		String json = gson.toJson(serializeArr, type);
+
+		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+		editor.putString("serilization", json);
+		editor.commit();
+
 	}
-	
-	/* used to restore all the data relevant for the module,
-	 * so we display the updated data...
-	 * data includes name, feeds, usageCount, ...
-	 * called in onCreate.
+
+	/*
+	 * used to restore all the data relevant for the module, so we display the
+	 * updated data... data includes name, feeds, usageCount, ... called in
+	 * onCreate.
 	 */
 
-	private void restoreModulesManager(){
-		FileInputStream fileIn;
-		CoolieModuleManager[] arr = null;
-		try {
-			
-			fileIn = openFileInput("modules.ser");
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			arr = (CoolieModuleManager[]) in.readObject();
-			
-			for(CoolieModuleManager c : arr){
-				CoolieModuleManager.valueOf(c.name()).serilize(c);
-			}
-			
-			in.close();
-			fileIn.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-	}
-	
-	@Override
-	protected void onStart() {
-		super.onStart();
-	}
-	
-	
-}
+	private void restoreModulesManager() {
 
+		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+		String restoredText = prefs.getString("serilization", null);
+		if (restoredText != null) {
+			CoolieModule[] c = CoolieModule.values();
+			CoolieModule.serializeClass[] serializeArr = new Gson().fromJson(
+					restoredText, CoolieModule.serializeClass[].class);
+			for (int i = 0; i < serializeArr.length; i++) {
+				if (serializeArr[i].isFavorite)
+					CoolieModule.valueOf(c[i].name()).setFavorite();
+
+				CoolieModule.valueOf(c[i].name()).setUsageCounter(
+						serializeArr[i].usageCounter);
+				if (serializeArr[i].lastUsed != null)
+					CoolieModule.valueOf(c[i].name()).setLastUsage(
+							serializeArr[i].lastUsed);
+				if (serializeArr[i].activityString != null) {
+					try {
+						CoolieModule.valueOf(c[i].name()).setActivity(
+								Class.forName(serializeArr[i].activityString));
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	@Override
+	protected void onPause() {
+		serializeModulesManager();
+		super.onPause();
+	}
+}

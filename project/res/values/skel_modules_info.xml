@@ -15,12 +15,11 @@
     <string-array name="modules">
         <item name="skeletonActivity">skeletonActivity</item>
         <item name="techLibraryActivity">techLibraryActivity</item>
-        
     </string-array>
 
     <string name="module1_short_description">This is module 1 description, it describes what the module does.</string>
     <string name="module2_short_description">This is module 2 <b>dynamic</b> description, announcements will appear here.</string>
-    <string name="module3_short_description">This is module 3 <b>dynamic</b> description, announcements will appear here.</string>
+    <string name="module3_short_description">LetMeIn enables an easy access for the Technion’s car entrance approval system</string>
     <string name="module4_short_description">This is module 4 description, it describes what the module does.</string>
     <string name="module5_short_description">This is module 5 description, it describes what the module does.</string>
     <string name="module6_short_description">This is module 6 description, it describes what the module does.</string>
@@ -30,13 +29,13 @@
     <string name="module10_short_description">This is module 10 description, it describes what the module does.</string>
     <string name="module1_long_description">This is module 1 longer description, it more informative and detailed from the short description of the module.</string>
     <string name="module2_long_description">This is module 2 longer description, it more informative and detailed from the short description of the module.</string>
-    <string name="module3_long_description">This is module 3 longer description, it more informative and detailed from the short description of the module.</string>
+    <string name="module3_long_description">LetMeIn enables an easy access for the Technion’s car entrance approval system</string>
     <string name="module4_long_description">This is module 4 longer description, it more informative and detailed from the short description of the module.</string>
     <string name="module5_long_description">This is module 5 longer description, it more informative and detailed from the short description of the module.</string>
     <string name="module6_long_description">This is module 6 longer description, it more informative and detailed from the short description of the module.</string>
     <string name="module7_long_description">This is module 7 longer description, it more informative and detailed from the short description of the module.</string>
     <string name="module8_long_description">This is module 8 longer description, it more informative and detailed from the short description of the module.</string>
     <string name="module9_long_description">This is module 9 longer description, it more informative and detailed from the short description of the module.</string>
-        <string name="module10_long_description">This is module 10 longer description, it more informative and detailed from the short description of the module.</string>
-    
+    <string name="module10_long_description">This is module 10 longer description, it more informative and detailed from the short description of the module.</string>
+
 </resources>

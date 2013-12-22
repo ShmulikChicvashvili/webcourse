@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="invite_subject">You have been invited to a TeamApp event!</string>
+    <string name="invite_text" formatted="false">Hi,\nI am inviting you to %s.\nI created this event using TeamApp and I want you to come!\nYou can see more details here: %s </string>
+    <string name="share_facebook">Facebook</string>
+    <string name="share_other">More...</string>
+    <string name="share_not_found">It appears that the event does no longer exist</string>
+    <string name="import_question">Do you wish to import attendees from Facebook?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
+</resources>

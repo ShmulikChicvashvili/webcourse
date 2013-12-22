@@ -1,0 +1,10 @@
+<resources>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="lmi_layout_margin">16dp</dimen>
+    <dimen name="lmi_components_margin">5dip</dimen>
+    <dimen name="lmi_contact_image_size">100dp</dimen>
+    <dimen name="lmi_status_image_size">50dp</dimen>
+
+</resources>
