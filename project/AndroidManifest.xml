@@ -26,7 +26,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!--
      The following two permissions are not required to use
-     Google Maps Android API v2, but are recommended.
+     Google Maps Android API v2, but are recommended.
+
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -113,7 +114,8 @@
         </activity>
 
         <!-- Join In -->
-        	<activity
+        
+	<activity
             android:name="com.technion.coolie.joinin.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -292,7 +294,7 @@
             android:parentActivityName="com.technion.coolie.studybuddy.MainActivity" >
         </activity>
         <!-- TechLibrary -->
-        <activity
+          <activity
             android:name="com.technion.coolie.techlibrary.MainActivity"
             android:label="@string/lib_module_name"
             android:theme="@style/Theme.Sherlock.Light" >
@@ -334,7 +336,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.coolie.techlibrary.MainActivity" />
         </activity>
-
+        
         <!-- TechPark -->
         <activity
             android:name="com.technion.coolie.techpark.MainActivity"
@@ -350,7 +352,7 @@
         </activity>
 
         <!-- TecMind -->
-        <activity
+         <activity
             android:name="com.technion.coolie.tecmind.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Sherlock.Light" >
@@ -448,7 +450,7 @@
         <activity
             android:name="com.example.gr_plusplus.CoursesActivity"
             android:label="@string/app_name" >
-           
+      
         </activity>
         <activity
             android:name="com.example.gr_plusplus.CourseInformationActivity"
