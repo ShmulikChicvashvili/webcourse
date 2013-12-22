@@ -21,6 +21,7 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
+import com.technion.coolie.CoolieAccount;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.CoolieNotification;
 import com.technion.coolie.R;
@@ -39,15 +40,21 @@ public class MainActivity extends CoolieActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.skel_activity_main);
 
-		/*
-		 * HtmlRequestHandler hg = new
-		 * HtmlRequestHandler(getApplicationContext()) {
-		 * 
-		 * @Override public void handleResult(String result, CoolieStatus
-		 * status) { Log.v("RESULT",result); } }; hg.getHtmlSource(
-		 * "http://techmvs.technion.ac.il:80/cics/wmn/wmngrad?ORD=1",
-		 * HtmlRequestHandler.Account.NONE);
-		 */
+		/*SignonDialog s = new SignonDialog(CoolieAccount.UG);
+		s.show(getSupportFragmentManager(), "dialog");*/
+		
+		try {
+			CoolieNotification n1 = new CoolieNotification("Sample Notification 1", "This is sample notification from Tech Library", (Activity) CoolieModule.TECHLIBRARY.getActivity().newInstance(), CoolieNotification.Priority.IMMEDIATELY, true, this);
+			CoolieNotification n2 = new CoolieNotification("Sample Notification 2", "This is sample notification from Study Buddy", (Activity) CoolieModule.STUDYBUDDY.getActivity().newInstance(), CoolieNotification.Priority.IMMEDIATELY, true, this);
+			n1.sendNotification();
+			n2.sendNotification();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		if (savedInstanceState == null) {
 			// this means that its the first time we run the app 
 			// so its ok to display these demo notifications..
