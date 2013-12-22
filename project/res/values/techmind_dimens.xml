@@ -1,0 +1,9 @@
+<resources>
+    
+    <dimen name="top_margin">30dp</dimen>
+    <dimen name="horiz_space">10dp</dimen>
+    <dimen name="horiz_space_large">80dp</dimen>
+    <dimen name="vertic_space">5dp</dimen>
+    <dimen name="left_margin">20dp</dimen>
+    
+</resources>
