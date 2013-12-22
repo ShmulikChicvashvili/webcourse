@@ -6,8 +6,8 @@ import com.google.gson.Gson;
 import com.technion.coolie.server.Communicator;
 import com.technion.coolie.server.ug.ReturnCodesUg;
 import com.technion.coolie.server.ug.api.IUgTracking;
-import com.technion.coolie.server.ug.framework.CourseKey;
-import com.technion.coolie.server.ug.framework.Student;
+import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.Student;
 
 /**
  * Created on 8.12.2013

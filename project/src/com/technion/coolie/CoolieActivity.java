@@ -19,6 +19,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewStub;
+import android.view.ViewStub.OnInflateListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -109,13 +110,18 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 	@Override
 	public void setContentView(int layoutResID) {
-
-		LayoutInflater inf = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = inf.inflate(layoutResID, null);
-		mainLayoutRootId = v.getId();
-
-		ViewStub vs = (ViewStub) super.findViewById(R.id.skel_layout_container);
+		
+		final ViewStub vs = (ViewStub) super.findViewById(R.id.skel_layout_container);
 		vs.setLayoutResource(layoutResID);
+		vs.setInflatedId(ViewStub.NO_ID);
+		vs.setOnInflateListener(new OnInflateListener() {
+			
+			@Override
+			public void onInflate(ViewStub stub, View inflated) {
+				mainLayoutRootId = inflated.getId();
+			}
+		});
+		
 		mainLayout = vs.inflate();
 	}
 

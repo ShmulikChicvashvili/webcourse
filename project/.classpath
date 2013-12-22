@@ -16,6 +16,6 @@
 	<classpathentry kind="lib" path="libs/nineoldandroids-2.4.0.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="lib" path="/ServerSidePsychoFun/war/WEB-INF/lib/appengine-api.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Nitzan/236503/Coolie/project/libs/appengine-api.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
