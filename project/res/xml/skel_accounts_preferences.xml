@@ -1,0 +1,27 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory 
+        android:title="Acounts"
+        android:key="Acounts">
+      
+        <CheckBoxPreference 
+            android:key="login_with_facebook"
+            android:icon="@drawable/skel_facebook_icon"
+            android:summaryOn="Facebook"
+            android:fragment=""
+            android:title="Facebook Login" />
+        
+		<CheckBoxPreference 
+            android:key="login_with_google"
+            android:icon="@drawable/skel_google_icon"
+            android:summaryOn="Google"
+            android:title="Google Login" />
+		
+		<Preference 
+            android:key="sign_in_with_UG"
+            android:icon="@drawable/skel_tech"
+            android:summaryOn="Google"
+            android:title="UG Login" />
+        
+      
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -37,4 +37,14 @@ public class PreferencesScreen extends SherlockPreferenceActivity {
 	      addPreferencesFromResource(R.xml.skel_preferences);
 	    }
 	  }
+	  
+	  @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	  public static class AccountFrag extends PreferenceFragment {
+	    @Override
+	    public void onCreate(Bundle savedInstanceState) {
+	      super.onCreate(savedInstanceState);
+
+	      addPreferencesFromResource(R.xml.skel_accounts_preferences);
+	    }
+	  }
 }

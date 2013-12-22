@@ -30,16 +30,6 @@ public abstract class HtmlGrabber {
 
 	Context mContext;
 
-	/**
-	 * 
-	 * This enum describes if an account authorization is needed before getting
-	 * the string from the URL
-	 * 
-	 */
-	public enum Account {
-		NONE, UG, GOOGLE, FACEBOOK, MATHNET, MOODLE, WEBCOURSE, PHMOODLE;
-	};
-
 	public HtmlGrabber(Context c) {
 		mContext = c;
 		mContext.registerReceiver(receiver, new IntentFilter(
@@ -54,7 +44,7 @@ public abstract class HtmlGrabber {
 	 *            - as described in the enum above the source code from the URL
 	 *            will be put in a string
 	 */
-	public void getHtmlSource(String url, Account accountNeeded) {
+	public void getHtmlSource(String url, CoolieAccount accountNeeded) {
 		Intent intent = new Intent(mContext, HtmlGrabberService.class);
 		// add infos for the service which file to download and where to store
 		intent.putExtra(HtmlGrabberService.URL, url);
