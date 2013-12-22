@@ -46,7 +46,7 @@ public class MainActivity extends StudyBuddyActivity implements Observer
 
 			NavUtils.navigateUpFromSameTask(this);
 			return true;
-		case R.id.stb_add_course:
+		case R.id.stb_add_curse:
 			intent = new Intent(this, EditCourse.class);
 			startActivity(intent);
 			return true;
