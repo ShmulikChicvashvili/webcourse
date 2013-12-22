@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
 import com.technion.coolie.server.teletech.api.ITeletech;
-import com.technion.coolie.server.teletech.framework.ContactInformation;
+import com.technion.coolie.teletech.ContactInformation;
 
 /**
  * Created on 6.12.2013
