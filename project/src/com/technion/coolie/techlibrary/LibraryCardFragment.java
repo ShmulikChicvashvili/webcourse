@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.technion.coolie.CoolieAccount;
 import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.R;
 import com.technion.coolie.skeleton.CoolieStatus;
@@ -148,7 +149,7 @@ public class LibraryCardFragment extends SherlockFragment {
 
 				}
 			};
-			hg.getHtmlSource(userAuthUrl, HtmlGrabber.Account.NONE);
+			hg.getHtmlSource(userAuthUrl, CoolieAccount.NONE);
 		}
 	}
 
