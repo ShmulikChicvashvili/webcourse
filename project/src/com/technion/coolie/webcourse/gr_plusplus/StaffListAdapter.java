@@ -1,7 +1,9 @@
-package com.example.gr_plusplus;
-
+package com.technion.coolie.webcourse.gr_plusplus;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import com.technion.coolie.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,7 +18,7 @@ public class StaffListAdapter extends BaseExpandableListAdapter
 {
 	private LayoutInflater inflater;
 	private Context mContext;
-	private ArrayList<StaffData> mStaffList;
+	private List<StaffData> mStaffList;
 	final int SubDataSize = 4;
 	
 	private class ViewGroupHolder {
@@ -54,7 +56,7 @@ public class StaffListAdapter extends BaseExpandableListAdapter
 	private View InflateChildView(int childPosition, ViewBaseChildHolder holder) {
 		
 		// Get expanded item
-		View tempView = inflater.inflate(R.layout.staff_exp_item, null);
+		View tempView = inflater.inflate(R.layout.web_staff_exp_item, null);
 		View view;
 		
 		switch (childPosition)
@@ -190,7 +192,7 @@ public class StaffListAdapter extends BaseExpandableListAdapter
 		}
 	}
 	
-	public StaffListAdapter(Context context, ArrayList<StaffData> staff) {  
+	public StaffListAdapter(Context context, List<StaffData> staff) {  
 		
 		mContext = context;
         inflater = LayoutInflater.from(context); 
@@ -275,7 +277,7 @@ public class StaffListAdapter extends BaseExpandableListAdapter
 		ViewGroupHolder holder;
 		
 		if (null == convertView) {
-			view = inflater.inflate(R.layout.staff_group_item, null);
+			view = inflater.inflate(R.layout.web_staff_group_item, null);
 			
 			// Create the view holder
 			holder = new ViewGroupHolder();

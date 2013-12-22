@@ -1,6 +1,9 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
 
 import java.util.ArrayList;
+
+import com.technion.coolie.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,7 +57,7 @@ public class CoursesListAdapter extends BaseAdapter
 		ViewHolder holder;
 		
 		if (null == convertView) {
-			view = inflater.inflate(R.layout.courses_list_item, null);
+			view = inflater.inflate(R.layout.web_courses_list_item, null);
 			
 			// Create the view holder
 			holder = new ViewHolder();

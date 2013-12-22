@@ -1,13 +1,13 @@
-package com.example.gr_plusplus;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.example.gr_plusplus.R;
+package com.technion.coolie.webcourse.gr_plusplus;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.widget.Toast;
+
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.technion.coolie.R;
+//import com.example.gr_plusplus.R;
 
 
 public class CourseInformationActivity extends SherlockFragmentActivity {
@@ -26,7 +26,7 @@ public class CourseInformationActivity extends SherlockFragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_courses_information);
+		setContentView(R.layout.web_activity_courses_information);
 		
 		// Get action bar
 		ActionBar mBar = getSupportActionBar();

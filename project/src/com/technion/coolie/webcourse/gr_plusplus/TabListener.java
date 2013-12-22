@@ -1,9 +1,11 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
+
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
+import com.technion.coolie.R;
 //import com.androidbegin.absfragmenttabs.R;
-import com.example.gr_plusplus.R;
+//import com.example.gr_plusplus.R;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;

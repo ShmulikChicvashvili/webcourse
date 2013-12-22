@@ -1,4 +1,4 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
 
 
 import android.os.Bundle;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.technion.coolie.R;
 
 
 
@@ -20,7 +21,7 @@ public class OfficeHoursFragmentTab extends SherlockFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         
-		View rootView = inflater.inflate(R.layout.office_hours_fragment, container, false);
+		View rootView = inflater.inflate(R.layout.web_office_hours_fragment, container, false);
 		
 		TextView tvOfficeHours = (TextView) rootView.findViewById(R.id.office_hours_fragment_id);
 		tvOfficeHours.setText(mMessage);

@@ -1,5 +1,4 @@
-package com.example.gr_plusplus;
-
+package com.technion.coolie.webcourse.gr_plusplus;
 import java.util.ArrayList;
 
 
@@ -9,6 +8,10 @@ public class StaffSubData {
 	String mOfficeLocation;
 	ArrayList<Lession> mOfficeHours;
 	ArrayList<Lession> mLectures;
+	
+	StaffSubData() {
+		
+	}
 	
 	public StaffSubData(String phone, ArrayList<Lession> officeHours, ArrayList<Lession> lectures) {
 		

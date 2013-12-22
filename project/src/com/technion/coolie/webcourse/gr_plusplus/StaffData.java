@@ -1,4 +1,4 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
 
 import android.widget.ImageView;
 
@@ -10,6 +10,10 @@ public class StaffData {
 	String mPosition;
 	ImageView image;
 	StaffSubData mStaffSubData;
+	
+	StaffData() {
+		
+	}
 	
 	
 	public StaffData(String name, String position, String mail, StaffSubData staffSubData) {  

@@ -1,4 +1,4 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
 
 public class LessionTime {
 	

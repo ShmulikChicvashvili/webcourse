@@ -1,4 +1,4 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
 
 
 public class Lession {
@@ -11,6 +11,10 @@ public class Lession {
 		Thursday,
 		Friday,
 		Saturday,
+	}
+	 
+	Lession() {
+		// TODO Auto-generated constructor stub
 	}
 	
 	private Days mDay;

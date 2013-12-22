@@ -1,4 +1,4 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
 
 
 public class AssignmentData {
@@ -7,6 +7,10 @@ public class AssignmentData {
 	private String mAssignmentDesc;
 	private String mAssignmentDueDate;
 	private boolean mIsAssignmentDone;
+	
+	AssignmentData() {
+		
+	}
 	
 	public AssignmentData(String name, String desc, String dueDate, boolean isAssignmentDone) {  
 		mAssignmentName = name;

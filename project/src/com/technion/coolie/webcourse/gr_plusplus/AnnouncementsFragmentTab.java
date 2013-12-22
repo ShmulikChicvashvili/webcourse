@@ -1,8 +1,7 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.content.Intent;
@@ -11,11 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
-
 
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.parser.gr_plusplus.parser;
+import com.technion.coolie.R;
+import com.technion.coolie.server.webcourse.api.WebcourseFactory;
+//import api.WebcourseFactory;
 
 
 
@@ -57,13 +56,13 @@ public class AnnouncementsFragmentTab extends SherlockListFragment {
 //		};
 //	List<AnnouncementsData> announcementsData; // = parser.parseAnnouncements(courseInformation);
 //	ArrayList<AnnouncementsData> mAnnouncementsList = new ArrayList<AnnouncementsData>(announcementsData);
-	ArrayList<AnnouncementsData> mAnnouncementsList = new ArrayList<AnnouncementsData>();
+	List<AnnouncementsData> mAnnouncementsList = new ArrayList<AnnouncementsData>();
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 		
-        final View rootView = inflater.inflate(R.layout.announcements_fragment, container, false);
+        final View rootView = inflater.inflate(R.layout.web_announcements_fragment, container, false);
         
 //        List<AnnouncementsData> announcementsData = new ArrayList<AnnouncementsData>();
         
@@ -73,7 +72,8 @@ public class AnnouncementsFragmentTab extends SherlockListFragment {
 			@Override
 			protected List<AnnouncementsData> doInBackground(String... params) {
 				// TODO Auto-generated method stub
-				mAnnouncementsList = parser.parseAnnouncements(params[0]);
+		        CourseData course = new CourseData(params[0], "");
+				mAnnouncementsList = WebcourseFactory.getWebcourseManager().getAnnouncement(course);
 				return super.doInBackground(params);
 			}
 

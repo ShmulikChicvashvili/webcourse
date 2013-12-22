@@ -1,6 +1,7 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.technion.coolie.R;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -12,7 +13,7 @@ public class AnnouncementActivity extends SherlockActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_announcement);
+		setContentView(R.layout.web_activity_announcement);
 		
 		// Get the message from the intent
 	    Intent intent = getIntent();

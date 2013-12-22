@@ -1,6 +1,8 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
 
 import java.util.ArrayList;
+
+import com.technion.coolie.R;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -38,7 +40,7 @@ public class CoursesActivity extends Activity {
         // Create list of courses
         populateListWithArray();
         
-        setContentView(R.layout.activity_courses);
+        setContentView(R.layout.web_activity_courses);
         mList = (ListView) findViewById(R.id.courses_list);
         CoursesListAdapter coursesListAdapter = new CoursesListAdapter(this, mCoursesList);
         mList.setAdapter(coursesListAdapter);

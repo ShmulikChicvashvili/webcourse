@@ -1,24 +1,21 @@
-package com.example.gr_plusplus;
-
+package com.technion.coolie.webcourse.gr_plusplus;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockListFragment;
-import com.example.gr_plusplus.Lession.Days;
-import com.parser.gr_plusplus.parser;
+import com.technion.coolie.R;
+import com.technion.coolie.server.webcourse.api.WebcourseFactory;
+//import api.WebcourseFactory;
 
 
 
@@ -57,7 +54,7 @@ public class StaffFragmentTab extends SherlockListFragment {
 //			new StaffData("Hasan Abasi", "Teaching Assistant", "hassan@cs.technion.ac.il", subData[2])
 //		};
 //	List<StaffData> staffData = Arrays.asList(staff);
-	ArrayList<StaffData> mStaffList = new ArrayList<StaffData>();
+	List<StaffData> mStaffList = new ArrayList<StaffData>();
 	
 	public StaffListAdapter mStaffListAdapter;
 	public ExpandableListView mList;
@@ -77,7 +74,7 @@ public class StaffFragmentTab extends SherlockListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         
-		final View rootView = inflater.inflate(R.layout.staff_fragment, container, false);
+		final View rootView = inflater.inflate(R.layout.web_staff_fragment, container, false);
         
 		//TextView tvStaff = (TextView) rootView.findViewById(R.id.staff_fragment_id);
 		//tvStaff.setText(mMessage);
@@ -89,7 +86,9 @@ public class StaffFragmentTab extends SherlockListFragment {
 			@Override
 			protected List<StaffData> doInBackground(String... params) {
 				// TODO Auto-generated method stub
-				mStaffList = parser.parseStaff(params[0]);
+				CourseData course = new CourseData(params[0], "");
+				
+				mStaffList = WebcourseFactory.getWebcourseManager().getStaffInfo(course);
 				return super.doInBackground(params);
 			}
 

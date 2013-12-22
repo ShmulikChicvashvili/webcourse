@@ -1,4 +1,4 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
 
 
 public class AnnouncementsData {
@@ -6,6 +6,10 @@ public class AnnouncementsData {
 	private String mAnnounceTitle;
 	private String mAnnounceContent;
 	private String mAnnounceTimeStamp;
+	
+	AnnouncementsData() {
+		
+	}
 	
 	public AnnouncementsData(String title, String content, String timeStamp) {  
           mAnnounceTitle = title;

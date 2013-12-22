@@ -1,6 +1,10 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
 
-import java.util.ArrayList;
+
+import java.util.List;
+
+import com.technion.coolie.R;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -14,7 +18,7 @@ public class AnnouncementsListAdapter extends BaseAdapter
 {
 	LayoutInflater inflater;
 	Context mContext;
-	ArrayList<AnnouncementsData> mAnnouncementsList;
+	List<AnnouncementsData> mAnnouncementsList;
 	
 	private class ViewHolder {
 		
@@ -23,7 +27,7 @@ public class AnnouncementsListAdapter extends BaseAdapter
 
 	}
 	
-	public AnnouncementsListAdapter(Context context, ArrayList<AnnouncementsData> announcements) {  
+	public AnnouncementsListAdapter(Context context, List<AnnouncementsData> announcements) {  
 		
 		mContext = context;
         inflater = LayoutInflater.from(mContext); 
@@ -55,7 +59,7 @@ public class AnnouncementsListAdapter extends BaseAdapter
 		ViewHolder holder;
 		
 		if (null == convertView) {
-			view = inflater.inflate(R.layout.announcements_list_item, null);
+			view = inflater.inflate(R.layout.web_announcements_list_item, null);
 			
 			// Create the view holder
 			holder = new ViewHolder();

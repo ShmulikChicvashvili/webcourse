@@ -1,4 +1,4 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
 
 
 import java.util.ArrayList;
@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.technion.coolie.R;
 
 
 
@@ -36,7 +38,7 @@ public class AssignmentsFragmentTab extends SherlockListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         
-		View rootView = inflater.inflate(R.layout.assignments_fragment, container, false);
+		View rootView = inflater.inflate(R.layout.web_assignments_fragment, container, false);
         
 		 mList = (ListView) rootView.findViewById(android.R.id.list);
 	     mAssignmentListAdapter = new AssignmentListAdapter(rootView.getContext(), mAssignmentList);

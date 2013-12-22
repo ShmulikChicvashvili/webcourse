@@ -1,6 +1,10 @@
-package com.example.gr_plusplus;
+package com.technion.coolie.webcourse.gr_plusplus;
+
 
 import java.util.ArrayList;
+
+import com.technion.coolie.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +66,7 @@ public class AssignmentListAdapter extends BaseAdapter
 		ViewHolder holder;
 		
 		if (null == convertView) {
-			view = inflater.inflate(R.layout.assignments_list_item, null);
+			view = inflater.inflate(R.layout.web_assignments_list_item, null);
 			
 			// Create the view holder
 			holder = new ViewHolder();
