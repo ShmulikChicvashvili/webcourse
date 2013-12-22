@@ -38,6 +38,7 @@ import com.facebook.Session;
 import com.facebook.Session.OpenRequest;
 import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
+import com.facebook.android.Facebook;
 import com.facebook.model.GraphUser;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -93,7 +94,7 @@ public class MainActivity extends CoolieActivity {
 	  public void onCreate(Bundle savedInstanceState) {
 //		  new ServerRemoveUser().execute();
 	    super.onCreate(savedInstanceState);
-	    
+	     
 	    firstInitiate();
 	    
 	    addInnerNavigationDrawer(R.layout.techmind_drawer_btn);
