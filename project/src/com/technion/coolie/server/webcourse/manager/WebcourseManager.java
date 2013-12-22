@@ -2,6 +2,8 @@ package com.technion.coolie.server.webcourse.manager;
 
 import java.util.List;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
@@ -26,6 +28,7 @@ public class WebcourseManager implements IWebcourseManager {
     String $ = Communicator.execute(servletName, FUNCTION,
         WebcourseFunctions.GET_STAFF_INFO.value(), "courseData",
         toJson(courseData));
+   // Log.v("tag",$);
     return new Gson().fromJson($, new TypeToken<List<StaffData>>() {
     }.getType());
   }
