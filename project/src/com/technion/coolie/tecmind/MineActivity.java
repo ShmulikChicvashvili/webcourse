@@ -136,6 +136,10 @@ public class MineActivity extends CoolieActivity {
 	  		     /* sets the counters diffs */
 	             totalDelta = User.getUserInstance(null).totalTechoins - exTotal;
 	             newMiningDate = User.getUserInstance(null).lastMining;
+	             postsDelta = User.getUserInstance(null).postsNum - exPostsCounter;
+	             commentsDelta = User.getUserInstance(null).commentsNum - exCommentsCounter;
+	             likesDelta = (User.getUserInstance(null).likesNum + User.getUserInstance(null).likesOnPostsNum)
+	            		 - exLikesCounter;
 	              
 	            //TODO: update to data storage
 	    		    updateServer();

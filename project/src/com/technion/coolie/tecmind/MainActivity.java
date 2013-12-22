@@ -2,9 +2,11 @@ package com.technion.coolie.tecmind;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -117,36 +119,50 @@ public class MainActivity extends CoolieActivity {
 	            public void onCompleted(GraphUser user, Response response) {		    
 	            	if (user != null) {
 	            		
+	            		
+	            		/******************************************************************/
+	            		//TODO: NEED TO THINK HOW TO DO IT!!!!!!!
+	            		
 	            		/* tries to get the userId from the device's storage */ //TODO: add the writing to data storage
-//	            		try {
-//	            			BufferedReader reader = new BufferedReader(new FileReader("techmine"));
-//							userId = reader.readLine();
-//						} catch (IOException e) {
-////							Toast.makeText(getApplicationContext(), "Problem while reading from data storage",
-////			  	  	        		Toast.LENGTH_LONG).show();
-//						}
-//	
+	            		try {
+							FileInputStream fileToRead = openFileInput("techmine");
+							InputStreamReader isr = new InputStreamReader(fileToRead);
+						    char[] inputBuffer = new char[100];
+						    isr.read(inputBuffer);
+						    String readString = new String(inputBuffer);
+						    
+						    String[] parts = readString.split("\\*");
+						    userId = parts[0]; 
+						    userName = parts[1]; 
+						    
+//						    Toast.makeText(getApplicationContext(), readString, Toast.LENGTH_LONG).show();
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
 	            		if (userId == null) {
 	            			/* updates the user id from Facebook */
 	            			userId = user.getId();
-	    	  	  		    userName = user.getFirstName();
+	    	  	  		    userName = user.getFirstName() + " " + user.getLastName();
 	            			
 	          			  /* adds the user ID to data storage of the device at the first time */
-//	          			  String techMineFileName = "techmine"; 
-//	          			  FileOutputStream outputStream;
-//	
-//	          			  try {
-//	          			    outputStream = openFileOutput(techMineFileName, Context.MODE_PRIVATE);
-//	          			    outputStream.write(userId.getBytes());
-//	          			    outputStream.close();
-//	          			  } catch (Exception e) {
-//	          			    e.printStackTrace();
-//	          			  }
-	          			  
+			    	  	  	FileOutputStream outputStream;
+			    	  	  	try {
+			    	  	  	  outputStream = openFileOutput("techmine", Context.MODE_PRIVATE);
+			    	  	  	  outputStream.write((userId + "*").getBytes());
+			    	  	  	  outputStream.write(userName.getBytes());
+			    	  	  	  outputStream.close();
+			    	  	  	} catch (Exception e) {
+			    	  	  	  e.printStackTrace();
+			    	  	  	}
 	          		
-	          			  
 	            		}
-	            		userName = user.getFirstName() + " " + user.getLastName();
+	            		
+//	            		userName = user.getFirstName() + " " + user.getLastName();
 	            		
 	  	  		      	initiateFromServer();
 	  	  		      
@@ -159,7 +175,7 @@ public class MainActivity extends CoolieActivity {
 	  	  		      	
 	  	  		      	progressBar.setVisibility(View.INVISIBLE);
 	  	  				myTitleLayout.setVisibility(View.VISIBLE);
-	  	  				  	  		        
+	  	  			/******************************************************************/
 	            	}
 	             }
 	          }).executeAsync();
