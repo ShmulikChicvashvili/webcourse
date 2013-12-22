@@ -6,9 +6,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
 import com.technion.coolie.server.ug.api.IUgExam;
-import com.technion.coolie.server.ug.framework.Exam;
-import com.technion.coolie.server.ug.framework.Semester;
-import com.technion.coolie.server.ug.framework.Student;
+import com.technion.coolie.ug.model.Exam;
+import com.technion.coolie.ug.model.Semester;
+import com.technion.coolie.ug.model.Student;
 
 /**
  * Created on 8.12.2013
