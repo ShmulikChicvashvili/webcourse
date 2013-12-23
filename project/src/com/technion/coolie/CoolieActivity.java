@@ -2,19 +2,16 @@ package com.technion.coolie;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.List;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.DrawerLayout;
 import android.view.ActionProvider;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -100,6 +97,14 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		// Pass the event to ActionBarDrawerToggle, if it returns
 		// true, then it has handled the app icon touch event
 
+	    switch (item.getItemId()) {
+	    // Respond to the action bar's Up/Home button
+	    case android.R.id.home:
+	        NavUtils.navigateUpFromSameTask(this);
+	        return true;
+	    }
+
+		
 		if (mDrawerToggle.onOptionsItemSelected(getMenuItem(item))) {
 			return true;
 		}

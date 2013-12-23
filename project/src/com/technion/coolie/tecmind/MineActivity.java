@@ -48,10 +48,20 @@ public class MineActivity extends CoolieActivity {
 	List<String> permissions;
 	String userId;
 	TechmineAPI connector = new TechmineAPI();
+	
 	public static Date exMiningDate;
 	public static Date newMiningDate;
+	
 	int exTotal;
+	int exLikesCounter;
+	int exCommentsCounter;
+	int exPostsCounter;
+	
 	public static int totalDelta;
+	public static int postsDelta;
+	public static int commentsDelta;
+	public static int likesDelta;
+	
 	
 	public void myAccountNav(View view) {
 	    Intent intent = new Intent(MineActivity.this, MyAccountActivity.class);
@@ -86,19 +96,24 @@ public class MineActivity extends CoolieActivity {
         if (currentSession != null && currentSession.isOpened()) {
         	userId = User.getUserInstance(null).id;
         	
-        	/* saves the last date of mining and the last total amount of Techoins */
+        	/* saves the last date of mining, the last total amount of Techoins
+        	 * and the counters of posts, likes and comments */
         	exMiningDate = User.getUserInstance(null).lastMining;
         	exTotal = User.getUserInstance(null).totalTechoins;
+        	exLikesCounter = User.getUserInstance(null).likesNum + User.getUserInstance(null).likesOnPostsNum;
+            exCommentsCounter = User.getUserInstance(null).commentsNum;
+            exPostsCounter = User.getUserInstance(null).postsNum;
+            
         	/* mine the new posts, comments and likes */
             mining();
-
-            updateServer();
+		       
         }
 	  }
 
-
 	  
-	  void mining() {
+
+
+	void mining() {
 		 		  
 		/* make Facebook API call */
   		new Request(currentSession, userId + "/feed", 
@@ -109,15 +124,7 @@ public class MineActivity extends CoolieActivity {
 	  		       GraphObject gO = response.getGraphObject();
 	  		        
 	  		       Mine.getMineInstance(userId).mineUserPosts(gO);
-	  		       User tempUser = User.getUserInstance(null); 
 	  		       Mine.getMineInstance(null).endMining();
-	  		       
-	  	           /* sets the total Techoins diff */
-	  	           totalDelta = User.getUserInstance(null).totalTechoins - exTotal;
-	  	           newMiningDate = User.getUserInstance(null).lastMining;
-	  		       
-	  	            /* updates the last mining in server */
-	  		       updateServer();
 	  		       
 	  		     System.out.println("*****After Mining******");
 	  		     System.out.println("The number of posts after mining is:" + User.getUserInstance(null).postsNum);
@@ -125,12 +132,24 @@ public class MineActivity extends CoolieActivity {
 	  		     System.out.println("The number of likes after mining is:" + User.getUserInstance(null).likesOnPostsNum);
 	  		     System.out.println("The amount of Techoins i have is:" + User.getUserInstance(null).totalTechoins);
 	  		     System.out.println("The last mining date is:" + User.getUserInstance(null).lastMining.toString());
-	  		     
-		  		    progressBar.setVisibility(View.GONE);
-		  		    //mineLayout.setVisibility(View.GONE);
-		  		    Intent intent = new Intent(MineActivity.this, MyAccountActivity.class);
-		  		    startActivity(intent);
-		  		    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+	            
+	  		     /* sets the counters diffs */
+	             totalDelta = User.getUserInstance(null).totalTechoins - exTotal;
+	             newMiningDate = User.getUserInstance(null).lastMining;
+	             postsDelta = User.getUserInstance(null).postsNum - exPostsCounter;
+	             commentsDelta = User.getUserInstance(null).commentsNum - exCommentsCounter;
+	             likesDelta = (User.getUserInstance(null).likesNum + User.getUserInstance(null).likesOnPostsNum)
+	            		 - exLikesCounter;
+	              
+	            //TODO: update to data storage
+	    		    updateServer();
+	    		    
+	              progressBar.setVisibility(View.GONE);
+	    		    //mineLayout.setVisibility(View.GONE);
+	    		    Intent intent = new Intent(MineActivity.this, MyAccountActivity.class);
+	    		    startActivity(intent);
+	    		    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+		  		   
   		        }
   		    }
   		).executeAsync();
