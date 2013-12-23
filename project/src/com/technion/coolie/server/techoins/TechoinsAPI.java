@@ -84,17 +84,6 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public List<Product> getProductsByIds(List<Product> products) {
-    return gson.fromJson(Communicator.execute(
-        TechoinsEnum.TECHOINS_SERVLET.value(), "function",
-        TechoinsEnum.GET_PRODUCTS_BY_IDS.toString(),
-        TechoinsEnum.PRODUCT_LIST.value(), gson.toJson(products)),
-        new TypeToken<List<Product>>() {
-          // default usage
-        }.getType());
-  }
-
-  @Override
   public List<Product> getProductsByName(Product product) {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",

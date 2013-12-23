@@ -56,18 +56,6 @@ public interface ITechoinsAPI {
    */
   ReturnCode moveMoney(TechoinsTransfer transfer);
 
-  // the function "getProductById" was deleted, instead use "getProductsById"
-  // with list length==1
-
-  /**
-   * 
-   * @param products_
-   *          - list of products to search. Should be given with their id field
-   *          initialized correctly
-   * @return - list of the requested products
-   */
-  List<Product> getProductsByIds(List<Product> products);
-
   /**
    * 
    * @param product

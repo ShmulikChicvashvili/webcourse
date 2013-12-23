@@ -118,10 +118,6 @@ public class Product implements Serializable {
     this.sellerPhoneNumber = sellerPhoneNumber;
   }
 
-  public void setSold(boolean sold) {
-    this.sold = sold;
-  }
-
   public void setPublishDateInMillis(long publishDate) {
     this.publishDateInMillis = publishDate;
   }
