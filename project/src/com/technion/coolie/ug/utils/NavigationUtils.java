@@ -1,4 +1,4 @@
-package com.tecnion.coolie.ug.utils;
+package com.technion.coolie.ug.utils;
 
 import android.content.Intent;
 import android.content.res.Configuration;

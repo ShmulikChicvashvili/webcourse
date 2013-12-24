@@ -36,8 +36,8 @@ import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.gui.searchCourses.SearchResultsAdapter.CourseHolder;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
-import com.tecnion.coolie.ug.utils.NavigationUtils;
-import com.tecnion.coolie.ug.utils.SerializeIO;
+import com.technion.coolie.ug.utils.NavigationUtils;
+import com.technion.coolie.ug.utils.SerializeIO;
 
 /**
  * activity for searching courses and finding available courses.

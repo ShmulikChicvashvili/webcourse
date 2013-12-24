@@ -14,7 +14,7 @@ import com.technion.coolie.ug.coursesAndExams.CoursesAndExamsFragment;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayFragment;
 import com.technion.coolie.ug.gui.searchCourses.SearchFragment;
-import com.tecnion.coolie.ug.utils.FragmentsFactory;
+import com.technion.coolie.ug.utils.FragmentsFactory;
 
 public class TransparentActivity extends CoolieActivity {
 	public String key;

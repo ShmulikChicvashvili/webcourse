@@ -10,7 +10,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
-import com.tecnion.coolie.ug.utils.NavigationUtils;
+import com.technion.coolie.ug.utils.NavigationUtils;
 
 public class SearchBarFragment extends SearchFragment {
 	@Override

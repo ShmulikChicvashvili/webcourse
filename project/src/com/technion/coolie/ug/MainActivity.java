@@ -8,7 +8,7 @@ import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.Enums.LandscapeLeftMenuItems;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
-import com.tecnion.coolie.ug.utils.FragmentsFactory;
+import com.technion.coolie.ug.utils.FragmentsFactory;
 
 public class MainActivity extends CoolieActivity implements
 		OnRightMenuItemSelected {
