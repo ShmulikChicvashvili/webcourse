@@ -2,6 +2,8 @@ package com.technion.coolie.ug.model;
 
 import java.io.Serializable;
 
+import com.technion.coolie.ug.Enums.SemesterSeason;
+
 public class CourseKey implements Serializable {
 
 	public CourseKey(final String id, final Semester semester) {
@@ -62,4 +64,17 @@ public class CourseKey implements Serializable {
 		return true;
 	}
 
+	public String toKeyString()
+	{
+		return number +" "+ semester.year+" "+semester.ss;
+	}
+	
+	public static  CourseKey keyStringToCourseKey(String keyString){
+		String [] words = keyString.split(" ");
+		String number = words[0];
+		int year = Integer.parseInt(words[1]);
+		SemesterSeason ss = SemesterSeason.valueOf(words[2]);
+		return new CourseKey(number, new Semester(year, ss));
+	}
+	
 }

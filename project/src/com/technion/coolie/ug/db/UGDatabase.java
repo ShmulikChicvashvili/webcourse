@@ -38,9 +38,11 @@ public enum UGDatabase {
 
 	private UGDatabase() {
 		// initialize lists and student info, from DB TODO
+		//when data is empty, we need to talk to the server first! and then do these.
 		initCourses();
 		initializeHashMap();
 		initializeSemesters();
+//		OpenHelperManager.getHelper();
 	}
 
 	private void initCourses() {
@@ -188,6 +190,8 @@ public enum UGDatabase {
 										2014, 2, 11), null, null, groups)
 
 				));
+		
+		
 	}
 
 	/**
@@ -197,9 +201,14 @@ public enum UGDatabase {
 		coursesHash = new LinkedHashMap<CourseKey, Course>();
 		for (final Course course : allCourses)
 			coursesHash.put(course.getCourseKey(), course);
+		
 	}
 
 	private void initializeSemesters() {
+		
+		
+//		currentSeason = findCurrentSemesters(currentSemesters);
+		
 		currentSeason = SemesterSeason.WINTER;
 		currentSemesters = new Semester[3];
 		currentSemesters[SemesterSeason.SPRING.getIdx()] = new Semester(2013,
@@ -210,9 +219,9 @@ public enum UGDatabase {
 				SemesterSeason.WINTER);
 
 		currentStudent = null;
-		coursesHash = new LinkedHashMap<CourseKey, Course>();
-		for (final Course course : allCourses)
-			coursesHash.put(course.getCourseKey(), course);
+//		coursesHash = new LinkedHashMap<CourseKey, Course>();
+//		for (final Course course : allCourses)
+//			coursesHash.put(course.getCourseKey(), course);
 
 	}
 

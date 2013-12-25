@@ -3,9 +3,11 @@ package com.technion.coolie.ug.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteOpenHelper;
 
-public class CoursesDB extends SQLiteOpenHelper {
+import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
+import com.j256.ormlite.support.ConnectionSource;
+
+public class CoursesDB extends OrmLiteSqliteOpenHelper {
 
 	final String COURSES_TABLE_NAME = "UGCourses";
 
@@ -15,7 +17,7 @@ public class CoursesDB extends SQLiteOpenHelper {
 	}
 
 	@Override
-	public void onCreate(final SQLiteDatabase db) {
+	public void onCreate(final SQLiteDatabase db,ConnectionSource connection) {
 		// bring from ug the tables!
 		// create table of courses
 		// db.rawQuery("CREATE TABLE " + COURSES_TABLE_NAME + " ("
@@ -28,7 +30,7 @@ public class CoursesDB extends SQLiteOpenHelper {
 	}
 
 	@Override
-	public void onUpgrade(final SQLiteDatabase db, final int oldVersion,
+	public void onUpgrade(final SQLiteDatabase db,ConnectionSource connectionSource, final int oldVersion,
 			final int newVersion) {
 		// drop courses from the removed semester
 		onCreate(db);
