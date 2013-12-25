@@ -12,27 +12,22 @@ import com.technion.coolie.ug.model.Course;
 
 public class UGDBProvider {
 
-	private Dao<CourseRow, String> courseDao;
-	// all daos..
-
 	private UGDatabaseHelper UGDatabaseHelper = null;
+
+	Context context;
 
 	/**
 	 * 
 	 * @param context
 	 *            - the application context;
+	 *            <P>
+	 *            WARNING: must close the provider instance after end of use.
 	 */
 	public UGDBProvider(Context applicationContext) {
-		try {
-			courseDao = getHelper(applicationContext).getCoursesDao();
-			// all daos..
-
-		} catch (SQLException e) {
-			e.printStackTrace(System.err);
-		}
+		context = applicationContext;
 	}
 
-	private UGDatabaseHelper getHelper(Context context) {
+	private UGDatabaseHelper getHelper() {
 		if (UGDatabaseHelper == null) {
 			UGDatabaseHelper = (UGDatabaseHelper) OpenHelperManager.getHelper(
 					context, UGDatabaseHelper.class);
@@ -44,7 +39,7 @@ public class UGDBProvider {
 		List<CourseRow> list = null;
 
 		try {
-			list = courseDao.queryForAll();
+			list = getHelper().getCoursesDao().queryForAll();
 		} catch (SQLException e) {
 			e.printStackTrace(System.err);
 			throw new NullPointerException();
@@ -56,10 +51,22 @@ public class UGDBProvider {
 		return $;
 	}
 
+	public Dao<CourseRow, String> getCoursesDao() {
+		try {
+			return getHelper().getCoursesDao();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new NullPointerException("Can't get courses table!");
+		}
+	}
+
 	/**
 	 * this must be called when finishing the use of this class.
 	 **/
-	public void clean() {
-		UGDatabaseHelper.close();
+	public void close() {
+		if (UGDatabaseHelper != null) {
+			OpenHelperManager.releaseHelper();
+			UGDatabaseHelper = null;
+		}
 	}
 }

@@ -52,7 +52,6 @@ public class UGDatabase {
 		// initialize lists and student info, from DB TODO
 
 		initDB();
-
 		initCourses();
 		initializeHashMap();
 		initializeSemesters();
@@ -64,7 +63,7 @@ public class UGDatabase {
 
 	// must be called when existing the app!
 	public void clean() {
-		dataProvider.clean();
+		dataProvider.close();
 	}
 
 	private void initCourses() {
@@ -294,6 +293,32 @@ public class UGDatabase {
 
 	public ArrayList<Item> getCalendar() {
 		return HtmlParser.parseCalendar();
+	}
+
+	/**
+	 * for every course in the list, adds the course to the database. if course
+	 * exists, updates its content.
+	 * 
+	 * @param courses
+	 */
+	public void updateCourses(List<Course> courses) {
+		try {
+			for (Course course : courses) {
+				dataProvider.getCoursesDao().createOrUpdate(
+						new CourseRow(course, course.getCourseKey()));
+			}
+
+		} catch (java.sql.SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// Log.d(this.getClass().getName(), "OMG ADDED COURSE TO DB");
+		// CourseRow r = courseDao.queryForSameId(new CourseRow(course,
+		// course
+		// .getCourseKey()));
+		// Log.d(this.getClass().getName(), "OMG GOT COURSE "
+		// + r.getCourse().getName() + " TO DB");
 	}
 
 }
