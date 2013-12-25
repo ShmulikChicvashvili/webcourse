@@ -22,7 +22,7 @@ public class AcademicCalendarFragment extends Fragment {
 			final ViewGroup container, final Bundle savedInstanceState) {
 		final View view = inflater.inflate(R.layout.ug_calendar_fragment,
 				container, false);
-		items = UGDatabase.INSTANCE.getCalendar();
+		items = UGDatabase.getInstance(getActivity()).getCalendar();
 		listview = (ListView) view.findViewById(R.id.academic_list);
 		final AcademicCalendarFragmentAdapter adapter = new AcademicCalendarFragmentAdapter(
 				getActivity(), items);

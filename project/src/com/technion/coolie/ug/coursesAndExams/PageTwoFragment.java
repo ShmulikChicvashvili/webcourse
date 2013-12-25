@@ -10,7 +10,7 @@ public class PageTwoFragment extends BasePage {
 
 	@Override
 	public void setGroupParents() {
-		parentItems = new ArrayList<CourseItem>(
-				UGDatabase.INSTANCE.getStudentCourses(SemesterSeason.WINTER));
+		parentItems = new ArrayList<CourseItem>(UGDatabase.getInstance(
+				getActivity()).getStudentCourses(SemesterSeason.WINTER));
 	}
 }

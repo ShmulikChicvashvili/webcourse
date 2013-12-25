@@ -111,8 +111,8 @@ public class CourseDisplayFragment extends Fragment {
 	private void makeGroupsHeader() {
 
 		final MeetingDisplay explanationHeader = new MeetingDisplay("מס",
-				"סוג", "מרצה", "מיקום", "שעת התחלה", "שעת סיום",
-				"מקום פנוי", "יום");
+				"סוג", "מרצה", "מיקום", "שעת התחלה", "שעת סיום", "מקום פנוי",
+				"יום");
 		final View v = addMeeting(explanationHeader);
 		v.setBackgroundResource(R.drawable.ug_course_label_text_container);
 
@@ -177,7 +177,8 @@ public class CourseDisplayFragment extends Fragment {
 			throw new NullPointerException();
 		}
 		key = (CourseKey) bundle.getSerializable(ARGUMENTS_COURSE_KEY);
-		courseToView = UGDatabase.INSTANCE.getCourseByKey(key);
+		courseToView = UGDatabase.getInstance(getActivity())
+				.getCourseByKey(key);
 		if (courseToView == null) {
 			Log.e(MainActivity.DEBUG_TAG,
 					"CANT FIND COURSEKEY IN DB, exisiting");

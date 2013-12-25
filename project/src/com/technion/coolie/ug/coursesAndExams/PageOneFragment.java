@@ -12,8 +12,8 @@ public class PageOneFragment extends BasePage {
 	public void setGroupParents() {
 		// TODO: need to be UGDatabase.INSTANCE.<name of variable which will
 		// store this list>...
-		parentItems = new ArrayList<CourseItem>(
-				UGDatabase.INSTANCE.getStudentCourses(SemesterSeason.SUMMER));
+		parentItems = new ArrayList<CourseItem>(UGDatabase.getInstance(
+				getActivity()).getStudentCourses(SemesterSeason.SUMMER));
 
 	}
 }

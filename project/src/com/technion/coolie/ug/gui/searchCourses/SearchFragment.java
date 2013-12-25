@@ -46,7 +46,7 @@ import com.technion.coolie.ug.utils.SerializeIO;
 public class SearchFragment extends Fragment {
 
 	List<String> filteredAutoCompleteList;
-	final List<Course> allCourses = UGDatabase.INSTANCE.getCourses();
+	List<Course> allCourses;
 	List<Course> filteredCoursesList;
 	FragmentActivity context;
 	SearchResultsAdapter searchAdapter;
@@ -144,8 +144,8 @@ public class SearchFragment extends Fragment {
 		} catch (final ClassNotFoundException e) {
 			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
 		}
-		filters = new SearchFilters(UGDatabase.INSTANCE.getCurrentSemester(),
-				false, Faculty.ALL_FACULTIES);
+		filters = new SearchFilters(UGDatabase.getInstance(getActivity())
+				.getCurrentSemester(), false, Faculty.ALL_FACULTIES);
 
 	}
 
@@ -153,8 +153,8 @@ public class SearchFragment extends Fragment {
 		try {
 			SerializeIO.createFile(context, LAST_SEARCH, new String());
 			SerializeIO.createFile(context, LAST_FILTER, new SearchFilters(
-					UGDatabase.INSTANCE.getCurrentSemester(), false,
-					Faculty.ALL_FACULTIES));
+					UGDatabase.getInstance(getActivity()).getCurrentSemester(),
+					false, Faculty.ALL_FACULTIES));
 		} catch (final Exception e) {
 			Log.e(MainActivity.DEBUG_TAG, "massive error!", e);
 		}
@@ -208,6 +208,7 @@ public class SearchFragment extends Fragment {
 	 * preferences! Can get the last search in this method and display it.
 	 */
 	private void setInitialCourseLists() {
+		allCourses = UGDatabase.getInstance(getActivity()).getCourses();
 		Log.d(MainActivity.DEBUG_TAG,
 				"all courses are of size " + allCourses.size());
 		filteredCoursesList = filters.filter(allCourses, "");
@@ -400,9 +401,9 @@ public class SearchFragment extends Fragment {
 
 				final String semesterString = spinnerSemester.getSelectedItem()
 						.toString();
-				filters.setSemester(UGDatabase.INSTANCE
-						.getRelevantSemester(SemesterSeason
-								.valueOf(semesterString)));
+				filters.setSemester(UGDatabase.getInstance(getActivity())
+						.getRelevantSemester(
+								SemesterSeason.valueOf(semesterString)));
 
 				System.out.print(filters.getSemester() + " SETTING SEMESTER");
 				// dont invoke search on fragment start

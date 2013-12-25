@@ -23,7 +23,8 @@ public class AcademicCalendarListFragment extends ListFragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState) {
-		final List<Item> tempList = UGDatabase.INSTANCE.getCalendar();
+		final List<Item> tempList = UGDatabase.getInstance(getActivity())
+				.getCalendar();
 		for (final Item i : tempList)
 			if (i instanceof AcademicCalendarEvent)
 				coursesList.add((AcademicCalendarEvent) i);

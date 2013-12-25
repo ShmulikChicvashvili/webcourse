@@ -20,8 +20,9 @@ public class CoursesAndExamsListFragment extends ListFragment {
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState) {
 
-		final ArrayList<CourseItem> coursesList = UGDatabase.INSTANCE
-				.getStudentCourses(UGDatabase.INSTANCE.getCurrentSemester()
+		final ArrayList<CourseItem> coursesList = UGDatabase.getInstance(
+				getActivity()).getStudentCourses(
+				UGDatabase.getInstance(getActivity()).getCurrentSemester()
 						.getSs());
 		final CoursesAndExamsFragmentListAdapter adapter = new CoursesAndExamsFragmentListAdapter(
 				inflater.getContext(), coursesList);
