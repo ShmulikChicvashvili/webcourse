@@ -8,11 +8,12 @@ import android.content.Context;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.technion.coolie.ug.db.tablerows.CourseRow;
 import com.technion.coolie.ug.model.Course;
 
 public class UGDBProvider {
 
-	private UGDatabaseHelper UGDatabaseHelper = null;
+	private UGSqlHelper UGDatabaseHelper = null;
 
 	Context context;
 
@@ -27,10 +28,10 @@ public class UGDBProvider {
 		context = applicationContext;
 	}
 
-	private UGDatabaseHelper getHelper() {
+	private UGSqlHelper getHelper() {
 		if (UGDatabaseHelper == null) {
-			UGDatabaseHelper = (UGDatabaseHelper) OpenHelperManager.getHelper(
-					context, UGDatabaseHelper.class);
+			UGDatabaseHelper = (UGSqlHelper) OpenHelperManager.getHelper(
+					context, UGSqlHelper.class);
 		}
 		return UGDatabaseHelper;
 	}

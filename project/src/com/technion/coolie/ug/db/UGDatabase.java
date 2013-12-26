@@ -11,6 +11,7 @@ import android.content.Context;
 import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.SemesterSeason;
+import com.technion.coolie.ug.db.tablerows.CourseRow;
 import com.technion.coolie.ug.gradessheet.Item;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseItem;
@@ -305,7 +306,7 @@ public class UGDatabase {
 		try {
 			for (Course course : courses) {
 				dataProvider.getCoursesDao().createOrUpdate(
-						new CourseRow(course, course.getCourseKey()));
+						new CourseRow(course));
 			}
 
 		} catch (java.sql.SQLException e) {
@@ -320,5 +321,4 @@ public class UGDatabase {
 		// Log.d(this.getClass().getName(), "OMG GOT COURSE "
 		// + r.getCourse().getName() + " TO DB");
 	}
-
 }
