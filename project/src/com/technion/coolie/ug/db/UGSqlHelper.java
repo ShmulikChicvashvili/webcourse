@@ -17,13 +17,18 @@ import com.technion.coolie.ug.db.tablerows.TrackRow;
 
 public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 	private final String LOG_TAG = "com.technion.coolie.ug.db";
+	public static final String DATABASE_NAME = "com.technion.coolie.ug";
+	public static final int DATABASE_VERSION = 1;
+	public static final String AUTHORITY = "com.technion.coolie.ug";
 
 	// for each table - The DAO objects we use to access the invitations table
 	private Dao<CourseRow, String> coursesDao = null;
+	private Dao<TrackRow, String> trackRowDao = null;
+	private Dao<AcademicEventRow, Long> academicEventDao = null;
+	private Dao<AccomplishedCourseRow, Long> accomplishedDao = null;
 
 	public UGSqlHelper(final Context context) {
-		super(context, UGDBTables.DATABASE_NAME, null,
-				UGDBTables.DATABASE_VERSION);
+		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
 	@Override
@@ -53,6 +58,11 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 			Log.i(LOG_TAG, "onUpgrade(): Upgrading database");
 			// drop all tables
 			TableUtils.dropTable(connectionSource, CourseRow.class, true);
+			TableUtils.dropTable(connectionSource, TrackRow.class, true);
+			TableUtils
+					.dropTable(connectionSource, AcademicEventRow.class, true);
+			TableUtils.dropTable(connectionSource, AccomplishedCourseRow.class,
+					true);
 
 			// After we drop the old databases, we create the new ones
 			onCreate(db, connectionSource);
@@ -62,17 +72,34 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 		}
 	}
 
-	/**
-	 * Returns the Database Access Object (DAO). It will create it or just give
-	 * the cached value.
-	 * 
-	 * @throws SQLException
-	 */
 	public Dao<CourseRow, String> getCoursesDao() throws SQLException {
 		if (coursesDao == null)
 			coursesDao = getDao(CourseRow.class);
 
 		return coursesDao;
+	}
+
+	public Dao<TrackRow, String> getTrackingDao() throws SQLException {
+		if (trackRowDao == null)
+			trackRowDao = getDao(TrackRow.class);
+
+		return trackRowDao;
+	}
+
+	public Dao<AcademicEventRow, Long> getAcademicEventsDao()
+			throws SQLException {
+		if (academicEventDao == null)
+			academicEventDao = getDao(AcademicEventRow.class);
+
+		return academicEventDao;
+	}
+
+	public Dao<AccomplishedCourseRow, Long> getAccopmlishedCoursesDao()
+			throws SQLException {
+		if (accomplishedDao == null)
+			accomplishedDao = getDao(AccomplishedCourseRow.class);
+
+		return accomplishedDao;
 	}
 
 	/**
@@ -81,7 +108,10 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 	@Override
 	public void close() {
 		super.close();
-		// nullify all dao TODO
+		// nullify all dao
 		coursesDao = null;
+		accomplishedDao = null;
+		academicEventDao = null;
+		trackRowDao = null;
 	}
 }

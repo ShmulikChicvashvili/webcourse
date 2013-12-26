@@ -1,23 +1,20 @@
 package com.technion.coolie.ug.db.tablerows;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.technion.coolie.ug.db.UGDBTables;
-import com.technion.coolie.ug.db.UGDBTables.AcademicEvents;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 
-@DatabaseTable(tableName = UGDBTables.AcademicEvents.TABLENAME)
+@DatabaseTable(tableName = AcademicEventRow.TABLENAME)
 public class AcademicEventRow {
 
-	@DatabaseField(id = true, generatedId = true)
+	public static final String TABLENAME = "AcademicEventsTable";
+	@DatabaseField(generatedId = true)
 	// @DefaultSortOrder
-	private String key;
+	private long key;
 
+	@DatabaseField(useGetSet = true, dataType = DataType.SERIALIZABLE)
 	private AcademicCalendarEvent event;
-
-	public enum Status {
-		CREATED, SENT
-	}
 
 	public AcademicEventRow(AcademicCalendarEvent event) {
 		this.event = event;
@@ -29,12 +26,12 @@ public class AcademicEventRow {
 	}
 
 	// MUST HAVE THE SAME NAME AS THE FIELD NAME
-	public String getKey() {
+	public long getKey() {
 		return key;
 	}
 
-	public void setKey(String coursekey) {
-		this.key = coursekey;
+	public void setKey(long key) {
+		this.key = key;
 	}
 
 	public AcademicCalendarEvent getEvent() {

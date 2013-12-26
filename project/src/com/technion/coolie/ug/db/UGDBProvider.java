@@ -8,7 +8,10 @@ import android.content.Context;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
+import com.technion.coolie.ug.db.tablerows.AcademicEventRow;
+import com.technion.coolie.ug.db.tablerows.AccomplishedCourseRow;
 import com.technion.coolie.ug.db.tablerows.CourseRow;
+import com.technion.coolie.ug.db.tablerows.TrackRow;
 import com.technion.coolie.ug.model.Course;
 
 public class UGDBProvider {
@@ -55,6 +58,33 @@ public class UGDBProvider {
 	public Dao<CourseRow, String> getCoursesDao() {
 		try {
 			return getHelper().getCoursesDao();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new NullPointerException("Can't get courses table!");
+		}
+	}
+
+	public Dao<AcademicEventRow, Long> getAcademicEventsDao() {
+		try {
+			return getHelper().getAcademicEventsDao();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new NullPointerException("Can't get courses table!");
+		}
+	}
+
+	public Dao<AccomplishedCourseRow, Long> getAccopmlishedCoursesDao() {
+		try {
+			return getHelper().getAccopmlishedCoursesDao();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new NullPointerException("Can't get courses table!");
+		}
+	}
+
+	public Dao<TrackRow, String> getTrackingDao() {
+		try {
+			return getHelper().getTrackingDao();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new NullPointerException("Can't get courses table!");

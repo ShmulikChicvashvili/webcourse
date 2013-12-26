@@ -1,18 +1,25 @@
 package com.technion.coolie.ug.db;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.SemesterSeason;
+import com.technion.coolie.ug.db.tablerows.AcademicEventRow;
+import com.technion.coolie.ug.db.tablerows.AccomplishedCourseRow;
 import com.technion.coolie.ug.db.tablerows.CourseRow;
+import com.technion.coolie.ug.db.tablerows.TrackRow;
 import com.technion.coolie.ug.gradessheet.Item;
+import com.technion.coolie.ug.model.AcademicCalendarEvent;
+import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
@@ -49,7 +56,7 @@ public class UGDatabase {
 			throw new NullPointerException();
 
 		// when data is empty, we need to talk to the server first! and then do
-		// these. TODO
+		// these(loading screen). TODO
 		// initialize lists and student info, from DB TODO
 
 		initDB();
@@ -308,10 +315,20 @@ public class UGDatabase {
 				dataProvider.getCoursesDao().createOrUpdate(
 						new CourseRow(course));
 			}
+			Log.d("DEBUG", "adding courses!");
+
+			dataProvider.getAcademicEventsDao().createOrUpdate(
+					new AcademicEventRow(new AcademicCalendarEvent(Calendar
+							.getInstance(), "OMG", "dd")));
+			dataProvider.getTrackingDao().createOrUpdate(
+					new TrackRow(courses.get(0).getCourseKey()));
+			dataProvider.getAccopmlishedCoursesDao().createOrUpdate(
+					new AccomplishedCourseRow(new AccomplishedCourse("3434",
+							"3434", "3434", new Semester(2,
+									SemesterSeason.SPRING), "3434")));
 
 		} catch (java.sql.SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new NullPointerException(e.toString());
 		}
 
 		// Log.d(this.getClass().getName(), "OMG ADDED COURSE TO DB");

@@ -2,12 +2,12 @@ package com.technion.coolie.ug.db.tablerows;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.technion.coolie.ug.db.UGDBTables;
-import com.technion.coolie.ug.db.UGDBTables.TrackingTable;
 import com.technion.coolie.ug.model.CourseKey;
 
-@DatabaseTable(tableName = UGDBTables.TrackingTable.TABLENAME)
+@DatabaseTable(tableName = TrackRow.TABLENAME)
 public class TrackRow {
+
+	public static final String TABLENAME = "TrackingCoursesTable";
 
 	@DatabaseField(id = true)
 	// @DefaultSortOrder

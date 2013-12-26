@@ -1,12 +1,18 @@
 package com.technion.coolie.ug.model;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import com.technion.coolie.ug.Enums.DayOfWeek;
 import com.technion.coolie.ug.gradessheet.Item;
 
 public class AcademicCalendarEvent implements
-		Comparable<AcademicCalendarEvent>, Item {
+		Comparable<AcademicCalendarEvent>, Item, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public DayOfWeek getDayOfWeek() {
 		return dayOfWeek;
 	}

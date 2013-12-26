@@ -3,11 +3,12 @@ package com.technion.coolie.ug.db.tablerows;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-import com.technion.coolie.ug.db.UGDBTables;
 import com.technion.coolie.ug.model.Course;
 
-@DatabaseTable(tableName = UGDBTables.CourseTable.TABLENAME)
+@DatabaseTable(tableName = CourseRow.TABLENAME)
 public class CourseRow {
+
+	public static final String TABLENAME = "CoursesTable";
 
 	@DatabaseField(id = true)
 	// @DefaultSortOrder

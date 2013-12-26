@@ -1,8 +1,16 @@
 package com.technion.coolie.ug.model;
 
+import java.io.Serializable;
+
 import com.technion.coolie.ug.gradessheet.Item;
 
-public class AccomplishedCourse implements Comparable<AccomplishedCourse>, Item {
+public class AccomplishedCourse implements Comparable<AccomplishedCourse>,
+		Item, Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public AccomplishedCourse(final String courseNumber, final String name,
 			final String points, final Semester semester, final String grade) {
 		super();
