@@ -60,6 +60,16 @@ public interface IJoininAPI {
   /**
    * 
    * @param event
+   *          - the event to remove from
+   * @param fbUser
+   *          - the user to remove
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode removeFromEvent(Event event, FacebookUser fbUser);
+
+  /**
+   * 
+   * @param event
    *          - the event to remove a user to it
    * @param fbUser
    *          - the user to remove

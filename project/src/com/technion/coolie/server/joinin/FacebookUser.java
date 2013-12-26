@@ -16,8 +16,16 @@ public class FacebookUser implements Serializable {
   Long id;
   String desc;
 
+  public FacebookUser(Long id_, String desc_) {
+    id = id_;
+    desc = desc_;
+  }
+
   public Long getId() {
     return id;
+  }
+
+  FacebookUser() {
   }
 
 }

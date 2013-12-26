@@ -63,6 +63,14 @@ public class JoininAPI implements IJoininAPI {
   }
 
   @Override
+  public ReturnCode removeFromEvent(Event event, FacebookUser fbUser) {
+    return ReturnCode.valueOf(Communicator.execute(
+        JoininEnum.JOININ_SERVLET.value(), "function",
+        JoininEnum.REMOVE_FROM_EVENT.toString(), JoininEnum.EVENT.value(),
+        gson.toJson(event), JoininEnum.FB_USER.value(), gson.toJson(fbUser)));
+  }
+
+  @Override
   public ReturnCode leaveEvent(Event event, FacebookUser fbUser) {
     return ReturnCode.valueOf(Communicator.execute(
         JoininEnum.JOININ_SERVLET.value(), "function",
