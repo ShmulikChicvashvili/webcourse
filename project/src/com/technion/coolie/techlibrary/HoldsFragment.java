@@ -255,4 +255,4 @@ public class HoldsFragment extends SherlockFragment {
 		}
 		return false;
 	}
-}
+} 
