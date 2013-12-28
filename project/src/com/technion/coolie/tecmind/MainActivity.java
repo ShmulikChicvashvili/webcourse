@@ -80,6 +80,11 @@ public class MainActivity extends CoolieActivity {
 		    startActivity(intent);
 		    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 		}
+		public void topPostsNav(View view) {
+		    Intent intent = new Intent(MainActivity.this, TopPostsActivity.class);
+		    startActivity(intent);
+		    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+		}
 		
 		
 		void firstInitiate() {

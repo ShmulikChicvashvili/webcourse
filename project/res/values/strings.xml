@@ -19,8 +19,6 @@
     <string name="stb_semester_start">Semester start date</string>
     <string name="stb_course_discard">Delete</string>
     <string name="techmine_app_id">222327407950326</string>
-    
-   
     <string name="title_activity_categories">CategoriesActivity</string>
     <string name="title_activity_category_event">CategoryEventActivity</string>
     <string name="lmi_search">Search</string>
@@ -72,5 +70,6 @@
     <string name="favourite">Favourites</string>
     <string name="title_activity_main_activity_splash">MainActivitySplash</string>
     <string name="starting_up_">Starting up...</string>
+    <string name="title_activity_top_posts">TopPostsActivity</string>
 
 </resources>

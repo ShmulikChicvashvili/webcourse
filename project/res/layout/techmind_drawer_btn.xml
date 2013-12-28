@@ -100,4 +100,36 @@
 	        android:text="my account">
 	    </TextView>
 	</LinearLayout>
+	
+		<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal" 
+	    android:clickable="true"
+	    android:focusable="true"
+	    android:onClick="topPostsNav"
+	    android:id="@+id/btn2"
+	    style="@style/techmindDrawer" >
+	
+	    <ImageView
+	        android:id="@+id/techmind_top_posts_drawer_icon"
+	        android:layout_width="40dp"
+	        android:layout_height="40dp"
+	        android:layout_gravity="center_vertical"
+	        android:layout_margin="8dp"
+	        android:contentDescription="techmind_mine_drawer_icon" 
+	        android:src="@drawable/techmind_coin" >
+	    </ImageView>
+	
+	    <TextView
+	        android:id="@+id/techmind_top_posts_drawer_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical"
+	        android:layout_marginLeft="16dp"
+	        android:textColor="#FFF"
+	        android:textSize="15sp" 
+	        android:text="Top 10 Posts">
+	    </TextView>
+	</LinearLayout>
 </LinearLayout>

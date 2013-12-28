@@ -1,4 +1,5 @@
 package com.technion.coolie.tecmind.server;
+
 import java.util.List;
 
 /**
@@ -51,11 +52,9 @@ public interface ITechmineAPI {
   public ReturnCode removeTopBestPost(TecTopBestPost topBestPost);
 
   /**
-   * @param topBestPost
-   *          - the topBestPost to get with the id field initialized correctly
-   * @return - the requested topBestPost
+   * @return - top 10 TopBestPost by their technionValue field
    */
-  public TecTopBestPost getTopBestPost(TecTopBestPost topBestPost);
+  public List<TecPost> getTopBestPosts();
 
   /**
    * 
@@ -76,12 +75,9 @@ public interface ITechmineAPI {
   public ReturnCode removeTopBestComment(TecTopBestComment topBestComment);
 
   /**
-   * @param topBestComment
-   *          - the topBestComment to get with the id field initialized
-   *          correctly
-   * @return - the requested topBestComment
+   * @return - top 10 TecTopBestComment by their technionValue field
    */
-  public TecTopBestComment getTopBestComment(TecTopBestComment topBestComment);
+  public List<TecComment> getTopBestComments();
 
   /**
    * 
@@ -167,4 +163,12 @@ public interface ITechmineAPI {
    * @return - SUCCESS if went well, error code otherwise
    */
   public ReturnCode addTecPostList(List<TecPost> posts);
+
+  /**
+   * 
+   * @param comments
+   *          - the list of TecComment to add
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode addTecCommentList(List<TecComment> comments);
 }
