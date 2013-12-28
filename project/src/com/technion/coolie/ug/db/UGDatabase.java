@@ -15,7 +15,6 @@ import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.db.tablerows.AcademicEventRow;
 import com.technion.coolie.ug.db.tablerows.AccomplishedCourseRow;
-import com.technion.coolie.ug.db.tablerows.CourseRow;
 import com.technion.coolie.ug.db.tablerows.TrackRow;
 import com.technion.coolie.ug.gradessheet.Item;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
@@ -311,10 +310,12 @@ public class UGDatabase {
 	 */
 	public void updateCourses(List<Course> courses) {
 		try {
-			for (Course course : courses) {
-				dataProvider.getCoursesDao().createOrUpdate(
-						new CourseRow(course));
-			}
+			// for (Course course : courses) {
+			// dataProvider.getCoursesDao().createOrUpdate(
+			// new CourseRow(course));
+			// }
+			dataProvider.updateCourses(courses);
+
 			Log.d("DEBUG", "adding courses!");
 
 			dataProvider.getAcademicEventsDao().createOrUpdate(

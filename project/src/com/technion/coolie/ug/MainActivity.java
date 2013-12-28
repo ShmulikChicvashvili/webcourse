@@ -39,7 +39,9 @@ public class MainActivity extends CoolieActivity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		UGDatabase.getInstance(this).clean();
+		// close database connections
+		if (isFinishing())
+			UGDatabase.getInstance(this).clean();
 	}
 
 	/**
