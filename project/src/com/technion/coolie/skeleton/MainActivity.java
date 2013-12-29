@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +21,11 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
+<<<<<<< HEAD
+=======
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+>>>>>>> origin/master
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.CoolieNotification;
 import com.technion.coolie.R;
@@ -32,12 +34,15 @@ import com.technion.coolie.server.gcm.GcmFactory;
 @SuppressLint("ValidFragment")
 public class MainActivity extends CoolieActivity {
 
+<<<<<<< HEAD
+=======
   // // gcm vars
 
   private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
   // // end of gcm vars
 
+>>>>>>> origin/master
   private GridView mostUsedGrid;
   private ViewPager mViewPager;
   int selectedTabIndex = 0; // used in onResume to restore the selected tab in
@@ -49,6 +54,8 @@ public class MainActivity extends CoolieActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.skel_activity_main);
 
+<<<<<<< HEAD
+=======
     // gcm check (and registration if necessary)
 
     GcmFactory.getGcmAPI().registerDevice(getApplicationContext(),
@@ -56,6 +63,7 @@ public class MainActivity extends CoolieActivity {
 
     // end of gcm check
 
+>>>>>>> origin/master
     /*
      * SignonDialog s = new SignonDialog(CoolieAccount.UG);
      * s.show(getSupportFragmentManager(), "dialog");
@@ -112,6 +120,10 @@ public class MainActivity extends CoolieActivity {
     else
       ((MostUsedAdapter) mostUsedGrid.getAdapter()).sortAgain();
     super.onResume();
+<<<<<<< HEAD
+  }
+
+=======
 
     // gcm check
     checkPlayServices();
@@ -271,6 +283,7 @@ public class MainActivity extends CoolieActivity {
   // editor.commit();
   // }
 
+>>>>>>> origin/master
   private List<Fragment> getFragments() {
     List<Fragment> fList = new ArrayList<Fragment>();
     fList.add(new AlphabeticalModulesFragment());
@@ -403,7 +416,10 @@ public class MainActivity extends CoolieActivity {
     }
   }
 
+<<<<<<< HEAD
+=======
   @SuppressLint("ValidFragment")
+>>>>>>> origin/master
   private class FeedsFragment extends Fragment {
     FeedsAdapter adp;
 
@@ -437,6 +453,8 @@ public class MainActivity extends CoolieActivity {
               .getCurrentItem());
     super.onSaveInstanceState(savedInstanceState);
   }
+<<<<<<< HEAD
+=======
 
   /**
    * Check the device to make sure it has the Google Play Services APK. If it
@@ -459,4 +477,5 @@ public class MainActivity extends CoolieActivity {
     }
     return true;
   }
+>>>>>>> origin/master
 }
