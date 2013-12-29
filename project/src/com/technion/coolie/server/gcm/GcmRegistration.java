@@ -131,6 +131,7 @@ public class GcmRegistration extends Activity {
           storeRegistrationId(context, regid);
         } catch (IOException ex) {
           msg = "Error: " + ex.getMessage();
+          // TODO: add recovery if service not available
           // If there is an error, don't just keep trying to register.
           // Require the user to click a button again, or perform
           // exponential back-off.
