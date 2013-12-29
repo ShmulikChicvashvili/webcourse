@@ -19,6 +19,16 @@ import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.utils.FragmentsFactory;
 
+//need to add more search options - has available courses?
+//add the courses hours to the calendar?
+//search option - by date in day!
+//need to add hebrew to the search filters
+//need to switch between semesters in course display.
+//need to add pre courses and close courses.
+//need to add option for choosing group to track? OR track entire course???
+//add option to add to tracking!
+//mark course if were registered to it!
+
 public class MainActivity extends CoolieActivity implements
 		OnRightMenuItemSelected {
 

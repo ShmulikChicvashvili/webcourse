@@ -34,14 +34,14 @@ public class UGDatabase {
 
 	private Student currentStudent;
 	private List<RegistrationGroup> groups; // TODO delete this.
-	private List<Course> allCourses;
+	// private List<Course> allCourses;
 	// private List<String> allCoursesNames;
 	private Semester[] currentSemesters;
 	private SemesterSeason currentSeason;
 	private ArrayList<CourseItem> coursesAndExamsList;
 	// private ArrayList<Item> calendarList;
 	private LinkedHashMap<CourseKey, Course> coursesHash;
-	Context context;
+	Context appContext;
 
 	public static UGDatabase getInstance(Context context) {
 		if (INSTANCE == null)
@@ -49,9 +49,9 @@ public class UGDatabase {
 		return INSTANCE;
 	}
 
-	private UGDatabase(Context context) {
-		this.context = context;
-		if (this.context == null)
+	private UGDatabase(Context appContext) {
+		this.appContext = appContext;
+		if (this.appContext == null)
 			throw new NullPointerException();
 
 		// when data is empty, we need to talk to the server first! and then do
@@ -60,22 +60,22 @@ public class UGDatabase {
 
 		initDB();
 		initCourses();
-		initializeHashMap();
 		initializeSemesters();
 	}
 
 	private void initDB() {
-		dataProvider = new UGDBProvider(context);
+		dataProvider = new UGDBProvider(appContext);
 	}
 
-	// must be called when existing the app!
+	// must be called when exiting the app!
 	public void clean() {
 		dataProvider.close();
+
 	}
 
 	private void initCourses() {
 
-		allCourses = dataProvider.getAllCourses();
+		initializeHashMap(dataProvider.getAllCourses());
 
 		// Calendar cal = Calendar.getInstance();
 		// Calendar cal2 = Calendar.getInstance();
@@ -227,10 +227,12 @@ public class UGDatabase {
 
 	/**
 	 * puts all the courses in a hashTable, mapping courseKey to course
+	 * 
+	 * @param courses
 	 */
-	private void initializeHashMap() {
+	private void initializeHashMap(List<Course> courses) {
 		coursesHash = new LinkedHashMap<CourseKey, Course>();
-		for (final Course course : allCourses)
+		for (final Course course : courses)
 			coursesHash.put(course.getCourseKey(), course);
 
 	}
@@ -260,7 +262,7 @@ public class UGDatabase {
 	}
 
 	public List<Course> getCourses() {
-		return allCourses;
+		return new ArrayList<Course>(coursesHash.values());
 	}
 
 	public Semester getRelevantSemester(final SemesterSeason season) {
@@ -303,30 +305,34 @@ public class UGDatabase {
 	}
 
 	/**
-	 * for every course in the list, adds the course to the database. if course
-	 * exists, updates its content.
+	 * adds all the courses to the database. if course exists, we update its
+	 * content.
 	 * 
-	 * @param courses
 	 */
 	public void updateCourses(List<Course> courses) {
 		try {
-			// for (Course course : courses) {
-			// dataProvider.getCoursesDao().createOrUpdate(
-			// new CourseRow(course));
-			// }
-			dataProvider.updateCourses(courses);
 
-			Log.d("DEBUG", "adding courses!");
+			Log.d("DEBUG", "updating courses!");
+
+			// update the DB
+			dataProvider.updateCourses(courses);
+			// update the hash
+			for (Course course : courses) {
+				coursesHash.put(course.getCourseKey(), course);
+			}
 
 			dataProvider.getAcademicEventsDao().createOrUpdate(
 					new AcademicEventRow(new AcademicCalendarEvent(Calendar
 							.getInstance(), "OMG", "dd")));
+			dataProvider.getAcademicEvents();
 			dataProvider.getTrackingDao().createOrUpdate(
 					new TrackRow(courses.get(0).getCourseKey()));
+			dataProvider.getTrackingCourses();
 			dataProvider.getAccopmlishedCoursesDao().createOrUpdate(
 					new AccomplishedCourseRow(new AccomplishedCourse("3434",
 							"3434", "3434", new Semester(2,
 									SemesterSeason.SPRING), "3434")));
+			dataProvider.getAccomplishedCourses();
 
 		} catch (java.sql.SQLException e) {
 			throw new NullPointerException(e.toString());

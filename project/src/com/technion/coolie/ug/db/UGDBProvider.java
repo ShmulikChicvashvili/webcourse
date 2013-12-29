@@ -29,10 +29,11 @@ public class UGDBProvider {
 
 	/**
 	 * 
-	 * @param context
+	 * @param applicationContext
 	 *            - the application context;
 	 *            <P>
-	 *            WARNING: must close the provider instance after end of use.
+	 *            WARNING: must close the provider instance via <b>close()</b>
+	 *            method after end of use.
 	 */
 	public UGDBProvider(Context applicationContext) {
 		context = applicationContext;
@@ -80,7 +81,7 @@ public class UGDBProvider {
 		}
 	}
 
-	public List<CourseKey> getTrackingCourse() {
+	public List<CourseKey> getTrackingCourses() {
 		List<TrackRow> list = null;
 		try {
 			list = getHelper().getTrackingDao().queryForAll();
@@ -142,7 +143,7 @@ public class UGDBProvider {
 		}
 	}
 
-	public List<AcademicCalendarEvent> getAllAcademicEvent() {
+	public List<AcademicCalendarEvent> getAcademicEvents() {
 		List<AcademicEventRow> list = null;
 		try {
 			list = getHelper().getAcademicEventsDao().queryForAll();
