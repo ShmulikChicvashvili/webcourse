@@ -64,18 +64,6 @@ public class BookItems {
 
 	}
 
-	// for the history list
-	public class HistoryElement extends LibraryElement {
-
-		public String returnDate;
-
-		public HistoryElement(LibraryElement libElement) {
-			super(libElement);
-			returnDate = "";
-		}
-
-	}
-
 	// for the loan list
 	public class LoanElement extends LibraryElement {
 

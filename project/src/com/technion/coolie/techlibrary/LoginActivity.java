@@ -91,6 +91,7 @@ public class LoginActivity extends CoolieActivity {
 
 		// Set up the login form.
 		mUserIdView = (EditText) findViewById(R.id.user_id);
+		mUserIdView.requestFocus();
 
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mPasswordView

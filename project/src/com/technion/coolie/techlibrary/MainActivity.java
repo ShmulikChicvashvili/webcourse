@@ -18,9 +18,11 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 
+import com.technion.coolie.techlibrary.SearchElements.SearchFragment;
+
 public class MainActivity extends CoolieActivity implements
 		ActionBar.OnNavigationListener {
-	private String[] droplist = {  "Library Card" , "Open Hours"};
+	private String[] droplist = {  "Library Card" , "Open Hours", "Search"};
 
 	// shared pref
 	private SharedPreferences mSharedPref;
@@ -72,6 +74,10 @@ public class MainActivity extends CoolieActivity implements
 		} else if (itemPosition == 1) {
 			SherlockFragment frag = new OpenHoursFragment();
 			currPosition = 1;
+			transaction.replace(R.id.lib_frame_container, frag);
+		} else if (itemPosition == 2) {
+			SherlockFragment frag = new SearchFragment();
+			currPosition = 2;
 			transaction.replace(R.id.lib_frame_container, frag);
 		} 
 		transaction.commit();
