@@ -17,16 +17,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
+<<<<<<< HEAD
+=======
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+>>>>>>> origin/master
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.CoolieNotification;
 import com.technion.coolie.R;
+import com.technion.coolie.server.gcm.GcmFactory;
 
 @SuppressLint("ValidFragment")
 public class MainActivity extends CoolieActivity {
 
+<<<<<<< HEAD
+=======
+  // // gcm vars
+
+  private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+
+  // // end of gcm vars
+
+>>>>>>> origin/master
   private GridView mostUsedGrid;
   private ViewPager mViewPager;
   int selectedTabIndex = 0; // used in onResume to restore the selected tab in
@@ -38,6 +54,16 @@ public class MainActivity extends CoolieActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.skel_activity_main);
 
+<<<<<<< HEAD
+=======
+    // gcm check (and registration if necessary)
+
+    GcmFactory.getGcmAPI().registerDevice(getApplicationContext(),
+        checkPlayServices());
+
+    // end of gcm check
+
+>>>>>>> origin/master
     /*
      * SignonDialog s = new SignonDialog(CoolieAccount.UG);
      * s.show(getSupportFragmentManager(), "dialog");
@@ -94,8 +120,170 @@ public class MainActivity extends CoolieActivity {
     else
       ((MostUsedAdapter) mostUsedGrid.getAdapter()).sortAgain();
     super.onResume();
+<<<<<<< HEAD
   }
 
+=======
+
+    // gcm check
+    checkPlayServices();
+  }
+
+  // /**
+  // * Gets the current registration ID for application on GCM service.
+  // * <p>
+  // * If result is empty, the app needs to register.
+  // *
+  // * @return registration ID, or empty string if there is no existing
+  // * registration ID.
+  // */
+  // private String getRegistrationId(Context context_) {
+  // final SharedPreferences prefs_ = getGCMPreferences(context_);
+  // String registrationId = prefs_.getString(PROPERTY_REG_ID, "");
+  // if (registrationId.isEmpty()) {
+  // Log.i(TAG, "Registration not found.");
+  // return "";
+  // }
+  // // Check if app was updated; if so, it must clear the registration ID
+  // // since the existing regID is not guaranteed to work with the new
+  // // app version.
+  // int registeredVersion = prefs_.getInt(PROPERTY_APP_VERSION,
+  // Integer.MIN_VALUE);
+  // int currentVersion = getAppVersion(context_);
+  // if (registeredVersion != currentVersion) {
+  // Log.i(TAG, "App version changed.");
+  // return "";
+  // }
+  // return registrationId;
+  // }
+  //
+  // /**
+  // * @return Application's version code from the {@code PackageManager}.
+  // */
+  // private static int getAppVersion(Context context) {
+  // try {
+  // PackageInfo packageInfo = context.getPackageManager().getPackageInfo(
+  // context.getPackageName(), 0);
+  // return packageInfo.versionCode;
+  // } catch (NameNotFoundException e) {
+  // // should never happen
+  // throw new RuntimeException("Could not get package name: " + e);
+  // }
+  // }
+  //
+  // /**
+  // * @return Application's {@code SharedPreferences}.
+  // */
+  // private SharedPreferences getGCMPreferences(Context context) {
+  // // This sample app persists the registration ID in shared preferences, but
+  // // how you store the regID in your app is up to you.
+  // return context.getSharedPreferences("gcm regid", Context.MODE_PRIVATE);
+  // }
+  //
+  // /**
+  // * Check the device to make sure it has the Google Play Services APK. If it
+  // * doesn't, display a dialog that allows users to download the APK from the
+  // * Google Play Store or enable it in the device's system settings.
+  // */
+  // private boolean checkPlayServices() {
+  // int resultCode =
+  // GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+  // if (resultCode != ConnectionResult.SUCCESS) {
+  // if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+  // GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+  // PLAY_SERVICES_RESOLUTION_REQUEST).show();
+  // } else {
+  // Log.i(TAG, "This device is not supported.");
+  // Toast.makeText(context, "This device is not supported.",
+  // Toast.LENGTH_SHORT).show();
+  // finish();
+  // }
+  // return false;
+  // }
+  // return true;
+  // }
+  //
+  // /**
+  // * Registers the application with GCM servers asynchronously.
+  // * <p>
+  // * Stores the registration ID and app versionCode in the application's
+  // shared
+  // * preferences.
+  // */
+  // private void registerInBackground() {
+  // new AsyncTask<Void, Void, String>() {
+  // @Override
+  // protected String doInBackground(Void... params) {
+  // String msg = "";
+  // try {
+  // if (gcm == null) {
+  // gcm = GoogleCloudMessaging.getInstance(context);
+  // }
+  // regid = gcm.register(SENDER_ID);
+  // msg = "Device registered, registration ID=" + regid;
+  //
+  // // You should send the registration ID to your server over HTTP,
+  // // so it can use GCM/HTTP or CCS to send messages to your app.
+  // // The request to your server should be authenticated if your app
+  // // is using accounts.
+  // sendRegistrationIdToBackend();
+  //
+  // // For this demo: we don't need to send it because the device
+  // // will send upstream messages to a server that echo back the
+  // // message using the 'from' address in the message.
+  //
+  // // Persist the regID - no need to register again.
+  // storeRegistrationId(context, regid);
+  // } catch (IOException ex) {
+  // msg = "Error: " + ex.getMessage();
+  // // If there is an error, don't just keep trying to register.
+  // // Require the user to click a button again, or perform
+  // // exponential back-off.
+  // }
+  // return msg;
+  // }
+  //
+  // @Override
+  // protected void onPostExecute(String msg) {
+  // Log.i(TAG, msg + "\n");
+  // }
+  // }.execute(null, null, null);
+  //
+  // }
+  //
+  // /**
+  // * Sends the registration ID to your server over HTTP, so it can use
+  // GCM/HTTP
+  // * or CCS to send messages to your app. Not needed for this demo since the
+  // * device sends upstream messages to a server that echoes back the message
+  // * using the 'from' address in the message.
+  // */
+  // void sendRegistrationIdToBackend() {
+  // Log.i(TAG, "sendRegistrationIdToBackend: " + regid);
+  // GcmFactory.getGcmAPI().registerDevice(regid, "shalomShalom");
+  // }
+  //
+  // /**
+  // * Stores the registration ID and app versionCode in the application's
+  // * {@code SharedPreferences}.
+  // *
+  // * @param context_
+  // * application's context.
+  // * @param regId
+  // * registration ID
+  // */
+  // void storeRegistrationId(Context context_, String regId) {
+  // final SharedPreferences prefs_ = getGCMPreferences(context_);
+  // int appVersion = getAppVersion(context_);
+  // Log.i(TAG, "Saving regId: " + regId);
+  // Log.i(TAG, "Saving regId on app version " + appVersion);
+  // SharedPreferences.Editor editor = prefs_.edit();
+  // editor.putString(PROPERTY_REG_ID, regId);
+  // editor.putInt(PROPERTY_APP_VERSION, appVersion);
+  // editor.commit();
+  // }
+
+>>>>>>> origin/master
   private List<Fragment> getFragments() {
     List<Fragment> fList = new ArrayList<Fragment>();
     fList.add(new AlphabeticalModulesFragment());
@@ -228,6 +416,10 @@ public class MainActivity extends CoolieActivity {
     }
   }
 
+<<<<<<< HEAD
+=======
+  @SuppressLint("ValidFragment")
+>>>>>>> origin/master
   private class FeedsFragment extends Fragment {
     FeedsAdapter adp;
 
@@ -261,4 +453,29 @@ public class MainActivity extends CoolieActivity {
               .getCurrentItem());
     super.onSaveInstanceState(savedInstanceState);
   }
+<<<<<<< HEAD
+=======
+
+  /**
+   * Check the device to make sure it has the Google Play Services APK. If it
+   * doesn't, display a dialog that allows users to download the APK from the
+   * Google Play Store or enable it in the device's system settings.
+   */
+  public boolean checkPlayServices() {
+    int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+    if (resultCode != ConnectionResult.SUCCESS) {
+      if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+        GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+            PLAY_SERVICES_RESOLUTION_REQUEST).show();
+      } else {
+        Log.i("Gcm", "This device is not supported.");
+        Toast.makeText(getApplicationContext(),
+            "This device is not supported.", Toast.LENGTH_SHORT).show();
+        finish();
+      }
+      return false;
+    }
+    return true;
+  }
+>>>>>>> origin/master
 }
