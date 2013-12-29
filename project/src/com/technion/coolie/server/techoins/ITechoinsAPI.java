@@ -140,4 +140,20 @@ public interface ITechoinsAPI {
    */
   ReturnCode buyProduct(Product product);
 
+  /**
+   * 
+   * @param s
+   *          - the string to look for in the products names
+   * @return - list of products with names that contain the given string
+   */
+  List<Product> getByName(String s);
+
+  /**
+   * 
+   * @param s
+   *          - the string to look for in the products descriptions
+   * @return - list of products with descriptions that contain the given string
+   */
+  List<Product> getByDescription(String s);
+
 }

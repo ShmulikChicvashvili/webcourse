@@ -17,7 +17,8 @@ public enum TechoinsEnum {
       "getXRecentProducts"), GET_X_RANDOM_PRODUCTS("getXRandomProducts"), GET_SOLD_PRODUCTS_BY_SELLER_ID(
       "getSoldProductsBySellerID"), GET_PURCHASED_PRODUCTS_BY_BUYER_ID(
       "getPurchasedProductsByBuyerID"), GET_PUBLISHED_PRODUCTS_BY_SELLER_ID(
-      "getPublishedProductsBySellerID");
+      "getPublishedProductsBySellerID"), FIND_BY_NAME("findByName"), FIND_BY_DESC(
+      "findByDescripstion");
 
   private final String value;
 
