@@ -10,6 +10,7 @@ public class TecPost implements IGetters {
   String userID;
   int likesCount;
   int commentCount;
+  String content;
 
   /**
    * @param id1
@@ -18,14 +19,15 @@ public class TecPost implements IGetters {
    * @param userID1
    * @param likesCount1
    */
-  public TecPost(String id1, Date date1, int technionValue1, String userID1,
-      int likesCount1, int commentCount1) {
+  public TecPost(String id1, String content1, Date date1, int technionValue1,
+      String userID1, int likesCount1, int commentCount1) {
     this.id = id1;
     this.date = date1;
     this.technionValue = technionValue1;
     this.userID = userID1;
     this.likesCount = likesCount1;
     this.commentCount = commentCount1;
+    this.content = content1;
   }
 
   TecPost() {
