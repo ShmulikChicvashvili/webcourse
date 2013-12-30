@@ -20,7 +20,9 @@ import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.model.Course;
+import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Semester;
+import com.technion.coolie.ug.model.UGLoginObject;
 import com.technion.coolie.ug.utils.FragmentsFactory;
 import com.technion.coolie.ug.tracking.*;
 import com.technion.coolie.ug.gui.searchCourses.*;
@@ -128,11 +130,28 @@ public class MainActivity extends CoolieActivity implements
 	
 	public void onRegistrationClick(View v) 
 	{
-	    final Intent intent = new Intent(this,TransparentActivity.class);
+		UGDatabase db = UGDatabase.getInstance(this);
+		
+		CourseKey ck = new CourseKey("104", new Semester(2011, SemesterSeason.WINTER));
+		//db.addTrackingCourseToServer(db.getCurrentLoginObject(),ck);
+		db.deleteTrackingCourseFromServer(db.getCurrentLoginObject(),ck);
+		
+		final Intent intent = new Intent(this,TransparentActivity.class);
 		final Bundle b = new Bundle();
 		b.putString("key", TrackingCoursesFragment.class.toString());
 		intent.putExtras(b);
 		startActivity(intent);
+    }  
+	
+	public void onDeleteClick(View v) 
+	{
+		UGDatabase db = UGDatabase.getInstance(this);
+		
+		CourseKey ck = new CourseKey("104", new Semester(2011, SemesterSeason.WINTER));
+		db.addTrackingCourseToServer(db.getCurrentLoginObject(),ck);
+		//db.deleteTrackingCourseFromServer(db.getCurrentLoginObject(),ck);
+		
+		
     }  
 
 }

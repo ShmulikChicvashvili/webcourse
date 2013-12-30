@@ -18,7 +18,7 @@ public class ServerCourse {
 	/**
 	 * 
 	 */
-	int id;
+	Long id;
 	private Semester semester;
 	private String courseNumber;
 

@@ -2,7 +2,7 @@ package com.technion.coolie.server.ug.api;
 
 import com.technion.coolie.server.ug.ReturnCodesUg;
 import com.technion.coolie.ug.model.CourseKey;
-import com.technion.coolie.ug.model.Student;
+import com.technion.coolie.ug.model.UGLoginObject;
 
 /**
  * Created on 7.12.2013
@@ -22,7 +22,8 @@ public interface IUgTracking {
    *         STUDENT_ALREADY_TRACKING if the student is tracking the course
    *         already, SUCCESS if the student was added, otherwise ERROR.
    */
-  public ReturnCodesUg addTrackingStudent(Student student, CourseKey courseKey);
+  public ReturnCodesUg addTrackingStudent(UGLoginObject student,
+      CourseKey courseKey);
 
   /**
    * Remove the student from the tracking list of the course.
@@ -36,6 +37,6 @@ public interface IUgTracking {
    *         STUDENT_NOT_TRACKING if the student isn't tracking on the course
    *         ,SUCCESS otherwise.
    */
-  public ReturnCodesUg removeTrackingStudentFromCourse(Student student,
+  public ReturnCodesUg removeTrackingStudentFromCourse(UGLoginObject student,
       CourseKey courseKey);
 }

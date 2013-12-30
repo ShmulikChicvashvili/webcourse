@@ -171,7 +171,7 @@ public class CoolieServerInterfaceService extends IntentService {
 		}
 
 		case UG_ADD_TRACKING_STUDENT: {
-			Student student;
+			/*Student student;
 			CourseKey courseKey;
 			ReturnCodesUg Output;
 			student = new Gson().fromJson(
@@ -185,11 +185,12 @@ public class CoolieServerInterfaceService extends IntentService {
 			intent.putExtra(STATUS, CoolieStatus.RESULT_OK);
 			intent.putExtra(CoolieServerInterfaceService.RESULT,
 					new Gson().toJson(Output));
-			sendBroadcast(intent);
+			sendBroadcast(intent);*/
 			break;
 		}
 
 		case UG_REMOVE_TRACKING_STUDENT_FROM_COURSE: {
+			/*
 			Student student;
 			CourseKey courseKey;
 			ReturnCodesUg Output;
@@ -204,7 +205,7 @@ public class CoolieServerInterfaceService extends IntentService {
 			intent.putExtra(STATUS, CoolieStatus.RESULT_OK);
 			intent.putExtra(CoolieServerInterfaceService.RESULT,
 					new Gson().toJson(Output));
-			sendBroadcast(intent);
+			sendBroadcast(intent);*/
 			break;
 		}
 

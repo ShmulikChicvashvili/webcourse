@@ -8,7 +8,9 @@ import java.util.List;
 import org.jsoup.nodes.Document;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.technion.coolie.server.ug.api.UgFactory;
 import com.technion.coolie.ug.HtmlParser;
@@ -28,6 +30,8 @@ import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.model.UGLoginObject;
+import com.technion.coolie.ug.utils.UGAsync;
+import com.technion.coolie.server.ug.*;
 import com.technion.coolie.webcourse.gr_plusplus.asyncParse;
 
 public class UGDatabase {
@@ -295,6 +299,7 @@ public class UGDatabase {
 		// UgFactory.getUgGradeSheet().getMyGradesSheet(currentLoginObject);
 	}
 
+	// SERVER PART
 	public void getGradesSheetfromServer() {
 
 		asyncParse<SectionedListItem> a = new myGradeParse();
@@ -367,7 +372,70 @@ public class UGDatabase {
 		};
 		a.execute();
 	}
-
+	
+	
+	public void addTrackingCourseToServer(UGLoginObject o,CourseKey ck) 
+	{
+		AsyncTask<CourseKey, Void , ReturnCodesUg> asyncTask = new AsyncTask<CourseKey, Void , ReturnCodesUg>()
+		{
+			@Override
+			protected ReturnCodesUg doInBackground(CourseKey... params) 
+			{
+				if (params==null || params[0]==null) return null;
+				ReturnCodesUg returnCode = UgFactory.getUgTracking().addTrackingStudent(getCurrentLoginObject(), params[0]);
+				return returnCode;
+			}
+			
+			@Override
+			protected void onPostExecute(ReturnCodesUg returnCode) 
+			{
+				if (returnCode==null)
+					{
+						Log.v("addTrackingCourseToServer", "returnCode is null");
+						return;
+					}
+				
+				Log.v("addTrackingCourseToServer", returnCode.toString());
+				if (returnCode!=ReturnCodesUg.SUCCESS)
+				{
+				}
+			}
+		};
+		asyncTask.execute(ck);
+	}
+	
+	
+	public void deleteTrackingCourseFromServer(UGLoginObject o,CourseKey ck) 
+	{
+		AsyncTask<CourseKey, Void , ReturnCodesUg> asyncTask = new AsyncTask<CourseKey, Void , ReturnCodesUg>()
+		{
+			@Override
+			protected ReturnCodesUg doInBackground(CourseKey... params) 
+			{
+				if (params==null || params[0]==null) return null;
+				ReturnCodesUg returnCode = UgFactory.getUgTracking().removeTrackingStudentFromCourse(getCurrentLoginObject(), params[0]);
+				return returnCode;
+			}
+			
+			@Override
+			protected void onPostExecute(ReturnCodesUg returnCode) 
+			{
+				if (returnCode==null)
+				{
+					Log.v("deleteTrackingCourseFromServer", "returnCode is null");
+					return;
+				}
+			
+			Log.v("deleteTrackingCourseFromServer", returnCode.toString());
+				if (returnCode!=ReturnCodesUg.SUCCESS)
+				{
+					//cant remove this course on (server problem)
+				}
+			}
+		};
+		asyncTask.execute(ck);
+	}
+	
 	public ArrayList<CourseItem> getStudentCourses(
 			final SemesterSeason semesterseason) {
 		Document doc = null;
