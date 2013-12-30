@@ -35,6 +35,11 @@ public class ServerCourse {
 	private List<GroupOfCourses> prerequisites; // ���
 	private List<GroupOfCourses> attachedCourses; // ����
 	private List<RegistrationGroup> registrationGroups;
+	
+	public ServerCourse()
+	{
+		
+	}
 
 	public ServerCourse(final String courseNumber, final String name,
 			final float points, final String description,

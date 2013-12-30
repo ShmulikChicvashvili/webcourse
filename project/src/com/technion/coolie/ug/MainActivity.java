@@ -51,6 +51,8 @@ public class MainActivity extends CoolieActivity implements
 		setContentView(R.layout.ug_main_screen);
 
 		updateCourses();
+		
+		UGDatabase.getInstance(this).mainActivity = this;
 
 	}
 
@@ -141,5 +143,17 @@ public class MainActivity extends CoolieActivity implements
 		b.putString("key", TrackingCoursesFragment.class.toString());
 		intent.putExtras(b);
 		startActivity(intent);
-    }  
+    }
+	
+	public void getAllFragments()
+	{
+		List<Fragment> allFragments = getSupportFragmentManager().getFragments();
+		for(Fragment f : allFragments)
+		{
+			String s = f.getClass().toString();
+			Math.random();
+		}
+	    Math.random();
+	}
+	
 }

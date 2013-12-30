@@ -110,9 +110,9 @@ public class CourseDisplayFragment extends Fragment {
 
 	private void makeGroupsHeader() {
 
-		final MeetingDisplay explanationHeader = new MeetingDisplay("מס",
-				"סוג", "מרצה", "מיקום", "שעת התחלה", "שעת סיום", "מקום פנוי",
-				"יום");
+		final MeetingDisplay explanationHeader = new MeetingDisplay("×ž×¡",
+				"×¡×•×’", "×ž×¨×¦×”", "×ž×™×§×•×�", "×©×¢×ª ×”×ª×—×œ×”", "×©×¢×ª ×¡×™×•×�", "×ž×§×•×� ×¤× ×•×™",
+				"×™×•×�");
 		final View v = addMeeting(explanationHeader);
 		v.setBackgroundResource(R.drawable.ug_course_label_text_container);
 
@@ -133,10 +133,10 @@ public class CourseDisplayFragment extends Fragment {
 		// do all meetings
 		if (group.getLectures() != null)
 			for (final Meeting meeting : group.getLectures())
-				addMeeting(new MeetingDisplay(meeting, "הרצאה"));
+				addMeeting(new MeetingDisplay(meeting, "×”×¨×¦×�×”"));
 		if (group.getTutorials() != null)
 			for (final Meeting meeting : group.getTutorials())
-				addMeeting(new MeetingDisplay(meeting, "תרגול"));
+				addMeeting(new MeetingDisplay(meeting, "×ª×¨×’×•×œ"));
 		addSeperatorLine();
 	}
 
@@ -221,7 +221,8 @@ public class CourseDisplayFragment extends Fragment {
 				hourStart = df.format(meeting.getStartingHour());
 			if (meeting.getEndingHour() != null)
 				hourEnd = df.format(meeting.getEndingHour());
-			day = meeting.getDay().toSingleLetter();
+			//day = meeting.getDay().toSingleLetter();
+			day = "XXXXXXXXXX";
 		}
 
 		public MeetingDisplay(final String number, final String meetingType,

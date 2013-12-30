@@ -29,7 +29,7 @@ import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.model.UGLoginObject;
-import com.technion.coolie.webcourse.gr_plusplus.asyncParse;
+import com.technion.coolie.ug.utils.*;
 
 public class UGDatabase {
 
@@ -50,6 +50,8 @@ public class UGDatabase {
 	Context appContext;
 	private UGLoginObject currentLoginObject;
 	private List<CourseKey> myTrackingCourses;
+	
+	public MainActivity mainActivity = null;
 
 	public static UGDatabase getInstance(Context context) {
 		if (INSTANCE == null)
@@ -90,6 +92,7 @@ public class UGDatabase {
 	private void initCourses() {
 
 		initializeHashMap(dataProvider.getAllCourses());
+		//getAllCoursesFromServer();
 
 		// Calendar cal = Calendar.getInstance();
 		// Calendar cal2 = Calendar.getInstance();
@@ -288,9 +291,12 @@ public class UGDatabase {
 		return currentSemesters[currentSeason.getIdx()];
 	}
 
-	public List<AccomplishedCourse> getGradesSheet() {
-		// getGradesSheetfromServer();
-		return HtmlParser.parseGrades("stam");
+	public List<AccomplishedCourse> getGradesSheet() 
+	{
+		getGradesSheetfromServer();
+		return gradesSheet;
+		
+		//return HtmlParser.parseGrades("stam");
 
 		// return
 		// UgFactory.getUgGradeSheet().getMyGradesSheet(currentLoginObject);
@@ -299,11 +305,11 @@ public class UGDatabase {
 	// SERVER PART
 	public void getGradesSheetfromServer() {
 
-		asyncParse<AccomplishedCourse> a = new myGradeParse();
+		UGAsync<AccomplishedCourse> a = new myGradeParse();
 		a.execute();
 	}
 
-	class myGradeParse extends asyncParse<AccomplishedCourse> {
+	class myGradeParse extends UGAsync<AccomplishedCourse> {
 		List<AccomplishedCourse> l;
 
 		@Override
@@ -311,6 +317,9 @@ public class UGDatabase {
 
 			l = UgFactory.getUgGradeSheet().getMyGradesSheet(
 					getCurrentLoginObject());
+			gradesSheet=l;
+			mainActivity.getAllFragments();
+			 
 			return super.doInBackground(params);
 		}
 
@@ -328,14 +337,14 @@ public class UGDatabase {
 
 	public void getAllCoursesFromServer() {
 
-		asyncParse<Course> a = new asyncParse<Course>() {
+		UGAsync<Course> a = new UGAsync<Course>() {
 			List<ServerCourse> l;
 
 			@Override
 			protected List<Course> doInBackground(String... params) {
 
-				List<ServerCourse> l = UgFactory.getUgCourse().getAllCourses(
-						getCurrentSemester());
+				Semester s = new Semester(2013,SemesterSeason.WINTER);
+				List<ServerCourse> l = UgFactory.getUgCourse().getAllCourses(s);
 				return super.doInBackground(params);
 			}
 
@@ -349,15 +358,15 @@ public class UGDatabase {
 	}
 
 	public void getCalendarEventsFromServer() {
-
-		asyncParse<AcademicCalendarEvent> a = new asyncParse<AcademicCalendarEvent>() {
+		
+		UGAsync<AcademicCalendarEvent> a = new UGAsync<AcademicCalendarEvent>() {
+			
 			List<AcademicCalendarEvent> l;
 
 			@Override
 			protected List<AcademicCalendarEvent> doInBackground(String... params) {
 
-				// List<SectionedListItem> l =
-				// UgFactory.getUgEvent().getAllAcademicEvents();
+				l = UgFactory.getUgEvent().getAllAcademicEvents();
 				return super.doInBackground(params);
 			}
 
@@ -457,6 +466,7 @@ public class UGDatabase {
 	}
 
 	public List<AcademicCalendarEvent> getCalendar() {
+		getCalendarEventsFromServer();
 		return HtmlParser.parseCalendar();
 	}
 

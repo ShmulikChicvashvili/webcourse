@@ -451,16 +451,19 @@ public class SearchFragment extends Fragment {
 			v.setBackgroundColor(Color.LTGRAY);
 
 			final CourseHolder holder = (CourseHolder) v.getTag();
-			goToCourseDisplay(new CourseKey(holder.number.getText().toString(),
-					filters.getSemester()), context);
-
 			v.postDelayed(new Runnable() {
 				@Override
 				public void run() {
+					if(isAdded())
 					v.setBackgroundColor(getResources().getColor(
 							R.color.ug_search_list_view_color));
 				}
-			}, 400);
+			}, 100);
+			
+			goToCourseDisplay(new CourseKey(holder.number.getText().toString(),
+					filters.getSemester()), context);
+
+			
 
 		}
 	}

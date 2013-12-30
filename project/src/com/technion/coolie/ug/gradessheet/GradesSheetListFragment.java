@@ -27,10 +27,18 @@ public class GradesSheetListFragment extends ListFragment {
 		for (final AccomplishedCourse i : tempList)
 			if (i instanceof AccomplishedCourse)
 				coursesList.add((AccomplishedCourse) i);
-		final GradesSheetFragmentListAdapter adapter = new GradesSheetFragmentListAdapter(
+		/*final GradesSheetFragmentListAdapter adapter = new GradesSheetFragmentListAdapter(
 				inflater.getContext(), coursesList);
-		setListAdapter(adapter);
+		setListAdapter(adapter);*/
+		updateData();
 		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+	
+	void updateData()
+	{
+		final GradesSheetFragmentListAdapter adapter = new GradesSheetFragmentListAdapter(
+				getActivity(), coursesList);
+		setListAdapter(adapter);
 	}
 
 	@Override
