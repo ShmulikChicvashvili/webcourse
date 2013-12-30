@@ -193,9 +193,8 @@ public class HoldsFragment extends SherlockFragment {
 					currentValue = "";
 				} else {
 					currentValue = new String(ch, start, length);
-					currentValue.replace("&apos;", "'");
-					currentValue.replace("&quot;", "\"");
-					currentValue.replace("&amp;", "&");
+					currentValue = currentValue.replace("&apos;", "'")
+							.replace("&quot;", "\"").replace("&amp;", "&");
 					currentElement = false;
 				}
 			}
@@ -222,7 +221,7 @@ public class HoldsFragment extends SherlockFragment {
 					} else {
 						// TODO: generate error
 					}
-					
+
 				}
 			};
 			SharedPreferences pref = getSherlockActivity()
@@ -239,20 +238,21 @@ public class HoldsFragment extends SherlockFragment {
 			hg.getHtmlSource(userAuthUrl, HtmlGrabber.Account.NONE);
 		}
 	}
-	
+
 	private void toastConnectionError() {
-		Toast toast = Toast.makeText(getSherlockActivity(), "Connection error, try again later.",
-				Toast.LENGTH_LONG);
+		Toast toast = Toast.makeText(getSherlockActivity(),
+				"Connection error, try again later.", Toast.LENGTH_LONG);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
 	}
-	
+
 	private boolean isOnline() {
-		ConnectivityManager cm = (ConnectivityManager) getSherlockActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager cm = (ConnectivityManager) getSherlockActivity()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo netInfo = cm.getActiveNetworkInfo();
 		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
 			return true;
 		}
 		return false;
 	}
-} 
+}
