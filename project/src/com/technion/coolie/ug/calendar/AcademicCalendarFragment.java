@@ -11,10 +11,10 @@ import android.widget.ListView;
 
 import com.technion.coolie.R;
 import com.technion.coolie.ug.db.UGDatabase;
-import com.technion.coolie.ug.gradessheet.Item;
+import com.technion.coolie.ug.gradessheet.SectionedListItem;
 
 public class AcademicCalendarFragment extends Fragment {
-	private ArrayList<Item> items = new ArrayList<Item>();
+	private ArrayList<SectionedListItem> items = new ArrayList<SectionedListItem>();
 	private ListView listview = null;
 
 	@Override

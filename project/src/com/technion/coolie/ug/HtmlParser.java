@@ -22,7 +22,7 @@ import android.content.Context;
 import com.technion.coolie.ug.calendar.CalendarSectionItem;
 import com.technion.coolie.ug.gradessheet.GradesFooterItem;
 import com.technion.coolie.ug.gradessheet.GradesSectionItem;
-import com.technion.coolie.ug.gradessheet.Item;
+import com.technion.coolie.ug.gradessheet.SectionedListItem;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.CourseItem;
@@ -118,10 +118,10 @@ public class HtmlParser {
 	/**
 	 * calendar parsing
 	 */
-	public static ArrayList<Item> parseCalendar() {
+	public static ArrayList<SectionedListItem> parseCalendar() {
 		final Document doc = parseFromFille("ug_calendar.html",
 				MainActivity.context);
-		final ArrayList<Item> list = new ArrayList<Item>();
+		final ArrayList<SectionedListItem> list = new ArrayList<SectionedListItem>();
 		String month = "";
 		final Elements trElems = doc.select("tr:has(td.td0)");
 		for (int i = 1; i < trElems.size(); i++) {
@@ -136,7 +136,7 @@ public class HtmlParser {
 	}
 
 	private static void setCalendarEvent(final Elements tdElems,
-			final ArrayList<Item> list) {
+			final ArrayList<SectionedListItem> list) {
 		final String day = tdElems.get(1).text();
 		final Calendar date = stringToCalendar(tdElems.get(2).text(),
 				"dd/MM/yyyy");
@@ -161,10 +161,10 @@ public class HtmlParser {
 	/**
 	 * grades sheet parsing
 	 */
-	private static ArrayList<Item> gradesItems = new ArrayList<Item>();
+	private static ArrayList<SectionedListItem> gradesItems = new ArrayList<SectionedListItem>();
 	public static String avg, success, points;
 
-	public static ArrayList<Item> parseGrades(final String studentId) {
+	public static ArrayList<SectionedListItem> parseGrades(final String studentId) {
 		gradesItems.clear();
 		final Document doc = HtmlParser.parseFromFille("ug_grades_sheet.html",
 				MainActivity.context);

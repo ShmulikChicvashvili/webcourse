@@ -10,13 +10,15 @@ import org.jsoup.nodes.Document;
 import android.content.Context;
 import android.util.Log;
 
+import com.technion.coolie.server.ug.api.UgFactory;
 import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.SemesterSeason;
+import com.technion.coolie.ug.Server.ServerCourse;
 import com.technion.coolie.ug.db.tablerows.AcademicEventRow;
 import com.technion.coolie.ug.db.tablerows.AccomplishedCourseRow;
 import com.technion.coolie.ug.db.tablerows.TrackRow;
-import com.technion.coolie.ug.gradessheet.Item;
+import com.technion.coolie.ug.gradessheet.SectionedListItem;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
@@ -25,6 +27,8 @@ import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
+import com.technion.coolie.ug.model.UGLoginObject;
+import com.technion.coolie.webcourse.gr_plusplus.asyncParse;
 
 public class UGDatabase {
 
@@ -39,9 +43,11 @@ public class UGDatabase {
 	private Semester[] currentSemesters;
 	private SemesterSeason currentSeason;
 	private ArrayList<CourseItem> coursesAndExamsList;
+	private List<AccomplishedCourse> gradesSheet;
 	// private ArrayList<Item> calendarList;
 	private LinkedHashMap<CourseKey, Course> coursesHash;
 	Context appContext;
+	private UGLoginObject currentLoginObject;
 
 	public static UGDatabase getInstance(Context context) {
 		if (INSTANCE == null)
@@ -60,7 +66,13 @@ public class UGDatabase {
 
 		initDB();
 		initCourses();
+		initGradesSheet();
 		initializeSemesters();
+	}
+
+	private void initGradesSheet() {
+		gradesSheet = new ArrayList<AccomplishedCourse>();
+		gradesSheet = dataProvider.getAccomplishedCourses();
 	}
 
 	private void initDB() {
@@ -237,6 +249,7 @@ public class UGDatabase {
 
 	}
 
+	// TODO
 	private void initializeSemesters() {
 
 		// currentSeason = findCurrentSemesters(currentSemesters);
@@ -273,8 +286,85 @@ public class UGDatabase {
 		return currentSemesters[currentSeason.getIdx()];
 	}
 
-	public ArrayList<Item> getGradesSheet() {
+	public List<SectionedListItem> getGradesSheet() {
+		// getGradesSheetfromServer();
 		return HtmlParser.parseGrades("stam");
+
+		// return
+		// UgFactory.getUgGradeSheet().getMyGradesSheet(currentLoginObject);
+	}
+
+	public void getGradesSheetfromServer() {
+
+		asyncParse<SectionedListItem> a = new myGradeParse();
+		a.execute();
+	}
+
+	class myGradeParse extends asyncParse<SectionedListItem> {
+		List<SectionedListItem> l;
+
+		@Override
+		protected List<SectionedListItem> doInBackground(String... params) {
+
+			l = UgFactory.getUgGradeSheet().getMyGradesSheet(
+					getCurrentLoginObject());
+			return super.doInBackground(params);
+		}
+
+		@Override
+		protected void onPostExecute(List<SectionedListItem> result) {
+			if (l == null)
+				Log.d("GRADES SHEET   ככג", "NULL");
+			else
+				Log.d("GRADES SHEET  גכגכ ", l.size() + "");
+
+			// new myGradeParse().execute();
+		}
+
+	}
+
+	public void getAllCoursesFromServer() {
+
+		asyncParse<Course> a = new asyncParse<Course>() {
+			List<ServerCourse> l;
+
+			@Override
+			protected List<Course> doInBackground(String... params) {
+
+				List<ServerCourse> l = UgFactory.getUgCourse().getAllCourses(
+						getCurrentSemester());
+				return super.doInBackground(params);
+			}
+
+			@Override
+			protected void onPostExecute(List<Course> result) {
+				Log.d("all courses", l.size() + "");
+			}
+
+		};
+		a.execute();
+	}
+
+	public void getCalendarEventsFromServer() {
+
+		asyncParse<SectionedListItem> a = new asyncParse<SectionedListItem>() {
+			List<SectionedListItem> l;
+
+			@Override
+			protected List<SectionedListItem> doInBackground(String... params) {
+
+				// List<SectionedListItem> l =
+				// UgFactory.getUgEvent().getAllAcademicEvents();
+				return super.doInBackground(params);
+			}
+
+			@Override
+			protected void onPostExecute(List<SectionedListItem> result) {
+				Log.d("all courses", l.size() + "");
+			}
+
+		};
+		a.execute();
 	}
 
 	public ArrayList<CourseItem> getStudentCourses(
@@ -300,13 +390,13 @@ public class UGDatabase {
 		return coursesAndExamsList;
 	}
 
-	public ArrayList<Item> getCalendar() {
+	public ArrayList<SectionedListItem> getCalendar() {
 		return HtmlParser.parseCalendar();
 	}
 
 	/**
-	 * adds all the courses to the database. if course exists, we update its
-	 * content.
+	 * adds all the courses to the database and then to the Courses hash. if
+	 * course exists, we update its content.
 	 * 
 	 */
 	public void updateCourses(List<Course> courses) {
@@ -338,11 +428,20 @@ public class UGDatabase {
 			throw new NullPointerException(e.toString());
 		}
 
-		// Log.d(this.getClass().getName(), "OMG ADDED COURSE TO DB");
-		// CourseRow r = courseDao.queryForSameId(new CourseRow(course,
-		// course
-		// .getCourseKey()));
-		// Log.d(this.getClass().getName(), "OMG GOT COURSE "
-		// + r.getCourse().getName() + " TO DB");
+	}
+
+	public void setGradesSheet(List<AccomplishedCourse> courses) {
+		Log.d("DEBUG", "setting grades!");
+		// update the DB
+		dataProvider.setAccomplishedCourses(courses);
+		// update the list
+		gradesSheet = courses;
+	}
+
+	public UGLoginObject getCurrentLoginObject() {
+		if (currentLoginObject == null) {
+			currentLoginObject = new UGLoginObject("1636", "11111100");
+		}
+		return currentLoginObject;
 	}
 }

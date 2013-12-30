@@ -4,10 +4,10 @@ import java.io.Serializable;
 import java.util.Calendar;
 
 import com.technion.coolie.ug.Enums.DayOfWeek;
-import com.technion.coolie.ug.gradessheet.Item;
+import com.technion.coolie.ug.gradessheet.SectionedListItem;
 
 public class AcademicCalendarEvent implements
-		Comparable<AcademicCalendarEvent>, Item, Serializable {
+		Comparable<AcademicCalendarEvent>, SectionedListItem, Serializable {
 	/**
 	 * 
 	 */

@@ -14,16 +14,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
-import com.technion.coolie.ug.gradessheet.Item;
+import com.technion.coolie.ug.gradessheet.SectionedListItem;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 
-public class AcademicCalendarFragmentAdapter extends ArrayAdapter<Item> {
+public class AcademicCalendarFragmentAdapter extends ArrayAdapter<SectionedListItem> {
 
-	private final ArrayList<Item> items;
+	private final ArrayList<SectionedListItem> items;
 	private final LayoutInflater vi;
 
 	public AcademicCalendarFragmentAdapter(final Context context,
-			final ArrayList<Item> items) {
+			final ArrayList<SectionedListItem> items) {
 		super(context, 0, items);
 		this.items = items;
 		vi = (LayoutInflater) context
@@ -35,7 +35,7 @@ public class AcademicCalendarFragmentAdapter extends ArrayAdapter<Item> {
 			final ViewGroup parent) {
 		View v = convertView;
 
-		final Item i = items.get(position);
+		final SectionedListItem i = items.get(position);
 		if (i != null)
 			if (i.isSection()) {
 				final CalendarSectionItem si = (CalendarSectionItem) i;

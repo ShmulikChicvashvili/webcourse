@@ -1,6 +1,6 @@
 package com.technion.coolie.ug.gradessheet;
 
-public class GradesSectionItem implements Item{
+public class GradesSectionItem implements SectionedListItem{
 
 	private final String title;
 	

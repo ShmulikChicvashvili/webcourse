@@ -1,6 +1,6 @@
 package com.technion.coolie.ug.gradessheet;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,13 +13,13 @@ import android.widget.TextView;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 
-public class GradesSheetFragmentAdapter extends ArrayAdapter<Item> {
+public class GradesSheetFragmentAdapter extends ArrayAdapter<SectionedListItem> {
 
-	private final ArrayList<Item> items;
+	private final List<SectionedListItem> items;
 	private final LayoutInflater vi;
 
 	public GradesSheetFragmentAdapter(final Context context,
-			final ArrayList<Item> items) {
+			final List<SectionedListItem> items) {
 		super(context, 0, items);
 		this.items = items;
 		vi = (LayoutInflater) context
@@ -31,7 +31,7 @@ public class GradesSheetFragmentAdapter extends ArrayAdapter<Item> {
 			final ViewGroup parent) {
 		View v = convertView;
 
-		final Item i = items.get(position);
+		final SectionedListItem i = items.get(position);
 		if (i != null)
 			if (i.isSection()) {
 				final GradesSectionItem si = (GradesSectionItem) i;

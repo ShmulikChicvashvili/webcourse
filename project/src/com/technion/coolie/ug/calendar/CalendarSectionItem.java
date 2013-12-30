@@ -1,8 +1,8 @@
 package com.technion.coolie.ug.calendar;
 
-import com.technion.coolie.ug.gradessheet.Item;
+import com.technion.coolie.ug.gradessheet.SectionedListItem;
 
-public class CalendarSectionItem implements Item {
+public class CalendarSectionItem implements SectionedListItem {
 
 	private final String month;
 

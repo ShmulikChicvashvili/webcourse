@@ -2,10 +2,10 @@ package com.technion.coolie.ug.model;
 
 import java.io.Serializable;
 
-import com.technion.coolie.ug.gradessheet.Item;
+import com.technion.coolie.ug.gradessheet.SectionedListItem;
 
 public class AccomplishedCourse implements Comparable<AccomplishedCourse>,
-		Item, Serializable {
+		SectionedListItem, Serializable {
 	/**
 	 * 
 	 */

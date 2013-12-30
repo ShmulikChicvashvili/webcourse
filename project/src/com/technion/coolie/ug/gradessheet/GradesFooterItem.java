@@ -1,6 +1,6 @@
 package com.technion.coolie.ug.gradessheet;
 
-public class GradesFooterItem implements Item {
+public class GradesFooterItem implements SectionedListItem {
 
 	public final String semesterAvg;
 	public final String semesterTotalPoints;

@@ -1,6 +1,7 @@
 package com.technion.coolie.ug.gradessheet;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.jsoup.nodes.Document;
 
@@ -17,7 +18,7 @@ import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.db.UGDatabase;
 
 public class GradesSheetFragment extends Fragment {
-	ArrayList<Item> items = new ArrayList<Item>();
+	List<SectionedListItem> items = new ArrayList<SectionedListItem>();
 	ListView listview = null;
 	Document doc;
 	TextView avg, success, points;

@@ -1,6 +1,6 @@
 package com.technion.coolie.ug.gradessheet;
 
-public interface Item {
+public interface SectionedListItem {
 
 	public boolean isSection();
 
