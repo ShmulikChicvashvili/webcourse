@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:padding="5dip"
         android:layout_alignParentLeft="true"
-        android:textSize="35sp"        />
+        android:textSize="15sp"        />
     <TextView
         android:id="@+id/ug_trackinglist_item_course_name"
         android:layout_width="fill_parent"
@@ -19,7 +19,7 @@
         
         android:layout_toRightOf="@+id/ug_trackinglist_item_available_places"
         android:gravity="center_horizontal"  
-        android:textSize="35sp"    
+        android:textSize="15sp"    
         /> 
     <TextView
 	    android:id="@+id/ug_trackinglist_item_course_number"
@@ -28,7 +28,7 @@
 	    android:padding="5dip"
 	    android:layout_alignParentRight="true"
 	    android:gravity="right"    
-	    android:textSize="35sp"  
+	    android:textSize="15sp"  
     /> 
     
 

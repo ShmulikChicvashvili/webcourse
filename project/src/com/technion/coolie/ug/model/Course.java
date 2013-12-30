@@ -169,5 +169,13 @@ public class Course implements Serializable {
 			sum += Math.abs(group.getFreePlaces());
 		return sum > 0;
 	}
+	
+	public int getFreePlaces() {
+		int sum = 0;
+		if (registrationGroups==null) return -1;
+		for (final RegistrationGroup group : registrationGroups)
+			sum += Math.abs(group.getFreePlaces());
+		return sum;
+	}
 
 }
