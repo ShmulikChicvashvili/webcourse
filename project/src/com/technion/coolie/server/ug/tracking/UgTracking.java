@@ -7,7 +7,7 @@ import com.technion.coolie.server.Communicator;
 import com.technion.coolie.server.ug.ReturnCodesUg;
 import com.technion.coolie.server.ug.api.IUgTracking;
 import com.technion.coolie.ug.model.CourseKey;
-import com.technion.coolie.ug.model.Student;
+import com.technion.coolie.ug.model.UGLoginObject;
 
 /**
  * Created on 8.12.2013
@@ -21,7 +21,8 @@ public class UgTracking implements IUgTracking {
   private static final String FUNCTION = "function";
 
   @Override
-  public ReturnCodesUg addTrackingStudent(Student student, CourseKey courseKey) {
+  public ReturnCodesUg addTrackingStudent(UGLoginObject student,
+      CourseKey courseKey) {
     String serverResult = Communicator.execute(servletName, FUNCTION,
         UgTrackingFunctions.ADD_TRACKING_STUDENT.value(), "student",
         toJson(student), "courseKey", toJson(courseKey));
@@ -29,7 +30,7 @@ public class UgTracking implements IUgTracking {
   }
 
   @Override
-  public ReturnCodesUg removeTrackingStudentFromCourse(Student student,
+  public ReturnCodesUg removeTrackingStudentFromCourse(UGLoginObject student,
       CourseKey courseKey) {
     Log.v("tagg", "fdsfdsfds");
     String serverResult = Communicator.execute(servletName, FUNCTION,

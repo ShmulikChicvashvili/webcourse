@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 
 
 
-public class ugAsync<T> extends AsyncTask<String, Void , List<T>> {
+public class UGAsync<T> extends AsyncTask<String, Void , List<T>> {
 
 	@Override
 	protected List<T> doInBackground(String... params) {
@@ -15,6 +15,3 @@ public class ugAsync<T> extends AsyncTask<String, Void , List<T>> {
 	}
 }
 
-//final Bitmap b = loadImageFromNetwork();
-//
-//      mImageView.setImageBitmap(b);
