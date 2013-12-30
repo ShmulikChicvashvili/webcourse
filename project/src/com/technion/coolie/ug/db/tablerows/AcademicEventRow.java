@@ -10,7 +10,6 @@ public class AcademicEventRow {
 
 	public static final String TABLENAME = "AcademicEventsTable";
 	@DatabaseField(generatedId = true)
-	// @DefaultSortOrder
 	private long key;
 
 	@DatabaseField(useGetSet = true, dataType = DataType.SERIALIZABLE)

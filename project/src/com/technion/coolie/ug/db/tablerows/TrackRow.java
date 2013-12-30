@@ -1,5 +1,6 @@
 package com.technion.coolie.ug.db.tablerows;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.technion.coolie.ug.model.CourseKey;
@@ -9,16 +10,18 @@ public class TrackRow {
 
 	public static final String TABLENAME = "TrackingCoursesTable";
 
-	@DatabaseField(id = true)
-	// @DefaultSortOrder
-	private String key;
+	@DatabaseField(generatedId = true)
+	private long key;
 
-	public enum Status {
-		CREATED, SENT
-	}
+	@DatabaseField(useGetSet = true, dataType = DataType.SERIALIZABLE)
+	private CourseKey courseKey;
 
-	public TrackRow(CourseKey key) {
-		this.key = key.toKeyString();
+	@DatabaseField(useGetSet = true)
+	private String studentId;
+
+	public TrackRow(CourseKey coursekey, String studentId) {
+		this.courseKey = coursekey;
+		this.studentId = studentId;
 	}
 
 	// MUST HAVE EMPTY CONSTRUCTOR!
@@ -26,13 +29,21 @@ public class TrackRow {
 
 	}
 
-	// MUST HAVE THE SAME NAME AS THE FIELD NAME
-	public String getKey() {
-		return key;
+	public String getStudentId() {
+		return studentId;
 	}
 
-	public void setKey(String coursekey) {
-		this.key = coursekey;
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
+	}
+
+	// MUST HAVE THE SAME NAME AS THE FIELD NAME
+	public CourseKey getCourseKey() {
+		return courseKey;
+	}
+
+	public void setCourseKey(CourseKey coursekey) {
+		this.courseKey = coursekey;
 	}
 
 }

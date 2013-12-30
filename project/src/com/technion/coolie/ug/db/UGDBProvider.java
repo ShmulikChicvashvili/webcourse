@@ -50,8 +50,10 @@ public class UGDBProvider {
 		}
 		List<Course> $ = new ArrayList<Course>();
 		for (CourseRow courseRow : list) {
+
 			$.add(courseRow.getCourse());
 		}
+
 		return $;
 	}
 
@@ -67,55 +69,65 @@ public class UGDBProvider {
 		}
 	}
 
-	public void setTrackingCourses(List<CourseKey> courses) {
+	public void setTrackingCourses(List<CourseKey> courses, String studentId) {
 		try {
-			// clear all courses
-			List<TrackRow> list = getHelper().getTrackingDao().queryForAll();
-			getHelper().getTrackingDao().delete(list);
+			// find all courses of studentId, for replacing them
+			List<TrackRow> toDeleteCourses = getHelper().getTrackingDao()
+					.queryBuilder().where().eq("studentId", studentId).query();
+
+			// delete the list TODO delete after adding, and not before
+			getHelper().getTrackingDao().delete(toDeleteCourses);
+
 			// add courses
 			for (CourseKey course : courses) {
-				getHelper().getTrackingDao().create(new TrackRow(course));
+				getHelper().getTrackingDao().create(
+						new TrackRow(course, studentId));
 			}
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public List<CourseKey> getTrackingCourses() {
+	public List<CourseKey> getTrackingCourses(String studentId) {
 		List<TrackRow> list = null;
 		try {
-			list = getHelper().getTrackingDao().queryForAll();
+			list = getHelper().getTrackingDao().queryBuilder().where()
+					.eq("studentId", studentId).query();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 		List<CourseKey> $ = new ArrayList<CourseKey>();
 		for (TrackRow row : list) {
-			$.add(CourseKey.keyStringToCourseKey(row.getKey()));
+			$.add(row.getCourseKey());
 		}
 		return $;
 
 	}
 
-	public void setAccomplishedCourses(List<AccomplishedCourse> courses) {
+	public void setAccomplishedCourses(List<AccomplishedCourse> courses,
+			String studentId) {
 		try {
 			// clear all courses
 			List<AccomplishedCourseRow> list = getHelper()
-					.getAccopmlishedCoursesDao().queryForAll();
+					.getAccopmlishedCoursesDao().queryBuilder().where()
+					.eq("studentId", studentId).query();
 			getHelper().getAccopmlishedCoursesDao().delete(list);
 			// add courses
 			for (AccomplishedCourse course : courses) {
 				getHelper().getAccopmlishedCoursesDao().create(
-						new AccomplishedCourseRow(course));
+						new AccomplishedCourseRow(course, studentId));
 			}
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public List<AccomplishedCourse> getAccomplishedCourses() {
+	public List<AccomplishedCourse> getAccomplishedCourses(String studentId) {
 		List<AccomplishedCourseRow> list = null;
 		try {
-			list = getHelper().getAccopmlishedCoursesDao().queryForAll();
+			list = getHelper().getAccopmlishedCoursesDao().queryBuilder()
+					.where().eq("studentId", studentId).query();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}

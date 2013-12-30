@@ -11,15 +11,10 @@ public class CourseRow {
 	public static final String TABLENAME = "CoursesTable";
 
 	@DatabaseField(id = true)
-	// @DefaultSortOrder
 	private String key;
 
 	@DatabaseField(useGetSet = true, dataType = DataType.SERIALIZABLE)
 	private Course course;
-
-	public enum Status {
-		CREATED, SENT
-	}
 
 	public CourseRow(Course course) {
 		this.course = course;

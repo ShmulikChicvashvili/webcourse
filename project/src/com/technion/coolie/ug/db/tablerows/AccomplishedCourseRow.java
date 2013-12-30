@@ -11,14 +11,17 @@ public class AccomplishedCourseRow {
 	public static final String TABLENAME = "AccomplishedCoursesTable";
 
 	@DatabaseField(generatedId = true)
-	// @DefaultSortOrder
 	private long key;
 
 	@DatabaseField(useGetSet = true, dataType = DataType.SERIALIZABLE)
 	private AccomplishedCourse course;
 
-	public AccomplishedCourseRow(AccomplishedCourse course) {
+	@DatabaseField(useGetSet = true)
+	private String studentId;
+
+	public AccomplishedCourseRow(AccomplishedCourse course, String studentId) {
 		this.course = course;
+		this.studentId = studentId;
 	}
 
 	// MUST HAVE EMPTY CONSTRUCTOR!
@@ -41,6 +44,14 @@ public class AccomplishedCourseRow {
 
 	public void setKey(long coursekey) {
 		this.key = coursekey;
+	}
+
+	public String getStudentId() {
+		return studentId;
+	}
+
+	public void setStudentId(String studentId) {
+		this.studentId = studentId;
 	}
 
 }

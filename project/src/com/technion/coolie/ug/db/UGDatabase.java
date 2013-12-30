@@ -36,15 +36,22 @@ public class UGDatabase {
 
 	UGDBProvider dataProvider;
 
+	// this class has one studentId per instance.
+	String studentId;
+
+	private static String DEBUG_TAG = "coolie.src.com.technion.coolie.ug.databaseDebug";
+
 	private Student currentStudent;
 	private List<RegistrationGroup> groups; // TODO delete this.
 	// private List<Course> allCourses;
 	// private List<String> allCoursesNames;
 	private Semester[] currentSemesters;
 	private SemesterSeason currentSeason;
+
 	private ArrayList<CourseItem> coursesAndExamsList;
 	private List<AccomplishedCourse> gradesSheet;
-	// private ArrayList<Item> calendarList;
+	private List<CourseKey> trackingCourses;
+	private List<AcademicCalendarEvent> calendarEvents;
 	private LinkedHashMap<CourseKey, Course> coursesHash;
 	Context appContext;
 	private UGLoginObject currentLoginObject;
@@ -60,19 +67,42 @@ public class UGDatabase {
 		if (this.appContext == null)
 			throw new NullPointerException();
 
-		// when data is empty, we need to talk to the server first! and then do
-		// these(loading screen). TODO
+		// when data is empty, we need to talk to the server first and wait for
+		// it(loading screen). TODO
+
 		// initialize lists and student info, from DB TODO
 
+		// GET THE CURRENT STUDENT ID FROM UG LOGIN and use it with the
+		// provider! TODO
+
+		initStudentId();
 		initDB();
 		initCourses();
 		initGradesSheet();
+		initTrackingCourses();
+		initAcademicCalendar();
 		initializeSemesters();
 	}
 
+	private void initStudentId() {
+		studentId = getStudentId();
+
+	}
+
+	private String getStudentId() {
+		return "11";
+	}
+
+	private void initAcademicCalendar() {
+		calendarEvents = dataProvider.getAcademicEvents();
+	}
+
+	private void initTrackingCourses() {
+		trackingCourses = dataProvider.getTrackingCourses(studentId);
+	}
+
 	private void initGradesSheet() {
-		gradesSheet = new ArrayList<AccomplishedCourse>();
-		gradesSheet = dataProvider.getAccomplishedCourses();
+		gradesSheet = dataProvider.getAccomplishedCourses(studentId);
 	}
 
 	private void initDB() {
@@ -402,7 +432,7 @@ public class UGDatabase {
 	public void updateCourses(List<Course> courses) {
 		try {
 
-			Log.d("DEBUG", "updating courses!");
+			Log.d(DEBUG_TAG, "updating courses!");
 
 			// update the DB
 			dataProvider.updateCourses(courses);
@@ -414,15 +444,20 @@ public class UGDatabase {
 			dataProvider.getAcademicEventsDao().createOrUpdate(
 					new AcademicEventRow(new AcademicCalendarEvent(Calendar
 							.getInstance(), "OMG", "dd")));
-			dataProvider.getAcademicEvents();
+			Log.d(DEBUG_TAG, dataProvider.getAcademicEvents().size() + "");
 			dataProvider.getTrackingDao().createOrUpdate(
-					new TrackRow(courses.get(0).getCourseKey()));
-			dataProvider.getTrackingCourses();
-			dataProvider.getAccopmlishedCoursesDao().createOrUpdate(
-					new AccomplishedCourseRow(new AccomplishedCourse("3434",
-							"3434", "3434", new Semester(2,
-									SemesterSeason.SPRING), "3434")));
-			dataProvider.getAccomplishedCourses();
+					new TrackRow(courses.get(0).getCourseKey(), studentId));
+
+			Log.d(DEBUG_TAG, dataProvider.getTrackingCourses(studentId).size()
+					+ "");
+			dataProvider.getAccopmlishedCoursesDao()
+					.createOrUpdate(
+							new AccomplishedCourseRow(new AccomplishedCourse(
+									"3434", "3434", "3434", new Semester(2,
+											SemesterSeason.SPRING), "3434"),
+									studentId));
+			Log.d(DEBUG_TAG, dataProvider.getAccomplishedCourses(studentId)
+					.size() + "");
 
 		} catch (java.sql.SQLException e) {
 			throw new NullPointerException(e.toString());
@@ -431,11 +466,23 @@ public class UGDatabase {
 	}
 
 	public void setGradesSheet(List<AccomplishedCourse> courses) {
-		Log.d("DEBUG", "setting grades!");
+		Log.d(DEBUG_TAG, "setting grades!");
 		// update the DB
-		dataProvider.setAccomplishedCourses(courses);
+		dataProvider.setAccomplishedCourses(courses, studentId);
 		// update the list
 		gradesSheet = courses;
+	}
+
+	public void setTrackingCourses(List<CourseKey> toTrack) {
+		Log.d(DEBUG_TAG, "set tracking Courses!");
+		dataProvider.setTrackingCourses(toTrack, studentId);
+		trackingCourses = toTrack;
+	}
+
+	public void setAcademicCalendar(List<AcademicCalendarEvent> calendarEvents) {
+		Log.d(DEBUG_TAG, "set academic events");
+		dataProvider.setAcademicEvents(calendarEvents);
+		this.calendarEvents = calendarEvents;
 	}
 
 	public UGLoginObject getCurrentLoginObject() {

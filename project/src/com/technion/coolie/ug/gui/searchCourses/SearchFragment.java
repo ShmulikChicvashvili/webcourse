@@ -39,10 +39,22 @@ import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.utils.NavigationUtils;
 import com.technion.coolie.ug.utils.SerializeIO;
 
+//need to add more search options - has available courses?
+//add the courses hours to the calendar?
+//search option - by date in day!
+//need to add hebrew to the search filters
+//need to switch between semesters in course display.
+//need to add pre courses and close courses.
+//need to add option for choosing group to track? OR track entire course???
+//add option to add to tracking!
+//mark course if were registered to it!
+//make an searchForTrackFragment by extending searchFragment and overriding on SearchPressed
+// and bring navigation utils inside to searchFragment for overriding it in searchbar and track
 /**
  * activity for searching courses and finding available courses.
  * 
  */
+
 public class SearchFragment extends Fragment {
 
 	List<String> filteredAutoCompleteList;
