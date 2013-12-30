@@ -22,9 +22,9 @@ public class GradesSheetListFragment extends ListFragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState) {
-		final List<SectionedListItem> tempList = UGDatabase.getInstance(getActivity())
+		final List<AccomplishedCourse> tempList = UGDatabase.getInstance(getActivity())
 				.getGradesSheet();
-		for (final SectionedListItem i : tempList)
+		for (final AccomplishedCourse i : tempList)
 			if (i instanceof AccomplishedCourse)
 				coursesList.add((AccomplishedCourse) i);
 		final GradesSheetFragmentListAdapter adapter = new GradesSheetFragmentListAdapter(

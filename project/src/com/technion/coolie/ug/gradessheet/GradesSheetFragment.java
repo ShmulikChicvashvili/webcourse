@@ -16,9 +16,10 @@ import android.widget.TextView;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.db.UGDatabase;
+import com.technion.coolie.ug.model.AccomplishedCourse;
 
 public class GradesSheetFragment extends Fragment {
-	List<SectionedListItem> items = new ArrayList<SectionedListItem>();
+	List<AccomplishedCourse> items = new ArrayList<AccomplishedCourse>();
 	ListView listview = null;
 	Document doc;
 	TextView avg, success, points;

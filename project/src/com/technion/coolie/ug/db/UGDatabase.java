@@ -10,8 +10,8 @@ import org.jsoup.nodes.Document;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.technion.coolie.server.ug.ReturnCodesUg;
 import com.technion.coolie.server.ug.api.UgFactory;
 import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.MainActivity;
@@ -20,7 +20,6 @@ import com.technion.coolie.ug.Server.ServerCourse;
 import com.technion.coolie.ug.db.tablerows.AcademicEventRow;
 import com.technion.coolie.ug.db.tablerows.AccomplishedCourseRow;
 import com.technion.coolie.ug.db.tablerows.TrackRow;
-import com.technion.coolie.ug.gradessheet.SectionedListItem;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
@@ -30,8 +29,6 @@ import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.model.UGLoginObject;
-import com.technion.coolie.ug.utils.UGAsync;
-import com.technion.coolie.server.ug.*;
 import com.technion.coolie.webcourse.gr_plusplus.asyncParse;
 
 public class UGDatabase {
@@ -291,7 +288,7 @@ public class UGDatabase {
 		return currentSemesters[currentSeason.getIdx()];
 	}
 
-	public List<SectionedListItem> getGradesSheet() {
+	public List<AccomplishedCourse> getGradesSheet() {
 		// getGradesSheetfromServer();
 		return HtmlParser.parseGrades("stam");
 
@@ -302,15 +299,15 @@ public class UGDatabase {
 	// SERVER PART
 	public void getGradesSheetfromServer() {
 
-		asyncParse<SectionedListItem> a = new myGradeParse();
+		asyncParse<AccomplishedCourse> a = new myGradeParse();
 		a.execute();
 	}
 
-	class myGradeParse extends asyncParse<SectionedListItem> {
-		List<SectionedListItem> l;
+	class myGradeParse extends asyncParse<AccomplishedCourse> {
+		List<AccomplishedCourse> l;
 
 		@Override
-		protected List<SectionedListItem> doInBackground(String... params) {
+		protected List<AccomplishedCourse> doInBackground(String... params) {
 
 			l = UgFactory.getUgGradeSheet().getMyGradesSheet(
 					getCurrentLoginObject());
@@ -318,7 +315,7 @@ public class UGDatabase {
 		}
 
 		@Override
-		protected void onPostExecute(List<SectionedListItem> result) {
+		protected void onPostExecute(List<AccomplishedCourse> result) {
 			if (l == null)
 				Log.d("GRADES SHEET   ×›×›×’", "NULL");
 			else
@@ -353,11 +350,11 @@ public class UGDatabase {
 
 	public void getCalendarEventsFromServer() {
 
-		asyncParse<SectionedListItem> a = new asyncParse<SectionedListItem>() {
-			List<SectionedListItem> l;
+		asyncParse<AcademicCalendarEvent> a = new asyncParse<AcademicCalendarEvent>() {
+			List<AcademicCalendarEvent> l;
 
 			@Override
-			protected List<SectionedListItem> doInBackground(String... params) {
+			protected List<AcademicCalendarEvent> doInBackground(String... params) {
 
 				// List<SectionedListItem> l =
 				// UgFactory.getUgEvent().getAllAcademicEvents();
@@ -365,7 +362,7 @@ public class UGDatabase {
 			}
 
 			@Override
-			protected void onPostExecute(List<SectionedListItem> result) {
+			protected void onPostExecute(List<AcademicCalendarEvent> result) {
 				Log.d("all courses", l.size() + "");
 			}
 
@@ -459,7 +456,7 @@ public class UGDatabase {
 		return coursesAndExamsList;
 	}
 
-	public ArrayList<SectionedListItem> getCalendar() {
+	public List<AcademicCalendarEvent> getCalendar() {
 		return HtmlParser.parseCalendar();
 	}
 
@@ -482,15 +479,14 @@ public class UGDatabase {
 
 			dataProvider.getAcademicEventsDao().createOrUpdate(
 					new AcademicEventRow(new AcademicCalendarEvent(Calendar
-							.getInstance(), "OMG", "dd")));
+							.getInstance(), "OMG", "dd", null)));
 			dataProvider.getAcademicEvents();
 			dataProvider.getTrackingDao().createOrUpdate(
 					new TrackRow(courses.get(0).getCourseKey()));
 			dataProvider.getTrackingCourses();
 			dataProvider.getAccopmlishedCoursesDao().createOrUpdate(
 					new AccomplishedCourseRow(new AccomplishedCourse("3434",
-							"3434", "3434", new Semester(2,
-									SemesterSeason.SPRING), "3434")));
+							"3434", "3434", "201301", "3434", null, false)));
 			dataProvider.getAccomplishedCourses();
 
 		} catch (java.sql.SQLException e) {

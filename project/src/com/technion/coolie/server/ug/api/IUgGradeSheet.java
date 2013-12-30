@@ -2,7 +2,7 @@ package com.technion.coolie.server.ug.api;
 
 import java.util.List;
 
-import com.technion.coolie.ug.gradessheet.SectionedListItem;
+import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.UGLoginObject;
 
 /**
@@ -18,5 +18,5 @@ public interface IUgGradeSheet {
    *          the student
    * @return list of student's accomplished courses
    */
-  public List<SectionedListItem> getMyGradesSheet(UGLoginObject student);
+  public List<AccomplishedCourse> getMyGradesSheet(UGLoginObject student);
 }
