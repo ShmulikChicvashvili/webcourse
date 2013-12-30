@@ -55,6 +55,7 @@ public class UGDatabase {
 	private LinkedHashMap<CourseKey, Course> coursesHash;
 	Context appContext;
 	private UGLoginObject currentLoginObject;
+	private List<CourseKey> myTrackingCourses;
 
 	public static UGDatabase getInstance(Context context) {
 		if (INSTANCE == null)
@@ -125,22 +126,22 @@ public class UGDatabase {
 		//
 		// groups = new ArrayList<RegistrationGroup>(Arrays.asList(
 		// new RegistrationGroup(12, Arrays.asList(new Meeting("12",
-		// "יוסי קופרמן", DayOfWeek.TUESDAY, cal.getTime(), cal2
-		// .getTime(), "אולמן 309")), Arrays
-		// .asList(new Meeting("111", "מר. אבי כץ",
+		// "×™×•×¡×™ ×§×•×¤×¨×ž×Ÿ", DayOfWeek.TUESDAY, cal.getTime(), cal2
+		// .getTime(), "×�×•×œ×ž×Ÿ 309")), Arrays
+		// .asList(new Meeting("111", "×ž×¨. ×�×‘×™ ×›×¥",
 		// DayOfWeek.SUNDAY, cal.getTime(),
-		// cal2.getTime(), "הומניסטים 329")), 0),
+		// cal2.getTime(), "×”×•×ž× ×™×¡×˜×™×� 329")), 0),
 		// new RegistrationGroup(13, Arrays.asList(new Meeting("13",
-		// "פרופ. שי עציוני", DayOfWeek.THURSDAY, Calendar
+		// "×¤×¨×•×¤. ×©×™ ×¢×¦×™×•× ×™", DayOfWeek.THURSDAY, Calendar
 		// .getInstance().getTime(), Calendar
-		// .getInstance().getTime(), "טאוב 10")), Arrays
-		// .asList(new Meeting("122", "מר דני קופרמן",
+		// .getInstance().getTime(), "×˜×�×•×‘ 10")), Arrays
+		// .asList(new Meeting("122", "×ž×¨ ×“× ×™ ×§×•×¤×¨×ž×Ÿ",
 		// DayOfWeek.SUNDAY, cal.getTime(),
-		// cal2.getTime(), "פישבך 303"),
+		// cal2.getTime(), "×¤×™×©×‘×š 303"),
 		//
-		// new Meeting("123", "מר משה רוזנבלום",
+		// new Meeting("123", "×ž×¨ ×ž×©×” ×¨×•×–× ×‘×œ×•×�",
 		// DayOfWeek.WEDNESDAY, cal.getTime(),
-		// cal2.getTime(), "טאוב 2")), 25)));
+		// cal2.getTime(), "×˜×�×•×‘ 2")), 25)));
 		//
 		// allCourses = new ArrayList<Course>(
 		//
@@ -148,7 +149,7 @@ public class UGDatabase {
 		//
 		// new Course(
 		// "233245",
-		// "מבוא לבינה מלאכותית",
+		// "×ž×‘×•×� ×œ×‘×™× ×” ×ž×œ×�×›×•×ª×™×ª",
 		// 2.0f,
 		// "During the class we will talk about the high level design and your personal roles. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
 		// new Semester(2013, SemesterSeason.WINTER),
@@ -156,13 +157,13 @@ public class UGDatabase {
 		// new GregorianCalendar(2014, 2, 11), null, null,
 		// null),
 		//
-		// new Course("074957", "תורת הגרפים", 5.0f, "",
+		// new Course("074957", "×ª×•×¨×ª ×”×’×¨×¤×™×�", 5.0f, "",
 		// new Semester(2013, SemesterSeason.WINTER),
 		// Faculty.CS, new GregorianCalendar(2014, 2, 11),
 		// new GregorianCalendar(2014, 2, 11), null, null,
 		// groups),
 		//
-		// new Course("043932", "מבני נתונים", 2.0f, "",
+		// new Course("043932", "×ž×‘× ×™ × ×ª×•× ×™×�", 2.0f, "",
 		// new Semester(2013, SemesterSeason.SPRING),
 		// Faculty.CS, new GregorianCalendar(2014, 2, 11),
 		// new GregorianCalendar(2014, 2, 11), null, null,
@@ -170,7 +171,7 @@ public class UGDatabase {
 		//
 		// new Course(
 		// "232932",
-		// "לוגיקה ותורת הקבוצות",
+		// "×œ×•×’×™×§×” ×•×ª×•×¨×ª ×”×§×‘×•×¦×•×ª",
 		// 5.0f,
 		// "Brain-Machine interfaces will fundamentally change the way humans interact with the world in the 21st century. By creating a direct channel of communication between the mind and devices external to it, this class of technology provides individuals with the ability to bypass their body entirely, and control their environment using thought alone.",
 		// new Semester(2013, SemesterSeason.SPRING),
@@ -178,14 +179,14 @@ public class UGDatabase {
 		// new GregorianCalendar(2014, 2, 11), null, null,
 		// groups),
 		//
-		// new Course("232932", "מפרטים פורמליים במערכות מורכבות",
+		// new Course("232932", "×ž×¤×¨×˜×™×� ×¤×•×¨×ž×œ×™×™×� ×‘×ž×¢×¨×›×•×ª ×ž×•×¨×›×‘×•×ª",
 		// 5.0f, "", new Semester(2013,
 		// SemesterSeason.WINTER), Faculty.CS,
 		// new GregorianCalendar(2014, 2, 11),
 		// new GregorianCalendar(2014, 2, 11), null, null,
 		// groups),
 		//
-		// new Course("012985", "פיסיקה 2ממ", 5.0f, "",
+		// new Course("012985", "×¤×™×¡×™×§×” 2×ž×ž", 5.0f, "",
 		// new Semester(2013, SemesterSeason.SPRING),
 		// Faculty.PHYS,
 		// new GregorianCalendar(2014, 2, 11),
@@ -194,7 +195,7 @@ public class UGDatabase {
 		//
 		// new Course(
 		// "045932",
-		// "שפות תכנות",
+		// "×©×¤×•×ª ×ª×›× ×•×ª",
 		// 2.5f,
 		// "Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
 		// new Semester(2013, SemesterSeason.WINTER),
@@ -204,7 +205,7 @@ public class UGDatabase {
 		//
 		// new Course(
 		// "011236",
-		// "אלגברה 2ממ",
+		// "×�×œ×’×‘×¨×” 2×ž×ž",
 		// 5.0f,
 		// "Dont even ask how hard this course is. You should be prepared for work hard.",
 		// new Semester(2013, SemesterSeason.WINTER),
@@ -215,7 +216,7 @@ public class UGDatabase {
 		//
 		// new Course(
 		// "123932",
-		// "מבוא להנדסת תוכנה",
+		// "×ž×‘×•×� ×œ×”× ×“×¡×ª ×ª×•×›× ×”",
 		// 5.0f,
 		// "Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
 		// new Semester(2013, SemesterSeason.WINTER),
@@ -225,7 +226,7 @@ public class UGDatabase {
 		//
 		// new Course(
 		// "023422",
-		// "מבוא לעיצוב",
+		// "×ž×‘×•×� ×œ×¢×™×¦×•×‘",
 		// 5.0f,
 		// "Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
 		// new Semester(2013, SemesterSeason.WINTER),
@@ -235,7 +236,7 @@ public class UGDatabase {
 		//
 		// new Course(
 		// "243411",
-		// "תכנון מערכתי 2",
+		// "×ª×›× ×•×Ÿ ×ž×¢×¨×›×ª×™ 2",
 		// 2.0f,
 		// "Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
 		// new Semester(2013, SemesterSeason.WINTER),
@@ -245,7 +246,7 @@ public class UGDatabase {
 		//
 		// new Course(
 		// "025629",
-		// "מערכות הפעלה",
+		// "×ž×¢×¨×›×•×ª ×”×¤×¢×œ×”",
 		// 4.5f,
 		// "Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
 		// new Semester(2013, SemesterSeason.WINTER),
@@ -255,7 +256,7 @@ public class UGDatabase {
 		//
 		// new Course(
 		// "012342",
-		// "חקר החלל",
+		// "×—×§×¨ ×”×—×œ×œ",
 		// 5.0f,
 		// "Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
 		// new Semester(2013, SemesterSeason.WINTER),
@@ -344,9 +345,9 @@ public class UGDatabase {
 		@Override
 		protected void onPostExecute(List<SectionedListItem> result) {
 			if (l == null)
-				Log.d("GRADES SHEET   ככג", "NULL");
+				Log.d("GRADES SHEET   ×›×›×’", "NULL");
 			else
-				Log.d("GRADES SHEET  גכגכ ", l.size() + "");
+				Log.d("GRADES SHEET  ×’×›×’×› ", l.size() + "");
 
 			// new myGradeParse().execute();
 		}
@@ -491,4 +492,25 @@ public class UGDatabase {
 		}
 		return currentLoginObject;
 	}
+	
+	// replace this code with code that reads the data from local database 
+		public List<CourseKey> getMyTrackingCourses()
+		{
+			if (myTrackingCourses!=null)
+				return myTrackingCourses;
+			else 
+			{
+				myTrackingCourses = new ArrayList<CourseKey>();
+				
+				//replace this code with reading tracking courses from from DB
+				int maximumTracking = 5;
+				for (int i=0; i< getCourses().size(); i++)
+				{
+					if (myTrackingCourses.size() >= maximumTracking) break;
+					if (i % 2 ==0)
+					myTrackingCourses.add(getCourses().get(i).getCourseKey());
+				}
+			}
+			return myTrackingCourses;
+		}
 }

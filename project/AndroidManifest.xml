@@ -548,6 +548,10 @@ android:parentActivityName="com.technion.coolie.skeleton.MainActivity" >
             android:theme="@style/Theme.Transparent"
             android:windowSoftInputMode="adjustResize|adjustPan" >
         </activity>
+        <activity
+            android:name="com.technion.coolie.ug.tracking.TrackingCoursesActivity"
+            android:label="@string/title_activity_tracking" >
+        </activity>
         <!-- Webcourse -->
         <activity
             android:name="com.technion.coolie.webcourse.gr_plusplus.CoursesActivity"

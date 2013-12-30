@@ -12,6 +12,7 @@
     <string name="course_and_exam">קורסים ומבחנים</string>
     <string name="grade_sheet">גליון ציונים</string>
     <string name="next_payment">חיוב שכר לימוד הבא : 12/12/2013</string>
+     <string name="registration">רישום ומעקב</string>
     
     
     
@@ -31,8 +32,10 @@
     <string name="semester_points">סה\"כ נקודות</string>
     <string name="semester_avg">ממוצע</string>
     <string name="title_activity_transparent">TransparentActivity</string>
+    <string name="title_activity_tracking">TrackingActivity</string>
     
-    <string-array name="landscape_right_menu_buttons">
+    
+    <string-array name="landscape_right_menu_buttons"> 
         <item>גליון ציונים</item>
         <item>קורסים ובחינות</item>
         <item>לוח שנה אקדמי</item>
