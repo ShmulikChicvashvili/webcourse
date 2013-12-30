@@ -134,7 +134,7 @@ public class MainActivity extends CoolieActivity implements
 		
 		CourseKey ck = new CourseKey("104", new Semester(2011, SemesterSeason.WINTER));
 		//db.addTrackingCourseToServer(db.getCurrentLoginObject(),ck);
-		db.deleteTrackingCourseFromServer(db.getCurrentLoginObject(),ck);
+		//db.deleteTrackingCourseFromServer(db.getCurrentLoginObject(),ck);
 		
 		final Intent intent = new Intent(this,TransparentActivity.class);
 		final Bundle b = new Bundle();
@@ -142,16 +142,4 @@ public class MainActivity extends CoolieActivity implements
 		intent.putExtras(b);
 		startActivity(intent);
     }  
-	
-	public void onDeleteClick(View v) 
-	{
-		UGDatabase db = UGDatabase.getInstance(this);
-		
-		CourseKey ck = new CourseKey("104", new Semester(2011, SemesterSeason.WINTER));
-		db.addTrackingCourseToServer(db.getCurrentLoginObject(),ck);
-		//db.deleteTrackingCourseFromServer(db.getCurrentLoginObject(),ck);
-		
-		
-    }  
-
 }

@@ -15,6 +15,7 @@ import com.technion.coolie.ug.calendar.AcademicCalendarFragment;
 import com.technion.coolie.ug.coursesAndExams.CoursesAndExamsFragment;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayFragment;
+import com.technion.coolie.ug.gui.searchCourses.SearchForTrackingFragment;
 import com.technion.coolie.ug.gui.searchCourses.SearchFragment;
 import com.technion.coolie.ug.utils.FragmentsFactory;
 import com.technion.coolie.ug.tracking.*;
@@ -97,13 +98,8 @@ public class TransparentActivity extends CoolieActivity implements	ITrackingCour
 
 	@Override
 	public void onAddingTrackingCourseClicked() {
-		Bundle arguments = new Bundle();
-		arguments.putBoolean("fromTrackingFragment", true);
-		Fragment f = new SearchFragment();
-		f.setArguments(arguments);
-		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.non_transparent, f).commit();
-
+		Fragment f = new SearchForTrackingFragment();
+		getSupportFragmentManager().beginTransaction().replace(R.id.non_transparent, f).commit();
 	}
 	
 	@Override
