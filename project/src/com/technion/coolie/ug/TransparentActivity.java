@@ -6,7 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.Toast;
 
+import com.google.android.maps.TrackballGestureDetector;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.calendar.AcademicCalendarFragment;
@@ -15,8 +17,11 @@ import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayFragment;
 import com.technion.coolie.ug.gui.searchCourses.SearchFragment;
 import com.technion.coolie.ug.utils.FragmentsFactory;
+import com.technion.coolie.ug.tracking.*;
+import com.technion.coolie.ug.model.*;
+import com.technion.coolie.ug.db.*;
 
-public class TransparentActivity extends CoolieActivity {
+public class TransparentActivity extends CoolieActivity implements	ITrackingCourseTrasferrer {
 	public String key;
 	private FragmentTransaction fragmentTransaction;
 
@@ -38,6 +43,7 @@ public class TransparentActivity extends CoolieActivity {
 		CourseDisplayFragment courseDisplayFragment;
 		SearchFragment searchFragment;
 		AcademicCalendarFragment academicCalendarFragment;
+		TrackingCoursesFragment trackingCoursesFragment;
 
 		if (link.equals(GradesSheetFragment.class.toString())) {
 			gradesSheetLayout = FragmentsFactory.getGradesSheetLargeFragment();
@@ -57,6 +63,9 @@ public class TransparentActivity extends CoolieActivity {
 		} else if (link.equals(AcademicCalendarFragment.class.toString())) {
 			academicCalendarFragment = new AcademicCalendarFragment();
 			replaceAndCommit(academicCalendarFragment);
+		} else if (link.equals(TrackingCoursesFragment.class.toString())) {
+			trackingCoursesFragment = new TrackingCoursesFragment();
+			replaceAndCommit(trackingCoursesFragment);
 		}
 	}
 
@@ -84,6 +93,32 @@ public class TransparentActivity extends CoolieActivity {
 		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
 
 		}
+	}
+
+	@Override
+	public void onAddingTrackingCourseClicked() {
+		Bundle arguments = new Bundle();
+		arguments.putBoolean("fromTrackingFragment", true);
+		Fragment f = new SearchFragment();
+		f.setArguments(arguments);
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.non_transparent, f).commit();
+
+	}
+	
+	@Override
+	public void onCourseForTrackingSelected(CourseKey ck) {
+		
+		if (ck == null) 
+		{
+			Toast.makeText(this,"Problem with adding course", Toast.LENGTH_SHORT).show();
+		}
+		else
+		{
+			UGDatabase.getInstance(this).getMyTrackingCourses().add(ck);
+		}
+		Fragment f = new TrackingCoursesFragment();
+		getSupportFragmentManager().beginTransaction().replace(R.id.non_transparent, f).commit();
 	}
 
 }

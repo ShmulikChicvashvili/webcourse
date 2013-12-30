@@ -25,9 +25,11 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.db.UGDatabase;
+import com.technion.coolie.ug.gui.searchCourses.SearchFragment;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Semester;
+import com.technion.coolie.ug.*;
 
 public class TrackingCoursesFragment extends SherlockFragment {
 	
@@ -84,6 +86,10 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		addTrackingCourseButton.setOnMenuItemClickListener(new OnMenuItemClickListener() 
 		{
 			public boolean onMenuItemClick(MenuItem item) {
+				
+				((ITrackingCourseTrasferrer)context).onAddingTrackingCourseClicked();
+				return true;
+				/*
 				AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
 				builderSingle.setIcon(R.drawable.ic_launcher);
 				builderSingle.setTitle("Add course to tracking");
@@ -144,11 +150,11 @@ public class TrackingCoursesFragment extends SherlockFragment {
 						// send update to server
 						/*IUgTracking ugTracking =  UgFactory.getUgTracking();
 						ugTracking.addTrackingStudent(UGDatabase.INSTANCE.getCurrentLoginObject(), ck);
-						*/
+						
 					}
 				});
 				builderSingle.show();
-				return true;
+				return true;*/
 			}
 		});
 		

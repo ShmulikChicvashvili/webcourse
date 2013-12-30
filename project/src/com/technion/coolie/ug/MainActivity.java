@@ -23,6 +23,7 @@ import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.utils.FragmentsFactory;
 import com.technion.coolie.ug.tracking.*;
+import com.technion.coolie.ug.gui.searchCourses.*;
 
 //need to add more search options - has available courses?
 //add the courses hours to the calendar?
@@ -127,8 +128,11 @@ public class MainActivity extends CoolieActivity implements
 	
 	public void onRegistrationClick(View v) 
 	{
-		Intent intent = new Intent(this, TrackingCoursesActivity.class);
-	    startActivity(intent);
+	    final Intent intent = new Intent(this,TransparentActivity.class);
+		final Bundle b = new Bundle();
+		b.putString("key", TrackingCoursesFragment.class.toString());
+		intent.putExtras(b);
+		startActivity(intent);
     }  
 
 }
