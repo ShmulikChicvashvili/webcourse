@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -30,13 +33,14 @@ import android.widget.TextView;
 
 import com.technion.coolie.R;
 import com.technion.coolie.ug.MainActivity;
+import com.technion.coolie.ug.TransparentActivity;
 import com.technion.coolie.ug.Enums.Faculty;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.db.UGDatabase;
+import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayFragment;
 import com.technion.coolie.ug.gui.searchCourses.SearchResultsAdapter.CourseHolder;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
-import com.technion.coolie.ug.utils.NavigationUtils;
 import com.technion.coolie.ug.utils.SerializeIO;
 
 //need to add more search options - has available courses?
@@ -278,8 +282,8 @@ public class SearchFragment extends Fragment {
 	protected int onSearchPressed(final String query) {
 		final int results = searchQueryAndUpdate(query);
 		if (results == 1)
-			NavigationUtils.goToCourseDisplay(searchAdapter.results.get(0)
-					.getCourseKey(), context);
+			goToCourseDisplay(searchAdapter.results.get(0).getCourseKey(),
+					context);
 		return results;
 	}
 
@@ -345,8 +349,9 @@ public class SearchFragment extends Fragment {
 
 				final int lastWordIdx = courseString.split(" ").length - 1;
 				final String courseNumber = courseString.split(" ")[lastWordIdx];
-				NavigationUtils.goToCourseDisplay(new CourseKey(courseNumber,
-						filters.getSemester()), context);
+				goToCourseDisplay(
+						new CourseKey(courseNumber, filters.getSemester()),
+						context);
 
 			}
 		});
@@ -446,8 +451,8 @@ public class SearchFragment extends Fragment {
 			v.setBackgroundColor(Color.LTGRAY);
 
 			final CourseHolder holder = (CourseHolder) v.getTag();
-			NavigationUtils.goToCourseDisplay(new CourseKey(holder.number
-					.getText().toString(), filters.getSemester()), context);
+			goToCourseDisplay(new CourseKey(holder.number.getText().toString(),
+					filters.getSemester()), context);
 
 			v.postDelayed(new Runnable() {
 				@Override
@@ -469,5 +474,53 @@ public class SearchFragment extends Fragment {
 			Log.e(MainActivity.DEBUG_TAG, "save error ", e);
 		}
 		super.onStop();
+	}
+
+	/**
+	 * opens courseDisplay activity with the specified course key
+	 * 
+	 * @param key
+	 * @param context
+	 */
+	public void goToCourseDisplay(final CourseKey key,
+			final FragmentActivity activity) {
+
+		final Bundle bundle = new Bundle();
+		bundle.putSerializable(CourseDisplayFragment.ARGUMENTS_COURSE_KEY, key);
+
+		activity.getResources().getConfiguration();
+		if (activity.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			final int containerId = R.id.detail_container;
+			final Fragment newFragment = new CourseDisplayFragment();
+			newFragment.setArguments(bundle);
+			final FragmentTransaction transaction = activity
+					.getSupportFragmentManager().beginTransaction();
+			transaction.replace(containerId, newFragment);
+			transaction.addToBackStack(null);
+			transaction.commit();
+
+		} else {
+			final Intent intent = new Intent(activity,
+					TransparentActivity.class);
+			bundle.putString("key", CourseDisplayFragment.class.toString());
+			intent.putExtras(bundle);
+			activity.startActivity(intent);
+			return;
+
+		}
+
+	}
+
+	public void goToSearchDisplay(final String query,
+			final SearchFilters filters, final FragmentActivity activity) {
+		final Bundle bundle = new Bundle();
+		final Intent intent = new Intent(activity, TransparentActivity.class);
+		bundle.putString("key", SearchFragment.class.toString());
+		bundle.putSerializable(SearchFragment.ARGUMENT_QUERY_KEY, query);
+		bundle.putSerializable(SearchFragment.ARGUMENT_FILTERS_KEY, filters);
+		intent.putExtras(bundle);
+		activity.startActivity(intent);
+		return;
+
 	}
 }
