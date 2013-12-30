@@ -1,14 +1,12 @@
 package com.technion.coolie.webcourse;
 
-import android.widget.ImageView;
-
 
 public class StaffData {
 	
 	String mName;
 	String mMail;
 	String mPosition;
-	ImageView image;
+	byte[] image;
 	StaffSubData mStaffSubData;
 	
 	StaffData() {

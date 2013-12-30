@@ -424,21 +424,6 @@ public class CoolieServerInterfaceService extends IntentService {
       break;
     }
 
-    case TECHOINS_GET_PRODUCTS_BY_ID: {
-      List<Product> products;
-      List<Product> OutputList;
-      products = new Gson().fromJson((String) arg0.getSerializableExtra(INPUT),
-          new TypeToken<List<Product>>() {
-          }.getType());
-
-      OutputList = TechoinsFactory.getTechoinsAPI().getProductsByIds(products);
-      intent.putExtra(STATUS, CoolieStatus.RESULT_OK);
-      intent.putExtra(CoolieServerInterfaceService.RESULT,
-          new Gson().toJson(OutputList));
-      sendBroadcast(intent);
-      break;
-    }
-
     case TECHOINS_GET_PRODUCTS_BY_NAME: {
       Product product;
       List<Product> OutputList;

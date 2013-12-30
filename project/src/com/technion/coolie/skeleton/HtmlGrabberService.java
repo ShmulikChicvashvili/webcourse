@@ -37,7 +37,7 @@ public class HtmlGrabberService extends IntentService {
 			String res = readStream(in);
 			in.close();
 			
-			Log.v("---",res.toString());
+//			Log.v("---",res.toString());
 			intent.putExtra(RESULT, res);
 			intent.putExtra(STATUS, CoolieStatus.RESULT_OK);
 
@@ -72,4 +72,5 @@ public class HtmlGrabberService extends IntentService {
 		}
 		return sb.toString();
 	}
+	
 }

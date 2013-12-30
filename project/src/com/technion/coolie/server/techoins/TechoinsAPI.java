@@ -84,17 +84,6 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public List<Product> getProductsByIds(List<Product> products) {
-    return gson.fromJson(Communicator.execute(
-        TechoinsEnum.TECHOINS_SERVLET.value(), "function",
-        TechoinsEnum.GET_PRODUCTS_BY_IDS.toString(),
-        TechoinsEnum.PRODUCT_LIST.value(), gson.toJson(products)),
-        new TypeToken<List<Product>>() {
-          // default usage
-        }.getType());
-  }
-
-  @Override
   public List<Product> getProductsByName(Product product) {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
@@ -164,6 +153,26 @@ public class TechoinsAPI implements ITechoinsAPI {
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.GET_PUBLISHED_PRODUCTS_BY_SELLER_ID.toString(),
         TechoinsEnum.PRODUCT.value(), gson.toJson(product)),
+        new TypeToken<List<Product>>() {
+          // default usage
+        }.getType());
+  }
+
+  @Override
+  public List<Product> getByName(String s) {
+    return gson.fromJson(Communicator.execute(
+        TechoinsEnum.TECHOINS_SERVLET.value(), "function",
+        TechoinsEnum.FIND_BY_NAME.toString(), "name", s),
+        new TypeToken<List<Product>>() {
+          // default usage
+        }.getType());
+  }
+
+  @Override
+  public List<Product> getByDescription(String s) {
+    return gson.fromJson(Communicator.execute(
+        TechoinsEnum.TECHOINS_SERVLET.value(), "function",
+        TechoinsEnum.FIND_BY_DESC.toString(), "desc", s),
         new TypeToken<List<Product>>() {
           // default usage
         }.getType());

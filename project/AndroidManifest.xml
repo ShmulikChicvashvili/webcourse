@@ -11,10 +11,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.READ_CONTACTS" />  
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-  <!-- Join-In permission -->
+    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <!-- Join-In permission -->
     <permission
         android:name="com.technion.coolie.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
@@ -22,16 +22,12 @@
     <uses-permission android:name="com.technion.coolie.joinin.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <!--
      The following two permissions are not required to use
-     Google Maps Android API v2, but are recommended.
-
-
+     Google Maps Android API v2, but are recommended.
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -80,50 +76,218 @@
         <activity
             android:name="com.technion.coolie.skeleton.PreferencesScreen"
             android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
             android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
 
         <service android:name="com.technion.coolie.skeleton.HtmlGrabberService" >
         </service>
         <service android:name="com.technion.coolie.skeleton.CoolieServerInterfaceService" >
         </service>
-        
-        <!-- Assign Mentor -->        
+
+        <!-- Assign Mentor -->
         <activity
             android:name="com.technion.coolie.assignmentor.MainActivity"
             android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
             android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
-
         <activity
             android:name="com.technion.coolie.assignmentor.GeneralSettings"
             android:label="@string/app_name"
             android:theme="@style/Theme.Sherlock.Light" >
             <intent-filter>
                 <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            
-            <meta-data 
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.assignmentor.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.technion.coolie.assignmentor.TaskSettings"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.assignmentor.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.technion.coolie.assignmentor.AddNewTask"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.coolie.assignmentor.MainActivity" />
         </activity>
 
-        <activity
-            android:name="com.technion.coolie.assignmentor.TaskSettings"
-            android:theme="@style/Theme.Sherlock.Light"
-            android:label="@string/app_name" >
-            
-            <meta-data 
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.technion.coolie.assignmentor.MainActivity" />
-        </activity>
-        
+        <service
+            android:name="com.technion.coolie.assignmentor.TaskParser"
+            android:exported="false" />
+
+        <receiver
+            android:name="com.technion.coolie.assignmentor.MainActivity$BootReceiver"
+            android:enabled="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <!-- Join In -->
+
         <activity
-            android:theme="@style/Theme.Sherlock.Light"            
             android:name="com.technion.coolie.joinin.MainActivity"
-            android:label="@string/app_name" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.technion.coolie.joinin.subactivities.CreateEventActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.joinin.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.joinin.subactivities.LoginActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light"
+            android:windowSoftInputMode="stateHidden" >
+            <intent-filter>
+                <action android:name="android.intent.action.LOGINACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.technion.coolie.joinin.subactivities.MyEventsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.joinin.subactivities.EventActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.joinin.subactivities.ShowTextActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.joinin.facebook.PickFriendsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+
+        <receiver
+            android:name="com.technion.coolie.server.gcm.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                <action android:name="com.google.android.c2dm.intent.GCM_RECEIVED_ACTION" />
+
+                <category android:name="com.technion.coolie.server.gcm" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name="com.technion.coolie.server.gcm.GcmIntentService" />
+
+        <activity
+            android:name="com.technion.coolie.joinin.subactivities.EventFilterActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.server.gcm.GcmRegistration"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/app_id" />
+
+        <activity android:name="com.facebook.LoginActivity" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.joinin.subactivities.MyFavoritesActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDPatNAiG528azA3YzgjHYwcDoYFfLFI2g" />
+
+        <activity
+            android:name="com.technion.coolie.joinin.subactivities.SettingsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.joinin.subactivities.GroupsFromFacebook"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.joinin.subactivities.TutorialActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.joinin.subactivities.CategoriesActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.joinin.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.joinin.subactivities.CategoryEventActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.joinin.subactivities.CategoriesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Sherlock.Light" >
         </activity>
 
         <!-- Let Me In -->
@@ -135,7 +299,11 @@
         <activity
             android:name="com.technion.coolie.letmein.MainActivity"
             android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
             android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/lmi_searchable" />
@@ -147,6 +315,9 @@
             android:label="@string/app_name"
             android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
             android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
         <activity
             android:name="com.technion.coolie.studybuddy.views.CourseActivity"
@@ -169,10 +340,14 @@
             android:parentActivityName="com.technion.coolie.studybuddy.MainActivity" >
         </activity>
         <!-- TechLibrary -->
-          <activity
+        <activity
             android:name="com.technion.coolie.techlibrary.MainActivity"
             android:label="@string/lib_module_name"
+            android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
             android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
         <activity
             android:name="com.technion.coolie.techlibrary.LoginActivity"
@@ -211,68 +386,97 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.coolie.techlibrary.MainActivity" />
         </activity>
-        
+
         <!-- TechPark -->
+        <receiver android:name="com.technion.coolie.techpark.MyReceiver" >
+            <intent-filter>
+                <action android:name="com.example.android.mocklocation" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
         <activity
             android:name="com.technion.coolie.techpark.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Sherlock.Light" >
+            android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
+
+        <service
+            android:name="com.technion.coolie.techpark.ReceiveTransitionsIntentService"
+            android:exported="false"
+            android:label="@string/app_name" >
+        </service>
+        <service
+            android:name="com.technion.coolie.techpark.ActivityRecognitionIntentService"
+            android:exported="false"
+            android:label="@string/app_name" >
+        </service>
 
         <!-- TechTrade -->
         <activity
             android:name="com.technion.coolie.techtrade.MainActivity"
             android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
             android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
 
         <!-- TecMind -->
-         <activity
+        <activity
             android:name="com.technion.coolie.tecmind.MainActivity"
             android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
             android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/techmine_app_id" />
 
         <activity
             android:name="com.technion.coolie.tecmind.MineActivity"
-            android:noHistory="true"
             android:label="@string/app_name"
+            android:noHistory="true"
             android:theme="@style/Theme.Sherlock.Light" >
-
         </activity>
-        
         <activity
             android:name="com.technion.coolie.tecmind.MyAccountActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Sherlock.Light" >
-
         </activity>
         <activity
             android:name="com.technion.coolie.tecmind.RecentAccountActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Sherlock.Light" >            
+            android:theme="@style/Theme.Sherlock.Light" >
         </activity>
         <activity
             android:name="com.technion.coolie.tecmind.TotalAccountActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Sherlock.Light" >            
+            android:theme="@style/Theme.Sherlock.Light" >
         </activity>
-        
-                <activity
+        <activity
             android:name="com.technion.coolie.tecmind.TopTenActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Sherlock.Light" >
-
         </activity>
         <activity
             android:name="com.technion.coolie.tecmind.TopMinersActivity"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Sherlock.Light" >            
+            android:theme="@style/Theme.Sherlock.Light" >
         </activity>
-     
-        
-        
-        
         <activity
             android:name="com.technion.coolie.tecmind.ReportsActivity"
             android:label="@string/app_name"
@@ -289,12 +493,12 @@
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>
         <activity
-            android:name="com.com.technion.coolie.tecmind.ReportStudentActivity"           
+            android:name="com.com.technion.coolie.tecmind.ReportStudentActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>
         <activity
-            android:name="com.techcom.technion.coolie.tecmind.ReportStaffActivity"       
+            android:name="com.techcom.technion.coolie.tecmind.ReportStaffActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>
@@ -303,21 +507,32 @@
         <activity
             android:name="com.technion.coolie.teletech.PhoneBookActivity"
             android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
             android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
         <activity
             android:name="com.technion.coolie.teletech.MainActivity"
             android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
             android:theme="@style/Theme.Sherlock.Light" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
 
         <!-- UG -->
         <activity
             android:name="com.technion.coolie.ug.MainActivity"
             android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
             android:theme="@style/Theme.Sherlock.Light"
             android:windowSoftInputMode="adjustResize|adjustPan" >
-            
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
         <activity
             android:name="com.technion.coolie.ug.TransparentActivity"
@@ -328,28 +543,27 @@
         </activity>
         <!-- Webcourse -->
         <activity
-            android:name="com.example.gr_plusplus.CoursesActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name="com.technion.coolie.webcourse.gr_plusplus.CoursesActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.technion.coolie.skeleton.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
         <activity
-            android:name="com.example.gr_plusplus.CourseInformationActivity"
+            android:name="com.technion.coolie.webcourse.gr_plusplus.CourseInformationActivity"
             android:label="@string/title_activity_course_information" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.gr_plusplus.CoursesActivity" />
         </activity>
         <activity
-            android:name="com.example.gr_plusplus.AnnouncementActivity"
+            android:name="com.technion.coolie.webcourse.gr_plusplus.AnnouncementActivity"
             android:label="@string/title_activity_announcement"
-            android:parentActivityName="com.example.gr_plusplus.CourseInformationActivity" >
+            android:parentActivityName="com.technion.coolie.webcourse.gr_plusplus.CourseInformationActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.gr_plusplus.CourseInformationActivity" />
+                android:value="com.technion.coolie.webcourse.gr_plusplus.CourseInformationActivity" />
         </activity>
     </application>
 
