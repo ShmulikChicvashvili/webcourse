@@ -7,7 +7,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * 
@@ -77,6 +79,8 @@ public abstract class HtmlGrabber {
 	 *            - success status
 	 */
 	public abstract void handleResult(String result, CoolieStatus status);
+	public void handleImage(Bitmap b){}
+	
 
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -88,7 +92,13 @@ public abstract class HtmlGrabber {
 						.getSerializable(HtmlGrabberService.STATUS);
 				// TODO handle errors
 				String result = bundle.getString(HtmlGrabberService.RESULT);
+				Bitmap b = intent.getParcelableExtra("Image");
+				
 				handleResult(result, status);
+				if(b != null){
+					handleImage(b);
+				}else
+					Log.e("in else...","OOOOOOFFFFF");
 				mContext.unregisterReceiver(receiver);
 			}
 		}

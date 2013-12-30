@@ -1,32 +1,56 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content" 
-	>
- 
-	<EditText
-		android:id="@+id/lib_search_data"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:hint="@string/lib_prompt_search"
-		android:maxLines="1"
-		android:singleLine="true" 
-		android:imeActionId="@+id/search"
-		android:imeActionLabel="@string/lib_action_search"
-		android:imeOptions="actionSearch"
-	/>
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
 
-	<Button
-		android:id="@+id/lib_search_button"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="right"
-		android:layout_alignParentRight="true"
-		android:layout_below="@id/lib_search_data"
-		android:paddingLeft="32dp"
-		android:paddingRight="32dp"
-		android:text="@string/lib_action_search" 
-	/>
-  
-      
+    <EditText
+        android:id="@+id/lib_search_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/lib_prompt_search"
+        android:imeActionId="@+id/search"
+        android:imeActionLabel="@string/lib_action_search"
+        android:imeOptions="actionSearch"
+        android:maxLines="1"
+        android:singleLine="true" />
+
+    <Button
+        android:id="@+id/lib_search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/lib_search_data"
+        android:layout_gravity="right"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="@string/lib_action_search" />
+
+    <Button
+        android:id="@+id/lib_search_barcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/lib_search_button"
+        android:layout_gravity="right"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="barcode search" />
+    <!--
+        <ImageView
+        android:src="@drawable/lib_placeholder_book"
+        android:id="@+id/lib_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/lib_search_button"       
+        android:adjustViewBounds="true" />
+    -->
+
+    <ListView
+        android:id="@+id/lib_search_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_search_barcode"
+        android:cacheColorHint="#00000000"
+        android:listSelector="#b0b0b0" >
+    </ListView>
 
 </RelativeLayout>

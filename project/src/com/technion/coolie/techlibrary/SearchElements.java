@@ -1,7 +1,11 @@
 package com.technion.coolie.techlibrary;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -12,8 +16,14 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.util.Log;
@@ -26,6 +36,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,6 +48,7 @@ import com.technion.coolie.R;
 import com.technion.coolie.skeleton.CoolieStatus;
 import com.technion.coolie.techlibrary.BookItems.HoldElement;
 import com.technion.coolie.techlibrary.BookItems.LibraryElement;
+import com.technion.coolie.techlibrary.HoldsAdapter.viewHolder;
 
 public class SearchElements {
 	static public class SearchFragment extends SherlockFragment {
@@ -50,6 +62,7 @@ public class SearchElements {
 		public Integer numOfElements = null;
 		private static final int DEFAULT_NUM_OF_ENTERIES = 20;
 		public ArrayList<LibraryElement> items = null;
+//		protected ImageView imageview;
 		
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,7 +75,7 @@ public class SearchElements {
 
 			final EditText searchInputBox = (EditText) v
 					.findViewById(R.id.lib_search_data);
-			searchInputBox.requestFocus();
+//			searchInputBox.requestFocus();
 //			searchInputBox
 //					.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 //						@Override
@@ -105,6 +118,19 @@ public class SearchElements {
 
 				}
 			});
+//			imageview = (ImageView) v.findViewById(R.id.lib_image);
+			
+			
+			// ~~~~~~ Barcode ~~~~~~~~~~
+			Button barcodeButton = (Button)v.findViewById(R.id.lib_search_barcode);
+			barcodeButton.setOnClickListener( new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					BarcodeSearch.scanForBook(getSherlockActivity());
+					
+				}
+			});
 			return v;
 		}
 		/** 
@@ -124,6 +150,12 @@ public class SearchElements {
 //						e.printStackTrace();
 					} 
 				}
+
+				@Override
+				public void handleImage(Bitmap b) {
+					// TODO Auto-generated method stub
+					
+				}
 			};
 			// TODO
 			String searchUrl = "http://aleph2.technion.ac.il/X?op=find&base=tecall&request="
@@ -137,13 +169,15 @@ public class SearchElements {
 			HtmlGrabber hg = new HtmlGrabber(getActivity()) {
 				@Override
 				public void handleResult(String result, CoolieStatus status) {
-					Log.d("xml result", result);
-					try {
-						parseResult(result, secondSearchPart);
-					} catch (Exception e) {
-						Log.d("SEARCH ERROR" ,"" + 137);
-						e.printStackTrace();
-					}
+					Log.d("xml result!!!!!!!!!!!!!", result);
+								
+				}
+
+				@Override
+				public void handleImage(Bitmap b) {
+					Log.d("in image ", "blaaaaaaaaaaaaaaaaaaaaaaaaa");
+//					imageview.setImageBitmap(b);
+					
 				}
 			};
 			// TODO
@@ -151,8 +185,8 @@ public class SearchElements {
 					+ setNum + "&set_entry=1-" + DEFAULT_NUM_OF_ENTERIES);
 			String searchUrl = "http://aleph2.technion.ac.il/X?op=present&set_no="
 					+ setNum + "&set_entry=1-" + DEFAULT_NUM_OF_ENTERIES;
-			hg.getHtmlSource(searchUrl, HtmlGrabber.Account.NONE);
-
+//			hg.getHtmlSource(searchUrl, HtmlGrabber.Account.NONE);
+			hg.getHtmlSource("http://books.google.co.il/books?vid=ISBN9654826356&printsec=frontcover&img=0&zoom=1", HtmlGrabber.Account.FACEBOOK);
 		}
 
 		/**
@@ -330,6 +364,130 @@ public class SearchElements {
 		}
 	}
 
+
+	
+//	public static class SearchResultAdapter extends BaseAdapter {
+//
+//		private final List<BookItems> items;
+//		private Context context;
+//		// protected boolean wasPressed = false;
+//
+//		public SearchResultAdapter(final Context context, List<BookItems> searchList) {
+//			this.context = context;
+//			this.items = searchList;
+//		}
+//
+//		class viewHolder {
+//			public TextView name;
+//			public TextView author;
+//			public ImageView photo;
+//		}
+//
+//		@Override
+//		public int getCount() {
+//			return items.size();
+//		}
+//
+//		@Override
+//		public Object getItem(int arg0) {
+//			// check-boundries?
+//			return items.get(arg0);
+//		}
+//
+//		@Override
+//		public long getItemId(int position) {
+//
+//			return position;
+//		}
+//
+//		@Override
+//		public View getView(final int position, View convertView, ViewGroup parent) {
+//			viewHolder holder;
+//			View view = null;
+//			if (convertView == null) {
+//				LayoutInflater inflater = (LayoutInflater) parent.getContext()
+//						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//				view = inflater.inflate(R.layout.lib_holds_item, null);
+//
+//				holder = new viewHolder();
+//				holder.name = (TextView) view.findViewById(R.id.lib_book_name);
+//				holder.author = (TextView) view.findViewById(R.id.lib_book_author);
+//				holder.photo = (ImageView) view.findViewById(R.id.lib_book_image);
+//				view.setTag(holder);
+//
+//			} else {
+//				view = convertView;
+//				holder = (viewHolder) view.getTag();
+//			}
+//			
+//			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//			
+//			view.setOnClickListener(new OnClickListener() {
+//				
+//				@Override
+//				public void onClick(View v) {
+////					BookDescription bD = new BookDescription(holds.get(position));
+//					Intent intent = new Intent(context,
+//							BookDescriptionActivity.class);
+//					HoldElement hE = items.get(position);
+//					String[] extraData = {hE.name, hE.author, hE.library};
+//					intent.putExtra("description", extraData);
+//					((Activity)context).startActivityForResult(intent, 1);
+//					
+//				}
+//			});
+//			
+//			
+//			
+//			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
+//			
+//			ImageButton cancel = (ImageButton) view
+//					.findViewById(R.id.lib_cancel_button);
+//			cancel.setOnClickListener(new OnClickListener() {
+//
+//				@Override
+//				public void onClick(View v) {
+//					Log.d("cancel clicked", "the obj is: " + position);
+//					DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+//						// DialogInterface called while setting the AlertDialog
+//						// Buttons
+//						public void onClick(DialogInterface dialog, int which) {
+//							// Here you can perform functions of Alert Dialog
+//							// Buttons as shown
+//							switch (which) {
+//							case DialogInterface.BUTTON_POSITIVE:
+//								// Yes button clicked
+//								items.remove(position);
+//								notifyDataSetChanged();
+//								break;
+//
+//							case DialogInterface.BUTTON_NEGATIVE:
+//								// No button clicked
+//								break;
+//							}
+//						}
+//					};
+//
+//					AlertDialog.Builder builder = new AlertDialog.Builder(
+//							context);
+//					builder.setTitle("Deleting a book from holds list");
+//					// Set the Title of Alert Dialog
+//					builder.setMessage("Are you sure?")
+//							.setPositiveButton("Yes", dialogClickListener)
+//							.setNegativeButton("No", dialogClickListener)
+//							.show();
+//
+//				}
+//			});
+//			
+//			holder.name.setText(items.get(position).name);
+//			holder.author.setText(items.get(position).author);
+//
+//
+//			return view;
+//		}
+	
+	
 	
 	
 	/**
@@ -337,7 +495,7 @@ public class SearchElements {
 	 */
 	static public class SearchResultActivity extends CoolieActivity {
 		
-	}
+	
 	
 	
 	
@@ -460,4 +618,5 @@ public class SearchElements {
 //		}
 //
 //	}
+	}
 }
