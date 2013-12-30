@@ -10,8 +10,8 @@ import org.jsoup.nodes.Document;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.technion.coolie.server.ug.ReturnCodesUg;
 import com.technion.coolie.server.ug.api.UgFactory;
 import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.MainActivity;
@@ -30,8 +30,6 @@ import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.model.UGLoginObject;
-import com.technion.coolie.ug.utils.UGAsync;
-import com.technion.coolie.server.ug.*;
 import com.technion.coolie.webcourse.gr_plusplus.asyncParse;
 
 public class UGDatabase {
@@ -183,7 +181,8 @@ public class UGDatabase {
 		// new GregorianCalendar(2014, 2, 11), null, null,
 		// groups),
 		//
-		// new Course("232932", "×ž×¤×¨×˜×™×� ×¤×•×¨×ž×œ×™×™×� ×‘×ž×¢×¨×›×•×ª ×ž×•×¨×›×‘×•×ª",
+		// new Course("232932",
+		// "×ž×¤×¨×˜×™×� ×¤×•×¨×ž×œ×™×™×� ×‘×ž×¢×¨×›×•×ª ×ž×•×¨×›×‘×•×ª",
 		// 5.0f, "", new Semester(2013,
 		// SemesterSeason.WINTER), Faculty.CS,
 		// new GregorianCalendar(2014, 2, 11),
@@ -287,7 +286,7 @@ public class UGDatabase {
 	// TODO
 	private void initializeSemesters() {
 
-		// currentSeason = findCurrentSemesters(currentSemesters);
+		// currentSeason = findCurrentSemesters(currentSemesters); TODO
 
 		currentSeason = SemesterSeason.WINTER;
 		currentSemesters = new Semester[3];
@@ -402,70 +401,62 @@ public class UGDatabase {
 		};
 		a.execute();
 	}
-	
-	
-	public void addTrackingCourseToServer(UGLoginObject o,CourseKey ck) 
-	{
-		AsyncTask<CourseKey, Void , ReturnCodesUg> asyncTask = new AsyncTask<CourseKey, Void , ReturnCodesUg>()
-		{
+
+	public void addTrackingCourseToServer(UGLoginObject o, CourseKey ck) {
+		AsyncTask<CourseKey, Void, ReturnCodesUg> asyncTask = new AsyncTask<CourseKey, Void, ReturnCodesUg>() {
 			@Override
-			protected ReturnCodesUg doInBackground(CourseKey... params) 
-			{
-				if (params==null || params[0]==null) return null;
-				ReturnCodesUg returnCode = UgFactory.getUgTracking().addTrackingStudent(getCurrentLoginObject(), params[0]);
+			protected ReturnCodesUg doInBackground(CourseKey... params) {
+				if (params == null || params[0] == null)
+					return null;
+				ReturnCodesUg returnCode = UgFactory.getUgTracking()
+						.addTrackingStudent(getCurrentLoginObject(), params[0]);
 				return returnCode;
 			}
-			
+
 			@Override
-			protected void onPostExecute(ReturnCodesUg returnCode) 
-			{
-				if (returnCode==null)
-					{
-						Log.v("addTrackingCourseToServer", "returnCode is null");
-						return;
-					}
-				
-				Log.v("addTrackingCourseToServer", returnCode.toString());
-				if (returnCode!=ReturnCodesUg.SUCCESS)
-				{
-				}
-			}
-		};
-		asyncTask.execute(ck);
-	}
-	
-	
-	public void deleteTrackingCourseFromServer(UGLoginObject o,CourseKey ck) 
-	{
-		AsyncTask<CourseKey, Void , ReturnCodesUg> asyncTask = new AsyncTask<CourseKey, Void , ReturnCodesUg>()
-		{
-			@Override
-			protected ReturnCodesUg doInBackground(CourseKey... params) 
-			{
-				if (params==null || params[0]==null) return null;
-				ReturnCodesUg returnCode = UgFactory.getUgTracking().removeTrackingStudentFromCourse(getCurrentLoginObject(), params[0]);
-				return returnCode;
-			}
-			
-			@Override
-			protected void onPostExecute(ReturnCodesUg returnCode) 
-			{
-				if (returnCode==null)
-				{
-					Log.v("deleteTrackingCourseFromServer", "returnCode is null");
+			protected void onPostExecute(ReturnCodesUg returnCode) {
+				if (returnCode == null) {
+					Log.v("addTrackingCourseToServer", "returnCode is null");
 					return;
 				}
-			
-			Log.v("deleteTrackingCourseFromServer", returnCode.toString());
-				if (returnCode!=ReturnCodesUg.SUCCESS)
-				{
-					//cant remove this course on (server problem)
+
+				Log.v("addTrackingCourseToServer", returnCode.toString());
+				if (returnCode != ReturnCodesUg.SUCCESS) {
 				}
 			}
 		};
 		asyncTask.execute(ck);
 	}
-	
+
+	public void deleteTrackingCourseFromServer(UGLoginObject o, CourseKey ck) {
+		AsyncTask<CourseKey, Void, ReturnCodesUg> asyncTask = new AsyncTask<CourseKey, Void, ReturnCodesUg>() {
+			@Override
+			protected ReturnCodesUg doInBackground(CourseKey... params) {
+				if (params == null || params[0] == null)
+					return null;
+				ReturnCodesUg returnCode = UgFactory.getUgTracking()
+						.removeTrackingStudentFromCourse(
+								getCurrentLoginObject(), params[0]);
+				return returnCode;
+			}
+
+			@Override
+			protected void onPostExecute(ReturnCodesUg returnCode) {
+				if (returnCode == null) {
+					Log.v("deleteTrackingCourseFromServer",
+							"returnCode is null");
+					return;
+				}
+
+				Log.v("deleteTrackingCourseFromServer", returnCode.toString());
+				if (returnCode != ReturnCodesUg.SUCCESS) {
+					// cant remove this course on (server problem)
+				}
+			}
+		};
+		asyncTask.execute(ck);
+	}
+
 	public ArrayList<CourseItem> getStudentCourses(
 			final SemesterSeason semesterseason) {
 		Document doc = null;
@@ -560,25 +551,23 @@ public class UGDatabase {
 		}
 		return currentLoginObject;
 	}
-	
-	// replace this code with code that reads the data from local database 
-		public List<CourseKey> getMyTrackingCourses()
-		{
-			if (myTrackingCourses!=null)
-				return myTrackingCourses;
-			else 
-			{
-				myTrackingCourses = new ArrayList<CourseKey>();
-				
-				//replace this code with reading tracking courses from from DB
-				int maximumTracking = 5;
-				for (int i=0; i< getCourses().size(); i++)
-				{
-					if (myTrackingCourses.size() >= maximumTracking) break;
-					if (i % 2 ==0)
-					myTrackingCourses.add(getCourses().get(i).getCourseKey());
-				}
-			}
+
+	// replace this code with code that reads the data from local database
+	public List<CourseKey> getMyTrackingCourses() {
+		if (myTrackingCourses != null)
 			return myTrackingCourses;
+		else {
+			myTrackingCourses = new ArrayList<CourseKey>();
+
+			// replace this code with reading tracking courses from from DB
+			int maximumTracking = 5;
+			for (int i = 0; i < getCourses().size(); i++) {
+				if (myTrackingCourses.size() >= maximumTracking)
+					break;
+				if (i % 2 == 0)
+					myTrackingCourses.add(getCourses().get(i).getCourseKey());
+			}
 		}
+		return myTrackingCourses;
+	}
 }
