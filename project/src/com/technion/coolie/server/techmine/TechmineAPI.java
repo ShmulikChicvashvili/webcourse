@@ -42,53 +42,21 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public ReturnCode addTopBestPost(TecTopBestPost topBestPost) {
-    return ReturnCode.valueOf(Communicator.execute(
-        TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.ADD_TOP_BEST_POST.toString(),
-        TechmineEnum.TOP_BEST_POST.value(), gson.toJson(topBestPost)));
-  }
-
-  @Override
-  public ReturnCode removeTopBestPost(TecTopBestPost topBestPost) {
-    return ReturnCode.valueOf(Communicator.execute(
-        TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.REMOVE_TOP_BEST_POST.toString(),
-        TechmineEnum.TOP_BEST_POST.value(), gson.toJson(topBestPost)));
-  }
-
-  @Override
   public List<TecPost> getTopBestPosts() {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.GET_TOP_BEST_POST.toString()),
-        new TypeToken<List<TecTopBestPost>>() {
+        TechmineEnum.GET_TOP_BEST_POSTS.toString()),
+        new TypeToken<List<TecPost>>() {
           // default usage
         }.getType());
-  }
-
-  @Override
-  public ReturnCode addTopBestComment(TecTopBestComment topBestComment) {
-    return ReturnCode.valueOf(Communicator.execute(
-        TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.ADD_TOP_BEST_COMMENT.toString(),
-        TechmineEnum.TOP_BEST_COMMENT.value(), gson.toJson(topBestComment)));
-  }
-
-  @Override
-  public ReturnCode removeTopBestComment(TecTopBestComment topBestComment) {
-    return ReturnCode.valueOf(Communicator.execute(
-        TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.REMOVE_TOP_BEST_COMMENT.toString(),
-        TechmineEnum.TOP_BEST_COMMENT.value(), gson.toJson(topBestComment)));
   }
 
   @Override
   public List<TecComment> getTopBestComments() {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.GET_TOP_BEST_COMMENT.toString()),
-        new TypeToken<List<TecTopBestComment>>() {
+        TechmineEnum.GET_TOP_BEST_COMMENTS.toString()),
+        new TypeToken<List<TecComment>>() {
           // default usage
         }.getType());
   }
