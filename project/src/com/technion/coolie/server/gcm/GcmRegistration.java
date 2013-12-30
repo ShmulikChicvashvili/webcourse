@@ -20,7 +20,7 @@ public class GcmRegistration extends Activity {
   public static final String PROPERTY_REG_ID = "registration_id";
   private static final String PROPERTY_APP_VERSION = "appVersion";
 
-  String SENDER_ID = "372487289738";
+  String SENDER_ID = "678261887621";
 
   static final String TAG = "Coolie Gcm";
   GoogleCloudMessaging gcm;
