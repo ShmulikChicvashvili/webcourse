@@ -5,8 +5,12 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
+import android.media.MediaPlayer.TrackInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.widget.Toast;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -18,6 +22,7 @@ import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.utils.FragmentsFactory;
+import com.technion.coolie.ug.tracking.*;
 
 //need to add more search options - has available courses?
 //add the courses hours to the calendar?
@@ -96,7 +101,7 @@ public class MainActivity extends CoolieActivity implements
 	private void updateCourses() {
 		Course course = new Course(
 				"233245",
-				"מבוא לבינה מלאכותית",
+				"×ž×‘×•×� ×œ×‘×™× ×” ×ž×œ×�×›×•×ª×™×ª",
 				2.0f,
 				"During the class we will talk about the high level design and your personal roles. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
 				new Semester(2013, SemesterSeason.WINTER), Faculty.CS,
@@ -105,7 +110,7 @@ public class MainActivity extends CoolieActivity implements
 
 		Course course2 = new Course(
 				"273455",
-				"אמא ודני הלכו לים",
+				"×�×ž×� ×•×“× ×™ ×”×œ×›×• ×œ×™×�",
 				2.0f,
 				"During the class we will talk about the high level design and your personal roles. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
 				new Semester(2013, SemesterSeason.WINTER), Faculty.CS,
@@ -119,5 +124,11 @@ public class MainActivity extends CoolieActivity implements
 		UGDatabase.getInstance(this).updateCourses(courses);
 
 	}
+	
+	public void onRegistrationClick(View v) 
+	{
+		Intent intent = new Intent(this, TrackingCoursesActivity.class);
+	    startActivity(intent);
+    }  
 
 }
