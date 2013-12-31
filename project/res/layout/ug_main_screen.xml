@@ -67,7 +67,9 @@
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:layout_weight="6"
+                android:layout_weight="3"
+                 android:paddingBottom="8dp"
+                android:paddingTop="8dp"
                 android:orientation="vertical" >
 
                 <TextView
@@ -94,23 +96,23 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:orientation="vertical"
-                android:padding="20dp" >
+<!--             <LinearLayout -->
+<!--                 android:layout_width="fill_parent" -->
+<!--                 android:layout_height="0dp" -->
+<!--                 android:layout_weight="2" -->
+<!--                 android:orientation="vertical" -->
+<!--                 android:padding="20dp" > -->
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/next_payment"
-                    android:textColor="#23337c"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+<!--                 <TextView -->
+<!--                     android:layout_width="fill_parent" -->
+<!--                     android:layout_height="wrap_content" -->
+<!--                     android:paddingBottom="5dp" -->
+<!--                     android:paddingTop="8dp" -->
+<!--                     android:text="@string/next_payment" -->
+<!--                     android:textColor="#23337c" -->
+<!--                     android:textSize="22sp" -->
+<!--                     android:textStyle="bold" /> -->
+<!--             </LinearLayout> -->
         </LinearLayout>
 
         <LinearLayout

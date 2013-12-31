@@ -2,15 +2,12 @@ package com.technion.coolie.ug.model;
 
 import java.io.Serializable;
 
-
-
-public class AccomplishedCourse implements Comparable<AccomplishedCourse>,Serializable {
-	
-
-
+public class AccomplishedCourse implements Comparable<AccomplishedCourse>,
+		Serializable {
 
 	public AccomplishedCourse(final String courseNumber, final String name,
-			final String points, final String semester, final String grade, final String avg, final boolean isSection) {
+			final String points, final String semester, final String grade,
+			final String avg, final boolean isSection) {
 		super();
 		this.courseNumber = courseNumber;
 		this.name = name;
@@ -20,7 +17,7 @@ public class AccomplishedCourse implements Comparable<AccomplishedCourse>,Serial
 		this.avg = avg;
 		this.isSection = isSection;
 	}
-	
+
 	public AccomplishedCourse() {
 	}
 
@@ -71,12 +68,12 @@ public class AccomplishedCourse implements Comparable<AccomplishedCourse>,Serial
 	public void setAvg(String avg) {
 		this.avg = avg;
 	}
-	
+
 	public void setSection(boolean isSection) {
 		this.isSection = isSection;
 	}
-	
-	public boolean getSection(){
+
+	public boolean getSection() {
 		return isSection;
 	}
 
@@ -87,21 +84,30 @@ public class AccomplishedCourse implements Comparable<AccomplishedCourse>,Serial
 	private String grade;
 	private String avg;
 	private boolean isSection;
-		
-
 
 	@Override
 	public String toString() {
-		return (courseNumber + "  " + name + "  " + points + "  " + grade + "  " + semester + "  " + avg);
+		return (courseNumber + "  " + name + "  " + points + "  " + grade
+				+ "  " + semester + "  " + avg);
 	}
 
 	@Override
 	public int compareTo(final AccomplishedCourse another) {
-		if (another == null || semester == null || another.semester == null)
-			return 0;
+		// This threw lots of errors!!
+
+		// if (another == null || semester == null || another.semester == null)
+		// return 0;
+		// return semester.compareTo(another.semester);
+
+		if (another == null)
+			return 1;
+		if (semester == null)
+			return -1;
+		if (another.semester == null)
+			return 1;
 		return semester.compareTo(another.semester);
 	}
-	
+
 	/**
 	 * 
 	 */

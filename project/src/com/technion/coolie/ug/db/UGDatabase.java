@@ -347,7 +347,8 @@ public class UGDatabase {
 
 			l = UgFactory.getUgGradeSheet().getMyGradesSheet(
 					getCurrentLoginObject());
-			gradesSheet = l;
+			if (l != null)
+				gradesSheet = l;
 			mainActivity.getAllFragments();
 
 			return super.doInBackground(params);
