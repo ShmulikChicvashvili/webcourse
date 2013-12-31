@@ -19,10 +19,6 @@ import org.jsoup.select.Elements;
 
 import android.content.Context;
 
-import com.technion.coolie.ug.calendar.CalendarSectionItem;
-import com.technion.coolie.ug.gradessheet.GradesFooterItem;
-import com.technion.coolie.ug.gradessheet.GradesSectionItem;
-import com.technion.coolie.ug.gradessheet.SectionedListItem;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.CourseItem;
@@ -118,17 +114,17 @@ public class HtmlParser {
 	/**
 	 * calendar parsing
 	 */
-	public static ArrayList<SectionedListItem> parseCalendar() {
+	public static List<AcademicCalendarEvent> parseCalendar() {
 		final Document doc = parseFromFille("ug_calendar.html",
 				MainActivity.context);
-		final ArrayList<SectionedListItem> list = new ArrayList<SectionedListItem>();
+		final List<AcademicCalendarEvent> list = new ArrayList<AcademicCalendarEvent>();
 		String month = "";
 		final Elements trElems = doc.select("tr:has(td.td0)");
 		for (int i = 1; i < trElems.size(); i++) {
 			final Elements tdElems = trElems.get(i).select("td");
 			// populate months sections
 			if (!tdElems.first().text().equals(month))
-				list.add(new CalendarSectionItem(tdElems.first().text()));
+				list.add(new AcademicCalendarEvent(null, null, null,tdElems.first().text()));
 			setCalendarEvent(tdElems, list);
 			month = tdElems.first().text();
 		}
@@ -136,12 +132,12 @@ public class HtmlParser {
 	}
 
 	private static void setCalendarEvent(final Elements tdElems,
-			final ArrayList<SectionedListItem> list) {
+			final List<AcademicCalendarEvent> list) {
 		final String day = tdElems.get(1).text();
 		final Calendar date = stringToCalendar(tdElems.get(2).text(),
 				"dd/MM/yyyy");
 		final String event = tdElems.get(6).text();
-		list.add(new AcademicCalendarEvent(date, event, day));
+		list.add(new AcademicCalendarEvent(date, event, day,null));
 
 	}
 
@@ -161,10 +157,10 @@ public class HtmlParser {
 	/**
 	 * grades sheet parsing
 	 */
-	private static ArrayList<SectionedListItem> gradesItems = new ArrayList<SectionedListItem>();
+	private static ArrayList<AccomplishedCourse> gradesItems = new ArrayList<AccomplishedCourse>();
 	public static String avg, success, points;
 
-	public static ArrayList<SectionedListItem> parseGrades(final String studentId) {
+	public static ArrayList<AccomplishedCourse> parseGrades(final String studentId) {
 		gradesItems.clear();
 		final Document doc = HtmlParser.parseFromFille("ug_grades_sheet.html",
 				MainActivity.context);
@@ -221,7 +217,7 @@ public class HtmlParser {
 			grade = grade.matches(".*\\d.*") ? grade : reverseString(grade);
 			// add grade line to list
 			gradesItems.add(new AccomplishedCourse(courseNumber, reverse,
-					tdElems.get(i + 1).text(), null, grade));
+					tdElems.get(i + 1).text(), null, grade, null, false));
 		}
 		// set table footer (semester avg + total points in semester)
 		setBottomLine(tdElems.get(numOfTdElemsInTable - 3).text(),
@@ -235,7 +231,7 @@ public class HtmlParser {
 		final int lastIndexOfAvg = fixedAvgString.indexOf(" ");
 		final String average = avg.substring(0, lastIndexOfAvg);
 
-		gradesItems.add(new GradesFooterItem(average, points));
+		gradesItems.add(new AccomplishedCourse(null, null,points, null, null, average,false));
 	}
 
 	private static void setSemesterYear(final String semesterYear) {
@@ -270,8 +266,8 @@ public class HtmlParser {
 		hebrewYear = reverseString(hebrewYear);
 
 		// add section to list
-		gradesItems.add(new GradesSectionItem(season + " " + foreignYear + " ("
-				+ hebrewYear + ")"));
+		gradesItems.add(new AccomplishedCourse(null, null, null, season + " " + foreignYear + " ("
+				+ hebrewYear + ")", null, null,true));
 	}
 
 	private static int indexOf(final Pattern pattern, final String s) {

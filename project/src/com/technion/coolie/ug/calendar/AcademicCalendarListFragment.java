@@ -13,7 +13,6 @@ import android.widget.ListView;
 
 import com.technion.coolie.ug.TransparentActivity;
 import com.technion.coolie.ug.db.UGDatabase;
-import com.technion.coolie.ug.gradessheet.SectionedListItem;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 
 public class AcademicCalendarListFragment extends ListFragment {
@@ -23,9 +22,9 @@ public class AcademicCalendarListFragment extends ListFragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState) {
-		final List<SectionedListItem> tempList = UGDatabase.getInstance(getActivity())
-				.getCalendar();
-		for (final SectionedListItem i : tempList)
+		UGDatabase db = UGDatabase.getInstance(getActivity());
+		final List<AcademicCalendarEvent> tempList = db.getCalendar();
+		for (final AcademicCalendarEvent i : tempList)
 			if (i instanceof AcademicCalendarEvent)
 				coursesList.add((AcademicCalendarEvent) i);
 		final AcademicCalendarFragmentListAdapter adapter = new AcademicCalendarFragmentListAdapter(

@@ -22,15 +22,23 @@ public class GradesSheetListFragment extends ListFragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState) {
-		final List<SectionedListItem> tempList = UGDatabase.getInstance(getActivity())
+		final List<AccomplishedCourse> tempList = UGDatabase.getInstance(getActivity())
 				.getGradesSheet();
-		for (final SectionedListItem i : tempList)
+		for (final AccomplishedCourse i : tempList)
 			if (i instanceof AccomplishedCourse)
 				coursesList.add((AccomplishedCourse) i);
-		final GradesSheetFragmentListAdapter adapter = new GradesSheetFragmentListAdapter(
+		/*final GradesSheetFragmentListAdapter adapter = new GradesSheetFragmentListAdapter(
 				inflater.getContext(), coursesList);
-		setListAdapter(adapter);
+		setListAdapter(adapter);*/
+		updateData();
 		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+	
+	void updateData()
+	{
+		final GradesSheetFragmentListAdapter adapter = new GradesSheetFragmentListAdapter(
+				getActivity(), coursesList);
+		setListAdapter(adapter);
 	}
 
 	@Override

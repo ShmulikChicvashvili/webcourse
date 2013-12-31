@@ -65,7 +65,14 @@ public class AcademicCalendarFragmentListAdapter extends BaseAdapter {
 		final SimpleDateFormat formatter = new SimpleDateFormat(
 				"dd/MM/yyyy", Locale.getDefault());
 		final Calendar cal = event.getStartingDay();
-		dateTextView.setText(formatter.format(cal.getTime()));
+		if (cal==null)
+		{
+			dateTextView.setText("null");
+		}
+		else
+		{
+			dateTextView.setText(formatter.format(cal.getTime()));
+		}
 
 		return convertView;
 	}

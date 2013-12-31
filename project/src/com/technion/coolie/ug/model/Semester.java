@@ -21,7 +21,10 @@ public class Semester implements Serializable, Comparable<Semester> {
 	public void setSs(final SemesterSeason ss) {
 		this.ss = ss;
 	}
-
+	Semester() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public Semester(final int year, final SemesterSeason ss) {
 		super();
 		this.year = year;

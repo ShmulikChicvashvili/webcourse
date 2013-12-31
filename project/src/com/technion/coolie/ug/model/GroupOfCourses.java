@@ -5,6 +5,11 @@ import java.util.List;
 public class GroupOfCourses {
 
 	List<String> courses;
+	
+	GroupOfCourses()
+	{
+		
+	}
 
 	public GroupOfCourses(final List<String> courses) {
 		super();

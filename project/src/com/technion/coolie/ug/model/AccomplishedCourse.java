@@ -2,23 +2,26 @@ package com.technion.coolie.ug.model;
 
 import java.io.Serializable;
 
-import com.technion.coolie.ug.gradessheet.SectionedListItem;
 
-public class AccomplishedCourse implements Comparable<AccomplishedCourse>,
-		SectionedListItem, Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
+public class AccomplishedCourse implements Comparable<AccomplishedCourse>,Serializable {
+	
+
+
 
 	public AccomplishedCourse(final String courseNumber, final String name,
-			final String points, final Semester semester, final String grade) {
+			final String points, final String semester, final String grade, final String avg, final boolean isSection) {
 		super();
 		this.courseNumber = courseNumber;
 		this.name = name;
 		this.points = points;
 		this.semester = semester;
 		this.grade = grade;
+		this.avg = avg;
+		this.isSection = isSection;
+	}
+	
+	public AccomplishedCourse() {
 	}
 
 	public String getCourseNumber() {
@@ -45,11 +48,11 @@ public class AccomplishedCourse implements Comparable<AccomplishedCourse>,
 		this.points = points;
 	}
 
-	public Semester getSemester() {
+	public String getSemester() {
 		return semester;
 	}
 
-	public void setSemester(final Semester semester) {
+	public void setSemester(final String semester) {
 		this.semester = semester;
 	}
 
@@ -61,11 +64,36 @@ public class AccomplishedCourse implements Comparable<AccomplishedCourse>,
 		this.grade = grade;
 	}
 
+	public String getAvg() {
+		return avg;
+	}
+
+	public void setAvg(String avg) {
+		this.avg = avg;
+	}
+	
+	public void setSection(boolean isSection) {
+		this.isSection = isSection;
+	}
+	
+	public boolean getSection(){
+		return isSection;
+	}
+
 	private String courseNumber;
 	private String name;
 	private String points;
-	private Semester semester;
+	private String semester;
 	private String grade;
+	private String avg;
+	private boolean isSection;
+		
+
+
+	@Override
+	public String toString() {
+		return (courseNumber + "  " + name + "  " + points + "  " + grade + "  " + semester + "  " + avg);
+	}
 
 	@Override
 	public int compareTo(final AccomplishedCourse another) {
@@ -73,15 +101,9 @@ public class AccomplishedCourse implements Comparable<AccomplishedCourse>,
 			return 0;
 		return semester.compareTo(another.semester);
 	}
-
-	@Override
-	public boolean isSection() {
-		return false;
-	}
-
-	@Override
-	public boolean isFooter() {
-		return false;
-	}
-
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1808964461246208374L;
 }

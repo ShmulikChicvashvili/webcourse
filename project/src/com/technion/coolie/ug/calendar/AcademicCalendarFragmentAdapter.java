@@ -1,8 +1,8 @@
 package com.technion.coolie.ug.calendar;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
@@ -14,16 +14,15 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
-import com.technion.coolie.ug.gradessheet.SectionedListItem;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 
-public class AcademicCalendarFragmentAdapter extends ArrayAdapter<SectionedListItem> {
+public class AcademicCalendarFragmentAdapter extends ArrayAdapter<AcademicCalendarEvent> {
 
-	private final ArrayList<SectionedListItem> items;
+	private final List<AcademicCalendarEvent> items;
 	private final LayoutInflater vi;
 
 	public AcademicCalendarFragmentAdapter(final Context context,
-			final ArrayList<SectionedListItem> items) {
+			final List<AcademicCalendarEvent> items) {
 		super(context, 0, items);
 		this.items = items;
 		vi = (LayoutInflater) context
@@ -35,19 +34,17 @@ public class AcademicCalendarFragmentAdapter extends ArrayAdapter<SectionedListI
 			final ViewGroup parent) {
 		View v = convertView;
 
-		final SectionedListItem i = items.get(position);
-		if (i != null)
-			if (i.isSection()) {
-				final CalendarSectionItem si = (CalendarSectionItem) i;
+		final AcademicCalendarEvent ace = items.get(position);
+		if (ace != null)
+			if (ace.getMonth() != null) {
 				v = vi.inflate(R.layout.ug_calendar_list_item_section, null);
 				final TextView sectionView = (TextView) v
 						.findViewById(R.id.list_item_section_text);
-				sectionView.setText(si.getMonth());
+				sectionView.setText(ace.getMonth());
 				sectionView.setBackgroundColor(Color.parseColor("#0099b3"));
 				sectionView.setTextColor(Color.parseColor("#FFCC00"));
 
 			} else {
-				final AcademicCalendarEvent ei = (AcademicCalendarEvent) i;
 				v = vi.inflate(R.layout.ug_calendar_list_item_entry, null);
 				final TextView event = (TextView) v
 						.findViewById(R.id.list_item_entry_event);
@@ -57,15 +54,15 @@ public class AcademicCalendarFragmentAdapter extends ArrayAdapter<SectionedListI
 						.findViewById(R.id.list_item_entry_day);
 
 				if (event != null)
-					event.setText(ei.getEvent());
+					event.setText(ace.getEvent());
 				if (date != null) {
 					final SimpleDateFormat formatter = new SimpleDateFormat(
 							"dd/MM/yyyy", Locale.getDefault());
-					final Calendar cal = ei.getStartingDay();
+					final Calendar cal = ace.getStartingDay();
 					date.setText(formatter.format(cal.getTime()));
 				}
 				if (day != null)
-					day.setText(ei.getDay());
+					day.setText(ace.getDay());
 			}
 		return v;
 	}

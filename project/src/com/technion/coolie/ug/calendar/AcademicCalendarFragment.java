@@ -1,6 +1,7 @@
 package com.technion.coolie.ug.calendar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,10 @@ import android.widget.ListView;
 
 import com.technion.coolie.R;
 import com.technion.coolie.ug.db.UGDatabase;
-import com.technion.coolie.ug.gradessheet.SectionedListItem;
+import com.technion.coolie.ug.model.AcademicCalendarEvent;
 
 public class AcademicCalendarFragment extends Fragment {
-	private ArrayList<SectionedListItem> items = new ArrayList<SectionedListItem>();
+	private List<AcademicCalendarEvent> items = new ArrayList<AcademicCalendarEvent>();
 	private ListView listview = null;
 
 	@Override
