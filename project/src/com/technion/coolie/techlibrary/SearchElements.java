@@ -14,6 +14,7 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
@@ -144,7 +145,9 @@ public class SearchElements {
 
 				}
 				}else if(v.getId() == R.id.lib_search_barcode){
-					BarcodeSearch.scanForBook(getSherlockActivity());
+					Intent intent = new Intent(getSherlockActivity(),
+							BarcodeSearchActivity.class);
+					startActivity(intent);
 				}
 			}
 		};

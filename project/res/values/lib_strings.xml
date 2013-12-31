@@ -40,5 +40,8 @@
 	
     <string name="lib_title_activity_book_description">Book Description</string>
     <string name="lib_title_activity_library_description">Library Description</string>
+    
+    <!-- Strings related to barcode scanner -->
+    <string name="title_activity_barcode_search">Barcode Scan</string>
 		
 </resources>

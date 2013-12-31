@@ -52,7 +52,7 @@ public class MainActivity extends CoolieActivity implements
 		getSupportActionBar().setSelectedNavigationItem(savedInstanceState != null
 	            ? savedInstanceState.getInt(LAST_VIEWED_FRAGMENT_TAG) : 0);
 
-		SharedPreferences sharedPref = getSharedPreferences("lib_pref", 0);
+		SharedPreferences sharedPref = getSharedPreferences(SHARED_PREF, 0);
 		if (!sharedPref.contains(LOGGED_IN)) {
 			SharedPreferences.Editor editor = sharedPref.edit();
 			editor.putBoolean(LOGGED_IN, false);
