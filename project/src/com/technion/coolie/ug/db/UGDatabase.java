@@ -403,7 +403,10 @@ public class UGDatabase {
 
 			@Override
 			protected void onPostExecute(List<AcademicCalendarEvent> result) {
-				Log.d("all courses", l.size() + "");
+				if (l == null)
+					Log.d("all courses", "NULL");
+				else
+					Log.d("all courses", l.size() + "");
 			}
 
 		};

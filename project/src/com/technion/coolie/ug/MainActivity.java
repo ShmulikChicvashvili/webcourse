@@ -6,11 +6,9 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer.TrackInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
-import android.widget.Toast;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -22,10 +20,8 @@ import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Semester;
-import com.technion.coolie.ug.model.UGLoginObject;
+import com.technion.coolie.ug.tracking.TrackingCoursesFragment;
 import com.technion.coolie.ug.utils.FragmentsFactory;
-import com.technion.coolie.ug.tracking.*;
-import com.technion.coolie.ug.gui.searchCourses.*;
 
 public class MainActivity extends CoolieActivity implements
 		OnRightMenuItemSelected {
@@ -41,7 +37,7 @@ public class MainActivity extends CoolieActivity implements
 		setContentView(R.layout.ug_main_screen);
 
 		updateCourses();
-		
+
 		UGDatabase.getInstance(this).mainActivity = this;
 
 	}
@@ -119,31 +115,30 @@ public class MainActivity extends CoolieActivity implements
 		UGDatabase.getInstance(this).updateCourses(courses);
 
 	}
-	
-	public void onRegistrationClick(View v) 
-	{
+
+	public void onRegistrationClick(View v) {
 		UGDatabase db = UGDatabase.getInstance(this);
-		
-		CourseKey ck = new CourseKey("104", new Semester(2011, SemesterSeason.WINTER));
-		//db.addTrackingCourseToServer(db.getCurrentLoginObject(),ck);
-		//db.deleteTrackingCourseFromServer(db.getCurrentLoginObject(),ck);
-		
-		final Intent intent = new Intent(this,TransparentActivity.class);
+
+		CourseKey ck = new CourseKey("104", new Semester(2011,
+				SemesterSeason.WINTER));
+		// db.addTrackingCourseToServer(db.getCurrentLoginObject(),ck);
+		// db.deleteTrackingCourseFromServer(db.getCurrentLoginObject(),ck);
+
+		final Intent intent = new Intent(this, TransparentActivity.class);
 		final Bundle b = new Bundle();
 		b.putString("key", TrackingCoursesFragment.class.toString());
 		intent.putExtras(b);
 		startActivity(intent);
-    }
-	
-	public void getAllFragments()
-	{
-		List<Fragment> allFragments = getSupportFragmentManager().getFragments();
-		for(Fragment f : allFragments)
-		{
+	}
+
+	public void getAllFragments() {
+		List<Fragment> allFragments = getSupportFragmentManager()
+				.getFragments();
+		for (Fragment f : allFragments) {
 			String s = f.getClass().toString();
 			Math.random();
 		}
-	    Math.random();
+		Math.random();
 	}
-	
+
 }
