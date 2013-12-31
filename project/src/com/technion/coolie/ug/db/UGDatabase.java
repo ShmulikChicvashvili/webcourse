@@ -61,9 +61,22 @@ public class UGDatabase {
 	public MainActivity mainActivity = null;
 
 	public static UGDatabase getInstance(Context context) {
-		if (INSTANCE == null)
+		if (INSTANCE == null) {
+			Log.d(UGDatabase.DEBUG_TAG,
+					"[Creating UG database for the first time]]");
 			INSTANCE = new UGDatabase(context.getApplicationContext());
+
+		} else if (changedStudent()) {
+			Log.d(UGDatabase.DEBUG_TAG,
+					"[Creating UG database because we changed students]]");
+			INSTANCE = new UGDatabase(context.getApplicationContext());
+
+		}
 		return INSTANCE;
+	}
+
+	private static boolean changedStudent() {
+		return !(INSTANCE.getStudentId().equals(INSTANCE.studentId));
 	}
 
 	private UGDatabase(Context appContext) {
@@ -86,6 +99,8 @@ public class UGDatabase {
 		initTrackingCourses();
 		initAcademicCalendar();
 		initializeSemesters();
+		Log.d(UGDatabase.DEBUG_TAG, "[finished Creating UG database]");
+
 	}
 
 	private void initStudentId() {
@@ -514,6 +529,7 @@ public class UGDatabase {
 				coursesHash.put(course.getCourseKey(), course);
 			}
 
+			// TODO remove after finish debugging
 			dataProvider.getAcademicEventsDao().createOrUpdate(
 					new AcademicEventRow(new AcademicCalendarEvent(Calendar
 							.getInstance(), "OMG", "dd", null)));
@@ -566,18 +582,17 @@ public class UGDatabase {
 	public List<CourseKey> getMyTrackingCourses() {
 		if (myTrackingCourses != null)
 			return myTrackingCourses;
-		else {
-			myTrackingCourses = new ArrayList<CourseKey>();
 
-			// replace this code with reading tracking courses from from DB
-			int maximumTracking = 5;
-			for (int i = 0; i < getCourses().size(); i++) {
-				if (myTrackingCourses.size() >= maximumTracking)
-					break;
-				if (i % 2 == 0)
-					myTrackingCourses.add(getCourses().get(i).getCourseKey());
-			}
-		}
-		return myTrackingCourses;
+		return dataProvider.getTrackingCourses(studentId);
+		// myTrackingCourses = new ArrayList<CourseKey>();
+		//
+		// // replace this code with reading tracking courses from from DB
+		// int maximumTracking = 5;
+		// for (int i = 0; i < getCourses().size(); i++) {
+		// if (myTrackingCourses.size() >= maximumTracking)
+		// break;
+		// if (i % 2 == 0)
+		// myTrackingCourses.add(getCourses().get(i).getCourseKey());
+		// }
 	}
 }
