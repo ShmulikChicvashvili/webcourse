@@ -1,7 +1,6 @@
 package com.technion.coolie.ug.db;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -17,15 +16,11 @@ import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.Server.ServerCourse;
-import com.technion.coolie.ug.db.tablerows.AcademicEventRow;
-import com.technion.coolie.ug.db.tablerows.AccomplishedCourseRow;
-import com.technion.coolie.ug.db.tablerows.TrackRow;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
-import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.model.UGLoginObject;
@@ -40,12 +35,7 @@ public class UGDatabase {
 	// this class has one studentId per instance.
 	String studentId;
 
-	private static String DEBUG_TAG = "coolie.src.com.technion.coolie.ug.databaseDebug";
-
 	private Student currentStudent;
-	private List<RegistrationGroup> groups; // TODO delete this.
-	// private List<Course> allCourses;
-	// private List<String> allCoursesNames;
 	private Semester[] currentSemesters;
 	private SemesterSeason currentSeason;
 
@@ -54,34 +44,45 @@ public class UGDatabase {
 	private List<CourseKey> trackingCourses;
 	private List<AcademicCalendarEvent> calendarEvents;
 	private LinkedHashMap<CourseKey, Course> coursesHash;
+	private List<CourseKey> regeisteredCourses;
+
 	Context appContext;
 	private UGLoginObject currentLoginObject;
-	private List<CourseKey> myTrackingCourses;
+	// private List<CourseKey> myTrackingCourses;
 
 	public MainActivity mainActivity = null;
 
+	/**
+	 * assumes a student is logged in to the application, and we can retrieve
+	 * his id.
+	 */
 	public static UGDatabase getInstance(Context context) {
 		if (INSTANCE == null) {
-			Log.d(UGDatabase.DEBUG_TAG,
-					"[Creating UG database for the first time]]");
+			log("[Creating UG database for the first time]]");
 			INSTANCE = new UGDatabase(context.getApplicationContext());
 
 		} else if (changedStudent()) {
-			Log.d(UGDatabase.DEBUG_TAG,
-					"[Creating UG database because we changed students]]");
+			log("[Creating UG database because we changed students]]");
 			INSTANCE = new UGDatabase(context.getApplicationContext());
 
 		}
 		return INSTANCE;
 	}
 
+	/**
+	 * returns true if the student that is logged in to this app is different
+	 * from the current known student.
+	 * 
+	 * @return
+	 */
 	private static boolean changedStudent() {
 		return !(INSTANCE.getStudentId().equals(INSTANCE.studentId));
 	}
 
 	private UGDatabase(Context appContext) {
 		this.appContext = appContext;
-		if (this.appContext == null)
+		this.studentId = getStudentId();
+		if (this.appContext == null || studentId == null)
 			throw new NullPointerException();
 
 		// when data is empty, we need to talk to the server first and wait for
@@ -92,19 +93,9 @@ public class UGDatabase {
 		// GET THE CURRENT STUDENT ID FROM UG LOGIN and use it with the
 		// provider! TODO
 
-		initStudentId();
 		initDB();
-		initCourses();
-		initGradesSheet();
-		initTrackingCourses();
-		initAcademicCalendar();
-		initializeSemesters();
-		Log.d(UGDatabase.DEBUG_TAG, "[finished Creating UG database]");
 
-	}
-
-	private void initStudentId() {
-		studentId = getStudentId();
+		log("[finished Creating UG database]");
 
 	}
 
@@ -124,12 +115,23 @@ public class UGDatabase {
 		gradesSheet = dataProvider.getAccomplishedCourses(studentId);
 	}
 
+	private void initRegisteredCourses() {
+		regeisteredCourses = dataProvider.getRegisteredCourses(studentId);
+	}
+
 	private void initDB() {
 		dataProvider = new UGDBProvider(appContext);
+		initCourses();
+		initGradesSheet();
+		initTrackingCourses();
+		initAcademicCalendar();
+		initRegisteredCourses();
+		initializeSemesters();
 	}
 
 	// must be called when exiting the app!
 	public void clean() {
+		log("cleaning UGDatabase");
 		dataProvider.close();
 
 	}
@@ -138,154 +140,6 @@ public class UGDatabase {
 
 		initializeHashMap(dataProvider.getAllCourses());
 		// getAllCoursesFromServer();
-
-		// Calendar cal = Calendar.getInstance();
-		// Calendar cal2 = Calendar.getInstance();
-		// cal2.add(Calendar.HOUR, 1);
-		//
-		// groups = new ArrayList<RegistrationGroup>(Arrays.asList(
-		// new RegistrationGroup(12, Arrays.asList(new Meeting("12",
-		// "×™×•×¡×™ ×§×•×¤×¨×ž×Ÿ", DayOfWeek.TUESDAY, cal.getTime(), cal2
-		// .getTime(), "×�×•×œ×ž×Ÿ 309")), Arrays
-		// .asList(new Meeting("111", "×ž×¨. ×�×‘×™ ×›×¥",
-		// DayOfWeek.SUNDAY, cal.getTime(),
-		// cal2.getTime(), "×”×•×ž× ×™×¡×˜×™×� 329")), 0),
-		// new RegistrationGroup(13, Arrays.asList(new Meeting("13",
-		// "×¤×¨×•×¤. ×©×™ ×¢×¦×™×•× ×™", DayOfWeek.THURSDAY, Calendar
-		// .getInstance().getTime(), Calendar
-		// .getInstance().getTime(), "×˜×�×•×‘ 10")), Arrays
-		// .asList(new Meeting("122", "×ž×¨ ×“× ×™ ×§×•×¤×¨×ž×Ÿ",
-		// DayOfWeek.SUNDAY, cal.getTime(),
-		// cal2.getTime(), "×¤×™×©×‘×š 303"),
-		//
-		// new Meeting("123", "×ž×¨ ×ž×©×” ×¨×•×–× ×‘×œ×•×�",
-		// DayOfWeek.WEDNESDAY, cal.getTime(),
-		// cal2.getTime(), "×˜×�×•×‘ 2")), 25)));
-		//
-		// allCourses = new ArrayList<Course>(
-		//
-		// Arrays.asList(
-		//
-		// new Course(
-		// "233245",
-		// "×ž×‘×•×� ×œ×‘×™× ×” ×ž×œ×�×›×•×ª×™×ª",
-		// 2.0f,
-		// "During the class we will talk about the high level design and your personal roles. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
-		// new Semester(2013, SemesterSeason.WINTER),
-		// Faculty.CS, new GregorianCalendar(2014, 2, 11),
-		// new GregorianCalendar(2014, 2, 11), null, null,
-		// null),
-		//
-		// new Course("074957", "×ª×•×¨×ª ×”×’×¨×¤×™×�", 5.0f, "",
-		// new Semester(2013, SemesterSeason.WINTER),
-		// Faculty.CS, new GregorianCalendar(2014, 2, 11),
-		// new GregorianCalendar(2014, 2, 11), null, null,
-		// groups),
-		//
-		// new Course("043932", "×ž×‘× ×™ × ×ª×•× ×™×�", 2.0f, "",
-		// new Semester(2013, SemesterSeason.SPRING),
-		// Faculty.CS, new GregorianCalendar(2014, 2, 11),
-		// new GregorianCalendar(2014, 2, 11), null, null,
-		// groups),
-		//
-		// new Course(
-		// "232932",
-		// "×œ×•×’×™×§×” ×•×ª×•×¨×ª ×”×§×‘×•×¦×•×ª",
-		// 5.0f,
-		// "Brain-Machine interfaces will fundamentally change the way humans interact with the world in the 21st century. By creating a direct channel of communication between the mind and devices external to it, this class of technology provides individuals with the ability to bypass their body entirely, and control their environment using thought alone.",
-		// new Semester(2013, SemesterSeason.SPRING),
-		// Faculty.CS, new GregorianCalendar(2014, 2, 11),
-		// new GregorianCalendar(2014, 2, 11), null, null,
-		// groups),
-		//
-		// new Course("232932",
-		// "×ž×¤×¨×˜×™×� ×¤×•×¨×ž×œ×™×™×� ×‘×ž×¢×¨×›×•×ª ×ž×•×¨×›×‘×•×ª",
-		// 5.0f, "", new Semester(2013,
-		// SemesterSeason.WINTER), Faculty.CS,
-		// new GregorianCalendar(2014, 2, 11),
-		// new GregorianCalendar(2014, 2, 11), null, null,
-		// groups),
-		//
-		// new Course("012985", "×¤×™×¡×™×§×” 2×ž×ž", 5.0f, "",
-		// new Semester(2013, SemesterSeason.SPRING),
-		// Faculty.PHYS,
-		// new GregorianCalendar(2014, 2, 11),
-		// new GregorianCalendar(2014, 2, 11), null, null,
-		// groups),
-		//
-		// new Course(
-		// "045932",
-		// "×©×¤×•×ª ×ª×›× ×•×ª",
-		// 2.5f,
-		// "Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
-		// new Semester(2013, SemesterSeason.WINTER),
-		// Faculty.CS, new GregorianCalendar(2014, 2, 11),
-		// new GregorianCalendar(2014, 2, 11), null, null,
-		// groups),
-		//
-		// new Course(
-		// "011236",
-		// "×�×œ×’×‘×¨×” 2×ž×ž",
-		// 5.0f,
-		// "Dont even ask how hard this course is. You should be prepared for work hard.",
-		// new Semester(2013, SemesterSeason.WINTER),
-		// Faculty.MATH,
-		// new GregorianCalendar(2014, 2, 11),
-		// new GregorianCalendar(2014, 2, 11), null, null,
-		// groups),
-		//
-		// new Course(
-		// "123932",
-		// "×ž×‘×•×� ×œ×”× ×“×¡×ª ×ª×•×›× ×”",
-		// 5.0f,
-		// "Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
-		// new Semester(2013, SemesterSeason.WINTER),
-		// Faculty.ARCHITECTURE, new GregorianCalendar(
-		// 2014, 2, 11), new GregorianCalendar(
-		// 2014, 2, 11), null, null, groups),
-		//
-		// new Course(
-		// "023422",
-		// "×ž×‘×•×� ×œ×¢×™×¦×•×‘",
-		// 5.0f,
-		// "Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
-		// new Semester(2013, SemesterSeason.WINTER),
-		// Faculty.ARCHITECTURE, new GregorianCalendar(
-		// 2014, 2, 11), new GregorianCalendar(
-		// 2014, 2, 11), null, null, groups),
-		//
-		// new Course(
-		// "243411",
-		// "×ª×›× ×•×Ÿ ×ž×¢×¨×›×ª×™ 2",
-		// 2.0f,
-		// "Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
-		// new Semester(2013, SemesterSeason.WINTER),
-		// Faculty.ARCHITECTURE, new GregorianCalendar(
-		// 2013, 2, 11), new GregorianCalendar(
-		// 2014, 3, 11), null, null, groups),
-		//
-		// new Course(
-		// "025629",
-		// "×ž×¢×¨×›×•×ª ×”×¤×¢×œ×”",
-		// 4.5f,
-		// "Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
-		// new Semester(2013, SemesterSeason.WINTER),
-		// Faculty.CS, new GregorianCalendar(2014, 2, 11),
-		// new GregorianCalendar(2014, 5, 11), null, null,
-		// groups),
-		//
-		// new Course(
-		// "012342",
-		// "×—×§×¨ ×”×—×œ×œ",
-		// 5.0f,
-		// "Introduction. Numerical instability, numerical errors, loss of significant digits (cancellation). Iterative solution of scalar nonlinear equations: bisection method, Newton-Raphson method, secant method, convergence analysis. Approximation of functions: norms and seminorms, inner product, orthogonal systems, least squares, polynomial interpolation",
-		// new Semester(2013, SemesterSeason.WINTER),
-		// Faculty.AE, new GregorianCalendar(2014, 2, 11),
-		// new GregorianCalendar(2014, 2, 11), null, null,
-		// groups)
-		//
-		// ));
-
 	}
 
 	/**
@@ -315,9 +169,6 @@ public class UGDatabase {
 				SemesterSeason.WINTER);
 
 		currentStudent = null;
-		// coursesHash = new LinkedHashMap<CourseKey, Course>();
-		// for (final Course course : allCourses)
-		// coursesHash.put(course.getCourseKey(), course);
 
 	}
 
@@ -338,7 +189,7 @@ public class UGDatabase {
 	}
 
 	public List<AccomplishedCourse> getGradesSheet() {
-		getGradesSheetfromServer();
+		// getGradesSheetfromServer();
 		return gradesSheet;
 
 		// return HtmlParser.parseGrades("stam");
@@ -518,41 +369,21 @@ public class UGDatabase {
 	 * 
 	 */
 	public void updateCourses(List<Course> courses) {
-		try {
+		checkListParam(courses);
+		log("updating " + courses.size() + " courses!");
 
-			Log.d(DEBUG_TAG, "updating courses!");
-
-			// update the DB
-			dataProvider.updateCourses(courses);
-			// update the hash
-			for (Course course : courses) {
-				coursesHash.put(course.getCourseKey(), course);
-			}
-
-			// TODO remove after finish debugging
-			dataProvider.getAcademicEventsDao().createOrUpdate(
-					new AcademicEventRow(new AcademicCalendarEvent(Calendar
-							.getInstance(), "OMG", "dd", null)));
-			Log.d(DEBUG_TAG, dataProvider.getAcademicEvents().size() + "");
-			dataProvider.getTrackingDao().createOrUpdate(
-					new TrackRow(courses.get(0).getCourseKey(), studentId));
-			Log.d(DEBUG_TAG, dataProvider.getTrackingCourses(studentId).size()
-					+ "");
-			dataProvider.getAccopmlishedCoursesDao().createOrUpdate(
-					new AccomplishedCourseRow(new AccomplishedCourse("3434",
-							"3434", "3434", "201301", "3434", null, false),
-							studentId));
-			Log.d(DEBUG_TAG, dataProvider.getAccomplishedCourses(studentId)
-					.size() + "");
-
-		} catch (java.sql.SQLException e) {
-			throw new NullPointerException(e.toString());
+		// update the DB
+		dataProvider.updateCourses(courses);
+		// update the hash
+		for (Course course : courses) {
+			coursesHash.put(course.getCourseKey(), course);
 		}
 
 	}
 
 	public void setGradesSheet(List<AccomplishedCourse> courses) {
-		Log.d(DEBUG_TAG, "setting grades!");
+		checkListParam(courses);
+		log("setting " + courses.size() + " grades!");
 		// update the DB
 		dataProvider.setAccomplishedCourses(courses, studentId);
 		// update the list
@@ -560,30 +391,34 @@ public class UGDatabase {
 	}
 
 	public void setTrackingCourses(List<CourseKey> toTrack) {
-		Log.d(DEBUG_TAG, "set tracking Courses!");
+		if (toTrack == null)
+			throw new NullPointerException();
+		log("setting " + toTrack.size() + " tracking Courses!");
 		dataProvider.setTrackingCourses(toTrack, studentId);
 		trackingCourses = toTrack;
 	}
 
 	public void setAcademicCalendar(List<AcademicCalendarEvent> calendarEvents) {
-		Log.d(DEBUG_TAG, "set academic events");
+		checkListParam(calendarEvents);
+		log("setting " + calendarEvents.size() + " academic events");
 		dataProvider.setAcademicEvents(calendarEvents);
 		this.calendarEvents = calendarEvents;
 	}
 
-	public UGLoginObject getCurrentLoginObject() {
-		if (currentLoginObject == null) {
-			currentLoginObject = new UGLoginObject("1636", "11111100");
-		}
-		return currentLoginObject;
+	public void setRegisteredCourses(List<CourseKey> registered) {
+		if (registered == null)
+			throw new NullPointerException();
+		log("setting " + registered.size() + " registered Courses!");
+		dataProvider.setRegisteredCourses(registered, studentId);
+		regeisteredCourses = registered;
 	}
 
 	// replace this code with code that reads the data from local database
-	public List<CourseKey> getMyTrackingCourses() {
-		if (myTrackingCourses != null)
-			return myTrackingCourses;
-
-		return dataProvider.getTrackingCourses(studentId);
+	public List<CourseKey> getTrackingCourses() {
+		if (trackingCourses == null)
+			trackingCourses = dataProvider.getTrackingCourses(studentId);
+		log("getting " + trackingCourses.size() + " tracking Courses");
+		return trackingCourses;
 		// myTrackingCourses = new ArrayList<CourseKey>();
 		//
 		// // replace this code with reading tracking courses from from DB
@@ -595,4 +430,33 @@ public class UGDatabase {
 		// myTrackingCourses.add(getCourses().get(i).getCourseKey());
 		// }
 	}
+
+	public List<CourseKey> getRegisteredCourses() {
+		if (regeisteredCourses == null)
+			regeisteredCourses = dataProvider.getRegisteredCourses(studentId);
+		log("getting " + regeisteredCourses.size() + " registered Courses");
+		return regeisteredCourses;
+	}
+
+	public UGLoginObject getCurrentLoginObject() {
+		if (currentLoginObject == null) {
+			currentLoginObject = new UGLoginObject("1636", "11111100");
+		}
+		return currentLoginObject;
+	}
+
+	private static String DEBUG_TAG = "coolie.src.com.technion.coolie.ug.databaseDebug";
+	private static String DEBUG_STRING_TITLE = "[UG_DATABASE]";
+
+	private static void log(String msg) {
+
+		Log.d(DEBUG_TAG, DEBUG_STRING_TITLE + msg);
+	}
+
+	private void checkListParam(List list) {
+		if (list == null || list.isEmpty())
+			throw new IllegalArgumentException(
+					"illegal list is passed to database");
+	}
+
 }

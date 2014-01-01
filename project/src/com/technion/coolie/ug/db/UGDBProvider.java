@@ -11,6 +11,7 @@ import com.j256.ormlite.dao.Dao;
 import com.technion.coolie.ug.db.tablerows.AcademicEventRow;
 import com.technion.coolie.ug.db.tablerows.AccomplishedCourseRow;
 import com.technion.coolie.ug.db.tablerows.CourseRow;
+import com.technion.coolie.ug.db.tablerows.RegisteredCourseRow;
 import com.technion.coolie.ug.db.tablerows.TrackRow;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
@@ -103,6 +104,42 @@ public class UGDBProvider {
 		}
 		return $;
 
+	}
+
+	public void setRegisteredCourses(List<CourseKey> courses, String studentId) {
+		try {
+			// find all courses of studentId, for replacing them
+			List<RegisteredCourseRow> toDeleteCourses = getHelper()
+					.getRegisteredCoursesDao().queryBuilder().where()
+					.eq("studentId", studentId).query();
+
+			// delete the list TODO delete after adding, and not before
+			getHelper().getRegisteredCoursesDao().delete(toDeleteCourses);
+
+			// add courses
+			for (CourseKey course : courses) {
+				getHelper().getRegisteredCoursesDao().create(
+						new RegisteredCourseRow(course, studentId));
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public List<CourseKey> getRegisteredCourses(String studentId) {
+		List<RegisteredCourseRow> list = null;
+		try {
+			list = getHelper().getRegisteredCoursesDao().queryBuilder().where()
+					.eq("studentId", studentId).query();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		List<CourseKey> $ = new ArrayList<CourseKey>();
+		for (RegisteredCourseRow row : list) {
+			$.add(row.getCourseKey());
+		}
+		return $;
 	}
 
 	public void setAccomplishedCourses(List<AccomplishedCourse> courses,
@@ -200,6 +237,15 @@ public class UGDBProvider {
 	Dao<TrackRow, String> getTrackingDao() {
 		try {
 			return getHelper().getTrackingDao();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new NullPointerException("Can't get courses table!");
+		}
+	}
+
+	Dao<RegisteredCourseRow, Long> getRegisteredCoursesDao() {
+		try {
+			return getHelper().getRegisteredCoursesDao();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new NullPointerException("Can't get courses table!");

@@ -13,6 +13,7 @@ import com.j256.ormlite.table.TableUtils;
 import com.technion.coolie.ug.db.tablerows.AcademicEventRow;
 import com.technion.coolie.ug.db.tablerows.AccomplishedCourseRow;
 import com.technion.coolie.ug.db.tablerows.CourseRow;
+import com.technion.coolie.ug.db.tablerows.RegisteredCourseRow;
 import com.technion.coolie.ug.db.tablerows.TrackRow;
 
 public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
@@ -26,6 +27,7 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 	private Dao<TrackRow, String> trackRowDao = null;
 	private Dao<AcademicEventRow, Long> academicEventDao = null;
 	private Dao<AccomplishedCourseRow, Long> accomplishedDao = null;
+	private Dao<RegisteredCourseRow, Long> registeredDao = null;
 
 	public UGSqlHelper(final Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -44,6 +46,8 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 					AcademicEventRow.class);
 			TableUtils.createTableIfNotExists(connectionSource,
 					AccomplishedCourseRow.class);
+			TableUtils.createTableIfNotExists(connectionSource,
+					RegisteredCourseRow.class);
 		} catch (final SQLException e) {
 			Log.e(LOG_TAG, "onCreate(): Can't create database", e);
 			throw new RuntimeException(e);
@@ -62,6 +66,8 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils
 					.dropTable(connectionSource, AcademicEventRow.class, true);
 			TableUtils.dropTable(connectionSource, AccomplishedCourseRow.class,
+					true);
+			TableUtils.dropTable(connectionSource, RegisteredCourseRow.class,
 					true);
 
 			// After we drop the old databases, we create the new ones
@@ -102,6 +108,14 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 		return accomplishedDao;
 	}
 
+	public Dao<RegisteredCourseRow, Long> getRegisteredCoursesDao()
+			throws SQLException {
+		if (registeredDao == null)
+			registeredDao = getDao(RegisteredCourseRow.class);
+
+		return registeredDao;
+	}
+
 	/**
 	 * Close the database connections and clear any cached DAOs.
 	 */
@@ -113,5 +127,6 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 		accomplishedDao = null;
 		academicEventDao = null;
 		trackRowDao = null;
+		registeredDao = null;
 	}
 }

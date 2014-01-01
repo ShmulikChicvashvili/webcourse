@@ -1,6 +1,8 @@
 package com.technion.coolie.ug;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import com.technion.coolie.ug.Enums.LandscapeLeftMenuItems;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
+import com.technion.coolie.ug.model.AcademicCalendarEvent;
+import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Semester;
@@ -112,8 +116,28 @@ public class MainActivity extends CoolieActivity implements
 		courses.add(course);
 		courses.add(course2);
 
-		UGDatabase.getInstance(this).updateCourses(courses);
+		// TODO remove after debugging
+		List<AcademicCalendarEvent> academicList = new ArrayList<AcademicCalendarEvent>(
+				Arrays.asList(new AcademicCalendarEvent(Calendar.getInstance(),
+						"OMG", "dd", null)));
+		// Log.d(DEBUG_TAG, dataProvider.getAcademicEvents().size() + "");
+		List<CourseKey> trackingList = new ArrayList<CourseKey>(
+				Arrays.asList(new CourseKey("32", new Semester(2,
+						SemesterSeason.SPRING))));
 
+		List<AccomplishedCourse> accomplishedList = new ArrayList<AccomplishedCourse>(
+				Arrays.asList(new AccomplishedCourse("3434", "3434", "3434",
+						"201301", "3434", null, false)));
+
+		UGDatabase.getInstance(this).updateCourses(courses);
+		UGDatabase.getInstance(this).setAcademicCalendar(academicList);
+		UGDatabase.getInstance(this).setGradesSheet(accomplishedList);
+		UGDatabase.getInstance(this).setTrackingCourses(trackingList);
+		UGDatabase.getInstance(this).setRegisteredCourses(trackingList);
+
+		UGDatabase.getInstance(this).getCourses();
+		UGDatabase.getInstance(this).getTrackingCourses();
+		UGDatabase.getInstance(this).getRegisteredCourses();
 	}
 
 	public void onRegistrationClick(View v) {
