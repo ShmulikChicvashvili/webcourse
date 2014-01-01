@@ -98,7 +98,7 @@ public class UGDatabase {
 	private String getStudentId() {
 		// GET THE CURRENT STUDENT ID FROM UG LOGIN and use it with the
 		// provider! TODO
-		return "11";
+		return "22";
 	}
 
 	private void initAcademicCalendar() {
@@ -119,12 +119,17 @@ public class UGDatabase {
 
 	private void initDB() {
 		dataProvider = new UGDBProvider(appContext);
+		initStudent();
 		initCourses();
 		initGradesSheet();
 		initTrackingCourses();
 		initAcademicCalendar();
 		initRegisteredCourses();
 		initializeSemesters();
+	}
+
+	private void initStudent() {
+		currentStudent = dataProvider.getStudentInfo(studentId);
 	}
 
 	// must be called when exiting the app!
@@ -168,6 +173,10 @@ public class UGDatabase {
 
 		currentStudent = null;
 
+	}
+
+	public String getCurrentStudentId() {
+		return studentId;
 	}
 
 	public Course getCourseByKey(final CourseKey key) {
@@ -413,6 +422,17 @@ public class UGDatabase {
 		coursesAndExamsList = courses;
 	}
 
+	public void setStudentInfo(Student student) {
+		if (student == null)
+			throw new NullPointerException();
+		if (!student.getId().equals(studentId))
+			throw new IllegalArgumentException(
+					"setting different student than the current");
+		log("setting student! of id " + student.getId());
+		dataProvider.setStudentInfo(student, studentId);
+		currentStudent = student;
+	}
+
 	// replace this code with code that reads the data from local database
 	public List<CourseKey> getTrackingCourses() {
 		if (trackingCourses == null)
@@ -436,6 +456,10 @@ public class UGDatabase {
 			coursesAndExamsList = dataProvider.getCoursesAndExams(studentId);
 		log("getting " + coursesAndExamsList.size() + " registered Courses");
 		return coursesAndExamsList;
+	}
+
+	public Student getStudentInfo() {
+		return currentStudent;
 	}
 
 	public UGLoginObject getCurrentLoginObject() {

@@ -12,12 +12,14 @@ import com.technion.coolie.ug.db.tablerows.AcademicEventRow;
 import com.technion.coolie.ug.db.tablerows.AccomplishedCourseRow;
 import com.technion.coolie.ug.db.tablerows.CourseRow;
 import com.technion.coolie.ug.db.tablerows.RegisteredCourseRow;
+import com.technion.coolie.ug.db.tablerows.StudentRow;
 import com.technion.coolie.ug.db.tablerows.TrackRow;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.Student;
 
 /**
  * contains all functions for accessing the UG database. must close this
@@ -59,7 +61,7 @@ public class UGDBProvider {
 		return $;
 	}
 
-	public void updateCourses(List<Course> list) {
+	void updateCourses(List<Course> list) {
 		try {
 			for (Course course : list) {
 				getHelper().getCoursesDao().createOrUpdate(
@@ -71,7 +73,7 @@ public class UGDBProvider {
 		}
 	}
 
-	public void setTrackingCourses(List<CourseKey> courses, String studentId) {
+	void setTrackingCourses(List<CourseKey> courses, String studentId) {
 		try {
 			// find all courses of studentId, for replacing them
 			List<TrackRow> toDeleteCourses = getHelper().getTrackingDao()
@@ -91,7 +93,7 @@ public class UGDBProvider {
 		}
 	}
 
-	public List<CourseKey> getTrackingCourses(String studentId) {
+	List<CourseKey> getTrackingCourses(String studentId) {
 		List<TrackRow> list = null;
 		try {
 			list = getHelper().getTrackingDao().queryBuilder().where()
@@ -107,7 +109,7 @@ public class UGDBProvider {
 
 	}
 
-	public void setCoursesAndExams(List<CourseItem> courses, String studentId) {
+	void setCoursesAndExams(List<CourseItem> courses, String studentId) {
 		try {
 			// find all courses of studentId, for replacing them
 			List<RegisteredCourseRow> toDeleteCourses = getHelper()
@@ -128,7 +130,7 @@ public class UGDBProvider {
 		}
 	}
 
-	public ArrayList<CourseItem> getCoursesAndExams(String studentId) {
+	ArrayList<CourseItem> getCoursesAndExams(String studentId) {
 		List<RegisteredCourseRow> list = null;
 		try {
 			list = getHelper().getRegisteredCoursesDao().queryBuilder().where()
@@ -143,7 +145,7 @@ public class UGDBProvider {
 		return $;
 	}
 
-	public void setAccomplishedCourses(List<AccomplishedCourse> courses,
+	void setAccomplishedCourses(List<AccomplishedCourse> courses,
 			String studentId) {
 		try {
 			// clear all courses
@@ -161,7 +163,7 @@ public class UGDBProvider {
 		}
 	}
 
-	public List<AccomplishedCourse> getAccomplishedCourses(String studentId) {
+	List<AccomplishedCourse> getAccomplishedCourses(String studentId) {
 		List<AccomplishedCourseRow> list = null;
 		try {
 			list = getHelper().getAccopmlishedCoursesDao().queryBuilder()
@@ -176,7 +178,7 @@ public class UGDBProvider {
 		return $;
 	}
 
-	public void setAcademicEvents(List<AcademicCalendarEvent> events) {
+	void setAcademicEvents(List<AcademicCalendarEvent> events) {
 		try {
 			// clear all events
 			List<AcademicEventRow> list = getHelper().getAcademicEventsDao()
@@ -193,7 +195,7 @@ public class UGDBProvider {
 		}
 	}
 
-	public List<AcademicCalendarEvent> getAcademicEvents() {
+	List<AcademicCalendarEvent> getAcademicEvents() {
 		List<AcademicEventRow> list = null;
 		try {
 			list = getHelper().getAcademicEventsDao().queryForAll();
@@ -206,6 +208,28 @@ public class UGDBProvider {
 			$.add(row.getEvent());
 		}
 		return $;
+	}
+
+	Student getStudentInfo(String studentId) {
+		Student student = new Student(studentId);
+		try {
+			StudentRow studentRow = getHelper().getStudentInfoDao().queryForId(
+					studentId);
+			if (studentRow != null)
+				student = studentRow.getStudent();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return student;
+	}
+
+	void setStudentInfo(Student student, String studentId) {
+		try {
+			getHelper().getStudentInfoDao().createOrUpdate(
+					new StudentRow(student, studentId));
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	Dao<CourseRow, String> getCoursesDao() {

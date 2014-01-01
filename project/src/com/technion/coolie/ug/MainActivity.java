@@ -26,6 +26,7 @@ import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.ExamItem;
 import com.technion.coolie.ug.model.Semester;
+import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.tracking.TrackingCoursesFragment;
 import com.technion.coolie.ug.utils.FragmentsFactory;
 
@@ -42,7 +43,7 @@ public class MainActivity extends CoolieActivity implements
 		context = getApplicationContext();
 		setContentView(R.layout.ug_main_screen);
 
-		updateCourses();
+		updateData();
 
 		UGDatabase.getInstance(this).mainActivity = this;
 
@@ -51,7 +52,7 @@ public class MainActivity extends CoolieActivity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		// close database connections
+		// close database connections only when existing the module
 		if (isFinishing())
 			UGDatabase.getInstance(this).clean();
 	}
@@ -95,10 +96,10 @@ public class MainActivity extends CoolieActivity implements
 		finish();
 	}
 
-	private void updateCourses() {
+	private void updateData() {
 		Course course = new Course(
 				"233245",
-				"×ž×‘×•×� ×œ×‘×™× ×” ×ž×œ×�×›×•×ª×™×ª",
+				"CLASS OF JOY",
 				2.0f,
 				"During the class we will talk about the high level design and your personal roles. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
 				new Semester(2013, SemesterSeason.WINTER), Faculty.CS,
@@ -107,9 +108,9 @@ public class MainActivity extends CoolieActivity implements
 
 		Course course2 = new Course(
 				"273455",
-				"×�×ž×� ×•×“× ×™ ×”×œ×›×• ×œ×™×�",
+				"MY HEAD IS A HAMSTER",
 				2.0f,
-				"During the class we will talk about the high level design and your personal roles. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
+				"During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
 				new Semester(2013, SemesterSeason.WINTER), Faculty.CS,
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
 						2, 11), null, null, null);
@@ -118,11 +119,10 @@ public class MainActivity extends CoolieActivity implements
 		courses.add(course);
 		courses.add(course2);
 
-		// TODO remove after debugging
 		List<AcademicCalendarEvent> academicList = new ArrayList<AcademicCalendarEvent>(
 				Arrays.asList(new AcademicCalendarEvent(Calendar.getInstance(),
 						"OMG", "dd", null)));
-		// Log.d(DEBUG_TAG, dataProvider.getAcademicEvents().size() + "");
+
 		List<CourseKey> trackingList = new ArrayList<CourseKey>(
 				Arrays.asList(new CourseKey("32", new Semester(2,
 						SemesterSeason.SPRING))));
@@ -136,19 +136,26 @@ public class MainActivity extends CoolieActivity implements
 						new ArrayList<ExamItem>(Arrays.asList(new ExamItem(
 								Calendar.getInstance(), "my kitchen"))))));
 
+		Student student = new Student(UGDatabase.getInstance(this)
+				.getCurrentStudentId());
+
 		UGDatabase.getInstance(this).getCourses();
 		UGDatabase.getInstance(this).getTrackingCourses();
 		UGDatabase.getInstance(this).getCoursesAndExams();
+		UGDatabase.getInstance(this).getStudentInfo();
 
 		UGDatabase.getInstance(this).updateCourses(courses);
 		UGDatabase.getInstance(this).setAcademicCalendar(academicList);
 		UGDatabase.getInstance(this).setGradesSheet(accomplishedList);
 		UGDatabase.getInstance(this).setTrackingCourses(trackingList);
 		UGDatabase.getInstance(this).setCoursesAndExams(coursesExamsList);
+		UGDatabase.getInstance(this).setStudentInfo(student);
 
 		UGDatabase.getInstance(this).getCourses();
 		UGDatabase.getInstance(this).getTrackingCourses();
 		UGDatabase.getInstance(this).getCoursesAndExams();
+		UGDatabase.getInstance(this).getStudentInfo();
+
 	}
 
 	public void onRegistrationClick(View v) {

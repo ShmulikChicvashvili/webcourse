@@ -14,6 +14,7 @@ import com.technion.coolie.ug.db.tablerows.AcademicEventRow;
 import com.technion.coolie.ug.db.tablerows.AccomplishedCourseRow;
 import com.technion.coolie.ug.db.tablerows.CourseRow;
 import com.technion.coolie.ug.db.tablerows.RegisteredCourseRow;
+import com.technion.coolie.ug.db.tablerows.StudentRow;
 import com.technion.coolie.ug.db.tablerows.TrackRow;
 
 public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
@@ -28,6 +29,7 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 	private Dao<AcademicEventRow, Long> academicEventDao = null;
 	private Dao<AccomplishedCourseRow, Long> accomplishedDao = null;
 	private Dao<RegisteredCourseRow, Long> registeredDao = null;
+	private Dao<StudentRow, String> studentDao = null;
 
 	public UGSqlHelper(final Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -48,6 +50,8 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 					AccomplishedCourseRow.class);
 			TableUtils.createTableIfNotExists(connectionSource,
 					RegisteredCourseRow.class);
+			TableUtils.createTableIfNotExists(connectionSource,
+					StudentRow.class);
 		} catch (final SQLException e) {
 			Log.e(LOG_TAG, "onCreate(): Can't create database", e);
 			throw new RuntimeException(e);
@@ -69,6 +73,7 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 					true);
 			TableUtils.dropTable(connectionSource, RegisteredCourseRow.class,
 					true);
+			TableUtils.dropTable(connectionSource, StudentRow.class, true);
 
 			// After we drop the old databases, we create the new ones
 			onCreate(db, connectionSource);
@@ -116,6 +121,12 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 		return registeredDao;
 	}
 
+	public Dao<StudentRow, String> getStudentInfoDao() throws SQLException {
+		if (studentDao == null)
+			studentDao = getDao(StudentRow.class);
+		return studentDao;
+	}
+
 	/**
 	 * Close the database connections and clear any cached DAOs.
 	 */
@@ -129,4 +140,5 @@ public class UGSqlHelper extends OrmLiteSqliteOpenHelper {
 		trackRowDao = null;
 		registeredDao = null;
 	}
+
 }
