@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    
+    <style name="PopupItemStyle">
+	    <item name="android:background">#FFA0A0A0</item>
+	    <item name="android:gravity">center</item>
+	    <item name="android:padding">10dp</item>
+	    <item name="android:textStyle">bold</item>
+	</style>
+
    <style name="techmindTitleSmall">
 	     <item name ="android:textAppearance">?android:attr/textAppearanceSmall</item>
-	     <item name ="android:textColor">#51487F</item>
-	     <item name ="android:textColorHighlight">#0000FA</item>
-	     <item name ="android:textSize">27sp</item>
+	     <item name ="android:textColor">#3b5998</item>
+	     <item name ="android:textSize">22sp</item>
 	     <item name ="android:textStyle">bold</item>
-	     <item name ="android:typeface">sans</item>  
-	     <item name ="android:shadowColor">#0080E2</item>
+	     <item name ="android:shadowColor">#e0e0e0</item>
 	     <item name ="android:shadowRadius">1.5</item>
 	     <item name ="android:shadowDx">1</item>
 	     <item name ="android:shadowDy">1</item>
@@ -16,7 +22,7 @@
     
    <style name="techmindSubTitle">
 	     <item name ="android:textAppearance">?android:attr/textAppearanceSmall</item>
-	     <item name ="android:textColor">#51487F</item>
+	     <item name ="android:textColor">#3b5998</item>
 	     <item name ="android:textColorHighlight">#0000FA</item>
 	     <item name ="android:textSize">22sp</item>
 	     <item name ="android:textStyle">bold</item>
@@ -63,9 +69,8 @@
     
    <style name="techmindMine">
 	     <item name ="android:textAppearance">?android:attr/textAppearanceSmall</item>
-	     <item name ="android:textColor">#51487F</item>
+	     <item name ="android:textColor">#3b5998</item>
 	     <item name ="android:textSize">15sp</item>
-	     <item name ="android:typeface">sans</item>  
     </style> 
     
    <style name="techmindDrawer">
@@ -76,5 +81,13 @@
        <item name ="android:textSize">15sp</item> 
 	   <item name ="android:textColor">#11578D</item>
     </style>
+    
+   <style name="techmindPopBack">
+       <item name ="android:background">#E0E0E0</item>
+   </style>
+   
+     <style name="customStyle" parent="@android:style/Theme.Dialog">
+     <item name="android:windowBackground">@android:color/transparent</item>
+   </style>
 </resources>
    
