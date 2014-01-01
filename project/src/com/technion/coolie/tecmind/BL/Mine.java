@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import junit.framework.Assert;
@@ -28,10 +29,15 @@ public class Mine implements IMine {
 		
 	private LinkedList<String> mTechGroups;
 	
+	private HashMap<String, String> mPostsUrls;
+	private HashMap<String, String> mPostsGroupsNames;
+	
 	private Mine(String userId) {	 
 		mUserId = userId;
 		mTechGroups = new LinkedList<String>();
 		mTechGroups.add("244590982367730");
+		mPostsGroupsNames = new HashMap<String, String>();
+		mPostsUrls = new HashMap<String, String>();
 	}
 	
 	/* Return Mine Instance if already have been created, initiate new one otherwise */
@@ -57,6 +63,9 @@ public class Mine implements IMine {
 	        String createTimeString = null;
 	        String likes = null;
 	        String postId = null;
+	        String postUrl = null;
+	        String postGroupName = null;
+	        String postContent = null;
 	        ArrayList<Utilities.LikesObject> likesArr;
 	        String comments = null;
 	        ArrayList<Utilities.CommentObject> commentsArr;
@@ -70,32 +79,31 @@ public class Mine implements IMine {
 	        for ( int i = 0; i < ( arr.length() ); i++ ) {
 	            JSONObject json_obj = arr.getJSONObject( i );
 	            if (json_obj.toString().contains("\"to\":")){
+	            	 /* gets the group id where the post has been published */ 
 	            	 groupId = ((JSONArray)((JSONObject)json_obj.get("to")).get("data")).getJSONObject(0).get("id").toString();
-			         System.out.println(i);
+	            	
+	            	 /* gets the post's group name */
+			         postGroupName = ((JSONArray)((JSONObject)json_obj.get("to")).get("data")).getJSONObject(0).get("name").toString();
 			         
-			         /* gets the time stamps of creating the post and the last update */
-			         updateTimeString =  json_obj.get("updated_time").toString();
-			         Date updateTimeDate = Utilities.parseDate(updateTimeString);
-			         Long time = updateTimeDate.getTime();
-			         time +=(2*60*60*1000);
-			         updateTimeDate = new Date(time);
-					 
-
-					 createTimeString =  json_obj.get("created_time").toString();
-			         Date createTimeDate = Utilities.parseDate(createTimeString);
-			         time = createTimeDate.getTime();
-			         time +=(2*60*60*1000);
-			         createTimeDate = new Date(time);
-			         
-			         				         
-			         /* if post hasn't been updated after last mining */
-			         if (updateTimeDate.before(User.getUserInstance(null).lastMining) ) {
-			        	 break;
-			         }
+	            	 /* gets the post's content */
+			         postContent = json_obj.getString("message");
 			         
 			         /* gets the post id */
 			         postId = json_obj.getString("id");
 			         
+			         /* gets the post's url */
+			         postUrl = json_obj.getJSONArray("actions").getJSONObject(0).get("link").toString();
+			        		 
+			        		 
+			         /* updates times */
+			         Date updateTimeDate = getCorrectTime(json_obj, "updated_time");
+			         Date createTimeDate = getCorrectTime(json_obj, "created_time");
+			         
+			         /* if post hasn't been updated after last mining */
+			         if (updateTimeDate.before(User.getUserInstance(null).lastMining) ) {
+			        	 break;
+			         }
+
 		            if (mTechGroups.contains(groupId)) {
 		            	 // counts all likes of the post in the certain group
 		        	   if (json_obj.toString().contains("\"likes\":")){
@@ -121,8 +129,15 @@ public class Mine implements IMine {
 		        		   postsCounter++;
 		        		   
 		        		   /* adds the post to the user's posts list */
-		        		   Post newPost = new Post(postId, createTimeDate, mUserId, 0, 0);
+		        		   Post newPost = new Post(postId, createTimeDate, mUserId, 0, 0, postContent);
 		        		   User.getUserInstance(null).posts.add(newPost);
+		        		   
+		        		   /* adds the url to the list by postId */
+		        		   mPostsUrls.put(postId, postUrl);
+		        		   
+		        		   /* adds the group name to the list by postId */
+		        		   mPostsGroupsNames.put(postId, postGroupName);
+		        		   
 		        	   }
 		            }
 		            
@@ -133,8 +148,6 @@ public class Mine implements IMine {
 			        commentsOfPostsCounter = 0;
 	            }
 	        }
-	        
-	        User tempUser = User.getUserInstance(null); 
 	        
 	        Utilities.calculatePosts(postsCounter);
 	        
@@ -153,6 +166,23 @@ public class Mine implements IMine {
 	}
 	
 	
+	private Date getCorrectTime(JSONObject obj, String action) throws JSONException {
+		/* gets the time stamps of creating the post and the last update */
+		String timeToChange = null;
+		if (action.equals("updated_time")) {
+			timeToChange = obj.get("updated_time").toString();
+		}
+		else {
+			timeToChange = obj.get("created_time").toString();
+		}
+		
+        Date newDate = Utilities.parseDate(timeToChange);
+        Long time = newDate.getTime();
+        time +=(2*60*60*1000);
+        return new Date(time);
+       
+	}
+
 	@Override
 	public void endMining() {
 		User.getUserInstance(null).lastMining = new Date();
