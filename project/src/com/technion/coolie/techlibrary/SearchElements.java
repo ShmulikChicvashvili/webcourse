@@ -34,6 +34,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.R;
@@ -58,6 +62,13 @@ public class SearchElements {
 		private EditText mInputBoxView = null;
 
 		// protected ImageView imageview;
+		
+		@Override
+	    public void onCreate(Bundle savedInstanceState) {
+	        super.onCreate(savedInstanceState);
+
+	        setHasOptionsMenu(true);
+	    }
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -72,8 +83,7 @@ public class SearchElements {
 			mListView.setAdapter(new SearchResultAdapter(getSherlockActivity(),
 					searchItems));
 			mListView.setEmptyView((TextView) v.findViewById(R.id.lib_empty));
-			mInputBoxView = (EditText) v
-					.findViewById(R.id.lib_search_data);
+			mInputBoxView = (EditText) v.findViewById(R.id.lib_search_data);
 			mInputBoxView.requestFocus();
 			mInputBoxView
 					.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -84,8 +94,7 @@ public class SearchElements {
 							if (id == R.id.search || id == EditorInfo.IME_NULL) {
 								if (input == null
 										|| input.toString().length() == 0) {
-									mInputBoxView
-											.setError("Nothing to search");
+									mInputBoxView.setError("Nothing to search");
 									mInputBoxView.requestFocus();
 									return false;
 								} else {
@@ -109,56 +118,74 @@ public class SearchElements {
 					});
 			// ~~ regularSearchButton
 			Button searchButton = (Button) v
-					.findViewById(R.id.lib_search_button);	
+					.findViewById(R.id.lib_search_button);
 			searchButton.setOnClickListener(onButtonClick);
-			// ~~ barcodeSearchButton
-			Button barcodeButton = (Button) v
-					.findViewById(R.id.lib_search_barcode);
-			barcodeButton.setOnClickListener(onButtonClick);
+			// ~~ courseSearchButton
+			Button courseButton = (Button) v
+					.findViewById(R.id.lib_search_course);
+			courseButton.setOnClickListener(onButtonClick);
 			return v;
 		}
 
 		OnClickListener onButtonClick = new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				if(v.getId() == R.id.lib_search_button){
-				input = mInputBoxView.getText();
-				if (input == null || input.toString().length() == 0) {
-					mInputBoxView.setError("Nothing to search");
-					mInputBoxView.requestFocus();
+				if (v.getId() == R.id.lib_search_button
+						|| v.getId() == R.id.lib_search_course) {
 
-				} else {
-					keyBoardDown(v);
-					// if the user is a little child who like clicking on
-					// search button.. ;)
-					if (lastSearch != null
-							&& lastSearch.equals(input.toString())) {
-						return;
+					input = mInputBoxView.getText();
+					if (input == null || input.toString().length() == 0) {
+						mInputBoxView.setError("Nothing to search");
+						mInputBoxView.requestFocus();
+
 					} else {
-						lastSearch = input.toString();
-						searchItems.clear();
-						((BaseAdapter) mListView.getAdapter())
-								.notifyDataSetChanged();
-						getSearchDataSet(input.toString());
-					}
+						keyBoardDown(v);
+						// if the user is a little child who like clicking on
+						// search button.. ;)
+						if (lastSearch != null
+								&& lastSearch.equals(input.toString())) {
+							return;
+						} else {
+							lastSearch = input.toString();
+							searchItems.clear();
+							((BaseAdapter) mListView.getAdapter())
+									.notifyDataSetChanged();
 
-				}
-				}else if(v.getId() == R.id.lib_search_barcode){
-					Intent intent = new Intent(getSherlockActivity(),
-							BarcodeSearchActivity.class);
-					startActivity(intent);
+							if (v.getId() == R.id.lib_search_course) {
+								input.append("+2013?14+COM");
+							}
+							getSearchDataSet(input.toString());
+						}
+
+					}
 				}
 			}
 		};
-		
-		
+
+		@Override
+		public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+			super.onCreateOptionsMenu(menu, inflater);
+			MenuItem barcodeSearch = menu.add("Barcode Search");
+			barcodeSearch.setIcon(R.drawable.lib_ic_action_scan);
+			barcodeSearch.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+			barcodeSearch
+					.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+						@Override
+						public boolean onMenuItemClick(MenuItem item) {
+							Intent intent = new Intent(getSherlockActivity(),
+									BarcodeSearchActivity.class);
+							startActivity(intent);
+							return true;
+						}
+					});
+		}
+
 		protected void keyBoardDown(View v) {
 			InputMethodManager keyBoard = ((InputMethodManager) getSherlockActivity()
 					.getSystemService(Context.INPUT_METHOD_SERVICE));
 			keyBoard.hideSoftInputFromWindow(v.getWindowToken(),
 					InputMethodManager.RESULT_UNCHANGED_SHOWN);
-			
+
 		}
 
 		/**

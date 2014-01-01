@@ -33,7 +33,7 @@ public class BarcodeSearchActivity extends Activity {
 	private SharedPreferences mSharedPref;
 	private SharedPreferences.Editor mSharedPrefEditor;
 	protected String ERROR_NO_RECORED_FOUND = "<error>Item record could not be found</error>";
-	protected String TOAST_NO_RECORD = "No book item for this barcode in database";
+	protected String TOAST_NO_RECORD = "No books with given barcode in database";
 	private String TOAST_NO_SCAN = "No book scan data received!";
 
 	@Override
@@ -136,7 +136,6 @@ public class BarcodeSearchActivity extends Activity {
 				} else {
 					// TODO: generate error
 				}
-
 			}
 		};
 		hg.getHtmlSource(barcodeSearchUrl + scanContent,
