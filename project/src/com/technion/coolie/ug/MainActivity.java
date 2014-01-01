@@ -45,7 +45,7 @@ public class MainActivity extends CoolieActivity implements
 
 		updateData();
 
-		UGDatabase.getInstance(this).mainActivity = this;
+		// UGDatabase.getInstance(this).mainActivity = this;
 
 	}
 
@@ -123,9 +123,8 @@ public class MainActivity extends CoolieActivity implements
 				Arrays.asList(new AcademicCalendarEvent(Calendar.getInstance(),
 						"OMG", "dd", null)));
 
-		List<CourseKey> trackingList = new ArrayList<CourseKey>(
-				Arrays.asList(new CourseKey("32", new Semester(2,
-						SemesterSeason.SPRING))));
+		List<CourseKey> trackingList = new ArrayList<CourseKey>(Arrays.asList(
+				course.getCourseKey(), course2.getCourseKey()));
 
 		List<AccomplishedCourse> accomplishedList = new ArrayList<AccomplishedCourse>(
 				Arrays.asList(new AccomplishedCourse("3434", "3434", "3434",

@@ -7,15 +7,11 @@ import java.util.List;
 import org.jsoup.nodes.Document;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
 
-import com.technion.coolie.server.ug.ReturnCodesUg;
-import com.technion.coolie.server.ug.api.UgFactory;
 import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.SemesterSeason;
-import com.technion.coolie.ug.Server.ServerCourse;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
@@ -24,7 +20,6 @@ import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.model.UGLoginObject;
-import com.technion.coolie.ug.utils.UGAsync;
 
 public class UGDatabase {
 
@@ -33,7 +28,7 @@ public class UGDatabase {
 	UGDBProvider dataProvider;
 
 	// this class has one studentId per instance.
-	String studentId;
+	final String studentId;
 
 	private Student currentStudent;
 	private Semester[] currentSemesters;
@@ -48,8 +43,6 @@ public class UGDatabase {
 	Context appContext;
 	private UGLoginObject currentLoginObject;
 
-	public MainActivity mainActivity = null;
-
 	/**
 	 * assumes a student is logged in to the application, and we can retrieve
 	 * his id.
@@ -60,7 +53,7 @@ public class UGDatabase {
 			INSTANCE = new UGDatabase(context.getApplicationContext());
 
 		} else if (changedStudent()) {
-			log("[Creating UG database because we changed students]]");
+			log("[Creating UG database because we changed students]");
 			INSTANCE = new UGDatabase(context.getApplicationContext());
 
 		}
@@ -87,18 +80,21 @@ public class UGDatabase {
 		// server first and wait for it(loading screen).
 		// This is not done in this class, but rather in the main activity. TODO
 
-		// initialize student info, from DB TODO
-
 		initDB();
 
 		log("[finished Creating UG database]");
 
 	}
 
-	private String getStudentId() {
-		// GET THE CURRENT STUDENT ID FROM UG LOGIN and use it with the
-		// provider! TODO
-		return "22";
+	private void initDB() {
+		dataProvider = new UGDBProvider(appContext);
+		initStudent();
+		initCourses();
+		initGradesSheet();
+		initTrackingCourses();
+		initAcademicCalendar();
+		initRegisteredCourses();
+		initializeSemesters();
 	}
 
 	private void initAcademicCalendar() {
@@ -115,17 +111,6 @@ public class UGDatabase {
 
 	private void initRegisteredCourses() {
 		coursesAndExamsList = dataProvider.getCoursesAndExams(studentId);
-	}
-
-	private void initDB() {
-		dataProvider = new UGDBProvider(appContext);
-		initStudent();
-		initCourses();
-		initGradesSheet();
-		initTrackingCourses();
-		initAcademicCalendar();
-		initRegisteredCourses();
-		initializeSemesters();
 	}
 
 	private void initStudent() {
@@ -183,12 +168,6 @@ public class UGDatabase {
 		return coursesHash.get(key);
 	}
 
-	public List<Course> getCourses() {
-		List<Course> courses = new ArrayList<Course>(coursesHash.values());
-		log("getting " + courses.size() + " courses!");
-		return courses;
-	}
-
 	public Semester getRelevantSemester(final SemesterSeason season) {
 		return currentSemesters[season.getIdx()];
 	}
@@ -197,153 +176,66 @@ public class UGDatabase {
 		return currentSemesters[currentSeason.getIdx()];
 	}
 
-	public List<AccomplishedCourse> getGradesSheet() {
-		// getGradesSheetfromServer();
-		return gradesSheet;
+	public List<CourseKey> getTrackingCourses() {
+		if (trackingCourses == null)
+			trackingCourses = dataProvider.getTrackingCourses(studentId);
+		log("getting " + trackingCourses.size() + " tracking Courses");
+		return trackingCourses;
+		// myTrackingCourses = new ArrayList<CourseKey>();
+		//
+		// // replace this code with reading tracking courses from from DB
+		// int maximumTracking = 5;
+		// for (int i = 0; i < getCourses().size(); i++) {
+		// if (myTrackingCourses.size() >= maximumTracking)
+		// break;
+		// if (i % 2 == 0)
+		// myTrackingCourses.add(getCourses().get(i).getCourseKey());
+		// }
+	}
 
+	public List<CourseItem> getCoursesAndExams() {
+		if (coursesAndExamsList == null)
+			coursesAndExamsList = dataProvider.getCoursesAndExams(studentId);
+		log("getting " + coursesAndExamsList.size() + " registered Courses");
+		return coursesAndExamsList;
+	}
+
+	public Student getStudentInfo() {
+		return currentStudent;
+	}
+
+	public List<Course> getCourses() {
+		List<Course> courses = new ArrayList<Course>(coursesHash.values());
+		log("getting " + courses.size() + " courses!");
+		return courses;
+	}
+
+	public List<AccomplishedCourse> getGradesSheet() {
+		if (gradesSheet == null)
+			gradesSheet = dataProvider.getAccomplishedCourses(studentId);
+		log("getting " + gradesSheet.size() + " accomplished Courses");
+		return gradesSheet;
 		// return HtmlParser.parseGrades("stam");
 
 		// return
 		// UgFactory.getUgGradeSheet().getMyGradesSheet(currentLoginObject);
 	}
 
-	// SERVER PART
-	public void getGradesSheetfromServer() {
-
-		UGAsync<AccomplishedCourse> a = new myGradeParse();
-		a.execute();
+	public List<AcademicCalendarEvent> getCalendar() {
+		// return HtmlParser.parseCalendar();
+		if (calendarEvents == null)
+			calendarEvents = dataProvider.getAcademicEvents();
+		log("getting " + calendarEvents.size() + " accomplished Courses");
+		return calendarEvents;
 	}
 
-	class myGradeParse extends UGAsync<AccomplishedCourse> {
-		List<AccomplishedCourse> l;
-
-		@Override
-		protected List<AccomplishedCourse> doInBackground(String... params) {
-
-			l = UgFactory.getUgGradeSheet().getMyGradesSheet(
-					getCurrentLoginObject());
-			if (l != null)
-				gradesSheet = l;
-			mainActivity.getAllFragments();
-
-			return super.doInBackground(params);
-		}
-
-		@Override
-		protected void onPostExecute(List<AccomplishedCourse> result) {
-			if (l == null)
-				Log.d("GRADES SHEET   ×›×›×’", "NULL");
-			else
-				Log.d("GRADES SHEET  ×’×›×’×› ", l.size() + "");
-
-			// new myGradeParse().execute();
-		}
-
-	}
-
-	public void getAllCoursesFromServer() {
-
-		UGAsync<Course> a = new UGAsync<Course>() {
-			List<ServerCourse> l;
-
-			@Override
-			protected List<Course> doInBackground(String... params) {
-
-				Semester s = new Semester(2013, SemesterSeason.WINTER);
-				List<ServerCourse> l = UgFactory.getUgCourse().getAllCourses(s);
-				return super.doInBackground(params);
-			}
-
-			@Override
-			protected void onPostExecute(List<Course> result) {
-				Log.d("all courses", l.size() + "");
-			}
-
-		};
-		a.execute();
-	}
-
-	public void getCalendarEventsFromServer() {
-
-		UGAsync<AcademicCalendarEvent> a = new UGAsync<AcademicCalendarEvent>() {
-
-			List<AcademicCalendarEvent> l;
-
-			@Override
-			protected List<AcademicCalendarEvent> doInBackground(
-					String... params) {
-
-				l = UgFactory.getUgEvent().getAllAcademicEvents();
-				return super.doInBackground(params);
-			}
-
-			@Override
-			protected void onPostExecute(List<AcademicCalendarEvent> result) {
-				if (l == null)
-					Log.d("all courses", "NULL");
-				else
-					Log.d("all courses", l.size() + "");
-			}
-
-		};
-		a.execute();
-	}
-
-	public void addTrackingCourseToServer(UGLoginObject o, CourseKey ck) {
-		AsyncTask<CourseKey, Void, ReturnCodesUg> asyncTask = new AsyncTask<CourseKey, Void, ReturnCodesUg>() {
-			@Override
-			protected ReturnCodesUg doInBackground(CourseKey... params) {
-				if (params == null || params[0] == null)
-					return null;
-				ReturnCodesUg returnCode = UgFactory.getUgTracking()
-						.addTrackingStudent(getCurrentLoginObject(), params[0]);
-				return returnCode;
-			}
-
-			@Override
-			protected void onPostExecute(ReturnCodesUg returnCode) {
-				if (returnCode == null) {
-					Log.v("addTrackingCourseToServer", "returnCode is null");
-					return;
-				}
-
-				Log.v("addTrackingCourseToServer", returnCode.toString());
-				if (returnCode != ReturnCodesUg.SUCCESS) {
-				}
-			}
-		};
-		asyncTask.execute(ck);
-	}
-
-	public void deleteTrackingCourseFromServer(UGLoginObject o, CourseKey ck) {
-		AsyncTask<CourseKey, Void, ReturnCodesUg> asyncTask = new AsyncTask<CourseKey, Void, ReturnCodesUg>() {
-			@Override
-			protected ReturnCodesUg doInBackground(CourseKey... params) {
-				if (params == null || params[0] == null)
-					return null;
-				ReturnCodesUg returnCode = UgFactory.getUgTracking()
-						.removeTrackingStudentFromCourse(
-								getCurrentLoginObject(), params[0]);
-				return returnCode;
-			}
-
-			@Override
-			protected void onPostExecute(ReturnCodesUg returnCode) {
-				if (returnCode == null) {
-					Log.v("deleteTrackingCourseFromServer",
-							"returnCode is null");
-					return;
-				}
-
-				Log.v("deleteTrackingCourseFromServer", returnCode.toString());
-				if (returnCode != ReturnCodesUg.SUCCESS) {
-					// cant remove this course on (server problem)
-				}
-			}
-		};
-		asyncTask.execute(ck);
-	}
-
+	/**
+	 * use getCoursesAndExams
+	 * 
+	 * @param semesterseason
+	 * @return
+	 */
+	@Deprecated
 	public ArrayList<CourseItem> getStudentCourses(
 			final SemesterSeason semesterseason) {
 		Document doc = null;
@@ -365,11 +257,6 @@ public class UGDatabase {
 			coursesAndExamsList = HtmlParser.parseCoursesAndExamsDoc(doc);
 
 		return coursesAndExamsList;
-	}
-
-	public List<AcademicCalendarEvent> getCalendar() {
-		getCalendarEventsFromServer();
-		return HtmlParser.parseCalendar();
 	}
 
 	/**
@@ -433,33 +320,10 @@ public class UGDatabase {
 		currentStudent = student;
 	}
 
-	// replace this code with code that reads the data from local database
-	public List<CourseKey> getTrackingCourses() {
-		if (trackingCourses == null)
-			trackingCourses = dataProvider.getTrackingCourses(studentId);
-		log("getting " + trackingCourses.size() + " tracking Courses");
-		return trackingCourses;
-		// myTrackingCourses = new ArrayList<CourseKey>();
-		//
-		// // replace this code with reading tracking courses from from DB
-		// int maximumTracking = 5;
-		// for (int i = 0; i < getCourses().size(); i++) {
-		// if (myTrackingCourses.size() >= maximumTracking)
-		// break;
-		// if (i % 2 == 0)
-		// myTrackingCourses.add(getCourses().get(i).getCourseKey());
-		// }
-	}
-
-	public List<CourseItem> getCoursesAndExams() {
-		if (coursesAndExamsList == null)
-			coursesAndExamsList = dataProvider.getCoursesAndExams(studentId);
-		log("getting " + coursesAndExamsList.size() + " registered Courses");
-		return coursesAndExamsList;
-	}
-
-	public Student getStudentInfo() {
-		return currentStudent;
+	private String getStudentId() {
+		// GET THE CURRENT STUDENT ID FROM UG LOGIN and use it with the
+		// provider! TODO
+		return "22";
 	}
 
 	public UGLoginObject getCurrentLoginObject() {
