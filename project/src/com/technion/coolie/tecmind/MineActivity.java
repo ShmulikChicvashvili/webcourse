@@ -176,7 +176,7 @@ public class MineActivity extends CoolieActivity {
 				
 				List<TecPost> postsToServer = new LinkedList<TecPost>();
 				for (Post p : User.getUserInstance(null).posts) {
-					TecPost newTecPost = new TecPost(p.id, p.date, p.technionValue, p.userID,
+					TecPost newTecPost = new TecPost(p.id,"hey", p.date, p.technionValue, p.userID,
 						     p.likesCount, p.commentCount);
 					postsToServer.add(newTecPost);
 				}

@@ -1,10 +1,12 @@
 package com.technion.coolie.tecmind;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import com.sileria.util.Log;
 import com.technion.coolie.R;
-import com.technion.coolie.tecmind.server.ReturnCode;
 import com.technion.coolie.tecmind.server.TecPost;
 import com.technion.coolie.tecmind.server.TechmineAPI;
 
@@ -17,41 +19,53 @@ import android.widget.Toast;
 
 public class TopPostsActivity extends Activity {
 	TechmineAPI connector = new TechmineAPI();
-	ArrayList<TecPost> topPosts = new ArrayList<TecPost>();
+	List<TecPost> topPosts = new ArrayList<TecPost>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.techmind_activity_top_posts);
 		final ListView listView = (ListView) findViewById(R.id.myListView);
-		TopPostListAdapter newPostAdapter = new TopPostListAdapter(this,
-				topPosts);
+		TopPostListAdapter newPostAdapter = new TopPostListAdapter(
+				TopPostsActivity.this, topPosts);
 		listView.setAdapter(newPostAdapter);
-		new ServerTopPosts().execute();
+		try {
+			List<TecPost> list = new ServerTopPosts().execute().get();
+			for (int i = 0; i < list.size(); i++)
+				topPosts.add((TecPost) list.get(i));
+		} catch (InterruptedException e) {
+			Log.e("Interupt*****", "e");
+		} catch (ExecutionException e) {
+			Log.e("exception*****", "e");
+		}
+
 	}
 
 	class ServerTopPosts extends AsyncTask<Void, Void, List<TecPost>> {
 
 		@Override
 		protected List<TecPost> doInBackground(Void... params) {
-			// TODO Auto-generated method stub
 			return connector.getTopBestPosts();
 		}
 
-		@Override
-		protected void onPostExecute(List<TecPost> result) {
-			// save the list in the internal storage
-			for (TecPost post : result) {
-				topPosts.add(post);
-			}
-		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.top_posts, menu);
-		return true;
+		// @Override
+		// protected void onPostExecute(List<TecPost> result) {
+		// // save the list in the internal storage
+		// for (TecPost post : result) {
+		// if (post != null){
+		// String id1 =post.getId();
+		// String content1 ="hey";
+		// Date date1 = post.getDate();
+		// int technionValue1 = post.getTechnionValue();
+		// String userID1 =post.getUserID();
+		// int likesCount1 =post.getLikesCount();
+		// int commentCount1 =post.getCommentCount();
+		// TecPost newpost = new
+		// TecPost(id1,content1,date1,technionValue1,userID1,likesCount1,commentCount1);
+		// topPosts.add(newpost);
+		// }
+		// }
+		// }
 	}
 
 }

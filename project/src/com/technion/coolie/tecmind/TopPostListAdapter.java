@@ -2,11 +2,13 @@ package com.technion.coolie.tecmind;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.technion.coolie.R;
 import com.technion.coolie.tecmind.server.TecPost;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +19,10 @@ import android.widget.TextView;
 public class TopPostListAdapter extends BaseAdapter {
 
 	private Context mContext;
-	private ArrayList<TecPost> posts;
+	private List<TecPost> posts;
 
-	public TopPostListAdapter(Context context, ArrayList<TecPost> item) {
+	public TopPostListAdapter(Context context, List<TecPost> item) {
+		Log.d("TopPostListAdapter", "TopPostListAdapter***");
 		mContext = context;
 		posts = item;
 	}
@@ -53,7 +56,9 @@ public class TopPostListAdapter extends BaseAdapter {
 		LayoutInflater inflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		if (convertView == null) {
+			Log.d("topPostAdapte", "convertView = null");
 			view = inflater.inflate(R.layout.techmind_top_post_list_view, null);
+			Log.d("techmind_top_post_list_view", "techmind_top_post_list_view***");
 			holder = new HoldView();
 			holder.postContent = (TextView) view.findViewById(R.id.post_content);
 			holder.date = (TextView) view.findViewById(R.id.date);
@@ -66,12 +71,14 @@ public class TopPostListAdapter extends BaseAdapter {
 			holder = (HoldView) view.getTag();
 		}
 
-		Date date = new Date();
 		TecPost post = (TecPost) getItem(position);
-		holder.postContent.setText("....post content");
-		holder.date.setText(post.getDate().toString());
+		int index = post.getDate().toString().indexOf("GMT");
+		String myPost = "my post is...";
+		holder.postContent.setText(myPost);
+		holder.date.setText(post.getDate().toString().subSequence(0, index));
 		holder.comments_amount.setText("Recieved "+String.valueOf(post.getCommentCount()) + " Comments on this post");
-		holder.comments_amount.setText("Recieved "+String.valueOf(post.getLikesCount()) + " Likes on this post");
+		Log.d("comment_amount", String.valueOf(post.getCommentCount()));
+		holder.likes_amount.setText("Recieved "+String.valueOf(post.getLikesCount()) + " Likes on this post");
 		return view;
 	}
 }
