@@ -1,8 +1,9 @@
 package com.technion.coolie.ug.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CourseItem {
+public class CourseItem implements Serializable {
 
 	private final String coursName;
 	private final String courseId;
@@ -33,4 +34,5 @@ public class CourseItem {
 		this.exams = exams;
 	}
 
+	private static final long serialVersionUID = -1335993469127597592L;
 }

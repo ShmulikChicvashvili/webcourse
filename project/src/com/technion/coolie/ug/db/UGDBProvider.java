@@ -16,6 +16,7 @@ import com.technion.coolie.ug.db.tablerows.TrackRow;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
+import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
 
 /**
@@ -106,7 +107,7 @@ public class UGDBProvider {
 
 	}
 
-	public void setRegisteredCourses(List<CourseKey> courses, String studentId) {
+	public void setCoursesAndExams(List<CourseItem> courses, String studentId) {
 		try {
 			// find all courses of studentId, for replacing them
 			List<RegisteredCourseRow> toDeleteCourses = getHelper()
@@ -117,7 +118,7 @@ public class UGDBProvider {
 			getHelper().getRegisteredCoursesDao().delete(toDeleteCourses);
 
 			// add courses
-			for (CourseKey course : courses) {
+			for (CourseItem course : courses) {
 				getHelper().getRegisteredCoursesDao().create(
 						new RegisteredCourseRow(course, studentId));
 			}
@@ -127,7 +128,7 @@ public class UGDBProvider {
 		}
 	}
 
-	public List<CourseKey> getRegisteredCourses(String studentId) {
+	public ArrayList<CourseItem> getCoursesAndExams(String studentId) {
 		List<RegisteredCourseRow> list = null;
 		try {
 			list = getHelper().getRegisteredCoursesDao().queryBuilder().where()
@@ -135,9 +136,9 @@ public class UGDBProvider {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-		List<CourseKey> $ = new ArrayList<CourseKey>();
+		ArrayList<CourseItem> $ = new ArrayList<CourseItem>();
 		for (RegisteredCourseRow row : list) {
-			$.add(row.getCourseKey());
+			$.add(row.getCourse());
 		}
 		return $;
 	}

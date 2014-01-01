@@ -22,7 +22,9 @@ import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
+import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.ExamItem;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.tracking.TrackingCoursesFragment;
 import com.technion.coolie.ug.utils.FragmentsFactory;
@@ -129,15 +131,24 @@ public class MainActivity extends CoolieActivity implements
 				Arrays.asList(new AccomplishedCourse("3434", "3434", "3434",
 						"201301", "3434", null, false)));
 
+		ArrayList<CourseItem> coursesExamsList = new ArrayList<CourseItem>(
+				Arrays.asList(new CourseItem("hi", "2324", "4.2",
+						new ArrayList<ExamItem>(Arrays.asList(new ExamItem(
+								Calendar.getInstance(), "my kitchen"))))));
+
+		UGDatabase.getInstance(this).getCourses();
+		UGDatabase.getInstance(this).getTrackingCourses();
+		UGDatabase.getInstance(this).getCoursesAndExams();
+
 		UGDatabase.getInstance(this).updateCourses(courses);
 		UGDatabase.getInstance(this).setAcademicCalendar(academicList);
 		UGDatabase.getInstance(this).setGradesSheet(accomplishedList);
 		UGDatabase.getInstance(this).setTrackingCourses(trackingList);
-		UGDatabase.getInstance(this).setRegisteredCourses(trackingList);
+		UGDatabase.getInstance(this).setCoursesAndExams(coursesExamsList);
 
 		UGDatabase.getInstance(this).getCourses();
 		UGDatabase.getInstance(this).getTrackingCourses();
-		UGDatabase.getInstance(this).getRegisteredCourses();
+		UGDatabase.getInstance(this).getCoursesAndExams();
 	}
 
 	public void onRegistrationClick(View v) {

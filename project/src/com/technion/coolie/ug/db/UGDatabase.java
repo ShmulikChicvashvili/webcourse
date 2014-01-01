@@ -44,11 +44,9 @@ public class UGDatabase {
 	private List<CourseKey> trackingCourses;
 	private List<AcademicCalendarEvent> calendarEvents;
 	private LinkedHashMap<CourseKey, Course> coursesHash;
-	private List<CourseKey> regeisteredCourses;
 
 	Context appContext;
 	private UGLoginObject currentLoginObject;
-	// private List<CourseKey> myTrackingCourses;
 
 	public MainActivity mainActivity = null;
 
@@ -85,13 +83,11 @@ public class UGDatabase {
 		if (this.appContext == null || studentId == null)
 			throw new NullPointerException();
 
-		// when data is empty, we need to talk to the server first and wait for
-		// it(loading screen). TODO
+		// when entering the app for the first time. we need to talk to the
+		// server first and wait for it(loading screen).
+		// This is not done in this class, but rather in the main activity. TODO
 
-		// initialize lists and student info, from DB TODO
-
-		// GET THE CURRENT STUDENT ID FROM UG LOGIN and use it with the
-		// provider! TODO
+		// initialize student info, from DB TODO
 
 		initDB();
 
@@ -100,6 +96,8 @@ public class UGDatabase {
 	}
 
 	private String getStudentId() {
+		// GET THE CURRENT STUDENT ID FROM UG LOGIN and use it with the
+		// provider! TODO
 		return "11";
 	}
 
@@ -116,7 +114,7 @@ public class UGDatabase {
 	}
 
 	private void initRegisteredCourses() {
-		regeisteredCourses = dataProvider.getRegisteredCourses(studentId);
+		coursesAndExamsList = dataProvider.getCoursesAndExams(studentId);
 	}
 
 	private void initDB() {
@@ -177,7 +175,9 @@ public class UGDatabase {
 	}
 
 	public List<Course> getCourses() {
-		return new ArrayList<Course>(coursesHash.values());
+		List<Course> courses = new ArrayList<Course>(coursesHash.values());
+		log("getting " + courses.size() + " courses!");
+		return courses;
 	}
 
 	public Semester getRelevantSemester(final SemesterSeason season) {
@@ -405,12 +405,12 @@ public class UGDatabase {
 		this.calendarEvents = calendarEvents;
 	}
 
-	public void setRegisteredCourses(List<CourseKey> registered) {
-		if (registered == null)
+	public void setCoursesAndExams(ArrayList<CourseItem> courses) {
+		if (courses == null)
 			throw new NullPointerException();
-		log("setting " + registered.size() + " registered Courses!");
-		dataProvider.setRegisteredCourses(registered, studentId);
-		regeisteredCourses = registered;
+		log("setting " + courses.size() + " registered Courses and exams!");
+		dataProvider.setCoursesAndExams(courses, studentId);
+		coursesAndExamsList = courses;
 	}
 
 	// replace this code with code that reads the data from local database
@@ -431,11 +431,11 @@ public class UGDatabase {
 		// }
 	}
 
-	public List<CourseKey> getRegisteredCourses() {
-		if (regeisteredCourses == null)
-			regeisteredCourses = dataProvider.getRegisteredCourses(studentId);
-		log("getting " + regeisteredCourses.size() + " registered Courses");
-		return regeisteredCourses;
+	public List<CourseItem> getCoursesAndExams() {
+		if (coursesAndExamsList == null)
+			coursesAndExamsList = dataProvider.getCoursesAndExams(studentId);
+		log("getting " + coursesAndExamsList.size() + " registered Courses");
+		return coursesAndExamsList;
 	}
 
 	public UGLoginObject getCurrentLoginObject() {
