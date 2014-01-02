@@ -55,25 +55,19 @@ public class AcademicCalendarFragmentListAdapter extends BaseAdapter {
 					false);
 		}
 		final AcademicCalendarEvent event = (AcademicCalendarEvent) getItem(position);
+		// thus ignoring list items representing semesters names
+		if (event.getMonth() == null) {
+			final TextView eventTextView = (TextView) convertView
+					.findViewById(R.id.ug_academic_calendar_fragment_event);
+			eventTextView.setText(event.getEvent());
 
-		final TextView eventTextView = (TextView) convertView
-				.findViewById(R.id.ug_academic_calendar_fragment_event);
-		eventTextView.setText(event.getEvent());
-
-		final TextView dateTextView = (TextView) convertView
-				.findViewById(R.id.ug_academic_calendar_fragment_date);
-		final SimpleDateFormat formatter = new SimpleDateFormat(
-				"dd/MM/yyyy", Locale.getDefault());
-		final Calendar cal = event.getStartingDay();
-		if (cal==null)
-		{
-			dateTextView.setText("null");
-		}
-		else
-		{
+			final TextView dateTextView = (TextView) convertView
+					.findViewById(R.id.ug_academic_calendar_fragment_date);
+			final SimpleDateFormat formatter = new SimpleDateFormat(
+					"dd/MM/yyyy", Locale.getDefault());
+			final Calendar cal = event.getStartingDay();
 			dateTextView.setText(formatter.format(cal.getTime()));
 		}
-
 		return convertView;
 	}
 

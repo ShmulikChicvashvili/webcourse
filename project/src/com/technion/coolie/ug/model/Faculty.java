@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum Faculty implements Serializable {
-	ALL_FACULTIES("00"), AE("8"), ARCHITECTURE("20"), BIOLOGY("13"), BM("33"), BIOTECH("06"), CHEMENG("12"), CHEMISTRY("12"), CEE("01"), CS("23"), EDU("21"), EE("04"), HUMANITIES("32"), IE("09"), MATERIALS("31"), MATH("10"), MEENG("03"), MD("27"), PHYS("11"), GAS("51"), SPORT("39");
+	ALL_FACULTIES("00"), AE("08"), ARCHITECTURE("20"), BIOLOGY("13"), BM("33"), BIOTECH("06"), CHEMENG("12"), CHEMISTRY("12"), CEE("01"), CS("23"), EDU("21"), EE("04"), HUMANITIES("32"), IE("09"), MATERIALS("31"), MATH("10"), MEENG("03"), MD("27"), PHYS("11");
 	private String id;
 
 	private Faculty(String id) {
@@ -45,5 +45,3 @@ public enum Faculty implements Serializable {
 // MEENG = Mechanical Engineering (03)
 // MD = Medicine (27)
 // PHYS = Physics (11)
-// GAS (51)
-// SPORT (39)
