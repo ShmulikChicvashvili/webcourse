@@ -7,3 +7,7 @@ actionbarsherlock/bin/*
 android-support-v7-appcompat/
 SherlockNavigationDrawer/
 actionbarsherlock/gen
+facebook-android-sdk-3.5.2\facebook\gen\com\facebook\android\R.java
+lib_ViewPagerIndicator\gen\com\viewpagerindicator\R.java
+libproject\google-play-services_lib\gen\com\google\android\gms\R.java
+project\project.properties
