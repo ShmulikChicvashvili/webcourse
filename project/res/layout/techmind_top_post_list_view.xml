@@ -3,28 +3,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <ImageView
+        android:id="@+id/rec_account_icon_posts"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+         android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/techmind_compose" />
+
     <TextView
         android:id="@+id/post_content"
         style="@style/techmindText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/rec_account_icon_posts"
+        android:layout_toRightOf="@id/rec_account_icon_posts" />
+
+    <ImageView
+        android:id="@+id/rec_account_icon_comments"
+        android:layout_width="25sp"
+        android:layout_height="25sp"
+        android:layout_below="@id/rec_account_icon_posts"
+        android:layout_marginBottom="10dp"
+         android:layout_marginLeft="40dp"
+        android:layout_marginRight="10dp"
+       
+        android:src="@drawable/techmind_comment" />
+
     <TextView
         android:id="@+id/comments_amount"
         style="@style/techmindText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/rec_account_icon_comments"
+        android:layout_toRightOf="@id/rec_account_icon_comments" />
+
+    <ImageView
+        android:id="@+id/rec_account_icon_likes"
+        android:layout_width="25sp"
+        android:layout_height="25sp"
+        android:layout_below="@id/rec_account_icon_comments"
+       android:layout_marginLeft="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/techmind_like" />
 
     <TextView
         android:id="@+id/likes_amount"
         style="@style/techmindText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/rec_account_icon_likes"
+        android:layout_toRightOf="@id/rec_account_icon_likes" />
 
     <TextView
         android:id="@+id/date"
-        style="@style/techmindText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/likes_amount"
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

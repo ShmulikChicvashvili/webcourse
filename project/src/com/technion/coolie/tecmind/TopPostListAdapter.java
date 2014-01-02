@@ -22,7 +22,6 @@ public class TopPostListAdapter extends BaseAdapter {
 	private List<TecPost> posts;
 
 	public TopPostListAdapter(Context context, List<TecPost> item) {
-		Log.d("TopPostListAdapter", "TopPostListAdapter***");
 		mContext = context;
 		posts = item;
 	}
@@ -76,9 +75,9 @@ public class TopPostListAdapter extends BaseAdapter {
 		String myPost = "my post is...";
 		holder.postContent.setText(myPost);
 		holder.date.setText(post.getDate().toString().subSequence(0, index));
-		holder.comments_amount.setText("Recieved "+String.valueOf(post.getCommentCount()) + " Comments on this post");
+		holder.comments_amount.setText("Recieved "+String.valueOf(post.getCommentCount()) + " Comments");
 		Log.d("comment_amount", String.valueOf(post.getCommentCount()));
-		holder.likes_amount.setText("Recieved "+String.valueOf(post.getLikesCount()) + " Likes on this post");
+		holder.likes_amount.setText("Recieved "+String.valueOf(post.getLikesCount()) + " Likes");
 		return view;
 	}
 }
