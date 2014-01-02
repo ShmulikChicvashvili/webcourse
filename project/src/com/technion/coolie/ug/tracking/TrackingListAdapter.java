@@ -69,5 +69,17 @@ public class TrackingListAdapter extends BaseAdapter {
 											// local database
 		return convertView;
 	}
+	
+	public void remove(int position) {
+
+		values.remove(position);
+        notifyDataSetChanged();
+        
+	}
+	
+	 public void insert(int position, CourseKey item) {
+         values.add(position, item);
+         notifyDataSetChanged();
+     }
 
 }

@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -27,7 +26,7 @@ import com.technion.coolie.ug.model.CourseKey;
 public class TrackingCoursesFragment extends SherlockFragment {
 
 	TrackingListAdapter trackingCourseListAdapter;
-	ListView listview;
+	EnhancedListView listview;
 	List<CourseKey> trackingCourses;
 	int lastSelectedTrackedItem = 0;
 
@@ -50,7 +49,7 @@ public class TrackingCoursesFragment extends SherlockFragment {
 				.getTrackingCourses();
 		View view = inflater.inflate(R.layout.ug_tracking_list, container,
 				false);
-		listview = (ListView) view.findViewById(R.id.ug_tracking_list);
+		listview = (EnhancedListView) view.findViewById(R.id.ug_tracking_list);
 		trackingCourseListAdapter = new TrackingListAdapter(
 				inflater.getContext(), trackingCourses);
 
@@ -66,6 +65,33 @@ public class TrackingCoursesFragment extends SherlockFragment {
 			}
 		});
 		listview.setAdapter(trackingCourseListAdapter);
+
+		listview.setDismissCallback(new EnhancedListView.OnDismissCallback() {
+
+			@Override
+			public EnhancedListView.Undoable onDismiss(
+					EnhancedListView listView, final int position) {
+
+				final CourseKey item = (CourseKey) trackingCourseListAdapter
+						.getItem(position);
+				trackingCourseListAdapter.remove(position);
+				return new EnhancedListView.Undoable() {
+					@Override
+					public void undo() {
+						trackingCourseListAdapter.insert(position, item);
+					}
+				};
+			}
+		});
+
+		// Set swipe-to-delete configuration.
+		listview.setSwipingLayout(R.id.tracking_list_item_layout);
+		listview.setUndoStyle(EnhancedListView.UndoStyle.MULTILEVEL_POPUP);
+		listview.setUndoHideDelay(3000);
+		listview.enableSwipeToDismiss();
+		listview.setSwipeDirection(EnhancedListView.SwipeDirection.BOTH);
+		listview.setRequireTouchBeforeDismiss(false);
+
 		return view;
 	}
 
