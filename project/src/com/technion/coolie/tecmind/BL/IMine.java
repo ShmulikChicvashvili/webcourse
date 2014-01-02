@@ -1,5 +1,7 @@
 package com.technion.coolie.tecmind.BL;
 
+import java.util.HashMap;
+
 import com.facebook.model.GraphObject;
 
 public interface IMine {
@@ -24,5 +26,10 @@ public interface IMine {
 	 * Ends the mining for the user and updates the last time of mining.
 	 */
 	public void endMining();
+	
+	public HashMap<String, String> getUrlsList();
+	
+	public HashMap<String, String> getGroupsNamesList();
+	
 
 }

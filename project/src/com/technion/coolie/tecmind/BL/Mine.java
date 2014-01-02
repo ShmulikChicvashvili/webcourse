@@ -200,6 +200,16 @@ public class Mine implements IMine {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public HashMap<String, String> getUrlsList() {
+		return mPostsUrls;
+	}
+
+	@Override
+	public HashMap<String, String> getGroupsNamesList() {
+		return mPostsGroupsNames;
+	}
 	
 
     
