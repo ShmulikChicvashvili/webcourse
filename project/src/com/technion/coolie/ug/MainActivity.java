@@ -17,8 +17,11 @@ import com.technion.coolie.R;
 import com.technion.coolie.ug.Enums.Faculty;
 import com.technion.coolie.ug.Enums.LandscapeLeftMenuItems;
 import com.technion.coolie.ug.Enums.SemesterSeason;
+import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
+import com.technion.coolie.ug.calendar.AcademicCalendarListFragment;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
+import com.technion.coolie.ug.gradessheet.GradesSheetListFragment;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
@@ -41,6 +44,7 @@ public class MainActivity extends CoolieActivity implements
 		super.onCreate(savedInstanceState);
 
 		context = getApplicationContext();
+		ServerAsyncCommunication.mainActivity=this;
 		setContentView(R.layout.ug_main_screen);
 
 		updateData();
@@ -177,9 +181,33 @@ public class MainActivity extends CoolieActivity implements
 				.getFragments();
 		for (Fragment f : allFragments) {
 			String s = f.getClass().toString();
-			Math.random();
 		}
-		Math.random();
+	}
+
+	public AcademicCalendarListFragment getCalendarFragment() 
+	{
+		List<Fragment> allFragments = getSupportFragmentManager()
+				.getFragments();
+		for (Fragment f : allFragments)
+		{
+			if (f instanceof  AcademicCalendarListFragment )
+			return (AcademicCalendarListFragment)f;
+		}
+		return null;
+		
+	}
+	
+	public GradesSheetListFragment getGradesSheetFragment() 
+	{
+		List<Fragment> allFragments = getSupportFragmentManager()
+				.getFragments();
+		for (Fragment f : allFragments)
+		{
+			if (f instanceof  GradesSheetListFragment )
+			return (GradesSheetListFragment)f;
+		}
+		return null;
+		
 	}
 
 }

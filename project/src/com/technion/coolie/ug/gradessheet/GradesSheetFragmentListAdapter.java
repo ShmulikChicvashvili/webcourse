@@ -23,7 +23,7 @@ public class GradesSheetFragmentListAdapter extends BaseAdapter {
 			final List<AccomplishedCourse> list) {
 		this.context = context;
 		values.addAll(list);
-		Collections.sort(values);
+		//Collections.sort(values);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class GradesSheetFragmentListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public long getItemId(final int position) {
+	public long getItemId(final int position) { 
 		return position;
 	}
 

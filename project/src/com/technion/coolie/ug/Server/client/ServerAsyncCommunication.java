@@ -4,13 +4,16 @@ import java.util.List;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.technion.coolie.server.ug.ReturnCodesUg;
 import com.technion.coolie.server.ug.api.UgFactory;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.Server.ServerCourse;
+import com.technion.coolie.ug.calendar.AcademicCalendarListFragment;
 import com.technion.coolie.ug.db.UGDatabase;
+import com.technion.coolie.ug.gradessheet.GradesSheetListFragment;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
@@ -18,6 +21,7 @@ import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.UGLoginObject;
 import com.technion.coolie.ug.utils.UGAsync;
+import com.technion.coolie.ug.MainActivity;
 
 /**
  * 
@@ -25,13 +29,11 @@ import com.technion.coolie.ug.utils.UGAsync;
  * be defined here.
  * 
  */
-public class clientFunctions {
+public class ServerAsyncCommunication {
 
-	Context appContext;
+	//static Context appContext;
+	static public MainActivity mainActivity;
 
-	public clientFunctions(Context context) {
-		appContext = context.getApplicationContext();
-	}
 
 	/**
 	 * sets the semester array with the current arrays
@@ -45,38 +47,38 @@ public class clientFunctions {
 	}
 
 	// SERVER PART
-	public void getGradesSheetfromServer() {
+	static public void getGradesSheetfromServer() {
 
-		UGAsync<AccomplishedCourse> a = new myGradeParse();
+		UGAsync<AccomplishedCourse> a = new UGAsync<AccomplishedCourse>()
+		{
+			List<AccomplishedCourse> l;
+			@Override
+			protected List<AccomplishedCourse> doInBackground(String... params) 
+			{
+
+				UGDatabase db = UGDatabase.getInstance(mainActivity);
+				l = UgFactory.getUgGradeSheet().getMyGradesSheet(db.getCurrentLoginObject());
+
+				//return super.doInBackground(params);
+				return l;
+			}
+
+			@Override
+			protected void onPostExecute(List<AccomplishedCourse> result) 
+			{
+				if (l==null || l.size()==0) return;
+				UGDatabase.getInstance(mainActivity).setGradesSheet(l);
+				GradesSheetListFragment f = mainActivity.getGradesSheetFragment();
+				//f = new AcademicCalendarListFragment();
+				f.updateData();
+				//f.getAdapter().notifyDataSetChanged();
+
+			}
+		};
 		a.execute();
 	}
-
-	class myGradeParse extends UGAsync<AccomplishedCourse> {
-		List<AccomplishedCourse> l;
-
-		@Override
-		protected List<AccomplishedCourse> doInBackground(String... params) {
-
-			l = UgFactory.getUgGradeSheet().getMyGradesSheet(
-					UGDatabase.getInstance(appContext).getCurrentLoginObject());
-			// if (l != null)
-			// gradesSheet = l;
-			// mainActivity.getAllFragments();
-
-			return super.doInBackground(params);
-		}
-
-		@Override
-		protected void onPostExecute(List<AccomplishedCourse> result) {
-			if (l == null)
-				Log.d("GRADES SHEET   ×›×›×’", "NULL");
-			else
-				Log.d("GRADES SHEET  ×’×›×’×› ", l.size() + "");
-
-			// new myGradeParse().execute();
-		}
-
-	}
+	
+	
 
 	public void getAllCoursesFromServer() {
 
@@ -99,8 +101,9 @@ public class clientFunctions {
 		};
 		a.execute();
 	}
-
-	public void getCalendarEventsFromServer() {
+	
+	
+	static public void getCalendarEventsFromServer() {
 
 		UGAsync<AcademicCalendarEvent> a = new UGAsync<AcademicCalendarEvent>() {
 
@@ -111,15 +114,18 @@ public class clientFunctions {
 					String... params) {
 
 				l = UgFactory.getUgEvent().getAllAcademicEvents();
-				return super.doInBackground(params);
+				
+				return super.doInBackground(params); 
 			}
 
-			@Override
-			protected void onPostExecute(List<AcademicCalendarEvent> result) {
-				if (l == null)
-					Log.d("all courses", "NULL");
-				else
-					Log.d("all courses", l.size() + "");
+			@Override 
+			protected void onPostExecute(List<AcademicCalendarEvent> result) 
+			{
+				if (l==null || l.size()==0) return;
+				UGDatabase.getInstance(mainActivity).setAcademicCalendar(l);
+				AcademicCalendarListFragment f = mainActivity.getCalendarFragment();
+				if (f==null) return;
+				f.updateData();
 			}
 
 		};
@@ -132,9 +138,9 @@ public class clientFunctions {
 			protected ReturnCodesUg doInBackground(CourseKey... params) {
 				if (params == null || params[0] == null)
 					return null;
-				ReturnCodesUg returnCode = UgFactory.getUgTracking()
+				ReturnCodesUg returnCode = UgFactory.getUgTracking() 
 						.addTrackingStudent(
-								UGDatabase.getInstance(appContext)
+								UGDatabase.getInstance(mainActivity)
 										.getCurrentLoginObject(), params[0]);
 				return returnCode;
 			}
@@ -162,7 +168,7 @@ public class clientFunctions {
 					return null;
 				ReturnCodesUg returnCode = UgFactory.getUgTracking()
 						.removeTrackingStudentFromCourse(
-								UGDatabase.getInstance(appContext)
+								UGDatabase.getInstance(mainActivity)
 										.getCurrentLoginObject(), params[0]);
 				return returnCode;
 			}
