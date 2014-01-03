@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Coolie</string>
+    <string name="ug_app_name">UG</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">open</string>
@@ -56,5 +56,13 @@
     <string name="day">יום</string>
     <string name="date">תאריך</string>
     <string name="event">אירוע</string>
+    
+    <!-- Transparent Activity -->
+    <string name="ug_grades_sheet">גליון ציונים</string>
+    <string name="ug_calendar">לוח שנה</string>
+    <string name="ug_coursesAndExams">לוח קורסים ומבחנים</string>
+    <string name="ug_tracker">קורסים למעקב</string>
+    <string name="ug_search">חיפוש קורס</string>
+    <string name="ug_course_info">פרטי קורס</string>
 
 </resources>

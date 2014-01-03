@@ -8,6 +8,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.calendar.AcademicCalendarFragment;
@@ -33,6 +36,52 @@ public class TransparentActivity extends CoolieActivity implements
 		final Bundle b = getIntent().getExtras();
 		key = b.getString("key");
 		onListClicked(key, b);
+		ActionBar ab = getSupportActionBar();
+		String title = getTitle(key);
+	    ab.setTitle(title);
+	}
+	
+	private String getTitle(String link) {
+		String s = null;
+		if (link.equals(GradesSheetFragment.class.toString())) {
+			s= getString(R.string.ug_grades_sheet);
+		} else if (link.equals(CoursesAndExamsFragment.class.toString())) {
+			s= getString(R.string.ug_coursesAndExams);	
+		} else if (link.equals(CourseDisplayFragment.class.toString())) {
+			s= getString(R.string.ug_course_info);	
+		} else if (link.equals(SearchFragment.class.toString())) {
+			s= getString(R.string.ug_search);
+		} else if (link.equals(AcademicCalendarFragment.class.toString())) {
+			s= getString(R.string.ug_calendar);
+		} else if (link.equals(TrackingCoursesFragment.class.toString())) {
+			s= getString(R.string.ug_tracker);
+		}
+		return s;
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+//		getSupportMenuInflater().inflate(R.menu.am_main, menu);
+//		int backButtonId = 407;
+//		MenuItem backButton = menu.add(0, backButtonId, 0, getResources().getString(R.string.ug_back_button));
+//		backButton.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+//		backButton.setIcon(R.drawable.ic_action_email);
+//		backButton.setOnMenuItemClickListener(this);
+		getSherlock().getMenuInflater().inflate(R.menu.transparent, menu);
+		return true;
+//		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())
+		{
+		case android.R.id.home:
+			finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	public void onListClicked(final String link, final Bundle bundle) {
