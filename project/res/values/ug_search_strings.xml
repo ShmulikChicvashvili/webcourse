@@ -26,4 +26,27 @@
        <string name="ug_semester_spring">אביב</string>
        <string name="ug_semester_summer">קיץ</string>
        
+<!--        CourseDisplay GroupTable -->
+       <string name="ug_course_group_id">#</string>
+       <string name="ug_course_group_location">מיקום</string>
+       <string name="ug_course_group_hour_end">שעת סיום</string>
+       <string name="ug_course_group_hour_start">שעת התחלה</string>
+       <string name="ug_course_group_day">יום</string>
+       <string name="ug_course_group_lecturer">שם מורה</string>
+       <string name="ug_course_group_meeting_type">סוג</string>
+       <string name="ug_course_group_free">מקום פנוי</string>
+       
+       <string name="ug_course_group_meeting_type_lecture">הרצאה</string>
+       <string name="ug_course_group_meeting_type_tutorial">תרגול</string>
+       
+       <string name="ug_course_group_day_1">א</string>
+       <string name="ug_course_group_day_2">ב</string>
+       <string name="ug_course_group_day_3">ג</string>
+       <string name="ug_course_group_day_4">ד</string>
+       <string name="ug_course_group_day_5">ה</string>
+       <string name="ug_course_group_day_6">ו</string>
+       <string name="ug_course_group_day_7">ש</string>
+       
+       
+       
 </resources>

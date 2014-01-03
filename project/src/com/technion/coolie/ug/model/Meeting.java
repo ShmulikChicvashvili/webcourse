@@ -16,12 +16,13 @@ public class Meeting implements Serializable {
 	private Date startingHour;
 	private Date endingHour;
 	private String place;
-	
-	
-	Meeting()
-	{
-		
+
+	// TODO String differentType; for types that are not lecture or tutorial
+
+	Meeting() {
+
 	}
+
 	public Meeting(final String id, final String lecturerName,
 	/* final DayOfWeek day, */final Date startingHour, final Date endingHour,
 			final String place) {

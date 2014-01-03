@@ -1,6 +1,7 @@
 package com.technion.coolie.ug.gui.courseDisplay;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 import android.content.Context;
@@ -76,7 +77,8 @@ public class CourseDisplayFragment extends Fragment {
 
 		final TextView facultyTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_faculty);
-		facultyTextView.setText("" + courseToView.getFaculty().toString());
+		facultyTextView
+				.setText("" + courseToView.getFaculty().getName(context));
 
 		final TextView descTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_description);
@@ -110,9 +112,15 @@ public class CourseDisplayFragment extends Fragment {
 
 	private void makeGroupsHeader() {
 
-		final MeetingDisplay explanationHeader = new MeetingDisplay("×ž×¡",
-				"×¡×•×’", "×ž×¨×¦×”", "×ž×™×§×•×�", "×©×¢×ª ×”×ª×—×œ×”", "×©×¢×ª ×¡×™×•×�", "×ž×§×•×� ×¤× ×•×™",
-				"×™×•×�");
+		final MeetingDisplay explanationHeader = new MeetingDisplay(
+				getString(R.string.ug_course_group_id),
+				getString(R.string.ug_course_group_meeting_type),
+				getString(R.string.ug_course_group_lecturer),
+				getString(R.string.ug_course_group_location),
+				getString(R.string.ug_course_group_hour_start),
+				getString(R.string.ug_course_group_hour_end),
+				getString(R.string.ug_course_group_free),
+				getString(R.string.ug_course_group_day));
 		final View v = addMeeting(explanationHeader);
 		v.setBackgroundResource(R.drawable.ug_course_label_text_container);
 
@@ -133,10 +141,14 @@ public class CourseDisplayFragment extends Fragment {
 		// do all meetings
 		if (group.getLectures() != null)
 			for (final Meeting meeting : group.getLectures())
-				addMeeting(new MeetingDisplay(meeting, "×”×¨×¦×�×”"));
+				addMeeting(new MeetingDisplay(
+						meeting,
+						getString(R.string.ug_course_group_meeting_type_lecture)));
 		if (group.getTutorials() != null)
 			for (final Meeting meeting : group.getTutorials())
-				addMeeting(new MeetingDisplay(meeting, "×ª×¨×’×•×œ"));
+				addMeeting(new MeetingDisplay(
+						meeting,
+						getString(R.string.ug_course_group_meeting_type_tutorial)));
 		addSeperatorLine();
 	}
 
@@ -207,6 +219,14 @@ public class CourseDisplayFragment extends Fragment {
 		String freeSpace = "";
 		String day = "";
 
+		String[] dayLetter = { getString(R.string.ug_course_group_day_1),
+				getString(R.string.ug_course_group_day_2),
+				getString(R.string.ug_course_group_day_3),
+				getString(R.string.ug_course_group_day_4),
+				getString(R.string.ug_course_group_day_5),
+				getString(R.string.ug_course_group_day_6),
+				getString(R.string.ug_course_group_day_7) };
+
 		public MeetingDisplay() {
 
 		}
@@ -221,8 +241,10 @@ public class CourseDisplayFragment extends Fragment {
 				hourStart = df.format(meeting.getStartingHour());
 			if (meeting.getEndingHour() != null)
 				hourEnd = df.format(meeting.getEndingHour());
-			//day = meeting.getDay().toSingleLetter();
-			day = "XXXXXXXXXX";
+			// day = meeting.getDay().toSingleLetter();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(meeting.getStartingHour());
+			day = dayLetter[cal.get(Calendar.DAY_OF_WEEK) - 1];
 		}
 
 		public MeetingDisplay(final String number, final String meetingType,
