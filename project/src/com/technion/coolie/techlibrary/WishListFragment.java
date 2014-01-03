@@ -19,7 +19,7 @@ import com.technion.coolie.techlibrary.BookItems.LibraryElement;
 public class WishListFragment extends SherlockFragment {
 	private ListView mListView;
 	private TextView mEmptyView;
-	private ArrayList<LibraryElement> mWishList;
+//	private static ArrayList<LibraryElement> mWishList = new ArrayList<BookItems.LibraryElement>();
 	private WishListAdapter mWishAdapter;
 
 	@Override
@@ -33,17 +33,20 @@ public class WishListFragment extends SherlockFragment {
 				mListView.setEmptyView(mEmptyView);
 		
 		
-		mWishList = new ArrayList<BookItems.LibraryElement>();  ////////  TODO the list is empty right now!!!!!
+//		mWishList = new ArrayList<BookItems.LibraryElement>();  ////////  TODO the list is empty right now!!!!!
 		//mWishList.add(get.getHoldsList().get(0));
-		mListView.setAdapter(new WishListAdapter(getActivity(), mWishList));
-		Log.d("LoansFrg:", "adapter set, number of items is:"
-				+ ((Integer) mWishList.size()).toString());
+		mListView.setAdapter(new WishListAdapter(getActivity(), new ArrayList<LibraryElement>()));
+//		Log.d("LoansFrg:", "adapter set, number of items is:"
+//				+ ((Integer) mWishList.size()).toString());
 		mWishAdapter = (WishListAdapter) mListView.getAdapter();
 		
 		return v;
 	}
 	
 	public void addItem(LibraryElement libElement){
+		Log.d("add item to wishList", "the item is " + libElement.name);
+		ArrayList<LibraryElement> mWishList = new ArrayList<BookItems.LibraryElement>();
+		mWishList.addAll(mWishAdapter.wishItems);
 		mWishList.add(libElement);
 		mWishAdapter.wishItems.clear();
 		mWishAdapter.wishItems.addAll(mWishList);

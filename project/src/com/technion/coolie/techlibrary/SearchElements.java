@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -43,6 +44,7 @@ import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.R;
 import com.technion.coolie.skeleton.CoolieStatus;
 import com.technion.coolie.techlibrary.BookItems.LibraryElement;
+import com.technion.coolie.techlibrary.BookItems.LoanElement;
 
 public class SearchElements {
 
@@ -515,7 +517,20 @@ public class SearchElements {
 
 			holder.name.setText(items.get(position).name);
 			holder.author.setText(items.get(position).author);
-
+			view.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+//					BookDescription bD = new BookDescription(holds.get(position));
+					Intent intent = new Intent(context,
+							BookDescriptionActivity.class);
+					LibraryElement hE = items.get(position);
+					String[] extraData = {hE.name, hE.author, hE.library};
+					intent.putExtra("description", extraData);
+					((Activity)context).startActivityForResult(intent,0);
+					
+				}
+			});
 			return view;
 		}
 	}

@@ -14,6 +14,7 @@ import com.technion.coolie.techlibrary.SearchElements.SearchResultAdapter.viewHo
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,7 +31,7 @@ import android.widget.TextView;
 public class BookDescriptionActivity extends CoolieActivity {
 
 	private ListView mListView = null;
-	private String name = null;
+	public String name = null;
 	private String author = null;
 	private String library = null;
 	@Override
@@ -53,8 +54,8 @@ public class BookDescriptionActivity extends CoolieActivity {
 			num = 1 - num;
 		}
 		mListView = (ListView) findViewById(R.id.lib_copies_list);
-		mListView.setAdapter(new CopiesListAdapter(this, items));
-		//Log.d("check calling activity" ,"" + getCallingActivity()); // null :(
+		mListView.setAdapter(new CopiesListAdapter(this, items, name));
+		Log.d("check calling activity" ,"" + getCallingActivity()); // null :(
 
 	}
 
@@ -62,28 +63,32 @@ public class BookDescriptionActivity extends CoolieActivity {
 	public static class CopiesListAdapter extends BaseAdapter {
 
 		private final List<Boolean> items; // change!!!!!
-		private Context context;
+		private BookDescriptionActivity context;
 		private String[] funny = {"C","l","i","c","k","o","n","m","e"};
 		// protected boolean wasPressed = false;
+		private String bookName = null;
 
 		OnClickListener onClick = new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				LinearLayout b = (LinearLayout) ((LinearLayout)((Button)v).getParent()).getParent();
-				TextView i = (TextView) b.findViewById(R.id.lib_copy_due_date);
-				if(i.getText().toString().equals("waiting 4 u ;)")){
-//					WishListFragment.this.addItem(new LibraryElement("1",((BookDescriptionActivity)context).name,((BookDescriptionActivity)context).author,"book","ba"));
-				}else{
+//				LinearLayout b = (LinearLayout) ((LinearLayout)((Button)v).getParent()).getParent();
+//				TextView i = (TextView) b.findViewById(R.id.lib_copy_due_date);
+					Intent itemDataToAdd = new Intent();
+					itemDataToAdd.putExtra("name", bookName);
+					itemDataToAdd.putExtra("activity", "bookDescription");
+					context.setResult(RESULT_OK, itemDataToAdd);
+					Log.d("clicked", ((Button)v).getText().toString());
 					
-				}
+				
 				
 			}
 		};
 		
-		public CopiesListAdapter(final Context context, List<Boolean> searchList) {
-			this.context = context;
+		public CopiesListAdapter(final Context context, List<Boolean> searchList, String name) {
+			this.context = (BookDescriptionActivity) context;
 			this.items = searchList;
+			this.bookName  = name;
 		}
 
 		class viewHolder {
@@ -149,9 +154,10 @@ public class BookDescriptionActivity extends CoolieActivity {
 				holder.dueDate.setText("in loan till:\n28/11/13");
 			}
 			holder.holdOrWishAdd.setText(funny[position]);
+			holder.holdOrWishAdd.setOnClickListener(onClick);
 			// holder.name.setText(items.get(position).name);
 			// holder.author.setText(items.get(position).author);
-
+			
 			return view;
 		}
 	}

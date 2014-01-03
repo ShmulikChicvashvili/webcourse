@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -17,12 +18,15 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
-
+import com.technion.coolie.techlibrary.BookItems;
+import com.technion.coolie.techlibrary.BookItems.LibraryElement;
 import com.technion.coolie.techlibrary.SearchElements.SearchFragment;
 
 public class MainActivity extends CoolieActivity implements
 		ActionBar.OnNavigationListener {
-	private String[] droplist = {  "Library Card" , "Open Hours", "Search"};
+	private String[] droplist = { "Library Card", "Open Hours", "Search" };
+
+	private LibraryCardFragment fLibCard = null;
 
 	// shared pref
 	private SharedPreferences mSharedPref;
@@ -30,11 +34,11 @@ public class MainActivity extends CoolieActivity implements
 
 	public static final String LOGGED_IN = "is_logged";
 	private static final String SHARED_PREF = "lib_pref";
-	//to save state of navigation list
+	// to save state of navigation list
 	private static final String LAST_VIEWED_FRAGMENT_TAG = "last_item";
 
 	public static int currPosition;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,9 +52,10 @@ public class MainActivity extends CoolieActivity implements
 
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getSupportActionBar().setListNavigationCallbacks(list, this);
-		//check if list item position is saved
-		getSupportActionBar().setSelectedNavigationItem(savedInstanceState != null
-	            ? savedInstanceState.getInt(LAST_VIEWED_FRAGMENT_TAG) : 0);
+		// check if list item position is saved
+		getSupportActionBar().setSelectedNavigationItem(
+				savedInstanceState != null ? savedInstanceState
+						.getInt(LAST_VIEWED_FRAGMENT_TAG) : 0);
 
 		SharedPreferences sharedPref = getSharedPreferences(SHARED_PREF, 0);
 		if (!sharedPref.contains(LOGGED_IN)) {
@@ -58,7 +63,7 @@ public class MainActivity extends CoolieActivity implements
 			editor.putBoolean(LOGGED_IN, false);
 			editor.commit();
 		}
-
+		// fLibCard = new LibraryCardFragment();
 		mSharedPref = getSharedPreferences(SHARED_PREF, 0);
 		mSharedPrefEditor = mSharedPref.edit();
 	}
@@ -68,9 +73,10 @@ public class MainActivity extends CoolieActivity implements
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction();
 		if (itemPosition == 0) {
-			SherlockFragment frag = new LibraryCardFragment();
+			fLibCard = new LibraryCardFragment();
+			Log.d("the activity in the main is", "" + fLibCard);
 			currPosition = 0;
-			transaction.replace(R.id.lib_frame_container, frag);
+			transaction.replace(R.id.lib_frame_container, fLibCard);
 		} else if (itemPosition == 1) {
 			SherlockFragment frag = new OpenHoursFragment();
 			currPosition = 1;
@@ -79,7 +85,7 @@ public class MainActivity extends CoolieActivity implements
 			SherlockFragment frag = new SearchFragment();
 			currPosition = 2;
 			transaction.replace(R.id.lib_frame_container, frag);
-		} 
+		}
 		transaction.commit();
 		return true;
 	}
@@ -111,20 +117,32 @@ public class MainActivity extends CoolieActivity implements
 			public boolean onMenuItemClick(MenuItem item) {
 				mSharedPrefEditor.putBoolean(LOGGED_IN, false);
 				mSharedPrefEditor.commit();
-				
+
 				finish(); // work?
 				return true; // ????
 			}
 		});
 		return true;
 	}
-	
 
-    @Override
-	public void onSaveInstanceState(Bundle savedInstanceState)
-    {
-        super.onSaveInstanceState(savedInstanceState);
-      //save list item position
-        savedInstanceState.putInt(LAST_VIEWED_FRAGMENT_TAG, getSupportActionBar().getSelectedNavigationIndex());
-    }
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (data.getStringExtra("activity") != null && data.getStringExtra("activity").equals("bookDescription")) {
+			Log.d("onnnn reeeesssuult", "YEA");
+			addToWishList((new BookItems()).new LibraryElement("1",
+					data.getStringExtra("name"), "empty", "book", "C.S"));
+		}
+	}
+
+	public void addToWishList(LibraryElement libElement) {
+		fLibCard.addToWishList(libElement);
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle savedInstanceState) {
+		super.onSaveInstanceState(savedInstanceState);
+		// save list item position
+		savedInstanceState.putInt(LAST_VIEWED_FRAGMENT_TAG,
+				getSupportActionBar().getSelectedNavigationIndex());
+	}
 }

@@ -103,7 +103,7 @@ public class HoldsAdapter extends BaseAdapter {
 				HoldElement hE = holds.get(position);
 				String[] extraData = {hE.name, hE.author, hE.library};
 				intent.putExtra("description", extraData);
-				((Activity)context).startActivity(intent);
+				((Activity)context).startActivityForResult(intent,0);
 				
 			}
 		});
