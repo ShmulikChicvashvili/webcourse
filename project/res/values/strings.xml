@@ -71,5 +71,6 @@
     <string name="title_activity_main_activity_splash">MainActivitySplash</string>
     <string name="starting_up_">Starting up...</string>
     <string name="title_activity_top_posts">TopPostsActivity</string>
+    <string name="title_activity_top_miners">TopMinersActivity</string>
 
 </resources>

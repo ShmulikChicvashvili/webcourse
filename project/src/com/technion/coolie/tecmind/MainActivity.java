@@ -248,6 +248,7 @@ public class MainActivity extends CoolieActivity {
 			User.getUserInstance(null).name = userName;
 			User.getUserInstance(null).title = Title.ATUDAI;
 			new ServerAddUser().execute();
+			//*** post in the facebook that the user has joined techmind **//
 			return ReturnValue.ADD_USER_TO_SERVER;
 		} else {
 			// User.getUserInstance(tecUser.getId());

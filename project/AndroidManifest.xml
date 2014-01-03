@@ -467,6 +467,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.gr_plusplus.CourseInformationActivity" />
         </activity>
+        <activity
+            android:name="com.technion.coolie.tecmind.TopMinersActivity"
+            android:label="@string/title_activity_top_miners" >
+        </activity>
     </application>
 
 </manifest>
