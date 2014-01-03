@@ -1,5 +1,7 @@
 package com.technion.coolie.ug.Server.client;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
@@ -46,9 +48,8 @@ public class ServerAsyncCommunication {
 		return SemesterSeason.WINTER;
 	}
 
-	// SERVER PART
 	static public void getGradesSheetfromServer() {
-
+		Log.v("ServerAsyncCommunication","getGradesSheetfromServer");
 		UGAsync<AccomplishedCourse> a = new UGAsync<AccomplishedCourse>()
 		{
 			List<AccomplishedCourse> l;
@@ -57,22 +58,34 @@ public class ServerAsyncCommunication {
 			{
 
 				UGDatabase db = UGDatabase.getInstance(mainActivity);
-				l = UgFactory.getUgGradeSheet().getMyGradesSheet(db.getCurrentLoginObject());
-
-				//return super.doInBackground(params);
-				return l;
+				//l = UgFactory.getUgGradeSheet().getMyGradesSheet(db.getCurrentLoginObject());
+				
+				l = new ArrayList<AccomplishedCourse>();
+				int r = (int) (Math.random() * (10) + 1);
+				for(int i = 0; i < r; i++)
+				{
+					l.add(new AccomplishedCourse("234111","Dummy data "+i,"4","201301","95","80",false));
+				}
+				
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return super.doInBackground(params);
+				
 			}
 
 			@Override
 			protected void onPostExecute(List<AccomplishedCourse> result) 
 			{
+				
 				if (l==null || l.size()==0) return;
 				UGDatabase.getInstance(mainActivity).setGradesSheet(l);
 				GradesSheetListFragment f = mainActivity.getGradesSheetFragment();
-				//f = new AcademicCalendarListFragment();
+				if (f==null) return;
 				f.updateData();
-				//f.getAdapter().notifyDataSetChanged();
-
 			}
 		};
 		a.execute();
@@ -113,8 +126,13 @@ public class ServerAsyncCommunication {
 			protected List<AcademicCalendarEvent> doInBackground(
 					String... params) {
 
-				l = UgFactory.getUgEvent().getAllAcademicEvents();
-				
+				//l = UgFactory.getUgEvent().getAllAcademicEvents();
+				l = new ArrayList<AcademicCalendarEvent>();
+				int r = (int) (Math.random() * (10) + 1);
+				for(int i = 0; i < r; i++)
+				{
+					l.add(new AcademicCalendarEvent(Calendar.getInstance(), "Dummy academic event "+i, "dd", null));
+				}
 				return super.doInBackground(params); 
 			}
 
