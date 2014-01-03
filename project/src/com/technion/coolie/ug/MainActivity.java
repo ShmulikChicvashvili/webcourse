@@ -14,7 +14,6 @@ import android.view.View;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
-import com.technion.coolie.ug.Enums.Faculty;
 import com.technion.coolie.ug.Enums.LandscapeLeftMenuItems;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
@@ -28,6 +27,7 @@ import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.ExamItem;
+import com.technion.coolie.ug.model.Faculty;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.tracking.TrackingCoursesFragment;
@@ -49,6 +49,7 @@ public class MainActivity extends CoolieActivity implements
 
 		updateData();
 
+		// ServerAsyncCommunication.getAllCoursesFromServer();
 		// UGDatabase.getInstance(this).mainActivity = this;
 
 	}
@@ -120,7 +121,12 @@ public class MainActivity extends CoolieActivity implements
 						2, 11), null, null, null);
 
 		List<Course> courses = new ArrayList<Course>();
-		courses.add(course);
+		for (int i = 0; i < 20; i++) {
+			Course c = new Course(course);
+			c.setCourseNumber((i + 2000) + "");
+			courses.add(c);
+		}
+
 		courses.add(course2);
 
 		List<AcademicCalendarEvent> academicList = new ArrayList<AcademicCalendarEvent>(

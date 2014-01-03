@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+       <string name="ug_faculty_all_faculties">כל הפקולטות</string>
+       <string name="ug_faculty_ae">אווירונאוטיקה</string>
+       <string name="ug_faculty_arch">ארכיטקטורה</string>
+       <string name="ug_faculty_biology">ביולוגיה</string>
+       <string name="ug_faculty_indus">ה.אזרחית</string>
+       <string name="ug_faculty_bio">ביו רפואה</string>
+       <string name="ug_faculty_chem_eng">ה.כימית</string>
+       <string name="ug_faculty_chem">כימיה</string>
+       <string name="ug_faculty_farm">ה.חקלאית</string>
+       <string name="ug_faculty_elect">ה.חשמל</string>
+       <string name="ug_faculty_phys">פיסיקה</string>
+       <string name="ug_faculty_biotech">ה.ביוטכנולוגיה</string>
+       <string name="ug_faculty_machine">ה.מכונות</string>
+       <string name="ug_faculty_human">הומניסטים</string>
+       <string name="ug_faculty_comp">מדעי המחשב</string>
+       <string name="ug_faculty_math">מתמטיקה</string>
+       <string name="ug_faculty_medical">רפואה</string>
+       <string name="ug_faculty_manage">ת.וניהול</string>
+       <string name="ug_faculty_educ">הוראה</string>
+       <string name="ug_faculty_materials">חומרים</string>
+       
+       
+       <string name="ug_semester_winter">חורף</string>
+       <string name="ug_semester_spring">אביב</string>
+       <string name="ug_semester_summer">קיץ</string>
+       
+</resources>

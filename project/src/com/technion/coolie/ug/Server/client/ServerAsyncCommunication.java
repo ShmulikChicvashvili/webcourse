@@ -51,7 +51,7 @@ public class ServerAsyncCommunication {
 
 			@Override
 			protected List<AccomplishedCourse> doInBackground(String... params) {
-
+				// should do this on the ui thread.
 				UGDatabase db = UGDatabase.getInstance(mainActivity);
 				l = UgFactory.getUgGradeSheet().getMyGradesSheet(
 						db.getCurrentLoginObject());
@@ -76,7 +76,7 @@ public class ServerAsyncCommunication {
 		a.execute();
 	}
 
-	public void getAllCoursesFromServer() {
+	public static void getAllCoursesFromServer() {
 
 		UGAsync<Course> a = new UGAsync<Course>() {
 			List<ServerCourse> l;

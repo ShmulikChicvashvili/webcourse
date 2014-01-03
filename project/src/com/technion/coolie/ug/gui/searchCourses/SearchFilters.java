@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import com.technion.coolie.ug.Enums.Faculty;
 import com.technion.coolie.ug.model.Course;
+import com.technion.coolie.ug.model.Faculty;
 import com.technion.coolie.ug.model.Semester;
 
 public class SearchFilters implements Serializable {

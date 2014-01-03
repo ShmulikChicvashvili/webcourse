@@ -12,7 +12,6 @@ import android.util.Log;
 import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.SemesterSeason;
-import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
@@ -112,7 +111,7 @@ public class UGDatabase {
 		// gradesSheet = new ArrayList<AccomplishedCourse>();
 		// gradesSheet.add(new
 		// AccomplishedCourse("234111","OS","4","201301","95","80",false));
-		ServerAsyncCommunication.getGradesSheetfromServer();
+		// ServerAsyncCommunication.getGradesSheetfromServer();
 	}
 
 	private void initRegisteredCourses() {
