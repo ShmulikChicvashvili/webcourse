@@ -2,13 +2,12 @@ package com.technion.coolie.ug.Server.client;
 
 import java.util.List;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.technion.coolie.server.ug.ReturnCodesUg;
 import com.technion.coolie.server.ug.api.UgFactory;
+import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.Server.ServerCourse;
 import com.technion.coolie.ug.calendar.AcademicCalendarListFragment;
@@ -21,7 +20,6 @@ import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.UGLoginObject;
 import com.technion.coolie.ug.utils.UGAsync;
-import com.technion.coolie.ug.MainActivity;
 
 /**
  * 
@@ -31,9 +29,8 @@ import com.technion.coolie.ug.MainActivity;
  */
 public class ServerAsyncCommunication {
 
-	//static Context appContext;
+	// static Context appContext;
 	static public MainActivity mainActivity;
-
 
 	/**
 	 * sets the semester array with the current arrays
@@ -49,36 +46,35 @@ public class ServerAsyncCommunication {
 	// SERVER PART
 	static public void getGradesSheetfromServer() {
 
-		UGAsync<AccomplishedCourse> a = new UGAsync<AccomplishedCourse>()
-		{
+		UGAsync<AccomplishedCourse> a = new UGAsync<AccomplishedCourse>() {
 			List<AccomplishedCourse> l;
+
 			@Override
-			protected List<AccomplishedCourse> doInBackground(String... params) 
-			{
+			protected List<AccomplishedCourse> doInBackground(String... params) {
 
 				UGDatabase db = UGDatabase.getInstance(mainActivity);
-				l = UgFactory.getUgGradeSheet().getMyGradesSheet(db.getCurrentLoginObject());
+				l = UgFactory.getUgGradeSheet().getMyGradesSheet(
+						db.getCurrentLoginObject());
 
-				//return super.doInBackground(params);
+				// return super.doInBackground(params);
 				return l;
 			}
 
 			@Override
-			protected void onPostExecute(List<AccomplishedCourse> result) 
-			{
-				if (l==null || l.size()==0) return;
-				UGDatabase.getInstance(mainActivity).setGradesSheet(l);
-				GradesSheetListFragment f = mainActivity.getGradesSheetFragment();
-				//f = new AcademicCalendarListFragment();
+			protected void onPostExecute(List<AccomplishedCourse> result) {
+				if (l == null || l.size() == 0)
+					return;
+				// UGDatabase.getInstance(mainActivity).setGradesSheet(l);
+				GradesSheetListFragment f = mainActivity
+						.getGradesSheetFragment();
+				// f = new AcademicCalendarListFragment();
 				f.updateData();
-				//f.getAdapter().notifyDataSetChanged();
+				// f.getAdapter().notifyDataSetChanged();
 
 			}
 		};
 		a.execute();
 	}
-	
-	
 
 	public void getAllCoursesFromServer() {
 
@@ -101,8 +97,7 @@ public class ServerAsyncCommunication {
 		};
 		a.execute();
 	}
-	
-	
+
 	static public void getCalendarEventsFromServer() {
 
 		UGAsync<AcademicCalendarEvent> a = new UGAsync<AcademicCalendarEvent>() {
@@ -114,17 +109,19 @@ public class ServerAsyncCommunication {
 					String... params) {
 
 				l = UgFactory.getUgEvent().getAllAcademicEvents();
-				
-				return super.doInBackground(params); 
+
+				return super.doInBackground(params);
 			}
 
-			@Override 
-			protected void onPostExecute(List<AcademicCalendarEvent> result) 
-			{
-				if (l==null || l.size()==0) return;
+			@Override
+			protected void onPostExecute(List<AcademicCalendarEvent> result) {
+				if (l == null || l.size() == 0)
+					return;
 				UGDatabase.getInstance(mainActivity).setAcademicCalendar(l);
-				AcademicCalendarListFragment f = mainActivity.getCalendarFragment();
-				if (f==null) return;
+				AcademicCalendarListFragment f = mainActivity
+						.getCalendarFragment();
+				if (f == null)
+					return;
 				f.updateData();
 			}
 
@@ -138,7 +135,7 @@ public class ServerAsyncCommunication {
 			protected ReturnCodesUg doInBackground(CourseKey... params) {
 				if (params == null || params[0] == null)
 					return null;
-				ReturnCodesUg returnCode = UgFactory.getUgTracking() 
+				ReturnCodesUg returnCode = UgFactory.getUgTracking()
 						.addTrackingStudent(
 								UGDatabase.getInstance(mainActivity)
 										.getCurrentLoginObject(), params[0]);
