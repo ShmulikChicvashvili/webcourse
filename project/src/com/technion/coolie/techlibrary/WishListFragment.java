@@ -42,5 +42,12 @@ public class WishListFragment extends SherlockFragment {
 		
 		return v;
 	}
+	
+	public void addItem(LibraryElement libElement){
+		mWishList.add(libElement);
+		mWishAdapter.wishItems.clear();
+		mWishAdapter.wishItems.addAll(mWishList);
+		mWishAdapter.notifyDataSetChanged();
+	}
 }
 
