@@ -1,6 +1,8 @@
 package com.technion.coolie.tecmind;
 
 import java.io.FileOutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
@@ -223,8 +225,17 @@ public class MineActivity extends CoolieActivity {
 
 			List<TecPost> postsToServer = new LinkedList<TecPost>();
 			for (Post p : User.getUserInstance(null).posts) {
-				TecPost newTecPost = new TecPost(p.id, "hey", p.date,
-						p.technionValue, p.userID, p.likesCount, p.commentCount);
+				URL url = null;
+				try {
+					url = new URL(Mine.getMineInstance(null).getPostsUrls().get(p.id));
+				} catch (MalformedURLException e) {
+					System.out.println("*****problemmmmmmmmmmmmmmmmmmmmmm******");
+				}
+				String groupName = Mine.getMineInstance(null).getPostsGroupsNames().get(p.id);
+				String content = Mine.getMineInstance(null).getPostsContent().get(p.id);
+				
+				TecPost newTecPost = new TecPost(p.id, p.date,
+						p.technionValue, p.userID, p.likesCount, p.commentCount, url, groupName,content,0,null);
 				postsToServer.add(newTecPost);
 			}
 			updatePostsMessage = connector.addTecPostList(postsToServer);

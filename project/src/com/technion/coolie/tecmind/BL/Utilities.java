@@ -31,7 +31,7 @@ public class Utilities {
 	}
 
 	public static int calculatePostsAux(int numOfPosts) {
-		Post temp = new Post(null, null, null, 0, 0, null);
+		Post temp = new Post(null, null, null, 0, 0, null, null, null, 0, null);
 		return (temp.technionValue) * numOfPosts;
 	}
 

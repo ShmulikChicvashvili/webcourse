@@ -53,7 +53,7 @@ public class Popup {
 		        public void onItemClick(AdapterView<?> parent, final View view,
 		            int position, long id) {
 		        	PopUpItem item = (PopUpItem)parent.getItemAtPosition(position);
-		        	onPopupItemClickListener.onItemClick(item.getActivityClassName(), item.getItemId());
+		        	onPopupItemClickListener.onItemClick(item.getUrlAdd(), item.getItemId());
 
 					popupWindow.dismiss();
 		        }});
@@ -96,7 +96,7 @@ public class Popup {
 		    	 }
 		    	 PopUpItem item = items.get(position);
 		         TextView tv = (TextView) convertView.findViewById(R.id.tv_popup_item);
-		         tv.setText(item.getTitleText());
+		         tv.setText(item.getGroupName());
 		         tv.setTag(item.getItemId());
 		         return convertView;
 

@@ -270,7 +270,8 @@ public class MainActivity extends CoolieActivity {
 			for (TecPost tp : userPostsFromServer) {
 				User.getUserInstance(null).posts.add(new Post(tp.getId(), tp
 						.getDate(), tp.getUserID(), tp.getLikesCount(), tp
-						.getCommentCount(), null));
+						.getCommentCount(), tp.getGroup(), tp.getUrl(), 
+						tp.getGroup(), tp.getSpamCount(), tp.getSpamType()));
 						//TODO: change the null to the content from the server));
 			}
 		}

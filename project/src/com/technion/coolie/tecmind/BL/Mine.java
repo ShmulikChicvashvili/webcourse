@@ -1,6 +1,8 @@
 package com.technion.coolie.tecmind.BL;
 
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +33,8 @@ public class Mine implements IMine {
 	
 	private HashMap<String, String> mPostsUrls;
 	private HashMap<String, String> mPostsGroupsNames;
+	private HashMap<String, Date> mPostsDates;
+	private HashMap<String, String> mPostsContent;
 	
 	private Mine(String userId) {	 
 		mUserId = userId;
@@ -38,6 +42,8 @@ public class Mine implements IMine {
 		mTechGroups.add("244590982367730");
 		mPostsGroupsNames = new HashMap<String, String>();
 		mPostsUrls = new HashMap<String, String>();
+		mPostsDates = new HashMap<String, Date>();
+		mPostsContent = new HashMap<String, String>();
 	}
 	
 	/* Return Mine Instance if already have been created, initiate new one otherwise */
@@ -73,6 +79,7 @@ public class Mine implements IMine {
 	        int commentsOfPostsCounter = 0;
 	        int likesOfPostsCounter = 0;
 	        Post post = null;
+	        URL url = null;
 		try {
 			User checkUser = User.getUserInstance(null);
 			arr = jso.getJSONArray( "data" );
@@ -101,7 +108,7 @@ public class Mine implements IMine {
 			         
 			         /* if post hasn't been updated after last mining */
 			         if (updateTimeDate.before(User.getUserInstance(null).lastMining) ) {
-			        	 break;
+			        	 	continue;//break;
 			         }
 
 		            if (mTechGroups.contains(groupId)) {
@@ -128,8 +135,17 @@ public class Mine implements IMine {
 		        	   if (createTimeDate.after(User.getUserInstance(null).lastMining) ) {
 		        		   postsCounter++;
 		        		   
+		        			   try {
+								url = new URL(postUrl);
+							} catch (MalformedURLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+								
+							}
+		        		   
 		        		   /* adds the post to the user's posts list */
-		        		   Post newPost = new Post(postId, createTimeDate, mUserId, 0, 0, postContent);
+		        		   Post newPost = new Post(postId, createTimeDate, mUserId, 0, 0, 
+		        				   postContent,  url, postGroupName, 0, null);
 		        		   User.getUserInstance(null).posts.add(newPost);
 		        		   
 		        		   /* adds the url to the list by postId */
@@ -137,6 +153,14 @@ public class Mine implements IMine {
 		        		   
 		        		   /* adds the group name to the list by postId */
 		        		   mPostsGroupsNames.put(postId, postGroupName);
+		        		   
+
+		        		   /* adds the post date to the list by postId */
+		        		   mPostsDates.put(postId, createTimeDate);
+
+		        		   /* adds the post content to the list by postId */
+		        		   mPostsContent.put(postId, postContent);
+		        		 
 		        		   
 		        	   }
 		            }
@@ -212,7 +236,24 @@ public class Mine implements IMine {
 	}
 	
 
-    
+	public  HashMap<String, String> getPostsUrls() {
+		return mPostsUrls;
+	}
+	
+	public  HashMap<String, String> getPostsGroupsNames() {
+		return mPostsGroupsNames;
+	}
+ 
+	public  HashMap<String, Date> getPostsDates() {
+		return mPostsDates;
+	}
+	
+	public  HashMap<String, String> getPostsContent() {
+		return mPostsContent;
+	}
+ 
+	
+
  
 	
 

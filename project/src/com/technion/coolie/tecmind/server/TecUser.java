@@ -1,8 +1,8 @@
 package com.technion.coolie.tecmind.server;
+
 import java.util.Date;
 
 public class TecUser implements IGetters {
-
   String id;
   String name;
   TecUserTitle title;
@@ -23,8 +23,8 @@ public class TecUser implements IGetters {
    * @param bankAccount1
    */
   public TecUser(String id1, String name1, TecUserTitle title1,
-      Date lastMining1, int totalTechoins1, int bankAccount1, int commentsNum1, int postsNum1, int likesNum1
-      , int likeOnPostsNum1) {
+      Date lastMining1, int totalTechoins1, int bankAccount1, int commentsNum1,
+      int postsNum1, int likesNum1, int likeOnPostsNum1) {
     this.id = id1;
     this.name = name1;
     this.title = title1;

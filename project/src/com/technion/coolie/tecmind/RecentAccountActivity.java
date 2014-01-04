@@ -1,5 +1,6 @@
 package com.technion.coolie.tecmind;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +16,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,7 +67,7 @@ public class RecentAccountActivity extends SherlockFragment {
 		this.inflater = inflater;
 		inflateView = (LinearLayout) inflater.inflate(
 				R.layout.techmind_activity_recent_account, container, false);
-		initiateNumViews();
+		//initiateNumViews();
 		iniateViews();		
 		setPopUp();
 		setViewVal();
@@ -96,91 +98,39 @@ public class RecentAccountActivity extends SherlockFragment {
 			
 		}
 		
-		setDateViewVal();
-		
-		
-	}
-	
-	private void setDateViewVal() {
-		
-			try {
-				Map<Integer, String> monthMap = new HashMap<Integer, String>();
-				monthMap.put(1, "Jan");
-				monthMap.put(2, "Fab");
-				monthMap.put(3, "Mar");
-				monthMap.put(4, "Apr");
-				monthMap.put(5, "May");
-				monthMap.put(6, "Jun");
-				monthMap.put(7, "Jul");
-				monthMap.put(8, "Aug");
-				monthMap.put(9, "Sep");
-				monthMap.put(10, "Oct");
-				monthMap.put(11, "Nov");
-				monthMap.put(12, "Dec");
-				
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(MineActivity.exMiningDate);
-				int monthInt = cal.get(Calendar.MONTH);
-				Integer dayInt = cal.get(Calendar.DAY_OF_MONTH);
-				
-				month.setText(monthMap.get(monthInt+1));
-				day.setText(dayInt.toString());
-			} catch (Exception e) {
-				day.setText("You haven't mined yet");
-				day.setTextSize(12);
-			}	
-		
-	}
-	
-	
-	private void setValueTexts() {
-		
-		if (MineActivity.newMiningDate == null) {
-			postNum.setText("0");
-			commentsNum.setText("0");
-			likesNum.setText("0");
-		} else {
-			postNum.setText(String.valueOf(MineActivity.postsDelta));
-			commentsNum.setText(String.valueOf(MineActivity.commentsDelta));
-			likesNum.setText(String.valueOf(MineActivity.likesDelta));
-			totalTechions.setText(String.valueOf(MineActivity.totalDelta) +  "   Techoins");
-			
-			/* need to set ports comments and likes num  here */
+		try {
+			MineDateView.getInstance().setDateView(MineActivity.exMiningDate, month, day);
+		} catch (Exception e) {
+			day.setText("You haven't mined yet");
+			day.setTextSize(12);
 		}
-	}
-
-	private void initiateNumViews() {
-		postNum = (TextView) inflateView.findViewById(R.id.rec_account_number_posts);
-		commentsNum = (TextView) inflateView.findViewById(R.id.rec_account_number_comments);
-		likesNum = (TextView) inflateView.findViewById(R.id.rec_account_number_likes);
-
+		
+		
 	}
 	
-
 	void setPopUp() {
+	
+		final Popup ourNicePopup = new Popup(getActivity());
+		ArrayList<PopUpItem> items = new ArrayList<PopUpItem>();
+		HashMap<String, String> postsGroups = Mine.getMineInstance(null).getPostsGroupsNames();
+		HashMap<String, String> postsUrls = Mine.getMineInstance(null).getPostsUrls();
+		HashMap<String, Date> postsDates = Mine.getMineInstance(null).getPostsDates();
+		HashMap<String, String> postsContent = Mine.getMineInstance(null).getPostsContent();
+		int i = 0;
 		
-	    PopUpItem item1 = new PopUpItem(0, "RUN ACTIVITY ONE", MineActivity.class);
-	    PopUpItem item2 = new PopUpItem(1, "RUN ACTIVITY TWO", MainActivity.class);
-	    PopUpItem item3 = new PopUpItem(2, "RUN ACTIVITY THREE", MainActivity.class);
-        
-        final Popup ourNicePopup = new Popup(getActivity());
-
-        ArrayList<PopUpItem> items = new ArrayList<PopUpItem>();
-        items.add(item1);
-        items.add(item2);
-        items.add(item3);
-        items.add(item3);
-        items.add(item3);
-        items.add(item3);
-        items.add(item3);
-        items.add(item3);
-        items.add(item3);
+		for (String key : postsGroups.keySet()) {
+			PopUpItem item = new PopUpItem(i, postsContent.get(key), postsDates.get(key),
+					postsUrls.get(key), postsGroups.get(key));
+			items.add(item);
+			i++;
+		}
+		
         ourNicePopup.addItems(items);
      
         ourNicePopup.setOnItemClickListener(new OnPopupItemClickListener() {
   			@Override
-  			public void onItemClick(Class<?> activityClass, int itemId) {
-  				startActivity(new Intent(getActivity(), activityClass));
+  			public void onItemClick(URL url, int itemId) {
+  				//startActivity(new Intent(getActivity(), activityClass));
   			}
   		});
           
@@ -192,7 +142,14 @@ public class RecentAccountActivity extends SherlockFragment {
   			}
   		});
           
-      }  
+      } 
+
+private void initiateNumViews() {
+	postNum = (TextView) inflateView.findViewById(R.id.rec_account_number_posts);
+	commentsNum = (TextView) inflateView.findViewById(R.id.rec_account_number_comments);
+	likesNum = (TextView) inflateView.findViewById(R.id.rec_account_number_likes);
+
 }
-
-
+	
+	
+}
