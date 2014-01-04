@@ -50,10 +50,15 @@ public class MainActivity extends CoolieActivity implements
 		setContentView(R.layout.ug_main_screen);
 
 		updateData();
-
 		// ServerAsyncCommunication.getAllCoursesFromServer();
 		// UGDatabase.getInstance(this).mainActivity = this;
 
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		UGDatabase.getInstance(this); // forces initialization of the database.
 	}
 
 	@Override
@@ -131,12 +136,12 @@ public class MainActivity extends CoolieActivity implements
 						2, 11), null, null, null);
 
 		List<Course> courses = new ArrayList<Course>();
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 1000; i++) {
 			Course c = new Course(course);
 			c.setCourseNumber((i + 2000) + "");
 			courses.add(c);
 		}
-
+		courses.add(course);
 		courses.add(course2);
 
 		List<AcademicCalendarEvent> academicList = new ArrayList<AcademicCalendarEvent>(

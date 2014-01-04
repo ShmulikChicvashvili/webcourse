@@ -61,36 +61,65 @@ public class CourseDisplayFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 	}
 
+	private void recieveCourse(final Bundle bundle) {
+
+		CourseKey key = null;
+		if (bundle == null) {
+			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE EXTRAS , exisiting");
+			throw new NullPointerException();
+		}
+		key = (CourseKey) bundle.getSerializable(ARGUMENTS_COURSE_KEY);
+		courseToView = UGDatabase.getInstance(getActivity())
+				.getCourseByKey(key);
+		if (courseToView == null) {
+			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSEKEY IN DB");
+			courseToView = new Course(key); // partial course display
+		}
+
+	}
+
 	private void updateCourseDisplay() {
 		final SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy",
 				Locale.getDefault());
 
-		final TextView nameTextView = (TextView) getActivity().findViewById(
-				R.id.course_screen_name);
-		nameTextView.setText(courseToView.getName());
+		if (courseToView.getName() != null) {
+			final TextView nameTextView = (TextView) getActivity()
+					.findViewById(R.id.course_screen_name);
+			nameTextView.setText(courseToView.getName());
+		}
+
 		final TextView pointsTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_points);
 		pointsTextView.setText("" + courseToView.getPoints());
-		final TextView numberTextView = (TextView) getActivity().findViewById(
-				R.id.course_screen_number);
-		numberTextView.setText("" + courseToView.getCourseNumber());
 
-		final TextView facultyTextView = (TextView) getActivity().findViewById(
-				R.id.course_screen_faculty);
-		facultyTextView
-				.setText("" + courseToView.getFaculty().getName(context));
+		if (courseToView.getCourseNumber() != null) {
+			final TextView numberTextView = (TextView) getActivity()
+					.findViewById(R.id.course_screen_number);
+			numberTextView.setText("" + courseToView.getCourseNumber());
+		}
+		if (courseToView.getFaculty() != null) {
+			final TextView facultyTextView = (TextView) getActivity()
+					.findViewById(R.id.course_screen_faculty);
+			facultyTextView.setText(""
+					+ courseToView.getFaculty().getName(context));
+		}
+		if (courseToView.getDescription() != null) {
+			final TextView descTextView = (TextView) getActivity()
+					.findViewById(R.id.course_screen_description);
+			descTextView.setText(courseToView.getDescription());
+		}
+		if (courseToView.getMoedA() != null) {
+			final TextView examATextView = (TextView) getActivity()
+					.findViewById(R.id.course_screen_exam_a);
+			examATextView.setText(df.format(courseToView.getMoedA().getTime()));
+		}
+		if (courseToView.getMoedB() != null) {
+			final TextView examBTextView = (TextView) getActivity()
+					.findViewById(R.id.course_screen_exam_b);
+			examBTextView.setText(df.format(courseToView.getMoedB().getTime()));
+		}
 
-		final TextView descTextView = (TextView) getActivity().findViewById(
-				R.id.course_screen_description);
-		descTextView.setText(courseToView.getDescription());
-
-		final TextView examATextView = (TextView) getActivity().findViewById(
-				R.id.course_screen_exam_a);
-		examATextView.setText(df.format(courseToView.getMoedA().getTime()));
-
-		final TextView examBTextView = (TextView) getActivity().findViewById(
-				R.id.course_screen_exam_b);
-		examBTextView.setText(df.format(courseToView.getMoedB().getTime()));
+		makeKdamim(courseToView);
 
 		makeGroupsHeader();
 
@@ -102,6 +131,10 @@ public class CourseDisplayFragment extends Fragment {
 		}
 
 		fixEndOfGroups();
+	}
+
+	private void makeKdamim(Course courseToView2) {
+
 	}
 
 	private void addSeperatorLine() {
@@ -178,24 +211,6 @@ public class CourseDisplayFragment extends Fragment {
 		groupsView.addView(view);
 		inflater.inflate(R.layout.ug_course_display_line, groupsView);
 		return view;
-
-	}
-
-	private void recieveCourse(final Bundle bundle) {
-
-		CourseKey key = null;
-		if (bundle == null) {
-			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE EXTRAS , exisiting");
-			throw new NullPointerException();
-		}
-		key = (CourseKey) bundle.getSerializable(ARGUMENTS_COURSE_KEY);
-		courseToView = UGDatabase.getInstance(getActivity())
-				.getCourseByKey(key);
-		if (courseToView == null) {
-			Log.e(MainActivity.DEBUG_TAG,
-					"CANT FIND COURSEKEY IN DB, exisiting");
-			throw new NullPointerException();
-		}
 
 	}
 

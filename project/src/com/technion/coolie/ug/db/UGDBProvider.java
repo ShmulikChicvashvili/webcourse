@@ -111,13 +111,8 @@ public class UGDBProvider {
 
 	void setCoursesAndExams(List<CourseItem> courses, String studentId) {
 		try {
-			// find all courses of studentId, for replacing them
-			// List<RegisteredCourseRow> toDeleteCourses = getHelper()
-			// .getRegisteredCoursesDao().queryBuilder().where()
-			// .eq("studentId", studentId).query();
-			//
-			// // delete the list TODO delete after adding, and not before
-			// getHelper().getRegisteredCoursesDao().delete(toDeleteCourses);
+
+			// TODO delete after adding, and not before
 
 			getHelper().getRegisteredCoursesDao().deleteBuilder().delete();
 
@@ -272,14 +267,14 @@ public class UGDBProvider {
 		}
 	}
 
-	Dao<RegisteredCourseRow, Long> getRegisteredCoursesDao() {
-		try {
-			return getHelper().getRegisteredCoursesDao();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new NullPointerException("Can't get courses table!");
-		}
-	}
+	// Dao<RegisteredCourseRow, Long> getRegisteredCoursesDao() {
+	// try {
+	// return getHelper().getRegisteredCoursesDao();
+	// } catch (SQLException e) {
+	// e.printStackTrace();
+	// throw new NullPointerException("Can't get courses table!");
+	// }
+	// }
 
 	/**
 	 * this method must be called when app finishes the use of this class.

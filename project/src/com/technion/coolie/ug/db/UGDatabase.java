@@ -47,7 +47,7 @@ public class UGDatabase {
 	 * assumes a student is logged in to the application, and we can retrieve
 	 * his id.
 	 */
-	public static UGDatabase getInstance(Context context) {
+	public synchronized static UGDatabase getInstance(Context context) {
 		if (INSTANCE == null) {
 			log("[Creating UG database for the first time]]");
 			INSTANCE = new UGDatabase(context.getApplicationContext());
@@ -69,6 +69,10 @@ public class UGDatabase {
 	private static boolean changedStudent() {
 		return !(INSTANCE.getStudentId().equals(INSTANCE.studentId));
 	}
+
+	// private UGDatabase() {
+	// this.studentId = "";
+	// }
 
 	private UGDatabase(Context appContext) {
 		this.appContext = appContext;
@@ -149,8 +153,6 @@ public class UGDatabase {
 
 	// TODO
 	private void initializeSemesters() {
-
-		// currentSeason = findCurrentSemesters(currentSemesters); TODO
 
 		currentSeason = SemesterSeason.WINTER;
 		currentSemesters = new Semester[3];
@@ -347,9 +349,12 @@ public class UGDatabase {
 	}
 
 	private void checkListParam(List list) {
-		if (list == null || list.isEmpty())
+		if (list == null)
 			throw new IllegalArgumentException(
-					"illegal list is passed to database");
+					"null list is overriding database");
+		if (list.isEmpty())
+			throw new IllegalArgumentException(
+					"empty list is overriding database");
 	}
 
 }

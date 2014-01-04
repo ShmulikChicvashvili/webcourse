@@ -43,7 +43,6 @@ import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Faculty;
 import com.technion.coolie.ug.utils.SerializeIO;
 
-//need to add more search options - has available courses?
 //add the courses hours to the calendar?
 //search option - by date in day!
 //need to add hebrew to the search filters

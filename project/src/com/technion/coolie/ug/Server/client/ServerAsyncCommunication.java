@@ -55,7 +55,7 @@ public class ServerAsyncCommunication {
 				UGDatabase db = UGDatabase.getInstance(mainActivity);
 				l = UgFactory.getUgGradeSheet().getMyGradesSheet(
 						db.getCurrentLoginObject());
-
+				db.setGradesSheet(l);
 				// return super.doInBackground(params);
 				return l;
 			}
@@ -109,7 +109,7 @@ public class ServerAsyncCommunication {
 					String... params) {
 
 				l = UgFactory.getUgEvent().getAllAcademicEvents();
-
+				UGDatabase.getInstance(mainActivity).setAcademicCalendar(l);
 				return super.doInBackground(params);
 			}
 

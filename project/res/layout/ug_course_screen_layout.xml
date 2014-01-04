@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:singleLine="true"
-            android:text="default for debug" 
+            android:text="" 
             android:background="@drawable/ug_course_text_container"
 			android:layout_toLeftOf="@+id/ug_course_screen_name_header"            
             />
@@ -108,7 +108,7 @@
             android:id="@+id/course_screen_number"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="233232" 
+            android:text="" 
             android:background="@drawable/ug_course_text_container"
             
             
@@ -150,7 +150,7 @@
             android:id="@+id/course_screen_faculty"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="תעשייה וניהול" 
+            android:text="" 
             android:background="@drawable/ug_course_text_container"
             
             android:layout_gravity="right"
@@ -182,7 +182,7 @@
             android:id="@+id/course_screen_points"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="4.0" 
+            android:text="" 
             android:background="@drawable/ug_course_text_container"
             
             android:layout_gravity="right"
@@ -221,7 +221,7 @@
             android:id="@+id/course_screen_description"
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:text="This is a description for allllllllllllllllll the goddamn people in the goddamn whole world to see the greatness in itself" 
+            android:text="" 
             android:background="@drawable/ug_course_text_container"
             
               android:layout_weight="16"
@@ -265,7 +265,7 @@
             android:id="@+id/course_screen_exam_b"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" 19/10/2030 " 
+            android:text="" 
             android:background="@drawable/ug_course_text_container"
             
             
@@ -300,7 +300,7 @@
             android:id="@+id/course_screen_exam_a"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:text=" 19/10/2030" 
+            android:text="" 
             android:background="@drawable/ug_course_text_container"
             
             

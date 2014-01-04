@@ -68,6 +68,20 @@ public class Course implements Serializable {
 		registrationGroups = course.registrationGroups;
 	}
 
+	public Course(CourseKey key) {
+		this.courseNumber = key.getNumber();
+		this.name = "";
+		this.points = 0;
+		this.description = "";
+		this.semester = key.getSemester();
+		this.faculty = null;
+		this.moedA = null;
+		this.moedB = null;
+		this.prerequisites = null;
+		this.attachedCourses = null;
+		this.registrationGroups = null;
+	}
+
 	public String getCourseNumber() {
 		return courseNumber;
 	}
