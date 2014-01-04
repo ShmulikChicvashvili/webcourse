@@ -4,20 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
   >
-    
+    <RelativeLayout 
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#112f"
+    android:layout_marginLeft="10dip"
+    android:layout_marginRight="10dip"
+    android:layout_marginTop="10dip"
+     android:layout_marginBottom="10dip"
+  >
   <ScrollView 
       android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="fill_parent">
     
-    <LinearLayout android:background="#112f" 
+    <LinearLayout
         android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginTop="10dip"
-          android:layout_marginRight="10dip"
-          android:layout_marginLeft="10dip">
+        android:layout_height="match_parent"
         
-
+        android:orientation="vertical" >
         
 <!-- <RadioGroup -->
 <!--     android:id="@+id/course_screen_semester_radio_group" -->
@@ -347,4 +351,5 @@
     
     
 	    </ScrollView>  
+	    </RelativeLayout>
 </RelativeLayout>

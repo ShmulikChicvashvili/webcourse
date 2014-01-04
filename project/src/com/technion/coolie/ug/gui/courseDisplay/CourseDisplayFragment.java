@@ -232,7 +232,7 @@ public class CourseDisplayFragment extends Fragment {
 		}
 
 		public MeetingDisplay(final Meeting meeting, final String _meetingType) {
-			final SimpleDateFormat df = new SimpleDateFormat("HH:m",
+			final SimpleDateFormat df = new SimpleDateFormat("HH:mm",
 					Locale.getDefault());
 			meetingType = _meetingType;
 			lecturer = meeting.getLecturerName();
@@ -241,7 +241,6 @@ public class CourseDisplayFragment extends Fragment {
 				hourStart = df.format(meeting.getStartingHour());
 			if (meeting.getEndingHour() != null)
 				hourEnd = df.format(meeting.getEndingHour());
-			// day = meeting.getDay().toSingleLetter();
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(meeting.getStartingHour());
 			day = dayLetter[cal.get(Calendar.DAY_OF_WEEK) - 1];
