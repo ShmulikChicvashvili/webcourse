@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Pair;
@@ -129,8 +130,11 @@ public class RecentAccountActivity extends SherlockFragment {
      
         ourNicePopup.setOnItemClickListener(new OnPopupItemClickListener() {
   			@Override
-  			public void onItemClick(URL url, int itemId) {
+  			public void onItemClick(URL url, PopUpItem item) {
   				//startActivity(new Intent(getActivity(), activityClass));
+//  			  Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.toString()));
+ // 			  startActivity(myIntent);
+  				
   			}
   		});
           

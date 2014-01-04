@@ -53,7 +53,7 @@ public class Popup {
 		        public void onItemClick(AdapterView<?> parent, final View view,
 		            int position, long id) {
 		        	PopUpItem item = (PopUpItem)parent.getItemAtPosition(position);
-		        	onPopupItemClickListener.onItemClick(item.getUrlAdd(), item.getItemId());
+		        	onPopupItemClickListener.onItemClick(item.getUrlAdd(), item);
 
 					popupWindow.dismiss();
 		        }});
@@ -95,9 +95,18 @@ public class Popup {
 		    		 convertView = inflater.inflate(R.layout.techmind_popup_item, parent, false);
 		    	 }
 		    	 PopUpItem item = items.get(position);
-		         TextView tv = (TextView) convertView.findViewById(R.id.tv_popup_item);
-		         tv.setText(item.getGroupName());
-		         tv.setTag(item.getItemId());
+		         TextView tvGroup = (TextView) convertView.findViewById(R.id.tv_popup_item_group);
+		         tvGroup.setText(item.getGroupName());
+		         tvGroup.setTag(item.getItemId());
+		         TextView tvContent = (TextView) convertView.findViewById(R.id.tv_popup_item_content);
+		         tvContent.setText(item.getContent());
+		         tvContent.setTag(item.getItemId());
+		         TextView tvMonth = (TextView) convertView.findViewById(R.id.popup_item_month);
+		         tvMonth.setText(item.getMonth());
+		         tvMonth.setTag(item.getItemId());
+		         TextView tvDay = (TextView) convertView.findViewById(R.id.popup_item_day);
+		         tvDay.setText(item.getDay());
+		         tvDay.setTag(item.getItemId());
 		         return convertView;
 
 		    }
@@ -113,7 +122,7 @@ public class Popup {
 		    public boolean hasStableIds() {
 		      return true;
 		    }
-
+		    
 		  }
 	
 }

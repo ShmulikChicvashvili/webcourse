@@ -34,10 +34,12 @@ public class PopUpItem {
 		return content;
 	}
 	
-	public Pair<String, String> getDate() {
-		return date;
+	public String getMonth() {
+		return date.first;
 	}
-	
+	public String getDay() {
+		return date.second;
+	}
 	public URL getUrlAdd() {
 		return urlAdd;
 	}
