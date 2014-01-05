@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.MenuItem;
@@ -112,6 +113,7 @@ public class TransparentActivity extends CoolieActivity implements
 		super.onConfigurationChanged(newConfig);
 		// kill transperant activity when switching to landscape !
 		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			Log.i("TAG", "onConfigurationChanged");
 			finish();
 		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
 
