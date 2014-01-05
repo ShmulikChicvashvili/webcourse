@@ -23,7 +23,7 @@ public class GradesSheetFragmentListAdapter extends BaseAdapter {
 			final List<AccomplishedCourse> list) {
 		this.context = context;
 		values.addAll(list);
-		//Collections.sort(values);
+		Collections.sort(values);
 	}
 
 	@Override
