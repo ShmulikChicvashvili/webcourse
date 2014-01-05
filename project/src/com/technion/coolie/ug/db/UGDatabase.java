@@ -100,7 +100,7 @@ public class UGDatabase {
 
 	private void initAcademicCalendar() {
 		calendarEvents = dataProvider.getAcademicEvents();
-		// ServerAsyncCommunication.getCalendarEventsFromServer();
+		//ServerAsyncCommunication.getCalendarEventsFromServer();
 	}
 
 	private void initTrackingCourses() {
@@ -109,14 +109,11 @@ public class UGDatabase {
 
 	private void initGradesSheet() {
 		gradesSheet = dataProvider.getAccomplishedCourses(studentId);
-		// gradesSheet = new ArrayList<AccomplishedCourse>();
-		// gradesSheet.add(new
-		// AccomplishedCourse("234111","OS","4","201301","95","80",false));
-		ServerAsyncCommunication.getGradesSheetfromServer();
+		//ServerAsyncCommunication.getGradesSheetfromServer();
 	}
 
 	private void initRegisteredCourses() {
-		coursesAndExamsList = dataProvider.getCoursesAndExams(studentId);
+		coursesAndExamsList = dataProvider.getCoursesAndExams(studentId); 
 	}
 
 	private void initStudent() {

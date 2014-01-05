@@ -5,10 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
-import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.calendar.AcademicCalendarFragment;
@@ -34,38 +33,6 @@ public class TransparentActivity extends CoolieActivity implements
 		final Bundle b = getIntent().getExtras();
 		key = b.getString("key");
 		onListClicked(key, b);
-
-		// setting action bar dynamically
-		String title = getTitle(key);
-		getSupportActionBar().setTitle(title);
-	}
-
-	private String getTitle(String link) {
-		String s = null;
-		if (link.equals(GradesSheetFragment.class.toString())) {
-			s = getString(R.string.ug_grades_sheet);
-		} else if (link.equals(CoursesAndExamsFragment.class.toString())) {
-			s = getString(R.string.ug_coursesAndExams);
-		} else if (link.equals(CourseDisplayFragment.class.toString())) {
-			s = getString(R.string.ug_course_info);
-		} else if (link.equals(SearchFragment.class.toString())) {
-			s = getString(R.string.ug_search);
-		} else if (link.equals(AcademicCalendarFragment.class.toString())) {
-			s = getString(R.string.ug_calendar);
-		} else if (link.equals(TrackingCoursesFragment.class.toString())) {
-			s = getString(R.string.ug_tracker);
-		}
-		return s;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			finish();
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	public void onListClicked(final String link, final Bundle bundle) {
@@ -108,12 +75,21 @@ public class TransparentActivity extends CoolieActivity implements
 		fragmentTransaction.commit();
 	}
 
+	/**
+	 * This method is called from the corresponding xml file
+	 * 
+	 * @param view
+	 *            The clicked view
+	 */
+	public void transparentClick(final View view) {
+		finish();
+	}
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		// kill transperant activity when switching to landscape !
 		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			Log.i("TAG", "onConfigurationChanged");
 			finish();
 		} else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
 

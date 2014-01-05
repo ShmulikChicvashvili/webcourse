@@ -44,11 +44,12 @@ public class MainActivity extends CoolieActivity implements
 		super.onCreate(savedInstanceState);
 
 		context = getApplicationContext();
-		ServerAsyncCommunication.mainActivity = this;
+		ServerAsyncCommunication.mainActivity=this;
 		setContentView(R.layout.ug_main_screen);
 
 		updateData();
-
+		ServerAsyncCommunication.getCalendarEventsFromServer();
+		ServerAsyncCommunication.getGradesSheetfromServer();
 		// UGDatabase.getInstance(this).mainActivity = this;
 
 	}
@@ -158,7 +159,6 @@ public class MainActivity extends CoolieActivity implements
 		UGDatabase.getInstance(this).getTrackingCourses();
 		UGDatabase.getInstance(this).getCoursesAndExams();
 		UGDatabase.getInstance(this).getStudentInfo();
-		UGDatabase.getInstance(this).getGradesSheet();
 
 	}
 
@@ -185,26 +185,30 @@ public class MainActivity extends CoolieActivity implements
 		}
 	}
 
-	public AcademicCalendarListFragment getCalendarFragment() {
+	public AcademicCalendarListFragment getCalendarFragment() 
+	{
 		List<Fragment> allFragments = getSupportFragmentManager()
 				.getFragments();
-		for (Fragment f : allFragments) {
-			if (f instanceof AcademicCalendarListFragment)
-				return (AcademicCalendarListFragment) f;
+		for (Fragment f : allFragments)
+		{
+			if (f instanceof  AcademicCalendarListFragment )
+			return (AcademicCalendarListFragment)f;
 		}
 		return null;
-
+		
 	}
-
-	public GradesSheetListFragment getGradesSheetFragment() {
+	
+	public GradesSheetListFragment getGradesSheetFragment() 
+	{
 		List<Fragment> allFragments = getSupportFragmentManager()
 				.getFragments();
-		for (Fragment f : allFragments) {
-			if (f instanceof GradesSheetListFragment)
-				return (GradesSheetListFragment) f;
+		for (Fragment f : allFragments)
+		{
+			if (f instanceof  GradesSheetListFragment )
+			return (GradesSheetListFragment)f;
 		}
 		return null;
-
+		
 	}
 
 }
