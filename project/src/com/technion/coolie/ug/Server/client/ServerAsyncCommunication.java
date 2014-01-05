@@ -24,6 +24,7 @@ import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.UGLoginObject;
 import com.technion.coolie.ug.utils.UGAsync;
 import com.technion.coolie.ug.MainActivity;
+import com.technion.coolie.ug.*;
 
 /**
  * 
@@ -73,6 +74,7 @@ public class ServerAsyncCommunication {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				l = HtmlParser.parseGrades("stam");				
 				return super.doInBackground(params);
 				
 			}
@@ -127,12 +129,21 @@ public class ServerAsyncCommunication {
 					String... params) {
 
 				//l = UgFactory.getUgEvent().getAllAcademicEvents();
-				l = new ArrayList<AcademicCalendarEvent>();
+				
+				/*l = new ArrayList<AcademicCalendarEvent>();
 				int r = (int) (Math.random() * (10) + 1);
 				for(int i = 0; i < r; i++)
 				{
 					l.add(new AcademicCalendarEvent(Calendar.getInstance(), "Dummy academic event "+i, "dd", null));
+				}*/
+				
+				try {
+					Thread.sleep(5000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				l = HtmlParser.parseCalendar();				
 				return super.doInBackground(params); 
 			}
 

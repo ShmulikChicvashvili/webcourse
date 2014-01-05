@@ -100,7 +100,7 @@ public class UGDatabase {
 
 	private void initAcademicCalendar() {
 		calendarEvents = dataProvider.getAcademicEvents();
-		ServerAsyncCommunication.getCalendarEventsFromServer();
+		//ServerAsyncCommunication.getCalendarEventsFromServer();
 	}
 
 	private void initTrackingCourses() {
@@ -109,7 +109,7 @@ public class UGDatabase {
 
 	private void initGradesSheet() {
 		gradesSheet = dataProvider.getAccomplishedCourses(studentId);
-		ServerAsyncCommunication.getGradesSheetfromServer();
+		//ServerAsyncCommunication.getGradesSheetfromServer();
 	}
 
 	private void initRegisteredCourses() {

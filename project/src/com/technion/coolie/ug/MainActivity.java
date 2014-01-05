@@ -48,7 +48,8 @@ public class MainActivity extends CoolieActivity implements
 		setContentView(R.layout.ug_main_screen);
 
 		updateData();
-
+		ServerAsyncCommunication.getCalendarEventsFromServer();
+		ServerAsyncCommunication.getGradesSheetfromServer();
 		// UGDatabase.getInstance(this).mainActivity = this;
 
 	}
