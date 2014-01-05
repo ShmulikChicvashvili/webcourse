@@ -62,6 +62,16 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
+  public List<TecComment> getTopBestMiners() {
+    return gson.fromJson(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.GET_TOP_BEST_MINERS.toString()),
+        new TypeToken<List<TecUser>>() {
+          // default usage
+        }.getType());
+  }
+
+  @Override
   public ReturnCode addTecPost(TecPost tecPost) {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",

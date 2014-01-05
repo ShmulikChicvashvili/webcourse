@@ -35,14 +35,19 @@ public interface ITechmineAPI {
   public TecUser getUser(TecUser user);
 
   /**
-   * @return - top 10 TopBestPost by their technionValue field
+   * @return - top 10 TecPost by their technionValue field
    */
   public List<TecPost> getTopBestPosts();
 
   /**
-   * @return - top 10 TecTopBestComment by their technionValue field
+   * @return - top 10 TecComment by their technionValue field
    */
   public List<TecComment> getTopBestComments();
+
+  /**
+   * @return - top 10 TecUser by their totalTechoins field
+   */
+  public List<TecComment> getTopBestMiners();
 
   /**
    * 
