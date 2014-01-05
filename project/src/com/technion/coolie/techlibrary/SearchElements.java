@@ -33,6 +33,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -54,6 +55,8 @@ public class SearchElements {
 		Editable input = null;
 		String searchData = null;
 		private ArrayList<LibraryElement> searchItems = null;
+		// search Url
+		private static final String searchUrl = "https://aleph2.technion.ac.il/X?op=find&base=tecall&request=";
 		// search result
 		public Integer setNum = null;
 		public Integer numOfElements = null;
@@ -64,13 +67,13 @@ public class SearchElements {
 		private EditText mInputBoxView = null;
 
 		// protected ImageView imageview;
-		
-		@Override
-	    public void onCreate(Bundle savedInstanceState) {
-	        super.onCreate(savedInstanceState);
 
-	        setHasOptionsMenu(true);
-	    }
+		@Override
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
+
+			setHasOptionsMenu(true);
+		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,7 +111,8 @@ public class SearchElements {
 										searchItems.clear();
 										((BaseAdapter) mListView.getAdapter())
 												.notifyDataSetChanged();
-										getSearchDataSet(input.toString());
+										getSearchDataSet(input.toString(),
+												searchUrl);
 										return true;
 									}
 								}
@@ -156,7 +160,7 @@ public class SearchElements {
 							if (v.getId() == R.id.lib_search_course) {
 								input.append("+2013?14+COM");
 							}
-							getSearchDataSet(input.toString());
+							getSearchDataSet(input.toString(), searchUrl);
 						}
 
 					}
@@ -190,13 +194,37 @@ public class SearchElements {
 
 		}
 
+		// if there is an error toast it to the user
+		protected boolean containsError(String result) {
+
+			if (result.contains("<error>") == false) {
+				return false;
+			}
+
+			if (result.contains("<error>empty set</error>")) {
+				Toast toastEmpty = Toast.makeText(getSherlockActivity(),
+						"no items for your search", Toast.LENGTH_SHORT);
+				toastEmpty.show();
+			} else {
+				Toast toastError = Toast.makeText(getSherlockActivity(),
+						"there was an error", Toast.LENGTH_SHORT);
+				toastError.show();
+			}
+			return true;
+		}
+
 		/**
 		 * First part of the search - get setData
 		 */
-		private void getSearchDataSet(String searchData) {
+		private void getSearchDataSet(String searchData, String URL) {
 			HtmlGrabber hg = new HtmlGrabber(getSherlockActivity()) {
 				@Override
 				public void handleResult(String result, CoolieStatus status) {
+
+					if (containsError(result)) {
+						return;
+					}
+
 					Log.d("xml result", result);
 					try {
 						parseResult(result, firstSearchPart);
@@ -216,11 +244,9 @@ public class SearchElements {
 			};
 			// TODO
 			Log.d("the url for the second part is: ",
-					"https://aleph2.technion.ac.il/X?op=find&base=tecall&request="
-							+ searchData.replace(" ", "+"));
-			String searchUrl = "https://aleph2.technion.ac.il/X?op=find&base=tecall&request="
-					+ searchData.replace(" ", "+");
-			hg.getHtmlSource(searchUrl, HtmlGrabber.Account.NONE);
+					URL + searchData.replace(" ", "+"));
+			hg.getHtmlSource(URL + searchData.replace(" ", "+"),
+					HtmlGrabber.Account.NONE);
 		}
 
 		/**
@@ -230,6 +256,13 @@ public class SearchElements {
 			HtmlGrabber hg = new HtmlGrabber(getSherlockActivity()) {
 				@Override
 				public void handleResult(String result, CoolieStatus status) {
+
+					if (containsError(result)) {
+						return;
+					}
+
+					result = result.replace("<<", "").replace(">>", "");
+
 					try {
 						parseResult(result, secondSearchPart);
 					} catch (Exception e) {
@@ -326,14 +359,9 @@ public class SearchElements {
 
 			@Override
 			public void startElement(String uri, String localName,
-					String qName, Attributes attributes) throws SAXException {
+					String qName, Attributes attributes) {
 				currentElement = true;
-
-				if (localName.equals("error")) {
-					// TODO CHECK ERRORS..
-					throw new SAXException("empty set");
-				}
-
+				currentValue = new String();
 			}
 
 			/**
@@ -361,7 +389,7 @@ public class SearchElements {
 			public void characters(char[] ch, int start, int length)
 					throws SAXException {
 				if (currentElement) {
-					currentValue = new String(ch, start, length);
+					currentValue += new String(ch, start, length);
 				}
 			}
 		}
@@ -372,9 +400,11 @@ public class SearchElements {
 			private String currentValue = null;
 			public ArrayList<LibraryElement> items = null;
 			LibraryElement curr = null;
-			private boolean inBookDetails = false;
+			private boolean inBookDetails245 = false;
 			private boolean inBookName = false;
 			private boolean inBookAuth = false;
+			private boolean bookAuthCheck = false;
+			private boolean inBookDetails100 = false;
 
 			public SearchItemsResult_XMLHandler() {
 				items = new ArrayList<BookItems.LibraryElement>();
@@ -382,30 +412,39 @@ public class SearchElements {
 
 			@Override
 			public void startElement(String uri, String localName,
-					String qName, Attributes attributes) throws SAXException {
+					String qName, Attributes attributes) {
 				currentElement = true;
+				currentValue = new String();
 				if (localName.equals("record")) {
 					curr = new BookItems().new LibraryElement();
 				}
 				int index = -1;
-				if (localName.equals("error")) {
-					// TODO CHECK ERRORS..
-					throw new SAXException("SEARCH ERROR");
-				} else if (localName.equals("varfield")) {
+				if (localName.equals("varfield")) {
 					index = attributes.getIndex("id");
 					if (index == -1) {
 						// TODO ERROR
 					} else if (attributes.getValue(index).equals("245")) {
-						inBookDetails = true;
+						inBookDetails245 = true;
+					} else if (attributes.getValue(index).equals("100")) {
+						inBookDetails100 = true;
 					}
 
-				} else if (localName.equals("subfield") && inBookDetails) {
+				} else if (localName.equals("subfield") && inBookDetails245) {
 					index = attributes.getIndex("label");
 					if (index == -1) {
 						// TODO ERROR
 					} else if (attributes.getValue(index).equals("a")) {
 						inBookName = true;
-					} else if (attributes.getValue(index).equals("c")) {
+					} else if (inBookAuth == false && bookAuthCheck == false
+							&& attributes.getValue(index).equals("c")) {
+						inBookAuth = true;
+					}
+				} else if (!inBookAuth && !bookAuthCheck
+						&& localName.equals("subfield") && inBookDetails100) {
+					index = attributes.getIndex("label");
+					if (index == -1) {
+						// TODO ERROR
+					} else if (attributes.getValue(index).equals("a")) {
 						inBookAuth = true;
 					}
 				}
@@ -426,17 +465,24 @@ public class SearchElements {
 					curr.id = currentValue;
 				} else if (localName.equals("subfield")) {
 					if (inBookName) {
-						Log.d("the name of the book is: ", currentValue);
-						curr.name = currentValue;
+						// Log.d("the name of the book is: ", currentValue);
+						curr.name = currentValue.replace(":", "").replace("\\", "").replace("/", "");
 						inBookName = false;
 					} else if (inBookAuth) {
 						curr.author = currentValue;
+						bookAuthCheck = true;
 						inBookAuth = false;
-						inBookDetails = false;
+
 					}
+				} else if (localName.equals("varfield")) {
+					inBookDetails100 = false;
+					inBookDetails245 = false;
 				} else if (localName.equals("record")) {
 					items.add(curr);
+					bookAuthCheck = false;
 				}
+
+
 			}
 
 			/**
@@ -447,11 +493,7 @@ public class SearchElements {
 			public void characters(char[] ch, int start, int length)
 					throws SAXException {
 				if (currentElement) {
-					currentValue = new String(ch, start, length);
-					currentValue = currentValue.replace("&apos;", "'")
-							.replace("&quot;", "\"").replace("&amp;", "&")
-							.replace("/", " ");
-					currentElement = false;
+					currentValue += new String(ch, start, length);					
 				}
 			}
 		}
@@ -521,17 +563,19 @@ public class SearchElements {
 			holder.name.setText(items.get(position).name);
 			holder.author.setText(items.get(position).author);
 			view.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
-//					BookDescription bD = new BookDescription(holds.get(position));
+					// BookDescription bD = new
+					// BookDescription(holds.get(position));
 					Intent intent = new Intent(context,
 							BookDescriptionActivity.class);
 					LibraryElement hE = items.get(position);
-					String[] extraData = {hE.name, hE.author, hE.library, hE.id};
+					String[] extraData = { hE.name, hE.author, hE.library,
+							hE.id };
 					intent.putExtra("description", extraData);
-					((Activity)context).startActivityForResult(intent,0);
-					
+					((Activity) context).startActivityForResult(intent, 0);
+
 				}
 			});
 			return view;

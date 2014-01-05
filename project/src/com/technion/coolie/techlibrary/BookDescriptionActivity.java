@@ -1,10 +1,16 @@
 package com.technion.coolie.techlibrary;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.technion.coolie.CoolieActivity;
@@ -43,6 +49,8 @@ public class BookDescriptionActivity extends CoolieActivity {
 	private String library = null;
 	private String id = null;
 
+	private ArrayList<CopyItem> adapterItems = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,15 +62,14 @@ public class BookDescriptionActivity extends CoolieActivity {
 		id = data[3];
 		((TextView) findViewById(R.id.lib_book_name)).setText(data[0]);
 		((TextView) findViewById(R.id.lib_book_author)).setText(data[1]);
-		((TextView) findViewById(R.id.lib_book_library)).setText(data[3]);
+		((TextView) findViewById(R.id.lib_book_library)).setText(data[2]);
 		// lib_copies_list
 		// set Adapter for list
-		items = new ArrayList<CopyItem>();
-//		getCopiesData();
+		adapterItems = new ArrayList<CopyItem>();
 		mListView = (ListView) findViewById(R.id.lib_copies_list);
-//		mListView.setAdapter(new CopiesListAdapter(this, items, name));
-		setAdapter();
+		mListView.setAdapter(new CopiesListAdapter(this, adapterItems, name));
 		Log.d("check calling activity", "" + getCallingActivity()); // null :(
+		getCopiesData();
 
 	}
 
@@ -72,33 +79,37 @@ public class BookDescriptionActivity extends CoolieActivity {
 			public void handleResult(String result, CoolieStatus status) {
 				Log.d("xml result", result);
 				parseAndDisplay(result);
-				setAdapter();
-				
-
 			}
 
 		};
 		// TODO
-		Log.d("the url for copies is: ",
-				"http://aleph2.technion.ac.il/X?op=circ-status&sys_no=" + id
-						+ "&library=tec01");
-		String searchUrl = "http://aleph2.technion.ac.il/X?op=circ-status&sys_no="
+		String getCopiesUrl = "http://aleph2.technion.ac.il/X?op=circ-status&sys_no="
 				+ id + "&library=tec01";
-		hg.getHtmlSource(searchUrl, HtmlGrabber.Account.NONE);
-	}
-
-	protected void setAdapter() {
-		ArrayList<Boolean> items = new ArrayList<Boolean>();
-		int num = 1;
-		for (int i = 0; i < 9; ++i) {
-			items.add(1 - num == 1 ? true : false);
-			num = 1 - num;
-		}
-		mListView.setAdapter(new CopiesListAdapter(this, items, name));		
+		Log.d("the url for copies is: ", getCopiesUrl);
+		hg.getHtmlSource(getCopiesUrl, HtmlGrabber.Account.NONE);
 	}
 
 	protected void parseAndDisplay(String result) {
-		// TODO Auto-generated method stub
+		CopiesXMLHandler itemsXMLHandler = new CopiesXMLHandler();
+		try {
+			SAXParserFactory spf = SAXParserFactory.newInstance();
+			SAXParser sp = spf.newSAXParser();
+			XMLReader xr = sp.getXMLReader();
+
+			/**
+			 * Create handler to handle XML Tags ( extends
+			 * DefaultHandler )
+			 */
+			xr.setContentHandler(itemsXMLHandler);
+			xr.parse(new InputSource(new StringReader(result)));
+		} catch (Exception e) {
+			Log.e("woooot:", "exception - " + e.getClass().toString(),
+					e);
+			// TODO: handle exceptions?
+		}
+		adapterItems.clear();
+		adapterItems.addAll(itemsXMLHandler.items);
+		((BaseAdapter) mListView.getAdapter()).notifyDataSetChanged();
 
 	}
 
@@ -107,10 +118,10 @@ public class BookDescriptionActivity extends CoolieActivity {
 		public String dueDate;
 		public String library;
 		public String barcode;
+		public Boolean isAvailable;
 
 	}
 
-	private ArrayList<CopyItem> items = null;
 
 	/*
 	 * XML parser for Loans + requests info.
@@ -125,10 +136,10 @@ public class BookDescriptionActivity extends CoolieActivity {
 		 * <opac-note/> </item-data>
 		 */
 
-		private boolean currentElement = false;
+		private Boolean currentElement = false;
 		private String currentValue = null;
 		private CopyItem currentCopy = null;
-
+		public ArrayList<CopyItem> items = null;
 		// public ArrayList<HoldElement> holdList = null;
 
 		@Override
@@ -136,10 +147,10 @@ public class BookDescriptionActivity extends CoolieActivity {
 				Attributes attributes) throws SAXException {
 			currentElement = true;
 			currentValue = "";
-//			if (localName.equals("circ-status")) {
-//				/** Start */
-//				items = new ArrayList<CopyItem>();
-//			}
+			 if (localName.equals("circ-status")) {
+			 /** Start */
+				 items = new ArrayList<CopyItem>();
+			 }
 			if (localName.equals("item-data")) {
 				currentCopy = new CopyItem();
 			}
@@ -160,6 +171,10 @@ public class BookDescriptionActivity extends CoolieActivity {
 			currentElement = false;
 			/** set value */
 			if (localName.equals("loan-status")) {
+				if(currentValue.contains("ONE WEEK") || currentValue.contains("TWO WEEKS") || currentValue.contains("OVERNIGHT ")){
+					currentCopy.isAvailable = true;
+				}else
+					currentCopy.isAvailable = false;
 				currentCopy.status = currentValue;
 			} else if (localName.equals("due-date")) {
 				currentCopy.dueDate = currentValue;
@@ -167,7 +182,7 @@ public class BookDescriptionActivity extends CoolieActivity {
 				currentCopy.library = currentValue;
 			} else if (localName.equals("barcode")) {
 				currentCopy.barcode = currentValue;
-			}else if (localName.equals("item-data")) {
+			} else if (localName.equals("item-data")) {
 				items.add(currentCopy);
 			}
 		}
@@ -196,9 +211,8 @@ public class BookDescriptionActivity extends CoolieActivity {
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	public static class CopiesListAdapter extends BaseAdapter {
 
-		private final List<Boolean> items; // change!!!!!
+		private final List<CopyItem> items; // change!!!!!
 		private BookDescriptionActivity context;
-		private String[] funny = { "C", "l", "i", "c", "k", "o", "n", "m", "e" };
 		// protected boolean wasPressed = false;
 		private String bookName = null;
 
@@ -220,9 +234,9 @@ public class BookDescriptionActivity extends CoolieActivity {
 		};
 
 		public CopiesListAdapter(final Context context,
-				List<Boolean> searchList, String name) {
+				ArrayList<CopyItem> items, String name) {
 			this.context = (BookDescriptionActivity) context;
-			this.items = searchList;
+			this.items = items;
 			this.bookName = name;
 		}
 
@@ -278,21 +292,24 @@ public class BookDescriptionActivity extends CoolieActivity {
 				holder = (viewHolder) view.getTag();
 			}
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			if (items.get(position)) {
+			if (items.get(position).isAvailable) {
 				holder.availabilityIcon
 						.setImageResource(R.drawable.lib_green_circle);
 				holder.dueDate.setText("waiting 4 u ;)");
-				holder.loanPeriod.setText("one week");
+				holder.holdOrWishAdd.setText("Wish");
+				holder.loanPeriod.setText(items.get(position).status);
 			} else {
 				holder.availabilityIcon
 						.setImageResource(R.drawable.lib_red_circle);
 				holder.loanPeriod.setText("hold on mama, im taken!");
-				holder.dueDate.setText("in loan till:\n12/13/14");
-//				holder.dueDate.setText("in loan till:\n" + context.items.get(position).dueDate);
+				holder.holdOrWishAdd.setText("Order");
+				holder.dueDate.setText(items.get(position).dueDate);
+				// holder.dueDate.setText("in loan till:\n" +
+				// context.items.get(position).dueDate);
 			}
-			holder.holdOrWishAdd.setText(funny[position]);
+			
 			holder.holdOrWishAdd.setOnClickListener(onClick);
-//			holder.library.setText(context.items.get(position).library);
+			// holder.library.setText(context.items.get(position).library);
 			// holder.name.setText(items.get(position).name);
 			// holder.author.setText(items.get(position).author);
 
