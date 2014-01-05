@@ -215,6 +215,9 @@ public class SearchElements {
 				}
 			};
 			// TODO
+			Log.d("the url for the second part is: ",
+					"https://aleph2.technion.ac.il/X?op=find&base=tecall&request="
+							+ searchData.replace(" ", "+"));
 			String searchUrl = "https://aleph2.technion.ac.il/X?op=find&base=tecall&request="
 					+ searchData.replace(" ", "+");
 			hg.getHtmlSource(searchUrl, HtmlGrabber.Account.NONE);
@@ -525,7 +528,7 @@ public class SearchElements {
 					Intent intent = new Intent(context,
 							BookDescriptionActivity.class);
 					LibraryElement hE = items.get(position);
-					String[] extraData = {hE.name, hE.author, hE.library};
+					String[] extraData = {hE.name, hE.author, hE.library, hE.id};
 					intent.putExtra("description", extraData);
 					((Activity)context).startActivityForResult(intent,0);
 					

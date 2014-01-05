@@ -89,7 +89,7 @@ public class LoansAdapter extends BaseAdapter {
 				Intent intent = new Intent(context,
 						BookDescriptionActivity.class);
 				LoanElement hE = loans.get(position);
-				String[] extraData = {hE.name, hE.author, hE.library};
+				String[] extraData = {hE.name, hE.author, hE.library, hE.id};
 				intent.putExtra("description", extraData);
 				((Activity)context).startActivityForResult(intent,0);
 				

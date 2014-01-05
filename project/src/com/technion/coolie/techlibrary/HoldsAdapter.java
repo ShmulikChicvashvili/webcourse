@@ -101,7 +101,7 @@ public class HoldsAdapter extends BaseAdapter {
 				Intent intent = new Intent(context,
 							BookDescriptionActivity.class);
 				HoldElement hE = holds.get(position);
-				String[] extraData = {hE.name, hE.author, hE.library};
+				String[] extraData = {hE.name, hE.author, hE.library, hE.id};
 				intent.putExtra("description", extraData);
 				((Activity)context).startActivityForResult(intent,0);
 				

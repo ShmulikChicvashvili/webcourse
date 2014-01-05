@@ -197,9 +197,8 @@ public class LoansFragment extends SherlockFragment {
 					currentValue = "";
 				} else {
 					currentValue = new String(ch, start, length);
-					currentValue.replace("&apos;", "'");
-					currentValue.replace("&quot;", "\"");
-					currentValue.replace("&amp;", "&");
+					currentValue = currentValue.replace("&apos;", "'")
+							.replace("&quot;", "\"").replace("&amp;", "&");
 
 					currentElement = false;
 				}

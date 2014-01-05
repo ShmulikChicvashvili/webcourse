@@ -127,6 +127,9 @@ public class MainActivity extends CoolieActivity implements
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		if(data == null){
+			return;
+		}
 		if (data.getStringExtra("activity") != null && data.getStringExtra("activity").equals("bookDescription")) {
 			Log.d("onnnn reeeesssuult", "YEA");
 			addToWishList((new BookItems()).new LibraryElement("1",
