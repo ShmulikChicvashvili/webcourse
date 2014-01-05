@@ -23,7 +23,7 @@ public class GradesSheetFragmentListAdapter extends BaseAdapter {
 			final List<AccomplishedCourse> list) {
 		this.context = context;
 		values.addAll(list);
-		// Collections.sort(values);
+		Collections.sort(values);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class GradesSheetFragmentListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public long getItemId(final int position) {
+	public long getItemId(final int position) { 
 		return position;
 	}
 
@@ -51,19 +51,19 @@ public class GradesSheetFragmentListAdapter extends BaseAdapter {
 					R.layout.ug_list_item_grades_sheet_fragment, parent, false);
 		}
 		final AccomplishedCourse course = (AccomplishedCourse) getItem(position);
-		if (course.getCourseNumber() != null) {
-			final TextView courseNameTextView = (TextView) convertView
-					.findViewById(R.id.ug_grades_sheet_fragment_course_name);
-			courseNameTextView.setText(course.getName());
 
-			final TextView pointsTextView = (TextView) convertView
-					.findViewById(R.id.ug_grades_sheet_fragment_points);
-			pointsTextView.setText(course.getPoints());
+		final TextView courseNameTextView = (TextView) convertView
+				.findViewById(R.id.ug_grades_sheet_fragment_course_name);
+		courseNameTextView.setText(course.getName());
 
-			final TextView gradeTextView = (TextView) convertView
-					.findViewById(R.id.ug_grades_sheet_fragment_grade);
-			gradeTextView.setText(course.getGrade());
-		}
+		final TextView pointsTextView = (TextView) convertView
+				.findViewById(R.id.ug_grades_sheet_fragment_points);
+		pointsTextView.setText(course.getPoints());
+
+		final TextView gradeTextView = (TextView) convertView
+				.findViewById(R.id.ug_grades_sheet_fragment_grade);
+		gradeTextView.setText(course.getGrade());
+
 		return convertView;
 	}
 

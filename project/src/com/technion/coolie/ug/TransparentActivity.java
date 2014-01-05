@@ -1,5 +1,7 @@
 package com.technion.coolie.ug;
 
+import java.util.List;
+
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -130,7 +132,16 @@ public class TransparentActivity extends CoolieActivity implements
 			Toast.makeText(this, "Problem with adding course",
 					Toast.LENGTH_SHORT).show();
 		} else {
-			UGDatabase.getInstance(this).getTrackingCourses().add(ck);
+			List<CourseKey> db = UGDatabase.getInstance(this).getTrackingCourses();
+			if (!db.contains(new CourseKey(ck.getNumber(), ck.getSemester())))
+			{
+				UGDatabase.getInstance(this).getTrackingCourses().add(ck);
+			}
+			else
+			{
+				Toast.makeText(this, "This course is already in your tracking list",
+						Toast.LENGTH_SHORT).show();
+			}
 		}
 		Fragment f = new TrackingCoursesFragment();
 		getSupportFragmentManager().beginTransaction()
