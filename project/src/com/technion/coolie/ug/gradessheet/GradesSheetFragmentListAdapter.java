@@ -22,7 +22,12 @@ public class GradesSheetFragmentListAdapter extends BaseAdapter {
 	public GradesSheetFragmentListAdapter(final Context context,
 			final List<AccomplishedCourse> list) {
 		this.context = context;
-		values.addAll(list);
+		// add to list only grades items
+		for (AccomplishedCourse ac : list)
+			if (ac.getCourseNumber() != null) {
+				values.add(ac);
+			}
+		// values.addAll(list);
 		Collections.sort(values);
 	}
 
@@ -37,7 +42,7 @@ public class GradesSheetFragmentListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public long getItemId(final int position) { 
+	public long getItemId(final int position) {
 		return position;
 	}
 
@@ -51,7 +56,6 @@ public class GradesSheetFragmentListAdapter extends BaseAdapter {
 					R.layout.ug_list_item_grades_sheet_fragment, parent, false);
 		}
 		final AccomplishedCourse course = (AccomplishedCourse) getItem(position);
-
 		final TextView courseNameTextView = (TextView) convertView
 				.findViewById(R.id.ug_grades_sheet_fragment_course_name);
 		courseNameTextView.setText(course.getName());
@@ -63,7 +67,6 @@ public class GradesSheetFragmentListAdapter extends BaseAdapter {
 		final TextView gradeTextView = (TextView) convertView
 				.findViewById(R.id.ug_grades_sheet_fragment_grade);
 		gradeTextView.setText(course.getGrade());
-
 		return convertView;
 	}
 
