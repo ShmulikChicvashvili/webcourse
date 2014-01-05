@@ -47,7 +47,7 @@ public enum CoolieModule {
           .getPackage("com.technion.coolie.joinin"), 0), WEBCOURSE(
       R.string.web_name, R.string.web_description, R.drawable.web_icon,
       com.technion.coolie.webcourse.CoursesActivity.class, Package
-          .getPackage("com.technion.coolie.webcourse.gr_plusplus"), 0);
+          .getPackage("com.technion.coolie.webcourse"), 0);
 
   private int nameResource;
   private int feedCount;
