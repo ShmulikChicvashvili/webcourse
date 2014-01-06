@@ -173,11 +173,16 @@ public class BookDescriptionActivity extends CoolieActivity {
 			if (localName.equals("loan-status")) {
 				if(currentValue.contains("ONE WEEK") || currentValue.contains("TWO WEEKS") || currentValue.contains("OVERNIGHT ")){
 					currentCopy.isAvailable = true;
-				}else
+				} else {
 					currentCopy.isAvailable = false;
+				}
 				currentCopy.status = currentValue;
 			} else if (localName.equals("due-date")) {
 				currentCopy.dueDate = currentValue;
+				if(currentCopy.dueDate.equals("") && currentCopy.isAvailable == true) {
+					Log.d("BookDescription", "loaned copy! " + currentCopy.status );
+					currentCopy.isAvailable = false;
+				}
 			} else if (localName.equals("sub-library")) {
 				currentCopy.library = currentValue;
 			} else if (localName.equals("barcode")) {
@@ -295,13 +300,13 @@ public class BookDescriptionActivity extends CoolieActivity {
 			if (items.get(position).isAvailable) {
 				holder.availabilityIcon
 						.setImageResource(R.drawable.lib_green_circle);
-				holder.dueDate.setText("waiting 4 u ;)");
+				holder.dueDate.setText("");
 				holder.holdOrWishAdd.setText("Wish");
 				holder.loanPeriod.setText(items.get(position).status);
 			} else {
 				holder.availabilityIcon
 						.setImageResource(R.drawable.lib_red_circle);
-				holder.loanPeriod.setText("hold on mama, im taken!");
+				holder.loanPeriod.setText(items.get(position).status);
 				holder.holdOrWishAdd.setText("Order");
 				holder.dueDate.setText(items.get(position).dueDate);
 				// holder.dueDate.setText("in loan till:\n" +
@@ -309,7 +314,7 @@ public class BookDescriptionActivity extends CoolieActivity {
 			}
 			
 			holder.holdOrWishAdd.setOnClickListener(onClick);
-			// holder.library.setText(context.items.get(position).library);
+			holder.library.setText(items.get(position).library);
 			// holder.name.setText(items.get(position).name);
 			// holder.author.setText(items.get(position).author);
 

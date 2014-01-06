@@ -72,18 +72,18 @@ public class MainActivity extends CoolieActivity implements
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		FragmentTransaction transaction = getSupportFragmentManager()
 				.beginTransaction();
-		if (itemPosition == 0) {
+		if (itemPosition == 2) {
 			fLibCard = new LibraryCardFragment();
 			Log.d("the activity in the main is", "" + fLibCard);
-			currPosition = 0;
+			currPosition = 2;
 			transaction.replace(R.id.lib_frame_container, fLibCard);
 		} else if (itemPosition == 1) {
 			SherlockFragment frag = new OpenHoursFragment();
 			currPosition = 1;
 			transaction.replace(R.id.lib_frame_container, frag);
-		} else if (itemPosition == 2) {
+		} else if (itemPosition == 0) {
 			SherlockFragment frag = new SearchFragment();
-			currPosition = 2;
+			currPosition = 0;
 			transaction.replace(R.id.lib_frame_container, frag);
 		}
 		transaction.commit();
@@ -127,10 +127,9 @@ public class MainActivity extends CoolieActivity implements
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if(data == null){
-			return;
-		}
-		if (data.getStringExtra("activity") != null && data.getStringExtra("activity").equals("bookDescription")) {
+
+		//TODO use request code to identify calls
+		if (data != null && data.getStringExtra("activity") != null && data.getStringExtra("activity").equals("bookDescription")) {
 			Log.d("onnnn reeeesssuult", "YEA");
 			addToWishList((new BookItems()).new LibraryElement("1",
 					data.getStringExtra("name"), "empty", "book", "C.S"));

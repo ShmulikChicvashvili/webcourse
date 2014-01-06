@@ -56,7 +56,14 @@ public class SearchElements {
 		String searchData = null;
 		private ArrayList<LibraryElement> searchItems = null;
 		// search Url
-		private static final String searchUrl = "https://aleph2.technion.ac.il/X?op=find&base=tecall&request=";
+		private static final String searchUrl = "https://aleph2.technion.ac.il/X?op=find&base=tec01&request=";
+		//barcode consts
+		public static final int BARCODE_REQUEST_CODE = 1;
+		private static final String BARCODE = "barcode";
+		private static final String FORMAT = "format";
+		private static final String ISBN_FORMAT = "EAN_13";
+		//
+		private static final String SHARED_PREF_BARCODE = "lib_pref2";
 		// search result
 		public Integer setNum = null;
 		public Integer numOfElements = null;
@@ -180,10 +187,35 @@ public class SearchElements {
 						public boolean onMenuItemClick(MenuItem item) {
 							Intent intent = new Intent(getSherlockActivity(),
 									BarcodeSearchActivity.class);
-							startActivity(intent);
+							Log.d("searchElement", "strat activity for result");
+							startActivityForResult(intent, BARCODE_REQUEST_CODE);
 							return true;
 						}
 					});
+		}
+		
+		@Override
+		public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+			
+			Log.d("searchElement", "on activity result " + requestCode);
+			if(requestCode == BARCODE_REQUEST_CODE) {
+				if(resultCode == BarcodeSearchActivity.RESULT_OK) {
+					String url = searchUrl + getSherlockActivity().getSharedPreferences(SHARED_PREF_BARCODE, 0).getString(BARCODE, "0");
+					if(getSherlockActivity().getSharedPreferences(SHARED_PREF_BARCODE, 0).getString(FORMAT, "0").equalsIgnoreCase(ISBN_FORMAT)) {
+						//search for isbn
+						url = url+"&code=ISBN";
+					} else {
+						//this is not isbn, search the server for barcode!
+						url = url+"&code=BAR";
+					}
+					getSearchDataSet("",url);
+				} else {
+					Toast toastError = Toast.makeText(getSherlockActivity(),
+							"No book scan data received!", Toast.LENGTH_SHORT);
+					toastError.show();
+				}
+			}
+			super.onActivityResult(requestCode, resultCode, intent);
 		}
 
 		protected void keyBoardDown(View v) {
@@ -197,30 +229,43 @@ public class SearchElements {
 		// if there is an error toast it to the user
 		protected boolean containsError(String result) {
 
-			if (result.contains("<error>") == false) {
-				return false;
+			if (result.contains("<error>")) {
+				Log.d("serchElements-error", result);
+				//TODO: this is error because accessing record that not exist. need other fix
+				if (result.contains("<error>There is no entry number:")) {
+					return false;
+				}
+				
+				if (result.contains("<error>empty set</error>")) {
+					Toast toastEmpty = Toast.makeText(getSherlockActivity(),
+							"no items for your search", Toast.LENGTH_SHORT);
+					toastEmpty.show();
+				} else {
+					Toast toastError = Toast.makeText(getSherlockActivity(),
+							"there was an error", Toast.LENGTH_SHORT);
+					toastError.show();
+				}
+				return true;
 			}
-
-			if (result.contains("<error>empty set</error>")) {
-				Toast toastEmpty = Toast.makeText(getSherlockActivity(),
-						"no items for your search", Toast.LENGTH_SHORT);
-				toastEmpty.show();
-			} else {
-				Toast toastError = Toast.makeText(getSherlockActivity(),
-						"there was an error", Toast.LENGTH_SHORT);
-				toastError.show();
-			}
-			return true;
+			return false;
 		}
 
 		/**
 		 * First part of the search - get setData
 		 */
-		private void getSearchDataSet(String searchData, String URL) {
+		private void getSearchDataSet(String searchData, final String URL) {
 			HtmlGrabber hg = new HtmlGrabber(getSherlockActivity()) {
 				@Override
 				public void handleResult(String result, CoolieStatus status) {
-
+					//if isbn and ean_13, lets try isbn only (cut off initial 978) 
+					if(URL.contains("&code=ISBN") && (result.contains("<error>empty set</error>")) &&
+							(URL.length() == (searchUrl.length()+"&code=ISBN".length()+13))) {
+						//lets try this again with deleting first three numbers
+						String isbnUrl = URL.replaceFirst("request=\\d{3}", "request=");
+						Log.d("searchElement", "isbn10 url:" + isbnUrl);
+						getSearchDataSet("",isbnUrl); 
+						return;
+					}
 					if (containsError(result)) {
 						return;
 					}
@@ -402,8 +447,8 @@ public class SearchElements {
 			LibraryElement curr = null;
 			private boolean inBookDetails245 = false;
 			private boolean inBookName = false;
-			private boolean inBookAuth = false;
-			private boolean bookAuthCheck = false;
+			private boolean inBookAuthor = false;
+			private boolean bookAuthorCheck = false;
 			private boolean inBookDetails100 = false;
 
 			public SearchItemsResult_XMLHandler() {
@@ -435,17 +480,17 @@ public class SearchElements {
 						// TODO ERROR
 					} else if (attributes.getValue(index).equals("a")) {
 						inBookName = true;
-					} else if (inBookAuth == false && bookAuthCheck == false
+					} else if (inBookAuthor == false && bookAuthorCheck == false
 							&& attributes.getValue(index).equals("c")) {
-						inBookAuth = true;
+						inBookAuthor = true;
 					}
-				} else if (!inBookAuth && !bookAuthCheck
+				} else if (!inBookAuthor && !bookAuthorCheck
 						&& localName.equals("subfield") && inBookDetails100) {
 					index = attributes.getIndex("label");
 					if (index == -1) {
 						// TODO ERROR
 					} else if (attributes.getValue(index).equals("a")) {
-						inBookAuth = true;
+						inBookAuthor = true;
 					}
 				}
 
@@ -468,10 +513,10 @@ public class SearchElements {
 						// Log.d("the name of the book is: ", currentValue);
 						curr.name = currentValue.replace(":", "").replace("\\", "").replace("/", "");
 						inBookName = false;
-					} else if (inBookAuth) {
+					} else if (inBookAuthor) {
 						curr.author = currentValue;
-						bookAuthCheck = true;
-						inBookAuth = false;
+						bookAuthorCheck = true;
+						inBookAuthor = false;
 
 					}
 				} else if (localName.equals("varfield")) {
@@ -479,7 +524,7 @@ public class SearchElements {
 					inBookDetails245 = false;
 				} else if (localName.equals("record")) {
 					items.add(curr);
-					bookAuthCheck = false;
+					bookAuthorCheck = false;
 				}
 
 

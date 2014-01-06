@@ -29,6 +29,8 @@ public class BarcodeSearchActivity extends Activity {
 	private String bookDescriptionUrl = "http://aleph2.technion.ac.il/X?op=ill-get-doc-short&library=tec01&doc_no=";
 
 	private static final String SHARED_PREF_BARCODE = "lib_pref2";
+	private static final String BARCODE = "barcode";
+	private static final String FORMAT = "format";
 	private String FINISHED = "finished";
 	private SharedPreferences mSharedPref;
 	private SharedPreferences.Editor mSharedPrefEditor;
@@ -49,6 +51,7 @@ public class BarcodeSearchActivity extends Activity {
 			scanForBook();
 		}
 		mSharedPrefEditor.putBoolean(FINISHED, true);
+		mSharedPrefEditor.commit();
 	}
 
 	@Override
@@ -56,6 +59,7 @@ public class BarcodeSearchActivity extends Activity {
 		super.onDestroy();
 		if (!isFinishing()) {
 			mSharedPrefEditor.putBoolean(FINISHED, false);
+			mSharedPrefEditor.commit();
 		}
 	}
 
@@ -69,15 +73,12 @@ public class BarcodeSearchActivity extends Activity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		super.onActivityResult(requestCode, resultCode, intent);
-		Log.v("barcodescanner", "onactivity result!");
 		// retrieve result of scanning - instantiate ZXing object
 		IntentResult scanResult = IntentIntegrator.parseActivityResult(
 				requestCode, resultCode, intent);
 
 		// check we have a valid result
-		Log.v("barcodescanner", "onactivity result!");
 		if (scanResult != null) {
-			Log.v("barcodescanner", "onactivity result!" + scanResult);
 			// get content from Intent Result
 			String scanContent = scanResult.getContents();
 			// get format name of data scanned
@@ -86,98 +87,105 @@ public class BarcodeSearchActivity extends Activity {
 					+ scanFormat);
 
 			// search for the book
+			Intent barcodeData = new Intent();
 			if (scanContent != null && scanFormat != null) {
-				// search with barcode for doc-num
-				searchBook(scanContent);
+				// bloody intent wont work! using shared prefs
+				//barcodeData.putExtra(BARCODE, scanContent);
+				//barcodeData.putExtra(FORMAT, scanFormat);
+				mSharedPrefEditor.putString(BARCODE, scanContent);
+				mSharedPrefEditor.putString(FORMAT, scanFormat);
+				mSharedPrefEditor.commit();
+				setResult(RESULT_OK, barcodeData);
+				//searchBook(scanContent); TODO: delete
 			} else {
 				// invalid scan data or scan canceled
-				showToastAndFinish(TOAST_NO_SCAN);
+				setResult(RESULT_CANCELED);
 			}
 		}
-
+		finish();
 	}
-
-	private void searchBook(String scanContent) {
-		HtmlGrabber hg = new HtmlGrabber(this) {
-			String bookDocNum = null;
-
-			@Override
-			public void handleResult(String result, CoolieStatus status) {
-				if (status == CoolieStatus.RESULT_OK) {
-					// checking for error TODO: check other error?
-					if (result.contains(ERROR_NO_RECORED_FOUND)) {
-						showToastAndFinish(TOAST_NO_RECORD); 
-						//TODO: maybe change to dialog alert with ok button
-					} else {
-						BarCodeResultXMLHandler xmlhandler = new BarCodeResultXMLHandler();
-						try {
-							SAXParserFactory spf = SAXParserFactory
-									.newInstance();
-							SAXParser sp = spf.newSAXParser();
-							XMLReader xr = sp.getXMLReader();
-
-							xr.setContentHandler(xmlhandler);
-							xr.parse(new InputSource(new StringReader(result)));
-						} catch (Exception e) {
-							// TODO: ?
-							Log.e("woooot:", "exception - "
-									+ e.getClass().toString(), e);
-						}
-
-						bookDocNum = xmlhandler.docNum;
-						if (bookDocNum == null) {
-							// TODO: error - think why and generate error
-							Log.e("BarcodeSearch", "no doc-num!? " + result);
-							Log.e("BarcodeSearch", result);
-						} else {
-							getBookInfo(bookDocNum);
-						}
-					}
-				} else {
-					// TODO: generate error
-				}
-			}
-		};
-		hg.getHtmlSource(barcodeSearchUrl + scanContent,
-				HtmlGrabber.Account.NONE);
-	}
-
-	protected void getBookInfo(String bookDocNum) {
-		HtmlGrabber hg = new HtmlGrabber(this) {
-			@Override
-			public void handleResult(String result, CoolieStatus status) {
-				if (status == CoolieStatus.RESULT_OK) {
-					// get book info and call book desc activity
-					BookDescXMLHandler bookXmlHandler = new BookDescXMLHandler();
-					try {
-						SAXParserFactory spf = SAXParserFactory.newInstance();
-						SAXParser sp = spf.newSAXParser();
-						XMLReader xr = sp.getXMLReader();
-
-						xr.setContentHandler(bookXmlHandler);
-						xr.parse(new InputSource(new StringReader(result)));
-					} catch (Exception e) {
-						// TODO: ?
-						Log.e("woooot:", "exception - "
-								+ e.getClass().toString(), e);
-					}
-					// Opening book description
-					Intent intent = new Intent(BarcodeSearchActivity.this,
-							BookDescriptionActivity.class);
-					String[] extraData = { bookXmlHandler.title,
-							bookXmlHandler.author, "kazachstan faculty" };
-					intent.putExtra("description", extraData);
-					startActivity(intent);
-					finish();
-				} else {
-
-					// TODO: generate error
-				}
-			}
-		};
-		hg.getHtmlSource(bookDescriptionUrl + bookDocNum,
-				HtmlGrabber.Account.NONE);
-	}
+//TODO: delete!
+//	private void searchBook(String scanContent) {
+//		HtmlGrabber hg = new HtmlGrabber(this) {
+//			String bookDocNum = null;
+//
+//			@Override
+//			public void handleResult(String result, CoolieStatus status) {
+//				if (status == CoolieStatus.RESULT_OK) {
+//					// checking for error TODO: check other error?
+//					if (result.contains(ERROR_NO_RECORED_FOUND)) {
+//						showToastAndFinish(TOAST_NO_RECORD); 
+//						//TODO: maybe change to dialog alert with ok button
+//					} else {
+//						BarCodeResultXMLHandler xmlhandler = new BarCodeResultXMLHandler();
+//						try {
+//							SAXParserFactory spf = SAXParserFactory
+//									.newInstance();
+//							SAXParser sp = spf.newSAXParser();
+//							XMLReader xr = sp.getXMLReader();
+//
+//							xr.setContentHandler(xmlhandler);
+//							xr.parse(new InputSource(new StringReader(result)));
+//						} catch (Exception e) {
+//							// TODO: ?
+//							Log.e("woooot:", "exception - "
+//									+ e.getClass().toString(), e);
+//						}
+//
+//						bookDocNum = xmlhandler.docNum;
+//						if (bookDocNum == null) {
+//							// TODO: error - think why and generate error
+//							Log.e("BarcodeSearch", "no doc-num!? " + result);
+//							Log.e("BarcodeSearch", result);
+//						} else {
+//							getBookInfo(bookDocNum);
+//						}
+//					}
+//				} else {
+//					// TODO: generate error
+//				}
+//			}
+//		};
+//		hg.getHtmlSource(barcodeSearchUrl + scanContent,
+//				HtmlGrabber.Account.NONE);
+//	}
+//
+//	protected void getBookInfo(String bookDocNum) {
+//		HtmlGrabber hg = new HtmlGrabber(this) {
+//			@Override
+//			public void handleResult(String result, CoolieStatus status) {
+//				if (status == CoolieStatus.RESULT_OK) {
+//					// get book info and call book desc activity
+//					BookDescXMLHandler bookXmlHandler = new BookDescXMLHandler();
+//					try {
+//						SAXParserFactory spf = SAXParserFactory.newInstance();
+//						SAXParser sp = spf.newSAXParser();
+//						XMLReader xr = sp.getXMLReader();
+//
+//						xr.setContentHandler(bookXmlHandler);
+//						xr.parse(new InputSource(new StringReader(result)));
+//					} catch (Exception e) {
+//						// TODO: ?
+//						Log.e("woooot:", "exception - "
+//								+ e.getClass().toString(), e);
+//					}
+//					// Opening book description
+//					Intent intent = new Intent(BarcodeSearchActivity.this,
+//							BookDescriptionActivity.class);
+//					String[] extraData = { bookXmlHandler.title,
+//							bookXmlHandler.author, "kazachstan faculty" };
+//					intent.putExtra("description", extraData);
+//					startActivity(intent);
+//					finish();
+//				} else {
+//
+//					// TODO: generate error
+//				}
+//			}
+//		};
+//		hg.getHtmlSource(bookDescriptionUrl + bookDocNum,
+//				HtmlGrabber.Account.NONE);
+//	}
 
 	protected void showToastAndFinish(String msg) {
 		Toast toast = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
