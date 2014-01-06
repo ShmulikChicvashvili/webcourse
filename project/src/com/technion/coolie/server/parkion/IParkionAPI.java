@@ -1,6 +1,7 @@
 package com.technion.coolie.server.parkion;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 
@@ -49,6 +50,12 @@ public interface IParkionAPI {
    * @return - List<String> as Json string of the ids of all the parking lots
    */
   public List<String> getIds();
+
+  /**
+   * 
+   * @return - List<String> as Json string of the ids of all the parking lots
+   */
+  public Map<String, Integer> getPrecent();
 
   /**
    * @param park

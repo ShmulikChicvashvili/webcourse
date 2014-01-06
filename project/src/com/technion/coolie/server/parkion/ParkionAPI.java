@@ -4,8 +4,10 @@
 package com.technion.coolie.server.parkion;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
 
 /**
@@ -90,6 +92,15 @@ public class ParkionAPI implements IParkionAPI {
     return gson.fromJson(Communicator.execute(
         ParkingLotEnum.PARK_SERVLET.value(), "function",
         ParkingLotEnum.GET_FREE_PARKING_LOTS.toString()), List.class);
+  }
+
+  @Override
+  public Map<String, Integer> getPrecent() {
+    return gson.fromJson((Communicator.execute(
+        ParkingLotEnum.PARK_SERVLET.value(), "function",
+        ParkingLotEnum.GET_PRECENT.toString())),
+        new TypeToken<Map<String, Integer>>() {
+        }.getType());
   }
 
 }
