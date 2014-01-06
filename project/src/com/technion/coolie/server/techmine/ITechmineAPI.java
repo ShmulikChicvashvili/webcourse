@@ -35,49 +35,19 @@ public interface ITechmineAPI {
   public TecUser getUser(TecUser user);
 
   /**
-   * 
-   * @param topBestPost
-   *          - the topBestPost to add with all the necessary fields initialized
-   * @return - SUCCESS if went well, error code otherwise
-   */
-  public ReturnCode addTopBestPost(TecTopBestPost topBestPost);
-
-  /**
-   * 
-   * @param topBestPost
-   *          - the topBestPost to remove with the id field initialized
-   *          correctly
-   * @return - SUCCESS if went well, error code otherwise
-   */
-  public ReturnCode removeTopBestPost(TecTopBestPost topBestPost);
-
-  /**
-   * @return - top 10 TopBestPost by their technionValue field
+   * @return - top 10 TecPost by their technionValue field
    */
   public List<TecPost> getTopBestPosts();
 
   /**
-   * 
-   * @param topBestComment
-   *          - the topBestComment to add with all the necessary fields
-   *          initialized
-   * @return - SUCCESS if went well, error code otherwise
-   */
-  public ReturnCode addTopBestComment(TecTopBestComment topBestComment);
-
-  /**
-   * 
-   * @param topBestComment
-   *          - the topBestComment to remove with the id field initialized
-   *          correctly
-   * @return - SUCCESS if went well, error code otherwise
-   */
-  public ReturnCode removeTopBestComment(TecTopBestComment topBestComment);
-
-  /**
-   * @return - top 10 TecTopBestComment by their technionValue field
+   * @return - top 10 TecComment by their technionValue field
    */
   public List<TecComment> getTopBestComments();
+
+  /**
+   * @return - top 10 TecUser by their totalTechoins field
+   */
+  public List<TecComment> getTopBestMiners();
 
   /**
    * 

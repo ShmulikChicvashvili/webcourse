@@ -8,11 +8,15 @@
     <string name="skel_tab_title_most_used">Most Used</string>
     <string name="skel_tab_title_feeds">Feeds</string>
     
-    <string name="skel_signin_signin_to">Sign in to </string>
+    <string name="skel_signin_signin_to">Sign in to</string>
     <string name="skel_signin_username_hint">Username</string>
     <string name="skel_signin_password_hint">Password</string>
-    <string name="skel_signin_signin_button">Sign in</string>
-    <string name="skel_signin_cancel_button">Cancel</string>
+    
+    <string name="skel_logout">Logout</string>
+    <string name="skel_signin">Sign in</string>
+    <string name="skel_cancel">Cancel</string>
+    
+    <string name="skel_preference_account_logged_in_as">Logged in with&#160;</string>
     
 
 </resources>

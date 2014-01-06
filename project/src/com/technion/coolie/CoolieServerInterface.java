@@ -13,8 +13,6 @@ import com.technion.coolie.server.parkion.ParkingLot;
 import com.technion.coolie.server.techmine.TecComment;
 import com.technion.coolie.server.techmine.TecLike;
 import com.technion.coolie.server.techmine.TecPost;
-import com.technion.coolie.server.techmine.TecTopBestComment;
-import com.technion.coolie.server.techmine.TecTopBestPost;
 import com.technion.coolie.server.techmine.TecUser;
 import com.technion.coolie.server.techoins.BankAccount;
 import com.technion.coolie.server.techoins.Product;
@@ -53,7 +51,7 @@ public abstract class CoolieServerInterface {
   Context mContext;
 
   public enum Action {
-    UG_GET_ALL_COURSES, UG_GET_COURSES, UG_GET_STUDENT_CURRENT_COURSES, UG_GET_ALL_ACADEMIC_EVENTS, UG_GET_STUDENT_EXAMS, UG_GET_MY_GRADES_SHEET, UG_GET_STUDENT_PAYMENTS, UG_ADD_TRACKING_STUDENT, UG_REMOVE_TRACKING_STUDENT_FROM_COURSE, TELETECH_GET_ALL_CONTACTS, WEBCOURSE_GET_STAFF_INFO, PARKION_ADD_PARKING_LOT, PARKION_REMOVE_PARKING_LOT, PARKION_GET_PARKING_LOT, PARKION_SET_OCCUPANCY, PARKION_USER_PARKED_IN_LOT, PARKION_USER_REPORT_PARKING_LOT_BUSY, PARKION_USER_LEFT_PARKING_LOT, PARKION_GET_FREE_PARKING_LOT, PARKION_GET_PARKING_IDS, TECHOINS_ADD_BANK_ACOUNTS, TECHOINS_REMOVE_BANK_ACOUNTS, TECHOINS_GET_BANK_ACOUNTS, TECHOINS_GET_BANK_HISTORY, TECHOINS_MOVE_MONEY, TECHOINS_GET_PRODUCTS_BY_ID, TECHOINS_GET_PRODUCTS_BY_NAME, TECHOINS_GET_PRODUCTS_BY_CATEGORY, TECHOINS_GET_X_RECENT_PRODUCTS, TECHOINS_GET_X_RANDOM_PRODUCTS, TECHOINS_ADD_PRODUCT, TECHOINS_GET_SOLD_PRODUCTS_BY_SELLER_ID, TECHOINS_GET_PURCHASED_PRODUCTS_BY_BUYER_ID, TECHOINS_GET_PUBLISHED_PRODUCTS_BY_SELLER_ID, TECHOINS_REMOVE_PRODUCT, TECHOINS_BUY_PRODUCT, TECHMINE_ADD_USER, TECHMINE_REMOVE_USER, TECHMINE_GET_USER, TECHMINE_ADD_TOP_BEST_POST, TECHMINE_REMOVE_TOP_BEST_POST, TECHMINE_GET_TOP_BEST_POST, TECHMINE_ADD_TOP_BEST_COMMENT, TECHMINE_REMOVE_TOP_BEST_COMMENT, TECHMINE_GET_TOP_BEST_COMMENT, TECHMINE_ADD_TEC_POST, TECHMINE_REMOVE_TEC_POST, TECHMINE_GET_TEC_POST, TECHMINE_ADD_TEC_COMMENT, TECHMINE_REMOVE_TEC_COMMENT, TECHMINE_GET_TEC_COMMENT, TECHMINE_ADD_TEC_LIKE, TECHMINE_REMOVE_TEC_LIKE, TECHMINE_GET_TEC_LIKE, TECHOINS_GET_ALL_USER_POSTS,
+    UG_GET_ALL_COURSES, UG_GET_COURSES, UG_GET_STUDENT_CURRENT_COURSES, UG_GET_ALL_ACADEMIC_EVENTS, UG_GET_STUDENT_EXAMS, UG_GET_MY_GRADES_SHEET, UG_GET_STUDENT_PAYMENTS, UG_ADD_TRACKING_STUDENT, UG_REMOVE_TRACKING_STUDENT_FROM_COURSE, TELETECH_GET_ALL_CONTACTS, WEBCOURSE_GET_STAFF_INFO, PARKION_ADD_PARKING_LOT, PARKION_REMOVE_PARKING_LOT, PARKION_GET_PARKING_LOT, PARKION_SET_OCCUPANCY, PARKION_USER_PARKED_IN_LOT, PARKION_USER_REPORT_PARKING_LOT_BUSY, PARKION_USER_LEFT_PARKING_LOT, PARKION_GET_FREE_PARKING_LOT, PARKION_GET_PARKING_IDS, TECHOINS_ADD_BANK_ACOUNTS, TECHOINS_REMOVE_BANK_ACOUNTS, TECHOINS_GET_BANK_ACOUNTS, TECHOINS_GET_BANK_HISTORY, TECHOINS_MOVE_MONEY, TECHOINS_GET_PRODUCTS_BY_ID, TECHOINS_GET_PRODUCTS_BY_NAME, TECHOINS_GET_PRODUCTS_BY_CATEGORY, TECHOINS_GET_X_RECENT_PRODUCTS, TECHOINS_GET_X_RANDOM_PRODUCTS, TECHOINS_ADD_PRODUCT, TECHOINS_GET_SOLD_PRODUCTS_BY_SELLER_ID, TECHOINS_GET_PURCHASED_PRODUCTS_BY_BUYER_ID, TECHOINS_GET_PUBLISHED_PRODUCTS_BY_SELLER_ID, TECHOINS_REMOVE_PRODUCT, TECHOINS_BUY_PRODUCT, TECHMINE_ADD_USER, TECHMINE_REMOVE_USER, TECHMINE_GET_USER, TECHMINE_GET_TOP_BEST_POSTS, TECHMINE_GET_TOP_BEST_COMMENTS, TECHMINE_ADD_TEC_POST, TECHMINE_REMOVE_TEC_POST, TECHMINE_GET_TEC_POST, TECHMINE_ADD_TEC_COMMENT, TECHMINE_REMOVE_TEC_COMMENT, TECHMINE_GET_TEC_COMMENT, TECHMINE_ADD_TEC_LIKE, TECHMINE_REMOVE_TEC_LIKE, TECHMINE_GET_TEC_LIKE, TECHOINS_GET_ALL_USER_POSTS,
 
   }
 
@@ -445,57 +443,17 @@ public abstract class CoolieServerInterface {
     mContext.startService(intent);
   }
 
-  public void addTopBestPost(TecTopBestPost topBestPost) {
+  public void getTopBestPosts() {
     Intent intent = new Intent(mContext, CoolieServerInterfaceService.class);
-    Action action = Action.TECHMINE_ADD_TOP_BEST_POST;
+    Action action = Action.TECHMINE_GET_TOP_BEST_POSTS;
     intent.putExtra(CoolieServerInterfaceService.ACTION, action);
-    intent.putExtra(CoolieServerInterfaceService.INPUT,
-        new Gson().toJson(topBestPost));
     mContext.startService(intent);
   }
 
-  public void removeTopBestPost(TecTopBestPost topBestPost) {
+  public void getTopBestComments() {
     Intent intent = new Intent(mContext, CoolieServerInterfaceService.class);
-    Action action = Action.TECHMINE_REMOVE_TOP_BEST_POST;
+    Action action = Action.TECHMINE_GET_TOP_BEST_COMMENTS;
     intent.putExtra(CoolieServerInterfaceService.ACTION, action);
-    intent.putExtra(CoolieServerInterfaceService.INPUT,
-        new Gson().toJson(topBestPost));
-    mContext.startService(intent);
-  }
-
-  public void getTopBestPost(TecTopBestPost topBestPost) {
-    Intent intent = new Intent(mContext, CoolieServerInterfaceService.class);
-    Action action = Action.TECHMINE_GET_TOP_BEST_POST;
-    intent.putExtra(CoolieServerInterfaceService.ACTION, action);
-    intent.putExtra(CoolieServerInterfaceService.INPUT,
-        new Gson().toJson(topBestPost));
-    mContext.startService(intent);
-  }
-
-  public void addTopBestComment(TecTopBestComment topBestComment) {
-    Intent intent = new Intent(mContext, CoolieServerInterfaceService.class);
-    Action action = Action.TECHMINE_ADD_TOP_BEST_COMMENT;
-    intent.putExtra(CoolieServerInterfaceService.ACTION, action);
-    intent.putExtra(CoolieServerInterfaceService.INPUT,
-        new Gson().toJson(topBestComment));
-    mContext.startService(intent);
-  }
-
-  public void removeTopBestComment(TecTopBestComment topBestComment) {
-    Intent intent = new Intent(mContext, CoolieServerInterfaceService.class);
-    Action action = Action.TECHMINE_REMOVE_TOP_BEST_COMMENT;
-    intent.putExtra(CoolieServerInterfaceService.ACTION, action);
-    intent.putExtra(CoolieServerInterfaceService.INPUT,
-        new Gson().toJson(topBestComment));
-    mContext.startService(intent);
-  }
-
-  public void getTopBestCommenct(TecTopBestComment topBestComment) {
-    Intent intent = new Intent(mContext, CoolieServerInterfaceService.class);
-    Action action = Action.TECHMINE_GET_TOP_BEST_COMMENT;
-    intent.putExtra(CoolieServerInterfaceService.ACTION, action);
-    intent.putExtra(CoolieServerInterfaceService.INPUT,
-        new Gson().toJson(topBestComment));
     mContext.startService(intent);
   }
 
