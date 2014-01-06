@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.TimeZone;
 
 import junit.framework.Assert;
 
@@ -220,10 +221,19 @@ public class Mine implements IMine {
 			timeToChange = obj.get("created_time").toString();
 		}
 		
-        Date newDate = Utilities.parseDate(timeToChange);
-        Long time = newDate.getTime();
-        time +=(2*60*60*1000);
-        return new Date(time);
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSS");
+
+	    long when = 0;
+	    try {
+	        when = dateFormat.parse(timeToChange).getTime();
+	    } catch (ParseException e) {
+	        e.printStackTrace();
+	    }
+
+	    Date localDate = new Date(when + TimeZone.getDefault().getRawOffset() + 
+	    		(TimeZone.getDefault().inDaylightTime(new Date()) ? TimeZone.getDefault().getDSTSavings() : 0));
+	    
+	    return localDate;
        
 	}
 
@@ -264,8 +274,6 @@ public class Mine implements IMine {
 		return mPostsContent;
 	}
  
-	
-
  
 	
 
