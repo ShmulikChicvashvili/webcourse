@@ -27,7 +27,9 @@ public class CalendarUtils {
 			allExams = courseItem.getExams();
 			for (int i = 0; i < allExams.size(); i++) {
 				EventValues eventExam = new EventValues();
-				if (allExams.get(i).getDate() == null)
+				if (allExams.get(i).getDate() == null
+						|| examExists(provider, eventExam, context, courseItem,
+								i))
 					continue;
 				eventExam
 						.setEventStartDate(allExams.get(i).getDate().getTime());
@@ -35,19 +37,37 @@ public class CalendarUtils {
 				cal.add(Calendar.HOUR_OF_DAY, 3);
 				eventExam.setEventEndDate(cal.getTime());
 				eventExam.setEventLocation(allExams.get(i).getPlace());
-				if (i == 0)
-					eventExam.setEventTitle(courseItem.getCoursName() + " "
-							+ context.getString(R.string.ug_calendar_moed_a));
-				if (i == 1)
-					eventExam.setEventTitle(courseItem.getCoursName() + " "
-							+ context.getString(R.string.ug_calendar_moed_b));
+				eventExam.setEventTitle(constructEventTitle(context,
+						courseItem, i));
 				addToCalendar(eventExam, context, provider);
 			}
 		}
+	}
+
+	/**
+	 * checks if this exam's event is already found in the calendar.
+	 */
+	private static boolean examExists(CalendarProvider provider,
+			EventValues eventExam, Context context, CourseItem courseItem, int i) {
+		return (provider.findEventsByTitle(
+				constructEventTitle(context, courseItem, i)).size() > 0);
+	}
+
+	private static String constructEventTitle(Context context,
+			CourseItem courseItem, int i) {
+		if (i == 0)
+			return courseItem.getCoursName() + " "
+					+ context.getString(R.string.ug_calendar_moed_a);
+		if (i == 1)
+			return courseItem.getCoursName() + " "
+					+ context.getString(R.string.ug_calendar_moed_b);
+		else
+			return "";
 	}
 
 	private static void addToCalendar(EventValues eventExam, Context context,
 			CalendarProvider provider) {
 		provider.addEvent(eventExam);
 	}
+
 }

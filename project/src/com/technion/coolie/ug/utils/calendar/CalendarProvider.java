@@ -1,6 +1,9 @@
 package com.technion.coolie.ug.utils.calendar;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import android.content.ContentResolver;
@@ -17,7 +20,7 @@ public class CalendarProvider {
 	// context that uses the calendar
 	private Context context;
 	// private static final String CALENDAR_NAME = "VoiceeCalendar";
-	private Long calendarID;
+	private final Long calendarID = Long.valueOf(1);
 	private CalendarFields.Calendars Calendars;
 	private CalendarFields.Events Events;
 	private String[] EVENT_PROJECTION;
@@ -217,7 +220,7 @@ public class CalendarProvider {
 		values.put(Events.EVENT_LOCATION, event.getEventLocation());
 		values.put(Events.ALL_DAY, event.isAllDayEvent() ? 1 : 0);
 		values.put(Events.DURATION, event.getEventDuration());
-		values.put(Events.CALENDAR_ID, 1);
+		values.put(Events.CALENDAR_ID, calendarID);
 		values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
 		if (!Events.ACCESS_LEVEL.equals("")) {
 			values.put(Events.ACCESS_LEVEL, Events.ACCESS_PUBLIC);
@@ -435,6 +438,79 @@ public class CalendarProvider {
 		}
 
 		return event;
+	}
+
+	// @Override
+	// public List<EventPreview> findEventsByDateRange(Date startDate, Date
+	// endDate) {
+	// Date selectedDate = startDate; // given start range
+	// Date nextDate = endDate; // given end range
+	// Date beginDate = startDate; // given start date beginning of the day
+	// // set it to the beginning of the day
+	// beginDate.setHours(0);
+	// beginDate.setMinutes(0);
+	// String selection = "((" + Events.DTSTART + " >= ? AND ? >= "
+	// + Events.DTSTART + ") OR (" + Events.DTSTART
+	// + " >= ? AND ? >= " + Events.DTSTART + " AND " + Events.ALL_DAY
+	// + " = 1)) AND (" + Events.CALENDAR_ID + " = ?)";
+	// String sDate = Long.valueOf(selectedDate.getTime()).toString();
+	// String nDate = Long.valueOf(nextDate.getTime()).toString();
+	// String bDate = Long.valueOf(beginDate.getTime()).toString();
+	// Cursor cursor = null;
+	// ContentResolver cr = context.getContentResolver();
+	// cursor = cr.query(
+	// Events.CONTENT_URI,
+	// EVENT_PROJECTION,
+	// selection,
+	// new String[] { sDate, nDate, bDate, nDate,
+	// calendarID.toString() }, Events.DTSTART);
+	//
+	// return cursorToList(cursor);
+	// }
+
+	public List<EventPreview> findEventsByTitle(String str) {
+		Cursor cursor = null;
+		ContentResolver cr = context.getContentResolver();
+		cursor = cr.query(Events.CONTENT_URI, EVENT_PROJECTION, "("
+				+ Events.TITLE + " like ?) AND (" + Events.CALENDAR_ID
+				+ " = ?) ",
+				new String[] { "%" + str + "%", calendarID.toString() },
+				Events.DTSTART);
+
+		return cursorToList(cursor);
+	}
+
+	/**
+	 * 
+	 * @param cursor
+	 * @return
+	 */
+	private List<EventPreview> cursorToList(Cursor cursor) {
+		if (isCursorEmpty(cursor)) {
+			return Collections.emptyList();
+		}
+
+		List<EventPreview> events = new ArrayList<EventPreview>();
+		String title;
+		long eventId;
+		Date startDate = new Date();
+		boolean allDay;
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			title = cursor.getString(cursor.getColumnIndex(Events.TITLE));
+			eventId = cursor.getLong(cursor.getColumnIndex(Events._ID));
+			allDay = (cursor.getInt(cursor.getColumnIndex(Events.ALL_DAY)) == 1 ? true
+					: false);
+			startDate = new Date(cursor.getLong(cursor
+					.getColumnIndex(Events.DTSTART)));
+			if (cursor.getInt(cursor.getColumnIndex(Events.DELETED)) == 0) {
+				// event was not deleted
+				events.add(new EventPreview(eventId, title, startDate, allDay));
+			}
+
+			cursor.moveToNext();
+		}
+		return events;
 	}
 
 	// public List<EventPreview> findEventsByDate(Date date) {
