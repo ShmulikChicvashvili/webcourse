@@ -137,7 +137,7 @@ public class MineActivity extends CoolieActivity {
 
 						GraphObject gO = response.getGraphObject();
 
-						Mine.getMineInstance(userId).mineUserPosts(gO);
+						Mine.getMineInstance(userId).mineUser(gO);
 						Mine.getMineInstance(null).endMining();
 						updateUserTitle();
 						System.out.println("*****After Mining******");

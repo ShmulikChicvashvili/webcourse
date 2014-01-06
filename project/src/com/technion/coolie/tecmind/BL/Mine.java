@@ -60,129 +60,64 @@ public class Mine implements IMine {
 	
 
 	@Override
-	public void mineUserPosts(GraphObject gO) {
+	public void mineUser(GraphObject gO) {
 
-	        JSONObject jso = gO.getInnerJSONObject();	  		        
-	        JSONArray arr;
-	        String groupId = null;
-	        String likes = null;
-	        String postId = null;
-	        String postUrl = null;
-	        String postGroupName = null;
-	        String postContent = null;
-	        ArrayList<Utilities.LikesObject> likesArr;
-	        String comments = null;
-	        ArrayList<Utilities.CommentObject> commentsArr;
-	        int postsCounter = 0;
-	        int commentsOfPostsCounter = 0;
-	        int likesOfPostsCounter = 0;
-	        Post post = null;
-	        URL url = null;
+        JSONObject jso = gO.getInnerJSONObject();	  		        
+        JSONArray arr;
+        String groupId = null;
+        String postId = null;
+        
 		try {
 			User checkUser = User.getUserInstance(null);
+			
+			/* sets the last mining date to 5 minutes earlier */
+			setTimeBack();
+					
 			arr = jso.getJSONArray("data");
 	        for ( int i = 0; i < ( arr.length() ); i++ ) {
 	            JSONObject json_obj = arr.getJSONObject( i );
 	            if (json_obj.toString().contains("\"to\":")){
+	            	
 	            	 /* gets the group id where the post has been published */ 
 	            	 groupId = ((JSONArray)((JSONObject)json_obj.get("to")).get("data")).getJSONObject(0).get("id").toString();
-	            	
-	            	 /* gets the post's group name */
-			         postGroupName = ((JSONArray)((JSONObject)json_obj.get("to")).get("data")).getJSONObject(0).get("name").toString();
-			         
-	            	 /* gets the post's content */
-			         postContent = json_obj.getString("message");
-			         
-			         /* gets the post id */
+	    
+	            	 if (!mTechGroups.contains(groupId)) {
+	            	 	continue;
+	            	 }
+	            	 
+	            	 /* gets the post id */
 			         postId = json_obj.getString("id");
 			         
-			         /* gets the post's url */
-			         postUrl = json_obj.getJSONArray("actions").getJSONObject(0).get("link").toString();
-			        		 
-			        		 
 			         /* updates times */
 			         Date updateTimeDate = getCorrectTime(json_obj, "updated_time");
 			         Date createTimeDate = getCorrectTime(json_obj, "created_time");
 			         
+			         /* if post hasn't been published before last mining count post */
+		        	 if (createTimeDate.after(User.getUserInstance(null).lastMining) && 
+		        			 User.getUserInstance(null).getPostById(postId) == null) {
+		        		 mineUserPosts(json_obj, postId, createTimeDate);
+		        	 }
+		        	   
+		        	 /* mines all user's likes */
+			         mineUserLikes(json_obj, postId);
+			         
 			         /* if post hasn't been updated after last mining */
 			         if (updateTimeDate.before(User.getUserInstance(null).lastMining) ) {
-			        	 	continue;//break;
+			        	 continue;//break;
 			         }
-
-		            if (mTechGroups.contains(groupId)) {
-		            	 // counts all likes of the post in the certain group
-		        	   if (json_obj.toString().contains("\"likes\":")){
-			            	likes = ((JSONArray)((JSONObject)json_obj.get("likes")).get("data")).toString();
-			            	likesArr = new Gson().fromJson(likes, new TypeToken<ArrayList<Utilities.LikesObject>>() 
-			            			{}.getType());
-			            	likesOfPostsCounter += likesArr.size();
-	
-			           }
-		        	   
-			        	// counts all comments of the post
-		        	   if (json_obj.toString().contains("\"comments\":")){
-			            	comments = ((JSONArray)((JSONObject)json_obj.get("comments")).get("data")).toString();
-			            	
-			            	commentsArr = new Gson().fromJson(comments, new TypeToken<ArrayList<Utilities.CommentObject>>() 
-			            			{}.getType());
-			            	commentsOfPostsCounter += commentsArr.size();
-	
-			           }
-		        	   
-		        	   /* if post hasn't been published before last mining count post */
-		        	   if (createTimeDate.after(User.getUserInstance(null).lastMining) ) {
-		        		   postsCounter++;
-		        		   
-		        			   try {
-								url = new URL(postUrl);
-							} catch (MalformedURLException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-								
-							}
-		        		   
-		        		   /* adds the post to the user's posts list */
-		        		   Post newPost = new Post(postId, createTimeDate, mUserId, 0, 0, 
-		        				   postContent,  url, postGroupName, 0, null);
-		        		   User.getUserInstance(null).posts.add(newPost);
-		        		   
-		        		   /* adds the url to the list by postId */
-		        		   mPostsUrls.put(postId, postUrl);
-		        		   
-		        		   /* adds the group name to the list by postId */
-		        		   mPostsGroupsNames.put(postId, postGroupName);
-		        		   
-
-		        		   /* adds the post date to the list by postId */
-		        		   mPostsDates.put(postId, createTimeDate);
-
-		        		   /* adds the post content to the list by postId */
-		        		   mPostsContent.put(postId, postContent);
-		        		 
-		        		   
-		        	   }
-		            }
-		            
-		            post = User.getUserInstance(null).getPostById(postId);
-			        Utilities.calculateComments(post, commentsOfPostsCounter);
-			        Utilities.calculateLikes(post, likesOfPostsCounter);
-			        likesOfPostsCounter = 0;
-			        commentsOfPostsCounter = 0;
+			         
+			         /* mines all user's comments */
+		        	 mineUserComments(json_obj, postId);
 	            }
 	        }
 	        
-	        Utilities.calculatePosts(postsCounter);
-	        
  		     System.out.println("*****FROM MINE******");
- 		     System.out.println("The number of posts after mining is:" + postsCounter);
+ 		     System.out.println("The number of posts after mining is:" + User.getUserInstance(null).postsNum);
  		     System.out.println("The number of comments after mining is:" + User.getUserInstance(null).commentsNum);
  		     System.out.println("The number of likes after mining is:" + User.getUserInstance(null).likesOnPostsNum);
  		     System.out.println("The amount of Techoins i have is:" + User.getUserInstance(null).totalTechoins);
  		     System.out.println("The last mining date is:" + User.getUserInstance(null).lastMining.toString());
- 		     
  		    
-	        
-	        
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -190,6 +125,91 @@ public class Mine implements IMine {
 	}
 	
 	
+	private void setTimeBack() {
+		final long ONE_MINUTE_IN_MILLIS=60000;//millisecs
+		
+		long lastDate = User.getUserInstance(null).lastMining.getTime();
+		User.getUserInstance(null).lastMining = new Date(lastDate - (5 * ONE_MINUTE_IN_MILLIS));
+		
+	}
+
+	private void mineUserPosts(JSONObject json_obj, String postId, Date createTimeDate) throws JSONException {
+        URL url = null;
+		
+   	    /* gets the post's group name */
+        String postGroupName = ((JSONArray)((JSONObject)json_obj.get("to")).get("data")).getJSONObject(0).get("name").toString();
+        
+   	    /* gets the post's content */
+        String postContent = json_obj.getString("message");
+        
+        /* gets the post's url */
+        String postUrl = json_obj.getJSONArray("actions").getJSONObject(0).get("link").toString();
+       		 
+		try {
+			url = new URL(postUrl);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	   
+	    /* adds the post to the user's posts list */
+	    Post newPost = new Post(postId, createTimeDate, mUserId, 0, 0, 
+			   postContent,  url, postGroupName, 0, null);
+	    User.getUserInstance(null).posts.add(newPost);
+	   
+	    /* adds the url to the list by postId */
+	    mPostsUrls.put(postId, postUrl);
+	   
+	    /* adds the group name to the list by postId */
+	    mPostsGroupsNames.put(postId, postGroupName);
+	   
+	    /* adds the post date to the list by postId */
+	    mPostsDates.put(postId, createTimeDate);
+
+	    /* adds the post content to the list by postId */
+	    mPostsContent.put(postId, postContent);
+	    
+	    Utilities.calculatePosts(1);
+		
+	}
+
+	private void mineUserComments(JSONObject json_obj, String postId) throws JSONException {
+		
+		// counts all comments of the post
+        String comments = null;
+        ArrayList<Utilities.CommentObject> commentsArr;
+        int commentsOfPostsCounter = 0;
+        
+ 	    if (json_obj.toString().contains("\"comments\":")){
+          	comments = ((JSONArray)((JSONObject)json_obj.get("comments")).get("data")).toString();
+          	
+          	commentsArr = new Gson().fromJson(comments, new TypeToken<ArrayList<Utilities.CommentObject>>() 
+          			{}.getType());
+          	commentsOfPostsCounter += commentsArr.size();
+
+         } 
+ 	    Post post = User.getUserInstance(null).getPostById(postId);
+ 	    Utilities.calculateComments(post, commentsOfPostsCounter);
+	}
+
+	private void mineUserLikes(JSONObject json_obj, String postId) throws JSONException {
+		
+   	 // counts all likes of the post in the certain group
+		String likes = null;
+		ArrayList<Utilities.LikesObject> likesArr;
+		int likesOfPostsCounter = 0;
+		
+	    if (json_obj.toString().contains("\"likes\":")){
+	       	likes = ((JSONArray)((JSONObject)json_obj.get("likes")).get("data")).toString();
+	       	likesArr = new Gson().fromJson(likes, new TypeToken<ArrayList<Utilities.LikesObject>>() 
+	       			{}.getType());
+	       	likesOfPostsCounter += likesArr.size();
+	    }
+	    
+	    Post post = User.getUserInstance(null).getPostById(postId);
+	    Utilities.calculateLikes(post, likesOfPostsCounter);
+	}
+
 	private Date getCorrectTime(JSONObject obj, String action) throws JSONException {
 		/* gets the time stamps of creating the post and the last update */
 		String timeToChange = null;
