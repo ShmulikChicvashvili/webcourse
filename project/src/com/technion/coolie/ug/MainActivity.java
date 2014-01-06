@@ -49,7 +49,7 @@ public class MainActivity extends CoolieActivity implements
 		ServerAsyncCommunication.mainActivity = this;
 		setContentView(R.layout.ug_main_screen);
 
-		updateData();
+		// updateData();
 		ServerAsyncCommunication.getCalendarEventsFromServer();
 		ServerAsyncCommunication.getGradesSheetfromServer();
 		// UGDatabase.getInstance(this).mainActivity = this;
@@ -130,7 +130,7 @@ public class MainActivity extends CoolieActivity implements
 						2, 11), null, null, null);
 
 		List<Course> courses = new ArrayList<Course>();
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 1000; i++) {
 			Course c = new Course(course);
 			c.setCourseNumber((i + 2000) + "");
 			courses.add(c);

@@ -7,6 +7,7 @@ import java.util.List;
 import org.jsoup.nodes.Document;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 
 import com.technion.coolie.ug.HtmlParser;
@@ -20,6 +21,7 @@ import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.model.UGLoginObject;
+import com.technion.coolie.ug.utils.UGAsync;
 
 public class UGDatabase {
 
@@ -35,10 +37,20 @@ public class UGDatabase {
 	private SemesterSeason currentSeason;
 
 	private ArrayList<CourseItem> coursesAndExamsList;
+	private volatile boolean hasCoursesAndExamsList = false;
+
 	private List<AccomplishedCourse> gradesSheet;
+	private volatile boolean hasGradeSheet = false;
+
 	private List<CourseKey> trackingCourses;
+	//
 	private List<AcademicCalendarEvent> calendarEvents;
+	private volatile boolean hasCalendarEvents = false;
+
 	private LinkedHashMap<CourseKey, Course> coursesHash;
+	private volatile boolean hasCourses = false;
+
+	Handler handler;
 
 	Context appContext;
 	private UGLoginObject currentLoginObject;
@@ -84,6 +96,7 @@ public class UGDatabase {
 		// server first and wait for it(loading screen).
 		// This is not done in this class, but rather in the main activity. TODO
 
+		handler = new Handler();
 		initDB();
 
 		log("[finished Creating UG database]");
@@ -92,6 +105,7 @@ public class UGDatabase {
 
 	private void initDB() {
 		dataProvider = new UGDBProvider(appContext);
+
 		initStudent();
 		initCourses();
 		initGradesSheet();
@@ -188,16 +202,7 @@ public class UGDatabase {
 			trackingCourses = dataProvider.getTrackingCourses(studentId);
 		log("getting " + trackingCourses.size() + " tracking Courses");
 		return trackingCourses;
-		// myTrackingCourses = new ArrayList<CourseKey>();
-		//
-		// // replace this code with reading tracking courses from from DB
-		// int maximumTracking = 5;
-		// for (int i = 0; i < getCourses().size(); i++) {
-		// if (myTrackingCourses.size() >= maximumTracking)
-		// break;
-		// if (i % 2 == 0)
-		// myTrackingCourses.add(getCourses().get(i).getCourseKey());
-		// }
+
 	}
 
 	public List<CourseItem> getCoursesAndExams() {
@@ -222,17 +227,13 @@ public class UGDatabase {
 			gradesSheet = dataProvider.getAccomplishedCourses(studentId);
 		log("getting " + gradesSheet.size() + " accomplished Courses");
 		return gradesSheet;
-		// return HtmlParser.parseGrades("stam");
 
-		// return
-		// UgFactory.getUgGradeSheet().getMyGradesSheet(currentLoginObject);
 	}
 
 	public List<AcademicCalendarEvent> getCalendar() {
-		// return HtmlParser.parseCalendar();
 		if (calendarEvents == null)
 			calendarEvents = dataProvider.getAcademicEvents();
-		log("getting " + calendarEvents.size() + " accomplished Courses");
+		log("getting " + calendarEvents.size() + " calendar events");
 		return calendarEvents;
 	}
 
@@ -271,12 +272,21 @@ public class UGDatabase {
 	 * course exists, we update its content.
 	 * 
 	 */
-	public void updateCourses(List<Course> courses) {
+	public void updateCourses(final List<Course> courses) {
 		checkListParam(courses);
 		log("updating " + courses.size() + " courses!");
 
 		// update the DB
-		dataProvider.updateCourses(courses);
+		doAsync(new Runnable() {
+			@Override
+			public void run() {
+				UGDBProvider provider = new UGDBProvider(appContext);
+				provider.updateCourses(courses);
+				log("[DB]updated " + courses.size() + " courses in db.");
+				provider.close();
+			}
+		});
+
 		// update the hash
 		for (Course course : courses) {
 			coursesHash.put(course.getCourseKey(), course);
@@ -284,11 +294,18 @@ public class UGDatabase {
 
 	}
 
-	public void setGradesSheet(List<AccomplishedCourse> courses) {
+	public void setGradesSheet(final List<AccomplishedCourse> courses) {
 		checkListParam(courses);
 		log("setting " + courses.size() + " grades!");
 		// update the DB
-		dataProvider.setAccomplishedCourses(courses, studentId);
+		doAsync(new Runnable() {
+			public void run() {
+				UGDBProvider provider = new UGDBProvider(appContext);
+				provider.setAccomplishedCourses(courses, studentId);
+				log("[DB]finished setting " + courses.size() + " grades!");
+				provider.close();
+			}
+		});
 		// update the list
 		gradesSheet = courses;
 	}
@@ -301,10 +318,21 @@ public class UGDatabase {
 		trackingCourses = toTrack;
 	}
 
-	public void setAcademicCalendar(List<AcademicCalendarEvent> calendarEvents) {
+	public void setAcademicCalendar(
+			final List<AcademicCalendarEvent> calendarEvents) {
 		checkListParam(calendarEvents);
 		log("setting " + calendarEvents.size() + " academic events");
-		dataProvider.setAcademicEvents(calendarEvents);
+		doAsync(new Runnable() {
+			@Override
+			public void run() {
+				UGDBProvider provider = new UGDBProvider(appContext);
+				provider.setAcademicEvents(calendarEvents);
+				log("[DB]finished setting " + calendarEvents.size()
+						+ " academic events");
+				provider.close();
+			}
+		});
+
 		this.calendarEvents = calendarEvents;
 	}
 
@@ -355,6 +383,16 @@ public class UGDatabase {
 		if (list.isEmpty())
 			throw new IllegalArgumentException(
 					"empty list is overriding database");
+	}
+
+	private void doAsync(final Runnable r) {
+		new UGAsync<Object>() {
+			@Override
+			protected List<Object> doInBackground(String... params) {
+				r.run();
+				return super.doInBackground(params);
+			}
+		}.execute("");
 	}
 
 }

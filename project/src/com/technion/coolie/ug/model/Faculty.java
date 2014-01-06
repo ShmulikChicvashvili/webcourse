@@ -9,20 +9,44 @@ import android.content.Context;
 import com.technion.coolie.R;
 
 public enum Faculty implements Serializable {
-	ALL_FACULTIES("00", R.string.ug_faculty_all_faculties), AE("08",
-			R.string.ug_faculty_ae), ARCHITECTURE("20",
-			R.string.ug_faculty_arch), BIOLOGY("13",
-			R.string.ug_faculty_biology), BM("33", R.string.ug_faculty_bio), BIOTECH(
-			"06", R.string.ug_faculty_biotech), CHEMENG("12",
-			R.string.ug_faculty_chem_eng), CHEMISTRY("12",
-			R.string.ug_faculty_chem), CEE("01", R.string.ug_faculty_indus), CS(
-			"23", R.string.ug_faculty_comp), EDU("21", R.string.ug_faculty_educ), EE(
-			"04", R.string.ug_faculty_elect), HUMANITIES("32",
-			R.string.ug_faculty_human), IE("09", R.string.ug_faculty_manage), MATERIALS(
-			"31", R.string.ug_faculty_materials), MATH("10",
-			R.string.ug_faculty_math), MEENG("03", R.string.ug_faculty_machine), MD(
-			"27", R.string.ug_faculty_medical), PHYS("11",
-			R.string.ug_faculty_phys);
+	ALL_FACULTIES("00", R.string.ug_faculty_all_faculties),
+
+	AE("08", R.string.ug_faculty_ae),
+
+	ARCHITECTURE("20", R.string.ug_faculty_arch),
+
+	BIOLOGY("13", R.string.ug_faculty_biology),
+
+	BM("33", R.string.ug_faculty_bio),
+
+	BIOTECH("06", R.string.ug_faculty_biotech),
+
+	CHEMENG("12", R.string.ug_faculty_chem_eng),
+
+	CHEMISTRY("12", R.string.ug_faculty_chem),
+
+	CEE("01", R.string.ug_faculty_indus),
+
+	CS("23", R.string.ug_faculty_comp),
+
+	EDU("21", R.string.ug_faculty_educ),
+
+	EE("04", R.string.ug_faculty_elect),
+
+	HUMANITIES("32", R.string.ug_faculty_human),
+
+	IE("09", R.string.ug_faculty_manage),
+
+	MATERIALS("31", R.string.ug_faculty_materials),
+
+	MATH("10", R.string.ug_faculty_math),
+
+	MEENG("03", R.string.ug_faculty_machine),
+
+	MD("27", R.string.ug_faculty_medical),
+
+	PHYS("11", R.string.ug_faculty_phys);
+
 	private String id;
 	private int repStringId;
 
