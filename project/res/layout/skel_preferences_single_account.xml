@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    
+    <ImageView
+        android:id="@+id/skel_preference_account_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="8dp"
+        android:gravity="center_vertical" />
+    
+	<TextView
+        android:id="@+id/skel_preference_account_name"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/skel_preference_account_image"
+        android:gravity="center_vertical"
+        android:textSize="15sp" >
+    </TextView>
+    
+   	<TextView
+        android:id="@+id/skel_preference_account_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/skel_preference_account_image"
+        android:layout_below="@id/skel_preference_account_name"
+        android:gravity="center_vertical"
+        android:textSize="12sp" >
+    </TextView>
+    
+    <Button
+        android:id="@+id/skel_preference_account_status_button"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        style="@style/Button.Small"
+        android:gravity="center_vertical"
+        android:focusable="false"
+        android:textAlignment="center"
+        android:scaleType="fitXY" />
+
+</RelativeLayout>
