@@ -24,6 +24,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.technion.coolie.CoolieAccount;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.CoolieNotification;
 import com.technion.coolie.R;
@@ -32,11 +33,9 @@ import com.technion.coolie.server.gcm.GcmFactory;
 @SuppressLint("ValidFragment")
 public class MainActivity extends CoolieActivity {
 
-  // // gcm vars
-
+  /**gcm vars*/
   private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-
-  // // end of gcm vars
+  /**end of gcm vars */
 
   private GridView mostUsedGrid;
   private ViewPager mViewPager;
@@ -49,17 +48,10 @@ public class MainActivity extends CoolieActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.skel_activity_main);
 
-    // gcm check (and registration if necessary)
-
+    /** gcm check (and registration if necessary) **/
     GcmFactory.getGcmAPI().registerDevice(getApplicationContext(),
         checkPlayServices());
-
-    // end of gcm check
-
-    /*
-     * SignonDialog s = new SignonDialog(CoolieAccount.UG);
-     * s.show(getSupportFragmentManager(), "dialog");
-     */
+    /** end of gcm check **/
 
     if (savedInstanceState == null) {
       // this means that its the first time we run the app
