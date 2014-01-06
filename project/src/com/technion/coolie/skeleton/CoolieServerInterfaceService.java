@@ -15,8 +15,6 @@ import com.technion.coolie.server.parkion.ReturnCode;
 import com.technion.coolie.server.techmine.TecComment;
 import com.technion.coolie.server.techmine.TecLike;
 import com.technion.coolie.server.techmine.TecPost;
-import com.technion.coolie.server.techmine.TecTopBestComment;
-import com.technion.coolie.server.techmine.TecTopBestPost;
 import com.technion.coolie.server.techmine.TecUser;
 import com.technion.coolie.server.techmine.TechmineFactory;
 import com.technion.coolie.server.techoins.BankAccount;
@@ -592,33 +590,7 @@ public class CoolieServerInterfaceService extends IntentService {
       break;
     }
 
-    case TECHMINE_ADD_TOP_BEST_POST: {
-      TecTopBestPost topBestPost;
-      topBestPost = new Gson().fromJson(
-          (String) arg0.getSerializableExtra(INPUT), TecTopBestPost.class);
-      com.technion.coolie.server.techmine.ReturnCode Output;
-      Output = TechmineFactory.getTechmineAPI().addTopBestPost(topBestPost);
-      intent.putExtra(STATUS, CoolieStatus.RESULT_OK);
-      intent.putExtra(CoolieServerInterfaceService.RESULT,
-          new Gson().toJson(Output));
-      sendBroadcast(intent);
-      break;
-    }
-
-    case TECHMINE_REMOVE_TOP_BEST_POST: {
-      TecTopBestPost topBestPost;
-      topBestPost = new Gson().fromJson(
-          (String) arg0.getSerializableExtra(INPUT), TecTopBestPost.class);
-      com.technion.coolie.server.techmine.ReturnCode Output;
-      Output = TechmineFactory.getTechmineAPI().removeTopBestPost(topBestPost);
-      intent.putExtra(STATUS, CoolieStatus.RESULT_OK);
-      intent.putExtra(CoolieServerInterfaceService.RESULT,
-          new Gson().toJson(Output));
-      sendBroadcast(intent);
-      break;
-    }
-
-    case TECHMINE_GET_TOP_BEST_POST: {
+    case TECHMINE_GET_TOP_BEST_POSTS: {
       List<TecPost> Output;
       Output = TechmineFactory.getTechmineAPI().getTopBestPosts();
       intent.putExtra(STATUS, CoolieStatus.RESULT_OK);
@@ -628,35 +600,7 @@ public class CoolieServerInterfaceService extends IntentService {
       break;
     }
 
-    case TECHMINE_ADD_TOP_BEST_COMMENT: {
-      TecTopBestComment topBestComment;
-      topBestComment = new Gson().fromJson(
-          (String) arg0.getSerializableExtra(INPUT), TecTopBestComment.class);
-      com.technion.coolie.server.techmine.ReturnCode Output;
-      Output = TechmineFactory.getTechmineAPI().addTopBestComment(
-          topBestComment);
-      intent.putExtra(STATUS, CoolieStatus.RESULT_OK);
-      intent.putExtra(CoolieServerInterfaceService.RESULT,
-          new Gson().toJson(Output));
-      sendBroadcast(intent);
-      break;
-    }
-
-    case TECHMINE_REMOVE_TOP_BEST_COMMENT: {
-      TecTopBestComment topBestComment;
-      topBestComment = new Gson().fromJson(
-          (String) arg0.getSerializableExtra(INPUT), TecTopBestComment.class);
-      com.technion.coolie.server.techmine.ReturnCode Output;
-      Output = TechmineFactory.getTechmineAPI().removeTopBestComment(
-          topBestComment);
-      intent.putExtra(STATUS, CoolieStatus.RESULT_OK);
-      intent.putExtra(CoolieServerInterfaceService.RESULT,
-          new Gson().toJson(Output));
-      sendBroadcast(intent);
-      break;
-    }
-
-    case TECHMINE_GET_TOP_BEST_COMMENT: {
+    case TECHMINE_GET_TOP_BEST_COMMENTS: {
       List<TecComment> Output;
       Output = TechmineFactory.getTechmineAPI().getTopBestComments();
       intent.putExtra(STATUS, CoolieStatus.RESULT_OK);

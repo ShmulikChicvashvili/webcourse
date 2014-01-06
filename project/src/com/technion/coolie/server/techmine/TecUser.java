@@ -3,7 +3,6 @@ package com.technion.coolie.server.techmine;
 import java.util.Date;
 
 public class TecUser implements IGetters {
-
   String id;
   String name;
   TecUserTitle title;
