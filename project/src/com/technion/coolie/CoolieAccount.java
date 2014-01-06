@@ -1,5 +1,7 @@
 package com.technion.coolie;
 
+import android.content.Context;
+
 /**
  * 
  * This enum describes if an account authorization is needed before getting
@@ -7,15 +9,28 @@ package com.technion.coolie;
  * 
  */
 public enum CoolieAccount {
-	NONE(""), UG("UG"), GOOGLE("google"), FACEBOOK("Facebook"), MATHNET("Mathnet"), MOODLE("Moodle"), WEBCOURSE("Webcourse"), PHMOODLE("PHMoodle");
+	NONE, UG,
+	GOOGLE,
+	FACEBOOK,
+	MATHNET,
+	MOODLE,
+	WEBCOURSE,
+	PHMOODLE,
+	LIBRARY;
 	
-	private String name;
-	private CoolieAccount(String name) {
-		this.name = name;
+	private com.technion.coolie.skeleton.CoolieAccount mAccount;
+	
+	private CoolieAccount() {
+		mAccount = com.technion.coolie.skeleton.CoolieAccount.valueOf(this.name());
 	}
 	
-	public String getName()
-	{
-		return name;
-	}
+    public String getUsername()
+    {
+    	return mAccount.getUsername();
+    }
+    
+    public boolean isAlreadyConnected()
+    {
+    	return mAccount.isAlreadyConnected();
+    }
 }

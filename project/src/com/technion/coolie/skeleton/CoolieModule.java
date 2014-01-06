@@ -24,7 +24,7 @@ public enum CoolieModule {
 	UG			(R.string.ug_name, R.string.ug_description,  R.drawable.ug_icon, com.technion.coolie.ug.MainActivity.class, Package.getPackage("com.technion.coolie.ug"), 0),
 	LETMEIN		(R.string.lmi_name, R.string.lmi_description,  R.drawable.lmi_icon, com.technion.coolie.letmein.MainActivity.class, Package.getPackage("com.technion.coolie.letmein"), 0),
 	JOININ		(R.string.ji_name, R.string.ji_description,  R.drawable.ji_icon, com.technion.coolie.joinin.MainActivity.class, Package.getPackage("com.technion.coolie.joinin"), 0),
-	WEBCOURSE	(R.string.web_name, R.string.web_description,  R.drawable.web_icon, com.technion.coolie.webcourse.gr_plusplus.CoursesActivity.class, Package.getPackage("com.technion.coolie.webcourse.gr_plusplus"), 0);
+	WEBCOURSE	(R.string.web_name, R.string.web_description,  R.drawable.web_icon, com.technion.coolie.webcourse.CoursesActivity.class, Package.getPackage("com.technion.coolie.webcourse"), 0);
 	
 	
 	private int nameResource;
