@@ -1,5 +1,6 @@
 package com.technion.coolie.tecmind.BL;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import com.facebook.model.GraphObject;
@@ -27,9 +28,13 @@ public interface IMine {
 	 */
 	public void endMining();
 	
-	public HashMap<String, String> getUrlsList();
+	public  HashMap<String, String> getPostsUrls();
 	
-	public HashMap<String, String> getGroupsNamesList();
+	public  HashMap<String, String> getPostsGroupsNames();
+ 
+	public  HashMap<String, Date> getPostsDates();
+	
+	public  HashMap<String, String> getPostsContent();
 	
 
 }

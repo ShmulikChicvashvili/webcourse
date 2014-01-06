@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -16,10 +18,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -49,7 +51,6 @@ public class MainActivity extends CoolieActivity {
 	String userName;
 	Session currentSession;
 	TecUser tecUser;
-	List<TecPost> userPostsFromServer;
 	TextView total;
 	TextView Mylevel;
 
@@ -90,7 +91,7 @@ public class MainActivity extends CoolieActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		 new ServerRemoveUser().execute();
+//		 new ServerRemoveUser().execute();
 		super.onCreate(savedInstanceState);
 
 		firstInitiate();
@@ -118,31 +119,48 @@ public class MainActivity extends CoolieActivity {
 						 */
 						@Override
 						public void onCompleted(GraphUser user, Response response) {
+							
 							if (user != null) {
 
 								/* tries to read from file "techmine" that saved in th internal storage of the device 
 								at the last use */
 								readFromFile();
 
+								/* if file is not exist, try to get user from server, 
+								 * if not found at the server reads from Facebook
+								 * for the first time. */
 								if (userId == null) {
-									/* updates the user id from Facebook */
-									userId = user.getId();
-									userName = user.getFirstName() + " " + user.getLastName();
 
-									/* writes the user ID and name as written in Facebook to 
+									/* updates the user id and name from Facebook */
+									userName = user.getFirstName() + " " + user.getLastName();
+									userId = user.getId();
+
+									/* tries to get user from the server. 
+									 * if the user cannot be initiate from the server 
+									 * it means this is the first use of the app */
+									ReturnValue res = getFromServer();
+									if (res.equals(ReturnValue.FAIL_FROM_SERVER)
+											|| res.equals(ReturnValue.USER_DOESNT_EXIST_IN_SERVER)) {
+										
+										User.getUserInstance(userId).name = userName;
+										
+										/* adds the user to the server */
+										addUserToServer();
+										
+									}
+									/* if success to get user details from the server, initiate all user's details */
+									else { 
+										initiateFromServer();
+									}
+									
+									/* writes the user details to 
 									 * internal storage of the device */
 									writeToFile();
-								}
-
-								/* defines the user of the app by user's
-								id from Facebook session */
-								User.getUserInstance(userId);
-
-								/* if the user's details were'nt initiate from server successfully */
-								if (initiateFromServer().equals(ReturnValue.FAIL_FROM_SERVER)) {
 									
 								}
-
+								
+								User check = User.getUserInstance(null);
+								
 								initiateActivityFields();
 
 								/*
@@ -161,7 +179,7 @@ public class MainActivity extends CoolieActivity {
 					}).executeAsync();
 				}
 			}
-		}, Arrays.asList("user_groups", "user_activities", "user_likes"));
+		}, Arrays.asList("user_groups", "user_activities", "user_likes", "read_stream"));
 	}
 
 	private void writeToFile() {
@@ -172,9 +190,22 @@ public class MainActivity extends CoolieActivity {
 		 */
 		FileOutputStream outputStream;
 		try {
-			outputStream = openFileOutput("techmine", Context.MODE_PRIVATE);
-			outputStream.write((userId + "\n").getBytes());
-			outputStream.write(userName.getBytes());
+			outputStream = openFileOutput("techmine_user_details", Context.MODE_PRIVATE);
+			outputStream.write(("first ini").getBytes());
+			outputStream.write((User.getUserInstance(null).id + "\n").getBytes());
+			outputStream.write((User.getUserInstance(null).name + "\n").getBytes());
+			outputStream.write((User.getUserInstance(null).title.value() + "\n").getBytes());
+			
+			Format formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSS");
+			String lastMiningString = formatter.format(User.getUserInstance(null).lastMining);
+			
+			outputStream.write((lastMiningString + "\n").getBytes());
+			outputStream.write((User.getUserInstance(null).totalTechoins + "\n").getBytes());
+			outputStream.write((User.getUserInstance(null).postsNum + "*"
+					+ User.getUserInstance(null).commentsNum + "*"
+					+ User.getUserInstance(null).likesNum + "*"
+					+ User.getUserInstance(null).likesOnPostsNum + "\n").getBytes());
+
 			outputStream.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -184,16 +215,31 @@ public class MainActivity extends CoolieActivity {
 	private void readFromFile() {
 		/* tries to get the userId from the device's storage */ 
 		try {
-			FileInputStream fileToRead = openFileInput("techmine");
+			
+			FileInputStream fileToRead = openFileInput("techmine_user_details");
 			InputStreamReader isr = new InputStreamReader(fileToRead);
 			char[] inputBuffer = new char[100];
 			isr.read(inputBuffer);
 			String readString = new String(inputBuffer);
 
-			String[] parts = readString.split("\\n");
-			userId = parts[0];
-			userName = parts[1];
-
+			String[] userDetails = readString.split("\\n");
+			userId = userDetails[0];
+			userName = userDetails[1];
+			
+			User.getUserInstance(userId).name = userName;
+			
+			User check = User.getUserInstance(null);
+			
+			User.getUserInstance(null).title = Title.valueOf(userDetails[2]);
+			User.getUserInstance(null).lastMining = Utilities.parseDate(userDetails[3]);
+			User.getUserInstance(null).totalTechoins = Integer.parseInt(userDetails[4]);
+			
+			String[] userCounters = userDetails[5].split("\\*");
+			User.getUserInstance(null).postsNum = Integer.parseInt(userCounters[0]);
+			User.getUserInstance(null).commentsNum = Integer.parseInt(userCounters[1]);
+			User.getUserInstance(null).likesNum = Integer.parseInt(userCounters[2]);
+			User.getUserInstance(null).likesOnPostsNum = Integer.parseInt(userCounters[3]);
+			
 //			User.getUserInstance(null).name = userName;
 //			String counters = parts[2];
 //			String[] countersParts = readString.split(" ");
@@ -235,49 +281,40 @@ public class MainActivity extends CoolieActivity {
 				resultCode, data);
 	}
 
-	ReturnValue initiateFromServer() {
+	private ReturnValue getFromServer() {
 		try {
 			tecUser = new ServerGetUserData().execute().get();
-
+			if (tecUser == null) {
+				return ReturnValue.USER_DOESNT_EXIST_IN_SERVER;
+			}
+			else {
+				userId = tecUser.getId();
+			}
 		} catch (Exception e) {
 			return ReturnValue.FAIL_FROM_SERVER;
 		}
-
-		if (tecUser == null) {
-			/* adds the user to the server at the first time */
-			User.getUserInstance(null).name = userName;
-			User.getUserInstance(null).title = Title.ATUDAI;
-			new ServerAddUser().execute();
-			//*** post in the facebook that the user has joined techmind **//
-			return ReturnValue.ADD_USER_TO_SERVER;
-		} else {
-			// User.getUserInstance(tecUser.getId());
-
-			User.getUserInstance(null).initiateFieldsFromServer(
-					tecUser.getName(),
-					Title.valueOf(tecUser.getTitle().value()),
-					tecUser.getLastMining(), tecUser.getTotalTechoins(),
-					tecUser.getBankAccount(), tecUser.postsNum,
-					tecUser.commentsNum, tecUser.likesNum,
-					tecUser.likeOnPostsNum);
-			try {
-				userPostsFromServer = new ServeGetAllPostsOfUser().execute()
-						.get();
-			} catch (Exception e) {
-				return ReturnValue.FAIL_FROM_SERVER;
-			}
-
-			for (TecPost tp : userPostsFromServer) {
-				User.getUserInstance(null).posts.add(new Post(tp.getId(), tp
-						.getDate(), tp.getUserID(), tp.getLikesCount(), tp
-						.getCommentCount(), tp.getGroup(), tp.getUrl(), 
-						tp.getGroup(), tp.getSpamCount(), tp.getSpamType()));
-						//TODO: change the null to the content from the server));
-			}
-		}
-		return ReturnValue.SUCCESS_FROM_SERVER;
+		return ReturnValue.SUCCESS_FROM_SERVER;	
 	}
 
+	private void addUserToServer() {
+		/* adds the user to the server at the first time */
+		User.getUserInstance(null).name = userName;
+		User.getUserInstance(null).title = Title.ATUDAI;
+		new ServerAddUser().execute();
+	}
+	
+	private void initiateFromServer() {
+		User.getUserInstance(userId).initiateFieldsFromServer(
+				tecUser.getName(),
+				Title.valueOf(tecUser.getTitle().value()),
+				tecUser.getLastMining(), tecUser.getTotalTechoins(),
+				tecUser.getBankAccount(), tecUser.postsNum,
+				tecUser.commentsNum, tecUser.likesNum,
+				tecUser.likeOnPostsNum);
+	}
+
+
+	
 	private void initiateActivityFields() {
 		User check = User.getUserInstance(null);
 		total.setText(String.valueOf(User.getUserInstance(null).totalTechoins));
@@ -336,25 +373,14 @@ public class MainActivity extends CoolieActivity {
 
 	}
 
-	class ServeGetAllPostsOfUser extends AsyncTask<Void, Void, List<TecPost>> {
 
-		@Override
-		protected List<TecPost> doInBackground(Void... arg0) {
-			Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
-			TecUser userToSever = new TecUser(userId, null, null, lastMining,
-					0, 0, 0, 0, 0, 0);
-			return connector.getAllUserPosts(userToSever);
-
-		}
-
-	}
 
 	class ServerRemoveUser extends AsyncTask<Void, Void, ReturnCode> {
 
 		@Override
 		protected ReturnCode doInBackground(Void... arg0) {
 			Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
-			TecUser userToSever = new TecUser("750312957", null, null,
+			TecUser userToSever = new TecUser("574717953", null, null,
 					lastMining, 0, 0, 0, 0, 0, 0);
 			return connector.removeUser(userToSever);
 

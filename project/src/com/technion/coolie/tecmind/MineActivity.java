@@ -3,6 +3,8 @@ package com.technion.coolie.tecmind;
 import java.io.FileOutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
@@ -32,8 +34,10 @@ import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.tecmind.BL.Mine;
 import com.technion.coolie.tecmind.BL.Post;
+import com.technion.coolie.tecmind.BL.ReturnValue;
 import com.technion.coolie.tecmind.BL.Title;
 import com.technion.coolie.tecmind.BL.User;
+import com.technion.coolie.tecmind.BL.Utilities;
 import com.technion.coolie.tecmind.server.ReturnCode;
 import com.technion.coolie.tecmind.server.TecPost;
 import com.technion.coolie.tecmind.server.TecUser;
@@ -49,7 +53,8 @@ public class MineActivity extends CoolieActivity {
 	List<String> permissions;
 	String userId;
 	TechmineAPI connector = new TechmineAPI();
-
+	List<TecPost> userPostsFromServer;
+	
 	public static Date exMiningDate;
 	public static Date newMiningDate;
 
@@ -63,6 +68,7 @@ public class MineActivity extends CoolieActivity {
 	public static int commentsDelta;
 	public static int likesDelta;
 
+	
 	public void myAccountNav(View view) {
 		Intent intent = new Intent(MineActivity.this, MyAccountActivity.class);
 		startActivity(intent);
@@ -88,7 +94,6 @@ public class MineActivity extends CoolieActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.techmind_activity_mine);
-
 		mineLayout = (RelativeLayout) findViewById(R.id.mine_layout);
 		progressBar = (LinearLayout) findViewById(R.id.progressBarLayout);
 		progressBar.setVisibility(View.VISIBLE);
@@ -110,6 +115,12 @@ public class MineActivity extends CoolieActivity {
 			exCommentsCounter = User.getUserInstance(null).commentsNum;
 			exPostsCounter = User.getUserInstance(null).postsNum;
 
+			
+			/* gets the user's posts from server */ 
+			if (getPostsOfUserFromServer().equals(ReturnValue.FAIL_FROM_SERVER)) {
+				Toast.makeText(getApplicationContext(), "Connection Error", Toast.LENGTH_LONG).show();
+			}
+			
 			/* mine the new posts, comments and likes */
 			mining();
 
@@ -119,8 +130,8 @@ public class MineActivity extends CoolieActivity {
 	void mining() {
 
 		/* make Facebook API call */
-		new Request(currentSession, userId + "/feed", null, HttpMethod.GET,
-				new Request.Callback() {
+  		new Request(currentSession, userId + "/feed", 
+  			    null, HttpMethod.GET, new Request.Callback() {
 
 					public void onCompleted(Response response) {
 
@@ -157,7 +168,7 @@ public class MineActivity extends CoolieActivity {
 								.getUserInstance(null).likesOnPostsNum)
 								- exLikesCounter;
 
-						// TODO: update to data storage
+						writeToFile();
 						updateServer();
 
 						progressBar.setVisibility(View.GONE);
@@ -169,35 +180,67 @@ public class MineActivity extends CoolieActivity {
 								android.R.anim.fade_out);
 
 					}
+					
 
-					private void updateUserTitle() {
-						int userTotalTechions = User.getUserInstance(null).totalTechoins;
-						Title oldTitle = User.getUserInstance(null).title;
-						;
-						if (userTotalTechions < 1000) {
-							User.getUserInstance(null).title = Title.ATUDAI;
-						} else if (userTotalTechions >= 1000
-								&& userTotalTechions < 2000) {
-							User.getUserInstance(null).title = Title.NERD;
-							if (oldTitle.compareTo(Title.NERD) < 0) {
-								// post in facebook!
-							}
-						} else if (userTotalTechions >= 2000
-								&& userTotalTechions < 3000) {
-							User.getUserInstance(null).title = Title.KNIGHT_NERD;
-							if (oldTitle.compareTo(Title.KNIGHT_NERD) < 0) {
-								// post in facebook!
-							}
-						} else {
-							User.getUserInstance(null).title = Title.SUPER_NERD;
-							if (oldTitle.compareTo(Title.SUPER_NERD) < 0) {
-								// post in facebook!
-							}
-						}
-					}
 				}).executeAsync();
 	}
 
+	
+	private void writeToFile() {
+		/*
+		 * adds the user ID to internal
+		 * storage of the device at the
+		 * first time
+		 */
+		FileOutputStream outputStream;
+		try {
+			outputStream = openFileOutput("techmine_user_details", Context.MODE_PRIVATE);
+			outputStream.write((User.getUserInstance(null).id + "\n").getBytes());
+			outputStream.write((User.getUserInstance(null).name + "\n").getBytes());
+			outputStream.write((User.getUserInstance(null).title.value() + "\n").getBytes());
+			
+			Format formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSS");
+			String lastMiningString = formatter.format(User.getUserInstance(null).lastMining);
+			
+			outputStream.write((lastMiningString + "\n").getBytes());
+			outputStream.write((User.getUserInstance(null).totalTechoins + "\n").getBytes());
+			outputStream.write((User.getUserInstance(null).postsNum + "*"
+					+ User.getUserInstance(null).commentsNum + "*"
+					+ User.getUserInstance(null).likesNum + "*"
+					+ User.getUserInstance(null).likesOnPostsNum + "\n").getBytes());
+
+			outputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+  
+	private void updateUserTitle() {
+		int userTotalTechions = User.getUserInstance(null).totalTechoins;
+		Title oldTitle = User.getUserInstance(null).title;
+		;
+		if (userTotalTechions < 1000) {
+			User.getUserInstance(null).title = Title.ATUDAI;
+		} else if (userTotalTechions >= 1000
+				&& userTotalTechions < 2000) {
+			User.getUserInstance(null).title = Title.NERD;
+			if (oldTitle.compareTo(Title.NERD) < 0) {
+				// post in facebook!
+			}
+		} else if (userTotalTechions >= 2000
+				&& userTotalTechions < 3000) {
+			User.getUserInstance(null).title = Title.KNIGHT_NERD;
+			if (oldTitle.compareTo(Title.KNIGHT_NERD) < 0) {
+				// post in facebook!
+			}
+		} else {
+			User.getUserInstance(null).title = Title.SUPER_NERD;
+			if (oldTitle.compareTo(Title.SUPER_NERD) < 0) {
+				// post in facebook!
+			}
+		}
+	}
+	
 	void updateServer() {
 		new ServerUpdateUserData().execute();
 
@@ -243,6 +286,37 @@ public class MineActivity extends CoolieActivity {
 			// Toast.makeText(getApplicationContext(),
 			// updatePostsMessage.value(),
 			// Toast.LENGTH_LONG).show();
+		}
+
+	}
+	
+	private ReturnValue getPostsOfUserFromServer() {
+		try {
+			userPostsFromServer = new ServeGetAllPostsOfUser().execute()
+					.get();
+		} catch (Exception e) {
+			return ReturnValue.FAIL_FROM_SERVER;
+		}
+
+		for (TecPost tp : userPostsFromServer) {
+			User.getUserInstance(null).posts.add(new Post(tp.getId(), tp
+					.getDate(), tp.getUserID(), tp.getLikesCount(), tp
+					.getCommentCount(), null, null, null, 0, null));
+					//TODO: change the null to the content from the server));
+		}
+		
+		return ReturnValue.SUCCESS_FROM_SERVER;
+	}
+	
+	class ServeGetAllPostsOfUser extends AsyncTask<Void, Void, List<TecPost>> {
+
+		@Override
+		protected List<TecPost> doInBackground(Void... arg0) {
+			Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
+			TecUser userToSever = new TecUser(userId, null, null, lastMining,
+					0, 0, 0, 0, 0, 0);
+			return connector.getAllUserPosts(userToSever);
+
 		}
 
 	}

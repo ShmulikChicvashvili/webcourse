@@ -36,7 +36,7 @@ public class Mine implements IMine {
 	private HashMap<String, Date> mPostsDates;
 	private HashMap<String, String> mPostsContent;
 	
-	private Mine(String userId) {	 
+	public Mine(String userId) {	 
 		mUserId = userId;
 		mTechGroups = new LinkedList<String>();
 		mTechGroups.add("244590982367730");
@@ -65,8 +65,6 @@ public class Mine implements IMine {
 	        JSONObject jso = gO.getInnerJSONObject();	  		        
 	        JSONArray arr;
 	        String groupId = null;
-	        String updateTimeString = null;
-	        String createTimeString = null;
 	        String likes = null;
 	        String postId = null;
 	        String postUrl = null;
@@ -82,7 +80,7 @@ public class Mine implements IMine {
 	        URL url = null;
 		try {
 			User checkUser = User.getUserInstance(null);
-			arr = jso.getJSONArray( "data" );
+			arr = jso.getJSONArray("data");
 	        for ( int i = 0; i < ( arr.length() ); i++ ) {
 	            JSONObject json_obj = arr.getJSONObject( i );
 	            if (json_obj.toString().contains("\"to\":")){
@@ -181,6 +179,8 @@ public class Mine implements IMine {
  		     System.out.println("The number of likes after mining is:" + User.getUserInstance(null).likesOnPostsNum);
  		     System.out.println("The amount of Techoins i have is:" + User.getUserInstance(null).totalTechoins);
  		     System.out.println("The last mining date is:" + User.getUserInstance(null).lastMining.toString());
+ 		     
+ 		    
 	        
 	        
 		} catch (JSONException e) {
@@ -210,7 +210,6 @@ public class Mine implements IMine {
 	@Override
 	public void endMining() {
 		User.getUserInstance(null).lastMining = new Date();
-		
 	}
 
 	@Override
@@ -224,30 +223,23 @@ public class Mine implements IMine {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public HashMap<String, String> getUrlsList() {
-		return mPostsUrls;
-	}
-
-	@Override
-	public HashMap<String, String> getGroupsNamesList() {
-		return mPostsGroupsNames;
-	}
 	
-
+	@Override
 	public  HashMap<String, String> getPostsUrls() {
 		return mPostsUrls;
 	}
 	
+	@Override
 	public  HashMap<String, String> getPostsGroupsNames() {
 		return mPostsGroupsNames;
 	}
- 
+	
+	@Override
 	public  HashMap<String, Date> getPostsDates() {
 		return mPostsDates;
 	}
 	
+	@Override
 	public  HashMap<String, String> getPostsContent() {
 		return mPostsContent;
 	}
