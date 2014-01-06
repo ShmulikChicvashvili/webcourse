@@ -14,7 +14,6 @@ import android.view.View;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
-import com.technion.coolie.ug.Enums.Faculty;
 import com.technion.coolie.ug.Enums.LandscapeLeftMenuItems;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
@@ -28,6 +27,9 @@ import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.ExamItem;
+import com.technion.coolie.ug.model.Faculty;
+import com.technion.coolie.ug.model.Meeting;
+import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.tracking.TrackingCoursesFragment;
@@ -44,7 +46,7 @@ public class MainActivity extends CoolieActivity implements
 		super.onCreate(savedInstanceState);
 
 		context = getApplicationContext();
-		ServerAsyncCommunication.mainActivity=this;
+		ServerAsyncCommunication.mainActivity = this;
 		setContentView(R.layout.ug_main_screen);
 
 		updateData();
@@ -102,6 +104,13 @@ public class MainActivity extends CoolieActivity implements
 	}
 
 	private void updateData() {
+		RegistrationGroup group = new RegistrationGroup(3,
+				Arrays.asList(new Meeting("df", "the happy farmer", Calendar
+						.getInstance().getTime(), null, "somewhere 340")),
+				null, 5);
+		List<RegistrationGroup> reg = new ArrayList<RegistrationGroup>(
+				Arrays.asList(group));
+
 		Course course = new Course(
 				"233245",
 				"CLASS OF JOY",
@@ -109,7 +118,7 @@ public class MainActivity extends CoolieActivity implements
 				"During the class we will talk about the high level design and your personal roles. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
 				new Semester(2013, SemesterSeason.WINTER), Faculty.CS,
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
-						2, 11), null, null, null);
+						2, 11), null, null, reg);
 
 		Course course2 = new Course(
 				"273455",
@@ -121,6 +130,11 @@ public class MainActivity extends CoolieActivity implements
 						2, 11), null, null, null);
 
 		List<Course> courses = new ArrayList<Course>();
+		for (int i = 0; i < 200; i++) {
+			Course c = new Course(course);
+			c.setCourseNumber((i + 2000) + "");
+			courses.add(c);
+		}
 		courses.add(course);
 		courses.add(course2);
 
@@ -159,6 +173,7 @@ public class MainActivity extends CoolieActivity implements
 		UGDatabase.getInstance(this).getTrackingCourses();
 		UGDatabase.getInstance(this).getCoursesAndExams();
 		UGDatabase.getInstance(this).getStudentInfo();
+		UGDatabase.getInstance(this).getGradesSheet();
 
 	}
 
@@ -185,30 +200,26 @@ public class MainActivity extends CoolieActivity implements
 		}
 	}
 
-	public AcademicCalendarListFragment getCalendarFragment() 
-	{
+	public AcademicCalendarListFragment getCalendarFragment() {
 		List<Fragment> allFragments = getSupportFragmentManager()
 				.getFragments();
-		for (Fragment f : allFragments)
-		{
-			if (f instanceof  AcademicCalendarListFragment )
-			return (AcademicCalendarListFragment)f;
+		for (Fragment f : allFragments) {
+			if (f instanceof AcademicCalendarListFragment)
+				return (AcademicCalendarListFragment) f;
 		}
 		return null;
-		
+
 	}
-	
-	public GradesSheetListFragment getGradesSheetFragment() 
-	{
+
+	public GradesSheetListFragment getGradesSheetFragment() {
 		List<Fragment> allFragments = getSupportFragmentManager()
 				.getFragments();
-		for (Fragment f : allFragments)
-		{
-			if (f instanceof  GradesSheetListFragment )
-			return (GradesSheetListFragment)f;
+		for (Fragment f : allFragments) {
+			if (f instanceof GradesSheetListFragment)
+				return (GradesSheetListFragment) f;
 		}
 		return null;
-		
+
 	}
 
 }

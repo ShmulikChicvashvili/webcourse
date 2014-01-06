@@ -34,26 +34,22 @@ import android.widget.TextView;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.TransparentActivity;
-import com.technion.coolie.ug.Enums.Faculty;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayFragment;
 import com.technion.coolie.ug.gui.searchCourses.SearchResultsAdapter.CourseHolder;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.Faculty;
 import com.technion.coolie.ug.utils.SerializeIO;
 
-//need to add more search options - has available courses?
 //add the courses hours to the calendar?
 //search option - by date in day!
 //need to add hebrew to the search filters
 //need to switch between semesters in course display.
 //need to add pre courses and close courses.
-//need to add option for choosing group to track? OR track entire course???
 //add option to add to tracking!
 //mark course if were registered to it!
-//make an searchForTrackFragment by extending searchFragment and overriding on SearchPressed
-// and bring navigation utils inside to searchFragment for overriding it in searchbar and track
 /**
  * activity for searching courses and finding available courses.
  * 
@@ -366,12 +362,12 @@ public class SearchFragment extends Fragment {
 		// layout
 		final ArrayAdapter<String> adapterFaculty = new ArrayAdapter<String>(
 				context, R.layout.ug_search_spinner_item_row,
-				Faculty.AE.getAllFaculties());
+				Faculty.AE.getAllFaculties(context));
 		final ArrayAdapter<String> adapterSemester = new ArrayAdapter<String>(
 				context, R.layout.ug_search_spinner_item_row, new String[] {
-						SemesterSeason.WINTER.toString(),
-						SemesterSeason.SPRING.toString(),
-						SemesterSeason.SUMMER.toString() });
+						SemesterSeason.WINTER.getName(context),
+						SemesterSeason.SPRING.getName(context),
+						SemesterSeason.SUMMER.getName(context) });
 		// Specify the layout to use when the list of choices appears
 		adapterFaculty
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -382,8 +378,9 @@ public class SearchFragment extends Fragment {
 		spinnerSemester.setAdapter(adapterSemester);
 
 		int idxDefault = adapterFaculty.getPosition(filters.getFaculty()
-				.toString());
+				.getName(context));
 		spinnerFaculty.setSelection(idxDefault);
+		final Context mcontext = this.context;
 		spinnerFaculty.setOnItemSelectedListener(new OnItemSelectedListener() {
 			int i = 0;
 
@@ -393,7 +390,8 @@ public class SearchFragment extends Fragment {
 
 				final String facultyString = spinnerFaculty.getSelectedItem()
 						.toString();
-				filters.setFaculty(Faculty.valueOf(facultyString));
+				filters.setFaculty(Faculty.AE.valueByName(facultyString,
+						mcontext));
 				// dont invoke search on fragment start
 				if (i++ > 0)
 					onFiltersUpdate();
@@ -406,7 +404,7 @@ public class SearchFragment extends Fragment {
 			}
 		});
 		idxDefault = adapterSemester.getPosition(filters.getSemester().getSs()
-				.toString());
+				.getName(mcontext));
 		spinnerSemester.setSelection(idxDefault);
 		spinnerSemester.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -420,7 +418,8 @@ public class SearchFragment extends Fragment {
 						.toString();
 				filters.setSemester(UGDatabase.getInstance(getActivity())
 						.getRelevantSemester(
-								SemesterSeason.valueOf(semesterString)));
+								SemesterSeason.valueByName(semesterString,
+										mcontext)));
 
 				System.out.print(filters.getSemester() + " SETTING SEMESTER");
 				// dont invoke search on fragment start

@@ -1,6 +1,7 @@
 package com.technion.coolie.ug.gui.courseDisplay;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 import android.content.Context;
@@ -60,35 +61,65 @@ public class CourseDisplayFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 	}
 
+	private void recieveCourse(final Bundle bundle) {
+
+		CourseKey key = null;
+		if (bundle == null) {
+			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE EXTRAS , exisiting");
+			throw new NullPointerException();
+		}
+		key = (CourseKey) bundle.getSerializable(ARGUMENTS_COURSE_KEY);
+		courseToView = UGDatabase.getInstance(getActivity())
+				.getCourseByKey(key);
+		if (courseToView == null) {
+			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSEKEY IN DB");
+			courseToView = new Course(key); // partial course display
+		}
+
+	}
+
 	private void updateCourseDisplay() {
 		final SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy",
 				Locale.getDefault());
 
-		final TextView nameTextView = (TextView) getActivity().findViewById(
-				R.id.course_screen_name);
-		nameTextView.setText(courseToView.getName());
+		if (courseToView.getName() != null) {
+			final TextView nameTextView = (TextView) getActivity()
+					.findViewById(R.id.course_screen_name);
+			nameTextView.setText(courseToView.getName());
+		}
+
 		final TextView pointsTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_points);
 		pointsTextView.setText("" + courseToView.getPoints());
-		final TextView numberTextView = (TextView) getActivity().findViewById(
-				R.id.course_screen_number);
-		numberTextView.setText("" + courseToView.getCourseNumber());
 
-		final TextView facultyTextView = (TextView) getActivity().findViewById(
-				R.id.course_screen_faculty);
-		facultyTextView.setText("" + courseToView.getFaculty().toString());
+		if (courseToView.getCourseNumber() != null) {
+			final TextView numberTextView = (TextView) getActivity()
+					.findViewById(R.id.course_screen_number);
+			numberTextView.setText("" + courseToView.getCourseNumber());
+		}
+		if (courseToView.getFaculty() != null) {
+			final TextView facultyTextView = (TextView) getActivity()
+					.findViewById(R.id.course_screen_faculty);
+			facultyTextView.setText(""
+					+ courseToView.getFaculty().getName(context));
+		}
+		if (courseToView.getDescription() != null) {
+			final TextView descTextView = (TextView) getActivity()
+					.findViewById(R.id.course_screen_description);
+			descTextView.setText(courseToView.getDescription());
+		}
+		if (courseToView.getMoedA() != null) {
+			final TextView examATextView = (TextView) getActivity()
+					.findViewById(R.id.course_screen_exam_a);
+			examATextView.setText(df.format(courseToView.getMoedA().getTime()));
+		}
+		if (courseToView.getMoedB() != null) {
+			final TextView examBTextView = (TextView) getActivity()
+					.findViewById(R.id.course_screen_exam_b);
+			examBTextView.setText(df.format(courseToView.getMoedB().getTime()));
+		}
 
-		final TextView descTextView = (TextView) getActivity().findViewById(
-				R.id.course_screen_description);
-		descTextView.setText(courseToView.getDescription());
-
-		final TextView examATextView = (TextView) getActivity().findViewById(
-				R.id.course_screen_exam_a);
-		examATextView.setText(df.format(courseToView.getMoedA().getTime()));
-
-		final TextView examBTextView = (TextView) getActivity().findViewById(
-				R.id.course_screen_exam_b);
-		examBTextView.setText(df.format(courseToView.getMoedB().getTime()));
+		makeKdamim(courseToView);
 
 		makeGroupsHeader();
 
@@ -102,6 +133,10 @@ public class CourseDisplayFragment extends Fragment {
 		fixEndOfGroups();
 	}
 
+	private void makeKdamim(Course courseToView2) {
+
+	}
+
 	private void addSeperatorLine() {
 		final LayoutInflater inflater = (LayoutInflater) getActivity()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -110,9 +145,15 @@ public class CourseDisplayFragment extends Fragment {
 
 	private void makeGroupsHeader() {
 
-		final MeetingDisplay explanationHeader = new MeetingDisplay("×ž×¡",
-				"×¡×•×’", "×ž×¨×¦×”", "×ž×™×§×•×�", "×©×¢×ª ×”×ª×—×œ×”", "×©×¢×ª ×¡×™×•×�", "×ž×§×•×� ×¤× ×•×™",
-				"×™×•×�");
+		final MeetingDisplay explanationHeader = new MeetingDisplay(
+				getString(R.string.ug_course_group_id),
+				getString(R.string.ug_course_group_meeting_type),
+				getString(R.string.ug_course_group_lecturer),
+				getString(R.string.ug_course_group_location),
+				getString(R.string.ug_course_group_hour_start),
+				getString(R.string.ug_course_group_hour_end),
+				getString(R.string.ug_course_group_free),
+				getString(R.string.ug_course_group_day));
 		final View v = addMeeting(explanationHeader);
 		v.setBackgroundResource(R.drawable.ug_course_label_text_container);
 
@@ -133,10 +174,14 @@ public class CourseDisplayFragment extends Fragment {
 		// do all meetings
 		if (group.getLectures() != null)
 			for (final Meeting meeting : group.getLectures())
-				addMeeting(new MeetingDisplay(meeting, "×”×¨×¦×�×”"));
+				addMeeting(new MeetingDisplay(
+						meeting,
+						getString(R.string.ug_course_group_meeting_type_lecture)));
 		if (group.getTutorials() != null)
 			for (final Meeting meeting : group.getTutorials())
-				addMeeting(new MeetingDisplay(meeting, "×ª×¨×’×•×œ"));
+				addMeeting(new MeetingDisplay(
+						meeting,
+						getString(R.string.ug_course_group_meeting_type_tutorial)));
 		addSeperatorLine();
 	}
 
@@ -169,24 +214,6 @@ public class CourseDisplayFragment extends Fragment {
 
 	}
 
-	private void recieveCourse(final Bundle bundle) {
-
-		CourseKey key = null;
-		if (bundle == null) {
-			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE EXTRAS , exisiting");
-			throw new NullPointerException();
-		}
-		key = (CourseKey) bundle.getSerializable(ARGUMENTS_COURSE_KEY);
-		courseToView = UGDatabase.getInstance(getActivity())
-				.getCourseByKey(key);
-		if (courseToView == null) {
-			Log.e(MainActivity.DEBUG_TAG,
-					"CANT FIND COURSEKEY IN DB, exisiting");
-			throw new NullPointerException();
-		}
-
-	}
-
 	static class onClickGroup implements android.view.View.OnClickListener {
 
 		@Override
@@ -207,12 +234,20 @@ public class CourseDisplayFragment extends Fragment {
 		String freeSpace = "";
 		String day = "";
 
+		String[] dayLetter = { getString(R.string.ug_course_group_day_1),
+				getString(R.string.ug_course_group_day_2),
+				getString(R.string.ug_course_group_day_3),
+				getString(R.string.ug_course_group_day_4),
+				getString(R.string.ug_course_group_day_5),
+				getString(R.string.ug_course_group_day_6),
+				getString(R.string.ug_course_group_day_7) };
+
 		public MeetingDisplay() {
 
 		}
 
 		public MeetingDisplay(final Meeting meeting, final String _meetingType) {
-			final SimpleDateFormat df = new SimpleDateFormat("HH:m",
+			final SimpleDateFormat df = new SimpleDateFormat("HH:mm",
 					Locale.getDefault());
 			meetingType = _meetingType;
 			lecturer = meeting.getLecturerName();
@@ -221,8 +256,9 @@ public class CourseDisplayFragment extends Fragment {
 				hourStart = df.format(meeting.getStartingHour());
 			if (meeting.getEndingHour() != null)
 				hourEnd = df.format(meeting.getEndingHour());
-			//day = meeting.getDay().toSingleLetter();
-			day = "XXXXXXXXXX";
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(meeting.getStartingHour());
+			day = dayLetter[cal.get(Calendar.DAY_OF_WEEK) - 1];
 		}
 
 		public MeetingDisplay(final String number, final String meetingType,

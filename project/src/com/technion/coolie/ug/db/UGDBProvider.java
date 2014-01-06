@@ -111,13 +111,10 @@ public class UGDBProvider {
 
 	void setCoursesAndExams(List<CourseItem> courses, String studentId) {
 		try {
-			// find all courses of studentId, for replacing them
-			List<RegisteredCourseRow> toDeleteCourses = getHelper()
-					.getRegisteredCoursesDao().queryBuilder().where()
-					.eq("studentId", studentId).query();
 
-			// delete the list TODO delete after adding, and not before
-			getHelper().getRegisteredCoursesDao().delete(toDeleteCourses);
+			// TODO delete after adding, and not before
+
+			getHelper().getRegisteredCoursesDao().deleteBuilder().delete();
 
 			// add courses
 			for (CourseItem course : courses) {
@@ -149,10 +146,11 @@ public class UGDBProvider {
 			String studentId) {
 		try {
 			// clear all courses
-			List<AccomplishedCourseRow> list = getHelper()
-					.getAccopmlishedCoursesDao().queryBuilder().where()
-					.eq("studentId", studentId).query();
-			getHelper().getAccopmlishedCoursesDao().delete(list);
+			getHelper().getAccopmlishedCoursesDao().deleteBuilder().delete();
+			// List<AccomplishedCourseRow> list = getHelper()
+			// .getAccopmlishedCoursesDao().queryBuilder().where()
+			// .eq("studentId", studentId).query();
+			// getHelper().getAccopmlishedCoursesDao().delete(list);
 			// add courses
 			for (AccomplishedCourse course : courses) {
 				getHelper().getAccopmlishedCoursesDao().create(
@@ -181,10 +179,11 @@ public class UGDBProvider {
 	void setAcademicEvents(List<AcademicCalendarEvent> events) {
 		try {
 			// clear all events
-			List<AcademicEventRow> list = getHelper().getAcademicEventsDao()
-					.queryForAll();
-			getHelper().getAcademicEventsDao().delete(list);
-			// add events
+			getHelper().getAcademicEventsDao().deleteBuilder().delete();
+			// List<AcademicEventRow> list = getHelper().getAcademicEventsDao()
+			// .queryForAll();
+			// getHelper().getAcademicEventsDao().delete(list);
+			// // add events
 			for (AcademicCalendarEvent academicCalendarEvent : events) {
 				getHelper().getAcademicEventsDao().create(
 						new AcademicEventRow(academicCalendarEvent));
@@ -268,14 +267,14 @@ public class UGDBProvider {
 		}
 	}
 
-	Dao<RegisteredCourseRow, Long> getRegisteredCoursesDao() {
-		try {
-			return getHelper().getRegisteredCoursesDao();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new NullPointerException("Can't get courses table!");
-		}
-	}
+	// Dao<RegisteredCourseRow, Long> getRegisteredCoursesDao() {
+	// try {
+	// return getHelper().getRegisteredCoursesDao();
+	// } catch (SQLException e) {
+	// e.printStackTrace();
+	// throw new NullPointerException("Can't get courses table!");
+	// }
+	// }
 
 	/**
 	 * this method must be called when app finishes the use of this class.

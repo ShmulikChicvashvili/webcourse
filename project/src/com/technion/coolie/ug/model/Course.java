@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 
-import com.technion.coolie.ug.Enums.Faculty;
-
 //Notes : faculty can be decided by the first two numbers of the
 // course id.
 
@@ -31,8 +29,8 @@ public class Course implements Serializable {
 	private Calendar moedA;
 	private Calendar moedB;
 
-	private List<GroupOfCourses> prerequisites; // чгойн
-	private List<GroupOfCourses> attachedCourses; // цоегйн
+	private List<GroupOfCourses> prerequisites; // пїЅпїЅпїЅпїЅпїЅ
+	private List<GroupOfCourses> attachedCourses; // пїЅпїЅпїЅпїЅпїЅпїЅ
 	private List<RegistrationGroup> registrationGroups;
 
 	public Course(final String courseNumber, final String name,
@@ -68,6 +66,20 @@ public class Course implements Serializable {
 		prerequisites = course.prerequisites;
 		attachedCourses = course.attachedCourses;
 		registrationGroups = course.registrationGroups;
+	}
+
+	public Course(CourseKey key) {
+		this.courseNumber = key.getNumber();
+		this.name = "";
+		this.points = 0;
+		this.description = "";
+		this.semester = key.getSemester();
+		this.faculty = null;
+		this.moedA = null;
+		this.moedB = null;
+		this.prerequisites = null;
+		this.attachedCourses = null;
+		this.registrationGroups = null;
 	}
 
 	public String getCourseNumber() {
@@ -169,10 +181,11 @@ public class Course implements Serializable {
 			sum += Math.abs(group.getFreePlaces());
 		return sum > 0;
 	}
-	
+
 	public int getFreePlaces() {
 		int sum = 0;
-		if (registrationGroups==null) return -1;
+		if (registrationGroups == null)
+			return -1;
 		for (final RegistrationGroup group : registrationGroups)
 			sum += Math.abs(group.getFreePlaces());
 		return sum;

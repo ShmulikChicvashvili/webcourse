@@ -1,27 +1,57 @@
 package com.technion.coolie.ug.model;
 
-
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public enum Faculty implements Serializable {
-	ALL_FACULTIES("00"), AE("08"), ARCHITECTURE("20"), BIOLOGY("13"), BM("33"), BIOTECH("06"), CHEMENG("12"), CHEMISTRY("12"), CEE("01"), CS("23"), EDU("21"), EE("04"), HUMANITIES("32"), IE("09"), MATERIALS("31"), MATH("10"), MEENG("03"), MD("27"), PHYS("11");
-	private String id;
+import android.content.Context;
 
-	private Faculty(String id) {
+import com.technion.coolie.R;
+
+public enum Faculty implements Serializable {
+	ALL_FACULTIES("00", R.string.ug_faculty_all_faculties), AE("08",
+			R.string.ug_faculty_ae), ARCHITECTURE("20",
+			R.string.ug_faculty_arch), BIOLOGY("13",
+			R.string.ug_faculty_biology), BM("33", R.string.ug_faculty_bio), BIOTECH(
+			"06", R.string.ug_faculty_biotech), CHEMENG("12",
+			R.string.ug_faculty_chem_eng), CHEMISTRY("12",
+			R.string.ug_faculty_chem), CEE("01", R.string.ug_faculty_indus), CS(
+			"23", R.string.ug_faculty_comp), EDU("21", R.string.ug_faculty_educ), EE(
+			"04", R.string.ug_faculty_elect), HUMANITIES("32",
+			R.string.ug_faculty_human), IE("09", R.string.ug_faculty_manage), MATERIALS(
+			"31", R.string.ug_faculty_materials), MATH("10",
+			R.string.ug_faculty_math), MEENG("03", R.string.ug_faculty_machine), MD(
+			"27", R.string.ug_faculty_medical), PHYS("11",
+			R.string.ug_faculty_phys);
+	private String id;
+	private int repStringId;
+
+	private Faculty(String id, int repString) {
 		this.id = id;
+		this.repStringId = repString;
+
 	}
-	String getId(){
+
+	String getId() {
 		return id;
 	}
 
-	public List<String> getAllFaculties() {
+	public String getName(Context context) {
+		return context.getString(repStringId);
+	}
+
+	public Faculty valueByName(String name, Context context) {
+		for (final Faculty facultie : values())
+			if (facultie.getName(context).equals(name))
+				return facultie;
+		throw new NullPointerException();
+	}
+
+	public List<String> getAllFaculties(Context context) {
 		final Faculty[] faculties = values();
 		final List<String> list = new ArrayList<String>();
 		for (final Faculty facultie : faculties)
-			list.add(facultie.toString());
+			list.add(facultie.getName(context));
 		return list;
 	}
 
