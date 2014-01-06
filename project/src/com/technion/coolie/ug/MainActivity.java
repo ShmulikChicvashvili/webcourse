@@ -33,6 +33,7 @@ import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.tracking.TrackingCoursesFragment;
+import com.technion.coolie.ug.utils.CalendarUtils;
 import com.technion.coolie.ug.utils.FragmentsFactory;
 
 public class MainActivity extends CoolieActivity implements
@@ -49,7 +50,7 @@ public class MainActivity extends CoolieActivity implements
 		ServerAsyncCommunication.mainActivity = this;
 		setContentView(R.layout.ug_main_screen);
 
-		// updateData();
+		updateData();
 		ServerAsyncCommunication.getCalendarEventsFromServer();
 		ServerAsyncCommunication.getGradesSheetfromServer();
 		// UGDatabase.getInstance(this).mainActivity = this;
@@ -150,9 +151,13 @@ public class MainActivity extends CoolieActivity implements
 						"201301", "3434", null, false)));
 
 		ArrayList<CourseItem> coursesExamsList = new ArrayList<CourseItem>(
-				Arrays.asList(new CourseItem("hi", "2324", "4.2",
-						new ArrayList<ExamItem>(Arrays.asList(new ExamItem(
-								Calendar.getInstance(), "my kitchen"))))));
+				Arrays.asList(new CourseItem("מפרטים פורמליים במערכות מורכבות",
+						"2324", "4.2", new ArrayList<ExamItem>(
+								Arrays.asList(
+										new ExamItem(Calendar.getInstance(),
+												"טאוב 10"), new ExamItem(
+												Calendar.getInstance(),
+												"טאוב 100"))))));
 
 		Student student = new Student(UGDatabase.getInstance(this)
 				.getCurrentStudentId());
@@ -174,7 +179,7 @@ public class MainActivity extends CoolieActivity implements
 		UGDatabase.getInstance(this).getCoursesAndExams();
 		UGDatabase.getInstance(this).getStudentInfo();
 		UGDatabase.getInstance(this).getGradesSheet();
-
+		CalendarUtils.addMyCourses(this, coursesExamsList);
 	}
 
 	public void onRegistrationClick(View v) {
