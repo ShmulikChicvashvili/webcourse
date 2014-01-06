@@ -1,6 +1,7 @@
 package com.technion.coolie;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 /**
  * 
@@ -18,10 +19,10 @@ public enum CoolieAccount {
 	PHMOODLE,
 	LIBRARY;
 	
-	private com.technion.coolie.skeleton.CoolieAccount mAccount;
+	private com.technion.coolie.skeleton.PrivateCoolieAccount mAccount;
 	
 	private CoolieAccount() {
-		mAccount = com.technion.coolie.skeleton.CoolieAccount.valueOf(this.name());
+		mAccount = com.technion.coolie.skeleton.PrivateCoolieAccount.valueOf(this.name());
 	}
 	
     public String getUsername()
@@ -32,5 +33,10 @@ public enum CoolieAccount {
     public boolean isAlreadyConnected()
     {
     	return mAccount.isAlreadyConnected();
+    }
+    
+    public void openSigninDialog(FragmentActivity activity)
+    {
+    	mAccount.openSigninDialog(activity);
     }
 }

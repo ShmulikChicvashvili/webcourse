@@ -1,6 +1,6 @@
 package com.technion.coolie.skeleton;
 
-import com.technion.coolie.skeleton.CoolieAccount;
+import com.technion.coolie.skeleton.PrivateCoolieAccount;
 import com.technion.coolie.R;
 
 import android.app.AlertDialog;
@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 public class SignonDialog extends DialogFragment {
 	
-	private CoolieAccount account;
+	private PrivateCoolieAccount account;
 	
-	public SignonDialog(CoolieAccount acc) {
+	public SignonDialog(PrivateCoolieAccount acc) {
 		account = acc;
 	}
 	

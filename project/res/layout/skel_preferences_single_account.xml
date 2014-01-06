@@ -40,6 +40,7 @@
         style="@style/Button.Small"
         android:gravity="center_vertical"
         android:focusable="false"
+        android:textAlignment="center"
         android:scaleType="fitXY" />
 
 </RelativeLayout>

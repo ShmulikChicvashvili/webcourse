@@ -3,16 +3,18 @@ package com.technion.coolie.skeleton;
 import java.util.List;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
-import com.technion.coolie.skeleton.CoolieAccount;
+import com.technion.coolie.skeleton.PrivateCoolieAccount;
 import com.technion.coolie.R;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Dialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 
 
 public class PreferencesScreen extends SherlockPreferenceActivity {
@@ -24,8 +26,7 @@ public class PreferencesScreen extends SherlockPreferenceActivity {
 	    
 	    if (Build.VERSION.SDK_INT<Build.VERSION_CODES.HONEYCOMB) {
 	      addPreferencesFromResource(R.xml.skel_preferences);
-	      addPreferencesFromResource(R.xml.skel_accounts_preferences);
-	      
+	     // addAccounts(this, getPreferenceScreen());
 	    }
 	  }
 
@@ -51,11 +52,17 @@ public class PreferencesScreen extends SherlockPreferenceActivity {
 	    public void onCreate(Bundle savedInstanceState) {
 	      super.onCreate(savedInstanceState);
 	      addPreferencesFromResource(R.xml.skel_accounts_preferences);
-	      for(final CoolieAccount acc : CoolieAccount.values())
+	      addAccounts(getActivity(), getPreferenceScreen());
+	    }
+	    
+	  }
+	  private static void addAccounts(Activity act, PreferenceScreen screen)
+	  {
+	      for(final PrivateCoolieAccount acc : PrivateCoolieAccount.values())
 	      {
-	    	  if(!acc.equals(CoolieAccount.NONE))
+	    	  if(!acc.equals(PrivateCoolieAccount.NONE))
 	    	  {
-	    		  final AccountPreference pref = acc.getPreference(getActivity());
+	    		  final AccountPreference pref = acc.getPreference(act);
 	    		  pref.setKey(acc.getPreferenceName());
 	    		  pref.setEnabled(true);
 	    		  pref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -65,19 +72,18 @@ public class PreferencesScreen extends SherlockPreferenceActivity {
 						
 						Dialog d = pref.getDialog();
 						d.show();
-						
-						//SignonDialog dialog = new SignonDialog(acc);
-						
-						//getFragmentManager()
-						//dialog.show(, "bla");
 						return false;
 					}
 	    		  });
-	    		  //pref.onClick();
-	    		  getPreferenceScreen().addPreference(pref);
+	    		  screen.addPreference(pref);
 	    	  }
 	      }
-	    }
-	    
-	  }
+	  }	  
+	  @Override
+	protected boolean isValidFragment(String fragmentName) {
+		if(PreferenceFrag.class.getName().equals(fragmentName)
+				|| AccountFrag.class.getName().equals(fragmentName))
+			return true;
+		return super.isValidFragment(fragmentName);
+	}
 }

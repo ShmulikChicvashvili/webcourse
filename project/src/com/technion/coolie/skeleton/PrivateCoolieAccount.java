@@ -3,7 +3,9 @@ package com.technion.coolie.skeleton;
 import com.technion.coolie.R;
 import com.technion.coolie.skeleton.AccountPreference;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 
 /**
  * 
@@ -11,7 +13,7 @@ import android.content.Context;
  * the string from the URL
  * 
  */
-public enum CoolieAccount {
+public enum PrivateCoolieAccount {
 	NONE("", 0), UG("UG", R.drawable.skel_ug_icon),
 	GOOGLE("google", R.drawable.skel_google_icon),
 	FACEBOOK("Facebook", R.drawable.skel_facebook_icon),
@@ -29,7 +31,7 @@ public enum CoolieAccount {
 	private AccountPreference preference;
 	private boolean alreadyConnected;
 	
-	private CoolieAccount(String name, int imageResource) {
+	private PrivateCoolieAccount(String name, int imageResource) {
 		this.name = name;
 		this.imageResource = imageResource;
 		
@@ -79,5 +81,11 @@ public enum CoolieAccount {
     public String getPreferenceName()
     {
     	return name;
+    }
+    
+    public void openSigninDialog(FragmentActivity a)
+    {
+    	SignonDialog s = new SignonDialog(this);
+    	s.show(a.getSupportFragmentManager(), "dialog");
     }
 }

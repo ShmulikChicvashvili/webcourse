@@ -8,12 +8,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.technion.coolie.skeleton.CoolieAccount;
+import com.technion.coolie.skeleton.PrivateCoolieAccount;
 import com.technion.coolie.R;
 
 public class SingonDialogBuilder {
 	
-	public static void setDialogAppearance(AlertDialog.Builder builder, LayoutInflater inflater, Context c, final CoolieAccount account, DialogInterface.OnClickListener cancelListener)
+	public static void setDialogAppearance(AlertDialog.Builder builder, LayoutInflater inflater, Context c, final PrivateCoolieAccount account, DialogInterface.OnClickListener cancelListener)
 	{
 		// Inflate and set the layout for the dialog
 	    // Pass null as the parent view because its going in the dialog layout
