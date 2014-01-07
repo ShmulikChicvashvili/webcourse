@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +26,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.FacebookRequestError;
+import com.facebook.HttpMethod;
 import com.facebook.Request;
+import com.facebook.RequestAsyncTask;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.Session.OpenRequest;
@@ -53,7 +59,7 @@ public class MainActivity extends CoolieActivity {
 	TecUser tecUser;
 	TextView total;
 	TextView Mylevel;
-
+	boolean pendingPublishReauthorization = false;
 	public void myAccountNav(View view) {
 		Intent intent = new Intent(MainActivity.this, MyAccountActivity.class);
 		startActivity(intent);
@@ -121,7 +127,7 @@ public class MainActivity extends CoolieActivity {
 						public void onCompleted(GraphUser user, Response response) {
 							
 							if (user != null) {
-
+								System.out.println("*****user != null******");
 								/* tries to read from file "techmine" that saved in th internal storage of the device 
 								at the last use */
 								readFromFile();
@@ -143,7 +149,8 @@ public class MainActivity extends CoolieActivity {
 											|| res.equals(ReturnValue.USER_DOESNT_EXIST_IN_SERVER)) {
 										
 										User.getUserInstance(userId).name = userName;
-										
+										//*** post in the facebook that the user has joined techmind **//
+										publishJoinedToTechmind();
 										/* adds the user to the server */
 										addUserToServer();
 										
@@ -158,9 +165,7 @@ public class MainActivity extends CoolieActivity {
 									writeToFile();
 									
 								}
-								
-								User check = User.getUserInstance(null);
-								
+											
 								initiateActivityFields();
 
 								/*
@@ -280,16 +285,26 @@ public class MainActivity extends CoolieActivity {
 		Session.getActiveSession().onActivityResult(this, requestCode,
 				resultCode, data);
 	}
+	
+	private boolean isSubsetOf(List<String> subset,
+	        List<String> superset) {
+	    for (String string : subset) {
+	        if (!superset.contains(string)) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
 
 	private ReturnValue getFromServer() {
 		try {
 			tecUser = new ServerGetUserData().execute().get();
 			if (tecUser == null) {
-				return ReturnValue.USER_DOESNT_EXIST_IN_SERVER;
+							return ReturnValue.USER_DOESNT_EXIST_IN_SERVER;
 			}
 			else {
 				userId = tecUser.getId();
-			}
+					}
 		} catch (Exception e) {
 			return ReturnValue.FAIL_FROM_SERVER;
 		}
@@ -373,8 +388,6 @@ public class MainActivity extends CoolieActivity {
 
 	}
 
-
-
 	class ServerRemoveUser extends AsyncTask<Void, Void, ReturnCode> {
 
 		@Override
@@ -385,6 +398,33 @@ public class MainActivity extends CoolieActivity {
 			return connector.removeUser(userToSever);
 
 		}
+
+	}
+	
+	private void publishJoinedToTechmind() {
+	    Session session = Session.getActiveSession();
+	    if (session != null){
+	        // Check for publish permissions    
+	        List<String> permissions = session.getPermissions();
+	        if (!isSubsetOf(Arrays.asList("publish_actions"), permissions)) {
+	            pendingPublishReauthorization = true;
+	            Session.NewPermissionsRequest newPermissionsRequest = new Session
+	                    .NewPermissionsRequest(this, Arrays.asList("publish_actions"));
+	        session.requestNewPublishPermissions(newPermissionsRequest);
+	            return;
+	        }
+
+	        Bundle postParams = new Bundle();
+	        postParams.putString("message", "Has just joined to Techmind");
+	        Request.Callback callback= new Request.Callback() {
+	            public void onCompleted(Response response) {
+	            }
+	        };
+	        Request request = new Request(session, "me/feed", postParams, 
+	                              HttpMethod.POST, callback);
+	        RequestAsyncTask task = new RequestAsyncTask(request);
+	        task.execute();
+	    }
 
 	}
 

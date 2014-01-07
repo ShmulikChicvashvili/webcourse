@@ -72,7 +72,7 @@ public class TopPostListAdapter extends BaseAdapter {
 
 		TecPost post = (TecPost) getItem(position);
 		int index = post.getDate().toString().indexOf("GMT");
-		String myPost = "my post is...";
+		String myPost = post.getContent();
 		holder.postContent.setText(myPost);
 		holder.date.setText(post.getDate().toString().subSequence(0, index));
 		holder.comments_amount.setText("Recieved "+String.valueOf(post.getCommentCount()) + " Comments");
