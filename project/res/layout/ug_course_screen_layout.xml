@@ -23,39 +23,45 @@
         
         android:orientation="vertical" >
         
-<!-- <RadioGroup -->
-<!--     android:id="@+id/course_screen_semester_radio_group" -->
-<!--     android:layout_width="wrap_content" -->
-<!--     android:layout_height="wrap_content"  -->
-<!--     android:orientation="horizontal" -->
-<!--     android:layout_centerHorizontal="true" -->
+<RadioGroup
+    android:id="@+id/course_screen_semester_radio_group"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" 
+    android:orientation="horizontal"
+    android:layout_centerHorizontal="true"
     
-<!--   > -->
+  >
 
-<!--     <RadioButton  -->
-<!--             android:id="@+id/course_screen_lastsemester" -->
-<!--         	android:text="חורף" -->
-<!--         	 android:textColor="@color/abs__background_holo_dark" -->
-<!--         	 android:checked="true" -->
-<!--         	 android:layout_gravity="right" -->
+    <RadioButton 
+            android:id="@+id/course_screen_lastsemester"
+        	android:text="חורף"
+        	 android:textColor="@color/abs__background_holo_dark"
         	
-<!--         /> -->
+        	 android:layout_gravity="right"
+        	
+        />
 
-<!--     <RadioButton -->
-<!--             android:id="@+id/course_screen_secondlastsemester" -->
-<!--         	android:text="אביב" -->
-<!--         	 android:textColor="@color/abs__background_holo_dark" -->
-<!--         	 android:layout_gravity="center" -->
-<!--          /> -->
-<!--      <RadioButton -->
-<!--             android:id="@+id/course_screen_threelastsemester" -->
-<!--         	android:text="קיץ" -->
-<!--         	 android:textColor="@color/abs__background_holo_dark" -->
-<!--         	 android:layout_gravity="right" -->
-<!--          /> -->
+    <RadioButton
+            android:id="@+id/course_screen_secondlastsemester"
+        	android:text="אביב"
+        	 android:textColor="@color/abs__background_holo_dark"
+        	 android:layout_gravity="center"
+         />
+     <RadioButton
+            android:id="@+id/course_screen_threelastsemester"
+        	android:text="קיץ"
+        	 android:textColor="@color/abs__background_holo_dark"
+        	 android:layout_gravity="right"
+         />
     
-<!-- </RadioGroup> -->
+</RadioGroup>
         
+
+<TextView android:id="@+id/ug_course_screen_not_available_course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="קורס לא נלמד בסמסטר" />
 
 <LinearLayout
 	    android:id="@+id/ug_course_screen_name_headline"
@@ -342,6 +348,7 @@
         android:layout_below="@id/course_screen_groups_label"
         android:orientation="vertical" 
         android:layout_marginBottom="10dp"
+        android:background="@drawable/ug_course_group_view"
       >
 	    
 	</LinearLayout>
