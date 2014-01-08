@@ -2,28 +2,23 @@ package com.technion.coolie.techlibrary;
 
 import java.util.ArrayList;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
-import com.technion.coolie.CoolieActivity;
-import com.technion.coolie.R;
-import com.technion.coolie.R.layout;
-import com.technion.coolie.techlibrary.maps.LibraryMapLocationActivity;
-
-import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.technion.coolie.CoolieActivity;
+import com.technion.coolie.R;
+import com.technion.coolie.techlibrary.LibrariesData.Library;
+import com.technion.coolie.techlibrary.maps.LibraryMapLocationActivity;
 /**
  * 
  * This class includes in it the components of the OpenHours fragment,
@@ -40,7 +35,7 @@ public class OpenHoursScreens {
 	 */
 	static public class LibraryDescriptionFragment extends SherlockFragment {
 
-		String name = null;
+		int libraryId;
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +43,7 @@ public class OpenHoursScreens {
 			super.onCreateView(inflater, container, savedInstanceState);
 			
 			LibrariesData.Library libDetails = LibrariesData
-					.getLibraryByName(name);
+					.getLibraryById(libraryId);
 			// Inflate the layout for this fragment
 			View v = inflater
 					.inflate(R.layout.lib_activity_library_description,
@@ -71,8 +66,8 @@ public class OpenHoursScreens {
 			return v;
 		}
 
-		public void setArguments(String name) {
-			this.name = name;
+		public void setArguments(int libraryId) {
+			this.libraryId = libraryId;
 		}
 
 	}
@@ -85,13 +80,15 @@ public class OpenHoursScreens {
 	static public class LibrariesListFragment extends SherlockFragment {
 		private ListView mListView;
 		private TextView mEmptyView;
-		private ArrayList<String> mOpenHours;
+		private ArrayList<Library> libraryList;
+		
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			super.onCreateView(inflater, container, savedInstanceState);
-			mOpenHours = new ArrayList<String>();
-			mOpenHours.addAll(LibrariesData.names);
+			
+			libraryList = new ArrayList<Library>();
+			libraryList.addAll(LibrariesData.getLibrariesList());
 
 			// Inflate the layout for this fragment
 			View v = inflater.inflate(R.layout.lib_open_hours_list, container,
@@ -100,19 +97,19 @@ public class OpenHoursScreens {
 			mEmptyView = (TextView) v.findViewById(R.id.empty);
 			mListView.setEmptyView(mEmptyView);
 
-			mListView.setAdapter(new OpenHoursAdapter(getActivity(),
-					mOpenHours, this));
+			mListView.setAdapter(new OpenHoursAdapter(getSherlockActivity(),
+					libraryList, this));
 			Log.d("LoansFrg:", "adapter set, number of items is:"
-					+ ((Integer) mOpenHours.size()).toString());
+					+ ((Integer) libraryList.size()).toString());
 
 			return v;
 		}
 
-		public void notifyClickedItem(String libraryName) {
-			Log.d(" NOTIFICATION : you pressed library : " ,"" + libraryName);
+		public void notifyClickedLibrary(int libraryId) {
+			Log.d(" NOTIFICATION : you pressed library : " ,"" + libraryId);
 			if (getParentFragment() != null) {
 				((OpenHoursFragment) getParentFragment())
-						.notifyClickedItem(libraryName);
+						.notifyClickedItem(libraryId);
 			}
 		}
 	}
@@ -122,19 +119,20 @@ public class OpenHoursScreens {
 	 * LibraryDescriptionActivity
 	 */
 	static public class LibraryDescriptionActivity extends CoolieActivity {
-
+		int libraryId;
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.lib_activity_library_description);
-			String lib_Name = getIntent().getExtras().getString("name");
+			libraryId = getIntent().getIntExtra("libraryId", -1);
 			LibrariesData.Library tmp = LibrariesData
-					.getLibraryByName(lib_Name);
+					.getLibraryById(libraryId);
 			if (tmp == null) {
 				((TextView) (findViewById(R.id.lib_name)))
 						.setText("No description available");
 
 			} else {
+				Log.d("open hours",tmp.headLibrarian +"\n"+tmp.phone+"\n"+tmp.email+"\n");
 				((TextView) (findViewById(R.id.lib_name))).setText(tmp.name);
 				((TextView) (findViewById(R.id.lib_head_librarien_name)))
 						.setText(tmp.headLibrarian);
@@ -161,7 +159,7 @@ public class OpenHoursScreens {
 					Intent intent = new Intent(OpenHoursScreens.LibraryDescriptionActivity.this,
 												LibraryMapLocationActivity.class);
 					//TODO: handle\add library code to make this function
-					//intent.putExtra("library code", 1); 
+					intent.putExtra("libraryId",libraryId); 
 					startActivity(intent);
 					return true;
 				}

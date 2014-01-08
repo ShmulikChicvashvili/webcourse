@@ -17,22 +17,31 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.R;
 import com.technion.coolie.techlibrary.BookItems.HoldElement;
 import com.technion.coolie.techlibrary.BookItems.LibraryElement;
 import com.technion.coolie.techlibrary.OpenHoursScreens.LibraryDescriptionFragment;
+import com.technion.coolie.techlibrary.maps.LibraryMapLocationActivity;
 
 public class OpenHoursFragment extends SherlockFragment {
+	private static final int NOT_ACTIVE = -1;
 	private ArrayList<String> mOpenHours;
 	private String lastItemClicked = null;
 	private Integer lastOrientation = null;
 	private FrameLayout mDetailsFrame = null;
+	private boolean fragLibraryDescriptionFlag = false;
+	private int viewedLibraryId = NOT_ACTIVE;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		LibrariesData.buildList(getSherlockActivity(),R.raw.libraries);
+		setHasOptionsMenu(true);
+		LibrariesData.buildList(getSherlockActivity(),R.raw.lib_libraries);
 		// Inflate the layout for this fragment
 		View v = inflater.inflate(R.layout.lib_fragment_open_hours, container,
 				false);	
@@ -50,19 +59,49 @@ public class OpenHoursFragment extends SherlockFragment {
 //		lastOrientation = getResources().getConfiguration().orientation;
 		return v;
 	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		super.onCreateOptionsMenu(menu, inflater);
+		
+		//only if dualpane and item is clicked
+		if(fragLibraryDescriptionFlag) {
+			// TODO: change order of menu items!
+			// ~~~~~~~ MapLocation ~~~~~~~
+			MenuItem map = (MenuItem) menu.add("Map");
+			map.setIcon(R.drawable.lib_ic_action_map);
+			map.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+			map.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					Intent intent = new Intent(getSherlockActivity(),
+												LibraryMapLocationActivity.class);
+					//TODO: handle\add library code to make this function
+					intent.putExtra("libraryId", viewedLibraryId); 
+					startActivity(intent);
+					return true;
+				}
+			});
+		}
+	}
 
-	public void notifyClickedItem(String name) {
-		lastItemClicked = name; //not neccesery..
+	public void notifyClickedItem(int libraryId) {
 		if (mDetailsFrame != null) {
+			//dual pane!
 			LibraryDescriptionFragment libDesc = new LibraryDescriptionFragment();
-			libDesc.setArguments(name);
+			libDesc.setArguments(libraryId);
 			FragmentManager f = getChildFragmentManager();
 			f.beginTransaction()
 					.replace(R.id.lib_library_details_frame, libDesc).commit();
+			//adding menu items?
+			fragLibraryDescriptionFlag = true;
+			viewedLibraryId = libraryId;
+			getSherlockActivity().invalidateOptionsMenu();
 		} else {
 			Intent intent = new Intent(getSherlockActivity(),
 					OpenHoursScreens.LibraryDescriptionActivity.class);
-			intent.putExtra("name", name);
+			intent.putExtra("libraryId", libraryId);
 			startActivity(intent);
 		}
 	}

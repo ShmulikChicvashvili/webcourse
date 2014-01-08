@@ -36,13 +36,6 @@ public class LoansFragment extends SherlockFragment {
 	private LoansAdapter mLoansAdapter;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		new LibrariesData();
-
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);

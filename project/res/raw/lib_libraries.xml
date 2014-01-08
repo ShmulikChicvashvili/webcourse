@@ -1,99 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <library>
+<id>0</id>
 <name>Elyachar Central Library</name>
 <headLibrarian>Dalia Dolev - Director</headLibrarian>
 <phone>829-2507</phone>
 <email>ddalia@cl.technion.ac.il</email>
+<latitude>32.77583695</latitude>
+<longitude>35.02236083</longitude>
 </library>
 <library>
+<id>1</id>
 <name>Aerospace Engineering</name>
 <headLibrarian>Ludmila Bronnikov</headLibrarian>
 <phone>829-2310</phone>
 <email>ludmilab@tx.technion.ac.il</email>
+<latitude>32.77358624</latitude>
+<longitude>35.02163127</longitude>
 </library>
 <library>
+<id>2</id>
 <name>Architecture and Town Planning</name>
 <headLibrarian>Viki Davidov</headLibrarian>
 <phone>829-4010</phone>
 <email>arclib@tx.technion.ac.il</email>
+<latitude>32.77804926</latitude>
+<longitude>35.02309576</longitude>
 </library>
 <library>
+<id>3</id>
 <name>Biomedical Engineering</name>
 <headLibrarian>Ronit Revach</headLibrarian>
 <phone>829-4126</phone>
  <email>bmlib@tx.technion.ac.il</email>
+ <latitude>32.77521452</latitude>
+<longitude>35.02642706</longitude>
 </library>
 <library>
+<id>4</id>
 <name>Chemical Engineering, Biotechnology and Food Engineering</name>
 <headLibrarian>Ruth Shaviv</headLibrarian>
 <phone>829-3075</phone>
 <email>foodlib@tx.technion.ac.il</email>
+<latitude>32.77818231</latitude>
+<longitude>35.02709225</longitude>
 </library>
 <library>
+<id>5</id>
 <name>Chemistry and Biology</name>
 <headLibrarian>Hana Ilovich</headLibrarian>
 <phone>829-3734</phone>
 <email>ihana@tx.technion.ac.il</email>
+<latitude>32.77736595</latitude>
+<longitude>35.02626881</longitude>
 </library>
 <library>
+<id>6</id>
 <name>Civil and Environmental Engineering</name>
 <headLibrarian>Tamara Tal</headLibrarian>
 <phone>829-2731</phone>
 <email>civlib@tx.technion.ac.il</email>
+<latitude>32.77906632</latitude>
+<longitude>35.02227768</longitude>
 </library>
 <library>
+<id>7</id>
 <name>Computer Science</name>
 <headLibrarian>Ariella Weinstein</headLibrarian>
 <phone>829-4870</phone>
 <email>cslib@cs.technion.ac.il</email>
+<latitude>32.77773129</latitude>
+<longitude>35.02164066</longitude>
 </library>
 <library>
+<id>8</id>
 <name>Department of Education in Science and Technology</name>
 <headLibrarian>Olga Kizner-Neznansky</headLibrarian>
 <phone>829-3109</phone>
 <email>edulib@tx.technion.ac.il</email>
+<latitude>32.77657665</latitude>
+<longitude>35.0269796</longitude>
 </library>
 <library>
+<id>9</id>
 <name>Electrical Engineering</name>
 <headLibrarian>Galit Grinberg</headLibrarian>
 <phone>829-4772</phone>
 <email>galit@ee.technion.ac.il</email>
+<latitude>32.77567007</latitude>
+<longitude>35.0250645</longitude>
 </library>
 <library>
+<id>10</id>
 <name>Industrial Engineering and Management</name>
 <headLibrarian>Giora Meisler</headLibrarian>
 <phone>829-2038</phone>
 <email>giora@tx.technion.ac.il</email>
+<latitude>32.77407112</latitude>
+<longitude>35.02428398</longitude>
 </library>
 <library>
+<id>11</id>
 <name>Mathematics</name>
 <headLibrarian>Jenny Rudyk</headLibrarian>
 <phone>829-4283</phone>
 <email>mathlib@tx.technion.ac.il</email>
+<latitude>32.77803799</latitude>
+<longitude>35.02330497</longitude>
 </library>
 <library>
+<id>12</id>
 <name>Mechanical Engineering</name>
 <headLibrarian>Shelly Imberg</headLibrarian>
 <phone>829-2082</phone>
 <email>meshelly@tx.technion.ac.il</email>
+<latitude>32.77428086</latitude>
+<longitude>35.02236083</longitude>
 </library>
 <library>
+<id>13</id>
 <name>Medicine</name>
 <headLibrarian>Margie S. Cohn</headLibrarian>
 <phone>829-5350</phone>
 <email>margie@tx.technion.ac.il</email>
+<latitude>32.83427221</latitude>
+<longitude>34.98382419</longitude>
 </library>
 <library>
+<id>14</id>
 <name>Physics</name>
 <headLibrarian>Elena Bekker</headLibrarian>
 <phone>829-3535</phone>
 <email>physlib@physics.technion.ac.il</email>
+<latitude>32.7766443</latitude>
+<longitude>35.02519324</longitude>
 </library>
 <library>
+<id>15</id>
 <name>Transportation Research Institute</name>
 <headLibrarian>Ronit Revach</headLibrarian>
 <phone>829-2385</phone>
 <email>trrlib@tx.technion.ac.il</email>
+<latitude>32.77933919</latitude>
+<longitude>35.02293482</longitude>
 </library>
 </resources>

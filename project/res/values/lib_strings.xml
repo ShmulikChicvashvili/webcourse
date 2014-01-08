@@ -35,15 +35,46 @@
 	<string name="lib_title_duedate">Due-Date</string>
 	<string name="lib_title_books">Books</string>
 	<string name="lib_title_position">Position</string>
-	<string name="lib_title_book_description">Book Description</string>
+	<string name="lib_title_book_description">Book</string>
 	
 	
-    <string name="lib_title_activity_book_description">Book Description</string>
+    <string name="lib_title_activity_book_description">Book</string>
     <string name="lib_title_activity_library_description">Library Description</string>
     
     <!-- Strings related to barcode scanner -->
     <string name="title_activity_barcode_search">Barcode Scan</string>
-    
+	
+	
+    <!-- Strings related to opening hours -->
+		<!-- Library names -->
+		<string name="lib_library0_name">Elyachar Central Library</string>
+		<string name="lib_library1_name">Aerospace Engineering</string>
+		<string name="lib_library2_name">Architecture and Town Planning</string>
+		<string name="lib_library3_name">Biomedical Engineering</string>
+		<string name="lib_library4_name">Chemical Engineering, Biotechnology and Food Engineering</string>
+		<string name="lib_library5_name">Chemistry and Biology</string>
+		<string name="lib_library6_name">Civil and Environmental Engineering</string>
+		<string name="lib_library7_name">Computer Science</string>
+		<string name="lib_library8_name">Department of Education in Science and Technology</string>
+		<string name="lib_library9_name">Electrical Engineering</string>
+		<string name="lib_library10_name">Industrial Engineering and Management</string>
+		<string name="lib_library11_name">Mathematics</string>
+		<string name="lib_library12_name">Mechanical Engineering</string>
+		<string name="lib_library13_name">Medicine</string>
+		<string name="lib_library14_name">Physics</string>
+		<string name="lib_library15_name">Transportation Research Institute</string>
+		
+	
+
+
+
+
+
+
+
+
+
+
     <!-- Strings related to library map location -->
 	<string name="lib_title_activity_library_map_location">Library Location</string>
    

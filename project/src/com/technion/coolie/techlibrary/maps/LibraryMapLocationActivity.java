@@ -1,23 +1,31 @@
 package com.technion.coolie.techlibrary.maps;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
+import com.technion.coolie.techlibrary.LibrariesData;
+import com.technion.coolie.techlibrary.LibrariesData.Library;
 
 public class LibraryMapLocationActivity extends CoolieActivity implements MySupportMapFragment.MapCreatedListener {
 
 	// Google Map
 	private GoogleMap googleMap;
 	private MySupportMapFragment mMapFragment;
+	private Integer libraryId;
+	private Library chosenLibrary = null;
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +36,9 @@ public class LibraryMapLocationActivity extends CoolieActivity implements MySupp
 	             getSupportFragmentManager().beginTransaction();
 	     fragmentTransaction.add(R.id.map_frame, mMapFragment);
 	     fragmentTransaction.commit(); 
+	     
+	     //get library id
+	     libraryId = getIntent().getIntExtra("libraryId", -1);
 		//? check if google services available?
 		//GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext());
 		
@@ -43,9 +54,7 @@ public class LibraryMapLocationActivity extends CoolieActivity implements MySupp
 	 * function to load map. If map is not created it will create it for you
 	 * */
 	private void initilizeMap() {
-		//TODO: change of course
-		final LatLng taubLibrary = new LatLng(32.777739, 35.021724);
-		final LatLng KIEL = new LatLng(53.551, 9.993);
+		LatLng INICIAL_SPOT = new LatLng(32.77749675, 35.02425313);
 		
 		if (googleMap == null) {
 			googleMap = mMapFragment.getMap();
@@ -57,19 +66,26 @@ public class LibraryMapLocationActivity extends CoolieActivity implements MySupp
 				return;
 			}
 		}
-		Marker taub = googleMap.addMarker(new MarkerOptions().position(taubLibrary)
-		          .title("CS Library"));
-//	      Marker kiel = googleMap.addMarker(new MarkerOptions()
-//	          .position(KIEL)
-//	          .title("Kiel")
-//	          .snippet("Kiel is cool")
-//	          .icon(BitmapDescriptorFactory
-//	              .fromResource(R.drawable.ic_launcher)));
-	    //Move the camera instantly to hamburg with a zoom of 255.
-	      googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(taubLibrary, 17));
-
-	      // Zoom in, animating the camera.
-	      googleMap.animateCamera(CameraUpdateFactory.zoomTo(17), 2000, null); 
+		BitmapDescriptor bitmapDescriptor 
+		   = BitmapDescriptorFactory.defaultMarker(
+		     BitmapDescriptorFactory.HUE_AZURE);
+		BitmapDescriptor bitmapDescriptorChosen = BitmapDescriptorFactory.defaultMarker(
+			     BitmapDescriptorFactory.HUE_RED);
+		//adding markers
+		ArrayList<Library> librariesList = LibrariesData.getLibrariesList();
+		for(Library library : librariesList) {
+			Marker marker = googleMap.addMarker(new MarkerOptions().position(library.location)
+			          .title(library.name).icon(bitmapDescriptor));
+			if(library.id == libraryId) {
+				marker.setIcon(bitmapDescriptorChosen);
+				marker.showInfoWindow();
+				chosenLibrary = library;
+			}
+		}
+	    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(INICIAL_SPOT, 15));
+	
+	    // Zoom in, animating the camera.
+	    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(chosenLibrary.location, 17), 2000, null); 
 	}
 
 	@Override
