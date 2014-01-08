@@ -333,16 +333,50 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" 
-        android:layout_gravity="right"
+        
           android:layout_marginTop="3dip"
+          android:background="@drawable/ug_course_text_header_group_container"
        
         >
-	 <HorizontalScrollView 
+	
+	 
+	  <HorizontalScrollView 
+    android:id="@+id/HorizontalScrollView02" 
+    android:layout_height="fill_parent" 
+    android:layout_width="0dp"
+    android:scrollbars="horizontal|vertical"
+       android:layout_weight="5" >
+	<LinearLayout
+        android:id="@+id/course_screen_list_tsmudim"
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:divider="#FFCC00"
+        android:dividerHeight="4dp"/>
+     
+	 </HorizontalScrollView>
+	 
+	  
+	  <TextView
+            android:id="@+id/ug_course_screen_tsmudim_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_vertical"
+            android:singleLine="true"
+            android:text="צמודים" 
+            android:textColor="#ffffff"
+             android:layout_weight="2" 
+            android:background="@drawable/ug_course_text_header_container"
+           
+            />
+	  
+	  
+	   <HorizontalScrollView 
     android:id="@+id/HorizontalScrollView01" 
-    android:layout_height="wrap_content" 
+    android:layout_height="fill_parent" 
     android:layout_width="0dp"
     android:scrollbars="horizontal"
-     android:layout_weight="1" >
+     android:layout_weight="5" >
 	 
 	 <LinearLayout
         android:id="@+id/course_screen_list_kdamim"
@@ -353,22 +387,24 @@
         />
 	 </HorizontalScrollView>
 	 
+	 <TextView
+            android:id="@+id/ug_course_screen_kdamim_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right|center_vertical"
+            android:singleLine="true"
+            android:text="קדמים" 
+            android:textColor="#ffffff"
+             android:layout_weight="2" 
+            android:background="@drawable/ug_course_text_header_container"
+           
+            />
 	 
-	  <HorizontalScrollView 
-    android:id="@+id/HorizontalScrollView02" 
-    android:layout_height="wrap_content" 
-    android:layout_width="0dp"
-    android:scrollbars="horizontal|vertical"
-       android:layout_weight="1" >
-	<LinearLayout
-        android:id="@+id/course_screen_list_tsmudim"
-        android:layout_width="0dip"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal"
-        android:divider="#FFCC00"
-        android:dividerHeight="4dp"/>
-     
-	 </HorizontalScrollView>
+	  
+	  
+	  
+	  
+	  
 	 </LinearLayout>
 	 <TextView
             android:id="@+id/course_screen_groups_label"

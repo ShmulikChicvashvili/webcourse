@@ -121,6 +121,11 @@ public class MainActivity extends CoolieActivity implements
 								.asList("damn"))),
 						new GroupOfCourses(new ArrayList<String>(Arrays.asList(
 								"omg", "my", "poms")))));
+		List<GroupOfCourses> tsmudim = new ArrayList<GroupOfCourses>(
+				Arrays.asList(
+						new GroupOfCourses(new ArrayList<String>(Arrays.asList(
+								"צמוד", "בינה מלאכותית"))), new GroupOfCourses(
+								new ArrayList<String>(Arrays.asList("damn")))));
 
 		Course course = new Course(
 				"233245",
@@ -129,16 +134,16 @@ public class MainActivity extends CoolieActivity implements
 				"During the class we will talk about the high level design and your personal roles. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
 				new Semester(2013, SemesterSeason.WINTER), Faculty.CS,
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
-						2, 11), kdamim, kdamim, reg);
+						2, 11), kdamim, tsmudim, reg);
 
 		Course course2 = new Course(
 				"273455",
 				"MY HEAD IS A HAMSTER",
 				2.0f,
 				"During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
-				new Semester(2013, SemesterSeason.WINTER), Faculty.CS,
+				new Semester(2013, SemesterSeason.SPRING), Faculty.CS,
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
-						2, 11), null, null, null);
+						2, 11), kdamim, null, null);
 
 		List<Course> courses = new ArrayList<Course>();
 		for (int i = 0; i < 1000; i++) {
