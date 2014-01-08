@@ -73,7 +73,7 @@ public enum PrivateCoolieAccount {
     	return preference;
     }
     
-    public boolean isAlreadyConnected()
+    public boolean isAlreadyLoggedIn()
     {
     	return alreadyConnected;
     }
