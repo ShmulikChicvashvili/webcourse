@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -194,6 +193,7 @@ public class CourseDisplayFragment extends Fragment {
 
 		createKdamim(R.id.course_screen_list_kdamim, "kdamim",
 				courseToView2.getPrerequisites());
+
 		createKdamim(R.id.course_screen_list_tsmudim, "tsmudim",
 				courseToView2.getAttachedCourses());
 
@@ -220,23 +220,62 @@ public class CourseDisplayFragment extends Fragment {
 
 	private void createKdamim(int id, String nameOfList,
 			List<GroupOfCourses> groups) {
+		final LinearLayout expandableList = (LinearLayout) getActivity()
+				.findViewById(id);
+		expandableList.removeAllViews();
 		if (groups == null)
 			return;
 
-		final ExpandableListView expandableList = (ExpandableListView) getActivity()
-				.findViewById(id);
-
-		expandableList.setDividerHeight(2);
-		expandableList.setGroupIndicator(null);
 		expandableList.setClickable(true);
+		final LayoutInflater inflater = (LayoutInflater) getActivity()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-		final CoursesInfoAdapter adapter = new CoursesInfoAdapter(groups,
-				getActivity(), nameOfList);
+		if (!groups.isEmpty()) {
+			String str = calcStringFromCourses(groups.get(0));
+			createGroupTextView(expandableList, inflater, str);
+		}
 
-		adapter.setInflater(
-				(LayoutInflater) getActivity().getSystemService(
-						Context.LAYOUT_INFLATER_SERVICE), getActivity());
-		expandableList.setAdapter(adapter);
+		for (int i = 1; i < groups.size(); i++) {
+			String str = calcStringFromCourses(groups.get(i));
+			createGroupTextView(
+					expandableList,
+					inflater,
+					context.getString(R.string.ug_course_screen_group_info_or_seperator));
+			createGroupTextView(expandableList, inflater, str);
+		}
+
+		// final CoursesInfoAdapter adapter = new CoursesInfoAdapter(groups,
+		// getActivity(), nameOfList);
+
+		// adapter.setInflater(
+		// (LayoutInflater) getActivity().getSystemService(
+		// Context.LAYOUT_INFLATER_SERVICE), getActivity());
+		// expandableList.setAdapter(adapter);
+	}
+
+	private void createGroupTextView(final LinearLayout expandableList,
+			final LayoutInflater inflater, String str) {
+		View v = inflater.inflate(R.layout.ug_courses_group_info_child_item,
+				expandableList, false);
+		((TextView) v.findViewById(R.id.ug_course_group_info_names))
+				.setText(str);
+		expandableList.addView(v);
+	}
+
+	private String calcStringFromCourses(GroupOfCourses group) {
+		String names = "";
+
+		if (!group.getCourses().isEmpty())
+			names = group.getCourses().get(0);
+
+		for (int i = 1; i < group.getCourses().size(); i++) {
+			String str = group.getCourses().get(i);
+			names += " "
+					+ context
+							.getString(R.string.ug_course_screen_group_info_and_seperator)
+					+ " " + str;
+		}
+		return names;
 	}
 
 	private void addSeperatorLine() {

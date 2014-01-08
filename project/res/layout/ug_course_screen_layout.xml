@@ -331,35 +331,44 @@
 	  <LinearLayout
 	    android:id="@+id/ug_course_screen_kdamim_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
+        android:layout_height="wrap_content"
         android:orientation="horizontal" 
         android:layout_gravity="right"
           android:layout_marginTop="3dip"
-          android:layout_weight="1"
        
         >
+	 <HorizontalScrollView 
+    android:id="@+id/HorizontalScrollView01" 
+    android:layout_height="wrap_content" 
+    android:layout_width="0dp"
+    android:scrollbars="horizontal"
+     android:layout_weight="1" >
 	 
-	 
-	 <ExpandableListView
+	 <LinearLayout
         android:id="@+id/course_screen_list_kdamim"
         android:layout_width="0dip"
-        android:layout_height="wrap_content"
-        android:divider="#FFCC00"
-        android:dividerHeight="4dp"
-        android:layout_weight="1" 
+        android:layout_height="fill_parent"
+       android:orientation="horizontal"
         android:layout_marginRight="10dp"
-        android:layout_below="@id/course_screen_exams_layout"/>
+        />
+	 </HorizontalScrollView>
 	 
 	 
-	 <ExpandableListView
+	  <HorizontalScrollView 
+    android:id="@+id/HorizontalScrollView02" 
+    android:layout_height="wrap_content" 
+    android:layout_width="0dp"
+    android:scrollbars="horizontal|vertical"
+       android:layout_weight="1" >
+	<LinearLayout
         android:id="@+id/course_screen_list_tsmudim"
         android:layout_width="0dip"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
         android:divider="#FFCC00"
-        android:dividerHeight="4dp"
-        android:layout_weight="1" 
-        android:layout_below="@id/course_screen_exams_layout"/>
-	 
+        android:dividerHeight="4dp"/>
+     
+	 </HorizontalScrollView>
 	 </LinearLayout>
 	 <TextView
             android:id="@+id/course_screen_groups_label"

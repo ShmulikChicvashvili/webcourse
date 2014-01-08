@@ -114,8 +114,13 @@ public class MainActivity extends CoolieActivity implements
 				Arrays.asList(group));
 
 		List<GroupOfCourses> kdamim = new ArrayList<GroupOfCourses>(
-				Arrays.asList(new GroupOfCourses(new ArrayList<String>(Arrays
-						.asList("omg", "jeez")))));
+				Arrays.asList(
+						new GroupOfCourses(new ArrayList<String>(Arrays.asList(
+								"omg", "jeez"))),
+						new GroupOfCourses(new ArrayList<String>(Arrays
+								.asList("damn"))),
+						new GroupOfCourses(new ArrayList<String>(Arrays.asList(
+								"omg", "my", "poms")))));
 
 		Course course = new Course(
 				"233245",

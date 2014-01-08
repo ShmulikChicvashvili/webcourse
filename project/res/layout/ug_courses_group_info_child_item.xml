@@ -5,18 +5,18 @@
     android:baselineAligned="false"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeight"
-    android:orientation="vertical" >
+    android:orientation="horizontal" >
 
-    <HorizontalScrollView
-    	     android:layout_width="fill_parent"
-    	     android:layout_height="wrap_content">
+<!--     <HorizontalScrollView -->
+<!--     	     android:layout_width="fill_parent" -->
+<!--     	     android:layout_height="wrap_content"> -->
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="30dip" >
 
         <TextView
-            android:id="@+id/courses_info_names"
+            android:id="@+id/ug_course_group_info_names"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -26,6 +26,6 @@
 
        
     </RelativeLayout>
-    </HorizontalScrollView>
+<!--     </HorizontalScrollView> -->
 
 </LinearLayout>

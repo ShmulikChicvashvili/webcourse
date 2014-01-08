@@ -13,8 +13,6 @@ import android.widget.ArrayAdapter;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.model.RegistrationGroup;
 
-//ListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE)
-
 public class CourseGroupsAdapter extends ArrayAdapter<RegistrationGroup> {
 
 	Context context;

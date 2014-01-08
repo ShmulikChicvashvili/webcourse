@@ -64,7 +64,8 @@
     <string name="ug_course_info">פרטי קורס</string>
     
     
-        <string name="ug_course_screen_group_info">וגם</string>
+        <string name="ug_course_screen_group_info_and_seperator">  -ו </string>
+        <string name="ug_course_screen_group_info_or_seperator"> או </string>
     
     
     <!-- ExamsToCalendar -->
