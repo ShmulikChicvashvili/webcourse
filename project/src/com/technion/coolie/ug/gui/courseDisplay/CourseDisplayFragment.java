@@ -2,6 +2,7 @@ package com.technion.coolie.ug.gui.courseDisplay;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -24,6 +26,7 @@ import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.GroupOfCourses;
 import com.technion.coolie.ug.model.Meeting;
 import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
@@ -189,6 +192,51 @@ public class CourseDisplayFragment extends Fragment {
 
 	private void makeKdamim(Course courseToView2) {
 
+		createKdamim(R.id.course_screen_list_kdamim, "kdamim",
+				courseToView2.getPrerequisites());
+		createKdamim(R.id.course_screen_list_tsmudim, "tsmudim",
+				courseToView2.getAttachedCourses());
+
+		// if (courseToView2.getPrerequisites() == null)
+		// return;
+		//
+		// final ExpandableListView expandableList2 = (ExpandableListView)
+		// getActivity()
+		// .findViewById(R.id.course_screen_list_kdamim);
+		//
+		// expandableList.setDividerHeight(2);
+		// expandableList.setGroupIndicator(null);
+		// expandableList.setClickable(true);
+		//
+		// final CoursesInfoAdapter adapter = new CoursesInfoAdapter(
+		// courseToView2.getPrerequisites(), getActivity(), "kdamim");
+		//
+		// adapter.setInflater(
+		// (LayoutInflater) getActivity().getSystemService(
+		// Context.LAYOUT_INFLATER_SERVICE), getActivity());
+		// expandableList.setAdapter(adapter);
+
+	}
+
+	private void createKdamim(int id, String nameOfList,
+			List<GroupOfCourses> groups) {
+		if (groups == null)
+			return;
+
+		final ExpandableListView expandableList = (ExpandableListView) getActivity()
+				.findViewById(id);
+
+		expandableList.setDividerHeight(2);
+		expandableList.setGroupIndicator(null);
+		expandableList.setClickable(true);
+
+		final CoursesInfoAdapter adapter = new CoursesInfoAdapter(groups,
+				getActivity(), nameOfList);
+
+		adapter.setInflater(
+				(LayoutInflater) getActivity().getSystemService(
+						Context.LAYOUT_INFLATER_SERVICE), getActivity());
+		expandableList.setAdapter(adapter);
 	}
 
 	private void addSeperatorLine() {

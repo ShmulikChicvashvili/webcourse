@@ -328,13 +328,46 @@
 	
 	</LinearLayout>
 	
+	  <LinearLayout
+	    android:id="@+id/ug_course_screen_kdamim_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:orientation="horizontal" 
+        android:layout_gravity="right"
+          android:layout_marginTop="3dip"
+          android:layout_weight="1"
+       
+        >
+	 
+	 
+	 <ExpandableListView
+        android:id="@+id/course_screen_list_kdamim"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:divider="#FFCC00"
+        android:dividerHeight="4dp"
+        android:layout_weight="1" 
+        android:layout_marginRight="10dp"
+        android:layout_below="@id/course_screen_exams_layout"/>
+	 
+	 
+	 <ExpandableListView
+        android:id="@+id/course_screen_list_tsmudim"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:divider="#FFCC00"
+        android:dividerHeight="4dp"
+        android:layout_weight="1" 
+        android:layout_below="@id/course_screen_exams_layout"/>
+	 
+	 </LinearLayout>
 	 <TextView
             android:id="@+id/course_screen_groups_label"
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:text="groups" 
             android:background="@drawable/ug_course_label_text_container"
-    		android:layout_below="@id/course_screen_exams_layout"
+    		android:layout_below="@id/course_screen_list_kdamim"
     		  android:layout_marginTop="5dp"
         
             

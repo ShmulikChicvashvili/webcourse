@@ -28,6 +28,7 @@ import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.ExamItem;
 import com.technion.coolie.ug.model.Faculty;
+import com.technion.coolie.ug.model.GroupOfCourses;
 import com.technion.coolie.ug.model.Meeting;
 import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
@@ -112,6 +113,10 @@ public class MainActivity extends CoolieActivity implements
 		List<RegistrationGroup> reg = new ArrayList<RegistrationGroup>(
 				Arrays.asList(group));
 
+		List<GroupOfCourses> kdamim = new ArrayList<GroupOfCourses>(
+				Arrays.asList(new GroupOfCourses(new ArrayList<String>(Arrays
+						.asList("omg", "jeez")))));
+
 		Course course = new Course(
 				"233245",
 				"CLASS OF JOY",
@@ -119,7 +124,7 @@ public class MainActivity extends CoolieActivity implements
 				"During the class we will talk about the high level design and your personal roles. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
 				new Semester(2013, SemesterSeason.WINTER), Faculty.CS,
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
-						2, 11), null, null, reg);
+						2, 11), kdamim, kdamim, reg);
 
 		Course course2 = new Course(
 				"273455",
