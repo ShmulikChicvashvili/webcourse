@@ -19,15 +19,14 @@ public class JoininAPI implements IJoininAPI {
   String FUNC = "function";
 
   @Override
-  public ReturnCode addEvent(Event event) {
-    return ReturnCode.valueOf(Communicator.execute(
-        JoininEnum.JOININ_SERVLET.value(), "function",
-        JoininEnum.ADD_EVENT.toString(), JoininEnum.EVENT.value(),
+  public Long addEvent(Event event) {
+    return Long.valueOf(Communicator.execute(JoininEnum.JOININ_SERVLET.value(),
+        "function", JoininEnum.ADD_EVENT.toString(), JoininEnum.EVENT.value(),
         gson.toJson(event)));
   }
 
   @Override
-  public ReturnCode updateEvent(Event event) {
+  public Long updateEvent(Event event) {
     return addEvent(event);
   }
 

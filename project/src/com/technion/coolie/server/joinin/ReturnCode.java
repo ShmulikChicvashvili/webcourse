@@ -2,7 +2,7 @@ package com.technion.coolie.server.joinin;
 
 /**
  * 
- * Created on 25/12/2013
+ * Created on 9/12/2013
  * 
  * @author Omer Shpigelman <omer.shpigelman@gmail.com>
  * 

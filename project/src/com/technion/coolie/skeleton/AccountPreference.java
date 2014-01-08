@@ -56,7 +56,7 @@ public class AccountPreference extends Preference
 		image.setImageResource(account.getImageResource());
 		
 		
-		if(account.isAlreadyConnected())
+		if(account.isAlreadyLoggedIn())
 		{
 			TextView info = (TextView) layout.findViewById(R.id.skel_preference_account_info);
 			info.setText(mContext.getString(R.string.skel_preference_account_logged_in_as) + account.getUsername());

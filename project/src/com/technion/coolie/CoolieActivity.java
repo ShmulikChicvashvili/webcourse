@@ -27,6 +27,7 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.skeleton.CoolieModule;
+import com.technion.coolie.skeleton.CoolieNotificationManager;
 import com.technion.coolie.skeleton.NavigationModuleAdapter;
 import com.technion.coolie.skeleton.PreferencesScreen;
 
@@ -44,6 +45,13 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		Intent callingIntent = getIntent();
+		if(callingIntent.getBooleanExtra(CoolieNotificationManager.CALLED_BY_SINGLE_NOTIFICATION, false))
+		{
+			CoolieNotificationManager.removeFromFeedList(callingIntent.getIntExtra(CoolieNotificationManager.CALLER_SINGLE_NOTIFICATION_ID, -1));
+		}
+		
+		
 		if (!serilizeRestored) {
 			restoreModulesManager();
 			serilizeRestored = true;
