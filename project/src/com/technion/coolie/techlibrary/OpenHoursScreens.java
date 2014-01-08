@@ -3,18 +3,23 @@ package com.technion.coolie.techlibrary;
 import java.util.ArrayList;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.R.layout;
+import com.technion.coolie.techlibrary.maps.LibraryMapLocationActivity;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -26,6 +31,9 @@ import android.widget.TextView;
  *
  */
 public class OpenHoursScreens {
+	
+	//TODO: change these (delete here and add same to library data?)
+	
 
 	/*
 	 * LibraryDescriptionFragment
@@ -118,13 +126,6 @@ public class OpenHoursScreens {
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
-			 if (getResources().getConfiguration().orientation ==
-			 Configuration.ORIENTATION_LANDSCAPE) {
-			 // If the screen is now in landscape mode, we can show the
-			 // dialog in-line with the list so we don't need this activity.
-			 finish();
-			 return;
-			 }
 			setContentView(R.layout.lib_activity_library_description);
 			String lib_Name = getIntent().getExtras().getString("name");
 			LibrariesData.Library tmp = LibrariesData
@@ -142,8 +143,30 @@ public class OpenHoursScreens {
 				((TextView) (findViewById(R.id.lib_email_data)))
 						.setText(tmp.email);
 			}
-
 		}
+		
+		@Override
+		public boolean onCreateOptionsMenu(Menu menu) {
+			// Inflate the menu; this adds items to the action bar if it is present.
+			super.onCreateOptionsMenu(menu);
 
+			// TODO: change order of menu items!
+			// ~~~~~~~ MapLocation ~~~~~~~
+			MenuItem map = (MenuItem) menu.add("Map");
+			map.setIcon(R.drawable.lib_ic_action_map);
+			map.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+			map.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+				@Override
+				public boolean onMenuItemClick(MenuItem item) {
+					Intent intent = new Intent(OpenHoursScreens.LibraryDescriptionActivity.this,
+												LibraryMapLocationActivity.class);
+					//TODO: handle\add library code to make this function
+					//intent.putExtra("library code", 1); 
+					startActivity(intent);
+					return true;
+				}
+			});
+			return true;
+		}
 	}
 }

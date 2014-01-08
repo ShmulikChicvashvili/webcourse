@@ -43,5 +43,9 @@
     
     <!-- Strings related to barcode scanner -->
     <string name="title_activity_barcode_search">Barcode Scan</string>
+    
+    <!-- Strings related to library map location -->
+	<string name="lib_title_activity_library_map_location">Library Location</string>
+   
 		
 </resources>

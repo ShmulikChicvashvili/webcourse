@@ -24,7 +24,7 @@ import com.technion.coolie.techlibrary.SearchElements.SearchFragment;
 
 public class MainActivity extends CoolieActivity implements
 		ActionBar.OnNavigationListener {
-	private String[] droplist = { "Library Card", "Open Hours", "Search" };
+	private String[] droplist = { "Search", "Open Hours", "Library Card" };
 
 	private LibraryCardFragment fLibCard = null;
 

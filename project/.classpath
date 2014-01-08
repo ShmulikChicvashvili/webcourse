@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="libs/gson-2.2.4-javadoc.jar"/>
 	<classpathentry kind="lib" path="libs/gson-2.2.4-sources.jar"/>
 	<classpathentry kind="lib" path="libs/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="/google-play-services_lib_coolie/libs/google-play-services.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

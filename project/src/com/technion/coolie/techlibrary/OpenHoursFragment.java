@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,17 +26,18 @@ public class OpenHoursFragment extends SherlockFragment {
 	private ArrayList<String> mOpenHours;
 	private String lastItemClicked = null;
 	private Integer lastOrientation = null;
+	private FrameLayout mDetailsFrame = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		super.onCreateView(inflater, container, savedInstanceState);
-		LibrariesData.buildList();
+		LibrariesData.buildList(getSherlockActivity(),R.raw.libraries);
 		// Inflate the layout for this fragment
-		// View v = inflater.inflate(R.layout.lib_open_hours_list, container,
-		// false);
 		View v = inflater.inflate(R.layout.lib_fragment_open_hours, container,
-				false);
+				false);	
+		mDetailsFrame  = (FrameLayout)v.findViewById(R.id.lib_library_details_frame);
+		
 		OpenHoursScreens.LibrariesListFragment libListFrag = new OpenHoursScreens.LibrariesListFragment();
 		FragmentManager fm = getChildFragmentManager();
 		FragmentTransaction trans = fm.beginTransaction();
@@ -51,17 +53,17 @@ public class OpenHoursFragment extends SherlockFragment {
 
 	public void notifyClickedItem(String name) {
 		lastItemClicked = name; //not neccesery..
-		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+		if (mDetailsFrame != null) {
 			LibraryDescriptionFragment libDesc = new LibraryDescriptionFragment();
 			libDesc.setArguments(name);
 			FragmentManager f = getChildFragmentManager();
 			f.beginTransaction()
 					.replace(R.id.lib_library_details_frame, libDesc).commit();
 		} else {
-			Intent intent = new Intent(getActivity(),
+			Intent intent = new Intent(getSherlockActivity(),
 					OpenHoursScreens.LibraryDescriptionActivity.class);
 			intent.putExtra("name", name);
-			getActivity().startActivityForResult(intent, 1);
+			startActivity(intent);
 		}
 	}
 }
