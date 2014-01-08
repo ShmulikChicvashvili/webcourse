@@ -22,6 +22,15 @@ public interface ITechmineAPI {
 
   /**
    * 
+   * @param users
+   *          - the list of users to update with all the necessary fields
+   *          initialized
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode updateUsers(List<TecUser> users);
+
+  /**
+   * 
    * @param user
    *          - the user to remove with the id field initialized correctly
    * @return - SUCCESS if went well, error code otherwise
