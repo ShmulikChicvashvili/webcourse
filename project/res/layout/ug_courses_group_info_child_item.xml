@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:baselineAligned="false"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:orientation="horizontal" >
+
+<!--     <HorizontalScrollView -->
+<!--     	     android:layout_width="fill_parent" -->
+<!--     	     android:layout_height="wrap_content"> -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="30dip" >
+
+        <TextView
+            android:id="@+id/ug_course_group_info_names"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#23337c"
+            android:textStyle="bold" />
+
+       
+    </RelativeLayout>
+<!--     </HorizontalScrollView> -->
+
+</LinearLayout>

@@ -2,6 +2,7 @@ package com.technion.coolie.ug.gui.courseDisplay;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
@@ -13,20 +14,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
 import com.technion.coolie.ug.MainActivity;
+import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.GroupOfCourses;
 import com.technion.coolie.ug.model.Meeting;
 import com.technion.coolie.ug.model.RegistrationGroup;
+import com.technion.coolie.ug.model.Semester;
 
-//TODO onClick radio group
 //TODO kdamim
 //TODO add to maakav
-//TODO selectable group list view
 
 /**
  * activity for searching courses and finding available courses. must supply
@@ -36,7 +41,7 @@ import com.technion.coolie.ug.model.RegistrationGroup;
  */
 public class CourseDisplayFragment extends Fragment {
 
-	Course courseToView;
+	Course chosenCourse;
 	Context context;
 	CourseGroupsAdapter groupAdapter;
 	LinearLayout groupsView;
@@ -56,12 +61,49 @@ public class CourseDisplayFragment extends Fragment {
 		context = getActivity();
 		groupsView = (LinearLayout) getActivity().findViewById(
 				R.id.course_screen_groups_list);
-		recieveCourse(getArguments());
-		updateCourseDisplay();
+		Course courseToView = recieveCourse(getArguments());
+		updateCourseDisplay(courseToView);
+		setRadioButtons();
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	private void recieveCourse(final Bundle bundle) {
+	private void setRadioButtons() {
+		RadioGroup rg = (RadioGroup) getActivity().findViewById(
+				R.id.course_screen_semester_radio_group);
+
+		final RadioButton rbWinter = (RadioButton) getActivity().findViewById(
+				R.id.course_screen_lastsemester);
+
+		final RadioButton rbSpring = (RadioButton) getActivity().findViewById(
+				R.id.course_screen_secondlastsemester);
+		final RadioButton rbSummer = (RadioButton) getActivity().findViewById(
+				R.id.course_screen_threelastsemester);
+
+		SemesterSeason ss = UGDatabase.getInstance(context)
+				.getCurrentSemester().getSs();
+		if (ss == SemesterSeason.WINTER)
+			rg.check(rbWinter.getId());
+		if (ss == SemesterSeason.SPRING)
+			rg.check(rbSpring.getId());
+		if (ss == SemesterSeason.SUMMER)
+			rg.check(rbSummer.getId());
+
+		final CourseDisplayFragment fragment = this;
+		rg.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				if (rbWinter.getId() == checkedId)
+					fragment.onClickWinter(null);
+				if (rbSpring.getId() == checkedId)
+					fragment.onClickSpring(null);
+				if (rbSummer.getId() == checkedId)
+					fragment.onClickSummer(null);
+			}
+		});
+	}
+
+	private Course recieveCourse(final Bundle bundle) {
 
 		CourseKey key = null;
 		if (bundle == null) {
@@ -69,55 +111,68 @@ public class CourseDisplayFragment extends Fragment {
 			throw new NullPointerException();
 		}
 		key = (CourseKey) bundle.getSerializable(ARGUMENTS_COURSE_KEY);
-		courseToView = UGDatabase.getInstance(getActivity())
-				.getCourseByKey(key);
-		if (courseToView == null) {
+		Course course = UGDatabase.getInstance(getActivity()).getCourseByKey(
+				key);
+		if (course == null) {
 			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSEKEY IN DB");
-			courseToView = new Course(key); // partial course display
+			return new Course(key); // partial course display
 		}
+		return course;
 
 	}
 
-	private void updateCourseDisplay() {
+	private void updateCourseDisplay(Course courseToView) {
+		final TextView notAvailTextView = (TextView) getActivity()
+				.findViewById(R.id.ug_course_screen_not_available_course);
+		notAvailTextView.setVisibility(View.GONE);
+
+		groupsView.removeAllViews();
 		final SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy",
 				Locale.getDefault());
 
-		if (courseToView.getName() != null) {
-			final TextView nameTextView = (TextView) getActivity()
-					.findViewById(R.id.course_screen_name);
+		if (courseToView.getName() == null || courseToView.getName().isEmpty())
+			notAvailTextView.setVisibility(View.VISIBLE);
+
+		final TextView nameTextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_name);
+		nameTextView.setText("");
+		if (courseToView.getName() != null)
 			nameTextView.setText(courseToView.getName());
-		}
 
 		final TextView pointsTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_points);
 		pointsTextView.setText("" + courseToView.getPoints());
 
-		if (courseToView.getCourseNumber() != null) {
-			final TextView numberTextView = (TextView) getActivity()
-					.findViewById(R.id.course_screen_number);
+		final TextView numberTextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_number);
+		numberTextView.setText("");
+		if (courseToView.getCourseNumber() != null)
 			numberTextView.setText("" + courseToView.getCourseNumber());
-		}
-		if (courseToView.getFaculty() != null) {
-			final TextView facultyTextView = (TextView) getActivity()
-					.findViewById(R.id.course_screen_faculty);
+
+		final TextView facultyTextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_faculty);
+		facultyTextView.setText("");
+		if (courseToView.getFaculty() != null)
 			facultyTextView.setText(""
 					+ courseToView.getFaculty().getName(context));
-		}
-		if (courseToView.getDescription() != null) {
-			final TextView descTextView = (TextView) getActivity()
-					.findViewById(R.id.course_screen_description);
+
+		final TextView descTextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_description);
+		descTextView.setText("");
+		if (courseToView.getDescription() != null)
 			descTextView.setText(courseToView.getDescription());
-		}
-		if (courseToView.getMoedA() != null) {
-			final TextView examATextView = (TextView) getActivity()
-					.findViewById(R.id.course_screen_exam_a);
+
+		final TextView examATextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_exam_a);
+		examATextView.setText("");
+		if (courseToView.getMoedA() != null)
 			examATextView.setText(df.format(courseToView.getMoedA().getTime()));
-		}
-		if (courseToView.getMoedB() != null) {
-			final TextView examBTextView = (TextView) getActivity()
-					.findViewById(R.id.course_screen_exam_b);
+
+		final TextView examBTextView = (TextView) getActivity().findViewById(
+				R.id.course_screen_exam_b);
+		examBTextView.setText("");
+		if (courseToView.getMoedB() != null)
 			examBTextView.setText(df.format(courseToView.getMoedB().getTime()));
-		}
 
 		makeKdamim(courseToView);
 
@@ -131,10 +186,96 @@ public class CourseDisplayFragment extends Fragment {
 		}
 
 		fixEndOfGroups();
+		chosenCourse = courseToView;
 	}
 
 	private void makeKdamim(Course courseToView2) {
 
+		createKdamim(R.id.course_screen_list_kdamim, "kdamim",
+				courseToView2.getPrerequisites());
+
+		createKdamim(R.id.course_screen_list_tsmudim, "tsmudim",
+				courseToView2.getAttachedCourses());
+
+		// if (courseToView2.getPrerequisites() == null)
+		// return;
+		//
+		// final ExpandableListView expandableList2 = (ExpandableListView)
+		// getActivity()
+		// .findViewById(R.id.course_screen_list_kdamim);
+		//
+		// expandableList.setDividerHeight(2);
+		// expandableList.setGroupIndicator(null);
+		// expandableList.setClickable(true);
+		//
+		// final CoursesInfoAdapter adapter = new CoursesInfoAdapter(
+		// courseToView2.getPrerequisites(), getActivity(), "kdamim");
+		//
+		// adapter.setInflater(
+		// (LayoutInflater) getActivity().getSystemService(
+		// Context.LAYOUT_INFLATER_SERVICE), getActivity());
+		// expandableList.setAdapter(adapter);
+
+	}
+
+	private void createKdamim(int id, String nameOfList,
+			List<GroupOfCourses> groups) {
+		final LinearLayout expandableList = (LinearLayout) getActivity()
+				.findViewById(id);
+		expandableList.removeAllViews();
+		if (groups == null)
+			return;
+
+		expandableList.setClickable(true);
+		final LayoutInflater inflater = (LayoutInflater) getActivity()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		if (!groups.isEmpty()) {
+			String str = calcStringFromCourses(groups.get(0));
+			createGroupTextView(expandableList, inflater, str);
+		}
+
+		for (int i = 1; i < groups.size(); i++) {
+			String str = calcStringFromCourses(groups.get(i));
+			createGroupTextView(
+					expandableList,
+					inflater,
+					context.getString(R.string.ug_course_screen_group_info_or_seperator));
+			createGroupTextView(expandableList, inflater, str);
+		}
+
+		// final CoursesInfoAdapter adapter = new CoursesInfoAdapter(groups,
+		// getActivity(), nameOfList);
+
+		// adapter.setInflater(
+		// (LayoutInflater) getActivity().getSystemService(
+		// Context.LAYOUT_INFLATER_SERVICE), getActivity());
+		// expandableList.setAdapter(adapter);
+	}
+
+	private void createGroupTextView(final LinearLayout expandableList,
+			final LayoutInflater inflater, String str) {
+		View v = inflater.inflate(R.layout.ug_courses_group_info_child_item,
+				expandableList, false);
+		((TextView) v.findViewById(R.id.ug_course_group_info_names))
+				.setText(str);
+		expandableList.addView(v);
+	}
+
+	private String calcStringFromCourses(GroupOfCourses group) {
+		String names = "";
+
+		if (!group.getCourses().isEmpty())
+			names = group.getCourses().get(0);
+
+		for (int i = 1; i < group.getCourses().size(); i++) {
+			String str = group.getCourses().get(i);
+			names += " "
+					+ context
+							.getString(R.string.ug_course_screen_group_info_and_seperator)
+					+ " " + str;
+		}
+		return names;
 	}
 
 	private void addSeperatorLine() {
@@ -170,6 +311,7 @@ public class CourseDisplayFragment extends Fragment {
 		header.number = "" + group.getGroupId();
 		final View v = addMeeting(header);
 		v.setBackgroundColor(Color.LTGRAY);
+		v.setBackgroundResource(R.drawable.ug_course_group_view);
 
 		// do all meetings
 		if (group.getLectures() != null)
@@ -208,6 +350,7 @@ public class CourseDisplayFragment extends Fragment {
 				.setText(meeting.freeSpace);
 		((TextView) view.findViewById(R.id.ug_course_display_group_day))
 				.setText(meeting.day);
+		view.setBackgroundResource(R.drawable.ug_course_group_view);
 		groupsView.addView(view);
 		inflater.inflate(R.layout.ug_course_display_line, groupsView);
 		return view;
@@ -275,6 +418,31 @@ public class CourseDisplayFragment extends Fragment {
 			this.freeSpace = freeSpace;
 			this.day = day;
 		}
+	}
+
+	public void onClickWinter(View v) {
+		Course course = getCourseOfSemester(SemesterSeason.WINTER);
+		updateCourseDisplay(course);
+	}
+
+	public void onClickSpring(View v) {
+		Course course = getCourseOfSemester(SemesterSeason.SPRING);
+		updateCourseDisplay(course);
+	}
+
+	public void onClickSummer(View v) {
+		Course course = getCourseOfSemester(SemesterSeason.SUMMER);
+		updateCourseDisplay(course);
+	}
+
+	private Course getCourseOfSemester(SemesterSeason ss) {
+		CourseKey newKey = new CourseKey(chosenCourse.getCourseNumber(),
+				new Semester(UGDatabase.getInstance(context)
+						.getRelevantSemester(ss).getYear(), ss));
+		Course course = UGDatabase.getInstance(context).getCourseByKey(newKey);
+		if (course == null)
+			course = new Course(newKey);
+		return course;
 	}
 
 }
