@@ -21,9 +21,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.technion.coolie.FBClientAccount;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.communication.ClientProxy;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.map.EventType;
 import com.technion.coolie.joinin.map.MainMapActivity;
 
@@ -36,13 +36,13 @@ public class MyFavoritesActivity extends Activity {
   ListView mainListView;
   private CategoryItem[] categories;
   ArrayAdapter<CategoryItem> listAdapter;
-  ClientAccount mLoggedAccount;
+  FBClientAccount mLoggedAccount;
   
   @SuppressWarnings("deprecation") @Override protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.ji_activity_my_favorites);
     // Find the ListView resource.
-    mLoggedAccount = (ClientAccount) getIntent().getExtras().get("account");
+    mLoggedAccount = (FBClientAccount) getIntent().getExtras().get("account");
     checked = getTheInterestFromTheAccount();
     mainListView = (ListView) findViewById(R.id.mainListView);
     // When item is tapped, toggle checked properties of CheckBox and Category.

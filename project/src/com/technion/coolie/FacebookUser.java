@@ -1,4 +1,4 @@
-package com.technion.coolie.joinin.facebook;
+package com.technion.coolie;
 
 import android.os.Parcel;
 import android.os.Parcelable;

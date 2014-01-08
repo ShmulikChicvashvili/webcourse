@@ -18,7 +18,7 @@ public class SingonDialogBuilder {
 		// Inflate and set the layout for the dialog
 	    // Pass null as the parent view because its going in the dialog layout
 	    LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.skel_singin_dialog, null);
-	    
+	
 	    TextView title = (TextView) layout.findViewById(R.id.skel_singin_title);
 	    title.setText(c.getString(R.string.skel_signin_signin_to) + " " + account.getName());
 	 
@@ -38,5 +38,6 @@ public class SingonDialogBuilder {
 	               }
 	           })
 	           .setNegativeButton(R.string.skel_cancel, cancelListener);
+	    layout.requestFocus();
 	}
 }

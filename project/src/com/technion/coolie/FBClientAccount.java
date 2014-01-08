@@ -1,13 +1,13 @@
-package com.technion.coolie.joinin.data;
+package com.technion.coolie;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.Gson;
-import com.technion.coolie.joinin.facebook.FacebookUser;
+import com.technion.coolie.joinin.data.Account;
 
-public class ClientAccount extends Account implements Parcelable {
-  public ClientAccount(final String username, final String fId, final String name) {
+public class FBClientAccount extends Account implements Parcelable {
+  public FBClientAccount(final String username, final String fId, final String name) {
     super(username, fId, name);
   }
   
@@ -16,7 +16,7 @@ public class ClientAccount extends Account implements Parcelable {
    * 
    * @param in
    */
-  public ClientAccount(final Parcel in) {
+  public FBClientAccount(final Parcel in) {
     super(in.readString(), in.readString(), in.readString());
     setInterests(Long.valueOf(in.readString()).longValue());
   }
@@ -24,17 +24,17 @@ public class ClientAccount extends Account implements Parcelable {
   /**
    * Use for Gson only.
    */
-  @Deprecated public ClientAccount() {
+  @Deprecated public FBClientAccount() {
   }
   
-  public ClientAccount(final Account a) {
+  public FBClientAccount(final Account a) {
     super(a.getUsername(), a.getFacebookId(), a.getName());
     setInterests(a.getInterests());
   }
   
-  public static ClientAccount toClientAccount(final String s) {
+  public static FBClientAccount toClientAccount(final String s) {
     final Account $ = Account.toAccount(s);
-    return $ == null ? null : new ClientAccount($);
+    return $ == null ? null : new FBClientAccount($);
   }
   
   @Override public int describeContents() {
@@ -50,7 +50,7 @@ public class ClientAccount extends Account implements Parcelable {
   
   @SuppressWarnings("rawtypes") public static final Parcelable.Creator<?> CREATOR = new Parcelable.Creator() {
     @Override public Account createFromParcel(final Parcel in) {
-      return new ClientAccount(in);
+      return new FBClientAccount(in);
     }
     
     @Override public Account[] newArray(final int size) {
@@ -76,7 +76,7 @@ public class ClientAccount extends Account implements Parcelable {
    *          A JSON representing string of ClientAccount
    * @return the corresponding ClientAccount
    */
-  public static ClientAccount fromJson(final String json) {
-    return new Gson().fromJson(json, ClientAccount.class);
+  public static FBClientAccount fromJson(final String json) {
+    return new Gson().fromJson(json, FBClientAccount.class);
   }
 }

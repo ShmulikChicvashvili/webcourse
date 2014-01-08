@@ -38,17 +38,17 @@ import android.widget.TextView.OnEditorActionListener;
 import com.facebook.widget.ProfilePictureView;
 import com.technion.coolie.joinin.GCMActions;
 import com.technion.coolie.joinin.GCMIntentService;
+import com.technion.coolie.FBClientAccount;
+import com.technion.coolie.FacebookUser;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.communication.ClientProxy;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
 import com.technion.coolie.joinin.communication.ClientProxy.OnError;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.GCMMessage;
 import com.technion.coolie.joinin.data.TeamAppFacebookEvent;
 import com.technion.coolie.joinin.facebook.FacebookQueries;
 import com.technion.coolie.joinin.facebook.FacebookQueries.OnGetEventAttendeesReturns;
-import com.technion.coolie.joinin.facebook.FacebookUser;
 import com.technion.coolie.joinin.facebook.PublishToFeed;
 
 /**
@@ -91,7 +91,7 @@ public class EventAttendFragment extends Fragment implements OnFragmentRefresh {
    * 
    * @return the logged account
    */
-  ClientAccount getAccount() {
+  FBClientAccount getAccount() {
     try {
       return ((EventActivity) getActivity()).getAccount();
     } catch (final NullPointerException e) {
@@ -445,7 +445,7 @@ public class EventAttendFragment extends Fragment implements OnFragmentRefresh {
       if (getEvent().getId() != m.getEvent().getId())
         return;
       addAccount(new ClientEvent(m.getEvent()), (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE),
-          new ClientAccount(m.getAccount()).toFacebookUser());
+          new FBClientAccount(m.getAccount()).toFacebookUser());
       synchronized (attendees) {
         attendees += 1;
       }
@@ -464,7 +464,7 @@ public class EventAttendFragment extends Fragment implements OnFragmentRefresh {
       final GCMMessage m = GCMMessage.fromJson(intent.getExtras().getString("message"));
       if (getEvent().getId() != m.getEvent().getId())
         return;
-      attendingList.removeView(attendingList.findViewWithTag(new ClientAccount(m.getAccount()).getUsername()));
+      attendingList.removeView(attendingList.findViewWithTag(new FBClientAccount(m.getAccount()).getUsername()));
       abortBroadcast();
     }
   };

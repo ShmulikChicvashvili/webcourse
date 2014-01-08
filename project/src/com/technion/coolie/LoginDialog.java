@@ -1,4 +1,4 @@
-package com.technion.coolie.joinin;
+package com.technion.coolie;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -11,7 +11,6 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.ImageButton;
 
 import com.technion.coolie.R;
-import com.technion.coolie.joinin.facebook.FacebookLogin;
 
 
 

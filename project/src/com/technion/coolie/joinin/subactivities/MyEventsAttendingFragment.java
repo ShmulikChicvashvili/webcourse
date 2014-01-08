@@ -15,11 +15,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.technion.coolie.FBClientAccount;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.communication.ClientProxy;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
 import com.technion.coolie.joinin.communication.ClientProxy.OnError;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 
 /**
@@ -41,7 +41,7 @@ public class MyEventsAttendingFragment extends Fragment implements OnFragmentRef
    * 
    * @return the logged account
    */
-  ClientAccount getAccount() {
+  FBClientAccount getAccount() {
     return ((MyEventsActivity) getActivity()).getAccount();
   }
   

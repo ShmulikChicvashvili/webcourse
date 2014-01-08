@@ -1,4 +1,4 @@
-package com.technion.coolie.joinin.facebook;
+package com.technion.coolie;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -11,8 +11,6 @@ import com.facebook.Session;
 import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
-import com.technion.coolie.joinin.communication.ClientProxy;
-import com.technion.coolie.joinin.data.ClientAccount;
 
 /**
  * 
@@ -27,7 +25,7 @@ import com.technion.coolie.joinin.data.ClientAccount;
  * 
  */
 public class FacebookLogin {
-  static ClientAccount loggedUser;
+  static FBClientAccount loggedUser;
   static boolean isInternalUser;
   
   /**
@@ -44,7 +42,7 @@ public class FacebookLogin {
    * 
    */
   public interface OnLoginDone {
-    public void loginCallback(ClientAccount a);
+    public void loginCallback(FBClientAccount a);
   }
   
   /**
@@ -72,7 +70,7 @@ public class FacebookLogin {
    * @return A ClientAccount representing the user, or null if no one is logged
    *         in.
    */
-  public static ClientAccount getLoggedUser() {
+  public static FBClientAccount getLoggedUser() {
     return loggedUser;
   }
   
@@ -88,10 +86,10 @@ public class FacebookLogin {
    *         works as usual.
    */
   private static OnLoginDone showLoadingBar(final Activity a, final OnLoginDone callback, final String text) {
-    final ProgressDialog pd = ProgressDialog.show(a, "Join-In", text);
+    final ProgressDialog pd = ProgressDialog.show(a, "Coolie", text);
     pd.setCancelable(false);
     return new OnLoginDone() {
-      @Override public void loginCallback(final ClientAccount ca) {
+      @Override public void loginCallback(final FBClientAccount ca) {
         pd.dismiss();
         callback.loginCallback(ca);
       }
@@ -237,7 +235,7 @@ public class FacebookLogin {
     @Override public void call(final Session session, final SessionState state, final Exception exception) {
       if (session.isOpened()){
     	  OnLoginDone wrapper = showLoadingBar(a, finishCallback, "Logging to Facebook");
-    	  Request.executeMeRequestAsync(session, new setUser(a, wrapper));
+    	  Request.newMeRequest(session, new setUser(a, wrapper));
       }        
       if (!session.isClosed())
         return;
@@ -247,60 +245,7 @@ public class FacebookLogin {
     }
   }
   
-  /**
-   * Performs login using the GAE server. That is, asks the server for the
-   * newest data about the logging user. Subscribes him if he doesn't already
-   * exist
-   * 
-   * @param a
-   *          - The activity from which the login is performed
-   * 
-   * @param finishCallback
-   *          - callback to perform after async communication is done
-   * @param username
-   *          - the user's username
-   * @param Id
-   *          - the user's id on facebook
-   * @param name
-   *          - the user's real name
-   */
-  static void performLogin(final Activity a, final OnLoginDone finishCallback, final String username, final String Id,
-      final String name) {
-    final ClientProxy.OnError oe = new ClientProxy.OnError(a) {
-      @Override public void beforeHandlingError() {
-        loggedUser = null;
-        finishCallback.loginCallback(loggedUser);
-      }
-    };
-    ClientProxy.login(username, new ClientProxy.OnDone<ClientAccount>() {
-      /**
-       * An onDone class that will be called after login request from server.
-       * Will set the current logged user to the returned account, or will
-       * register the user if no such username exists
-       */
-      @Override public void onDone(final ClientAccount ca) {
-        if (ca != null) { // User exists, set him as the user and notify that
-                          // login has ended.
-          loggedUser = ca;
-          finishCallback.loginCallback(loggedUser);
-          return;
-        }
-        // User does not exist, add him to the database
-        final ClientAccount newAccount = new ClientAccount(username, Id, name);
-        ClientProxy.addAccount(newAccount, new ClientProxy.OnDone<String>() {
-          // An onDone class that will be called after the server added the
-          // client.
-          @Override public void onDone(final String userNameResponce) {
-            if (!userNameResponce.equals(username)) // sanity
-                                                    // check!!
-              throw new RuntimeException("User name returned from server diffrent from facebook username");
-            loggedUser = newAccount;
-            finishCallback.loginCallback(loggedUser);
-          }
-        }, oe);
-      }
-    }, oe);
-  }
+  
   
   /**
    * Implements a callback when detail-mining from facebook is done.
@@ -325,8 +270,7 @@ public class FacebookLogin {
         finishCallback.loginCallback(loggedUser);
         return;
       }
-      OnLoginDone callback = showLoadingBar(a, finishCallback, "Logging to Join-In server");
-      performLogin(a, callback, user.getUsername(), user.getId(), user.getName());
+      
     }
   }
 }
