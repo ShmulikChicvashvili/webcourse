@@ -138,7 +138,7 @@
         
          <activity
             android:name="com.technion.coolie.techlibrary.maps.LibraryMapLocationActivity"
-            android:label="@string/title_activity_library_map_location"
+            android:label="@string/lib_title_activity_library_map_location"
             android:parentActivityName="com.technion.coolie.techlibrary.OpenHoursScreens$LibraryDescriptionActivity" 
             android:theme="@style/Theme.Sherlock.Light" >
             <meta-data
