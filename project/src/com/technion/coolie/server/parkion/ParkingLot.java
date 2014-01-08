@@ -5,7 +5,6 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 public class ParkingLot {
-
   private String id;
   private String name; // name of parking lot
   private int currentOccupancy = 0; // currentOccupency counter of used lots
@@ -70,7 +69,7 @@ public class ParkingLot {
     TimeZone timeZone = TimeZone.getTimeZone("Israel");
     calendar.setTimeZone(timeZone);
     int hour = calendar.get(Calendar.HOUR_OF_DAY);
-    int day = calendar.get(Calendar.DAY_OF_WEEK);
+    int day = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
     double temp = averageOccupancy1[day][hour];
 
@@ -225,6 +224,10 @@ public class ParkingLot {
 
   public int getParkingLotSize() {
     return lotSize;
+  }
+
+  public int getPrecent() {
+    return (int) ((currentOccupancy * 100.0f) / lotSize);
   }
 
 }

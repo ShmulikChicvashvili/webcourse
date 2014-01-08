@@ -109,11 +109,41 @@ public class TecUser implements IGetters {
   }
 
   /**
+   * @return the commentsNum
+   */
+  public int getCommentsNum() {
+    return commentsNum;
+  }
+
+  /**
+   * @return the postsNum
+   */
+  public int getPostsNum() {
+    return postsNum;
+  }
+
+  /**
    * @param totalTechoins1
    *          the totalTechoins to set
    */
   public void setTotalTechoins(int totalTechoins1) {
     this.totalTechoins = totalTechoins1;
+  }
+
+  /**
+   * @param commentsNum1
+   *          the commentsNum to set
+   */
+  public void setCommentsNum(int commentsNum1) {
+    this.commentsNum = commentsNum1;
+  }
+
+  /**
+   * @param postsNum1
+   *          the postsNum to set
+   */
+  public void setPostsNum(int postsNum1) {
+    this.postsNum = postsNum1;
   }
 
   /**
