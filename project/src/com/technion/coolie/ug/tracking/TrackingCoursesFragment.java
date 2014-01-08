@@ -22,6 +22,7 @@ import com.technion.coolie.R;
 import com.technion.coolie.ug.ITrackingCourseTrasferrer;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.tracking.EnhancedListView.Undoable;
 
 public class TrackingCoursesFragment extends SherlockFragment {
 
@@ -69,7 +70,7 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		listview.setDismissCallback(new EnhancedListView.OnDismissCallback() {
 
 			@Override
-			public EnhancedListView.Undoable onDismiss(
+			public Undoable onDismiss(
 					EnhancedListView listView, final int position) {
 
 				final CourseKey item = (CourseKey) trackingCourseListAdapter
@@ -95,6 +96,14 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		return view;
 	}
 
+	@Override
+	public void onStop() {
+		if (listview != null) {
+			listview.discardUndo();
+		}
+		super.onStop();
+	}
+	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, final MenuInflater inflater) {
 		int addTrackingCourseButtonId = 921;
