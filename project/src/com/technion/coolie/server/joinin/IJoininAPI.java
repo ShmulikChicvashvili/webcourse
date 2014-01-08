@@ -13,17 +13,17 @@ public interface IJoininAPI {
    * 
    * @param event
    *          - the event to add
-   * @return - SUCCESS if went well, error code otherwise
+   * @return - event's id if went well, -1 otherwise
    */
-  public ReturnCode addEvent(Event event);
+  public Long addEvent(Event event);
 
   /**
    * 
    * @param event
    *          - the event to update
-   * @return - SUCCESS if went well, error code otherwise
+   * @return - event's id if went well, -1 otherwise
    */
-  public ReturnCode updateEvent(Event event);
+  public Long updateEvent(Event event);
 
   /**
    * 
