@@ -2,6 +2,7 @@ package com.technion.coolie;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -12,6 +13,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.widget.DrawerLayout;
 import android.view.ActionProvider;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Gravity;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -20,6 +22,7 @@ import android.view.ViewStub.OnInflateListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -27,12 +30,13 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.skeleton.CoolieModule;
-import com.technion.coolie.skeleton.CoolieNotificationManager;
 import com.technion.coolie.skeleton.NavigationModuleAdapter;
 import com.technion.coolie.skeleton.PreferencesScreen;
 
 public abstract class CoolieActivity extends SherlockFragmentActivity {
-	private DrawerLayout mDrawerLayout;
+	public static boolean navbarIsOpen = false;
+	
+	protected DrawerLayout mDrawerLayout;
 	private LinearLayout mDrawerView;
 	private ListView mDrawerModulesList;
 	ActionBarDrawerToggle mDrawerToggle;
@@ -45,13 +49,6 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Intent callingIntent = getIntent();
-		if(callingIntent.getBooleanExtra(CoolieNotificationManager.CALLED_BY_SINGLE_NOTIFICATION, false))
-		{
-			CoolieNotificationManager.removeFromFeedList(callingIntent.getIntExtra(CoolieNotificationManager.CALLER_SINGLE_NOTIFICATION_ID, -1));
-		}
-		
-		
 		if (!serilizeRestored) {
 			restoreModulesManager();
 			serilizeRestored = true;
@@ -108,7 +105,22 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 	    switch (item.getItemId()) {
 	    // Respond to the action bar's Up/Home button
 	    case android.R.id.home:
-	        NavUtils.navigateUpFromSameTask(this);
+	    	if (!this.getClass().equals(com.technion.coolie.skeleton.MainActivity.class))
+	    	{
+	    		
+	    		NavUtils.navigateUpFromSameTask(this);
+	    	}
+	    	else
+	    	{
+	    		if(navbarIsOpen==false)
+	    		{
+	    			mDrawerLayout.openDrawer(Gravity.LEFT);
+	    		}
+	    		else
+	    		{
+	    			mDrawerLayout.closeDrawers();
+	    		}
+	    	}
 	        return true;
 	    }
 
@@ -199,6 +211,11 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 	// Creates the NavigationDrawer and sets the modules list content.
 	private void createNavBar() {
+		int iconRes = R.drawable.abs__ic_ab_back_holo_light;
+		if (this.getClass().equals(com.technion.coolie.skeleton.MainActivity.class))
+		{
+			iconRes = R.drawable.skel_ic_drawer;
+		}
 		mDrawerLayout = (DrawerLayout) super
 				.findViewById(R.id.skel_drawer_layout);
 		mDrawerView = (LinearLayout) super.findViewById(R.id.skel_left_drawer);
@@ -209,14 +226,20 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
 		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.skel_ic_drawer, /* nav drawer icon to replace 'Up' caret */
+		iconRes, /* nav drawer icon to replace 'Up' caret */
 		R.string.drawer_open, /* "open drawer" description */
 		R.string.drawer_close /* "close drawer" description */
 		) {
 			@Override
 			public void onDrawerOpened(View drawerView) {
+				navbarIsOpen= true;
 				drawerView.requestFocus();
 				super.onDrawerOpened(drawerView);
+			}
+			@Override
+			public void onDrawerClosed(View drawerView) {
+				navbarIsOpen= false;
+				super.onDrawerClosed(drawerView);
 			}
 		};
 

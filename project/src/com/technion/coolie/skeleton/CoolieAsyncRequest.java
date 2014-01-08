@@ -2,6 +2,7 @@ package com.technion.coolie.skeleton;
 
 import java.util.List;
 
+import com.technion.coolie.CooliePriority;
 import com.technion.coolie.server.ug.api.UgFactory;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.Server.ServerCourse;
@@ -14,6 +15,7 @@ import android.util.Log;
 
 /*
  * Use this class to call server requests in a asynchronous manner
+ * Supply CooliePriority in order to define the priority of your request
  * You should override actionOnServer , onResult and onProgress 
  * actionOnServer sends a requests to the server in a asynchronous manner
  * onResult gets the result back after the server has processed your request
@@ -25,7 +27,7 @@ import android.util.Log;
  *  onReslut gets the list of courses that was assigned by the server
  *  
  *   
- * CoolieAsyncRequest c = new CoolieAsyncRequest(this) {
+ * CoolieAsyncRequest c = new CoolieAsyncRequest(this,CooliePriority.IMMEDIATELY) {
 		      
 		    List<ServerCourse> list;
 
@@ -52,7 +54,7 @@ import android.util.Log;
 public abstract class CoolieAsyncRequest
 {
 
-	
+	CooliePriority mPriority;
 	private  AsyncTask<Void, Void, Void> mAsyncTask = new AsyncTask<Void, Void, Void>() {
 		@Override
 		final protected Void doInBackground(Void... params) {
@@ -77,9 +79,11 @@ public abstract class CoolieAsyncRequest
 	
 	private Context c;
 	
-	public CoolieAsyncRequest(Context c)
+	public CoolieAsyncRequest(Context c, CooliePriority priority)
 	{
 		this.c = c;
+		mPriority = priority;
+		mPriority = CooliePriority.IMMEDIATELY;
 		
 	}
 	
