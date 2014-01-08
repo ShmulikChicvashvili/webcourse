@@ -26,6 +26,14 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
+  public ReturnCode updateUsers(List<TecUser> users) {
+    return ReturnCode.valueOf(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.UPDATE_USERS.toString(), TechmineEnum.TEC_USER.value(),
+        gson.toJson(users)));
+  }
+
+  @Override
   public ReturnCode removeUser(TecUser user) {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
