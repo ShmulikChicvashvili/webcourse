@@ -66,6 +66,11 @@ public class MainActivity extends CoolieActivity implements
 		// fLibCard = new LibraryCardFragment();
 		mSharedPref = getSharedPreferences(SHARED_PREF, 0);
 		mSharedPrefEditor = mSharedPref.edit();
+		
+		//TESTING!!!!!!!!!!!
+		Intent intent = new Intent(this, testIntentService.class); 
+		intent.putExtra("userID", mSharedPref.getString("user_id", null));
+		startService(intent);
 	}
 
 	@Override
