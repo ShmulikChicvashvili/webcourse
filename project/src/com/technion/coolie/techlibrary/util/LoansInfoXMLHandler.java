@@ -13,7 +13,6 @@ import com.technion.coolie.techlibrary.BookItems.LoanElement;
  * XML parser for Loans + requests info.
  */
 public class LoansInfoXMLHandler extends DefaultHandler {
-	private boolean currentElement = false;
 	private String currentValue = null;
 
 	private boolean isInLoan = false;
@@ -24,7 +23,7 @@ public class LoansInfoXMLHandler extends DefaultHandler {
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		currentElement = true;
+		currentValue = new String();
 
 		if (localName.equals("bor-info")) {
 			/** Start */
@@ -48,7 +47,9 @@ public class LoansInfoXMLHandler extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		currentElement = false;
+		if(currentValue.isEmpty()){
+			currentValue = "N/A";
+		}
 
 		/** set value */
 		// book-item
@@ -86,16 +87,6 @@ public class LoansInfoXMLHandler extends DefaultHandler {
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
-		if (currentElement) {
-			if (length <= 0) {
-				currentValue = "";
-			} else {
-				currentValue = new String(ch, start, length);
-				currentValue = currentValue.replace("&apos;", "'")
-						.replace("&quot;", "\"").replace("&amp;", "&");
-
-				currentElement = false;
-			}
-		}
+				currentValue += new String(ch, start, length);
 	}
 }

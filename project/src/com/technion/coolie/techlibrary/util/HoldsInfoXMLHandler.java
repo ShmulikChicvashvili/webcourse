@@ -13,7 +13,6 @@ import com.technion.coolie.techlibrary.BookItems.HoldElement;
  * XML parser for Loans + requests info.
  */
 public class HoldsInfoXMLHandler extends DefaultHandler {
-	private boolean currentElement = false;
 	private String currentValue = null;
 
 	private boolean isInHold = false;
@@ -23,7 +22,7 @@ public class HoldsInfoXMLHandler extends DefaultHandler {
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		currentElement = true;
+		currentValue = new String();
 		if (localName.equals("bor-info")) {
 			/** Start */
 			holdList = new ArrayList<HoldElement>();
@@ -46,7 +45,9 @@ public class HoldsInfoXMLHandler extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		currentElement = false;
+		if(currentValue.isEmpty()){
+			currentValue = "N/A";
+		}
 		/** set value */
 		// book-item
 		if (localName.equals("z30-doc-number")) {
@@ -97,16 +98,6 @@ public class HoldsInfoXMLHandler extends DefaultHandler {
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
-		if (currentElement) {
-			// currentHold = new BookItems().new HoldElement();
-			if (length <= 0) {
-				currentValue = "";
-			} else {
-				currentValue = new String(ch, start, length);
-				currentValue = currentValue.replace("&apos;", "'")
-						.replace("&quot;", "\"").replace("&amp;", "&");
-				currentElement = false;
+				currentValue += new String(ch, start, length);
 			}
-		}
-	}
 }
