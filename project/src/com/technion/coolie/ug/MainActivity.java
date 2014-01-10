@@ -36,9 +36,16 @@ import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.tracking.TrackingCoursesFragment;
 import com.technion.coolie.ug.utils.CalendarUtils;
 import com.technion.coolie.ug.utils.FragmentsFactory;
+import com.technion.coolie.ug.utils.UGCurrentState;
+import com.technion.coolie.ug.gui.searchCourses.SearchForTrackingFragment;
+import com.technion.coolie.ug.gui.searchCourses.SearchFragment;
+import com.technion.coolie.ug.coursesAndExams.CoursesAndExamsFragment;
+import com.technion.coolie.ug.calendar.AcademicCalendarFragment;
+import android.widget.Toast;
+import com.technion.coolie.ug.utils.UGCurrentState;
 
 public class MainActivity extends CoolieActivity implements
-		OnRightMenuItemSelected {
+		OnRightMenuItemSelected ,ITrackingCourseTrasferrer{
 
 	public static final String DEBUG_TAG = "DEBUG";
 	public static Context context;
@@ -51,11 +58,57 @@ public class MainActivity extends CoolieActivity implements
 		ServerAsyncCommunication.mainActivity = this;
 		setContentView(R.layout.ug_main_screen);
 
-		updateData();
-		ServerAsyncCommunication.getCalendarEventsFromServer();
-		ServerAsyncCommunication.getGradesSheetfromServer();
-		// UGDatabase.getInstance(this).mainActivity = this;
+		// updateData();
 
+		// ServerAsyncCommunication.getCalendarEventsFromServer(); // Will not
+		// be here
+		// ServerAsyncCommunication.getGradesSheetfromServer(); // Will not be
+		// here
+		// ServerAsyncCommunication.getAllExams(new Semester
+		// (2013,SemesterSeason.WINTER));
+		// ServerAsyncCommunication.getAllCoursesFromServer();
+		// ServerAsyncCommunication.getCurentSemestersFromClient(null);
+		ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100");
+
+		if (UGCurrentState.getRotationAngle(this) % 2 == 1) {
+			Fragment f;
+			if (UGCurrentState.currentOpenFragment == "GradesSheetFragment") {
+				f = new GradesSheetFragment();
+
+			} else if (UGCurrentState.currentOpenFragment == "AcademicCalendarFragment") {
+				f = new AcademicCalendarFragment();
+			} else if (UGCurrentState.currentOpenFragment == "CoursesAndExamsFragment") {
+				f = new CoursesAndExamsFragment();
+			} else if (UGCurrentState.currentOpenFragment == "TrackingCoursesFragment") {
+				f = new TrackingCoursesFragment();
+			} else {
+				f = new SearchFragment();
+			}
+			getSupportFragmentManager().beginTransaction()
+					.replace(R.id.detail_container, f).commit();
+		} else {
+			if (UGCurrentState.currentOpenFragment != "none") {
+				Intent intent = new Intent(this, TransparentActivity.class);
+				Bundle b = new Bundle();
+
+				if (UGCurrentState.currentOpenFragment == "GradesSheetFragment") {
+					b.putString("key", GradesSheetFragment.class.toString());
+				} else if (UGCurrentState.currentOpenFragment == "AcademicCalendarFragment") {
+					b.putString("key",
+							AcademicCalendarFragment.class.toString());
+				} else if (UGCurrentState.currentOpenFragment == "CoursesAndExamsFragment") {
+					b.putString("key", CoursesAndExamsFragment.class.toString());
+				} else if (UGCurrentState.currentOpenFragment == "TrackingCoursesFragment") {
+					b.putString("key", TrackingCoursesFragment.class.toString());
+				}
+				if (b.getString("key") != null) {
+					intent.putExtras(b);
+					startActivity(intent);
+				}
+
+			}
+
+		}
 	}
 
 	@Override
@@ -86,8 +139,8 @@ public class MainActivity extends CoolieActivity implements
 		case PAYMENTS:
 			return;
 		case TRACKING_COURSES:
-			// f = new TrackingCoursesListFragment();
-			return;
+			f = new TrackingCoursesFragment();
+			break;
 		case COURSES_SEARCH:
 			f = FragmentsFactory.getSearchCorsesLargeFragment();
 			break;
@@ -240,6 +293,36 @@ public class MainActivity extends CoolieActivity implements
 		}
 		return null;
 
+	}
+	
+	@Override
+	public void onAddingTrackingCourseClicked() {
+		Fragment f = new SearchForTrackingFragment();
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.non_transparent, f).commit();
+	}
+
+	@Override
+	public void onCourseForTrackingSelected(CourseKey ck) {
+
+		if (ck == null) {
+			Toast.makeText(this, "Problem with adding course",
+					Toast.LENGTH_SHORT).show();
+		} else {
+			List<CourseKey> db = UGDatabase.getInstance(this).getTrackingCourses();
+			if (!db.contains(new CourseKey(ck.getNumber(), ck.getSemester())))
+			{
+				UGDatabase.getInstance(this).getTrackingCourses().add(ck);
+			}
+			else
+			{
+				Toast.makeText(this, "This course is already in your tracking list",
+						Toast.LENGTH_SHORT).show();
+			}
+		}
+		Fragment f = new TrackingCoursesFragment();
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.non_transparent, f).commit();
 	}
 
 }

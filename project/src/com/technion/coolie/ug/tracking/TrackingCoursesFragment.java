@@ -23,6 +23,7 @@ import com.technion.coolie.ug.ITrackingCourseTrasferrer;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.tracking.EnhancedListView.Undoable;
+import com.technion.coolie.ug.utils.UGCurrentState;
 
 public class TrackingCoursesFragment extends SherlockFragment {
 
@@ -92,7 +93,7 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		listview.enableSwipeToDismiss();
 		listview.setSwipeDirection(EnhancedListView.SwipeDirection.BOTH);
 		listview.setRequireTouchBeforeDismiss(false);
-
+		UGCurrentState.currentOpenFragment = "TrackingCoursesFragment";
 		return view;
 	}
 
