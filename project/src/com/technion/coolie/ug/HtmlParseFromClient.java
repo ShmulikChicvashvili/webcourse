@@ -12,6 +12,11 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.widget.Toast;
+
+import com.actionbarsherlock.R;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.ExamItem;
@@ -44,7 +49,7 @@ public class HtmlParseFromClient {
 		return semesters;
 	}
 
-	public static Semester stringToSemester(String s) {
+	public Semester stringToSemester(String s) {
 		int year = Integer.valueOf(s.substring(0, 4));
 		SemesterSeason ss = null;
 		String season = s.substring(4, 6);
@@ -142,8 +147,7 @@ public class HtmlParseFromClient {
 		return calendarDate;
 	}
 
-	public static List<String> getStudentDetails(String username,
-			String password) {
+	public List<String> getStudentDetails(String username, String password) {
 		List<String> studentDetailsList = new ArrayList<String>();
 		// TODO: Matvey - firstly need to get real url (like done in the
 		// following commented line with JSOUP). Send this get request to the
@@ -157,7 +161,7 @@ public class HtmlParseFromClient {
 		// TODO: Matvey - after you get the real url (which will be saved in
 		// "gradesUrl", post request...like in following commented line:
 		/* gradesHtmlPost(url, username, password) */
-		
+
 		doc = Jsoup.parse("CALL YOUR POST METHOD HERE");
 		final Elements details = doc.select("table").get(2).select("td");
 		studentDetailsList.add(details.get(5).text());
@@ -176,5 +180,6 @@ public class HtmlParseFromClient {
 
 		return false;
 	}
+
 
 }
