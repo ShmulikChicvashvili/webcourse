@@ -8,11 +8,8 @@ import java.util.Locale;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -21,6 +18,11 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.SemesterSeason;
@@ -41,7 +43,7 @@ import com.technion.coolie.ug.model.Semester;
  * 
  * 
  */
-public class CourseDisplayFragment extends Fragment {
+public class CourseDisplayFragment extends SherlockFragment {
 
 	Course chosenCourse;
 	Context context;
@@ -60,13 +62,34 @@ public class CourseDisplayFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		// TODO Auto-generated method stub
+		int addTrackingCourseButtonId = 936;
+		MenuItem addTrackingCourseButton = menu.add(0,
+				addTrackingCourseButtonId, 0, "new tracking course");
+		addTrackingCourseButton.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		addTrackingCourseButton.setIcon(android.R.drawable.ic_menu_add);
+		addTrackingCourseButton
+				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						if (chosenCourse != null
+								&& chosenCourse.getName() != null) {
+							List<CourseKey> list = UGDatabase.getInstance(
+									context).getTrackingCourses();
+							if (!list.contains(chosenCourse.getCourseKey()))
+								list.add(chosenCourse.getCourseKey());
+							UGDatabase.getInstance(context).setTrackingCourses(
+									list);
+						}
+						return true;
+
+					}
+				});
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState) {
 
+		setHasOptionsMenu(true);
 		context = getActivity();
 		groupsView = (LinearLayout) getActivity().findViewById(
 				R.id.course_screen_groups_list);

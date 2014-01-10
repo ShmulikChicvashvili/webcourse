@@ -177,8 +177,6 @@ public class UGDatabase {
 		currentSemesters[SemesterSeason.WINTER.getIdx()] = new Semester(2013,
 				SemesterSeason.WINTER);
 
-		currentStudent = null;
-
 	}
 
 	public String getCurrentStudentId() {
@@ -206,7 +204,7 @@ public class UGDatabase {
 	}
 
 	public List<CourseItem> getCoursesAndExams() {
-		Log.i("1","coursesAndExamsList :"+coursesAndExamsList.size());
+		Log.i("1", "coursesAndExamsList :" + coursesAndExamsList.size());
 		if (coursesAndExamsList == null)
 			coursesAndExamsList = dataProvider.getCoursesAndExams(studentId);
 		log("getting " + coursesAndExamsList.size() + " registered Courses");
