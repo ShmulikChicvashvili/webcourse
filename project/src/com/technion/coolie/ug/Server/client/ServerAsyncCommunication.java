@@ -59,7 +59,7 @@ import com.technion.coolie.ug.model.Exam;
 public class ServerAsyncCommunication {
 
 	//static Context appContext;
-	static public MainActivity mainActivity;
+	//static public MainActivity mainActivity;
 
 
 	/**
@@ -73,7 +73,7 @@ public class ServerAsyncCommunication {
 		return SemesterSeason.WINTER;
 	}
 
-	static public void getGradesSheetfromServer() {
+	static public void getGradesSheetfromServer(final Context context) {
 		Log.v("ServerAsyncCommunication","getGradesSheetfromServer");
 		UGAsync<AccomplishedCourse> a = new UGAsync<AccomplishedCourse>()
 		{
@@ -82,7 +82,7 @@ public class ServerAsyncCommunication {
 			protected List<AccomplishedCourse> doInBackground(String... params) 
 			{
 
-				UGDatabase db = UGDatabase.getInstance(mainActivity);
+				UGDatabase db = UGDatabase.getInstance(context);
 				l = UgFactory.getUgGradeSheet().getMyGradesSheet(db.getCurrentLoginObject());
 				
 				
@@ -96,10 +96,10 @@ public class ServerAsyncCommunication {
 			{
 				
 				if (l==null || l.size()==0) return;
-				UGDatabase.getInstance(mainActivity).setGradesSheet(l);
-				GradesSheetListFragment f = mainActivity.getGradesSheetFragment();
+				UGDatabase.getInstance(context).setGradesSheet(l);
+				/*GradesSheetListFragment f = context.getGradesSheetFragment();
 				if (f==null) return;
-				f.updateData();
+				f.updateData();*/
 			}
 		};
 		a.execute();
@@ -133,7 +133,7 @@ public class ServerAsyncCommunication {
 	}
 	
 	
-	static public void getCalendarEventsFromServer() {
+	static public void getCalendarEventsFromServer(final Context context) {
 
 		UGAsync<AcademicCalendarEvent> a = new UGAsync<AcademicCalendarEvent>() {
 
@@ -154,10 +154,10 @@ public class ServerAsyncCommunication {
 			protected void onPostExecute(List<AcademicCalendarEvent> result) 
 			{
 				if (l==null || l.size()==0) return;
-				UGDatabase.getInstance(mainActivity).setAcademicCalendar(l);
-				AcademicCalendarListFragment f = mainActivity.getCalendarFragment();
+				UGDatabase.getInstance(context).setAcademicCalendar(l);
+				/*AcademicCalendarListFragment f = mainActivity.getCalendarFragment();
 				if (f==null) return;
-				f.updateData();
+				f.updateData();*/
 			}
 
 		};
@@ -189,7 +189,7 @@ public class ServerAsyncCommunication {
 		a.execute();
 	}*/
 
-	public void addTrackingCourseToServer(UGLoginObject o, CourseKey ck) {
+	public void addTrackingCourseToServer(UGLoginObject o, CourseKey ck, final Context context) {
 		AsyncTask<CourseKey, Void, ReturnCodesUg> asyncTask = new AsyncTask<CourseKey, Void, ReturnCodesUg>() {
 			@Override
 			protected ReturnCodesUg doInBackground(CourseKey... params) {
@@ -197,7 +197,7 @@ public class ServerAsyncCommunication {
 					return null;
 				ReturnCodesUg returnCode = UgFactory.getUgTracking() 
 						.addTrackingStudent(
-								UGDatabase.getInstance(mainActivity)
+								UGDatabase.getInstance(context)
 										.getCurrentLoginObject(), params[0]);
 				return returnCode;
 			}
@@ -217,7 +217,7 @@ public class ServerAsyncCommunication {
 		asyncTask.execute(ck);
 	}
 
-	public void deleteTrackingCourseFromServer(UGLoginObject o, CourseKey ck) {
+	public void deleteTrackingCourseFromServer(UGLoginObject o, CourseKey ck,final Context context) {
 		AsyncTask<CourseKey, Void, ReturnCodesUg> asyncTask = new AsyncTask<CourseKey, Void, ReturnCodesUg>() {
 			@Override
 			protected ReturnCodesUg doInBackground(CourseKey... params) {
@@ -225,7 +225,7 @@ public class ServerAsyncCommunication {
 					return null;
 				ReturnCodesUg returnCode = UgFactory.getUgTracking()
 						.removeTrackingStudentFromCourse(
-								UGDatabase.getInstance(mainActivity)
+								UGDatabase.getInstance(context)
 										.getCurrentLoginObject(), params[0]);
 				return returnCode;
 			}
@@ -288,7 +288,7 @@ public class ServerAsyncCommunication {
 	}
 	
 	
-	static public void registrate(final String courseNumber, final String groupNumber,final String userName,final String password) {
+	static public void registrate(final String courseNumber, final String groupNumber,final String userName,final String password,final Context context) {
 		
 		//public class UGAsync<T> extends AsyncTask<String, Void , List<T>>
 		AsyncTask<Void,Void,Void> ast = new AsyncTask<Void,Void,Void>()
@@ -332,8 +332,57 @@ public class ServerAsyncCommunication {
 			@Override
 			protected void onPostExecute(Void c) 
 			{
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mainActivity);
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 				alertDialogBuilder.setMessage("hi");
+				alertDialogBuilder.show();
+			}
+	
+		};
+		ast.execute();
+	}
+	
+	
+static public void unRegistrate(final String courseNumber,final String userName,final String password,final Context context) {
+		
+		AsyncTask<Void,Void,Void> ast = new AsyncTask<Void,Void,Void>()
+		{
+
+			@Override
+			protected Void doInBackground(Void... arg0) {
+				HttpPost getCookiePost = new HttpPost("http://techmvs.technion.ac.il:100/cics/WMN/wmnnut02");
+				try {
+			        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+			        nameValuePairs.add(new BasicNameValuePair("OP", "LI"));
+			        nameValuePairs.add(new BasicNameValuePair("UID", userName));
+			        nameValuePairs.add(new BasicNameValuePair("PWD", password));
+			        nameValuePairs.add(new BasicNameValuePair("Login.x", "16"));
+			        nameValuePairs.add(new BasicNameValuePair("Login.y", "22"));
+			        getCookiePost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+			        HttpClient getCookieClient = new DefaultHttpClient();
+			        HttpResponse getCookieResponse = getCookieClient.execute(getCookiePost);
+			        String cookie =getCookieResponse.getHeaders("Set-Cookie")[0].toString().split(";")[0];
+			        
+			        Connection c = //Jsoup.connect("http://techmvs.technion.ac.il:100/cics/WMN/wmnnut02?OP=RS&RUTHY=RUTHY&UPG"+courseNumber+"=&DEL"+courseNumber+"=on&LGRP1=&LGRP2=&LGRP3=&LMK1=&LMK2=&LMK3=&RSND=SND")
+			        		Jsoup.connect("http://techmvs.technion.ac.il:100/cics/WMN/wmnnut02?OP=RS&RUTHY=RUTHY&UPG"+courseNumber+"=&DEL"+courseNumber+"=on&LGRP1=&LGRP2=&LGRP3=&LMK1=&LMK2=&LMK3=&RSND=SND")
+			        			
+			        		.timeout(7000)
+			        		.header("Cookie", cookie)
+			        		.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36")
+			        		.method(Method.GET);
+			        Document d = Jsoup.parse(new String (c.execute().bodyAsBytes(),"ISO-8859-8"));
+			        String sss = d.toString();
+			        Math.random();
+
+				} catch (Exception e) {
+			    	//HtmlParseFromClient.handleRegistrationRequest(null);
+			    } 
+				return null;
+			}
+			@Override
+			protected void onPostExecute(Void c) 
+			{
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+				alertDialogBuilder.setMessage("May be done.");
 				alertDialogBuilder.show();
 			}
 	

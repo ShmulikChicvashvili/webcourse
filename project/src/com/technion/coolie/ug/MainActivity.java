@@ -55,7 +55,9 @@ public class MainActivity extends CoolieActivity implements
 		super.onCreate(savedInstanceState);
 
 		context = getApplicationContext();
-		ServerAsyncCommunication.mainActivity = this;
+		//ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100");
+		ServerAsyncCommunication.unRegistrate("094412", "1636", "11111100", context);
+		//ServerAsyncCommunication.mainActivity = this;
 		setContentView(R.layout.ug_main_screen);
 
 		 updateData();
@@ -70,7 +72,7 @@ public class MainActivity extends CoolieActivity implements
 		// ServerAsyncCommunication.getCurentSemestersFromClient(null);
 		//ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100");
 		Semester s = new Semester(2013,SemesterSeason.SPRING);
-		ServerAsyncCommunication.getAllExamsFromClient(s, "1636", "11111100");
+		//ServerAsyncCommunication.getAllExamsFromClient(s, "1636", "11111100");
 
 		if (UGCurrentState.getRotationAngle(this) % 2 == 1) {
 			Fragment f;
