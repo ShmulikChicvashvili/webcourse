@@ -23,6 +23,7 @@
     <!-- GradesSheet activity -->
     <string name="title_activity_grades_sheet">GradesSheetActivity</string>
     <string name="course_name">שם מקצוע</string>
+    <string name="course_number">מספר מקצוע</string>
     <string name="points">נקודות</string>
     <string name="grade">ציון</string>
     <string name="average">ממוצע</string>
@@ -62,16 +63,15 @@
     <string name="ug_tracker">קורסים למעקב</string>
     <string name="ug_search">חיפוש קורס</string>
     <string name="ug_course_info">פרטי קורס</string>
-    
-    
-        <string name="ug_course_screen_group_info_and_seperator">  -ו </string>
-        <string name="ug_course_screen_group_info_or_seperator"> או </string>
-    
-    
+    <string name="ug_course_screen_group_info_and_seperator">  -ו </string>
+    <string name="ug_course_screen_group_info_or_seperator"> או </string>
+
     <!-- ExamsToCalendar -->
+    <string name="ug_calendar_moed_a">מועד א</string>
+    <string name="ug_calendar_moed_b">מועד ב</string>
     
-      <string name="ug_calendar_moed_a">מועד א</string>
-      <string name="ug_calendar_moed_b">מועד ב</string>
-    
+    <!-- Tracking -->
+    <string name="rishum">רישום</string>
+    <string name="free_places">מקומות פנויים</string>
 
 </resources>

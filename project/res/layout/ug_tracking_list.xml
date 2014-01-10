@@ -4,19 +4,60 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-        
-   <Button
-        android:id="@+id/ug_button_registrate"
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/ug_registration_list"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1"
+        android:cacheColorHint="#00000000"
+        android:listSelector="#b0b0b0" >
+    </ListView>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="3dip"
+        android:layout_margin="10dip"
+        android:background="#003d65" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Registrate" />
-    
+        android:background="#daf0ff" >
+
+        <TextView
+            android:id="@+id/ug_tracking_list_free_places"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:paddingLeft="10dp"
+            android:text="@string/free_places"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/ug_tracking_list_course_number"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:paddingRight="10dp"
+            android:text="@string/course_number"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/ug_tracking_list_course_name"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/course_name"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
     <com.technion.coolie.ug.tracking.EnhancedListView
         android:id="@+id/ug_tracking_list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-		android:cacheColorHint="#00000000"
-		android:listSelector="#b0b0b0" >
+        android:layout_weight="1"
+        android:cacheColorHint="#00000000"
+        android:listSelector="#b0b0b0" >
     </com.technion.coolie.ug.tracking.EnhancedListView>
 
     <TextView
