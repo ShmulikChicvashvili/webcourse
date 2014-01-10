@@ -7,27 +7,34 @@
         android:id="@+id/user_name"
         style="@style/techmindText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:id="@+id/techions_value"
-        style="@style/techmindText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/user_name" />
-    <ImageView
+        android:layout_below="@id/user_name"
+        android:layout_marginBottom="20dp"  />
+    
+   <ImageView
         android:id="@+id/title_icon"
         android:layout_width="40sp"
         android:layout_height="40sp"
          android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp" 
+         android:layout_alignParentRight="true"
+       />
     <TextView
         android:id="@+id/title"
         style="@style/techmindText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/techions_value"
-        android:layout_alignRight="@id/title_icon" />
+        android:layout_toLeftOf="@id/title_icon"
+         android:layout_alignBottom="@id/title_icon"/>
+    
+     
 
 </RelativeLayout>

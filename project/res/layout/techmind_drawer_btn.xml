@@ -1,135 +1,167 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/techmindDrawer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" 
-    style="@style/techmindDrawer" >
-		
-		<LinearLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" 
-	    android:clickable="true"
-	    android:focusable="true"
-	    android:onClick="myTitleNav"
-	    android:id="@+id/btn0"
-	    style="@style/techmindDrawer" >
-	
-	    <ImageView
-	        android:id="@+id/techmind_my_title_drawer_icon"
-	        android:layout_width="40dp"
-	        android:layout_height="40dp"
-	        android:layout_gravity="center_vertical"
-	        android:layout_margin="8dp"
-	        android:contentDescription="techmind_my_title_drawer_icon" 
-	        android:src="@drawable/piggybank" >
-	    </ImageView>
-	
-	    <TextView
-	        android:id="@+id/techmind_my_title_drawer_title"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:layout_marginLeft="16dp"
-	        android:textColor="#FFF"
-	        android:textSize="15sp" 
-	        android:text="my title">
-	    </TextView>
-		
-	</LinearLayout>    
-	<LinearLayout 
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" 
-	    android:clickable="true"
-	    android:focusable="true"
-	    android:onClick="mineNav"
-	    android:id="@+id/btn1"
-	    style="@style/techmindDrawer" >
-	
-	    <ImageView
-	        android:id="@+id/techmind_mine_drawer_icon"
-	        android:layout_width="40dp"
-	        android:layout_height="40dp"
-	        android:layout_gravity="center_vertical"
-	        android:layout_margin="8dp" 
-	        android:contentDescription="techmind_mine_drawer_icon"
-	        android:src="@drawable/techmind_icon" >
-	    </ImageView>
-	
-	    <TextView
-	        android:id="@+id/techmind_mine_drawer_title"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:layout_marginLeft="16dp"
-	        android:textColor="#FFF"
-	        android:textSize="15sp" 
-	        android:text="mine">
-	    </TextView>
-	
-		
-	</LinearLayout>
-	<LinearLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" 
-	    android:clickable="true"
-	    android:focusable="true"
-	    android:onClick="myAccountNav"
-	    android:id="@+id/btn2"
-	    style="@style/techmindDrawer" >
-	
-	    <ImageView
-	        android:id="@+id/techmind_my_account_drawer_icon"
-	        android:layout_width="40dp"
-	        android:layout_height="40dp"
-	        android:layout_gravity="center_vertical"
-	        android:layout_margin="8dp"
-	        android:contentDescription="techmind_mine_drawer_icon" 
-	        android:src="@drawable/techmind_coin" >
-	    </ImageView>
-	
-	    <TextView
-	        android:id="@+id/techmind_my_account_drawer_title"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:layout_marginLeft="16dp"
-	        android:textColor="#FFF"
-	        android:textSize="15sp" 
-	        android:text="my account">
-	    </TextView>
-	</LinearLayout>
-	
-		<LinearLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal" 
-	    android:clickable="true"
-	    android:focusable="true"
-	    android:onClick="topPostsNav"
-	    android:id="@+id/btn2"
-	    style="@style/techmindDrawer" >
-	
-	    <ImageView
-	        android:id="@+id/techmind_top_posts_drawer_icon"
-	        android:layout_width="40dp"
-	        android:layout_height="40dp"
-	        android:layout_gravity="center_vertical"
-	        android:layout_margin="8dp"
-	        android:contentDescription="techmind_mine_drawer_icon" 
-	        android:src="@drawable/techmind_coin" >
-	    </ImageView>
-	
-	    <TextView
-	        android:id="@+id/techmind_top_posts_drawer_title"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_gravity="center_vertical"
-	        android:layout_marginLeft="16dp"
-	        android:textColor="#FFF"
-	        android:textSize="15sp" 
-	        android:text="Top 10 Posts">
-	    </TextView>
-	</LinearLayout>
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/btn0"
+        style="@style/techmindDrawer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="myTitleNav"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/techmind_my_title_drawer_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            android:contentDescription="techmind_my_title_drawer_icon"
+            android:src="@drawable/piggybank" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/techmind_my_title_drawer_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:text="my title"
+            android:textColor="#FFF"
+            android:textSize="15sp" >
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn1"
+        style="@style/techmindDrawer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="mineNav"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/techmind_mine_drawer_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            android:contentDescription="techmind_mine_drawer_icon"
+            android:src="@drawable/techmind_icon" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/techmind_mine_drawer_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:text="mine"
+            android:textColor="#FFF"
+            android:textSize="15sp" >
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn2"
+        style="@style/techmindDrawer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="myAccountNav"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/techmind_my_account_drawer_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            android:contentDescription="techmind_mine_drawer_icon"
+            android:src="@drawable/techmind_coin" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/techmind_my_account_drawer_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:text="my account"
+            android:textColor="#FFF"
+            android:textSize="15sp" >
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn3"
+        style="@style/techmindDrawer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="topPostsNav"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/techmind_top_posts_drawer_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            android:contentDescription="techmind_mine_drawer_icon"
+            android:src="@drawable/techmind_coin" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/techmind_top_posts_drawer_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:text="Top 10 Posts"
+            android:textColor="#FFF"
+            android:textSize="15sp" >
+        </TextView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/btn4"
+        style="@style/techmindDrawer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="topMinersNav"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/techmind_top_miners_drawer_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="8dp"
+            android:contentDescription="techmind_mine_drawer_icon"
+            android:src="@drawable/techmind_coin" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/techmind_top_miners_drawer_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:text="Top 10 Miners"
+            android:textColor="#FFF"
+            android:textSize="15sp" >
+        </TextView>
+    </LinearLayout>
+
 </LinearLayout>

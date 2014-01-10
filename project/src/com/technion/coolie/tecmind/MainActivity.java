@@ -86,6 +86,11 @@ public class MainActivity extends CoolieActivity {
 		startActivity(intent);
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 	}
+	public void topMinersNav(View view) {
+		Intent intent = new Intent(MainActivity.this, TopMinersActivity.class);
+		startActivity(intent);
+		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+	}
 		
 	void firstInitiate() {
 		setContentView(R.layout.techmind_activity_my_title);
@@ -184,7 +189,7 @@ public class MainActivity extends CoolieActivity {
 					}).executeAsync();
 				}
 			}
-		}, Arrays.asList("user_groups", "user_activities", "user_likes", "read_stream"));
+		}, Arrays.asList("user_groups", "user_activities", "user_likes","read_stream"));
 	}
 
 	private void writeToFile() {

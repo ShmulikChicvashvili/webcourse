@@ -52,7 +52,7 @@ public class TopMinersListAdapter extends BaseAdapter {
 		LayoutInflater inflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		if (convertView == null) {
-			view = inflater.inflate(R.layout.techmind_top_post_list_view, null);
+			view = inflater.inflate(R.layout.techmind_activity_top_miners_list_view, null);
 			holder = new HoldView();
 			holder.userName = (TextView) view
 					.findViewById(R.id.user_name);
@@ -72,7 +72,7 @@ public class TopMinersListAdapter extends BaseAdapter {
 		Title enumTitle = Title.valueOf(title);
 		holder.userName.setText(user.getName());
 		holder.title.setText(title);
-		holder.techionsValue.setText("Mine " + String.valueOf(user.getTotalTechoins() + "  Techions!"));
+		holder.techionsValue.setText("Mined " + String.valueOf(user.getTotalTechoins() + "  Techions!"));
 		
 		if (enumTitle.equals(Title.ATUDAI)){
 			holder.titleIcon.setImageResource(R.drawable.techmind_atudai);
