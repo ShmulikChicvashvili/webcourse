@@ -136,7 +136,7 @@ public class HtmlParseFromClient {
 				courseId.indexOf("-")), "3.0", l));
 	}
 
-	private Calendar setExam(final Elements tdElems,
+	private static Calendar setExam(final Elements tdElems,
 			final SimpleDateFormat sdf, Calendar calendarDate, final int index)
 			throws ParseException {
 		final String s = tdElems.get(index).text();
@@ -181,15 +181,5 @@ public class HtmlParseFromClient {
 		return false;
 	}
 
-	public static boolean handleRegistrationRequest(Document doc) {
-		if (doc == null || !doc.select("img[alt*=Rejected]").isEmpty()) {
-			return false;
-		}
-		if (!doc.select("img[alt*=Accepted]").isEmpty()) {
-			return true;
-		}
-
-		return false;
-	}
 
 }
