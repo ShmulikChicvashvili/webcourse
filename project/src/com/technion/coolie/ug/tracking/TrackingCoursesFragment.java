@@ -10,7 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -92,6 +94,9 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		listview.enableSwipeToDismiss();
 		listview.setSwipeDirection(EnhancedListView.SwipeDirection.BOTH);
 		listview.setRequireTouchBeforeDismiss(false);
+		
+//		ImageButton registerBtn = (ImageButton) getActivity().findViewById(R.id.ug_trackinglist_item_rishum_btn);
+//		registerBtn.set
 
 		return view;
 	}
