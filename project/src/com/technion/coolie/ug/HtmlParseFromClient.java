@@ -17,6 +17,7 @@ import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.ExamItem;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.UGLoginObject;
+import com.technion.coolie.ug.db.UGDatabase;
 
 public class HtmlParseFromClient {
 
@@ -58,8 +59,8 @@ public class HtmlParseFromClient {
 	}
 
 	private String examsUrl = "http://techmvs.technion.ac.il:100/cics/wmn/wmnnut02";
-	private List<CourseItem> coursesAndExamsList = new ArrayList<CourseItem>();
-	private final int FIRST_COURSE_OFFSET = 2;
+	private static List<CourseItem> coursesAndExamsList = new ArrayList<CourseItem>();
+	private final static int FIRST_COURSE_OFFSET = 2;
 
 	/**
 	 * Get student's courses and exams
@@ -68,8 +69,7 @@ public class HtmlParseFromClient {
 	 * @param semester
 	 * @return
 	 */
-	public List<CourseItem> getStudentExams(UGLoginObject student,
-			Semester semester) {
+	static public List<CourseItem> parseStudentExams(Document doc) {
 		// TODO: Matvey - call your post method inside Jsoup.parse(...) -
 		// pass it at least "semester.getYear() + semester.getSs().getId()" and
 		// student info
@@ -78,7 +78,7 @@ public class HtmlParseFromClient {
 		 * ugHtmlPost(examsUrl, student.getStudentId(), student.getPassword(),
 		 * "SEM", semester.getYear() + semester.getSs().getId(), "WK");
 		 */
-		Document doc = Jsoup.parse("CALL YOUR POST METHOD HERE");
+		//Document doc = Jsoup.parse("CALL YOUR POST METHOD HERE");
 		final Elements coursesTable = doc.select("table");
 		// in case we aren't registered to any course
 		if (coursesTable.size() == 3) {
@@ -94,12 +94,12 @@ public class HtmlParseFromClient {
 
 	}
 
-	private int getNumOfColumns(final Elements trElems) {
+	private static int getNumOfColumns(final Elements trElems) {
 		return trElems.get(0).children().size()
 				+ trElems.get(1).children().size();
 	}
 
-	private void getCourseExam(final Element trElem, final int numOfColumns) {
+	static private void getCourseExam(final Element trElem, final int numOfColumns) {
 		final int shiftFromExamColumns = numOfColumns - 3; // number of columns
 		// could
 		// vary between 7 to 8
@@ -125,7 +125,7 @@ public class HtmlParseFromClient {
 		// TODO: handle <br> elements inside courseName
 		// Elements e = tdElems.get(shiftFromExamColumns).select("br");
 
-		// TODO: Get points from DB by course number...
+		//UGDatabase.getInstance
 		coursesAndExamsList.add(new CourseItem(new StringBuilder(courseName)
 				.reverse().toString(), courseId.substring(0,
 				courseId.indexOf("-")), "3.0", l));
@@ -164,6 +164,17 @@ public class HtmlParseFromClient {
 		studentDetailsList.add(details.get(4).text() + " %");
 		studentDetailsList.add(details.get(3).text());
 		return studentDetailsList;
+	}
+	
+	public static boolean handleRegistrationRequest(Document doc) {
+		if (doc == null || !doc.select("img[alt*=Rejected]").isEmpty()) {
+			return false;
+		}
+		if (!doc.select("img[alt*=Accepted]").isEmpty()) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class TrackingCoursesFragment extends SherlockFragment {
 
 		trackingCourses = UGDatabase.getInstance(inflater.getContext())
 				.getTrackingCourses();
+		Log.i("1","trackingCourses size : "+trackingCourses.size());
 		View view = inflater.inflate(R.layout.ug_tracking_list, container,
 				false);
 		listview = (EnhancedListView) view.findViewById(R.id.ug_tracking_list);

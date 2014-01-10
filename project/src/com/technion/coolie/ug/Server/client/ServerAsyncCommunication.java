@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
@@ -23,7 +24,6 @@ import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.UGLoginObject;
 import com.technion.coolie.ug.utils.UGAsync;
-import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.*;
 
 import java.io.IOException;
@@ -164,7 +164,7 @@ public class ServerAsyncCommunication {
 		a.execute();
 	}
 	
-	static public void getAllExams(final Semester semester) {
+	/*static public void getAllExams(final Semester semester) {
 		//getStudentExams(Student student, Semester semester)
 
 		UGAsync<Exam> a = new UGAsync<Exam>() {
@@ -187,7 +187,7 @@ public class ServerAsyncCommunication {
 
 		};
 		a.execute();
-	}
+	}*/
 
 	public void addTrackingCourseToServer(UGLoginObject o, CourseKey ck) {
 		AsyncTask<CourseKey, Void, ReturnCodesUg> asyncTask = new AsyncTask<CourseKey, Void, ReturnCodesUg>() {
@@ -247,15 +247,13 @@ public class ServerAsyncCommunication {
 		asyncTask.execute(ck);
 	}
 	
-	static public void getAllExamsFromClient(final Semester semester) {
-		//getStudentExams(Student student, Semester semester)
+	static public void getAllExamsFromClient(final Semester semester, final String userName, final String password) {
 
-		UGAsync<Exam> a = new UGAsync<Exam>() {
-			//List<ServerCourse> l;
+		AsyncTask<Void,Void,Void> ast = new AsyncTask<Void,Void,Void>()
+		{
 
 			@Override
-			protected List<Exam> doInBackground(String... params) {
-
+			protected Void doInBackground(Void... arg0) {
 				HttpClient httpclient = new DefaultHttpClient();
 			    HttpPost httppost = new HttpPost("http://techmvs.technion.ac.il:100/cics/WMN/wmnnut02");
 				
@@ -263,37 +261,30 @@ public class ServerAsyncCommunication {
 			        // Add your data
 			        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			        nameValuePairs.add(new BasicNameValuePair("OP", "LI"));
-			        nameValuePairs.add(new BasicNameValuePair("UID", "1636"));
-			        nameValuePairs.add(new BasicNameValuePair("PWD", "11111100"));
-			        nameValuePairs.add(new BasicNameValuePair("SEM", "201301"));
+			        nameValuePairs.add(new BasicNameValuePair("UID", userName));
+			        nameValuePairs.add(new BasicNameValuePair("PWD", password));
+			        String sem = semester.getYear()+semester.getSs().getId();
+			        nameValuePairs.add(new BasicNameValuePair("SEM", sem));
 			        nameValuePairs.add(new BasicNameValuePair("NEXTOP", "WK"));
 			        nameValuePairs.add(new BasicNameValuePair("Login.x", "8"));
 			        nameValuePairs.add(new BasicNameValuePair("Login.y", "17"));
 			        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
-			        // Execute HTTP Post Request
 			        HttpResponse response = httpclient.execute(httppost);
-			        //response.setCharacterEncoding("UTF-8");
-			        Header[] x = response.getAllHeaders();
-			        
 			        HttpEntity responseEntity = response.getEntity();
-			        if(responseEntity!=null) {
-			            String s = EntityUtils.toString(responseEntity); // <----- s is a html of exams page
-			            //String converted = new String ("sdfgw",);
-			        }
-
+			        String s = EntityUtils.toString(responseEntity); // <----- s is a html of exams page
+			        List<CourseItem> x = HtmlParseFromClient.parseStudentExams(Jsoup.parse(s));
+			        
+			        Math.random();
 			    } catch (Exception e) {
 			        // TODO Auto-generated catch block
-			    } 
-				return super.doInBackground(params);
+			    }
+				return null; 
 			}
-
-			@Override
-			protected void onPostExecute(List<Exam> result) {
-			}
-
+			
+			
 		};
-		a.execute();
+		ast.execute();
 	}
 	
 	
@@ -337,6 +328,13 @@ public class ServerAsyncCommunication {
 			    	//HtmlParseFromClient.handleRegistrationRequest(null);
 			    } 
 				return null;
+			}
+			@Override
+			protected void onPostExecute(Void c) 
+			{
+				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mainActivity);
+				alertDialogBuilder.setMessage("hi");
+				alertDialogBuilder.show();
 			}
 	
 		};

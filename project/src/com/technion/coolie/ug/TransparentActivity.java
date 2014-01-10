@@ -137,7 +137,9 @@ public class TransparentActivity extends CoolieActivity implements
 			List<CourseKey> db = UGDatabase.getInstance(this).getTrackingCourses();
 			if (!db.contains(new CourseKey(ck.getNumber(), ck.getSemester())))
 			{
-				UGDatabase.getInstance(this).getTrackingCourses().add(ck);
+				List<CourseKey> x = UGDatabase.getInstance(this).getTrackingCourses();
+				x.add(ck);
+				UGDatabase.getInstance(this).setTrackingCourses(x);
 			}
 			else
 			{

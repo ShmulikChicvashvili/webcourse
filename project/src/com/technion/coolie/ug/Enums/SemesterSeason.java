@@ -33,6 +33,7 @@ public enum SemesterSeason implements Serializable {
 
 	private SemesterSeason(String id, int repString) {
 		this.repStringId = repString;
+		this.id = id;
 	}
 
 	public String getName(Context context) {
