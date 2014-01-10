@@ -100,10 +100,11 @@ public class TrackingCoursesFragment extends SherlockFragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				Log.i("2","registered LIST CLICKED");
-				Toast.makeText(getActivity(),
-						String.valueOf("registered item selected"),
-						Toast.LENGTH_SHORT).show();
 				
+				
+				CourseItem ck = coursesIRegistered.get(position);
+				UGLoginObject ugLoginObj = UGDatabase.getInstance(context).getCurrentLoginObject();
+				ServerAsyncCommunication.unRegistrate(ck.getCourseId(), ugLoginObj.getStudentId(), ugLoginObj.getPassword(), context,TrackingCoursesFragment.this);
 			}
 			
 			
@@ -256,6 +257,14 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		registrationlistAdapter.add(ci);
 		trackingCourseListAdapter.remove(ci);
 		
+	}
+	
+	public void onCancellationSuccessed(CourseKey c)
+	{
+		Log.i("2","onCancellationSuccessed");
+		String courseName="HISTABRUT";//UGDatabase.getInstance(getActivity()).getCourseByKey(c).getName();
+		CourseItem ci = new CourseItem(courseName, c.getNumber(), "0", null);
+		registrationlistAdapter.remove(ci);
 	}
 
 }

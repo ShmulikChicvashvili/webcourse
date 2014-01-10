@@ -284,8 +284,6 @@ public class ServerAsyncCommunication {
 			    }
 				return null; 
 			}
-			
-			
 		};
 		ast.execute();
 	}
@@ -302,7 +300,7 @@ public class ServerAsyncCommunication {
 			@Override
 		    protected void onPreExecute()
 		    {
-		        progressDialog= ProgressDialog.show(context, "Progress Dialog Title Text","Process Description Text", true);
+		        progressDialog= ProgressDialog.show(context, "Registering to course","Trying to register to "+courseNumber+" group "+ groupNumber, true);
 
 		        //do initialization of required objects objects here                
 		    }; 
@@ -368,13 +366,23 @@ public class ServerAsyncCommunication {
 	}
 	
 	
-static public void unRegistrate(final String courseNumber,final String userName,final String password,final Context context) {
+static public void unRegistrate(final String courseNumber,final String userName,final String password,final Context context, final TrackingCoursesFragment trackingCoursesFragment) {
 		
-		AsyncTask<Void,Void,Void> ast = new AsyncTask<Void,Void,Void>()
+		AsyncTask<Void,Void,Document> ast = new AsyncTask<Void,Void,Document>()
 		{
+			
+			ProgressDialog progressDialog;
+			
+			@Override
+		    protected void onPreExecute()
+		    {
+		        progressDialog= ProgressDialog.show(context, "Unregistering","Unregistering from "+courseNumber, true);
+
+		        //do initialization of required objects objects here                
+		    }; 
 
 			@Override
-			protected Void doInBackground(Void... arg0) {
+			protected Document doInBackground(Void... arg0) {
 				HttpPost getCookiePost = new HttpPost("http://techmvs.technion.ac.il:100/cics/WMN/wmnnut02");
 				try {
 			        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
@@ -396,8 +404,7 @@ static public void unRegistrate(final String courseNumber,final String userName,
 			        		.header("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36")
 			        		.method(Method.GET);
 			        Document d = Jsoup.parse(new String (c.execute().bodyAsBytes(),"ISO-8859-8"));
-			        String sss = d.toString();
-			        Math.random();
+			        return d;
 
 				} catch (Exception e) {
 			    	//HtmlParseFromClient.handleRegistrationRequest(null);
@@ -405,10 +412,12 @@ static public void unRegistrate(final String courseNumber,final String userName,
 				return null;
 			}
 			@Override
-			protected void onPostExecute(Void c) 
+			protected void onPostExecute(Document c) 
 			{
+				trackingCoursesFragment.onCancellationSuccessed(new CourseKey(courseNumber, null));
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-				alertDialogBuilder.setMessage("May be done.");
+				progressDialog.dismiss();
+				alertDialogBuilder.setMessage("Course was removed successfully");
 				alertDialogBuilder.show();
 			}
 	

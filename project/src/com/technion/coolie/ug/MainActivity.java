@@ -195,7 +195,7 @@ public class MainActivity extends CoolieActivity implements
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
 						2, 11), kdamim, tsmudim, reg);
 
-		Course course2 = new Course(
+		/*Course course2 = new Course(
 				"273455",
 				"MY HEAD IS A HAMSTER",
 				2.0f,
@@ -203,7 +203,7 @@ public class MainActivity extends CoolieActivity implements
 				new Semester(2013, SemesterSeason.SPRING), Faculty.CS,
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
 						2, 11), kdamim, null, null);
-		List<Course> courses = new ArrayList<Course>();
+		
 		Course course3 = new Course(
 				"094412",
 				"HISTABRUT",
@@ -211,17 +211,19 @@ public class MainActivity extends CoolieActivity implements
 				"During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
 				new Semester(2013, SemesterSeason.SPRING), Faculty.CS,
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
-						2, 11), kdamim, null, null);
-		courses.add(course3);
+						2, 11), kdamim, null, null);*/
+		
+		List<Course> courses = new ArrayList<Course>();
+		//courses.add(course3);
 		
 		
-		for (int i = 0; i < 1000; i++) {
+		/*for (int i = 0; i < 1000; i++) {
 			Course c = new Course(course);
 			c.setCourseNumber((i + 2000) + "");
 			courses.add(c);
-		}
+		}*/
 		courses.add(course);
-		courses.add(course2);
+		//courses.add(course2);
 		
 		
 		List<AcademicCalendarEvent> academicList = new ArrayList<AcademicCalendarEvent>(
@@ -229,7 +231,7 @@ public class MainActivity extends CoolieActivity implements
 						"OMG", "dd", null)));
 
 		List<CourseKey> trackingList = new ArrayList<CourseKey>(Arrays.asList(
-				course3.getCourseKey(), course2.getCourseKey()));
+				course.getCourseKey()));
 
 		List<AccomplishedCourse> accomplishedList = new ArrayList<AccomplishedCourse>(
 				Arrays.asList(new AccomplishedCourse("3434", "3434", "3434",
