@@ -248,7 +248,7 @@ public class ServerAsyncCommunication {
 		asyncTask.execute(ck);
 	}
 	
-	static public void getAllExamsFromClient(final Semester semester, final String userName, final String password) {
+	static public void getAllExamsFromClient(final Semester semester, final String userName, final String password,final Context context) {
 
 		AsyncTask<Void,Void,Void> ast = new AsyncTask<Void,Void,Void>()
 		{
@@ -275,7 +275,8 @@ public class ServerAsyncCommunication {
 			        HttpEntity responseEntity = response.getEntity();
 			        String s = EntityUtils.toString(responseEntity); // <----- s is a html of exams page
 			        List<CourseItem> x = HtmlParseFromClient.parseStudentExams(Jsoup.parse(s));
-			        
+			        UGDatabase db = UGDatabase.getInstance(context);
+			        db.setCoursesAndExams(x);
 			        Math.random();
 			    } catch (Exception e) {
 			        // TODO Auto-generated catch block

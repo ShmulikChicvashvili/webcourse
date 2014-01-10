@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -25,6 +26,7 @@ import com.technion.coolie.R;
 import com.technion.coolie.ug.ITrackingCourseTrasferrer;
 import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
 import com.technion.coolie.ug.db.UGDatabase;
+import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.tracking.EnhancedListView.Undoable;
 import com.technion.coolie.ug.utils.UGCurrentState;
@@ -34,6 +36,12 @@ public class TrackingCoursesFragment extends SherlockFragment {
 	TrackingListAdapter trackingCourseListAdapter;
 	EnhancedListView listview;
 	List<CourseKey> trackingCourses;
+	
+	RegistrationListAdapter registrationlistAdapter;
+	List<CourseItem> coursesIRegistered;
+	ListView registeredCoursesView;
+	
+	
 	int lastSelectedTrackedItem = 0;
 
 	MenuItem addTrackingCourseButton;
@@ -72,7 +80,12 @@ public class TrackingCoursesFragment extends SherlockFragment {
 			}
 		});
 		listview.setAdapter(trackingCourseListAdapter);
-
+		
+		coursesIRegistered= UGDatabase.getInstance(inflater.getContext()).getCoursesAndExams();
+		registeredCoursesView = (ListView) view.findViewById(R.id.ug_registration_list);
+		registrationlistAdapter = new RegistrationListAdapter(context, coursesIRegistered);
+		registeredCoursesView.setAdapter(registrationlistAdapter);
+		
 		listview.setDismissCallback(new EnhancedListView.OnDismissCallback() {
 
 			@Override
@@ -101,9 +114,6 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		UGCurrentState.currentOpenFragment = "TrackingCoursesFragment";
 		
 		 ImageButton registerBtn = (ImageButton) getActivity().findViewById(R.id.ug_trackinglist_item_rishum_btn);
-		 
-		 
-		 ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100",getActivity(),this);
 		 return view;
 	}
 

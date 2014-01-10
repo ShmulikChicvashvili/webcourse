@@ -70,7 +70,7 @@ public class MainActivity extends CoolieActivity implements
 		// ServerAsyncCommunication.getCurentSemestersFromClient(null);
 		//ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100");
 		Semester s = new Semester(2013,SemesterSeason.SPRING);
-		//ServerAsyncCommunication.getAllExamsFromClient(s, "1636", "11111100");
+		ServerAsyncCommunication.getAllExamsFromClient(s,"1636", "11111100",this);
 		
 		
 		//ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100");
