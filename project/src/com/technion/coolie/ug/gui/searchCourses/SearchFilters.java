@@ -117,11 +117,11 @@ public class SearchFilters implements Serializable {
 
 	private boolean examAInRange(Course course) {
 
-		Log.d("SearchFilters", "course moed A is "
-				+ course.getMoedA().getTime().toString()
-				+ " and we compare it with the range from "
-				+ examADateRange.first.toString() + " to "
-				+ examADateRange.second.toString());
+		// Log.d("SearchFilters", "course moed A is "
+		// + course.getMoedA().getTime().toString()
+		// + " and we compare it with the range from "
+		// + examADateRange.first.toString() + " to "
+		// + examADateRange.second.toString());
 
 		return !examADateRange.first.after(course.getMoedA().getTime())
 				&& !examADateRange.second.before(course.getMoedA().getTime());
@@ -146,23 +146,31 @@ public class SearchFilters implements Serializable {
 			inputFormat, Locale.US);
 
 	private boolean isMeetingInRange(Meeting meeting) {
-		// Calendar cal = Calendar.getInstance();
-		// cal.setTime(dateRange2.first);
-		// Calendar cal2 = Calendar.getInstance();
-		// cal.setTime(dateRange2.second);
 
-		// int hour = now.get(Calendar.HOUR);
-		// int minute = now.get(Calendar.MINUTE);
-
-		// date = parseDate(hour + ":" + minute);
-		// Date dateStart = parseDate(inputParser.format(dateRange2.first));
-		// Date dateEnd = parseDate(inputParser.format(dateRange2.second));
 		if (meeting.getStartingHour() == null
 				|| meeting.getEndingHour() == null)
 			return false;
 
-		return (!meetingDateRange.first.after(meeting.getStartingHour()) && !meetingDateRange.second
-				.before(meeting.getEndingHour()));
+		Log.d("SearchFilters",
+				"meeting is " + timeValue(meeting.getStartingHour()) + "to "
+						+ timeValue(meeting.getEndingHour())
+						+ " and we compare it with the range from "
+						+ timeValue(meetingDateRange.first) + " to "
+						+ timeValue(meetingDateRange.second));
+
+		return timeValue(meetingDateRange.second) <= timeValue(meeting
+				.getStartingHour())
+				&& timeValue(meetingDateRange.first) >= timeValue(meeting
+						.getEndingHour());
+
+	}
+
+	public int timeValue(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int hours = cal.get(Calendar.HOUR_OF_DAY);
+		int minuters = cal.get(Calendar.MINUTE);
+		return minuters + 100 * hours;
 
 	}
 

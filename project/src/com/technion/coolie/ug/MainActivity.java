@@ -56,7 +56,7 @@ public class MainActivity extends CoolieActivity implements
 		// ServerAsyncCommunication.mainActivity = this;
 		setContentView(R.layout.ug_main_screen);
 
-		// updateData();
+		updateData();
 
 		// ServerAsyncCommunication.getCalendarEventsFromServer(); // Will not
 		// be here

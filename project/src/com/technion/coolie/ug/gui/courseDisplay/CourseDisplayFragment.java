@@ -80,8 +80,7 @@ public class CourseDisplayFragment extends Fragment {
 		final RadioButton rbSummer = (RadioButton) getActivity().findViewById(
 				R.id.course_screen_threelastsemester);
 
-		SemesterSeason ss = UGDatabase.getInstance(context)
-				.getCurrentSemester().getSs();
+		SemesterSeason ss = chosenCourse.getSemester().getSs();
 		if (ss == SemesterSeason.WINTER)
 			rg.check(rbWinter.getId());
 		if (ss == SemesterSeason.SPRING)

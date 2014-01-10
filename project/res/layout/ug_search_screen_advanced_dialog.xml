@@ -48,7 +48,7 @@
   <Button android:id="@+id/myDatePickerButton"
     android:layout_width="0dip" 
         android:layout_height="wrap_content"
-        android:text="עד תאריך"
+        android:text="מתאריך"
         android:layout_weight="6"
 
 
@@ -68,7 +68,7 @@
   <Button android:id="@+id/myDatePickerButtonEnd"
     android:layout_width="0dip" 
         android:layout_height="wrap_content"
-        android:text="מתאריך"
+        android:text="עד תאריך"
         
         android:layout_weight="6"
         />
@@ -87,7 +87,7 @@
     android:textSize="20sp"
     android:gravity="center_horizontal"
     android:background="@drawable/ug_course_label_text_container"
-    android:text="תאריך המבחן"
+    android:text="טווח תאריך המבחן "
     android:layout_below="@id/advancedSettingsTitle"
    />
     
@@ -132,10 +132,11 @@
         android:background="@drawable/ug_course_spinner_container"
         android:text="א" />
   
+ 
   <Button android:id="@+id/myDatePickerButtonEndTime"
     android:layout_width="0dip" 
         android:layout_height="wrap_content"
-        android:text="עד שעה"
+        android:text="משעה"
         android:layout_weight="6"
 
 
@@ -152,14 +153,16 @@
     android:layout_weight="1"
    />
   
-  
-  <Button android:id="@+id/myDatePickerButtonTime"
+
+    <Button android:id= "@+id/myDatePickerButtonTime"
     android:layout_width="0dip" 
         android:layout_height="wrap_content"
-        android:text="משעה"
+        android:text="עד שעה"
         
         android:layout_weight="6"
         />
+  
+  
   
 </LinearLayout>
 
@@ -175,7 +178,7 @@
     android:textSize="20sp"
     android:gravity="center_horizontal"
     android:background="@drawable/ug_course_label_text_container"
-    android:text="זמן השיעור"
+    android:text=" טווח זמן השיעור  "
     android:layout_below="@id/myDatePickerExamA"
    />
 

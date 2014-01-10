@@ -61,7 +61,6 @@ import com.technion.coolie.ug.model.Faculty;
 import com.technion.coolie.ug.utils.SerializeIO;
 import com.technion.coolie.ug.utils.UGCurrentState;
 
-//search option - by date in day!
 //add option to add to tracking!
 //mark course if were registered to it!
 /**
