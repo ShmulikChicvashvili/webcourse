@@ -187,11 +187,11 @@ public class MainActivity extends CoolieActivity implements
 								new ArrayList<String>(Arrays.asList("damn")))));
 
 		Course course = new Course(
-				"233245",
-				"CLASS OF JOY",
+				"094412",
+				"HISTABRUT",
 				2.0f,
 				"During the class we will talk about the high level design and your personal roles. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
-				new Semester(2013, SemesterSeason.WINTER), Faculty.CS,
+				new Semester(2013, SemesterSeason.SPRING), Faculty.CS,
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
 						2, 11), kdamim, tsmudim, reg);
 
@@ -203,8 +203,18 @@ public class MainActivity extends CoolieActivity implements
 				new Semester(2013, SemesterSeason.SPRING), Faculty.CS,
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
 						2, 11), kdamim, null, null);
-
 		List<Course> courses = new ArrayList<Course>();
+		Course course3 = new Course(
+				"094412",
+				"HISTABRUT",
+				2.0f,
+				"During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
+				new Semester(2013, SemesterSeason.SPRING), Faculty.CS,
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), kdamim, null, null);
+		courses.add(course3);
+		
+		
 		for (int i = 0; i < 1000; i++) {
 			Course c = new Course(course);
 			c.setCourseNumber((i + 2000) + "");
@@ -212,13 +222,14 @@ public class MainActivity extends CoolieActivity implements
 		}
 		courses.add(course);
 		courses.add(course2);
-
+		
+		
 		List<AcademicCalendarEvent> academicList = new ArrayList<AcademicCalendarEvent>(
 				Arrays.asList(new AcademicCalendarEvent(Calendar.getInstance(),
 						"OMG", "dd", null)));
 
 		List<CourseKey> trackingList = new ArrayList<CourseKey>(Arrays.asList(
-				course.getCourseKey(), course2.getCourseKey()));
+				course3.getCourseKey(), course2.getCourseKey()));
 
 		List<AccomplishedCourse> accomplishedList = new ArrayList<AccomplishedCourse>(
 				Arrays.asList(new AccomplishedCourse("3434", "3434", "3434",
@@ -244,7 +255,7 @@ public class MainActivity extends CoolieActivity implements
 		UGDatabase.getInstance(this).updateCourses(courses);
 		UGDatabase.getInstance(this).setAcademicCalendar(academicList);
 		UGDatabase.getInstance(this).setGradesSheet(accomplishedList);
-		//UGDatabase.getInstance(this).setTrackingCourses(trackingList);
+		UGDatabase.getInstance(this).setTrackingCourses(trackingList);
 		UGDatabase.getInstance(this).setCoursesAndExams(coursesExamsList);
 		UGDatabase.getInstance(this).setStudentInfo(student);
 

@@ -8,7 +8,7 @@
     android:orientation="horizontal"
     android:paddingRight="?android:attr/scrollbarSize" >
 
-    <ImageButton
+    <!-- <ImageButton
         android:id="@+id/ug_trackinglist_item_rishum_btn"
         android:layout_width="0dip"
         android:layout_height="wrap_content"
@@ -16,8 +16,7 @@
         android:layout_weight="1"
         android:background="@android:color/white"
         android:contentDescription="@string/rishum"
-        android:onClick="rishumClick"
-        android:src="@drawable/ug_btn_rishum" />
+        android:src="@drawable/ug_btn_rishum" /> -->
 
     <TextView
         android:id="@+id/ug_trackinglist_item_available_places"

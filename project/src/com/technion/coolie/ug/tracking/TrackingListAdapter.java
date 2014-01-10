@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -89,7 +90,13 @@ public class TrackingListAdapter extends BaseAdapter {
 	}
 	
 	public void remove(CourseItem courseItem) {
+		Log.i("2","name :"+courseItem.getCoursName());
+		Log.i("2","id :"+courseItem.getCourseId());
+		
+		Log.i("2","values before :"+values.size());
+		
 		values.remove(courseItem);
+		Log.i("2","values after :"+values.size());
 		UGDatabase.getInstance(context).setTrackingCourses(values);
 		notifyDataSetChanged();
 	}

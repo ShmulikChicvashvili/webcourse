@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -24,9 +23,11 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.ITrackingCourseTrasferrer;
+import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.UGLoginObject;
 import com.technion.coolie.ug.tracking.EnhancedListView.Undoable;
 import com.technion.coolie.ug.utils.UGCurrentState;
 
@@ -60,30 +61,54 @@ public class TrackingCoursesFragment extends SherlockFragment {
 
 		trackingCourses = UGDatabase.getInstance(inflater.getContext())
 				.getTrackingCourses();
-		Log.i("1", "trackingCourses size : " + trackingCourses.size());
+		Log.i("2", "trackingCourses size : " + trackingCourses.size());
 		View view = inflater.inflate(R.layout.ug_tracking_list, container,
 				false);
 		listview = (EnhancedListView) view.findViewById(R.id.ug_tracking_list);
 		trackingCourseListAdapter = new TrackingListAdapter(
 				inflater.getContext(), trackingCourses);
-
+		
+		listview.setAdapter(trackingCourseListAdapter);
+		
 		listview.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				Log.i("2","TRACKING LIST CLICKED");
 				lastSelectedTrackedItem = position;
 				removeTrackingCourseButton.setVisible(true);
 				Toast.makeText(getActivity(),
 						String.valueOf(lastSelectedTrackedItem),
 						Toast.LENGTH_SHORT).show();
+				
+				CourseKey ck = trackingCourses.get(position);
+				UGLoginObject ugLoginObj = UGDatabase.getInstance(context).getCurrentLoginObject();
+				ServerAsyncCommunication.registrate(ck.getNumber(), "11", ugLoginObj.getStudentId(), ugLoginObj.getPassword(), context, TrackingCoursesFragment.this);
 			}
+			
+			
+			
 		});
-		listview.setAdapter(trackingCourseListAdapter);
+		
 		
 		coursesIRegistered= UGDatabase.getInstance(inflater.getContext()).getCoursesAndExams();
 		registeredCoursesView = (ListView) view.findViewById(R.id.ug_registration_list);
 		registrationlistAdapter = new RegistrationListAdapter(context, coursesIRegistered);
 		registeredCoursesView.setAdapter(registrationlistAdapter);
+		registeredCoursesView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Log.i("2","registered LIST CLICKED");
+				Toast.makeText(getActivity(),
+						String.valueOf("registered item selected"),
+						Toast.LENGTH_SHORT).show();
+				
+			}
+			
+			
+			
+		});
 		
 		listview.setDismissCallback(new EnhancedListView.OnDismissCallback() {
 
@@ -102,6 +127,16 @@ public class TrackingCoursesFragment extends SherlockFragment {
 				};
 			}
 		});
+		
+		/*listview.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+            public void onItemClick(AdapterView<?> arg0, View view,
+                    int position, long id) {
+				CourseKey ck = trackingCourses.get(position);
+				UGLoginObject ugLoginObj = UGDatabase.getInstance(context).getCurrentLoginObject();
+				ServerAsyncCommunication.registrate(ck.getNumber(), "11", ugLoginObj.getStudentId(), ugLoginObj.getPassword(), context, TrackingCoursesFragment.this);
+			}
+		});*/
 
 		// Set swipe-to-delete configuration.
 		listview.setSwipingLayout(R.id.tracking_list_item_layout);
@@ -112,7 +147,6 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		listview.setRequireTouchBeforeDismiss(false);
 		UGCurrentState.currentOpenFragment = "TrackingCoursesFragment";
 		
-		 ImageButton registerBtn = (ImageButton) getActivity().findViewById(R.id.ug_trackinglist_item_rishum_btn);
 		 return view;
 	}
 
@@ -140,63 +174,7 @@ public class TrackingCoursesFragment extends SherlockFragment {
 						((ITrackingCourseTrasferrer) context)
 								.onAddingTrackingCourseClicked();
 						return true;
-						/*
-						 * AlertDialog.Builder builderSingle = new
-						 * AlertDialog.Builder(getActivity());
-						 * builderSingle.setIcon(R.drawable.ic_launcher);
-						 * builderSingle.setTitle("Add course to tracking");
-						 * 
-						 * class CourseToTrack { String courseNumber; String
-						 * courseName; Semester semester;
-						 * 
-						 * public CourseToTrack(String number, String name,
-						 * Semester s) { courseNumber = number; courseName =
-						 * name; semester = s; }
-						 * 
-						 * @Override public String toString() { return
-						 * courseNumber + " " + courseName; } }
-						 * 
-						 * final ArrayList<CourseToTrack> list = new
-						 * ArrayList<CourseToTrack>(); for (Course c :
-						 * UGDatabase.getInstance(context).getCourses()) { if
-						 * (!trackingCourses.contains(c.getCourseKey())) // if
-						 * is not already tracking { list.add(new
-						 * CourseToTrack(c.getCourseNumber(),
-						 * c.getName(),c.getSemester())); }
-						 * 
-						 * }
-						 * 
-						 * final ArrayAdapter<CourseToTrack> adapter = new
-						 * ArrayAdapter<CourseToTrack>(getActivity(),
-						 * android.R.layout.simple_list_item_1, list); // final
-						 * TrackingListAdapter adapter = new //
-						 * TrackingListAdapter(context, trackingCoursesList);
-						 * 
-						 * builderSingle.setNegativeButton("cancel", new
-						 * DialogInterface.OnClickListener() {
-						 * 
-						 * @Override public void onClick(DialogInterface dialog,
-						 * int which) { dialog.dismiss(); } });
-						 * 
-						 * builderSingle.setAdapter(adapter, new
-						 * DialogInterface.OnClickListener() {
-						 * 
-						 * @Override public void onClick(DialogInterface dialog,
-						 * int which) { CourseToTrack x =
-						 * adapter.getItem(which); CourseKey ck = new
-						 * CourseKey(x.courseNumber, x.semester);
-						 * trackingCourses.add(ck);
-						 * 
-						 * trackingCourseListAdapter = new
-						 * TrackingListAdapter(getActivity(), trackingCourses);
-						 * listview.setAdapter(trackingCourseListAdapter);
-						 * dialog.dismiss(); // send update to server
-						 * /*IUgTracking ugTracking = UgFactory.getUgTracking();
-						 * ugTracking.addTrackingStudent(UGDatabase.INSTANCE.
-						 * getCurrentLoginObject(), ck);
-						 * 
-						 * } }); builderSingle.show(); return true;
-						 */
+						
 					}
 				});
 
@@ -270,16 +248,14 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 	
-	public void onRegistrationSuccessed(CourseKey c, int group)
+	public void onRegistrationSuccessed(CourseKey c)
 	{
-		trackingCourseListAdapter.remove(c);
-		String courseName=UGDatabase.getInstance(getActivity()).getCourseByKey(c).getName();
+		
+		String courseName="HISTABRUT";//UGDatabase.getInstance(getActivity()).getCourseByKey(c).getName();
 		CourseItem ci = new CourseItem(courseName, c.getNumber(), "0", null);
 		registrationlistAdapter.add(ci);
+		trackingCourseListAdapter.remove(ci);
 		
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-		alertDialogBuilder.setMessage("onRegistrationSuccessed");
-		alertDialogBuilder.show();
 	}
 
 }

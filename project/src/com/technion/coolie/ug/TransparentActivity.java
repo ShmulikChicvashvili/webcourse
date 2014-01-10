@@ -160,8 +160,8 @@ public class TransparentActivity extends CoolieActivity implements
 		super.onBackPressed();
 	}
 	
-	public void rishumClick(View view){
+	/*public void rishumClick(View view){
 		System.out.println("HEREEEEE");
-	}
+	}*/
 
 }
