@@ -23,6 +23,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.ITrackingCourseTrasferrer;
+import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.tracking.EnhancedListView.Undoable;
@@ -100,8 +101,9 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		UGCurrentState.currentOpenFragment = "TrackingCoursesFragment";
 		
 		 ImageButton registerBtn = (ImageButton) getActivity().findViewById(R.id.ug_trackinglist_item_rishum_btn);
-//		 registerBtn.set 
 		 
+		 
+		 ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100",getActivity(),this);
 		 return view;
 	}
 
@@ -257,6 +259,13 @@ public class TrackingCoursesFragment extends SherlockFragment {
 				});
 
 		super.onCreateOptionsMenu(menu, inflater);
+	}
+	
+	public void onRegistrationSuccessed(CourseKey c)
+	{
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+		alertDialogBuilder.setMessage("onRegistrationSuccessed");
+		alertDialogBuilder.show();
 	}
 
 }
