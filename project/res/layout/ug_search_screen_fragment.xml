@@ -39,6 +39,7 @@
 				android:layout_gravity="right" >
             
              <Button 
+                 android:id="@+id/ug_search_screen_advanced_button"
                  android:layout_width="wrap_content"
 			android:layout_height="match_parent" 
 			android:gravity="center_horizontal|center_vertical"
@@ -46,6 +47,7 @@
 			android:textColor="#ffffff"
 			android:textSize="12sp"
             android:text="מתקדם"
+            android:layout_marginLeft="5dip"
             android:layout_marginRight="5dip"/>   
             
                 

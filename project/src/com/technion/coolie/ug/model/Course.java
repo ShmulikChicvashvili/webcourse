@@ -191,4 +191,6 @@ public class Course implements Serializable {
 		return sum;
 	}
 
+	//
+
 }

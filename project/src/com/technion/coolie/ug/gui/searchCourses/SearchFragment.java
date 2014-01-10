@@ -1,9 +1,14 @@
 package com.technion.coolie.ug.gui.searchCourses;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -13,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -20,6 +26,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -27,6 +35,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -43,11 +53,7 @@ import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Faculty;
 import com.technion.coolie.ug.utils.SerializeIO;
 
-//add the courses hours to the calendar?
 //search option - by date in day!
-//need to add hebrew to the search filters
-//need to switch between semesters in course display.
-//need to add pre courses and close courses.
 //add option to add to tracking!
 //mark course if were registered to it!
 /**
@@ -156,6 +162,7 @@ public class SearchFragment extends Fragment {
 		} catch (final ClassNotFoundException e) {
 			Log.e(MainActivity.DEBUG_TAG, "load error ", e);
 		}
+		// if no filters in memory
 		filters = new SearchFilters(UGDatabase.getInstance(getActivity())
 				.getCurrentSemester(), false, Faculty.ALL_FACULTIES);
 
@@ -201,6 +208,38 @@ public class SearchFragment extends Fragment {
 					.setOnTouchListener(otl);
 
 		initSpinnerLayout();
+		initAdvancedButton();
+
+	}
+
+	private void initAdvancedButton() {
+		Button advancedButton = (Button) context
+				.findViewById(R.id.ug_search_screen_advanced_button);
+		advancedButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				openAdvancedFilterDialog(filters);
+
+			}
+
+			private void openAdvancedFilterDialog(SearchFilters filters) {
+				ExpandTextDialog dialog = new ExpandTextDialog(context,
+						filters, 5);
+				dialog.show();
+			}
+
+		});
+
+	}
+
+	/**
+	 * this is called on clicking the save button in the search dialog. sets the
+	 * filters with the chosen filters.
+	 * 
+	 * @param newFilter
+	 */
+	private void onCloseAdvancedButton(SearchFilters newFilter) {
 
 	}
 
@@ -523,4 +562,77 @@ public class SearchFragment extends Fragment {
 		return;
 
 	}
+
+	class ExpandTextDialog extends Dialog {
+
+		// @Override
+		// public boolean onTouchEvent(final MotionEvent event) {
+		// // Tap anywhere to close dialog.
+		// this.dismiss();
+		// return super.onTouchEvent(event);
+		// }
+
+		protected ExpandTextDialog(final Context context,
+				final SearchFilters filters, final int offsetFromTop) {
+			super(context);
+
+			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			final WindowManager.LayoutParams wmlp = this.getWindow()
+					.getAttributes();
+
+			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+			// TODO set the view according to the filters
+
+			// int[] coords = new int[2];
+			// ((Button) findViewById(R.id.ug_search_screen_advanced_button))
+			// .getLocationInWindow(coords);
+
+			wmlp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
+			// wmlp.y = coords[1];
+			setContentView(R.layout.ug_search_screen_advanced_dialog);
+
+			Button mPickDate = (Button) findViewById(R.id.myDatePickerButton);
+			mPickDate.setOnClickListener(new onClickDateChoose());
+
+			Button mPickDateEnd = (Button) findViewById(R.id.myDatePickerButtonEnd);
+			mPickDateEnd.setOnClickListener(new onClickDateChoose());
+
+		}
+
+	}
+
+	class onClickDateChoose implements View.OnClickListener {
+		public void onClick(View v) {
+			Calendar cal = Calendar.getInstance();
+			DatePickerDialog dpd = new DatePickerDialog(context,
+					new DatePickerToString(v), cal.get(Calendar.YEAR),
+					cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+			dpd.show();
+		}
+
+		class DatePickerToString implements DatePickerDialog.OnDateSetListener {
+			private Button button;
+
+			// private static final String inputFormat = "HH:mm";
+			private final String inputFormat = "dd/MM/yyyy";
+			private final SimpleDateFormat inputParser = new SimpleDateFormat(
+					inputFormat, Locale.US);
+
+			public DatePickerToString(View v) {
+				this.button = (Button) v;
+			}
+
+			public void onDateSet(DatePicker view, int year, int monthOfYear,
+					int dayOfMonth) {
+				Calendar cal = Calendar.getInstance();
+				cal.set(Calendar.YEAR, year);
+				cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+				cal.set(Calendar.MONTH, monthOfYear);
+				button.setText(inputParser.format(cal.getTime()));
+			}
+		}
+
+	}
+
 }

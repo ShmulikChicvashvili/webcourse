@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+<RelativeLayout 
+    
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#B2DFEE"
+    android:windowSoftInputMode="adjustPan"
+     >
+     
+    <TextView android:id="@+id/advancedSettingsTitle"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:textSize="20sp"
+    android:gravity="center_horizontal"
+    android:background="@drawable/ug_course_label_text_container"
+    android:text="חיפוש מתקדם"
+   
+   />
+    
+    
+    
+    <TextView android:id="@+id/chooseExamDate"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dip"
+         android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dip"
+    android:textSize="20sp"
+    android:gravity="center_horizontal"
+    android:background="@drawable/ug_course_label_text_container"
+    android:text="תאריך המבחן"
+    android:layout_below="@id/advancedSettingsTitle"
+   />
+    
+    <CheckBox 
+         android:layout_width="wrap_content" 
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/chooseExamDate"
+    android:layout_alignRight="@id/chooseExamDate"/>
+
+    <LinearLayout    
+        android:id="@+id/myDatePickerExamA"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+
+    android:background="@drawable/ug_course_text_container"
+        android:layout_marginBottom="30dip"
+        android:layout_centerHorizontal="true"
+        android:layout_alignRight="@id/chooseExamDate"
+        android:layout_alignLeft="@id/chooseExamDate"
+         android:layout_below="@id/chooseExamDate"
+         android:orientation="horizontal"
+        
+     >
+    
+  
+  <Button android:id="@+id/myDatePickerButton"
+    android:layout_width="0dip" 
+        android:layout_height="wrap_content"
+        android:text="עד תאריך"
+        android:layout_weight="6"
+
+
+        />
+  
+  
+  <TextView 
+    android:layout_width="0dip" 
+    android:layout_height="wrap_content"
+    android:textSize="30sp"
+    android:gravity="center_horizontal"
+    android:text="-"
+    android:layout_weight="1"
+   />
+  
+  
+  <Button android:id="@+id/myDatePickerButtonEnd"
+    android:layout_width="0dip" 
+        android:layout_height="wrap_content"
+        android:text="מתאריך"
+        
+        android:layout_weight="6"
+        />
+</LinearLayout>
+    
+    
+    <TextView android:id="@+id/chooseMeetingTime"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+        android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dip"
+    android:textSize="20sp"
+    android:gravity="center_horizontal"
+    android:background="@drawable/ug_course_label_text_container"
+    android:text="זמן השיעור"
+    android:layout_below="@id/myDatePickerExamA"
+   />
+    
+    <CheckBox 
+         android:layout_width="wrap_content" 
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@id/chooseMeetingTime"
+    android:layout_alignRight="@id/chooseMeetingTime"/>
+    
+<LinearLayout    
+        android:id="@+id/myDatePickerTimeRange"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+
+    android:background="@drawable/ug_course_text_container"
+         android:layout_alignRight="@id/chooseMeetingTime"
+        android:layout_alignLeft="@id/chooseMeetingTime"
+        android:layout_marginBottom="30dip"
+        android:layout_below="@id/chooseMeetingTime"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        
+     >
+    
+    
+  
+  <Button android:id="@+id/myDatePickerButtonEndTime"
+    android:layout_width="0dip" 
+        android:layout_height="wrap_content"
+        android:text="עד שעה"
+        android:layout_weight="6"
+
+
+        />
+  
+  
+  <TextView 
+    android:layout_width="0dip" 
+    android:layout_height="wrap_content"
+    android:textSize="30sp"
+    android:gravity="center_horizontal"
+    android:text="-"
+    android:layout_weight="1"
+   />
+  
+  
+  <Button android:id="@+id/myDatePickerButtonTime"
+    android:layout_width="0dip" 
+        android:layout_height="wrap_content"
+        android:text="משעה"
+        
+        android:layout_weight="6"
+        />
+  
+</LinearLayout>
+    
+<Button android:id="@+id/myDatePickerSaveSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="שמור"
+        android:layout_below="@id/myDatePickerTimeRange"
+         android:layout_centerHorizontal="true"
+        />
+
+
+
+
+    
+    
+<!-- <LinearLayout  -->
+<!--     android:layout_width="match_parent" -->
+<!--     android:layout_height="wrap_content" -->
+<!--     android:id = "@+id/search_screen_main" -->
+<!--     android:orientation="vertical" -->
+<!--     android:layout_marginRight="10dp" -->
+<!-- 	android:layout_marginLeft="10dp" -->
+<!--     android:layout_marginTop="5dp" -->
+<!--     android:layout_marginBottom="5dp" -->
+<!--      > -->
+
+       </RelativeLayout>
+       </ScrollView>
