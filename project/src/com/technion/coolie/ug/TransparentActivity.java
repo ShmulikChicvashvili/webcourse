@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
+import com.technion.coolie.ug.utils.UGCurrentState;
 
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
@@ -102,6 +103,7 @@ public class TransparentActivity extends CoolieActivity implements
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			finish();
+			UGCurrentState.currentOpenFragment = "none";
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -135,7 +137,9 @@ public class TransparentActivity extends CoolieActivity implements
 			List<CourseKey> db = UGDatabase.getInstance(this).getTrackingCourses();
 			if (!db.contains(new CourseKey(ck.getNumber(), ck.getSemester())))
 			{
-				UGDatabase.getInstance(this).getTrackingCourses().add(ck);
+				List<CourseKey> x = UGDatabase.getInstance(this).getTrackingCourses();
+				x.add(ck);
+				UGDatabase.getInstance(this).setTrackingCourses(x);
 			}
 			else
 			{
@@ -146,6 +150,13 @@ public class TransparentActivity extends CoolieActivity implements
 		Fragment f = new TrackingCoursesFragment();
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.non_transparent, f).commit();
+	}
+	
+	@Override
+	public void onBackPressed() 
+	{
+		UGCurrentState.currentOpenFragment = "none";
+		super.onBackPressed();
 	}
 
 }

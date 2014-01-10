@@ -124,7 +124,7 @@ public class CoolieServerInterfaceService extends IntentService {
 		}
 
 		case UG_GET_STUDENT_EXAMS: {
-			Student student;
+			/*Student student;
 			Semester semester;
 			List<Exam> listOutput;
 			student = new Gson().fromJson(
@@ -137,7 +137,7 @@ public class CoolieServerInterfaceService extends IntentService {
 			intent.putExtra(STATUS, CoolieStatus.RESULT_OK);
 			intent.putExtra(CoolieServerInterfaceService.RESULT,
 					new Gson().toJson(listOutput));
-			sendBroadcast(intent);
+			sendBroadcast(intent);*/
 			break;
 		}
 

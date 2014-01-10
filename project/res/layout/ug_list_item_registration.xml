@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tracking_list_item_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:orientation="horizontal"
+    android:paddingRight="?android:attr/scrollbarSize" >
+
+    <ImageButton
+        android:id="@+id/ug_regisration_item_delete_btn"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_weight="1"
+        android:background="@android:color/white"
+        android:contentDescription="@string/rishum"
+        android:src="@android:drawable/ic_delete" />
+
+    <TextView
+        android:id="@+id/ug_regisration_item_group_number"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:padding="5dip"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/ug_regisration_item_course_name"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="center_horizontal"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/ug_regisration_item_course_number"
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="right"
+        android:padding="5dip"
+        android:textSize="15sp" />
+
+</LinearLayout>

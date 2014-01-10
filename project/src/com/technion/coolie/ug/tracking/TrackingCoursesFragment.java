@@ -6,11 +6,14 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -23,6 +26,7 @@ import com.technion.coolie.ug.ITrackingCourseTrasferrer;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.tracking.EnhancedListView.Undoable;
+import com.technion.coolie.ug.utils.UGCurrentState;
 
 public class TrackingCoursesFragment extends SherlockFragment {
 
@@ -48,6 +52,7 @@ public class TrackingCoursesFragment extends SherlockFragment {
 
 		trackingCourses = UGDatabase.getInstance(inflater.getContext())
 				.getTrackingCourses();
+		Log.i("1", "trackingCourses size : " + trackingCourses.size());
 		View view = inflater.inflate(R.layout.ug_tracking_list, container,
 				false);
 		listview = (EnhancedListView) view.findViewById(R.id.ug_tracking_list);
@@ -70,8 +75,8 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		listview.setDismissCallback(new EnhancedListView.OnDismissCallback() {
 
 			@Override
-			public Undoable onDismiss(
-					EnhancedListView listView, final int position) {
+			public Undoable onDismiss(EnhancedListView listView,
+					final int position) {
 
 				final CourseKey item = (CourseKey) trackingCourseListAdapter
 						.getItem(position);
@@ -92,8 +97,12 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		listview.enableSwipeToDismiss();
 		listview.setSwipeDirection(EnhancedListView.SwipeDirection.BOTH);
 		listview.setRequireTouchBeforeDismiss(false);
-
-		return view;
+		UGCurrentState.currentOpenFragment = "TrackingCoursesFragment";
+		
+		 ImageButton registerBtn = (ImageButton) getActivity().findViewById(R.id.ug_trackinglist_item_rishum_btn);
+//		 registerBtn.set 
+		 
+		 return view;
 	}
 
 	@Override
@@ -103,7 +112,7 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		}
 		super.onStop();
 	}
-	
+
 	@Override
 	public void onCreateOptionsMenu(Menu menu, final MenuInflater inflater) {
 		int addTrackingCourseButtonId = 921;

@@ -59,6 +59,7 @@ import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Faculty;
 import com.technion.coolie.ug.utils.SerializeIO;
+import com.technion.coolie.ug.utils.UGCurrentState;
 
 //search option - by date in day!
 //add option to add to tracking!
@@ -89,7 +90,7 @@ public class SearchFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		final View view = inflater.inflate(R.layout.ug_search_screen_fragment,
 				container, false);
-
+		UGCurrentState.currentOpenFragment = "GradesSheetFragment";
 		return view;
 	}
 
