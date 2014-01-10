@@ -17,6 +17,7 @@ import com.technion.coolie.R;
 import com.technion.coolie.ug.HtmlParser;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.AccomplishedCourse;
+import com.technion.coolie.ug.utils.UGCurrentState;
 
 public class GradesSheetFragment extends Fragment {
 	List<AccomplishedCourse> items = new ArrayList<AccomplishedCourse>();
@@ -45,6 +46,7 @@ public class GradesSheetFragment extends Fragment {
 		GradesSheetFragmentAdapter adapter = new GradesSheetFragmentAdapter(
 				getActivity(), items);
 		listview.setAdapter(adapter);
+		UGCurrentState.currentOpenFragment = "GradesSheetFragment";
 		return view;
 	}
 

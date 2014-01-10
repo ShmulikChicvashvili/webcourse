@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import com.technion.coolie.ug.utils.UGCurrentState;
 
 import com.technion.coolie.R;
 import com.technion.coolie.ug.db.UGDatabase;
@@ -28,6 +29,7 @@ public class AcademicCalendarFragment extends Fragment {
 		final AcademicCalendarFragmentAdapter adapter = new AcademicCalendarFragmentAdapter(
 				getActivity(), items);
 		listview.setAdapter(adapter);
+		UGCurrentState.currentOpenFragment = "AcademicCalendarFragment";
 		return view;
 	}
 }

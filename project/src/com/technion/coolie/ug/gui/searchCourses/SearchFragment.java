@@ -42,6 +42,7 @@ import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Faculty;
 import com.technion.coolie.ug.utils.SerializeIO;
+import com.technion.coolie.ug.utils.UGCurrentState;
 
 //add the courses hours to the calendar?
 //search option - by date in day!
@@ -76,7 +77,7 @@ public class SearchFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 		final View view = inflater.inflate(R.layout.ug_search_screen_fragment,
 				container, false);
-
+		UGCurrentState.currentOpenFragment = "GradesSheetFragment";
 		return view;
 	}
 
