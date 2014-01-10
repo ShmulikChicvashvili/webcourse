@@ -45,9 +45,9 @@ public class CoursesAndExamsFragmentListAdapter extends BaseAdapter {
 	private final List<Exam> values = new ArrayList<Exam>();
 
 	public CoursesAndExamsFragmentListAdapter(final Context context,
-			final ArrayList<CourseItem> list) {
+			final List<CourseItem> coursesList) {
 		this.context = context;
-		for (final CourseItem c : list) {
+		for (final CourseItem c : coursesList) {
 			final List<ExamItem> exams = c.getExams();
 			if (exams == null || exams.size() == 0)
 				continue;

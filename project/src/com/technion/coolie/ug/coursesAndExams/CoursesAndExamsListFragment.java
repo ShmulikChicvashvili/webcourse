@@ -1,6 +1,7 @@
 package com.technion.coolie.ug.coursesAndExams;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +21,7 @@ public class CoursesAndExamsListFragment extends ListFragment {
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState) {
 
-		final ArrayList<CourseItem> coursesList = UGDatabase.getInstance(
+		final List<CourseItem> coursesList = UGDatabase.getInstance(
 				getActivity()).getStudentCourses(
 				UGDatabase.getInstance(getActivity()).getCurrentSemester()
 						.getSs());
