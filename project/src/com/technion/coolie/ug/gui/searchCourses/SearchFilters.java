@@ -175,4 +175,12 @@ public class SearchFilters implements Serializable {
 	}
 
 	private static final long serialVersionUID = 5080644007328929764L;
+
+	public Pair<Date, Date> getExamARange() {
+		return examADateRange;
+	}
+
+	public Pair<Date, Date> getMeetingRange() {
+		return meetingDateRange;
+	}
 }

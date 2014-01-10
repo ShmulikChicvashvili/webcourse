@@ -25,25 +25,8 @@
     
     
     
-    <TextView android:id="@+id/chooseExamDate"
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content"
-    android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dip"
-         android:layout_marginRight="10dip"
-        android:layout_marginLeft="10dip"
-    android:textSize="20sp"
-    android:gravity="center_horizontal"
-    android:background="@drawable/ug_course_label_text_container"
-    android:text="תאריך המבחן"
-    android:layout_below="@id/advancedSettingsTitle"
-   />
-    
-    <CheckBox 
-         android:layout_width="wrap_content" 
-    android:layout_height="wrap_content"
-    android:layout_alignTop="@id/chooseExamDate"
-    android:layout_alignRight="@id/chooseExamDate"/>
+
+   
 
     <LinearLayout    
         android:id="@+id/myDatePickerExamA"
@@ -52,10 +35,11 @@
 
     android:background="@drawable/ug_course_text_container"
         android:layout_marginBottom="30dip"
+     
         android:layout_centerHorizontal="true"
-        android:layout_alignRight="@id/chooseExamDate"
-        android:layout_alignLeft="@id/chooseExamDate"
-         android:layout_below="@id/chooseExamDate"
+        android:layout_alignRight="@+id/chooseExamDate"
+        android:layout_alignLeft="@+id/chooseExamDate"
+         android:layout_below="@+id/chooseExamDate"
          android:orientation="horizontal"
         
      >
@@ -89,26 +73,37 @@
         android:layout_weight="6"
         />
 </LinearLayout>
+
     
-    
-    <TextView android:id="@+id/chooseMeetingTime"
+        <TextView android:id="@+id/chooseExamDate"
     android:layout_width="fill_parent" 
     android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
-        android:layout_marginRight="10dip"
+        android:layout_marginTop="30dip"
+         android:layout_marginRight="10dip"
         android:layout_marginLeft="10dip"
+           android:layout_marginBottom="-5dp"
+           
     android:textSize="20sp"
     android:gravity="center_horizontal"
     android:background="@drawable/ug_course_label_text_container"
-    android:text="זמן השיעור"
-    android:layout_below="@id/myDatePickerExamA"
+    android:text="תאריך המבחן"
+    android:layout_below="@id/advancedSettingsTitle"
    />
     
-    <CheckBox 
+    
+     <CheckBox 
+          android:id="@+id/chec_kbox_date"
          android:layout_width="wrap_content" 
     android:layout_height="wrap_content"
-    android:layout_alignTop="@id/chooseMeetingTime"
-    android:layout_alignRight="@id/chooseMeetingTime"/>
+    android:layout_alignTop="@+id/chooseExamDate"
+    android:layout_alignRight="@+id/chooseExamDate"/>
+    
+    
+    
+   
+    
+   
     
 <LinearLayout    
         android:id="@+id/myDatePickerTimeRange"
@@ -116,16 +111,20 @@
     android:layout_height="wrap_content"
 
     android:background="@drawable/ug_course_text_container"
-         android:layout_alignRight="@id/chooseMeetingTime"
-        android:layout_alignLeft="@id/chooseMeetingTime"
+         android:layout_alignRight="@+id/chooseMeetingTime"
+        android:layout_alignLeft="@+id/chooseMeetingTime"
         android:layout_marginBottom="30dip"
-        android:layout_below="@id/chooseMeetingTime"
+        android:layout_below="@+id/chooseMeetingTime"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
         
      >
     
-    
+    <Spinner
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="1.84"
+        android:text="יום" />
   
   <Button android:id="@+id/myDatePickerButtonEndTime"
     android:layout_width="0dip" 
@@ -135,6 +134,7 @@
 
 
         />
+  
   
   
   <TextView 
@@ -156,6 +156,32 @@
         />
   
 </LinearLayout>
+
+
+
+ <TextView android:id="@+id/chooseMeetingTime"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+        android:layout_marginRight="10dip"
+        android:layout_marginLeft="10dip"
+          android:layout_marginBottom="-5dp"
+    android:textSize="20sp"
+    android:gravity="center_horizontal"
+    android:background="@drawable/ug_course_label_text_container"
+    android:text="זמן השיעור"
+    android:layout_below="@id/myDatePickerExamA"
+   />
+
+  <CheckBox 
+      android:id="@+id/chec_kbox_time"
+         android:layout_width="wrap_content" 
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@+id/chooseMeetingTime"
+    android:layout_alignRight="@+id/chooseMeetingTime"/>
+ 
+
+
     
 <Button android:id="@+id/myDatePickerSaveSettings"
         android:layout_width="wrap_content"

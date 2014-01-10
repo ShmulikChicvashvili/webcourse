@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -18,6 +20,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -26,7 +29,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -36,11 +38,16 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
+import com.actionbarsherlock.view.Window;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.TransparentActivity;
@@ -563,6 +570,13 @@ public class SearchFragment extends Fragment {
 
 	}
 
+	private final String inputFormat = "HH:mm";
+	private final SimpleDateFormat inputParser = new SimpleDateFormat(
+			inputFormat, Locale.US);
+	private final String dateInputFormat = "dd/MM/yyyy";
+	private final SimpleDateFormat dateInputParser = new SimpleDateFormat(
+			dateInputFormat, Locale.US);
+
 	class ExpandTextDialog extends Dialog {
 
 		// @Override
@@ -576,27 +590,86 @@ public class SearchFragment extends Fragment {
 				final SearchFilters filters, final int offsetFromTop) {
 			super(context);
 
-			this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+			this.requestWindowFeature((int) Window.FEATURE_NO_TITLE);
 			final WindowManager.LayoutParams wmlp = this.getWindow()
 					.getAttributes();
-
+			wmlp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
+			// wmlp.y = coords[1];
+			setContentView(R.layout.ug_search_screen_advanced_dialog);
 			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
 			// TODO set the view according to the filters
 
-			// int[] coords = new int[2];
-			// ((Button) findViewById(R.id.ug_search_screen_advanced_button))
-			// .getLocationInWindow(coords);
-
-			wmlp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
-			// wmlp.y = coords[1];
-			setContentView(R.layout.ug_search_screen_advanced_dialog);
-
-			Button mPickDate = (Button) findViewById(R.id.myDatePickerButton);
+			final Button mPickDate = (Button) findViewById(R.id.myDatePickerButton);
 			mPickDate.setOnClickListener(new onClickDateChoose());
 
-			Button mPickDateEnd = (Button) findViewById(R.id.myDatePickerButtonEnd);
+			final Button mPickDateEnd = (Button) findViewById(R.id.myDatePickerButtonEnd);
 			mPickDateEnd.setOnClickListener(new onClickDateChoose());
+
+			final Button mPickTime = (Button) findViewById(R.id.myDatePickerButtonTime);
+			mPickTime.setOnClickListener(new onClickTimeChoose());
+
+			final Button mPickTimeEnd = (Button) findViewById(R.id.myDatePickerButtonEndTime);
+			mPickTimeEnd.setOnClickListener(new onClickTimeChoose());
+
+			initCheckBox(filters, mPickDate, mPickDateEnd, dateInputParser,
+					R.id.chec_kbox_date, filters.getExamARange());
+			initCheckBox(filters, mPickTime, mPickTimeEnd, inputParser,
+					R.id.chec_kbox_time, filters.getMeetingRange());
+
+			// TODO save button that saves all needed filters.
+			// disable buttons by default TODO
+
+			// CheckBox checkTime = (CheckBox)
+			// findViewById(R.id.chec_kbox_time);
+			// checkTime.setChecked((filters.getMeetingRange() != null));
+			// checkTime.setOnCheckedChangeListener(new onCheckBox(mPickTime,
+			// mPickTimeEnd));
+		}
+
+		private void initCheckBox(final SearchFilters filters,
+				final Button mPickDate, final Button mPickDateEnd,
+				SimpleDateFormat parser, int id, Pair<Date, Date> range) {
+			CheckBox checkDate = (CheckBox) findViewById(id);
+			checkDate.setChecked((range != null));
+			checkDate.setOnCheckedChangeListener(new onCheckBox(mPickDate,
+					mPickDateEnd));
+			mPickDate.setEnabled(false);
+			mPickDateEnd.setEnabled(false);
+			if (checkDate.isChecked()) {
+				// put the dates in the buttons
+				mPickDate.setText(parser.format(range.first));
+				mPickDate.setEnabled(true);
+				mPickDateEnd.setText(parser.format(range.second));
+				mPickDateEnd.setEnabled(true);
+			}
+		}
+	}
+
+	class onClickTimeChoose implements View.OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			TimePickerDialog dpd = new TimePickerDialog(context,
+					new TimePickerToString(v), 8, 30, true);
+			dpd.show();
+		}
+
+		class TimePickerToString implements TimePickerDialog.OnTimeSetListener {
+			private Button button;
+
+			public TimePickerToString(View v) {
+				this.button = (Button) v;
+			}
+
+			@Override
+			public void onTimeSet(TimePicker arg0, int hour, int minutes) {
+				Calendar cal = Calendar.getInstance();
+				cal.set(Calendar.HOUR_OF_DAY, hour);
+				cal.set(Calendar.MINUTE, minutes);
+				// cal.set(Calendar.MONTH, monthOfYear);
+				button.setText(inputParser.format(cal.getTime()));
+			}
 
 		}
 
@@ -615,9 +688,6 @@ public class SearchFragment extends Fragment {
 			private Button button;
 
 			// private static final String inputFormat = "HH:mm";
-			private final String inputFormat = "dd/MM/yyyy";
-			private final SimpleDateFormat inputParser = new SimpleDateFormat(
-					inputFormat, Locale.US);
 
 			public DatePickerToString(View v) {
 				this.button = (Button) v;
@@ -629,10 +699,33 @@ public class SearchFragment extends Fragment {
 				cal.set(Calendar.YEAR, year);
 				cal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 				cal.set(Calendar.MONTH, monthOfYear);
-				button.setText(inputParser.format(cal.getTime()));
+				button.setText(dateInputParser.format(cal.getTime()));
 			}
 		}
 
+	}
+
+	class onCheckBox implements OnCheckedChangeListener {
+
+		private View v;
+		private View v2;
+
+		public onCheckBox(View v, View v2) {
+			this.v = v;
+			this.v2 = v2;
+		}
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			if (isChecked) {
+				v.setEnabled(true);
+				v2.setEnabled(true);
+			} else {
+				v.setEnabled(false);
+				v2.setEnabled(false);
+			}
+		}
 	}
 
 }
