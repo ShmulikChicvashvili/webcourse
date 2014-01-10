@@ -16,19 +16,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.technion.coolie.R;
+import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.UGLoginObject;
 
 public class TrackingListAdapter extends BaseAdapter {
 
 	private final Context context;
 	private final List<CourseKey> values;
+	private TrackingCoursesFragment trackingCoursesFragment;
 
-	public TrackingListAdapter(final Context context, final List<CourseKey> list) {
+	public TrackingListAdapter(final Context context, final List<CourseKey> list, TrackingCoursesFragment trackingCoursesFragment) {
 		this.context = context;
 		values = list;
+		this.trackingCoursesFragment = trackingCoursesFragment;
 	}
 
 	@Override
@@ -79,7 +83,9 @@ public class TrackingListAdapter extends BaseAdapter {
 		final OnClickListener makeListener = new OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-	        	Toast.makeText(context, "CLICKED", Toast.LENGTH_SHORT).show();
+	        	CourseKey ck = values.get(position);
+				UGLoginObject ugLoginObj = UGDatabase.getInstance(context).getCurrentLoginObject();
+				ServerAsyncCommunication.registrate(ck.getNumber(), "11", ugLoginObj.getStudentId(), ugLoginObj.getPassword(), context, trackingCoursesFragment);
 	        }
 	    };
 	    ib.setOnClickListener(makeListener);

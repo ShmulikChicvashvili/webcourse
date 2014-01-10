@@ -66,7 +66,7 @@ public class TrackingCoursesFragment extends SherlockFragment {
 				false);
 		listview = (EnhancedListView) view.findViewById(R.id.ug_tracking_list);
 		trackingCourseListAdapter = new TrackingListAdapter(
-				inflater.getContext(), trackingCourses);
+				inflater.getContext(), trackingCourses,this);
 		
 		listview.setAdapter(trackingCourseListAdapter);
 		
@@ -81,9 +81,9 @@ public class TrackingCoursesFragment extends SherlockFragment {
 						String.valueOf(lastSelectedTrackedItem),
 						Toast.LENGTH_SHORT).show();
 				
-				CourseKey ck = trackingCourses.get(position);
+				/*CourseKey ck = trackingCourses.get(position);
 				UGLoginObject ugLoginObj = UGDatabase.getInstance(context).getCurrentLoginObject();
-				ServerAsyncCommunication.registrate(ck.getNumber(), "11", ugLoginObj.getStudentId(), ugLoginObj.getPassword(), context, TrackingCoursesFragment.this);
+				ServerAsyncCommunication.registrate(ck.getNumber(), "11", ugLoginObj.getStudentId(), ugLoginObj.getPassword(), context, TrackingCoursesFragment.this);*/
 			}
 			
 			
@@ -93,7 +93,7 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		
 		coursesIRegistered= UGDatabase.getInstance(inflater.getContext()).getCoursesAndExams();
 		registeredCoursesView = (ListView) view.findViewById(R.id.ug_registration_list);
-		registrationlistAdapter = new RegistrationListAdapter(context, coursesIRegistered);
+		registrationlistAdapter = new RegistrationListAdapter(context, coursesIRegistered,this);
 		registeredCoursesView.setAdapter(registrationlistAdapter);
 		registeredCoursesView.setOnItemClickListener(new OnItemClickListener() {
 			@Override
@@ -102,9 +102,9 @@ public class TrackingCoursesFragment extends SherlockFragment {
 				Log.i("2","registered LIST CLICKED");
 				
 				
-				CourseItem ck = coursesIRegistered.get(position);
+				/*CourseItem ck = coursesIRegistered.get(position);
 				UGLoginObject ugLoginObj = UGDatabase.getInstance(context).getCurrentLoginObject();
-				ServerAsyncCommunication.unRegistrate(ck.getCourseId(), ugLoginObj.getStudentId(), ugLoginObj.getPassword(), context,TrackingCoursesFragment.this);
+				ServerAsyncCommunication.unRegistrate(ck.getCourseId(), ugLoginObj.getStudentId(), ugLoginObj.getPassword(), context,TrackingCoursesFragment.this);*/
 			}
 			
 			
@@ -213,7 +213,7 @@ public class TrackingCoursesFragment extends SherlockFragment {
 										trackingCourses
 												.remove(lastSelectedTrackedItem);
 										trackingCourseListAdapter = new TrackingListAdapter(
-												getActivity(), trackingCourses);
+												getActivity(), trackingCourses,TrackingCoursesFragment.this);
 										listview.setAdapter(trackingCourseListAdapter);
 										dialog.dismiss();
 										removeTrackingCourseButton

@@ -13,20 +13,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.technion.coolie.R;
+import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
+import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.CourseItem;
+import com.technion.coolie.ug.model.UGLoginObject;
 
 public class RegistrationListAdapter extends ArrayAdapter<CourseItem> {
 
 	private final List<CourseItem> items;
 	private final Context context;
+	TrackingCoursesFragment trackingCoursesFragment;
 
 
 	public RegistrationListAdapter(final Context context,
-			final List<CourseItem> items) {
+			final List<CourseItem> items, TrackingCoursesFragment trackingCoursesFragment) {
 		super(context, 0, items);
 		this.context = context;
 		this.items = items;
-		
+		this.trackingCoursesFragment = trackingCoursesFragment;
 	}
 
 	@Override
@@ -57,7 +61,9 @@ public class RegistrationListAdapter extends ArrayAdapter<CourseItem> {
 			final OnClickListener makeListener = new OnClickListener() {
 		        @Override
 		        public void onClick(View v) {
-		        	Toast.makeText(context, "CLICKED", Toast.LENGTH_SHORT).show();
+		        	CourseItem ck = items.get(position);
+					UGLoginObject ugLoginObj = UGDatabase.getInstance(context).getCurrentLoginObject();
+					ServerAsyncCommunication.unRegistrate(ck.getCourseId(), ugLoginObj.getStudentId(), ugLoginObj.getPassword(), context,trackingCoursesFragment);
 		        }
 		    };
 		    ib.setOnClickListener(makeListener);
