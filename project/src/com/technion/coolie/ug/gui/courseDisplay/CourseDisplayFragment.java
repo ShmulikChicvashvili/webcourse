@@ -51,6 +51,7 @@ public class CourseDisplayFragment extends Fragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState) {
+
 		return inflater.inflate(R.layout.ug_course_screen_layout, container,
 				false);
 	}
@@ -174,7 +175,7 @@ public class CourseDisplayFragment extends Fragment {
 		if (courseToView.getMoedB() != null)
 			examBTextView.setText(df.format(courseToView.getMoedB().getTime()));
 
-		makeKdamim(courseToView);
+		createAllKdamim(courseToView);
 
 		makeGroupsHeader();
 
@@ -189,7 +190,7 @@ public class CourseDisplayFragment extends Fragment {
 		chosenCourse = courseToView;
 	}
 
-	private void makeKdamim(Course courseToView2) {
+	private void createAllKdamim(Course courseToView2) {
 
 		createKdamim(R.id.course_screen_list_kdamim, "kdamim",
 				courseToView2.getPrerequisites());
@@ -232,7 +233,7 @@ public class CourseDisplayFragment extends Fragment {
 
 		if (!groups.isEmpty()) {
 			String str = calcStringFromCourses(groups.get(0));
-			createGroupTextView(expandableList, inflater, str);
+			createGroupTextView(expandableList, inflater, str, false);
 		}
 
 		for (int i = 1; i < groups.size(); i++) {
@@ -240,8 +241,9 @@ public class CourseDisplayFragment extends Fragment {
 			createGroupTextView(
 					expandableList,
 					inflater,
-					context.getString(R.string.ug_course_screen_group_info_or_seperator));
-			createGroupTextView(expandableList, inflater, str);
+					context.getString(R.string.ug_course_screen_group_info_or_seperator),
+					true);
+			createGroupTextView(expandableList, inflater, str, false);
 		}
 
 		// final CoursesInfoAdapter adapter = new CoursesInfoAdapter(groups,
@@ -254,11 +256,15 @@ public class CourseDisplayFragment extends Fragment {
 	}
 
 	private void createGroupTextView(final LinearLayout expandableList,
-			final LayoutInflater inflater, String str) {
+			final LayoutInflater inflater, String str, boolean isSeperator) {
 		View v = inflater.inflate(R.layout.ug_courses_group_info_child_item,
 				expandableList, false);
 		((TextView) v.findViewById(R.id.ug_course_group_info_names))
 				.setText(str);
+		if (isSeperator) {
+			v.setBackgroundResource(R.drawable.ug_course_group_view);
+			// TODO set v color also
+		}
 		expandableList.addView(v);
 	}
 
