@@ -24,7 +24,6 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.ITrackingCourseTrasferrer;
-import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
@@ -271,8 +270,13 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 	
-	public void onRegistrationSuccessed(CourseKey c)
+	public void onRegistrationSuccessed(CourseKey c, int group)
 	{
+		trackingCourseListAdapter.remove(c);
+		String courseName=UGDatabase.getInstance(getActivity()).getCourseByKey(c).getName();
+		CourseItem ci = new CourseItem(courseName, c.getNumber(), "0", null);
+		registrationlistAdapter.add(ci);
+		
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 		alertDialogBuilder.setMessage("onRegistrationSuccessed");
 		alertDialogBuilder.show();
