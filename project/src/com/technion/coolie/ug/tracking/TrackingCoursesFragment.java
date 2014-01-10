@@ -55,8 +55,6 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		Log.i("1", "trackingCourses size : " + trackingCourses.size());
 		View view = inflater.inflate(R.layout.ug_tracking_list, container,
 				false);
-//		ImageButton registerBtn = (ImageButton) view.findViewById(
-//				R.id.ug_trackinglist_item_rishum_btn);
 		listview = (EnhancedListView) view.findViewById(R.id.ug_tracking_list);
 		trackingCourseListAdapter = new TrackingListAdapter(
 				inflater.getContext(), trackingCourses);
@@ -91,6 +89,14 @@ public class TrackingCoursesFragment extends SherlockFragment {
 				};
 			}
 		});
+		
+		listview.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+            public void onItemClick(AdapterView<?> arg0, View view,
+                    int position, long id) {
+				Toast.makeText(getActivity(), "CLICKED", Toast.LENGTH_SHORT).show();
+			}
+		});
 
 		// Set swipe-to-delete configuration.
 		listview.setSwipingLayout(R.id.tracking_list_item_layout);
@@ -100,15 +106,6 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		listview.setSwipeDirection(EnhancedListView.SwipeDirection.BOTH);
 		listview.setRequireTouchBeforeDismiss(false);
 		UGCurrentState.currentOpenFragment = "TrackingCoursesFragment";
-
-		
-//		registerBtn.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				Toast.makeText(getActivity(), "BLA", Toast.LENGTH_SHORT).show();
-//			}
-//		});
 
 		return view;
 	}
