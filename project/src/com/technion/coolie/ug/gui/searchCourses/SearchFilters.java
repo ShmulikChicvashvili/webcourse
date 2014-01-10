@@ -3,12 +3,12 @@ package com.technion.coolie.ug.gui.searchCourses;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import android.util.Log;
-import android.util.Pair;
 
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.Faculty;
@@ -23,8 +23,23 @@ public class SearchFilters implements Serializable {
 	boolean hasFreePlaces;
 	Faculty faculty;
 
-	Pair<Date, Date> meetingDateRange;
-	Pair<Date, Date> examADateRange;
+	DateRange meetingDateRange;
+	DateRange examADateRange;
+
+	static class DateRange implements Serializable {
+
+		public DateRange(Date first, Date second, String dayInWeek) {
+			super();
+			this.first = first;
+			this.second = second;
+			this.dayInWeek = dayInWeek;
+		}
+
+		public Date first;
+		public Date second;
+		public String dayInWeek;
+		private static final long serialVersionUID = -5926846168578481161L;
+	}
 
 	public SearchFilters(final Semester semester, final boolean hasFreePlaces,
 			final Faculty faculty) {
@@ -60,14 +75,23 @@ public class SearchFilters implements Serializable {
 		this.faculty = faculty;
 	}
 
-	// TODO make gui to set this.
-
-	public void setMeetingDateRange(Pair<Date, Date> meetingDateRange) {
+	public void setMeetingDateRange(DateRange meetingDateRange) {
 		this.meetingDateRange = meetingDateRange;
 	}
 
-	public void setExamADateRange(Pair<Date, Date> examADateRange) {
+	public void setExamADateRange(DateRange examADateRange) {
 		this.examADateRange = examADateRange;
+		if (examADateRange != null) {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(examADateRange.first);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			examADateRange.first = cal.getTime();
+			cal.setTime(examADateRange.second);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			examADateRange.second = cal.getTime();
+		}
 	}
 
 	public List<Course> filter(final List<Course> courses, final String query) {
@@ -86,25 +110,30 @@ public class SearchFilters implements Serializable {
 						query.toLowerCase(Locale.US),
 						course.getName().toLowerCase(Locale.US) + " "
 								+ course.getCourseNumber())
-				&& (meetingDateRange == null || hasMeetingInRange(course,
-						meetingDateRange))
-				&& (examADateRange == null || examAInRange(course,
-						examADateRange));
+				&& (meetingDateRange == null || hasMeetingInRange(course))
+				&& (examADateRange == null || examAInRange(course));
 
 	}
 
-	private boolean examAInRange(Course course, Pair<Date, Date> examADateRange2) {
-		return (course.getMoedA().after(examADateRange2.first) && course
-				.getMoedA().before(examADateRange2.second));
+	private boolean examAInRange(Course course) {
+
+		Log.d("SearchFilters", "course moed A is "
+				+ course.getMoedA().getTime().toString()
+				+ " and we compare it with the range from "
+				+ examADateRange.first.toString() + " to "
+				+ examADateRange.second.toString());
+
+		return !examADateRange.first.after(course.getMoedA().getTime())
+				&& !examADateRange.second.before(course.getMoedA().getTime());
 	}
 
-	private boolean hasMeetingInRange(Course course, Pair<Date, Date> dateRange2) {
+	private boolean hasMeetingInRange(Course course) {
 		if (course.getRegistrationGroups() == null)
 			return false;
 
 		for (Meeting meeting : getAllMeetings(course)) {
 			if (meeting != null) {
-				if (isMeetingInRange(dateRange2, meeting))
+				if (isMeetingInRange(meeting))
 					return true;
 			}
 
@@ -112,14 +141,11 @@ public class SearchFilters implements Serializable {
 		return false;
 	}
 
-	// setMeetingRange TODO
-
 	private static final String inputFormat = "HH:mm";
 	private static final SimpleDateFormat inputParser = new SimpleDateFormat(
 			inputFormat, Locale.US);
 
-	private boolean isMeetingInRange(Pair<Date, Date> dateRange2,
-			Meeting meeting) {
+	private boolean isMeetingInRange(Meeting meeting) {
 		// Calendar cal = Calendar.getInstance();
 		// cal.setTime(dateRange2.first);
 		// Calendar cal2 = Calendar.getInstance();
@@ -135,8 +161,8 @@ public class SearchFilters implements Serializable {
 				|| meeting.getEndingHour() == null)
 			return false;
 
-		return (dateRange2.first.before(meeting.getStartingHour()) && dateRange2.second
-				.after(meeting.getEndingHour()));
+		return (!meetingDateRange.first.after(meeting.getStartingHour()) && !meetingDateRange.second
+				.before(meeting.getEndingHour()));
 
 	}
 
@@ -176,11 +202,11 @@ public class SearchFilters implements Serializable {
 
 	private static final long serialVersionUID = 5080644007328929764L;
 
-	public Pair<Date, Date> getExamARange() {
+	public DateRange getExamARange() {
 		return examADateRange;
 	}
 
-	public Pair<Date, Date> getMeetingRange() {
+	public DateRange getMeetingRange() {
 		return meetingDateRange;
 	}
 }

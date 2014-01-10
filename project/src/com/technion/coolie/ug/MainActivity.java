@@ -11,16 +11,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.widget.Toast;
 
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.Enums.LandscapeLeftMenuItems;
 import com.technion.coolie.ug.Enums.SemesterSeason;
-import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
+import com.technion.coolie.ug.calendar.AcademicCalendarFragment;
 import com.technion.coolie.ug.calendar.AcademicCalendarListFragment;
+import com.technion.coolie.ug.coursesAndExams.CoursesAndExamsFragment;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.gradessheet.GradesSheetFragment;
 import com.technion.coolie.ug.gradessheet.GradesSheetListFragment;
+import com.technion.coolie.ug.gui.searchCourses.SearchForTrackingFragment;
+import com.technion.coolie.ug.gui.searchCourses.SearchFragment;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
@@ -37,15 +41,9 @@ import com.technion.coolie.ug.tracking.TrackingCoursesFragment;
 import com.technion.coolie.ug.utils.CalendarUtils;
 import com.technion.coolie.ug.utils.FragmentsFactory;
 import com.technion.coolie.ug.utils.UGCurrentState;
-import com.technion.coolie.ug.gui.searchCourses.SearchForTrackingFragment;
-import com.technion.coolie.ug.gui.searchCourses.SearchFragment;
-import com.technion.coolie.ug.coursesAndExams.CoursesAndExamsFragment;
-import com.technion.coolie.ug.calendar.AcademicCalendarFragment;
-import android.widget.Toast;
-import com.technion.coolie.ug.utils.UGCurrentState;
 
 public class MainActivity extends CoolieActivity implements
-		OnRightMenuItemSelected ,ITrackingCourseTrasferrer{
+		OnRightMenuItemSelected, ITrackingCourseTrasferrer {
 
 	public static final String DEBUG_TAG = "DEBUG";
 	public static Context context;
@@ -54,11 +52,11 @@ public class MainActivity extends CoolieActivity implements
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		context = getApplicationContext();
-		
-		//ServerAsyncCommunication.mainActivity = this;
+
+		// ServerAsyncCommunication.mainActivity = this;
 		setContentView(R.layout.ug_main_screen);
 
-		 updateData();
+		// updateData();
 
 		// ServerAsyncCommunication.getCalendarEventsFromServer(); // Will not
 		// be here
@@ -68,13 +66,16 @@ public class MainActivity extends CoolieActivity implements
 		// (2013,SemesterSeason.WINTER));
 		// ServerAsyncCommunication.getAllCoursesFromServer();
 		// ServerAsyncCommunication.getCurentSemestersFromClient(null);
-		//ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100");
-		Semester s = new Semester(2013,SemesterSeason.SPRING);
-		//ServerAsyncCommunication.getAllExamsFromClient(s, "1636", "11111100");
-		
-		
-		//ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100");
-		//ServerAsyncCommunication.unRegistrate("094412", "1636", "11111100", context);
+		// ServerAsyncCommunication.registrate("094412", "11", "1636",
+		// "11111100");
+		Semester s = new Semester(2013, SemesterSeason.SPRING);
+		// ServerAsyncCommunication.getAllExamsFromClient(s, "1636",
+		// "11111100");
+
+		// ServerAsyncCommunication.registrate("094412", "11", "1636",
+		// "11111100");
+		// ServerAsyncCommunication.unRegistrate("094412", "1636", "11111100",
+		// context);
 
 		if (UGCurrentState.getRotationAngle(this) % 2 == 1) {
 			Fragment f;
@@ -167,8 +168,8 @@ public class MainActivity extends CoolieActivity implements
 	private void updateData() {
 		RegistrationGroup group = new RegistrationGroup(3,
 				Arrays.asList(new Meeting("df", "the happy farmer", Calendar
-						.getInstance().getTime(), null, "somewhere 340")),
-				null, 5);
+						.getInstance().getTime(), Calendar.getInstance()
+						.getTime(), "somewhere 340")), null, 5);
 		List<RegistrationGroup> reg = new ArrayList<RegistrationGroup>(
 				Arrays.asList(group));
 
@@ -201,8 +202,8 @@ public class MainActivity extends CoolieActivity implements
 				2.0f,
 				"During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
 				new Semester(2013, SemesterSeason.SPRING), Faculty.CS,
-				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
-						2, 11), kdamim, null, null);
+				new GregorianCalendar(2014, 8, 11), new GregorianCalendar(2014,
+						8, 11), kdamim, null, null);
 
 		List<Course> courses = new ArrayList<Course>();
 		for (int i = 0; i < 1000; i++) {
@@ -300,7 +301,7 @@ public class MainActivity extends CoolieActivity implements
 		return null;
 
 	}
-	
+
 	@Override
 	public void onAddingTrackingCourseClicked() {
 		Fragment f = new SearchForTrackingFragment();
@@ -315,14 +316,13 @@ public class MainActivity extends CoolieActivity implements
 			Toast.makeText(this, "Problem with adding course",
 					Toast.LENGTH_SHORT).show();
 		} else {
-			List<CourseKey> db = UGDatabase.getInstance(this).getTrackingCourses();
-			if (!db.contains(new CourseKey(ck.getNumber(), ck.getSemester())))
-			{
+			List<CourseKey> db = UGDatabase.getInstance(this)
+					.getTrackingCourses();
+			if (!db.contains(new CourseKey(ck.getNumber(), ck.getSemester()))) {
 				UGDatabase.getInstance(this).getTrackingCourses().add(ck);
-			}
-			else
-			{
-				Toast.makeText(this, "This course is already in your tracking list",
+			} else {
+				Toast.makeText(this,
+						"This course is already in your tracking list",
 						Toast.LENGTH_SHORT).show();
 			}
 		}

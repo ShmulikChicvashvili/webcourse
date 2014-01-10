@@ -128,7 +128,7 @@ public class CourseDisplayFragment extends Fragment {
 		notAvailTextView.setVisibility(View.GONE);
 
 		groupsView.removeAllViews();
-		final SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy",
+		final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",
 				Locale.getDefault());
 
 		if (courseToView.getName() == null || courseToView.getName().isEmpty())

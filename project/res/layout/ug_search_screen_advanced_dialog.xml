@@ -120,11 +120,17 @@
         
      >
     
-    <Spinner
+    <Spinner android:id="@+id/myDatePickerSpinner"
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1.84"
-        android:text="יום" />
+        android:layout_marginTop="5dip"
+         android:layout_marginBottom="5dip"
+          android:layout_marginRight="5dip"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/ug_course_spinner_container"
+        android:text="א" />
   
   <Button android:id="@+id/myDatePickerButtonEndTime"
     android:layout_width="0dip" 

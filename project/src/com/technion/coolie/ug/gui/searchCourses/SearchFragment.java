@@ -1,10 +1,10 @@
 package com.technion.coolie.ug.gui.searchCourses;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -20,7 +20,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.util.Pair;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -54,6 +53,7 @@ import com.technion.coolie.ug.TransparentActivity;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.gui.courseDisplay.CourseDisplayFragment;
+import com.technion.coolie.ug.gui.searchCourses.SearchFilters.DateRange;
 import com.technion.coolie.ug.gui.searchCourses.SearchResultsAdapter.CourseHolder;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
@@ -238,16 +238,6 @@ public class SearchFragment extends Fragment {
 			}
 
 		});
-
-	}
-
-	/**
-	 * this is called on clicking the save button in the search dialog. sets the
-	 * filters with the chosen filters.
-	 * 
-	 * @param newFilter
-	 */
-	private void onCloseAdvancedButton(SearchFilters newFilter) {
 
 	}
 
@@ -580,12 +570,13 @@ public class SearchFragment extends Fragment {
 
 	class ExpandTextDialog extends Dialog {
 
-		// @Override
-		// public boolean onTouchEvent(final MotionEvent event) {
-		// // Tap anywhere to close dialog.
-		// this.dismiss();
-		// return super.onTouchEvent(event);
-		// }
+		String[] dayLetter = { getString(R.string.ug_course_group_day_1),
+				getString(R.string.ug_course_group_day_2),
+				getString(R.string.ug_course_group_day_3),
+				getString(R.string.ug_course_group_day_4),
+				getString(R.string.ug_course_group_day_5),
+				getString(R.string.ug_course_group_day_6),
+				getString(R.string.ug_course_group_day_7) };
 
 		protected ExpandTextDialog(final Context context,
 				final SearchFilters filters, final int offsetFromTop) {
@@ -613,24 +604,86 @@ public class SearchFragment extends Fragment {
 			final Button mPickTimeEnd = (Button) findViewById(R.id.myDatePickerButtonEndTime);
 			mPickTimeEnd.setOnClickListener(new onClickTimeChoose());
 
+			final Spinner daySpinner = (Spinner) findViewById(R.id.myDatePickerSpinner);
+			initSpinner(daySpinner);
+
+			final Button save = (Button) findViewById(R.id.myDatePickerSaveSettings);
+			final Dialog thisDialog = this;
+			save.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+
+					filters.setExamADateRange(getDatePairResult(mPickDate,
+							mPickDateEnd, daySpinner, dateInputParser,
+							R.id.chec_kbox_date));
+					filters.setMeetingDateRange(getDatePairResult(mPickTime,
+							mPickTimeEnd, daySpinner, inputParser,
+							R.id.chec_kbox_time));
+					thisDialog.dismiss();
+					onFiltersUpdate();
+				}
+
+			});
+
 			initCheckBox(filters, mPickDate, mPickDateEnd, dateInputParser,
 					R.id.chec_kbox_date, filters.getExamARange());
 			initCheckBox(filters, mPickTime, mPickTimeEnd, inputParser,
 					R.id.chec_kbox_time, filters.getMeetingRange());
 
-			// TODO save button that saves all needed filters.
-			// disable buttons by default TODO
+		}
 
-			// CheckBox checkTime = (CheckBox)
-			// findViewById(R.id.chec_kbox_time);
-			// checkTime.setChecked((filters.getMeetingRange() != null));
-			// checkTime.setOnCheckedChangeListener(new onCheckBox(mPickTime,
-			// mPickTimeEnd));
+		private void initSpinner(Spinner spinner) {
+			final ArrayAdapter<String> adapterDayInWeek = new ArrayAdapter<String>(
+					context, R.layout.ug_search_spinner_item_row, dayLetter);
+			// Specify the layout to use when the list of choices appears
+			adapterDayInWeek
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+			// Apply the adapter to the spinner
+			spinner.setAdapter(adapterDayInWeek);
+
+			if (filters.getMeetingRange() != null) {
+				int idxDefault = adapterDayInWeek.getPosition(filters
+						.getMeetingRange().dayInWeek);
+				spinner.setSelection(idxDefault);
+			}
+
+		}
+
+		// /**
+		// * this is called on clicking the save button in the search dialog.
+		// sets
+		// * the filters with the chosen filters.
+		// *
+		// * @param newFilter
+		// */
+		// private void onCloseAdvancedButton(SearchFilters newFilter) {
+		//
+		// }
+
+		private DateRange getDatePairResult(Button mPickDate,
+				Button mPickDateEnd, Spinner spinner,
+				SimpleDateFormat dateInputParser, int id) {
+			CheckBox checkDate = (CheckBox) findViewById(id);
+
+			if (!checkDate.isChecked())
+				return null;
+
+			try {
+				return new DateRange(dateInputParser.parse((String) mPickDate
+						.getText()),
+						dateInputParser.parse((String) mPickDateEnd.getText()),
+						spinner.getSelectedItem().toString());
+			} catch (ParseException e) {
+				return null;
+			}
+
 		}
 
 		private void initCheckBox(final SearchFilters filters,
 				final Button mPickDate, final Button mPickDateEnd,
-				SimpleDateFormat parser, int id, Pair<Date, Date> range) {
+				SimpleDateFormat parser, int id, DateRange range) {
 			CheckBox checkDate = (CheckBox) findViewById(id);
 			checkDate.setChecked((range != null));
 			checkDate.setOnCheckedChangeListener(new onCheckBox(mPickDate,
@@ -643,6 +696,7 @@ public class SearchFragment extends Fragment {
 				mPickDate.setEnabled(true);
 				mPickDateEnd.setText(parser.format(range.second));
 				mPickDateEnd.setEnabled(true);
+
 			}
 		}
 	}
