@@ -55,6 +55,7 @@ public class TrackingListAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.ug_list_item_tracking_list,
 					parent, false);
 		}
+		final ImageButton ib = (ImageButton) convertView.findViewById(R.id.ug_trackinglist_item_rishum_btn); 
 		final TextView courseNumberTextView = (TextView) convertView
 				.findViewById(R.id.ug_trackinglist_item_course_number);
 		CourseKey ck = (CourseKey) getItem(position);
@@ -74,6 +75,14 @@ public class TrackingListAdapter extends BaseAdapter {
 		int vacantPlaces = course.getFreePlaces();
 		vacantPlacesTextView.setText(String.valueOf(vacantPlaces)); // get number of vacant places from
 											// local database
+		
+		final OnClickListener makeListener = new OnClickListener() {
+	        @Override
+	        public void onClick(View v) {
+	        	Toast.makeText(context, "CLICKED", Toast.LENGTH_SHORT).show();
+	        }
+	    };
+	    ib.setOnClickListener(makeListener);
 		return convertView;
 	}
 

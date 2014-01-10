@@ -6,8 +6,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.technion.coolie.R;
 import com.technion.coolie.ug.model.CourseItem;
@@ -42,6 +45,7 @@ public class RegistrationListAdapter extends ArrayAdapter<CourseItem> {
 					.findViewById(R.id.ug_regisration_item_course_number);
 		final TextView groupNumberTextView = (TextView) convertView
 					.findViewById(R.id.ug_regisration_item_group_number);
+		final ImageButton ib = (ImageButton) convertView.findViewById(R.id.ug_regisration_item_delete_btn);
 
 		final CourseItem coureItem = items.get(position);
 		if (coureItem != null) {
@@ -50,6 +54,13 @@ public class RegistrationListAdapter extends ArrayAdapter<CourseItem> {
 			// TODO: add group number member to CourseItem + add parsing to
 			// group number
 			groupNumberTextView.setText("00");
+			final OnClickListener makeListener = new OnClickListener() {
+		        @Override
+		        public void onClick(View v) {
+		        	Toast.makeText(context, "CLICKED", Toast.LENGTH_SHORT).show();
+		        }
+		    };
+		    ib.setOnClickListener(makeListener);
 		}
 		return convertView;
 	}
