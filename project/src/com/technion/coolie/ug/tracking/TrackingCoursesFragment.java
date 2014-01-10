@@ -1,5 +1,6 @@
 package com.technion.coolie.ug.tracking;
 
+import java.util.Currency;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -9,11 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -23,8 +22,11 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.ITrackingCourseTrasferrer;
+import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
 import com.technion.coolie.ug.db.UGDatabase;
+import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.UGLoginObject;
 import com.technion.coolie.ug.tracking.EnhancedListView.Undoable;
 import com.technion.coolie.ug.utils.UGCurrentState;
 
@@ -94,7 +96,9 @@ public class TrackingCoursesFragment extends SherlockFragment {
 			@Override
             public void onItemClick(AdapterView<?> arg0, View view,
                     int position, long id) {
-				Toast.makeText(getActivity(), "CLICKED", Toast.LENGTH_SHORT).show();
+				CourseKey ck = trackingCourses.get(position);
+				UGLoginObject ugLoginObj = UGDatabase.getInstance(context).getCurrentLoginObject();
+				ServerAsyncCommunication.registrate(ck.getNumber(), "11", ugLoginObj.getStudentId(), ugLoginObj.getPassword(), context);
 			}
 		});
 

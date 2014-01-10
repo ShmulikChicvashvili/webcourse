@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.Course;
+import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
 
 public class TrackingListAdapter extends BaseAdapter {
@@ -79,11 +80,22 @@ public class TrackingListAdapter extends BaseAdapter {
 		values.remove(position);
 		UGDatabase.getInstance(context).setTrackingCourses(values);
 		notifyDataSetChanged();
-
 	}
 
 	public void insert(int position, CourseKey item) {
 		values.add(position, item);
+		UGDatabase.getInstance(context).setTrackingCourses(values);
+		notifyDataSetChanged();
+	}
+	
+	public void remove(CourseItem courseItem) {
+		values.remove(courseItem);
+		UGDatabase.getInstance(context).setTrackingCourses(values);
+		notifyDataSetChanged();
+	}
+	
+	public void insert(CourseKey item) {
+		values.add(item);
 		UGDatabase.getInstance(context).setTrackingCourses(values);
 		notifyDataSetChanged();
 	}
