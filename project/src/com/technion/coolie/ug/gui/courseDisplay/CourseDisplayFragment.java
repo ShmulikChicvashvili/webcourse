@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -30,7 +32,7 @@ import com.technion.coolie.ug.model.Meeting;
 import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
 
-//TODO kdamim
+//TODO kdamim ir seoeratir color black
 //TODO add to maakav
 
 /**
@@ -54,6 +56,12 @@ public class CourseDisplayFragment extends Fragment {
 
 		return inflater.inflate(R.layout.ug_course_screen_layout, container,
 				false);
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		// TODO Auto-generated method stub
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 	@Override
