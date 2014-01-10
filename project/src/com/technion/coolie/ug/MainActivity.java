@@ -70,7 +70,7 @@ public class MainActivity extends CoolieActivity implements
 		// ServerAsyncCommunication.getCurentSemestersFromClient(null);
 		//ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100");
 		Semester s = new Semester(2013,SemesterSeason.SPRING);
-		//ServerAsyncCommunication.getAllExamsFromClient(s, "1636", "11111100");
+		ServerAsyncCommunication.getAllExamsFromClient(s,"1636", "11111100",this);
 		
 		
 		//ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100");
@@ -183,7 +183,7 @@ public class MainActivity extends CoolieActivity implements
 		List<GroupOfCourses> tsmudim = new ArrayList<GroupOfCourses>(
 				Arrays.asList(
 						new GroupOfCourses(new ArrayList<String>(Arrays.asList(
-								"׳¦׳�׳•׳“", "׳‘׳™׳ ׳” ׳�׳�׳�׳›׳•׳×׳™׳×"))), new GroupOfCourses(
+								"צמוד", "בינה מלאכותית"))), new GroupOfCourses(
 								new ArrayList<String>(Arrays.asList("damn")))));
 
 		Course course = new Course(
@@ -225,13 +225,13 @@ public class MainActivity extends CoolieActivity implements
 						"201301", "3434", null, false)));
 
 		ArrayList<CourseItem> coursesExamsList = new ArrayList<CourseItem>(
-				Arrays.asList(new CourseItem("׳�׳₪׳¨׳˜׳™׳� ׳₪׳•׳¨׳�׳�׳™׳™׳� ׳‘׳�׳¢׳¨׳›׳•׳× ׳�׳•׳¨׳›׳‘׳•׳×",
+				Arrays.asList(new CourseItem("מפרטים פורמליים במערכות מורכבות",
 						"2324", "4.2", new ArrayList<ExamItem>(
 								Arrays.asList(
 										new ExamItem(Calendar.getInstance(),
-												"׳˜׳�׳•׳‘ 10"), new ExamItem(
+												"טאוב 10"), new ExamItem(
 												Calendar.getInstance(),
-												"׳˜׳�׳•׳‘ 100"))))));
+												"טאוב 100"))))));
 
 		Student student = new Student(UGDatabase.getInstance(this)
 				.getCurrentStudentId());
@@ -244,7 +244,7 @@ public class MainActivity extends CoolieActivity implements
 		UGDatabase.getInstance(this).updateCourses(courses);
 		UGDatabase.getInstance(this).setAcademicCalendar(academicList);
 		UGDatabase.getInstance(this).setGradesSheet(accomplishedList);
-//		UGDatabase.getInstance(this).setTrackingCourses(trackingList);
+		//UGDatabase.getInstance(this).setTrackingCourses(trackingList);
 		UGDatabase.getInstance(this).setCoursesAndExams(coursesExamsList);
 		UGDatabase.getInstance(this).setStudentInfo(student);
 

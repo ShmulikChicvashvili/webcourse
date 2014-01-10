@@ -23,6 +23,7 @@ import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.UGLoginObject;
+import com.technion.coolie.ug.tracking.TrackingCoursesFragment;
 import com.technion.coolie.ug.utils.UGAsync;
 import com.technion.coolie.ug.*;
 
@@ -247,7 +248,7 @@ public class ServerAsyncCommunication {
 		asyncTask.execute(ck);
 	}
 	
-	static public void getAllExamsFromClient(final Semester semester, final String userName, final String password) {
+	static public void getAllExamsFromClient(final Semester semester, final String userName, final String password,final Context context) {
 
 		AsyncTask<Void,Void,Void> ast = new AsyncTask<Void,Void,Void>()
 		{
@@ -274,7 +275,8 @@ public class ServerAsyncCommunication {
 			        HttpEntity responseEntity = response.getEntity();
 			        String s = EntityUtils.toString(responseEntity); // <----- s is a html of exams page
 			        List<CourseItem> x = HtmlParseFromClient.parseStudentExams(Jsoup.parse(s));
-			        
+			        UGDatabase db = UGDatabase.getInstance(context);
+			        db.setCoursesAndExams(x);
 			        Math.random();
 			    } catch (Exception e) {
 			        // TODO Auto-generated catch block
@@ -288,7 +290,7 @@ public class ServerAsyncCommunication {
 	}
 	
 	
-	static public void registrate(final String courseNumber, final String groupNumber,final String userName,final String password,final Context context) {
+	static public void registrate(final String courseNumber, final String groupNumber,final String userName,final String password,final Context context, final TrackingCoursesFragment trackingCoursesFragment) {
 		
 		//public class UGAsync<T> extends AsyncTask<String, Void , List<T>>
 		AsyncTask<Void,Void,Void> ast = new AsyncTask<Void,Void,Void>()
@@ -332,9 +334,10 @@ public class ServerAsyncCommunication {
 			@Override
 			protected void onPostExecute(Void c) 
 			{
-				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+				/*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 				alertDialogBuilder.setMessage("hi");
-				alertDialogBuilder.show();
+				alertDialogBuilder.show();*/
+				trackingCoursesFragment.onRegistrationSuccessed(null);
 			}
 	
 		};
@@ -452,8 +455,6 @@ static public void unRegistrate(final String courseNumber,final String userName,
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				
 				return super.doInBackground(params);
 			}
 

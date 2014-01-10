@@ -36,7 +36,7 @@ public class UGDatabase {
 	private Semester[] currentSemesters;
 	private SemesterSeason currentSeason;
 
-	private ArrayList<CourseItem> coursesAndExamsList;
+	private List<CourseItem> coursesAndExamsList;
 	private volatile boolean hasCoursesAndExamsList = false;
 
 	private List<AccomplishedCourse> gradesSheet;
@@ -206,6 +206,7 @@ public class UGDatabase {
 	}
 
 	public List<CourseItem> getCoursesAndExams() {
+		Log.i("1","coursesAndExamsList :"+coursesAndExamsList.size());
 		if (coursesAndExamsList == null)
 			coursesAndExamsList = dataProvider.getCoursesAndExams(studentId);
 		log("getting " + coursesAndExamsList.size() + " registered Courses");
@@ -244,7 +245,7 @@ public class UGDatabase {
 	 * @return
 	 */
 	@Deprecated
-	public ArrayList<CourseItem> getStudentCourses(
+	public List<CourseItem> getStudentCourses(
 			final SemesterSeason semesterseason) {
 		Document doc = null;
 		switch (semesterseason) {
@@ -336,7 +337,7 @@ public class UGDatabase {
 		this.calendarEvents = calendarEvents;
 	}
 
-	public void setCoursesAndExams(ArrayList<CourseItem> courses) {
+	public void setCoursesAndExams(List<CourseItem> courses) {
 		if (courses == null)
 			throw new NullPointerException();
 		log("setting " + courses.size() + " registered Courses and exams!");
