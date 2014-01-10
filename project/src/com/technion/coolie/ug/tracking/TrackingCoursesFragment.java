@@ -9,9 +9,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -55,6 +55,8 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		Log.i("1", "trackingCourses size : " + trackingCourses.size());
 		View view = inflater.inflate(R.layout.ug_tracking_list, container,
 				false);
+//		ImageButton registerBtn = (ImageButton) view.findViewById(
+//				R.id.ug_trackinglist_item_rishum_btn);
 		listview = (EnhancedListView) view.findViewById(R.id.ug_tracking_list);
 		trackingCourseListAdapter = new TrackingListAdapter(
 				inflater.getContext(), trackingCourses);
@@ -98,11 +100,17 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		listview.setSwipeDirection(EnhancedListView.SwipeDirection.BOTH);
 		listview.setRequireTouchBeforeDismiss(false);
 		UGCurrentState.currentOpenFragment = "TrackingCoursesFragment";
+
 		
-		 ImageButton registerBtn = (ImageButton) getActivity().findViewById(R.id.ug_trackinglist_item_rishum_btn);
-//		 registerBtn.set 
-		 
-		 return view;
+//		registerBtn.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				Toast.makeText(getActivity(), "BLA", Toast.LENGTH_SHORT).show();
+//			}
+//		});
+
+		return view;
 	}
 
 	@Override

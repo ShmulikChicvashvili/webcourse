@@ -7,9 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.widget.Toast;
-import com.technion.coolie.ug.utils.UGCurrentState;
 
+import com.technion.coolie.ug.utils.UGCurrentState;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
@@ -157,6 +158,10 @@ public class TransparentActivity extends CoolieActivity implements
 	{
 		UGCurrentState.currentOpenFragment = "none";
 		super.onBackPressed();
+	}
+	
+	public void rishumClick(View view){
+		System.out.println("HEREEEEE");
 	}
 
 }

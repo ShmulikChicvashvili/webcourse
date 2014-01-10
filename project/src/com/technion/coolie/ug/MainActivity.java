@@ -179,7 +179,7 @@ public class MainActivity extends CoolieActivity implements
 		List<GroupOfCourses> tsmudim = new ArrayList<GroupOfCourses>(
 				Arrays.asList(
 						new GroupOfCourses(new ArrayList<String>(Arrays.asList(
-								"צמוד", "בינה מלאכותית"))), new GroupOfCourses(
+								"׳¦׳�׳•׳“", "׳‘׳™׳ ׳” ׳�׳�׳�׳›׳•׳×׳™׳×"))), new GroupOfCourses(
 								new ArrayList<String>(Arrays.asList("damn")))));
 
 		Course course = new Course(
@@ -221,13 +221,13 @@ public class MainActivity extends CoolieActivity implements
 						"201301", "3434", null, false)));
 
 		ArrayList<CourseItem> coursesExamsList = new ArrayList<CourseItem>(
-				Arrays.asList(new CourseItem("מפרטים פורמליים במערכות מורכבות",
+				Arrays.asList(new CourseItem("׳�׳₪׳¨׳˜׳™׳� ׳₪׳•׳¨׳�׳�׳™׳™׳� ׳‘׳�׳¢׳¨׳›׳•׳× ׳�׳•׳¨׳›׳‘׳•׳×",
 						"2324", "4.2", new ArrayList<ExamItem>(
 								Arrays.asList(
 										new ExamItem(Calendar.getInstance(),
-												"טאוב 10"), new ExamItem(
+												"׳˜׳�׳•׳‘ 10"), new ExamItem(
 												Calendar.getInstance(),
-												"טאוב 100"))))));
+												"׳˜׳�׳•׳‘ 100"))))));
 
 		Student student = new Student(UGDatabase.getInstance(this)
 				.getCurrentStudentId());
@@ -240,7 +240,7 @@ public class MainActivity extends CoolieActivity implements
 		UGDatabase.getInstance(this).updateCourses(courses);
 		UGDatabase.getInstance(this).setAcademicCalendar(academicList);
 		UGDatabase.getInstance(this).setGradesSheet(accomplishedList);
-		UGDatabase.getInstance(this).setTrackingCourses(trackingList);
+//		UGDatabase.getInstance(this).setTrackingCourses(trackingList);
 		UGDatabase.getInstance(this).setCoursesAndExams(coursesExamsList);
 		UGDatabase.getInstance(this).setStudentInfo(student);
 
