@@ -25,6 +25,8 @@ import com.technion.coolie.ug.utils.UGAsync;
 
 public class UGDatabase {
 
+	// make loading courses async TODO
+
 	private static UGDatabase INSTANCE;
 
 	UGDBProvider dataProvider;

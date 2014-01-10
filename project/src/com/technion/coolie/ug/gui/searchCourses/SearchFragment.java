@@ -589,8 +589,6 @@ public class SearchFragment extends Fragment {
 			setContentView(R.layout.ug_search_screen_advanced_dialog);
 			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
-			// TODO set the view according to the filters
-
 			final Button mPickDate = (Button) findViewById(R.id.myDatePickerButton);
 			mPickDate.setOnClickListener(new onClickDateChoose());
 

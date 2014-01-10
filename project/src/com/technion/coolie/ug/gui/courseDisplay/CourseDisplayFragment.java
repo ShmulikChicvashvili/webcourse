@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -33,9 +34,6 @@ import com.technion.coolie.ug.model.GroupOfCourses;
 import com.technion.coolie.ug.model.Meeting;
 import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
-
-//TODO kdamim ir seoeratir color black
-//TODO add to maakav
 
 /**
  * activity for searching courses and finding available courses. must supply
@@ -78,6 +76,10 @@ public class CourseDisplayFragment extends SherlockFragment {
 								list.add(chosenCourse.getCourseKey());
 							UGDatabase.getInstance(context).setTrackingCourses(
 									list);
+							Toast.makeText(context,
+									R.string.ug_add_course_to_tracking,
+									Toast.LENGTH_SHORT).show();
+
 						}
 						return true;
 
@@ -292,8 +294,7 @@ public class CourseDisplayFragment extends SherlockFragment {
 		((TextView) v.findViewById(R.id.ug_course_group_info_names))
 				.setText(str);
 		if (isSeperator) {
-			v.setBackgroundResource(R.drawable.ug_course_group_view);
-			// TODO set v color also
+			v.setBackgroundResource(R.drawable.ug_course_group_view_seperator);
 		}
 		expandableList.addView(v);
 	}
