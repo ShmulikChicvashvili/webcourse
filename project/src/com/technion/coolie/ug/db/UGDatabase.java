@@ -150,8 +150,16 @@ public class UGDatabase {
 	}
 
 	private void initCourses() {
+		coursesHash = new LinkedHashMap<CourseKey, Course>();
+		doAsync(new Runnable() {
 
-		initializeHashMap(dataProvider.getAllCourses());
+			@Override
+			public void run() {
+				updateHashMap(dataProvider.getAllCourses());
+
+			}
+		});
+
 		// getAllCoursesFromServer();
 	}
 
@@ -160,8 +168,8 @@ public class UGDatabase {
 	 * 
 	 * @param courses
 	 */
-	private void initializeHashMap(List<Course> courses) {
-		coursesHash = new LinkedHashMap<CourseKey, Course>();
+	private synchronized void updateHashMap(List<Course> courses) {
+
 		for (final Course course : courses)
 			coursesHash.put(course.getCourseKey(), course);
 
@@ -287,11 +295,7 @@ public class UGDatabase {
 				provider.close();
 			}
 		});
-
-		// update the hash
-		for (Course course : courses) {
-			coursesHash.put(course.getCourseKey(), course);
-		}
+		updateHashMap(courses);
 
 	}
 
