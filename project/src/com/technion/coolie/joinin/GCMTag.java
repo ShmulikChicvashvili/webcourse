@@ -1,6 +1,6 @@
 package com.technion.coolie.joinin;
 
-import com.technion.coolie.joinin.data.ClientAccount;
+import com.technion.coolie.FBClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.NotificationsClass;
 import com.technion.coolie.joinin.data.SendNotification;
@@ -55,7 +55,7 @@ public enum GCMTag implements SendNotification, GCMActions {
       return "Event canceled";
     }
     
-    @Override public void send(final ClientAccount loggedAccount, final ClientAccount otherAccount, final ClientEvent event,
+    @Override public void send(final FBClientAccount loggedAccount, final FBClientAccount otherAccount, final ClientEvent event,
         final String message, final Context context, final NotificationManager notifMang) {
       NotificationsClass.createCanceledEventNotification(event, loggedAccount, context, notifMang);
     }
@@ -69,7 +69,7 @@ public enum GCMTag implements SendNotification, GCMActions {
       return "User joined event";
     }
     
-    @Override public void send(final ClientAccount loggedAccount, final ClientAccount otherAccount, final ClientEvent event,
+    @Override public void send(final FBClientAccount loggedAccount, final FBClientAccount otherAccount, final ClientEvent event,
         final String messag, final Context context, final NotificationManager notifMang) {
       NotificationsClass.createJoinToMyEventNotification(event, loggedAccount, otherAccount, context, notifMang);
     }
@@ -83,7 +83,7 @@ public enum GCMTag implements SendNotification, GCMActions {
       return "User left event";
     }
     
-    @Override public void send(final ClientAccount loggedAccount, final ClientAccount otherAccount, final ClientEvent event,
+    @Override public void send(final FBClientAccount loggedAccount, final FBClientAccount otherAccount, final ClientEvent event,
         final String message, final Context context, final NotificationManager notifMang) {
       NotificationsClass.createLeftMyEventNotification(event, loggedAccount, otherAccount, context, notifMang);
     }
@@ -97,7 +97,7 @@ public enum GCMTag implements SendNotification, GCMActions {
       return "Updated event";
     }
     
-    @Override public void send(final ClientAccount loggedAccount, final ClientAccount otherAccount, final ClientEvent event,
+    @Override public void send(final FBClientAccount loggedAccount, final FBClientAccount otherAccount, final ClientEvent event,
         final String message, final Context context, final NotificationManager notifMang) {
       NotificationsClass.createUpdatedEventNotification(event, loggedAccount, context, notifMang);
     }
@@ -111,7 +111,7 @@ public enum GCMTag implements SendNotification, GCMActions {
       return "Interesting event";
     }
     
-    @Override public void send(final ClientAccount loggedAccount, final ClientAccount otherAccount, final ClientEvent event,
+    @Override public void send(final FBClientAccount loggedAccount, final FBClientAccount otherAccount, final ClientEvent event,
         final String message, final Context context, final NotificationManager notifMang) {
       NotificationsClass.createInterestingEventNotification(event, loggedAccount, context, notifMang);
     }
@@ -125,7 +125,7 @@ public enum GCMTag implements SendNotification, GCMActions {
       return "Event reminder";
     }
     
-    @Override public void send(final ClientAccount loggedAccount, final ClientAccount otherAccount, final ClientEvent event,
+    @Override public void send(final FBClientAccount loggedAccount, final FBClientAccount otherAccount, final ClientEvent event,
         final String message, final Context context, final NotificationManager notifMang) {
       NotificationsClass.createReminderForEventNotification(event, loggedAccount, context, notifMang);
     }
@@ -139,7 +139,7 @@ public enum GCMTag implements SendNotification, GCMActions {
       return "Event message";
     }
     
-    @Override public void send(final ClientAccount loggedAccount, final ClientAccount otherAccount, final ClientEvent event,
+    @Override public void send(final FBClientAccount loggedAccount, final FBClientAccount otherAccount, final ClientEvent event,
         final String message, final Context context, final NotificationManager notifMang) {
       NotificationsClass.createMessageNotification(loggedAccount, otherAccount, message, event, context, notifMang);
     }

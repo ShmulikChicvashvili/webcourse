@@ -15,10 +15,10 @@ import android.widget.TableLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.technion.coolie.FBClientAccount;
+import com.technion.coolie.FacebookLogin;
 import com.technion.coolie.R;
-import com.technion.coolie.joinin.data.ClientAccount;
-import com.technion.coolie.joinin.facebook.FacebookLogin;
-import com.technion.coolie.joinin.facebook.FacebookLogin.OnLoginDone;
+import com.technion.coolie.FacebookLogin.OnLoginDone;
 import com.technion.coolie.joinin.gui.WrapperView;
 import com.technion.coolie.joinin.map.MainMapActivity;
 
@@ -57,7 +57,7 @@ public class LoginActivity extends Activity {
    * ADDED BY: Alon An OnDone callback to be called after async-login.
    */
   private final FacebookLogin.OnLoginDone afterLogin = new OnLoginDone() {
-    @Override public void loginCallback(final ClientAccount a) {
+    @Override public void loginCallback(final FBClientAccount a) {
       if (a != null) {
         setResult(MainMapActivity.RESULT_LOGIN_ACCOUNT, new Intent().putExtra("account", a));
         finish();

@@ -16,8 +16,8 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabContentFactory;
 import android.widget.TextView;
 
+import com.technion.coolie.FBClientAccount;
 import com.technion.coolie.R;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.gui.WrapperView;
 import com.technion.coolie.joinin.map.MainMapActivity;
 
@@ -34,14 +34,14 @@ public class MyEventsActivity extends FragmentActivity implements TabHost.OnTabC
   private TabHost mTabHost;
   private ViewPager mViewPager;
   private PagerAdapter mPagerAdapter;
-  private ClientAccount mAccount;
+  private FBClientAccount mAccount;
   
   /**
    * the logged account
    * 
    * @return
    */
-  public ClientAccount getAccount() {
+  public FBClientAccount getAccount() {
     return mAccount;
   }
   
@@ -53,7 +53,7 @@ public class MyEventsActivity extends FragmentActivity implements TabHost.OnTabC
     setContentView(mWrapper);
     initializeTabHost();
     intializeViewPager();
-    mAccount = (ClientAccount) getIntent().getExtras().get("account");
+    mAccount = (FBClientAccount) getIntent().getExtras().get("account");
     mViewPager.setCurrentItem(getIntent().getExtras().getInt(INTENT_TAB_POS));
   }
   

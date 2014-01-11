@@ -9,6 +9,7 @@ import com.facebook.FacebookOperationCanceledException;
 import com.facebook.Session;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
+import com.technion.coolie.FacebookLogin;
 import com.technion.coolie.joinin.data.ClientEvent;
 
 /**

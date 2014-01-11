@@ -36,14 +36,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.technion.coolie.FBClientAccount;
+import com.technion.coolie.FacebookLogin;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.communication.ClientProxy;
 import com.technion.coolie.joinin.communication.ClientProxy.OnError;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.SerializableSparseBooleanArrayContainer;
 import com.technion.coolie.joinin.directions.MapDirections;
-import com.technion.coolie.joinin.facebook.FacebookLogin;
 import com.technion.coolie.joinin.places.SearchDialog;
 import com.technion.coolie.joinin.subactivities.CreateEventActivity;
 import com.technion.coolie.joinin.subactivities.EventActivity;
@@ -63,7 +63,7 @@ import com.technion.coolie.joinin.subactivities.TutorialActivity;
 public class MainMapActivity extends SherlockFragmentActivity implements LocationListener {
   GoogleMap map;
   final Activity mContext = this;
-  public static ClientAccount mLoggedAccount = null;
+  public static FBClientAccount mLoggedAccount = null;
   final HashMap<Marker, ClientEvent> markerToEvent = new HashMap<Marker, ClientEvent>();
   int cameraChangedCounter = 0;
   private final double TO_E6 = 1000000.0;
@@ -104,7 +104,7 @@ public class MainMapActivity extends SherlockFragmentActivity implements Locatio
   private void handleLoggedAccount(final boolean login) {
     mTeamAppPref = getSharedPreferences(PREFS_NAME, 0);
     mTeamAppPref.edit().commit();
-    mLoggedAccount = mTeamAppPref.contains("account") ? ClientAccount.fromJson(mTeamAppPref.getString("account", "")) : null;
+    mLoggedAccount = mTeamAppPref.contains("account") ? FBClientAccount.fromJson(mTeamAppPref.getString("account", "")) : null;
     if (login || mLoggedAccount == null)
       startActivityForResult(new Intent(this, LoginActivity.class), RESULT_LOGIN_ACCOUNT);
     else
@@ -416,7 +416,7 @@ public class MainMapActivity extends SherlockFragmentActivity implements Locatio
         finish();
         break;
       case RESULT_LOGIN_ACCOUNT:
-        mLoggedAccount = (ClientAccount) data.getParcelableExtra("account");
+        mLoggedAccount = (FBClientAccount) data.getParcelableExtra("account");
         mTeamAppPref.edit().clear().putString("account", mLoggedAccount.toJson()).commit();
         registerDiviceToUserOnGCM();
         if (shareURI != null)
@@ -431,7 +431,7 @@ public class MainMapActivity extends SherlockFragmentActivity implements Locatio
         refresh();
         break;
       case RESULT_FAVORITE:
-        mLoggedAccount = (ClientAccount) data.getParcelableExtra("account");
+        mLoggedAccount = (FBClientAccount) data.getParcelableExtra("account");
         break;
       case RESULT_REFRESH_DIRECTIONS:
         final ClientEvent e = (ClientEvent) data.getParcelableExtra("event");

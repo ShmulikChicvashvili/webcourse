@@ -15,9 +15,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.technion.coolie.FacebookLogin;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.facebook.FacebookGroup;
-import com.technion.coolie.joinin.facebook.FacebookLogin;
 import com.technion.coolie.joinin.facebook.FacebookQueries;
 import com.technion.coolie.joinin.facebook.FacebookQueries.OnGetGroupMembersReturns;
 import com.technion.coolie.joinin.facebook.FacebookQueries.OnGetUserGroupsReturns;

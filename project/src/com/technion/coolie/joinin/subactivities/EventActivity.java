@@ -20,6 +20,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
+import com.technion.coolie.FBClientAccount;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.EventsDB;
 import com.technion.coolie.joinin.MainActivity;
@@ -27,7 +28,6 @@ import com.technion.coolie.joinin.calander.CalendarHandler;
 import com.technion.coolie.joinin.communication.ClientProxy;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
 import com.technion.coolie.joinin.communication.ClientProxy.OnError;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.OnTabRefresh;
 import com.technion.coolie.joinin.gui.WrapperView;
@@ -65,7 +65,7 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
   public static final int RESULT_REFRESH = 500;
   Context thisOne = this;
   ClientEvent mEvent;
-  ClientAccount mAccount;
+  FBClientAccount mAccount;
   WrapperView mWrapper;
   private boolean mOngoingServerAction = false;
   
@@ -77,7 +77,7 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
     setContentView(mWrapper);
     
     mEvent = (ClientEvent) getIntent().getExtras().get("event");
-    mAccount = (ClientAccount) getIntent().getExtras().get("account");
+    mAccount = (FBClientAccount) getIntent().getExtras().get("account");
     final long eventId = getIntent().getExtras().getLong("eventId", -1);
     if (eventId > 0) {
       final ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar);
@@ -355,7 +355,7 @@ public class EventActivity extends CoolieActivity implements TabHost.OnTabChange
     return mEvent;
   }
   
-  public ClientAccount getAccount() {
+  public FBClientAccount getAccount() {
     return mAccount;
   }
   

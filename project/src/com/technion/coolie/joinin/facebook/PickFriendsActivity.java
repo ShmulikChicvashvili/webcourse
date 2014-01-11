@@ -13,6 +13,7 @@ import com.facebook.FacebookException;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.FriendPickerFragment;
 import com.facebook.widget.PickerFragment;
+import com.technion.coolie.FacebookLogin;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.map.MainMapActivity;
 import com.technion.coolie.joinin.subactivities.EventFilterActivity;

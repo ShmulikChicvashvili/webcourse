@@ -1,5 +1,6 @@
 package com.technion.coolie;
 
+import com.technion.coolie.R;
 import com.technion.coolie.skeleton.CoolieNotificationManager;
 
 import android.app.Activity;
@@ -8,9 +9,11 @@ import android.support.v4.app.NotificationCompat;
 
 public class CoolieNotification {
 	private Priority mPriority;
+	
 	private String mTitle;
 	private String mText;
 	private Activity mResultActivity;
+	
 	private Context mContext;
 	private boolean mAddToFeeds;
 	
@@ -42,14 +45,15 @@ public class CoolieNotification {
 	
 	public void sendNotification()
 	{
-		if(mAddToFeeds)
+		CoolieNotificationManager.addNewNotif(mTitle, mText, mResultActivity, mAddToFeeds, mPriority, mContext);
+		/**if(mAddToFeeds)
 		{
 			CoolieNotificationManager.addToFeedList(mTitle, mText, mResultActivity);
 		}
 		/*if(mPriority == Priority.IMMEDIATELY)
-		{*/
+		{//
 			NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
-		    .setSmallIcon(CoolieModuleManager.getMyModule(mResultActivity.getClass()).getPhotoRes())
+		    .setSmallIcon(R.drawable.ic_launcher)	//TODO - CHANGE!
 		    .setContentTitle(mTitle)
 		    .setContentText(mText);
 			

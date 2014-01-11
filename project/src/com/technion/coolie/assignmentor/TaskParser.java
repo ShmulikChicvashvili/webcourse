@@ -32,8 +32,8 @@ public class TaskParser extends IntentService {
 	private String taskRegExp4 = "(Assignment #[0-9])";
 	private String taskRegExp5 = "(Homework Assignment [0-9])";
 	private String taskRegExp6 = "(Home Assignment [0-9])";
-	private String taskRegExp7 = "(úøâéì áéú îñ' [0-9])";
-	private String taskRegExp8 = "(úøâéì áéú [0-9])";
+	private String taskRegExp7 = "(ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½' [0-9])";
+	private String taskRegExp8 = "(ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ [0-9])";
 	private String taskRegExp9 = "(Assignment [0-9])";
 	private String taskRegExp10 = "(Wet [0-9])";
 	private String taskRegExp11 = "(Dry [0-9])";

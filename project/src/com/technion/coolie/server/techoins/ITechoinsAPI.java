@@ -56,18 +56,6 @@ public interface ITechoinsAPI {
    */
   ReturnCode moveMoney(TechoinsTransfer transfer);
 
-  // the function "getProductById" was deleted, instead use "getProductsById"
-  // with list length==1
-
-  /**
-   * 
-   * @param products_
-   *          - list of products to search. Should be given with their id field
-   *          initialized correctly
-   * @return - list of the requested products
-   */
-  List<Product> getProductsByIds(List<Product> products);
-
   /**
    * 
    * @param product
@@ -151,5 +139,21 @@ public interface ITechoinsAPI {
    * @return - SUCCESS if went well, error code otherwise
    */
   ReturnCode buyProduct(Product product);
+
+  /**
+   * 
+   * @param s
+   *          - the string to look for in the products names
+   * @return - list of products with names that contain the given string
+   */
+  List<Product> getByName(String s);
+
+  /**
+   * 
+   * @param s
+   *          - the string to look for in the products descriptions
+   * @return - list of products with descriptions that contain the given string
+   */
+  List<Product> getByDescription(String s);
 
 }

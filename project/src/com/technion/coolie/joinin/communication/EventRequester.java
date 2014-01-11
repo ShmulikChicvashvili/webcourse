@@ -5,13 +5,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import com.technion.coolie.FacebookUser;
 import com.technion.coolie.joinin.communication.ClientProxy.Executer;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDoneAsyncTask;
 import com.technion.coolie.joinin.communication.ClientProxy.OnError;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.Event;
-import com.technion.coolie.joinin.facebook.FacebookUser;
 
 /**
  * 

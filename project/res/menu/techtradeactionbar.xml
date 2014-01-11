@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/get_search_field_action_bar"
+        android:icon="@drawable/get_actionbar_search_icon"
+        android:actionLayout="@layout/get_search_field_action_bar"
+        android:showAsAction="always|collapseActionView"        
+        android:title="@string/get_search_in_all"/>
+    <item
+        android:id="@+id/get_browse_by_catagory_action_bar"
+        android:showAsAction="always"
+        android:title="Browse">
+        <menu>
+            <item
+                android:id="@+id/get_browse_by_catagory_action_bar_catagory_lecture_summeries"
+                android:title="@string/get_catagory_lecture_summeries"/>
+            <item
+                android:id="@+id/get_browse_by_catagory_action_bar_catagory_toturial_summeries"
+                android:title="@string/get_catagory_toturial_summeries"/>
+            <item
+                android:id="@+id/get_browse_by_catagory_action_bar_catagory_general_summery"
+                android:title="@string/get_catagory_general_summeries"/>
+            <item
+                android:id="@+id/get_browse_by_catagory_action_bar_catagory_books"
+                android:title="@string/get_catagory_books"/>
+            <item
+                android:id="@+id/get_browse_by_catagory_action_bar_catagory_clothing"
+                android:title="@string/get_catagory_clothing"/>
+            <item
+                android:id="@+id/get_browse_by_catagory_action_bar_catagory_electronics"
+                android:title="@string/get_catagory_electronics"/>
+            <item
+                android:id="@+id/get_browse_by_catagory_action_bar_catagory_office_supplies"
+                android:title="@string/get_catagory_office_supplies"/>
+            <item
+                android:id="@+id/get_browse_by_catagory_action_bar_catagory_other"
+                android:title="@string/get_catagory_other"/>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/get_main_menu_action_bar"
+        android:icon="@drawable/get_actionbar_menu_logo"
+        android:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/get_main_menu_action_bar_home"
+                android:title="@string/get_abs_main_menu_home"/>
+            <item
+                android:id="@+id/get_main_menu_action_bar_publish_a_product"
+                android:title="@string/get_abs_main_menu_publish_a_product"/>
+            <item
+                android:id="@+id/get_main_menu_action_bar_your_transactions"
+                android:title="@string/get_abs_main_menu_your_transaction"/>
+        </menu>
+    </item>
+</menu>

@@ -42,7 +42,7 @@ import android.widget.ViewSwitcher;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.technion.coolie.CollieNotification;
+import com.technion.coolie.CoolieNotification;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.assignmentor.EnhancedListView.Undoable;
@@ -517,8 +517,8 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			if (notif) {
 				// If notifications are on, pop a notification that a new task was found.
 				String notificationText = fetchedTask.taskName + " - " + fetchedTask.courseName;
-				CollieNotification cn = new CollieNotification("New H.W!", notificationText, 
-						MainActivity.this, CollieNotification.Priority.IMMEDIATELY, 
+				CoolieNotification cn = new CoolieNotification("New H.W!", notificationText, 
+						MainActivity.this, CoolieNotification.Priority.IMMEDIATELY, 
 						true, getApplicationContext());
 				cn.sendNotification();
 			}

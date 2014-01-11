@@ -18,7 +18,7 @@ import android.widget.TextView;
 public class FeedsAdapter extends BaseAdapter {
 
 	Context mContext;
-	List<CoolieNotificationManager.Feed> feeds;
+	List<CoolieNotificationManager.Notif> feeds;
 	
 	private class ViewHolder
 	{
@@ -70,7 +70,7 @@ public class FeedsAdapter extends BaseAdapter {
 			holder = (ViewHolder) v.getTag();
 		}
 
-		final CoolieNotificationManager.Feed curr = feeds.get(position);
+		final CoolieNotificationManager.Notif curr = feeds.get(position);
 		holder.title.setText(curr.title);
 		holder.text.setText(curr.text);
 		holder.image.setImageResource(curr.module.getPhotoRes());
