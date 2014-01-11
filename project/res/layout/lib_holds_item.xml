@@ -5,15 +5,13 @@
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
+    
     android:paddingTop="@dimen/activity_vertical_margin" >
 
      <ImageView
         android:id="@+id/lib_book_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxHeight="60dp"
-        android:maxWidth="60dp"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/lib_placeholder_book"
@@ -24,8 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/lib_book_name"
-        android:layout_alignTop="@id/lib_book_name"
+        android:layout_toRightOf="@id/lib_book_image"
+        android:layout_below="@id/lib_book_library"
         android:textSize="14sp"  />
     <TextView
         android:id="@+id/lib_book_name"
@@ -33,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/lib_book_image"
         android:layout_toRightOf="@id/lib_book_image"
-        android:layout_toLeftOf="@id/lib_cancel_button"
+        android:layout_toLeftOf="@id/lib_line"
         android:gravity="left"
         android:text="Numerical methods"
         android:textSize="16sp" />
@@ -44,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/lib_book_name"
         android:layout_toRightOf="@id/lib_book_image"
-        android:layout_toLeftOf="@id/lib_cancel_button"
+        android:layout_toLeftOf="@id/lib_line"
         android:gravity="left"
         android:text="by Dahlquist, Germund"
         android:textSize="16sp" />
@@ -55,18 +53,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/lib_book_author"
         android:layout_toRightOf="@id/lib_book_image"
-        android:layout_toLeftOf="@id/lib_cancel_button"
+        android:layout_toLeftOf="@id/lib_line"
         android:text="Pickup Library: Computer Science library"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/lib_hold_created"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lib_book_library"
-        android:layout_toRightOf="@id/lib_book_image"
-        android:layout_toLeftOf="@id/lib_cancel_button"
-        android:text="Created: 3/12/13"
         android:textSize="14sp" />
 
  <!--   <TextView
@@ -78,34 +66,42 @@
         android:text="Queue position : 10"
         android:textSize="14sp" />
  --> 
-    
-    <TextView
-        android:id="@+id/lib_hold_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lib_hold_created"
-        android:layout_toRightOf="@id/lib_book_image"
-        android:layout_toLeftOf="@id/lib_cancel_button"
-        android:text="1/1/13"
-        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/lib_end_hold_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lib_hold_date"
+        android:layout_below="@id/lib_book_library"
         android:layout_toRightOf="@id/lib_book_image"
-        android:layout_toLeftOf="@id/lib_cancel_button"
+        android:layout_toLeftOf="@id/lib_line"
         android:text="1/1/14"
         android:textSize="14sp" />
-    <ImageButton 
+    
+    <FrameLayout
         android:id="@+id/lib_cancel_button"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/lib_book_image"
+        android:layout_alignBottom="@+id/lib_end_hold_date"
+        >
+
+        <ImageView 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/abs__ic_clear_search_api_holo_light"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/lib_book_image"
-        android:layout_marginLeft="@dimen/half_activity_horizontal_margin"/>
+        android:contentDescription="Cancel request"
+        android:layout_gravity="center"
+        />
+    </FrameLayout>
     
+    <View
+        android:id="@+id/lib_line"
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_alignTop="@+id/lib_book_image"
+        android:layout_alignBottom="@+id/lib_end_hold_date"
+        android:layout_toLeftOf="@+id/lib_cancel_button"
+        android:background="@drawable/abs__list_divider_holo_light" />
 
 </RelativeLayout>

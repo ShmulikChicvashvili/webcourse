@@ -47,14 +47,14 @@ public class LoansInfoXMLHandler extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		if(currentValue.isEmpty()){
-			currentValue = "N/A";
-		}
 
 		/** set value */
 		// book-item
 		if (isInLoan) {
-			if (localName.equals("z30-doc-number")) {
+			if (localName.equals("z13-doc-number")) {
+				while(currentValue.length() < 9) {
+					currentValue = "0" + currentValue;
+				}
 				currentLoan.id = currentValue;
 			} else if (localName.equals("z13-title")) {
 				currentValue = currentValue.substring(0, currentValue

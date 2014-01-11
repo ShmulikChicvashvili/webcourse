@@ -3,6 +3,7 @@ package com.technion.coolie.techlibrary;
 import java.util.List;
 
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,9 +39,8 @@ public class HoldsAdapter extends BaseAdapter {
 		public TextView name;
 		public TextView author;
 		public TextView library;
-		public TextView created;
 		public TextView position;
-		public TextView arrival;
+		//public TextView arrival;
 		public TextView endOfHold;
 		public ImageView photo;
 	}
@@ -76,11 +76,8 @@ public class HoldsAdapter extends BaseAdapter {
 			holder.author = (TextView) view.findViewById(R.id.lib_book_author);
 			holder.library = (TextView) view
 					.findViewById(R.id.lib_book_library);
-			holder.created = (TextView) view
-					.findViewById(R.id.lib_hold_created);
 			holder.position = (TextView) view
 					.findViewById(R.id.lib_hold_position);
-			holder.arrival = (TextView) view.findViewById(R.id.lib_hold_date);
 			holder.endOfHold = (TextView) view
 					.findViewById(R.id.lib_end_hold_date);
 			holder.photo = (ImageView) view.findViewById(R.id.lib_book_image);
@@ -112,7 +109,7 @@ public class HoldsAdapter extends BaseAdapter {
 		
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~	
 		
-		ImageButton cancel = (ImageButton) view
+		FrameLayout cancel = (FrameLayout) view
 				.findViewById(R.id.lib_cancel_button);
 		cancel.setOnClickListener(new OnClickListener() {
 
@@ -148,18 +145,23 @@ public class HoldsAdapter extends BaseAdapter {
 						.setPositiveButton("Yes", dialogClickListener)
 						.setNegativeButton("No", dialogClickListener)
 						.show();
-
 			}
 		});
 		
 		holder.name.setText(holds.get(position).name);
 		holder.author.setText(holds.get(position).author);
 		holder.library.setText(holds.get(position).library);
-		holder.created.setText("Created:  " +holds.get(position).createDate);
-		holder.position.setText("Your position is:  "+holds.get(position).queuePosition);
-		holder.arrival.setText("Arrival:  "+holds.get(position).arrivalDate);
-		holder.endOfHold.setText("");//empty most of the time..
-
+//		String arrivalDate = holds.get(position).arrivalDate.isEmpty() ? "n/a" : holds.get(position).arrivalDate;
+//		holder.arrival.setText("Arrival:  " + arrivalDate);
+		if(holds.get(position).endHoldDate.isEmpty()) {
+			holder.endOfHold.setVisibility(View.INVISIBLE);
+			holder.position.setVisibility(View.VISIBLE);
+			holder.position.setText("Queue position:  "+holds.get(position).queuePosition);
+		} else {
+			holder.endOfHold.setVisibility(View.VISIBLE);
+			holder.position.setVisibility(View.INVISIBLE);
+			holder.endOfHold.setText("Hold until: " + holds.get(position).endHoldDate);
+		}
 		return view;
 	}
 }

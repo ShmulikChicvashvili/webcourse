@@ -10,10 +10,8 @@
     
     <ImageView
         android:id="@+id/lib_book_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:maxHeight="60dp"
-        android:maxWidth="60dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/lib_placeholder_book"

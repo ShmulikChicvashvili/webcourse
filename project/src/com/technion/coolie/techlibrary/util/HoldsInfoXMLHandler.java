@@ -45,13 +45,13 @@ public class HoldsInfoXMLHandler extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		if(currentValue.isEmpty()){
-			currentValue = "N/A";
-		}
 		/** set value */
 		// book-item
-		if (localName.equals("z30-doc-number")) {
+		if (localName.equals("z13-doc-number")) {
 			if (isInHold) {
+				while(currentValue.length() < 9) {
+					currentValue = "0" + currentValue;
+				}
 				currentHold.id = currentValue;
 			}
 		} else if (localName.equals("z13-title")) {
