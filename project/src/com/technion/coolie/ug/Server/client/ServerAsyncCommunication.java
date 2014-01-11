@@ -75,30 +75,24 @@ public class ServerAsyncCommunication {
 		return SemesterSeason.WINTER;
 	}
 
-	static public void getGradesSheetfromServer(final Context context) {
-		Log.v("ServerAsyncCommunication","getGradesSheetfromServer");
+	static public void getGradesSheetfromServer(final Context context, final String studentId, final String password) {
 		UGAsync<AccomplishedCourse> a = new UGAsync<AccomplishedCourse>()
 		{
-			List<AccomplishedCourse> l;
 			@Override
 			protected List<AccomplishedCourse> doInBackground(String... params) 
 			{
-
-				UGDatabase db = UGDatabase.getInstance(context);
-				l = UgFactory.getUgGradeSheet().getMyGradesSheet(db.getCurrentLoginObject());
-				
-				
+				UGLoginObject loginObject = new UGLoginObject(studentId, password);
+				List<AccomplishedCourse> l = UgFactory.getUgGradeSheet().getMyGradesSheet(loginObject);
 				//l = HtmlParser.parseGrades("stam");			
 				return super.doInBackground(params);
-				
 			}
 
 			@Override
 			protected void onPostExecute(List<AccomplishedCourse> result) 
 			{
 				
-				if (l==null || l.size()==0) return;
-				UGDatabase.getInstance(context).setGradesSheet(l);
+				if (result==null || result.size()==0) return;
+				UGDatabase.getInstance(context).setGradesSheet(result);
 				/*GradesSheetListFragment f = context.getGradesSheetFragment();
 				if (f==null) return;
 				f.updateData();*/
@@ -106,7 +100,6 @@ public class ServerAsyncCommunication {
 		};
 		a.execute();
 	}
-	
 	
 
 	static public void getAllCoursesFromServer() {
@@ -139,15 +132,10 @@ public class ServerAsyncCommunication {
 
 		UGAsync<AcademicCalendarEvent> a = new UGAsync<AcademicCalendarEvent>() {
 
-			List<AcademicCalendarEvent> l;
-
 			@Override
 			protected List<AcademicCalendarEvent> doInBackground(
 					String... params) {
-
-				l = UgFactory.getUgEvent().getAllAcademicEvents();
-				
-				
+				List<AcademicCalendarEvent> l = UgFactory.getUgEvent().getAllAcademicEvents();
 				//l = HtmlParser.parseCalendar();			
 				return super.doInBackground(params); 		
 			}
@@ -155,13 +143,12 @@ public class ServerAsyncCommunication {
 			@Override 
 			protected void onPostExecute(List<AcademicCalendarEvent> result) 
 			{
-				if (l==null || l.size()==0) return;
-				UGDatabase.getInstance(context).setAcademicCalendar(l);
+				if (result==null || result.size()==0) return;
+				UGDatabase.getInstance(context).setAcademicCalendar(result);
 				/*AcademicCalendarListFragment f = mainActivity.getCalendarFragment();
 				if (f==null) return;
 				f.updateData();*/
 			}
-
 		};
 		a.execute();
 	}
