@@ -54,7 +54,7 @@
 
         <service android:name="com.technion.coolie.skeleton.HtmlGrabberService" >
         </service>
-        <service android:name="com.technion.coolie.techlibrary.testIntentService" >
+        <service android:name="com.technion.coolie.techlibrary.UpdateDataService" >
         </service>
 
         <!-- Assign Mentor -->

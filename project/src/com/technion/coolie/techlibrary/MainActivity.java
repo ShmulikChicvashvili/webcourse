@@ -162,7 +162,7 @@ public class MainActivity extends CoolieActivity implements
 	
 	public void startAlarm(/*long intervalMilis*/) {
 		Log.d("int startAlarm", "begin");
-		Intent intent = new Intent(this, testIntentService.class);
+		Intent intent = new Intent(this, UpdateDataService.class);
 		if(mSharedPref.getString("user_id", null) == null){
 			Log.d("startAlarm", "user_id = null");
 			return;

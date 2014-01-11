@@ -137,6 +137,7 @@ public class SearchElements {
 			Button courseButton = (Button) v
 					.findViewById(R.id.lib_search_course);
 			courseButton.setOnClickListener(onButtonClick);
+			courseButton.setVisibility(View.INVISIBLE);
 			return v;
 		}
 
