@@ -54,10 +54,8 @@ public class ProductActivity extends TechTradeActivity implements productCallbac
 		}
 	}
 
-
 	@Override
 	public void buy() {
-				
 		try{
 	  	  	Intent intent = new Intent(this, TransferFundsActivity.class);
 	  	  	intent.putExtra("product", (Serializable) thisProduct);
@@ -65,6 +63,5 @@ public class ProductActivity extends TechTradeActivity implements productCallbac
 		}catch(ActivityNotFoundException  e){
 			Toast.makeText(this, "tivan if you are seeing this the intent did not find your activity, make you you annonced it.", Toast.LENGTH_SHORT).show();			
 		}
-		 
 	}
 }

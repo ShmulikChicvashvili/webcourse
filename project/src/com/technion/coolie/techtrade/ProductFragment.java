@@ -25,6 +25,7 @@ public class ProductFragment extends Fragment{
 	private TextView price;
 	private TextView description;
 	private ImageView picture;
+	private Product myProduct = null;
 	
 	public productCallback listener;
 	
@@ -38,6 +39,9 @@ public class ProductFragment extends Fragment{
 			Bundle savedInstanceState){
 		View view = inflater.inflate(R.layout.get_product_page_fragment,
 		        container, false);
+		
+		//important to retain, make sure it's in all fragments
+		setRetainInstance(true);
 		
 		productName = (TextView) view.findViewById(R.id.get_product_page_fragment_name);
 		sellerName= (TextView) view.findViewById(R.id.get_product_page_fragment_seller_name);
@@ -74,13 +78,27 @@ public class ProductFragment extends Fragment{
 	}
 	
 	public void setProduct(Product thisProduct){
-
 		//set it's stuff into this place		
 		productName.setText(thisProduct.getName());
 		sellerName.setText("Seller Name: "+thisProduct.getSellerId());
 		price.setText("Price: " + thisProduct.getPrice().toString());
 		if(thisProduct.getImage() != null) picture.setImageBitmap(thisProduct.getImage());
 		description.setText("Description\r\n"+thisProduct.getDescripstion());
+		
+		//save the product
+		myProduct = thisProduct;
+	}
+
+	public void wakeUp(){
+		setProduct(myProduct);
+	}
+
+	public boolean hasProduct(){
+		return myProduct != null;
+	}
+
+	public Product getProduct(){
+		return myProduct;
 	}
 	
 	@Override

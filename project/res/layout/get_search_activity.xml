@@ -4,10 +4,10 @@
     android:layout_height="match_parent">
     
 <fragment
-    android:id="@+id/searchFragment"
+    android:id="@+id/productListFragment"
     android:layout_height="match_parent"
 	android:layout_width="match_parent"
-    class="com.technion.coolie.techtrade.SearchFragment"
+    class="com.technion.coolie.techtrade.ProductListFragment"
     />
     
 </LinearLayout>
