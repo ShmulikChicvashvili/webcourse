@@ -239,7 +239,7 @@ public class MainActivity extends CoolieActivity implements
 										new ExamItem(Calendar.getInstance(),
 												"טאוב 10"), new ExamItem(
 												Calendar.getInstance(),
-												"טאוב 100"))))));
+												"טאוב 100"))),"11", null)));
 
 		Student student = new Student(UGDatabase.getInstance(this)
 				.getCurrentStudentId());

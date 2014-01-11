@@ -75,7 +75,7 @@ public class HtmlParseFromClient {
 	 * @param semester
 	 * @return
 	 */
-	static public List<CourseItem> parseStudentExams(Document doc) {
+	static public List<CourseItem> parseStudentExams(Document doc, Semester semester) {
 		// TODO: Matvey - call your post method inside Jsoup.parse(...) -
 		// pass it at least "semester.getYear() + semester.getSs().getId()" and
 		// student info
@@ -95,7 +95,7 @@ public class HtmlParseFromClient {
 		final Elements trElems = coursesTable.last().select("tr");
 		final int numOfColumns = getNumOfColumns(trElems);
 		for (int i = FIRST_COURSE_OFFSET; i < trElems.size(); i++)
-			getCourseExam(trElems.get(i), numOfColumns);
+			getCourseExam(trElems.get(i), numOfColumns, semester);
 		return coursesAndExamsList;
 
 	}
@@ -106,7 +106,7 @@ public class HtmlParseFromClient {
 	}
 
 	static private void getCourseExam(final Element trElem,
-			final int numOfColumns) {
+			final int numOfColumns, Semester semester) {
 		final int shiftFromExamColumns = numOfColumns - 3; // number of columns
 		// could
 		// vary between 7 to 8
@@ -135,7 +135,8 @@ public class HtmlParseFromClient {
 		// UGDatabase.getInstance
 		coursesAndExamsList.add(new CourseItem(new StringBuilder(courseName)
 				.reverse().toString(), courseId.substring(0,
-				courseId.indexOf("-")), "3.0", l));
+				courseId.indexOf("-")), "3.0", l, courseId.substring(courseId
+				.indexOf("-")+1), semester));
 	}
 
 	private static Calendar setExam(final Elements tdElems,
