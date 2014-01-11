@@ -17,7 +17,6 @@ import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.Enums.LandscapeLeftMenuItems;
 import com.technion.coolie.ug.Enums.SemesterSeason;
-import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
 import com.technion.coolie.ug.calendar.AcademicCalendarFragment;
 import com.technion.coolie.ug.calendar.AcademicCalendarListFragment;
 import com.technion.coolie.ug.coursesAndExams.CoursesAndExamsFragment;
@@ -67,16 +66,26 @@ public class MainActivity extends CoolieActivity implements
 		// (2013,SemesterSeason.WINTER));
 		// ServerAsyncCommunication.getAllCoursesFromServer();
 		// ServerAsyncCommunication.getCurentSemestersFromClient(null);
+<<<<<<< HEAD
 		// ServerAsyncCommunication.registrate("094412", "11", "1636",
 		// "11111100");
 		Semester s = new Semester(2013, SemesterSeason.SPRING);
-		ServerAsyncCommunication.getAllExamsFromClient(s, "1636", "11111100",
-				this);
+		// ServerAsyncCommunication.getAllExamsFromClient(s, "1636",
+		// "11111100");
 
 		// ServerAsyncCommunication.registrate("094412", "11", "1636",
 		// "11111100");
 		// ServerAsyncCommunication.unRegistrate("094412", "1636", "11111100",
 		// context);
+=======
+		//ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100");
+		Semester s = new Semester(2013,SemesterSeason.SPRING);
+		ServerAsyncCommunication.getAllExamsFromClient(s,"1636", "11111100",this);
+		
+		
+		//ServerAsyncCommunication.registrate("094412", "11", "1636", "11111100");
+		//ServerAsyncCommunication.unRegistrate("094412", "1636", "11111100", context);
+>>>>>>> 6594cd993840944b67264b53b4f62cc64d611e75
 
 		if (UGCurrentState.getRotationAngle(this) % 2 == 1) {
 			Fragment f;
@@ -197,36 +206,49 @@ public class MainActivity extends CoolieActivity implements
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
 						2, 11), kdamim, tsmudim, reg);
 
-		/*
-		 * Course course2 = new Course( "273455", "MY HEAD IS A HAMSTER", 2.0f,
-		 * "During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process"
-		 * , new Semester(2013, SemesterSeason.SPRING), Faculty.CS, new
-		 * GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014, 2, 11),
-		 * kdamim, null, null);
-		 * 
-		 * Course course3 = new Course( "094412", "HISTABRUT", 2.0f,
-		 * "During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process"
-		 * , new Semester(2013, SemesterSeason.SPRING), Faculty.CS, new
-		 * GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014, 2, 11),
-		 * kdamim, null, null);
-		 */
+		/*Course course2 = new Course(
+				"273455",
+				"MY HEAD IS A HAMSTER",
+				2.0f,
+				"During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
+				new Semester(2013, SemesterSeason.SPRING), Faculty.CS,
+<<<<<<< HEAD
+				new GregorianCalendar(2014, 8, 11), new GregorianCalendar(2014,
+						8, 11), kdamim, null, null);
 
+=======
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), kdamim, null, null);
+		
+		Course course3 = new Course(
+				"094412",
+				"HISTABRUT",
+				2.0f,
+				"During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
+				new Semester(2013, SemesterSeason.SPRING), Faculty.CS,
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), kdamim, null, null);*/
+		
+>>>>>>> 6594cd993840944b67264b53b4f62cc64d611e75
 		List<Course> courses = new ArrayList<Course>();
-		// courses.add(course3);
-
-		/*
-		 * for (int i = 0; i < 1000; i++) { Course c = new Course(course);
-		 * c.setCourseNumber((i + 2000) + ""); courses.add(c); }
-		 */
+		//courses.add(course3);
+		
+		
+		/*for (int i = 0; i < 1000; i++) {
+			Course c = new Course(course);
+			c.setCourseNumber((i + 2000) + "");
+			courses.add(c);
+		}*/
 		courses.add(course);
-		// courses.add(course2);
-
+		//courses.add(course2);
+		
+		
 		List<AcademicCalendarEvent> academicList = new ArrayList<AcademicCalendarEvent>(
 				Arrays.asList(new AcademicCalendarEvent(Calendar.getInstance(),
 						"OMG", "dd", null)));
 
-		List<CourseKey> trackingList = new ArrayList<CourseKey>(
-				Arrays.asList(course.getCourseKey()));
+		List<CourseKey> trackingList = new ArrayList<CourseKey>(Arrays.asList(
+				course.getCourseKey()));
 
 		List<AccomplishedCourse> accomplishedList = new ArrayList<AccomplishedCourse>(
 				Arrays.asList(new AccomplishedCourse("3434", "3434", "3434",

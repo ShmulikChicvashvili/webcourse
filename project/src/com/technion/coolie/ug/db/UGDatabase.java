@@ -25,6 +25,8 @@ import com.technion.coolie.ug.utils.UGAsync;
 
 public class UGDatabase {
 
+	// make loading courses async TODO
+
 	private static UGDatabase INSTANCE;
 
 	UGDBProvider dataProvider;
@@ -148,8 +150,16 @@ public class UGDatabase {
 	}
 
 	private void initCourses() {
+		coursesHash = new LinkedHashMap<CourseKey, Course>();
+		doAsync(new Runnable() {
 
-		initializeHashMap(dataProvider.getAllCourses());
+			@Override
+			public void run() {
+				updateHashMap(dataProvider.getAllCourses());
+
+			}
+		});
+
 		// getAllCoursesFromServer();
 	}
 
@@ -158,8 +168,8 @@ public class UGDatabase {
 	 * 
 	 * @param courses
 	 */
-	private void initializeHashMap(List<Course> courses) {
-		coursesHash = new LinkedHashMap<CourseKey, Course>();
+	private synchronized void updateHashMap(List<Course> courses) {
+
 		for (final Course course : courses)
 			coursesHash.put(course.getCourseKey(), course);
 
@@ -176,8 +186,6 @@ public class UGDatabase {
 				SemesterSeason.SUMMER);
 		currentSemesters[SemesterSeason.WINTER.getIdx()] = new Semester(2013,
 				SemesterSeason.WINTER);
-
-		currentStudent = null;
 
 	}
 
@@ -206,7 +214,7 @@ public class UGDatabase {
 	}
 
 	public List<CourseItem> getCoursesAndExams() {
-		Log.i("1","coursesAndExamsList :"+coursesAndExamsList.size());
+		Log.i("1", "coursesAndExamsList :" + coursesAndExamsList.size());
 		if (coursesAndExamsList == null)
 			coursesAndExamsList = dataProvider.getCoursesAndExams(studentId);
 		log("getting " + coursesAndExamsList.size() + " registered Courses");
@@ -287,11 +295,7 @@ public class UGDatabase {
 				provider.close();
 			}
 		});
-
-		// update the hash
-		for (Course course : courses) {
-			coursesHash.put(course.getCourseKey(), course);
-		}
+		updateHashMap(courses);
 
 	}
 

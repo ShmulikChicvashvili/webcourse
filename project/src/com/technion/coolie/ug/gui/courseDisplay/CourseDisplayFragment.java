@@ -8,7 +8,6 @@ import java.util.Locale;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.MainActivity;
 import com.technion.coolie.ug.Enums.SemesterSeason;
@@ -30,16 +35,13 @@ import com.technion.coolie.ug.model.Meeting;
 import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
 
-//TODO kdamim
-//TODO add to maakav
-
 /**
  * activity for searching courses and finding available courses. must supply
  * course key in EXTRAS_COURSE_KEY before calling this activity/fragment.
  * 
  * 
  */
-public class CourseDisplayFragment extends Fragment {
+public class CourseDisplayFragment extends SherlockFragment {
 
 	Course chosenCourse;
 	Context context;
@@ -57,8 +59,39 @@ public class CourseDisplayFragment extends Fragment {
 	}
 
 	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		int addTrackingCourseButtonId = 936;
+		MenuItem addTrackingCourseButton = menu.add(0,
+				addTrackingCourseButtonId, 0, "new tracking course");
+		addTrackingCourseButton.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		addTrackingCourseButton.setIcon(android.R.drawable.ic_menu_add);
+		addTrackingCourseButton
+				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						if (chosenCourse != null
+								&& chosenCourse.getName() != null) {
+							List<CourseKey> list = UGDatabase.getInstance(
+									context).getTrackingCourses();
+							if (!list.contains(chosenCourse.getCourseKey()))
+								list.add(chosenCourse.getCourseKey());
+							UGDatabase.getInstance(context).setTrackingCourses(
+									list);
+							Toast.makeText(context,
+									R.string.ug_add_course_to_tracking,
+									Toast.LENGTH_SHORT).show();
+
+						}
+						return true;
+
+					}
+				});
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
 	public void onActivityCreated(final Bundle savedInstanceState) {
 
+		setHasOptionsMenu(true);
 		context = getActivity();
 		groupsView = (LinearLayout) getActivity().findViewById(
 				R.id.course_screen_groups_list);
@@ -80,8 +113,7 @@ public class CourseDisplayFragment extends Fragment {
 		final RadioButton rbSummer = (RadioButton) getActivity().findViewById(
 				R.id.course_screen_threelastsemester);
 
-		SemesterSeason ss = UGDatabase.getInstance(context)
-				.getCurrentSemester().getSs();
+		SemesterSeason ss = chosenCourse.getSemester().getSs();
 		if (ss == SemesterSeason.WINTER)
 			rg.check(rbWinter.getId());
 		if (ss == SemesterSeason.SPRING)
@@ -128,7 +160,7 @@ public class CourseDisplayFragment extends Fragment {
 		notAvailTextView.setVisibility(View.GONE);
 
 		groupsView.removeAllViews();
-		final SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy",
+		final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",
 				Locale.getDefault());
 
 		if (courseToView.getName() == null || courseToView.getName().isEmpty())
@@ -262,8 +294,7 @@ public class CourseDisplayFragment extends Fragment {
 		((TextView) v.findViewById(R.id.ug_course_group_info_names))
 				.setText(str);
 		if (isSeperator) {
-			v.setBackgroundResource(R.drawable.ug_course_group_view);
-			// TODO set v color also
+			v.setBackgroundResource(R.drawable.ug_course_group_view_seperator);
 		}
 		expandableList.addView(v);
 	}
