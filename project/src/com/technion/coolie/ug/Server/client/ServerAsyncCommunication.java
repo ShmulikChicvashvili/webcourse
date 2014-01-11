@@ -90,7 +90,7 @@ public class ServerAsyncCommunication {
 			@Override
 			protected void onPostExecute(List<AccomplishedCourse> result) 
 			{
-				
+				Log.i("UG","Grades sheet downloaded");				
 				if (result==null || result.size()==0) return;
 				UGDatabase.getInstance(context).setGradesSheet(result);
 				/*GradesSheetListFragment f = context.getGradesSheetFragment();
@@ -143,6 +143,7 @@ public class ServerAsyncCommunication {
 			@Override 
 			protected void onPostExecute(List<AcademicCalendarEvent> result) 
 			{
+				Log.i("UG","Calendar events downloaded");
 				if (result==null || result.size()==0) return;
 				UGDatabase.getInstance(context).setAcademicCalendar(result);
 				/*AcademicCalendarListFragment f = mainActivity.getCalendarFragment();
@@ -238,16 +239,29 @@ public class ServerAsyncCommunication {
 	
 	static public void getAllExamsFromClient(final Semester semester, final String userName, final String password,final Context context) {
 
-		AsyncTask<Void,Void,Void> ast = new AsyncTask<Void,Void,Void>()
+		AsyncTask<Void,Void,List<CourseItem>> ast = new AsyncTask<Void,Void,List<CourseItem>>()
 		{
-
+			
+			List<CourseItem> x;
 			@Override
-			protected Void doInBackground(Void... arg0) {
+			protected List<CourseItem> doInBackground(Void... arg0) {
 				HttpClient httpclient = new DefaultHttpClient();
 			    HttpPost httppost = new HttpPost("http://techmvs.technion.ac.il:100/cics/WMN/wmnnut02");
 				
 				try {
-			        // Add your data
+					/*String sem = semester.getYear()+semester.getSs().getId();
+					Connection c = Jsoup.connect("http://techmvs.technion.ac.il:100/cics/WMN/wmnnut02")
+					.data("OP", "LI")
+					.data("UID", userName)
+					.data("PWD", password)
+					.data("SEM", sem)
+					.data("NEXTOP", "WK")
+					.data("Login.x", "8")
+					.data("Login.y", "17")
+					.method(Method.POST);
+					
+					Document d = Jsoup.parse(new String (c.execute().bodyAsBytes(),"ISO-8859-8"));*/
+					
 			        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
 			        nameValuePairs.add(new BasicNameValuePair("OP", "LI"));
 			        nameValuePairs.add(new BasicNameValuePair("UID", userName));
@@ -261,15 +275,27 @@ public class ServerAsyncCommunication {
 
 			        HttpResponse response = httpclient.execute(httppost);
 			        HttpEntity responseEntity = response.getEntity();
-			        String s = EntityUtils.toString(responseEntity); // <----- s is a html of exams page
+			        String s = EntityUtils.toString(responseEntity,"ISO-8859-8"); // <----- s is a html of exams page
+					
 			        List<CourseItem> x = HtmlParseFromClient.parseStudentExams(Jsoup.parse(s));
 			        UGDatabase db = UGDatabase.getInstance(context);
 			        db.setCoursesAndExams(x);
 			        Math.random();
 			    } catch (Exception e) {
-			        // TODO Auto-generated catch block
+			        Math.random();
 			    }
-				return null; 
+				return x; 
+			}
+			
+			@Override 
+			protected void onPostExecute(List<CourseItem> result) 
+			{
+				Log.i("UG","Courses and exams events downloaded");
+				if (result==null || result.size()==0) return;
+				UGDatabase.getInstance(context).setCoursesAndExams(result);
+				/*AcademicCalendarListFragment f = mainActivity.getCalendarFragment();
+				if (f==null) return;
+				f.updateData();*/
 			}
 		};
 		ast.execute();

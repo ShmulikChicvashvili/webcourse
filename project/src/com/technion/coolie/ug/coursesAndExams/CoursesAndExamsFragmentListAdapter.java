@@ -49,14 +49,24 @@ public class CoursesAndExamsFragmentListAdapter extends BaseAdapter {
 		this.context = context;
 		for (final CourseItem c : coursesList) {
 			final List<ExamItem> exams = c.getExams();
-			if (exams == null || exams.size() == 0)
-				continue;
+			boolean alreadyAdded = false;
 			if (exams.size() >= 1 && exams.get(0).getDate() != null)
+			{
 				values.add(new Exam(c.getCoursName(), "A", exams.get(0)
 						.getDate()));
+				alreadyAdded = true;
+			}
 			if (exams.size() >= 2 && exams.get(1).getDate() != null)
+			{
 				values.add(new Exam(c.getCoursName(), "B", exams.get(1)
 						.getDate()));
+				alreadyAdded = true;
+			}
+			if (!alreadyAdded)
+			{
+				values.add(new Exam(c.getCoursName(), "-", null));
+				continue;
+			}
 
 		}
 		// sort the list
