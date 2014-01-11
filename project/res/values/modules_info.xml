@@ -8,11 +8,14 @@
     <string name="lib_name">Tech Library</string>
     <string name="park_name">Tech Park</string>
     <string name="trad_name">Tech Trade</string>
-    <string name="mind_name">Tec Mind</string>
+    <string name="mind_name">Tech Mine</string>
     <string name="tele_name">TeleTech</string>
     <string name="ug_name">UG</string>
+    	
+    <string name="web_name">Webcourse</string>
     <string name="skel_name">Skeleton</string>
-
+    <string name="web_name">Web Course</string>
+    
     <string-array name="modules">
         <item name="skeletonActivity">skeletonActivity</item>
         <item name="techLibraryActivity">techLibraryActivity</item>
@@ -28,6 +31,7 @@
     <string name="mind_description">This is module 8 description, it describes what the module does.</string>
     <string name="tele_description">This is module 9 description, it describes what the module does.</string>
     <string name="ug_description">This is module 10 description, it describes what the module does.</string>
+    <string name="web_description">This is module 11 description, it describes what the module does.</string>
     <string name="skel_description">Skeleton desc</string>
 
 </resources>

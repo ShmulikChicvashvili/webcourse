@@ -1,43 +1,89 @@
 package com.technion.coolie.server.techoins;
 
-public class Product {
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
+import android.graphics.Bitmap;
+
+public class Product implements Serializable {
+
+  /**
+	 * 
+	 */
+  private static final long serialVersionUID = -121600915135933398L;
+  // product details
   private Long id;
   private String name;
-  private String sellerId;
-  private String buyerId;
-  private Category category;
   private Double price;
-  private byte[] image;
+  private Category category;
   private String descripstion;
-  // TODO add tags if we can.
-  private String sellerPhoneNumber;
-  private String buyerPhoneNumber;
+  private byte[] imageByteArray;
+  private long publishDateInMillis;
+  private long sellDateInMillis;
   private boolean sold;
-  private long publishDate;
-  private long sellDate;
+  // seller details
+  private String sellerId;
+  private String sellerName;
+  private String sellerPhoneNumber;
+  // buyer details
+  private String buyerId;
+  private String buyerName;
+  private String buyerPhoneNumber;
 
-  // private int countViews; TODO
+  // TODO add tags if we can.
+  // TODO private int countViews;
+  // TODO make sure that omer sets the id
+
+  // has to be here
+  Product() {
+  };
 
   public Product(String name1, String sellerId1, Category category1,
       Double price1, String descripstion1, String sellerPhoneNumber1,
-      byte[] image1) {
-    this.name = name1;
-    this.sellerId = sellerId1;
-    this.buyerId = null;
-    this.category = category1;
-    this.price = price1;
-    this.image = image1;
-    this.descripstion = descripstion1;
-    // TODO add tags if we can.
-    this.sellerPhoneNumber = sellerPhoneNumber1;
-    this.buyerPhoneNumber = null;
-    this.sold = false;
-    this.publishDate = 0; // TODO change to current date in long
-    this.sellDate = 0;
+      byte[] image1, String sellerName) {
+    productInitAux(name1, sellerId1, category1, price1, descripstion1,
+        sellerPhoneNumber1, sellerName);
+    this.imageByteArray = image1;
   }
 
-  Product() {
+  public Product(String name1, String sellerId1, Category category1,
+      Double price1, String descripstion1, String sellerPhoneNumber1,
+      String url, String sellerName) {
+    productInitAux(name1, sellerId1, category1, price1, descripstion1,
+        sellerPhoneNumber1, sellerName);
+    this.imageByteArray = BitmapOperations.decodeToByteArray(BitmapOperations
+        .decodeBitmapFromFile(url, 0, 0));
+  }
+
+  public Product(String name1, String sellerId1, Category category1,
+      Double price1, String descripstion1, String sellerPhoneNumber1,
+      Bitmap bitmap, String sellerName) {
+    productInitAux(name1, sellerId1, category1, price1, descripstion1,
+        sellerPhoneNumber1, sellerName);
+    this.imageByteArray = BitmapOperations.decodeToByteArray(bitmap);
+  }
+
+  private void productInitAux(String name1, String sellerId1,
+      Category category1, Double price1, String descripstion1,
+      String sellerPhoneNumber1, String sellerName) {
+    this.id = null;
+    this.name = name1;
+    this.price = price1;
+    this.category = category1;
+    this.descripstion = descripstion1;
+    this.publishDateInMillis = Calendar.getInstance().getTimeInMillis();
+
+    this.sold = false;
+    this.sellDateInMillis = 0;
+
+    this.sellerId = sellerId1;
+    this.sellerName = sellerName;
+    this.sellerPhoneNumber = sellerPhoneNumber1;
+
+    this.buyerId = null;
+    this.buyerName = null;
+    this.buyerPhoneNumber = null;
   }
 
   public void setId(Long id) {
@@ -60,8 +106,8 @@ public class Product {
     this.price = price;
   }
 
-  public void setImage(byte[] image) {
-    this.image = image;
+  public void setImageByteArray(byte[] image) {
+    this.imageByteArray = image;
   }
 
   public void setDescripstion(String descripstion) {
@@ -72,20 +118,16 @@ public class Product {
     this.sellerPhoneNumber = sellerPhoneNumber;
   }
 
-  public void setSold(boolean sold) {
-    this.sold = sold;
-  }
-
-  public void setPublishDate(long publishDate) {
-    this.publishDate = publishDate;
+  public void setPublishDateInMillis(long publishDate) {
+    this.publishDateInMillis = publishDate;
   }
 
   public boolean isSold() {
     return sold;
   }
 
-  public long getPublishDate() {
-    return publishDate;
+  public long getPublishDateInMillis() {
+    return publishDateInMillis;
   }
 
   public Long getId() {
@@ -116,8 +158,8 @@ public class Product {
     return price;
   }
 
-  public byte[] getImage() {
-    return image;
+  public byte[] getImageByteArray() {
+    return imageByteArray;
   }
 
   public String getDescripstion() {
@@ -130,14 +172,9 @@ public class Product {
 
   public void setSold() {
     this.sold = true;
-    this.sellDate = 0;
-    // TODO handke the sale
+    this.sellDateInMillis = Calendar.getInstance().getTimeInMillis();
+    // TODO handle the sale
   }
-
-  // public int numOfViews(){ //TODO
-  // return countViews;
-  // }
-  // TODO: notifications
 
   public void setBuyerId(String buyerId2) {
     buyerId = buyerId2;
@@ -151,15 +188,54 @@ public class Product {
     this.buyerPhoneNumber = buyerPhoneNumber;
   }
 
-  public long getSellDate() {
-    return sellDate;
+  public String getSellDate() {
+    return formatMillisToDate(sellDateInMillis);
   }
 
-  public void setSellDate(long sellDate) {
-    this.sellDate = sellDate;
+  public String getPublishDate() {
+    return formatMillisToDate(publishDateInMillis);
   }
 
-  public void setImageUrl(byte[] image) {
-    this.image = image;
+  private String formatMillisToDate(Long millis) {
+    String dateFormat = "dd/MM/yyyy";
+    SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
+    return formatter.format(millis);
   }
+
+  public long getSellDateInMillis() {
+    return sellDateInMillis;
+  }
+
+  public void setSellDateInMillis(long sellDate) {
+    this.sellDateInMillis = sellDate;
+  }
+
+  public Bitmap getImage() {
+    return BitmapOperations.decodeByteArray(this.imageByteArray);
+  }
+
+  public void setImage(Bitmap image) {
+    this.imageByteArray = BitmapOperations.decodeToByteArray(image);
+  }
+
+  public String getSellerName() {
+    return sellerName;
+  }
+
+  public void setSellerName(String sellerName) {
+    this.sellerName = sellerName;
+  }
+
+  public String getBuyerName() {
+    return buyerName;
+  }
+
+  public void setBuyerName(String buyerName) {
+    this.buyerName = buyerName;
+  }
+
+  // public int numOfViews(){ //TODO
+  // return countViews;
+  // }
+  // TODO: notifications
 }

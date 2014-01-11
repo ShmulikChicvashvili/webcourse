@@ -6,10 +6,10 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
 import com.technion.coolie.server.ug.api.IUgCourse;
-import com.technion.coolie.server.ug.framework.CourseKey;
-import com.technion.coolie.server.ug.framework.CourseServer;
-import com.technion.coolie.server.ug.framework.Semester;
-import com.technion.coolie.server.ug.framework.Student;
+import com.technion.coolie.ug.Server.ServerCourse;
+import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.Semester;
+import com.technion.coolie.ug.model.Student;
 
 /**
  * Created on 8.12.2013
@@ -23,7 +23,7 @@ public class UgCourse implements IUgCourse {
   private static final String FUNCTION = "function";
 
   @Override
-  public List<CourseServer> getAllCourses(Semester semester) {
+  public List<ServerCourse> getAllCourses(Semester semester) {
     String $ = Communicator.execute(servletName, FUNCTION,
         UgCourseFunctions.GET_COURSES_BY_SEMESTER.value(), "semester",
         toJson(semester));
@@ -32,7 +32,7 @@ public class UgCourse implements IUgCourse {
   }
 
   @Override
-  public List<CourseServer> getCourses(List<CourseKey> courseKeys) {
+  public List<ServerCourse> getCourses(List<CourseKey> courseKeys) {
     String $ = Communicator.execute(servletName, FUNCTION,
         UgCourseFunctions.GET_COURSES_BY_KEY.value(), "courseKeys",
         toJson(courseKeys));
@@ -41,7 +41,7 @@ public class UgCourse implements IUgCourse {
   }
 
   @Override
-  public List<CourseServer> getStudentCurrentCourses(Student student,
+  public List<ServerCourse> getStudentCurrentCourses(Student student,
       Semester semester) {
     String $ = Communicator.execute(servletName, FUNCTION,
         UgCourseFunctions.GET_STUDENT_COURSES.value(), "student",
@@ -67,8 +67,8 @@ public class UgCourse implements IUgCourse {
    *          the json string
    * @return list of courses
    */
-  private List<CourseServer> convertJsonToCoursesList(String json) {
-    return new Gson().fromJson(json, new TypeToken<List<CourseServer>>() {
+  private List<ServerCourse> convertJsonToCoursesList(String json) {
+    return new Gson().fromJson(json, new TypeToken<List<ServerCourse>>() {
     }.getType());
   }
 }

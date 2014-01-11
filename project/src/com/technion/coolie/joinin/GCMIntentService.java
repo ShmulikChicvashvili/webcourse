@@ -14,8 +14,8 @@ import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
 import com.google.gson.Gson;
+import com.technion.coolie.FBClientAccount;
 import com.technion.coolie.joinin.communication.ClientProxy;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.GCMMessage;
 import com.technion.coolie.joinin.map.MainMapActivity;
@@ -35,7 +35,7 @@ public class GCMIntentService extends GCMBaseIntentService {
   private final BroadcastReceiver messageReceiver = new BroadcastReceiver() {
     @Override public void onReceive(final Context c, final Intent i) {
       final GCMMessage message = new Gson().fromJson(i.getStringExtra("message"), GCMMessage.class);
-      message.getTag().send(getLoggedAccount(), message.getAccount() == null ? null : new ClientAccount(message.getAccount()),
+      message.getTag().send(getLoggedAccount(), message.getAccount() == null ? null : new FBClientAccount(message.getAccount()),
           message.getEvent() == null ? null : new ClientEvent(message.getEvent()), message.getMessage(), c,
           (NotificationManager) c.getSystemService(NOTIFICATION_SERVICE));
     }
@@ -78,10 +78,10 @@ public class GCMIntentService extends GCMBaseIntentService {
    * 
    * @return The logged account in this device
    */
-  ClientAccount getLoggedAccount() {
+  FBClientAccount getLoggedAccount() {
     final SharedPreferences mTeamAppPref = getSharedPreferences(MainMapActivity.PREFS_NAME, 0);
     mTeamAppPref.edit().commit();
-    return mTeamAppPref.contains("account") ? ClientAccount.fromJson(mTeamAppPref.getString("account", "")) : null;
+    return mTeamAppPref.contains("account") ? FBClientAccount.fromJson(mTeamAppPref.getString("account", "")) : null;
   }
   
   @Override protected void onRegistered(final Context c, final String regId) {

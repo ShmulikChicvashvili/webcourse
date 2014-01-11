@@ -47,12 +47,13 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieActivity;
+import com.technion.coolie.FBClientAccount;
+import com.technion.coolie.LoginDialog;
 import com.technion.coolie.R;
 import com.technion.coolie.R.id;
 import com.technion.coolie.R.layout;
 import com.technion.coolie.R.menu;
 import com.technion.coolie.joinin.EventsDB;
-import com.technion.coolie.joinin.LoginDialog;
 import com.technion.coolie.joinin.MainActivity;
 import com.technion.coolie.joinin.calander.CalendarEventDatabase.NotFoundException;
 import com.technion.coolie.joinin.calander.CalendarHandler;
@@ -60,7 +61,6 @@ import com.technion.coolie.joinin.communication.ClientProxy;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
 import com.technion.coolie.joinin.communication.ClientProxy.OnError;
 import com.technion.coolie.joinin.data.CategoryItem;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.EventDate;
 import com.technion.coolie.joinin.data.TeamAppFacebookEvent;
@@ -75,7 +75,7 @@ import android.app.Activity;
 
 public class CategoryEventActivity extends CoolieActivity {
 	  final Activity mContext = this;
-	  public static ClientAccount mLoggedAccount = null;
+	  public static FBClientAccount mLoggedAccount = null;
 	  String mCategory ;
 
 	@Override
@@ -83,7 +83,7 @@ public class CategoryEventActivity extends CoolieActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ji__expandable_view);
 		mCategory = (String) getIntent().getExtras().get("category");
-		mLoggedAccount = (ClientAccount) getIntent().getExtras().get("account");
+		mLoggedAccount = (FBClientAccount) getIntent().getExtras().get("account");
 	    showData();
 	}
 	

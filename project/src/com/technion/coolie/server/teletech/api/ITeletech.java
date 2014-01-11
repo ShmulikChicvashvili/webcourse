@@ -2,7 +2,7 @@ package com.technion.coolie.server.teletech.api;
 
 import java.util.List;
 
-import com.technion.coolie.server.teletech.framework.ContactInformation;
+import com.technion.coolie.teletech.ContactInformation;
 
 /**
  * Created on 6.12.2013

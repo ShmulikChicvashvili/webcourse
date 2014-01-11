@@ -6,8 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
 import com.technion.coolie.server.ug.api.IUgGradeSheet;
-import com.technion.coolie.server.ug.framework.AccomplishedCourse;
-import com.technion.coolie.server.ug.framework.Student;
+import com.technion.coolie.ug.UGLoginObject;
+import com.technion.coolie.ug.model.AccomplishedCourse;
 
 /**
  * Created on 8.12.2013
@@ -19,9 +19,8 @@ public class UgGradeSheet implements IUgGradeSheet {
   private static final String servletName = "UGGradeSheet";
 
   @Override
-  public List<AccomplishedCourse> getMyGradesSheet(Student student) {
+  public List<AccomplishedCourse> getMyGradesSheet(UGLoginObject student) {
     String $ = Communicator.execute(servletName, "student", toJson(student));
-
     return convertJsonToList($);
   }
 

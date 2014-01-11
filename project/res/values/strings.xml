@@ -6,7 +6,19 @@
     <string name="hello_world">Welcome to</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
-    <string name="app_id">222327407950326</string>
+    <string name="stb_course_name_hint">Course name eg: Biology</string>
+    <string name="stb_course_number_hint">Course number eg: 236321</string>
+    <string name="stb_cancel">Cancel</string>
+    <string name="stb_save">Save</string>
+    <string name="stb_title_activity_edit_course">EditCourse</string>
+    <string name="stb_add_course">Add course</string>
+    <string name="stb_include_lectures">Include lectures as resourse</string>
+    <string name="stb_include_tutorials">Include tutorials as resourse</string>
+    <string name="stb_lecture_count_hint"># of lectures</string>
+    <string name="stb_tutorials_count_hint"># of tutorials</string>
+    <string name="stb_semester_start">Semester start date</string>
+    <string name="stb_course_discard">Delete</string>
+    <string name="techmine_app_id">222327407950326</string>
     
    
     <string name="title_activity_categories">CategoriesActivity</string>

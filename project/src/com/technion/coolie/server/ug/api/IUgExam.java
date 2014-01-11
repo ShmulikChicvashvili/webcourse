@@ -2,9 +2,9 @@ package com.technion.coolie.server.ug.api;
 
 import java.util.List;
 
-import com.technion.coolie.server.ug.framework.Exam;
-import com.technion.coolie.server.ug.framework.Semester;
-import com.technion.coolie.server.ug.framework.Student;
+import com.technion.coolie.ug.UGLoginObject;
+import com.technion.coolie.ug.model.CourseItem;
+import com.technion.coolie.ug.model.Semester;
 
 /**
  * Created on 7.12.2013
@@ -19,5 +19,6 @@ public interface IUgExam {
    *          the student
    * @return list of the student's exams
    */
-  public List<Exam> getStudentExams(Student student, Semester semester);
+  public List<CourseItem> getStudentExams(UGLoginObject student,
+      Semester semester);
 }

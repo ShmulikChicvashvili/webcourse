@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="#000000">
+     
+    <ImageView android:id="@+id/image"
+        android:contentDescription="@string/content"
+        android:layout_gravity="left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/tab1" 
+    />
+    
+    <TextView android:id="@+id/staff_name"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:layout_alignTop="@id/image"
+        android:layout_toRightOf="@id/image"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:textSize="16sp"
+        android:textColor="#f9f93d"
+    />
+    <TextView android:id="@+id/staff_position"
+        android:layout_width="fill_parent"
+        android:layout_height="26dip"
+        android:layout_alignLeft="@id/staff_name"
+        android:layout_below="@id/staff_name"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:textSize="12sp"
+        android:textColor="#f9f93d"
+    />
+    <TextView android:id="@+id/staff_mail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/staff_position"
+        android:layout_below="@id/staff_position"             
+        android:gravity="center_vertical"        
+        android:textSize="12sp"
+        android:textColor="#f9f93d"
+    />
+    
+
+</RelativeLayout>

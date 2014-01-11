@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Coolie</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="AnnouncementsFragment">This is ActionBarSherlock Fragment 1</string>
+    <string name="OfficeHoursFragment">This is ActionBarSherlock Fragment 2</string>
+    <string name="StaffFragment">This is ActionBarSherlock Fragment 3</string>
+    <string name="AssignmentsFragment">This is ActionBarSherlock Fragment 4</string>
+    <string name="title_activity_course_information">Course Information</string>
+    <string name="action_settings">Settings</string>
+    <string name="announcements_tab_title">Announcements</string>
+    <string name="office_hours_tab_title">Office Hours</string>
+    <string name="staff_tab_title">Staff</string>
+    <string name="assignments_tab_title">Assignments</string>
+    <string name="content">image</string>
+    <string name="AnnouncementsTab">This is Announcements tab</string>
+    <string name="AssignmentsTab">This is Assignments tab</string>
+    <string name="OfficeHoursTab">This is OfficeHours tab</string>
+    <string name="StaffTab">This is Staff tab</string>
+
+    <!-- string name="StaffItemOfficeTitle">Office Hours:</string -->
+    <!-- string name="StaffItemLecturesTitle">Lectures:</string -->
+    <string name="StaffItemOfficeTitle"></string>
+    <string name="StaffItemLecturesTitle"></string>
+    <string name="title_activity_announcement">AnnouncementActivity</string>
+
+</resources>

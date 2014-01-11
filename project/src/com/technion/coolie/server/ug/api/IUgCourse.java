@@ -2,10 +2,10 @@ package com.technion.coolie.server.ug.api;
 
 import java.util.List;
 
-import com.technion.coolie.server.ug.framework.CourseKey;
-import com.technion.coolie.server.ug.framework.CourseServer;
-import com.technion.coolie.server.ug.framework.Semester;
-import com.technion.coolie.server.ug.framework.Student;
+import com.technion.coolie.ug.Server.ServerCourse;
+import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.Semester;
+import com.technion.coolie.ug.model.Student;
 
 /**
  * Created on 7.12.2013
@@ -21,7 +21,7 @@ public interface IUgCourse {
    *          the semester
    * @return list of the courses from DB thats matching to the semester
    */
-  public List<CourseServer> getAllCourses(Semester semester);
+  public List<ServerCourse> getAllCourses(Semester semester);
 
   /**
    * 
@@ -29,7 +29,7 @@ public interface IUgCourse {
    *          list of courses key
    * @return list of the courses from DB thats matching to the courses keys
    */
-  public List<CourseServer> getCourses(List<CourseKey> courseKeys);
+  public List<ServerCourse> getCourses(List<CourseKey> courseKeys);
 
   /**
    * 
@@ -37,6 +37,6 @@ public interface IUgCourse {
    *          the student
    * @return list of the student's courses
    */
-  public List<CourseServer> getStudentCurrentCourses(Student student,
+  public List<ServerCourse> getStudentCurrentCourses(Student student,
       Semester semester);
 }

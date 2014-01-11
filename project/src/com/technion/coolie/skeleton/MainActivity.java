@@ -18,264 +18,289 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.technion.coolie.CoolieAccount;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.CoolieNotification;
 import com.technion.coolie.R;
+import com.technion.coolie.server.gcm.GcmFactory;
+
 
 @SuppressLint("ValidFragment")
 public class MainActivity extends CoolieActivity {
+static boolean firstRunFlag = true;
+  /**gcm vars*/
+  private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+  /**end of gcm vars */
 
-	private GridView mostUsedGrid;
-	private ViewPager mViewPager;
-	int selectedTabIndex = 0; // used in onResume to restore the selected tab in
-								// orientation change
-	private static String KEY_VIEWPAGER_SAVE_STATE = "VIEW_PAGER_SELECTED_TAB";
+  private GridView mostUsedGrid;
+  private ViewPager mViewPager;
+  int selectedTabIndex = 0; // used in onResume to restore the selected tab in
+  // orientation change
+  private static String KEY_VIEWPAGER_SAVE_STATE = "VIEW_PAGER_SELECTED_TAB";
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.skel_activity_main);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.skel_activity_main);
 
-		/*
-		 * HtmlRequestHandler hg = new
-		 * HtmlRequestHandler(getApplicationContext()) {
-		 * 
-		 * @Override public void handleResult(String result, CoolieStatus
-		 * status) { Log.v("RESULT",result); } }; hg.getHtmlSource(
-		 * "http://techmvs.technion.ac.il:80/cics/wmn/wmngrad?ORD=1",
-		 * HtmlRequestHandler.Account.NONE);
-		 */
-		if (savedInstanceState == null) {
-			// this means that its the first time we run the app 
-			// so its ok to display these demo notifications..
-			CoolieNotification c1;
-			try {
-				c1 = new CoolieNotification(
-						"Demo Notification 1",
-						"This notification simulates Tech Library notification.",
-						(Activity) CoolieModule.TECHLIBRARY.getActivity()
-								.newInstance(),
-						CoolieNotification.Priority.IMMEDIATELY, true, this);
-				CoolieNotification c2 = new CoolieNotification(
-						"Demo Notification 2",
-						"This notification simulates StudyBuddy notification.",
-						(Activity) CoolieModule.STUDYBUDDY.getActivity()
-								.newInstance(),
-						CoolieNotification.Priority.IN_A_DAY, true, this);
-				c1.sendNotification();
-				c2.sendNotification();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+    /** gcm check (and registration if necessary) **/
+    GcmFactory.getGcmAPI().registerDevice(getApplicationContext(),
+        checkPlayServices());
+    /** end of gcm check **/
 
-		mViewPager = (ViewPager) findViewById(R.id.skel_main_view_pager);
+    if (firstRunFlag == true) {
+      // this means that its the first time we run the app
+      // so its ok to display these demo notifications..
+      CoolieNotification c1;
+      try {
+        c1 = new CoolieNotification("Demo Notification 1",
+            "This notification simulates Tech Library notification.",
+            (Activity) CoolieModule.TECHLIBRARY.getActivity().newInstance(),
+            CoolieNotification.Priority.IMMEDIATELY, true, this);
+        CoolieNotification c2 = new CoolieNotification("Demo Notification 2",
+            "This notification simulates StudyBuddy notification.",
+            (Activity) CoolieModule.STUDYBUDDY.getActivity().newInstance(),
+            CoolieNotification.Priority.IN_A_DAY, true, this);
+        c1.sendNotification();
+        c2.sendNotification();
+        firstRunFlag = false;
+      } catch (InstantiationException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      } catch (IllegalAccessException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+    }
 
-		ViewPagerAdapter mDemoCollectionPagerAdapter = new ViewPagerAdapter(
-				getSupportFragmentManager(), MainActivity.this, getFragments());
-		mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-		mViewPager
-				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-					@Override
-					public void onPageSelected(int position) {
-						// When swiping between pages, select the
-						// corresponding tab.
-						getSupportActionBar().setSelectedNavigationItem(
-								position);
-					}
-				});
+    mViewPager = (ViewPager) findViewById(R.id.skel_main_view_pager);
 
-		if (savedInstanceState != null)
-			selectedTabIndex = savedInstanceState
-					.getInt(KEY_VIEWPAGER_SAVE_STATE);
+    ViewPagerAdapter mDemoCollectionPagerAdapter = new ViewPagerAdapter(
+        getSupportFragmentManager(), MainActivity.this, getFragments());
+    mViewPager.setAdapter(mDemoCollectionPagerAdapter);
+    mViewPager
+        .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+          @Override
+          public void onPageSelected(int position) {
+            // When swiping between pages, select the
+            // corresponding tab.
+            getSupportActionBar().setSelectedNavigationItem(position);
+          }
+        });
 
-	}
+    if (savedInstanceState != null)
+      selectedTabIndex = savedInstanceState.getInt(KEY_VIEWPAGER_SAVE_STATE);
 
-	@Override
-	protected void onResume() {
-		if (mostUsedGrid == null)
-			addTabsToActionbar(mViewPager);
-		else
-			((MostUsedAdapter) mostUsedGrid.getAdapter()).sortAgain();
-		super.onResume();
-	}
+  }
 
-	private List<Fragment> getFragments() {
-		List<Fragment> fList = new ArrayList<Fragment>();
-		fList.add(new AlphabeticalModulesFragment());
-		fList.add(new MostUsedModulesFragment());
-		fList.add(new FeedsFragment());
+  @Override
+  protected void onResume() {
+    if (mostUsedGrid == null)
+      addTabsToActionbar(mViewPager);
+    else
+      ((MostUsedAdapter) mostUsedGrid.getAdapter()).sortAgain();
+    super.onResume();
 
-		return fList;
-	}
+    // gcm check
+    checkPlayServices();
+  }
 
-	private void addTabsToActionbar(final ViewPager mViewPager) {
-		final ActionBar actionBar = getSupportActionBar();
+  private List<Fragment> getFragments() {
+    List<Fragment> fList = new ArrayList<Fragment>();
+    fList.add(new AlphabeticalModulesFragment());
+    fList.add(new MostUsedModulesFragment());
+    fList.add(new FeedsFragment());
 
-		// Specify that tabs should be displayed in the action bar.
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+    return fList;
+  }
 
-		// Create a tab listener that is called when the user changes tabs.
-		ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+  private void addTabsToActionbar(final ViewPager mViewPager) {
+    final ActionBar actionBar = getSupportActionBar();
 
-			@Override
-			public void onTabSelected(Tab tab, FragmentTransaction ft) {
+    // Specify that tabs should be displayed in the action bar.
+    actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-				getSupportActionBar().setSelectedNavigationItem(
-						tab.getPosition());
-				mViewPager.setCurrentItem(tab.getPosition(), true);
-			}
+    // Create a tab listener that is called when the user changes tabs.
+    ActionBar.TabListener tabListener = new ActionBar.TabListener() {
 
-			@Override
-			public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-				// TODO Auto-generated method stub
+      @Override
+      public void onTabSelected(Tab tab, FragmentTransaction ft) {
+    	if (navbarIsOpen == true)
+    	{
+    		mDrawerLayout.closeDrawers();
+    	}
+        getSupportActionBar().setSelectedNavigationItem(tab.getPosition());
+        mViewPager.setCurrentItem(tab.getPosition(), true);
+      }
 
-			}
+      @Override
+      public void onTabUnselected(Tab tab, FragmentTransaction ft) {
+        // TODO Auto-generated method stub
 
-			@Override
-			public void onTabReselected(Tab tab, FragmentTransaction ft) {
-				// TODO Auto-generated method stub
+      }
 
-			}
-		};
+      @Override
+      public void onTabReselected(Tab tab, FragmentTransaction ft) {
+        // TODO Auto-generated method stub
 
-		actionBar.addTab(actionBar.newTab()
-				.setText(R.string.skel_tab_title_alphabetical)
-				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab()
-				.setText(R.string.skel_tab_title_most_used)
-				.setTabListener(tabListener));
-		actionBar.addTab(actionBar.newTab()
-				.setText(R.string.skel_tab_title_feeds)
-				.setTabListener(tabListener));
+      }
+    };
 
-		actionBar.setSelectedNavigationItem(selectedTabIndex);
+    actionBar.addTab(actionBar.newTab()
+        .setText(R.string.skel_tab_title_alphabetical)
+        .setTabListener(tabListener));
+    actionBar
+        .addTab(actionBar.newTab().setText(R.string.skel_tab_title_most_used)
+            .setTabListener(tabListener));
+    actionBar.addTab(actionBar.newTab().setText(R.string.skel_tab_title_feeds)
+        .setTabListener(tabListener));
 
-	}
+    actionBar.setSelectedNavigationItem(selectedTabIndex);
 
-	private class ViewPagerAdapter extends FragmentPagerAdapter {
-		List<Fragment> fragments;
+  }
 
-		public ViewPagerAdapter(FragmentManager fm, Context c,
-				List<Fragment> fragments) {
-			super(fm);
-			this.fragments = fragments;
-		}
+  private class ViewPagerAdapter extends FragmentPagerAdapter {
+    List<Fragment> fragments;
 
-		@Override
-		public Fragment getItem(int arg0) {
-			// TODO Auto-generated method stub
-			return fragments.get(arg0);
-		}
+    public ViewPagerAdapter(FragmentManager fm, Context c,
+        List<Fragment> fragments) {
+      super(fm);
+      this.fragments = fragments;
+    }
 
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			return fragments.size();
-		}
+    @Override
+    public Fragment getItem(int arg0) {
+      // TODO Auto-generated method stub
+      return fragments.get(arg0);
+    }
 
-	}
+    @Override
+    public int getCount() {
+      // TODO Auto-generated method stub
+      return fragments.size();
+    }
 
-	private class AlphabeticalModulesAdapter extends MainScreenModulesAdapter {
+  }
 
-		public AlphabeticalModulesAdapter(Context c) {
-			super(c);
-		}
+  private class AlphabeticalModulesAdapter extends MainScreenModulesAdapter {
 
-		@SuppressLint("ValidFragment")
-		@Override
-		int compareModules(CoolieModule m1, CoolieModule m2) {
-			return m1.getName(mContext).compareTo(m2.getName(mContext));
-		}
+    public AlphabeticalModulesAdapter(Context c) {
+      super(c);
+    }
 
-	}
+    @SuppressLint("ValidFragment")
+    @Override
+    int compareModules(CoolieModule m1, CoolieModule m2) {
+      return m1.getName(mContext).compareTo(m2.getName(mContext));
+    }
 
-	private class AlphabeticalModulesFragment extends Fragment {
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
+  }
 
-			View view = inflater.inflate(R.layout.skel_main_modules_grid,
-					container, false);
-			GridView gridview = (GridView) view
-					.findViewById(R.id.skel_main_modules_grid);
-			gridview.setAdapter(new AlphabeticalModulesAdapter(getActivity()));
+  private class AlphabeticalModulesFragment extends Fragment {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        Bundle savedInstanceState) {
 
-			return view;
-		}
+      View view = inflater.inflate(R.layout.skel_main_modules_grid, container,
+          false);
+      GridView gridview = (GridView) view
+          .findViewById(R.id.skel_main_modules_grid);
+      gridview.setAdapter(new AlphabeticalModulesAdapter(getActivity()));
 
-	}
+      return view;
+    }
 
-	private class MostUsedAdapter extends MainScreenModulesAdapter {
+  }
 
-		public MostUsedAdapter(Context c) {
-			super(c);
-		}
+  private class MostUsedAdapter extends MainScreenModulesAdapter {
 
-		@Override
-		int compareModules(CoolieModule m1, CoolieModule m2) {
-			if (m1.getUsageCounter() < m2.getUsageCounter())
-				return 1;
-			return -1;
-		}
-	}
+    public MostUsedAdapter(Context c) {
+      super(c);
+    }
 
-	private class MostUsedModulesFragment extends Fragment {
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
+    @Override
+    int compareModules(CoolieModule m1, CoolieModule m2) {
+      if (m1.getUsageCounter() < m2.getUsageCounter())
+        return 1;
+      return -1;
+    }
+  }
 
-			View view = inflater.inflate(R.layout.skel_main_modules_grid,
-					container, false);
-			mostUsedGrid = (GridView) view
-					.findViewById(R.id.skel_main_modules_grid);
-			mostUsedGrid.setAdapter(new MostUsedAdapter(getActivity()));
+  private class MostUsedModulesFragment extends Fragment {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        Bundle savedInstanceState) {
 
-			return view;
-		}
-	}
+      View view = inflater.inflate(R.layout.skel_main_modules_grid, container,
+          false);
+      mostUsedGrid = (GridView) view.findViewById(R.id.skel_main_modules_grid);
+      mostUsedGrid.setAdapter(new MostUsedAdapter(getActivity()));
 
-	@SuppressLint("ValidFragment")
-	private class FeedsFragment extends Fragment {
-		FeedsAdapter adp;
+      return view;
+    }
+  }
 
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View view = null;
-			if (adp == null) {
-				view = inflater.inflate(R.layout.skel_feeds_screen, container,
-						false);
-				ListView listView = (ListView) view
-						.findViewById(R.id.skel_feeds_list);
+  @SuppressLint("ValidFragment")
+  private class FeedsFragment extends Fragment {
+    FeedsAdapter adp;
 
-				adp = new FeedsAdapter(getActivity());
-				listView.setAdapter(adp);
-			}
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        Bundle savedInstanceState) {
+      View view = null;
+    
+        view = inflater.inflate(R.layout.skel_feeds_screen, container, false);
+        ListView listView = (ListView) view.findViewById(R.id.skel_feeds_list);
 
-			return view;
-		}
+        adp = new FeedsAdapter(getActivity());
+        listView.setAdapter(adp);
+      
 
-		@Override
-		public void onResume() {
-			adp.notifyDataSetChanged();
-			super.onResume();
-		}
-	}
+      return view;
+    }
 
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-		if (((ViewPager) findViewById(R.id.skel_main_view_pager)) != null)
-			savedInstanceState.putInt(KEY_VIEWPAGER_SAVE_STATE,
-					((ViewPager) findViewById(R.id.skel_main_view_pager))
-							.getCurrentItem());
-		super.onSaveInstanceState(savedInstanceState);
-	}
+    @Override
+    public void onResume() {
+      adp.notifyDataSetChanged();
+      super.onResume();
+    }
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle savedInstanceState) {
+    if (((ViewPager) findViewById(R.id.skel_main_view_pager)) != null)
+      savedInstanceState.putInt(KEY_VIEWPAGER_SAVE_STATE,
+          ((ViewPager) findViewById(R.id.skel_main_view_pager))
+              .getCurrentItem());
+    super.onSaveInstanceState(savedInstanceState);
+  }
+
+  /**
+   * Check the device to make sure it has the Google Play Services APK. If it
+   * doesn't, display a dialog that allows users to download the APK from the
+   * Google Play Store or enable it in the device's system settings.
+   */
+  public boolean checkPlayServices() {
+    int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+    if (resultCode != ConnectionResult.SUCCESS) {
+      if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+        GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+            PLAY_SERVICES_RESOLUTION_REQUEST).show();
+      } else {
+        Log.i("Gcm", "This device is not supported.");
+        Toast.makeText(getApplicationContext(),
+            "This device is not supported.", Toast.LENGTH_SHORT).show();
+        finish();
+      }
+      return false;
+    }
+    return true;
+  }
+
 }

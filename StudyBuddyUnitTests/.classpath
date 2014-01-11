@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Coolie"/>
+	<classpathentry kind="lib" path="libs/hamcrest-all-1.3.jar"/>
+	<classpathentry kind="lib" path="libs/com.springsource.org.objenesis-1.0.0.jar"/>
+	<classpathentry kind="lib" path="libs/mockito-core-1.9.5.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="libs/robolectric-2.2-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="C:/adt-bundle-windows-x86_64-20130917/sdk/platforms/android-18/android.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

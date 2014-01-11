@@ -1,49 +1,75 @@
 package com.technion.coolie.tecmind;
 
-import java.util.LinkedList;
-import java.util.List;
+import com.actionbarsherlock.app.SherlockFragment;
+import com.technion.coolie.R;
+import com.technion.coolie.tecmind.BL.User;
+import com.technion.coolie.tecmind.BL.Utilities;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.actionbarsherlock.app.SherlockFragment;
-import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphObject;
-import com.technion.coolie.R;
-import com.technion.coolie.tecmind.BL.Mine;
-import com.technion.coolie.tecmind.BL.Post;
-import com.technion.coolie.tecmind.BL.User;
-import com.technion.coolie.tecmind.MineActivity.ServerUpdateUserData;
-import com.technion.coolie.tecmind.server.ReturnCode;
-import com.technion.coolie.tecmind.server.TecPost;
-import com.technion.coolie.tecmind.server.TecUser;
-import com.technion.coolie.tecmind.server.TecUserTitle;
-import com.technion.coolie.tecmind.server.TechmineAPI;
 
 public class TotalAccountActivity extends SherlockFragment {
+	TextView postNum;
+	TextView commentsNum;
+	TextView likesNum;
+	TextView postValue;
+	TextView commentsValue;
+	TextView likesValue;
+	TextView totalTechions;
+	View inflateView;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View inflateView = (LinearLayout) inflater.inflate(
-				R.layout.techmind_activity_total_account, container, false);
-		TextView from = (TextView) inflateView.findViewById(R.id.from_data);
-		int index = MineActivity.exMiningDate.toString().indexOf("GMT");
-		from.setText(MineActivity.exMiningDate.toString().subSequence(0, index));
-		TextView to = (TextView) inflateView.findViewById(R.id.to_data);
-		index = MineActivity.newMiningDate.toString().indexOf("GMT");
-		to.setText(MineActivity.newMiningDate.toString().subSequence(0, index));
-		TextView total = (TextView) inflateView.findViewById(R.id.total_data);
-		total.setText(String.valueOf(MineActivity.totalDelta));
+		inflateView = (LinearLayout) inflater.inflate(
+				R.layout.techmind_activty_total_account, container, false);
+		initiateNumViews();
+		initiateValueViews();
+		
+		int userPost = User.getUserInstance(null).postsNum;
+		int userComments = User.getUserInstance(null).commentsNum;
+		int userLikes = User.getUserInstance(null).likesNum + User.getUserInstance(null).likesOnPostsNum;
+		setNumTexts(userPost, userComments, userLikes);
+		setValueTexts(userPost, userComments, userLikes);
 		return inflateView;
 	}
+
+	private void setNumTexts(int userPost, int userComments, int userLikes) {
+		postNum.setText(String.valueOf(userPost));
+		commentsNum.setText(String.valueOf(userComments));
+		likesNum.setText(String.valueOf(userLikes));
+	}
+
+	private void setValueTexts(int userPost, int userComments, int userLikes) {
+		postValue
+				.setText(String.valueOf(Utilities.calculatePostsAux(userPost)));
+		commentsValue.setText(String.valueOf(Utilities
+				.calculateCommentsAux(userComments)));
+		likesValue.setText(String.valueOf(Utilities
+				.calculatelikesAux(userLikes)));
+		totalTechions.setText(String.valueOf(User.getUserInstance(null).totalTechoins) +  "   Techoins");
+	}
+
+	private void initiateNumViews() {
+		postNum = (TextView) inflateView.findViewById(R.id.total_account_number_posts);
+		commentsNum = (TextView) inflateView.findViewById(R.id.total_account_number_comments);
+		likesNum = (TextView) inflateView.findViewById(R.id.total_account_number_likes);
+
+	}
+	
+	private void initiateValueViews(){
+		postValue = (TextView) inflateView.findViewById(R.id.total_account_current_posts);
+		commentsValue = (TextView) inflateView
+				.findViewById(R.id.total_account_current_comments);
+		likesValue = (TextView) inflateView.findViewById(R.id.total_account_current_likes);
+		totalTechions = (TextView) inflateView.findViewById(R.id.total_account_current_total);
+	}
+
+
+	
+	
 }

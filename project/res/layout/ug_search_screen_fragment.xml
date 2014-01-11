@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#B2DFEE"
+    android:windowSoftInputMode="adjustPan"
+     >
+
+<LinearLayout 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id = "@+id/search_screen_main"
+    android:orientation="vertical"
+    android:layout_marginRight="10dp"
+	android:layout_marginLeft="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+     >
+
+        
+
+        <LinearLayout 
+    	 android:layout_width="match_parent"
+    	 android:layout_height="40dip"
+  	 	 android:orientation="horizontal"
+   		 
+    	 >
+        
+            <Spinner
+                android:id="@+id/ug_search_faculty_spinner"
+                 android:layout_width="0dp"
+			android:layout_height="match_parent" 
+			android:layout_weight="17"
+			android:gravity="center_horizontal"
+			android:background="@drawable/ug_course_spinner_container" 
+			android:layout_marginRight="5dip"
+			/>
+
+<!--             -->
+            
+            <Spinner
+                android:id="@+id/ug_search_semester_spinner"
+                 android:layout_width="0dp"
+			android:layout_height="match_parent" 
+			android:layout_weight="12"
+			android:background="@drawable/ug_course_spinner_container"
+			android:gravity="center_horizontal"
+			android:layout_marginRight="5dip"
+			
+			/>
+            
+            
+        <RelativeLayout 
+    
+    		android:layout_width="0dp"
+   		 	android:layout_height="match_parent"
+    		android:background="@drawable/ug_fragment_border"
+    		android:layout_weight="32" >
+    		
+	        <AutoCompleteTextView
+			android:id="@+id/autocompletetextview"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:hint="@string/serach_course_hint" 
+			android:textSize="20sp"
+			android:background="#fff"
+			android:imeOptions="actionSearch|flagNoFullscreen"
+			android:inputType="text"
+			android:layout_marginRight="10dip"
+			
+			
+			
+			/>
+<!-- 	        android:dropDownWidth="match_parent" -->
+	        
+	        </RelativeLayout>
+	        
+	        
+	        
+	   </LinearLayout>		  
+        
+    <ListView
+        android:id="@+id/search_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="@color/ug_search_list_view_color" 
+        android:drawSelectorOnTop ="true"
+        android:imeOptions="flagNoFullscreen"
+        android:windowSoftInputMode="adjustPan"/>
+
+
+    
+    <TextView
+    android:id="@+id/empty_results"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/search_end_results"
+    android:layout_gravity="center_horizontal|top"
+    android:layout_marginBottom="5dp"
+   />
+    
+</LinearLayout>
+</RelativeLayout>

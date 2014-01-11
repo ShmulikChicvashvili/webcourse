@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.technion.coolie.CoolieAccount;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.R;
@@ -234,7 +235,7 @@ public class LoginActivity extends CoolieActivity {
 				};
 				String userAuthUrl = userAuthUrl_id + mUserId
 						+ userAuthUrl_pass + mPassword;
-				hg.getHtmlSource(userAuthUrl, HtmlGrabber.Account.NONE);
+				hg.getHtmlSource(userAuthUrl, CoolieAccount.NONE);
 			}
 		}
 		Log.v("LoginActicity:", "end of attemptlogin.....");

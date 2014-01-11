@@ -42,7 +42,7 @@ import android.widget.ViewSwitcher;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.technion.coolie.CollieNotification;
+import com.technion.coolie.CoolieNotification;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.assignmentor.EnhancedListView.Undoable;
@@ -90,7 +90,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 	private TextView emptyViewRefreshTv;
 	private MySqliteOpenHelper dbHelper;	
 	
-	// Temporary list to hold course ids.
+	// Temporary list to hold course id's.
 	ArrayList<String> courseList = new ArrayList<String>();
 	
 	@Override
@@ -134,9 +134,9 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			
 			@Override
 			public void onClick(View arg0) {
-				Intent serviceIntent = new Intent(getApplicationContext(), TaskParser.class);
-				serviceIntent.putStringArrayListExtra(COURSE_LIST, courseList);
-				startService(serviceIntent);
+					Intent serviceIntent = new Intent(getApplicationContext(), TaskParser.class);
+					serviceIntent.putStringArrayListExtra(COURSE_LIST, courseList);
+					startService(serviceIntent);
 			}
 		});
 		
@@ -205,18 +205,17 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 		// Setting a temporary course list to fetch from the web.
 		// This list is passed to the service in the intent's extra data.
 		// Start the update service by pressing 'Sort by progress' on the overflow menu.
+		courseList.add("234123");
 		courseList.add("234107"); 
-//		courseList.add("234114");
-//		courseList.add("236523");
-//		courseList.add("236350");
-//		courseList.add("236360");
-//		courseList.add("234118");
-//		courseList.add("234122");
-//		courseList.add("234123");
-//		courseList.add("234325");
-//		courseList.add("234141");
-//		courseList.add("234218");
-//		courseList.add("234247");
+		courseList.add("234114");
+		courseList.add("236523");
+		courseList.add("236350");
+		courseList.add("236360");
+		courseList.add("234118");
+		courseList.add("234122");
+		courseList.add("234325");
+		courseList.add("234218");
+		courseList.add("234247");
 
 
 	}
@@ -518,8 +517,8 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			if (notif) {
 				// If notifications are on, pop a notification that a new task was found.
 				String notificationText = fetchedTask.taskName + " - " + fetchedTask.courseName;
-				CollieNotification cn = new CollieNotification("New H.W!", notificationText, 
-						MainActivity.this, CollieNotification.Priority.IMMEDIATELY, 
+				CoolieNotification cn = new CoolieNotification("New H.W!", notificationText, 
+						MainActivity.this, CoolieNotification.Priority.IMMEDIATELY, 
 						true, getApplicationContext());
 				cn.sendNotification();
 			}
@@ -692,6 +691,9 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 			// turn off boot receiver.
 			changeBootReceiverState(false);
 		} else {
+			
+			// TO-DO: need to find a way to loop over the course list and call the service
+			// with each course id.
 			alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(this, TaskParser.class);
 			alarmIntent = PendingIntent.getService(this, 0, intent, 0);

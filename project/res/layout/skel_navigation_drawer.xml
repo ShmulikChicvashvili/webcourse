@@ -7,8 +7,7 @@
     <ViewStub
         android:id="@+id/skel_layout_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:inflatedId="@+id/skel_main_layout" />
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:id="@+id/skel_left_drawer"

@@ -2,26 +2,27 @@ package com.technion.coolie;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.List;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.NavUtils;
 import android.support.v4.widget.DrawerLayout;
 import android.view.ActionProvider;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewStub;
+import android.view.ViewStub.OnInflateListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -33,7 +34,9 @@ import com.technion.coolie.skeleton.NavigationModuleAdapter;
 import com.technion.coolie.skeleton.PreferencesScreen;
 
 public abstract class CoolieActivity extends SherlockFragmentActivity {
-	private DrawerLayout mDrawerLayout;
+	public static boolean navbarIsOpen = false;
+	
+	protected DrawerLayout mDrawerLayout;
 	private LinearLayout mDrawerView;
 	private ListView mDrawerModulesList;
 	ActionBarDrawerToggle mDrawerToggle;
@@ -99,6 +102,29 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 		// Pass the event to ActionBarDrawerToggle, if it returns
 		// true, then it has handled the app icon touch event
 
+	    switch (item.getItemId()) {
+	    // Respond to the action bar's Up/Home button
+	    case android.R.id.home:
+	    	if (!this.getClass().equals(com.technion.coolie.skeleton.MainActivity.class))
+	    	{
+	    		
+	    		NavUtils.navigateUpFromSameTask(this);
+	    	}
+	    	else
+	    	{
+	    		if(navbarIsOpen==false)
+	    		{
+	    			mDrawerLayout.openDrawer(Gravity.LEFT);
+	    		}
+	    		else
+	    		{
+	    			mDrawerLayout.closeDrawers();
+	    		}
+	    	}
+	        return true;
+	    }
+
+		
 		if (mDrawerToggle.onOptionsItemSelected(getMenuItem(item))) {
 			return true;
 		}
@@ -109,13 +135,18 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 	@Override
 	public void setContentView(int layoutResID) {
-
-		LayoutInflater inf = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = inf.inflate(layoutResID, null);
-		mainLayoutRootId = v.getId();
-
-		ViewStub vs = (ViewStub) super.findViewById(R.id.skel_layout_container);
+		
+		final ViewStub vs = (ViewStub) super.findViewById(R.id.skel_layout_container);
 		vs.setLayoutResource(layoutResID);
+		vs.setInflatedId(ViewStub.NO_ID);
+		vs.setOnInflateListener(new OnInflateListener() {
+			
+			@Override
+			public void onInflate(ViewStub stub, View inflated) {
+				mainLayoutRootId = inflated.getId();
+			}
+		});
+		
 		mainLayout = vs.inflate();
 	}
 
@@ -180,6 +211,11 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 	// Creates the NavigationDrawer and sets the modules list content.
 	private void createNavBar() {
+		int iconRes = R.drawable.abs__ic_ab_back_holo_light;
+		if (this.getClass().equals(com.technion.coolie.skeleton.MainActivity.class))
+		{
+			iconRes = R.drawable.skel_ic_drawer;
+		}
 		mDrawerLayout = (DrawerLayout) super
 				.findViewById(R.id.skel_drawer_layout);
 		mDrawerView = (LinearLayout) super.findViewById(R.id.skel_left_drawer);
@@ -190,14 +226,20 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
 		mDrawerLayout, /* DrawerLayout object */
-		R.drawable.skel_ic_drawer, /* nav drawer icon to replace 'Up' caret */
+		iconRes, /* nav drawer icon to replace 'Up' caret */
 		R.string.drawer_open, /* "open drawer" description */
 		R.string.drawer_close /* "close drawer" description */
 		) {
 			@Override
 			public void onDrawerOpened(View drawerView) {
+				navbarIsOpen= true;
 				drawerView.requestFocus();
 				super.onDrawerOpened(drawerView);
+			}
+			@Override
+			public void onDrawerClosed(View drawerView) {
+				navbarIsOpen= false;
+				super.onDrawerClosed(drawerView);
 			}
 		};
 

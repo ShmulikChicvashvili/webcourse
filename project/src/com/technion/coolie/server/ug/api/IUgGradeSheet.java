@@ -2,8 +2,8 @@ package com.technion.coolie.server.ug.api;
 
 import java.util.List;
 
-import com.technion.coolie.server.ug.framework.AccomplishedCourse;
-import com.technion.coolie.server.ug.framework.Student;
+import com.technion.coolie.ug.UGLoginObject;
+import com.technion.coolie.ug.model.AccomplishedCourse;
 
 /**
  * Created on 7.12.2013
@@ -18,5 +18,5 @@ public interface IUgGradeSheet {
    *          the student
    * @return list of student's accomplished courses
    */
-  public List<AccomplishedCourse> getMyGradesSheet(Student student);
+  public List<AccomplishedCourse> getMyGradesSheet(UGLoginObject student);
 }
