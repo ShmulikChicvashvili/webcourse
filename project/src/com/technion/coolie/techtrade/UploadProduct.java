@@ -1,5 +1,8 @@
 package com.technion.coolie.techtrade;
 
+import java.io.Serializable;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,7 +15,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.api.client.googleapis.media.MediaHttpUploader.UploadState;
+import com.technion.coolie.CooliePriority;
 import com.technion.coolie.R;
+import com.technion.coolie.skeleton.CoolieAsyncRequest;
 
 //TODO: second iteration - add a limitation to "description" field
 
@@ -26,7 +32,7 @@ public class UploadProduct extends TechTradeActivity {
 	private EditText des;
 	private Uri imageURI;
 	private static final int GET_GALLERY_IMAGE = 1000;
-
+	
 	String categoriesArray[] = { "Choose a Category",
 			Category.LECTURE_SUMMARIES.toString(),
 			Category.TUTORIAL_SUMMARIES.toString(),
@@ -102,14 +108,30 @@ public class UploadProduct extends TechTradeActivity {
 	}
 
 	public void submitProduct(View view){
-		Product product = createProductFromData();
-		if(product.canUpload()){
-			//TODO actually upload the product
-			Toast.makeText(getApplicationContext(),
-					"nothing is missing", Toast.LENGTH_SHORT).show();
-		}else{
-			informUserOfMissingData(product);
+		Product productToUpload = createProductFromData();
+		if(!productToUpload.canUpload()){
+			informUserOfMissingData(productToUpload);
+			return;
 		}
+
+		CoolieAsyncRequest UploadProduct = new CoolieAsyncRequest(this,CooliePriority.IMMEDIATELY){
+			@Override
+			public Void actionOnServer(Void... params) {
+				TechTradeServer ttServer = new TechTradeServer();
+				//TODO maybe complicate this
+				ReturnCode rc = ttServer.addProduct(createProductFromData());
+				return null;
+			}
+
+			@Override
+			public Void onResult(Void result) {
+				return null;
+			}
+		};
+		
+		UploadProduct.run();
+		Intent homeIntent = new Intent(this, MainActivity.class);
+		startActivity(homeIntent);
 	}
 
 	protected Product createProductFromData(){

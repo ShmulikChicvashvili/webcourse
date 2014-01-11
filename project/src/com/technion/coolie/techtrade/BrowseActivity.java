@@ -7,22 +7,31 @@ import java.util.Vector;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
+import com.technion.coolie.CooliePriority;
 import com.technion.coolie.R;
+import com.technion.coolie.skeleton.CoolieAsyncRequest;
 import com.technion.coolie.techtrade.ProductFragment.productCallback;
 import com.technion.coolie.techtrade.ProductListFragment.ProductListCallback;
 import com.technion.coolie.techtrade.SearchBoxFragment.SearchBoxCallback;
 
 public class BrowseActivity extends TechTradeActivity implements productCallback, ProductListCallback, SearchBoxCallback{
-	String myCategory;
 	ProductListFragment plFragment;
 	SearchBoxFragment sbFragment;
 	ProductFragment pFragment;
-	private ProgressDialog pd;
+
+	Product searchProduct = new Product();
+
+	private View emptyStateView;
+	private View normalStateView;
+	private View pb;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,21 +40,21 @@ public class BrowseActivity extends TechTradeActivity implements productCallback
 
 		plFragment = (ProductListFragment) getSupportFragmentManager().findFragmentById(R.id.browseByCatagoryListViewFragment);
 		sbFragment = (SearchBoxFragment) getSupportFragmentManager().findFragmentById(R.id.browseByCatagorySearchBoxFragment);
-		pFragment = (ProductFragment) getSupportFragmentManager().findFragmentById(R.id.productFragment);
+		pFragment = (ProductFragment) getSupportFragmentManager().findFragmentById(R.id.browseByCatagoryProductFragment);
 
-		Product product = new Product();
-		myCategory = getIntent().getStringExtra("category");
-		product.setCategory(Category.getValueOf(getIntent().getStringExtra("category")));
-		product.setName(getIntent().getStringExtra("searchTerm"));		
+		searchProduct.setCategory(Category.getValueOf(getIntent().getStringExtra("category")));
+		searchProduct.setName(getIntent().getStringExtra("searchTerm"));		
+
+		emptyStateView = (View) findViewById(R.id.get_browse_by_category_no_result_messege);
+		normalStateView = (View) findViewById(R.id.get_browse_by_catagory_activity_layout);
+		pb = (View) findViewById(R.id.get_browse_screen_pbar);
 
 		if(needToAccessServer()){
-			AccessServer(product);
+			AccessServer();
+		}else{
+			showCorrectFragments();
 		}
-		//TODO merge to one thing
-		handleEmptyState();
-		showCorrectFragments();
 	}
-
 
 	private boolean needToAccessServer(){
 		if(plFragment != null && plFragment.isInLayout()){
@@ -57,80 +66,87 @@ public class BrowseActivity extends TechTradeActivity implements productCallback
 		return false;
 	}
 
-	private void AccessServer(Product dummyProduct){
-		
-		//TODO old
-		class GetProductsByCategoryAndName extends AsyncTask<Product, Void, List<Product>>{
-			@Override
-			protected void onPreExecute(){
-				pd = ProgressDialog.show(BrowseActivity.this, null, "Please wait...");
-			}
+	private void AccessServer(){
+
+		CoolieAsyncRequest GetProductsByCategoryAndName = new CoolieAsyncRequest(this,CooliePriority.IMMEDIATELY) {
+			List<Product> searchedItems = null;
 
 			@Override
-			protected List<Product> doInBackground(Product... products) {
+			public Void actionOnServer(Void... params) {
 				TechTradeServer ttServer = new TechTradeServer();
-				List<Product> browseProductsVector = ttServer.getProductsByCategory(products[0]);
-				Vector<Product> resultList = new Vector<Product>();
+				List<Product> sameCategory = ttServer.getProductsByCategory(searchProduct);
 
-				if(products[0].getName()!=null){
-					for(int i=0; i<browseProductsVector.size(); ++i){
-						if(browseProductsVector.get(i).getName().contains(products[0].getName())){
-							resultList.add(browseProductsVector.get(i));
+				if(searchProduct.getName()!=null){
+					for(int i=0; i<sameCategory.size(); ++i){
+						if(sameCategory.get(i).getName().contains(searchProduct.getName())){
+							searchedItems.add(sameCategory.get(i));
 						}
 					}
-					return resultList;
-				}
-				return browseProductsVector;
+				}else{
+					searchedItems = sameCategory;
+				}				
+				return null;
 			}
 
 			@Override
-			protected void onPostExecute(List<Product> result) {
-				if (plFragment != null && plFragment.isInLayout()){
-					plFragment.setProductList(result);
-				}
-				if (pFragment != null && pFragment.isInLayout()){
-					if(!result.isEmpty()){
-						pFragment.setProduct(result.get(0));
+			public Void onResult(Void result){
+				if(searchedItems!= null && searchedItems.size()>0){
+					if(plFragment != null && plFragment.isInLayout() && !plFragment.hasAdapter()){
+						plFragment.setProductList(searchedItems);
 					}
+					if (pFragment != null && pFragment.isInLayout() && !pFragment.hasProduct()){
+						if(searchedItems!=null && !searchedItems.isEmpty()){
+							pFragment.setProduct(searchedItems.get(0));
+						}else{
+							pFragment.setProduct(null);
+						}
+					}
+				}else{
+					//TODO remove
+					//TODO remove
+					//TODO remove
+					Toast.makeText(BrowseActivity.this, "found nothing, making fake", Toast.LENGTH_SHORT).show();
+					makeStubs();
+					//TODO remove
 				}
-				pd.dismiss();
+				pb.setVisibility(View.GONE);
+				showCorrectFragments();
+				return null;
 			}
-		}
-		new GetProductsByCategoryAndName().execute(dummyProduct);
+
+			@Override
+			public Void onProgress(Void... values){
+				pb.setVisibility(View.VISIBLE);
+				return null;
+			}
+		};
+		
+		pb.setVisibility(View.VISIBLE);
+		GetProductsByCategoryAndName.run();
 	}
 
-	private void handleEmptyState(){
-		//TODO change to real handeling
-		if(plFragment.isEmpty()){
-
-			Vector<Product> category = new Vector<Product>();
-			for(int i = 0; i<20; ++i){
-				Product p = new Product();
-				p.setDescripstion(i + " category description");
-				p.setName("category product " + i);
-				p.setSellerName("category seller " + i);
-				p.setId((long) i);
-				p.setPrice((double) (i));
-				p.setSellerId(""+i);
-				p.setSellerPhoneNumber(""+i);
-				category.add(p);
-			}
-			
-			plFragment.setProductList(category);
-		}
-	}
-	
 	private void showCorrectFragments(){
+		if(plFragment.isEmpty()){
+			emptyStateView.setVisibility(View.VISIBLE);
+			normalStateView.setVisibility(View.GONE);
+			return;
+		}
+		//not empty state
+		emptyStateView.setVisibility(View.GONE);
+		normalStateView.setVisibility(View.VISIBLE);
+
 		if(pFragment != null && pFragment.isInLayout()){
 			//for a big screen
-			if(BrowseActivity.this.getResources().getConfiguration().orientation == 
-					BrowseActivity.this.getResources().getConfiguration().ORIENTATION_LANDSCAPE){
+			pFragment.wakeUp();
+			//showing list by oriantation
+			if(BrowseActivity.this.getResources().getConfiguration().orientation 
+					== Configuration.ORIENTATION_LANDSCAPE){
 				plFragment.showVertical();
 			}else{
 				plFragment.showHorizontal();
 			}
 		}else{
-			//for a small one
+			//for a small screen
 			plFragment.showVertical();			
 		}
 	}
@@ -184,7 +200,29 @@ public class BrowseActivity extends TechTradeActivity implements productCallback
 		if(searchTerm==null)return;
 		Intent intent = new Intent(this, BrowseActivity.class);
 		intent.putExtra("searchTerm", searchTerm);
-		intent.putExtra("category", myCategory);
+		intent.putExtra("category", searchProduct.getCategoryName());
 		startActivity(intent);
+	}
+
+	//TODO remove
+	private void makeStubs(){
+		//TODO change to real handeling
+		Vector<Product> category = new Vector<Product>();
+		for(int i = 0; i<20; ++i){
+			Product p = new Product();
+			p.setDescripstion(i + " category description");
+			p.setName("category product " + i);
+			p.setSellerName("category seller " + i);
+			p.setId((long) i);
+			p.setPrice((double) (i));
+			p.setSellerId(""+i);
+			p.setSellerPhoneNumber(""+i);
+			category.add(p);
+		}
+
+		plFragment.setProductList(category);
+		if (pFragment != null && pFragment.isInLayout()){
+			pFragment.setProduct(category.get(0));
+		}
 	}
 }

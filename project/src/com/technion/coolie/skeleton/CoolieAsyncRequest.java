@@ -28,7 +28,7 @@ import android.util.Log;
  *  
  *   
  * CoolieAsyncRequest c = new CoolieAsyncRequest(this,CooliePriority.IMMEDIATELY) {
-		      
+
 		    List<ServerCourse> list;
 
 			@Override

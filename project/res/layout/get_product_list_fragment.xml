@@ -11,7 +11,7 @@
         android:layout_height="200dip"
         android:divider="#000000"
         android:dividerHeight="3dip"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/get_product_list_fragment_list_view"
@@ -19,6 +19,6 @@
         android:layout_height="match_parent"
         android:divider="#000000"
         android:dividerHeight="3dip"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
 </LinearLayout>
