@@ -22,9 +22,10 @@ public class CoursesAndExamsListFragment extends ListFragment {
 			final ViewGroup container, final Bundle savedInstanceState) {
 
 		final List<CourseItem> coursesList = UGDatabase.getInstance(
-				getActivity()).getStudentCourses(
-				UGDatabase.getInstance(getActivity()).getCurrentSemester()
-						.getSs());
+				getActivity()).getCoursesAndExams();
+		
+		//List<CourseItem> temporaryList = new ArrayList<CourseItem>();
+		//temporaryList.add(new CourseItem("wer", "wer", "coursrId",null));
 		final CoursesAndExamsFragmentListAdapter adapter = new CoursesAndExamsFragmentListAdapter(
 				inflater.getContext(), coursesList);
 		setListAdapter(adapter);

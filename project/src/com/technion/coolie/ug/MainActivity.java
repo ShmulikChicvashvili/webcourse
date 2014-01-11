@@ -57,7 +57,7 @@ public class MainActivity extends CoolieActivity implements
 		// ServerAsyncCommunication.mainActivity = this;
 		setContentView(R.layout.ug_main_screen);
 
-		updateData();
+		//updateData();
 
 		// ServerAsyncCommunication.getCalendarEventsFromServer(); // Will not
 		// be here
@@ -70,8 +70,7 @@ public class MainActivity extends CoolieActivity implements
 		// ServerAsyncCommunication.registrate("094412", "11", "1636",
 		// "11111100");
 		Semester s = new Semester(2013, SemesterSeason.SPRING);
-		ServerAsyncCommunication.getAllExamsFromClient(s, "1636", "11111100",
-				this);
+		ServerAsyncCommunication.getAllExamsFromClient(s, "1636", "11111100",	this);
 
 		// ServerAsyncCommunication.registrate("094412", "11", "1636",
 		// "11111100");
@@ -253,7 +252,7 @@ public class MainActivity extends CoolieActivity implements
 		UGDatabase.getInstance(this).setAcademicCalendar(academicList);
 		UGDatabase.getInstance(this).setGradesSheet(accomplishedList);
 		UGDatabase.getInstance(this).setTrackingCourses(trackingList);
-		UGDatabase.getInstance(this).setCoursesAndExams(coursesExamsList);
+		//UGDatabase.getInstance(this).setCoursesAndExams(coursesExamsList);
 		UGDatabase.getInstance(this).setStudentInfo(student);
 
 		UGDatabase.getInstance(this).getCourses();
