@@ -84,5 +84,7 @@
 	<string name="get_not_logged_in_login_text">You need to log in \n to view this page content</string>
 	<string name="get_not_logeed_in_login">Login</string>
 	<string name="get_not_logged_in_cancel">Cancel</string>
-	<string name="get_no_items_to_show">No items to show.</string>
+	<string name="get_no_items_to_show">No items to show</string>
+	<string name="get_connection_error">Connection error</string>
+	<string name="get_not_logged_in">Please login and try again</string>
 </resources>
