@@ -21,6 +21,7 @@ import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.ExamItem;
 import com.technion.coolie.ug.model.Semester;
+import com.technion.coolie.ug.model.StudentDetails;
 import com.technion.coolie.ug.model.UGLoginObject;
 import com.technion.coolie.ug.db.UGDatabase;
 
@@ -83,7 +84,7 @@ public class HtmlParseFromClient {
 		 * ugHtmlPost(examsUrl, student.getStudentId(), student.getPassword(),
 		 * "SEM", semester.getYear() + semester.getSs().getId(), "WK");
 		 */
-		//Document doc = Jsoup.parse("CALL YOUR POST METHOD HERE");
+		// Document doc = Jsoup.parse("CALL YOUR POST METHOD HERE");
 		final Elements coursesTable = doc.select("table");
 		// in case we aren't registered to any course
 		if (coursesTable.size() == 3) {
@@ -104,7 +105,8 @@ public class HtmlParseFromClient {
 				+ trElems.get(1).children().size();
 	}
 
-	static private void getCourseExam(final Element trElem, final int numOfColumns) {
+	static private void getCourseExam(final Element trElem,
+			final int numOfColumns) {
 		final int shiftFromExamColumns = numOfColumns - 3; // number of columns
 		// could
 		// vary between 7 to 8
@@ -130,7 +132,7 @@ public class HtmlParseFromClient {
 		// TODO: handle <br> elements inside courseName
 		// Elements e = tdElems.get(shiftFromExamColumns).select("br");
 
-		//UGDatabase.getInstance
+		// UGDatabase.getInstance
 		coursesAndExamsList.add(new CourseItem(new StringBuilder(courseName)
 				.reverse().toString(), courseId.substring(0,
 				courseId.indexOf("-")), "3.0", l));
@@ -147,8 +149,8 @@ public class HtmlParseFromClient {
 		return calendarDate;
 	}
 
-	public List<String> getStudentDetails(String username, String password) {
-		List<String> studentDetailsList = new ArrayList<String>();
+	public StudentDetails getStudentDetails(String username, String password) {
+		StudentDetails studentDetailsList;
 		// TODO: Matvey - firstly need to get real url (like done in the
 		// following commented line with JSOUP). Send this get request to the
 		// following url:
@@ -164,12 +166,11 @@ public class HtmlParseFromClient {
 
 		doc = Jsoup.parse("CALL YOUR POST METHOD HERE");
 		final Elements details = doc.select("table").get(2).select("td");
-		studentDetailsList.add(details.get(5).text());
-		studentDetailsList.add(details.get(4).text() + " %");
-		studentDetailsList.add(details.get(3).text());
+		studentDetailsList = new StudentDetails(details.get(5).text(), details
+				.get(4).text(), details.get(3).text());
 		return studentDetailsList;
 	}
-	
+
 	public static boolean handleRegistrationRequest(Document doc) {
 		if (doc == null || !doc.select("img[alt*=Rejected]").isEmpty()) {
 			return false;
@@ -180,6 +181,5 @@ public class HtmlParseFromClient {
 
 		return false;
 	}
-
 
 }
