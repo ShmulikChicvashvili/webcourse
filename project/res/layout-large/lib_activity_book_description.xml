@@ -1,0 +1,202 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".BookDescriptionActivity" >
+
+    <TextView
+        android:id="@+id/lib_book_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="left"
+        android:text="Book"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/lib_line"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/lib_book_name"
+        android:layout_marginBottom="20sp"
+        android:background="#006CB3" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/lib_line"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/lib_book_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/half_activity_horizontal_margin"
+                android:adjustViewBounds="true"
+                android:maxHeight="200dp"
+                android:maxWidth="200dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/lib_placeholder_book" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="20sp" >
+
+            <TextView
+                android:id="@+id/lib_isbn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7sp"
+                android:gravity="left"
+                android:text="@string/lib_title_isbn"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lib_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7sp"
+                android:gravity="left"
+                android:text="@string/lib_title_author"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <!-- <TextView
+                android:id="@+id/lib_library"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7sp"
+                android:gravity="left"
+                android:text="@string/lib_title_library"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+-->
+            <TextView
+                android:id="@+id/lib_language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7sp"
+                android:gravity="left"
+                android:text="@string/lib_title_language"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lib_published"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7sp"
+                android:gravity="left"
+                android:text="@string/lib_title_published"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lib_edition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="7sp"
+                android:gravity="left"
+                android:text="@string/lib_title_edition"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/lib_book_isbn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="123456"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/lib_book_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Book name"
+                android:textSize="17sp" />
+
+           <!-- <TextView
+                android:id="@+id/lib_book_library"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Dahlquist, Germund"
+                android:textSize="17sp" />
+            -->
+         <TextView
+                android:id="@+id/lib_book_language"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Hebrew"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/lib_book_published"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Home"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/lib_book_edition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="1st"
+                android:textSize="17sp" />
+            
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lib_title2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+        android:gravity="left"
+        android:text="Location and Copies"
+        android:textSize="23sp"
+        android:textStyle="bold" />
+
+    <View
+        android:id="@+id/lib_line2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/lib_title2"
+        android:layout_marginBottom="20sp"
+        android:background="#006CB3" />
+
+    <ListView
+        android:id="@+id/lib_copies_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_line2"
+        android:cacheColorHint="#00000000"
+        android:listSelector="#b0b0b0" />
+
+</RelativeLayout>

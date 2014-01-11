@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 public class WishListAdapter extends BaseAdapter {
 
-	private final List<LibraryElement> wishItems;
+	public final List<LibraryElement> wishItems;
 
 	public WishListAdapter(final Context context, List<LibraryElement> wishList) {
 		this.wishItems = wishList;

@@ -1,13 +1,15 @@
 <resources>
+	
 	<!-- Strings related to main lib activity -->
     <string name="lib_module_name">TechLibrary</string>
     
-
-    <!-- Strings related to login -->
+	<!-- Strings related to login -->
     <string name="lib_title_activity_login">Sign in</string>
     
     <string name="lib_prompt_id">Id</string>
+    <string name="lib_prompt_search">Search..</string>
     <string name="lib_prompt_password">Password</string>
+    <string name="lib_action_search">Search</string>
     <string name="lib_action_sign_in"><b>Sign in</b></string>
     <string name="lib_action_sign_in_short">Sign in</string>
     <string name="lib_action_forgot_password">Recover lost password</string>
@@ -33,10 +35,54 @@
 	<string name="lib_title_duedate">Due-Date</string>
 	<string name="lib_title_books">Books</string>
 	<string name="lib_title_position">Position</string>
-	<string name="lib_title_book_description">Book Description</string>
+	<string name="lib_title_book_description">Book</string>
 	
-	
-    <string name="lib_title_activity_book_description">Book Description</string>
+    <string name="lib_title_activity_book_description">Book</string>
     <string name="lib_title_activity_library_description">Library Description</string>
+    
+    <!-- Strings related to barcode scanner -->
+    <string name="title_activity_barcode_search">Barcode Scan</string>
+	
+    <!-- string for bookDescriptionActivity -->
+    <string name="lib_title_isbn">ISBN:</string>
+    <string name="lib_title_author">Author:</string>
+    <string name="lib_title_library">Library:</string>
+    <string name="lib_title_language">Language:</string>
+    <string name="lib_title_published">Published:</string>
+    <string name="lib_title_edition">Edition:</string>
+	
+    <!-- Strings related to opening hours -->
+		<!-- Library names -->
+		<string name="lib_library0_name">Elyachar Central Library</string>
+		<string name="lib_library1_name">Aerospace Engineering</string>
+		<string name="lib_library2_name">Architecture and Town Planning</string>
+		<string name="lib_library3_name">Biomedical Engineering</string>
+		<string name="lib_library4_name">Chemical Engineering, Biotechnology and Food Engineering</string>
+		<string name="lib_library5_name">Chemistry and Biology</string>
+		<string name="lib_library6_name">Civil and Environmental Engineering</string>
+		<string name="lib_library7_name">Computer Science</string>
+		<string name="lib_library8_name">Department of Education in Science and Technology</string>
+		<string name="lib_library9_name">Electrical Engineering</string>
+		<string name="lib_library10_name">Industrial Engineering and Management</string>
+		<string name="lib_library11_name">Mathematics</string>
+		<string name="lib_library12_name">Mechanical Engineering</string>
+		<string name="lib_library13_name">Medicine</string>
+		<string name="lib_library14_name">Physics</string>
+		<string name="lib_library15_name">Transportation Research Institute</string>
+		
+	
+
+
+
+
+
+
+
+
+
+
+    <!-- Strings related to library map location -->
+	<string name="lib_title_activity_library_map_location">Library Location</string>
+   
 		
 </resources>

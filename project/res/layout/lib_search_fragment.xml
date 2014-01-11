@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <EditText
+        android:id="@+id/lib_search_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/lib_prompt_search"
+        android:imeActionId="@+id/search"
+        android:imeActionLabel="@string/lib_action_search"
+        android:imeOptions="actionSearch"
+        android:maxLines="1"
+        android:singleLine="true" />
+
+    <Button
+        android:id="@+id/lib_search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/lib_search_data"
+        android:layout_gravity="right"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="@string/lib_action_search" />
+
+    <Button
+        android:id="@+id/lib_search_course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/lib_search_button"
+        android:layout_gravity="right"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="search by course" />
+    <!--
+        <ImageView
+        android:src="@drawable/lib_placeholder_book"
+        android:id="@+id/lib_image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/lib_search_button"       
+        android:adjustViewBounds="true" />
+    -->
+
+    <ListView
+        android:id="@+id/lib_search_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lib_search_course"
+        android:listSelector="#b0b0b0" >
+    </ListView>
+    
+    <TextView
+        android:id="@+id/lib_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_below="@id/lib_search_course"
+        android:text="No books."
+        android:textSize="30sp" />
+
+</RelativeLayout>

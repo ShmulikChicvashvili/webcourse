@@ -7,20 +7,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 
 /**
  * 
  * This class handles URL requests.
+ * 
  * <pre>
  * <b>usage example:</b>
  * <code>
  * HtmlGrabber hg = new HtmlGrabber(getApplicationContext())
  * {
- *		@Override
- *		public void handleResult(String result, CoolieStatus status) {
- *			Log.v("RESULT",result);			
- *		}
+ * 	@Override
+ * 	public void handleResult(String result, CoolieStatus status) {
+ * 		Log.v("RESULT",result);			
+ * 	}
  * };
  * hg.getHtmlSource("https://www.google.com/search?q=URL/", HtmlGrabber.Account.NONE);
  * </code>
@@ -47,9 +50,13 @@ public abstract class HtmlGrabber {
 	}
 
 	/**
-	 * Sends HTTP request, asynchronously, the result will be handled by "handleResoult"
-	 * @param URL - valid URL string structure - "scheme://domain:port/path?query_string#fragment_id"
-	 * 			(eg - "https://www.google.com/search?q=URL").
+	 * Sends HTTP request, asynchronously, the result will be handled by
+	 * "handleResoult"
+	 * 
+	 * @param URL
+	 *            - valid URL string structure -
+	 *            "scheme://domain:port/path?query_string#fragment_id" (eg -
+	 *            "https://www.google.com/search?q=URL").
 	 * @param accountNeeded
 	 *            - as described in the enum above the source code from the URL
 	 *            will be put in a string
@@ -59,16 +66,21 @@ public abstract class HtmlGrabber {
 		// add infos for the service which file to download and where to store
 		intent.putExtra(HtmlGrabberService.URL, url);
 		intent.putExtra(HtmlGrabberService.ACCOUNT, accountNeeded);
-				
+
 		mContext.startService(intent);
 	}
 
 	/**
 	 * This method will be called when the server returns the result.
-	 * @param result - the requested input source string.
-	 * @param status - success status
+	 * 
+	 * @param result
+	 *            - the requested input source string.
+	 * @param status
+	 *            - success status
 	 */
 	public abstract void handleResult(String result, CoolieStatus status);
+	public void handleImage(Bitmap b){}
+	
 
 	private BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -78,17 +90,23 @@ public abstract class HtmlGrabber {
 			if (bundle != null) {
 				CoolieStatus status = (CoolieStatus) bundle
 						.getSerializable(HtmlGrabberService.STATUS);
-				//TODO handle errors
-					String result = bundle.getString(HtmlGrabberService.RESULT);
-					handleResult(result, status);
-					mContext.unregisterReceiver(receiver);
+				// TODO handle errors
+				String result = bundle.getString(HtmlGrabberService.RESULT);
+				Bitmap b = intent.getParcelableExtra("Image");
+				
+				handleResult(result, status);
+				if(b != null){
+					handleImage(b);
+				}else
+					Log.e("in else...","OOOOOOFFFFF");
+				mContext.unregisterReceiver(receiver);
 			}
 		}
 	};
 
-	protected void finalize() throws Throwable
-	{
-		mContext.unregisterReceiver(receiver);
-	}
+	/*
+	 * protected void finalize() throws Throwable {
+	 * mContext.unregisterReceiver(receiver); }
+	 */
 
 }

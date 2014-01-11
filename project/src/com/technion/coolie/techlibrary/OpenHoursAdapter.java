@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.technion.coolie.R;
 import com.technion.coolie.techlibrary.BookItems.LibraryElement;
 import com.technion.coolie.techlibrary.BookItems.LoanElement;
+import com.technion.coolie.techlibrary.LibrariesData.Library;
 import com.technion.coolie.techlibrary.OpenHoursScreens.LibrariesListFragment;
 
 import android.app.Activity;
@@ -22,21 +23,21 @@ import android.view.View.OnClickListener;
 
 public class OpenHoursAdapter extends BaseAdapter {
 
-	private final List<String> libraryList;
+	private final ArrayList<Library> libraryList;
 	private Context context;
 	private LibrariesListFragment mLibListFrag;
 
 	public OpenHoursAdapter(final Context context,
-			ArrayList<String> mOpenHours,
+			ArrayList<Library> libraryList,
 			OpenHoursScreens.LibrariesListFragment mLibListFrag) {
-		this.libraryList = mOpenHours;
+		this.libraryList = libraryList;
 		this.context = context;
 		this.mLibListFrag = mLibListFrag;
 	}
 
 	class viewHolder {
 		public TextView libraryName;
-		int id = -1;
+		int id;
 	}
 
 	@Override
@@ -73,14 +74,13 @@ public class OpenHoursAdapter extends BaseAdapter {
 			view = convertView;
 			holder = (viewHolder) view.getTag();
 		}
-		final String libName = libraryList.get(position);
+		final String libName = libraryList.get(position).name;
+		final int libId = libraryList.get(position).id;
 		holder.libraryName.setText(libName);
 		view.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				Log.d("the position of the item is: ", "" + position);
-				mLibListFrag.notifyClickedItem(libName);
+				mLibListFrag.notifyClickedLibrary(libId);
 			}
 		});
 		return view;

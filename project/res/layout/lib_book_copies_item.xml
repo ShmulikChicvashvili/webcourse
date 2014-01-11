@@ -1,0 +1,99 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/lib_lay0"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5sp"
+        android:layout_marginTop="10sp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/lib_book_library"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:paddingRight="5sp"
+            android:text="Library:\nComputer S."
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lib_lay1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5sp"
+        android:layout_marginTop="10sp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/lib_copy_due_date"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:paddingRight="5sp"
+            android:text="in loan till:\n28/11/13"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lib_lay2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5sp"
+        android:layout_marginTop="10sp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/lib_loan_period"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="one week"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lib_lay3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5sp"
+        android:layout_marginTop="10sp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/lib_availability_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/lib_green_circle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lib_lay4"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5sp"
+        android:layout_marginTop="5sp"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/lib_add_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="touchhyy"
+             />
+    </LinearLayout>
+
+</LinearLayout>

@@ -31,6 +31,7 @@ import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.R;
 import com.technion.coolie.skeleton.CoolieStatus;
 import com.technion.coolie.techlibrary.BookItems.HoldElement;
+import com.technion.coolie.techlibrary.util.HoldsInfoXMLHandler;
 
 public class HoldsFragment extends SherlockFragment {
 
@@ -80,14 +81,14 @@ public class HoldsFragment extends SherlockFragment {
 
 	protected void onXMLRecieved(String data) {
 		// parser
-		BooksInfoXMLHandler loansXMLHandler = new BooksInfoXMLHandler();
+		HoldsInfoXMLHandler holdsXMLHandler = new HoldsInfoXMLHandler();
 		try {
 			SAXParserFactory spf = SAXParserFactory.newInstance();
 			SAXParser sp = spf.newSAXParser();
 			XMLReader xr = sp.getXMLReader();
 
 			/** Create handler to handle XML Tags ( extends DefaultHandler ) */
-			xr.setContentHandler(loansXMLHandler);
+			xr.setContentHandler(holdsXMLHandler);
 			xr.parse(new InputSource(new StringReader(data)));
 		} catch (Exception e) {
 			// TODO: ?
@@ -95,112 +96,11 @@ public class HoldsFragment extends SherlockFragment {
 		}
 
 		mHoldsList.clear();
-		mHoldsList.addAll(loansXMLHandler.holdList);
+		mHoldsList.addAll(holdsXMLHandler.holdList);
 		mHoldsAdapter.notifyDataSetChanged();
 	}
 
-	/*
-	 * XML parser for Loans + requests info.
-	 */
-	private class BooksInfoXMLHandler extends DefaultHandler {
-		private boolean currentElement = false;
-		private String currentValue = null;
-
-		private boolean isInHold = false;
-		private HoldElement currentHold = null;
-		public ArrayList<HoldElement> holdList = null;
-
-		@Override
-		public void startElement(String uri, String localName, String qName,
-				Attributes attributes) throws SAXException {
-			currentElement = true;
-			if (localName.equals("bor-info")) {
-				/** Start */
-				holdList = new ArrayList<HoldElement>();
-			}
-			if (localName.equals("item-h")) {
-				/** Start hold */
-				currentHold = new BookItems().new HoldElement();
-				isInHold = true;
-			}
-			if (localName.equals("error")) {
-				/* invalid id/pass. exit? */
-				throw new SAXException("bad something");
-			}
-		}
-
-		/**
-		 * Called when tag closing ( ex:- <name>AndroidPeople</name> -- </name>
-		 * )
-		 */
-		@Override
-		public void endElement(String uri, String localName, String qName)
-				throws SAXException {
-			currentElement = false;
-			/** set value */
-			// book-item
-			if (localName.equals("z30-doc-number")) {
-				if (isInHold) {
-					currentHold.id = currentValue;
-				}
-			} else if (localName.equals("z13-title")) {
-				if (isInHold) {
-					currentValue = currentValue.substring(0, currentValue
-							.indexOf("/") == -1 ? currentValue.length()
-							: currentValue.indexOf("/") - 1);
-					currentHold.name = currentValue;
-				}
-			} else if (localName.equals("z13-author")) {
-				if (isInHold) {
-					currentHold.author = currentValue;
-				}
-			} else if (localName.equals("z30-material")) {
-				if (isInHold) {
-					currentHold.type = currentValue;
-				}
-			} else if (localName.equals("z30-sub-library")) {
-				if (isInHold) {
-					currentHold.library = currentValue;
-				}
-			} else if (localName.equals("z37-request-date") && isInHold) {
-				currentHold.createDate = currentValue;
-			} else if (localName.equals("z37-hold-date") && isInHold) {
-				currentHold.arrivalDate = currentValue;
-			} else if (localName.equals("z37-end-hold-date") && isInHold) {
-				currentHold.endHoldDate = currentValue;
-			} else if (localName.equals("z37-sequence") && isInHold) {
-				currentHold.queuePosition = (new Integer(currentValue))
-						.toString();
-			} else if (localName.equals("z37-item-sequence") && isInHold) {
-				currentHold.itemSequence = currentValue;
-			} else if (localName.equals("item-h") && isInHold) {
-				holdList.add(currentHold);
-				currentHold = new BookItems().new HoldElement();
-				isInHold = false;
-			}
-		}
-
-		/**
-		 * Called to get tag characters ( ex:- <name>AndroidPeople</name> -- to
-		 * get AndroidPeople Character )
-		 */
-		@Override
-		public void characters(char[] ch, int start, int length)
-				throws SAXException {
-			if (currentElement) {
-				// currentHold = new BookItems().new HoldElement();
-				if (length <= 0) {
-					currentValue = "";
-				} else {
-					currentValue = new String(ch, start, length);
-					currentValue.replace("&apos;", "'");
-					currentValue.replace("&quot;", "\"");
-					currentValue.replace("&amp;", "&");
-					currentElement = false;
-				}
-			}
-		}
-	}
+	
 
 	// TODO
 	// sending a request to the internet to delete the book from the data base..
@@ -222,7 +122,7 @@ public class HoldsFragment extends SherlockFragment {
 					} else {
 						// TODO: generate error
 					}
-					
+
 				}
 			};
 			SharedPreferences pref = getSherlockActivity()
@@ -239,16 +139,17 @@ public class HoldsFragment extends SherlockFragment {
 			hg.getHtmlSource(userAuthUrl, HtmlGrabber.Account.NONE);
 		}
 	}
-	
+
 	private void toastConnectionError() {
-		Toast toast = Toast.makeText(getSherlockActivity(), "Connection error, try again later.",
-				Toast.LENGTH_LONG);
+		Toast toast = Toast.makeText(getSherlockActivity(),
+				"Connection error, try again later.", Toast.LENGTH_LONG);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
 	}
-	
+
 	private boolean isOnline() {
-		ConnectivityManager cm = (ConnectivityManager) getSherlockActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager cm = (ConnectivityManager) getSherlockActivity()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo netInfo = cm.getActiveNetworkInfo();
 		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
 			return true;
