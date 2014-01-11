@@ -212,7 +212,7 @@ public class BarcodeSearchActivity extends Activity {
 		}
 
 		/**
-		 * Called when tag closing ( ex:- <name>AndroidPeople</name> -- </name>
+		 * Called when tag closing ( 8678ex:- <name>AndroidPeople</name> -- </name>
 		 * )
 		 */
 		@Override

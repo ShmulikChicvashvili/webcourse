@@ -32,10 +32,10 @@ public class HoldsInfoXMLHandler extends DefaultHandler {
 			currentHold = new BookItems().new HoldElement();
 			isInHold = true;
 		}
-		if (localName.equals("error")) {
-			/* invalid id/pass. exit? */
-			throw new SAXException("bad something");
-		}
+//		if (localName.equals("error")) {
+//			/* invalid id/pass. exit? */
+//			throw new SAXException("bad something");
+//		}
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class HoldsInfoXMLHandler extends DefaultHandler {
 			}
 		} else if (localName.equals("z30-material")) {
 			if (isInHold) {
-				currentHold.type = currentValue;
+//				currentHold.type = currentValue;
 			}
 		} else if (localName.equals("z30-sub-library")) {
 			if (isInHold) {

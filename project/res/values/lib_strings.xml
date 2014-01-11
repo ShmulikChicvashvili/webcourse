@@ -1,9 +1,9 @@
 <resources>
+	
 	<!-- Strings related to main lib activity -->
     <string name="lib_module_name">TechLibrary</string>
     
-
-    <!-- Strings related to login -->
+	<!-- Strings related to login -->
     <string name="lib_title_activity_login">Sign in</string>
     
     <string name="lib_prompt_id">Id</string>
@@ -37,13 +37,19 @@
 	<string name="lib_title_position">Position</string>
 	<string name="lib_title_book_description">Book</string>
 	
-	
     <string name="lib_title_activity_book_description">Book</string>
     <string name="lib_title_activity_library_description">Library Description</string>
     
     <!-- Strings related to barcode scanner -->
     <string name="title_activity_barcode_search">Barcode Scan</string>
 	
+    <!-- string for bookDescriptionActivity -->
+    <string name="lib_title_isbn">ISBN:</string>
+    <string name="lib_title_author">Author:</string>
+    <string name="lib_title_library">Library:</string>
+    <string name="lib_title_language">Language:</string>
+    <string name="lib_title_published">Published:</string>
+    <string name="lib_title_edition">Edition:</string>
 	
     <!-- Strings related to opening hours -->
 		<!-- Library names -->

@@ -57,7 +57,7 @@ public class SearchElements {
 		private ArrayList<LibraryElement> searchItems = null;
 		// search Url
 		private static final String searchUrl = "https://aleph2.technion.ac.il/X?op=find&base=tec01&request=";
-		//barcode consts
+		// barcode consts
 		public static final int BARCODE_REQUEST_CODE = 1;
 		private static final String BARCODE = "barcode";
 		private static final String FORMAT = "format";
@@ -193,22 +193,29 @@ public class SearchElements {
 						}
 					});
 		}
-		
+
 		@Override
-		public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-			
+		public void onActivityResult(int requestCode, int resultCode,
+				Intent intent) {
+
 			Log.d("searchElement", "on activity result " + requestCode);
-			if(requestCode == BARCODE_REQUEST_CODE) {
-				if(resultCode == BarcodeSearchActivity.RESULT_OK) {
-					String url = searchUrl + getSherlockActivity().getSharedPreferences(SHARED_PREF_BARCODE, 0).getString(BARCODE, "0");
-					if(getSherlockActivity().getSharedPreferences(SHARED_PREF_BARCODE, 0).getString(FORMAT, "0").equalsIgnoreCase(ISBN_FORMAT)) {
-						//search for isbn
-						url = url+"&code=ISBN";
+			if (requestCode == BARCODE_REQUEST_CODE) {
+				if (resultCode == BarcodeSearchActivity.RESULT_OK) {
+					String url = searchUrl
+							+ getSherlockActivity().getSharedPreferences(
+									SHARED_PREF_BARCODE, 0).getString(BARCODE,
+									"0");
+					if (getSherlockActivity()
+							.getSharedPreferences(SHARED_PREF_BARCODE, 0)
+							.getString(FORMAT, "0")
+							.equalsIgnoreCase(ISBN_FORMAT)) {
+						// search for isbn
+						url = url + "&code=ISBN";
 					} else {
-						//this is not isbn, search the server for barcode!
-						url = url+"&code=BAR";
+						// this is not isbn, search the server for barcode!
+						url = url + "&code=BAR";
 					}
-					getSearchDataSet("",url);
+					getSearchDataSet("", url);
 				} else {
 					Toast toastError = Toast.makeText(getSherlockActivity(),
 							"No book scan data received!", Toast.LENGTH_SHORT);
@@ -231,11 +238,12 @@ public class SearchElements {
 
 			if (result.contains("<error>")) {
 				Log.d("serchElements-error", result);
-				//TODO: this is error because accessing record that not exist. need other fix
+				// TODO: this is error because accessing record that not exist.
+				// need other fix
 				if (result.contains("<error>There is no entry number:")) {
 					return false;
 				}
-				
+
 				if (result.contains("<error>empty set</error>")) {
 					Toast toastEmpty = Toast.makeText(getSherlockActivity(),
 							"no items for your search", Toast.LENGTH_SHORT);
@@ -257,13 +265,17 @@ public class SearchElements {
 			HtmlGrabber hg = new HtmlGrabber(getSherlockActivity()) {
 				@Override
 				public void handleResult(String result, CoolieStatus status) {
-					//if isbn and ean_13, lets try isbn only (cut off initial 978) 
-					if(URL.contains("&code=ISBN") && (result.contains("<error>empty set</error>")) &&
-							(URL.length() == (searchUrl.length()+"&code=ISBN".length()+13))) {
-						//lets try this again with deleting first three numbers
-						String isbnUrl = URL.replaceFirst("request=\\d{3}", "request=");
+					// if isbn and ean_13, lets try isbn only (cut off initial
+					// 978)
+					if (URL.contains("&code=ISBN")
+							&& (result.contains("<error>empty set</error>"))
+							&& (URL.length() == (searchUrl.length()
+									+ "&code=ISBN".length() + 13))) {
+						// lets try this again with deleting first three numbers
+						String isbnUrl = URL.replaceFirst("request=\\d{3}",
+								"request=");
 						Log.d("searchElement", "isbn10 url:" + isbnUrl);
-						getSearchDataSet("",isbnUrl); 
+						getSearchDataSet("", isbnUrl);
 						return;
 					}
 					if (containsError(result)) {
@@ -441,15 +453,14 @@ public class SearchElements {
 
 		// -----------------------------------------------------------------
 		private class SearchItemsResult_XMLHandler extends DefaultHandler {
-			private boolean currentElement = false;
 			private String currentValue = null;
 			public ArrayList<LibraryElement> items = null;
 			LibraryElement curr = null;
-			private boolean inBookDetails245 = false;
-			private boolean inBookName = false;
-			private boolean inBookAuthor = false;
-			private boolean bookAuthorCheck = false;
-			private boolean inBookDetails100 = false;
+			private boolean inBookDetails245 = false, inBookName = false,
+					inBookAuthor = false, bookAuthorCheck = false,
+					inBookDetails100 = false, inBookLanguageVar = false, inBookLanguageSub = false,
+					inBookISBN = false, inBookEdition = false, inBookPublisher = false;
+			private int count = 0; 
 
 			public SearchItemsResult_XMLHandler() {
 				items = new ArrayList<BookItems.LibraryElement>();
@@ -458,8 +469,12 @@ public class SearchElements {
 			@Override
 			public void startElement(String uri, String localName,
 					String qName, Attributes attributes) {
-				currentElement = true;
+				if(inBookPublisher){
+					return;
+				}
+				
 				currentValue = new String();
+							
 				if (localName.equals("record")) {
 					curr = new BookItems().new LibraryElement();
 				}
@@ -472,6 +487,14 @@ public class SearchElements {
 						inBookDetails245 = true;
 					} else if (attributes.getValue(index).equals("100")) {
 						inBookDetails100 = true;
+					} else if (attributes.getValue(index).equals("041")) {
+						inBookLanguageVar = true;
+					} else if (attributes.getValue(index).equals("020")) {
+						inBookISBN = true;
+					} else if (attributes.getValue(index).equals("250")) {
+						inBookEdition = true;
+					} else if (attributes.getValue(index).equals("260")) {
+						inBookPublisher = true;
 					}
 
 				} else if (localName.equals("subfield") && inBookDetails245) {
@@ -480,7 +503,8 @@ public class SearchElements {
 						// TODO ERROR
 					} else if (attributes.getValue(index).equals("a")) {
 						inBookName = true;
-					} else if (inBookAuthor == false && bookAuthorCheck == false
+					} else if (inBookAuthor == false
+							&& bookAuthorCheck == false
 							&& attributes.getValue(index).equals("c")) {
 						inBookAuthor = true;
 					}
@@ -491,6 +515,13 @@ public class SearchElements {
 						// TODO ERROR
 					} else if (attributes.getValue(index).equals("a")) {
 						inBookAuthor = true;
+					}
+				}else if (localName.equals("subfield") && inBookLanguageVar){
+					index = attributes.getIndex("label");
+					if (index == -1) {
+						// TODO ERROR
+					} else if (attributes.getValue(index).equals("a")) {
+						inBookLanguageSub = true;
 					}
 				}
 
@@ -503,30 +534,45 @@ public class SearchElements {
 			@Override
 			public void endElement(String uri, String localName, String qName)
 					throws SAXException {
-				currentElement = false;
 
 				/** set value */
 				if (localName.equals("doc_number")) {
 					curr.id = currentValue;
+					Log.d("idddddddddddddddddddddddddddddddd", currentValue);
 				} else if (localName.equals("subfield")) {
 					if (inBookName) {
 						// Log.d("the name of the book is: ", currentValue);
-						curr.name = currentValue.replace(":", "").replace("\\", "").replace("/", "");
+						curr.name = currentValue.replace(":", "")
+								.replace("\\", "").replace("/", "")
+								.replace("<<", "").replace(">>", "");
 						inBookName = false;
 					} else if (inBookAuthor) {
 						curr.author = currentValue;
 						bookAuthorCheck = true;
 						inBookAuthor = false;
 
+					} else if (inBookLanguageSub) {
+						curr.language = currentValue;
+						inBookLanguageSub = false;
+						inBookLanguageVar = false;
+					} else if (inBookISBN) {
+						curr.isbn = currentValue;
+						inBookISBN = false;
+					} else if (inBookEdition) {
+						curr.edition = currentValue;
+						inBookEdition = false;
 					}
 				} else if (localName.equals("varfield")) {
 					inBookDetails100 = false;
 					inBookDetails245 = false;
+					if(inBookPublisher){
+						curr.publisher = currentValue.replace("\n", " ");
+						inBookPublisher = false;
+					}
 				} else if (localName.equals("record")) {
 					items.add(curr);
 					bookAuthorCheck = false;
 				}
-
 
 			}
 
@@ -537,9 +583,7 @@ public class SearchElements {
 			@Override
 			public void characters(char[] ch, int start, int length)
 					throws SAXException {
-				if (currentElement) {
-					currentValue += new String(ch, start, length);					
-				}
+				currentValue += new String(ch, start, length);
 			}
 		}
 	}
@@ -616,8 +660,7 @@ public class SearchElements {
 					Intent intent = new Intent(context,
 							BookDescriptionActivity.class);
 					LibraryElement hE = items.get(position);
-					String[] extraData = { hE.name, hE.author, hE.library,
-							hE.id };
+					String[] extraData = hE.toArray();
 					intent.putExtra("description", extraData);
 					((Activity) context).startActivityForResult(intent, 0);
 

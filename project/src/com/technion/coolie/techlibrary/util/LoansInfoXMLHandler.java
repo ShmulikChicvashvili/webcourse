@@ -34,10 +34,10 @@ public class LoansInfoXMLHandler extends DefaultHandler {
 			currentLoan = new BookItems().new LoanElement();
 			isInLoan = true;
 		}
-		if (localName.equals("error")) {
-			/* invalid id/pass. exit? */
-			throw new SAXException("bad something");
-		}
+//		if (localName.equals("error")) {
+//			/* invalid id/pass. exit? */
+//			throw new SAXException("bad something");
+//		}
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class LoansInfoXMLHandler extends DefaultHandler {
 			} else if (localName.equals("z13-author")) {
 				currentLoan.author = currentValue;
 			} else if (localName.equals("z30-material")) {
-				currentLoan.type = currentValue;
+//				currentLoan.type = currentValue;
 			} else if (localName.equals("z30-sub-library")) {
 				currentLoan.library = currentValue;
 			}
