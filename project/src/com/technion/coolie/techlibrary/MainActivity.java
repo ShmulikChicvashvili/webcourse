@@ -1,9 +1,14 @@
 package com.technion.coolie.techlibrary;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
@@ -42,8 +47,8 @@ public class MainActivity extends CoolieActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.lib_activity_main);
-
+		setContentView(R.layout.lib_activity_main);		
+		
 		// setting the dropdown list
 		ArrayAdapter<String> list = new ArrayAdapter<String>(this,
 				R.layout.sherlock_spinner_item, droplist);
@@ -68,9 +73,11 @@ public class MainActivity extends CoolieActivity implements
 		mSharedPrefEditor = mSharedPref.edit();
 		
 		//TESTING!!!!!!!!!!!
-		Intent intent = new Intent(this, testIntentService.class); 
-		intent.putExtra("userID", mSharedPref.getString("user_id", null));
-		startService(intent);
+//		Intent intent = new Intent(this, testIntentService.class); 
+//		intent.putExtra("userID", mSharedPref.getString("user_id", null));
+//		startService(intent);
+		
+//		startAlarm();     //<<---- works.... not after rebooting
 	}
 
 	@Override
@@ -136,8 +143,8 @@ public class MainActivity extends CoolieActivity implements
 		//TODO use request code to identify calls
 		if (data != null && data.getStringExtra("activity") != null && data.getStringExtra("activity").equals("bookDescription")) {
 			Log.d("onnnn reeeesssuult", "YEA");
-			addToWishList((new BookItems()).new LibraryElement("1",
-					data.getStringExtra("name"), "empty", "book", "C.S"));
+//			addToWishList((new BookItems()).new LibraryElement("1",
+//					data.getStringExtra("name"), "empty", "book", "C.S"));
 		}
 	}
 
@@ -151,5 +158,49 @@ public class MainActivity extends CoolieActivity implements
 		// save list item position
 		savedInstanceState.putInt(LAST_VIEWED_FRAGMENT_TAG,
 				getSupportActionBar().getSelectedNavigationIndex());
+	}
+	
+	public void startAlarm(/*long intervalMilis*/) {
+		Log.d("int startAlarm", "begin");
+		Intent intent = new Intent(this, testIntentService.class);
+		if(mSharedPref.getString("user_id", null) == null){
+			Log.d("startAlarm", "user_id = null");
+			return;
+		}
+		intent.putExtra("userID", mSharedPref.getString("user_id", null));
+		PendingIntent mAlarmSender = PendingIntent.getService(this, 1234,
+				intent, 0);
+
+		AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+		am.setRepeating(AlarmManager.ELAPSED_REALTIME,
+				SystemClock.elapsedRealtime(),30000/* 30 seconds*/, mAlarmSender);
+		///////////////////////////////////////////////////////////////////
+		
+		Log.d("int startAlarm", "setComponentEnabledSetting.. not working");
+		ComponentName receiver = new ComponentName(this, BootReceiver.class);
+		PackageManager pm = this.getPackageManager();
+
+		pm.setComponentEnabledSetting(receiver,
+				PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+				PackageManager.DONT_KILL_APP);
+
+		// (1)
+		/*
+		 * (2) public class SampleBootReceiver extends BroadcastReceiver {
+		 * 
+		 * @Override public void onReceive(Context context, Intent intent) { if
+		 * (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+		 * // Set the alarm here. } } }
+		 * 
+		 * (3) (4) //enable the resiever when the user starts the alarms.....
+		 * ComponentName receiver = new ComponentName(context,
+		 * SampleBootReceiver.class); PackageManager pm =
+		 * context.getPackageManager();
+		 * 
+		 * pm.setComponentEnabledSetting(receiver,
+		 * PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+		 * PackageManager.DONT_KILL_APP);
+		 */
+
 	}
 }

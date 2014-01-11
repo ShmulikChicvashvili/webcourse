@@ -23,6 +23,7 @@ import com.technion.coolie.techlibrary.BookItems.LibraryElement;
 import com.technion.coolie.techlibrary.SearchElements.SearchResultAdapter;
 import com.technion.coolie.techlibrary.SearchElements.SearchResultAdapter.viewHolder;
 
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
@@ -44,30 +45,50 @@ import android.widget.TextView;
 public class BookDescriptionActivity extends CoolieActivity {
 
 	private ListView mListView = null;
-	public String name = null;
-	private String author = null;
-	private String library = null;
-	private String id = null;
 
 	private ArrayList<CopyItem> adapterItems = null;
-	
+	private LibraryElement le = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// TODO keep changing... it has a lot of little bugs: invisible empty
+		// fields
+
 		String[] data = getIntent().getExtras().getStringArray("description");
 		setContentView(R.layout.lib_activity_book_description);
-		name = data[0];
-		author = data[1];
-		library = data[2];
-		id = data[3];
-		((TextView) findViewById(R.id.lib_book_name)).setText(data[0]);
-		((TextView) findViewById(R.id.lib_book_author)).setText(data[1]);
-		((TextView) findViewById(R.id.lib_book_library)).setText(data[2]);
+		le = (new BookItems()).new LibraryElement(data[0], data[1], data[2],
+				data[3], data[4], data[5], data[6], data[7]);
+		// id, name, author, type, library, isbn, language, edition, publisher
+
+		((TextView) findViewById(R.id.lib_book_isbn)).setText(le.isbn.replace(
+				"978", ""));
+		((TextView) findViewById(R.id.lib_book_author)).setText(le.author);
+		// ((TextView) findViewById(R.id.lib_book_library)).setText(le.library);
+		((TextView) findViewById(R.id.lib_book_language)).setText(le.language);
+		((TextView) findViewById(R.id.lib_book_published))
+				.setText(le.publisher);
+		((TextView) findViewById(R.id.lib_book_edition)).setText(le.edition);
+		
+		if (le.isbn.isEmpty()) {
+			((TextView) findViewById(R.id.lib_isbn)).setVisibility(4);
+		}else if (le.author.isEmpty()) {
+			((TextView) findViewById(R.id.lib_author)).setVisibility(4);
+		}else if (le.language.isEmpty()) {
+			((TextView) findViewById(R.id.lib_language)).setVisibility(4);
+		}else if (le.publisher.isEmpty()) {
+			((TextView) findViewById(R.id.lib_published)).setVisibility(4);
+		}else if (le.edition.isEmpty()) {
+			((TextView) findViewById(R.id.lib_edition)).setVisibility(4);
+		}
+
 		// lib_copies_list
 		// set Adapter for list
 		adapterItems = new ArrayList<CopyItem>();
 		mListView = (ListView) findViewById(R.id.lib_copies_list);
-		mListView.setAdapter(new CopiesListAdapter(this, adapterItems, name));
+		mListView
+				.setAdapter(new CopiesListAdapter(this, adapterItems, le.name));
 		Log.d("check calling activity", "" + getCallingActivity()); // null :(
 		getCopiesData();
 
@@ -78,13 +99,14 @@ public class BookDescriptionActivity extends CoolieActivity {
 			@Override
 			public void handleResult(String result, CoolieStatus status) {
 				Log.d("xml result", result);
+				// TODO if result contains error dont parse
 				parseAndDisplay(result);
 			}
 
 		};
 		// TODO
 		String getCopiesUrl = "http://aleph2.technion.ac.il/X?op=circ-status&sys_no="
-				+ id + "&library=tec01";
+				+ le.id + "&library=tec01";
 		Log.d("the url for copies is: ", getCopiesUrl);
 		hg.getHtmlSource(getCopiesUrl, HtmlGrabber.Account.NONE);
 	}
@@ -97,14 +119,12 @@ public class BookDescriptionActivity extends CoolieActivity {
 			XMLReader xr = sp.getXMLReader();
 
 			/**
-			 * Create handler to handle XML Tags ( extends
-			 * DefaultHandler )
+			 * Create handler to handle XML Tags ( extends DefaultHandler )
 			 */
 			xr.setContentHandler(itemsXMLHandler);
 			xr.parse(new InputSource(new StringReader(result)));
 		} catch (Exception e) {
-			Log.e("woooot:", "exception - " + e.getClass().toString(),
-					e);
+			Log.e("woooot:", "exception - " + e.getClass().toString(), e);
 			// TODO: handle exceptions?
 		}
 		adapterItems.clear();
@@ -121,7 +141,6 @@ public class BookDescriptionActivity extends CoolieActivity {
 		public Boolean isAvailable;
 
 	}
-
 
 	/*
 	 * XML parser for Loans + requests info.
@@ -140,6 +159,7 @@ public class BookDescriptionActivity extends CoolieActivity {
 		private String currentValue = null;
 		private CopyItem currentCopy = null;
 		public ArrayList<CopyItem> items = null;
+
 		// public ArrayList<HoldElement> holdList = null;
 
 		@Override
@@ -147,18 +167,18 @@ public class BookDescriptionActivity extends CoolieActivity {
 				Attributes attributes) throws SAXException {
 			currentElement = true;
 			currentValue = "";
-			 if (localName.equals("circ-status")) {
-			 /** Start */
-				 items = new ArrayList<CopyItem>();
-			 }
+			if (localName.equals("circ-status")) {
+				/** Start */
+				items = new ArrayList<CopyItem>();
+			}
 			if (localName.equals("item-data")) {
 				currentCopy = new CopyItem();
 			}
 			// TODO CHECK .....
-			if (localName.equals("error")) {
-				/* invalid id/pass. exit? */
-				throw new SAXException("bad something");
-			}
+			// if (localName.equals("error")) {
+			// /* invalid id/pass. exit? */
+			// throw new SAXException("bad something");
+			// }
 		}
 
 		/**
@@ -171,16 +191,19 @@ public class BookDescriptionActivity extends CoolieActivity {
 			currentElement = false;
 			/** set value */
 			if (localName.equals("loan-status")) {
-				if(currentValue.contains("ONE WEEK") || currentValue.contains("TWO WEEKS") || currentValue.contains("OVERNIGHT ")){
-					currentCopy.isAvailable = true;
-				} else {
-					currentCopy.isAvailable = false;
-				}
+				// if(currentValue.contains("ONE WEEK") ||
+				// currentValue.contains("TWO WEEKS") ||
+				// currentValue.contains("OVERNIGHT ")){
+				// currentCopy.isAvailable = true;
+				// } else {
+				// currentCopy.isAvailable = false;
+				// }
 				currentCopy.status = currentValue;
 			} else if (localName.equals("due-date")) {
 				currentCopy.dueDate = currentValue;
-				if(currentCopy.dueDate.equals("") && currentCopy.isAvailable == true) {
-					Log.d("BookDescription", "loaned copy! " + currentCopy.status );
+				if (currentCopy.dueDate.isEmpty()) {
+					currentCopy.isAvailable = true;
+				} else {
 					currentCopy.isAvailable = false;
 				}
 			} else if (localName.equals("sub-library")) {
@@ -312,7 +335,7 @@ public class BookDescriptionActivity extends CoolieActivity {
 				// holder.dueDate.setText("in loan till:\n" +
 				// context.items.get(position).dueDate);
 			}
-			
+
 			holder.holdOrWishAdd.setOnClickListener(onClick);
 			holder.library.setText(items.get(position).library);
 			// holder.name.setText(items.get(position).name);
