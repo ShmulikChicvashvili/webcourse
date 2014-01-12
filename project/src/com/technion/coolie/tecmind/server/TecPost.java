@@ -1,5 +1,4 @@
 package com.technion.coolie.tecmind.server;
-
 import java.net.URL;
 import java.util.Date;
 

@@ -13,8 +13,7 @@ public class Post extends UserActivity {
 	  public String content;
 	  public URL url = null;
 	  public String groupName = null;
-	  public int spamCount = 0;
-	  public String spamType = null;
+	  
 	  
 	  
 	  /**
@@ -30,8 +29,7 @@ public class Post extends UserActivity {
 	 * @param spamType1
 	 */
 	public Post(String id1, Date date1, String userID1, int likesCount1, 
-			int commentCount1, String content1, URL url1, String groupName1, 
-			int spamCount1, String spamType1) {
+			int commentCount1, String content1, URL url1, String groupName1) {
 	    this.id = id1;
 	    this.date = date1;
 	    this.userID = userID1;
@@ -40,7 +38,6 @@ public class Post extends UserActivity {
 	    this.content = content1;
 	    this.url = url1;
 	    this.groupName = groupName1;
-	    this.spamCount = spamCount1;
-	    this.spamType = spamType1;
+
 	 }
 }

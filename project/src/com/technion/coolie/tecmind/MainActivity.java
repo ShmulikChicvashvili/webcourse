@@ -9,10 +9,8 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,7 +24,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
 import com.facebook.RequestAsyncTask;
@@ -38,13 +35,11 @@ import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
-import com.technion.coolie.tecmind.BL.Post;
 import com.technion.coolie.tecmind.BL.ReturnValue;
 import com.technion.coolie.tecmind.BL.Title;
 import com.technion.coolie.tecmind.BL.User;
 import com.technion.coolie.tecmind.BL.Utilities;
 import com.technion.coolie.tecmind.server.ReturnCode;
-import com.technion.coolie.tecmind.server.TecPost;
 import com.technion.coolie.tecmind.server.TecUser;
 import com.technion.coolie.tecmind.server.TecUserTitle;
 import com.technion.coolie.tecmind.server.TechmineAPI;
@@ -132,7 +127,7 @@ public class MainActivity extends CoolieActivity {
 						public void onCompleted(GraphUser user, Response response) {
 							
 							if (user != null) {
-								System.out.println("*****user != null******");
+
 								/* tries to read from file "techmine" that saved in th internal storage of the device 
 								at the last use */
 								readFromFile();
@@ -157,12 +152,12 @@ public class MainActivity extends CoolieActivity {
 										//*** post in the facebook that the user has joined techmind **//
 										publishJoinedToTechmind();
 										/* adds the user to the server */
-										addUserToServer();
+										addUserToServer(); 
 										
 									}
 									/* if success to get user details from the server, initiate all user's details */
 									else { 
-										initiateFromServer();
+										initiateFromServer(); 
 									}
 									
 									/* writes the user details to 
@@ -170,7 +165,9 @@ public class MainActivity extends CoolieActivity {
 									writeToFile();
 									
 								}
-											
+								
+								User check = User.getUserInstance(null);
+								
 								initiateActivityFields();
 
 								/*
@@ -189,7 +186,7 @@ public class MainActivity extends CoolieActivity {
 					}).executeAsync();
 				}
 			}
-		}, Arrays.asList("user_groups", "user_activities", "user_likes","read_stream"));
+		}, Arrays.asList("user_groups", "user_activities", "user_likes", "read_stream"));
 	}
 
 	private void writeToFile() {
@@ -201,7 +198,6 @@ public class MainActivity extends CoolieActivity {
 		FileOutputStream outputStream;
 		try {
 			outputStream = openFileOutput("techmine_user_details", Context.MODE_PRIVATE);
-			outputStream.write(("first ini").getBytes());
 			outputStream.write((User.getUserInstance(null).id + "\n").getBytes());
 			outputStream.write((User.getUserInstance(null).name + "\n").getBytes());
 			outputStream.write((User.getUserInstance(null).title.value() + "\n").getBytes());
@@ -214,7 +210,10 @@ public class MainActivity extends CoolieActivity {
 			outputStream.write((User.getUserInstance(null).postsNum + "*"
 					+ User.getUserInstance(null).commentsNum + "*"
 					+ User.getUserInstance(null).likesNum + "*"
-					+ User.getUserInstance(null).likesOnPostsNum + "\n").getBytes());
+					+ User.getUserInstance(null).likesOnPostsNum + "*"
+					+ User.getUserInstance(null).likesOthers + "*"
+					+ User.getUserInstance(null).commentsOthers + "*"
+					+ User.getUserInstance(null).weeklyTotlal + "\n").getBytes());
 
 			outputStream.close();
 		} catch (Exception e) {
@@ -249,17 +248,10 @@ public class MainActivity extends CoolieActivity {
 			User.getUserInstance(null).commentsNum = Integer.parseInt(userCounters[1]);
 			User.getUserInstance(null).likesNum = Integer.parseInt(userCounters[2]);
 			User.getUserInstance(null).likesOnPostsNum = Integer.parseInt(userCounters[3]);
+			User.getUserInstance(null).likesOthers = Integer.parseInt(userCounters[4]);
+			User.getUserInstance(null).commentsOthers = Integer.parseInt(userCounters[5]);
+			User.getUserInstance(null).weeklyTotlal = Integer.parseInt(userCounters[6]);
 			
-//			User.getUserInstance(null).name = userName;
-//			String counters = parts[2];
-//			String[] countersParts = readString.split(" ");
-//			User.getUserInstance(null).postsNum = Integer.parseInt(countersParts[0]);
-//			User.getUserInstance(null).commentsNum = Integer.parseInt(countersParts[1]);
-//			User.getUserInstance(null).likesNum = Integer.parseInt(countersParts[2]);
-//			User.getUserInstance(null).likesOnPostsNum = Integer.parseInt(countersParts[3]);
-
-			// Toast.makeText(getApplicationContext(), readString,
-			// Toast.LENGTH_LONG).show();
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -305,11 +297,11 @@ public class MainActivity extends CoolieActivity {
 		try {
 			tecUser = new ServerGetUserData().execute().get();
 			if (tecUser == null) {
-							return ReturnValue.USER_DOESNT_EXIST_IN_SERVER;
+				return ReturnValue.USER_DOESNT_EXIST_IN_SERVER;
 			}
 			else {
 				userId = tecUser.getId();
-					}
+			}
 		} catch (Exception e) {
 			return ReturnValue.FAIL_FROM_SERVER;
 		}
@@ -328,9 +320,11 @@ public class MainActivity extends CoolieActivity {
 				tecUser.getName(),
 				Title.valueOf(tecUser.getTitle().value()),
 				tecUser.getLastMining(), tecUser.getTotalTechoins(),
-				tecUser.getBankAccount(), tecUser.postsNum,
-				tecUser.commentsNum, tecUser.likesNum,
-				tecUser.likeOnPostsNum);
+				tecUser.getBankAccount(), tecUser.getPostsNum(),
+				tecUser.getCommentsNum(), tecUser.getLikesNum(),
+				tecUser.getLikesOnPostsNum(), tecUser.getLikesOthers(), 
+				tecUser.getCommentsOthers(), tecUser.getWeeklyTotal(),
+				tecUser.getSpamCount());
 	}
 
 
@@ -362,7 +356,7 @@ public class MainActivity extends CoolieActivity {
 		@Override
 		protected TecUser doInBackground(Void... arg0) {
 			TecUser userToServer = new TecUser(userId, null, null, null, 0, 0,
-					0, 0, 0, 0);
+					0, 0, 0, 0, 0, 0, 0);
 			return connector.getUser(userToServer);
 
 		}
@@ -379,10 +373,12 @@ public class MainActivity extends CoolieActivity {
 
 		@Override
 		protected ReturnCode doInBackground(Void... arg0) {
+			List<TecUser> userToServerList = new LinkedList<TecUser>();
 			Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
 			TecUser userToSever = new TecUser(userId, userName,
-					TecUserTitle.ATUDAI, lastMining, 0, 0, 0, 0, 0, 0);
-			return connector.addUser(userToSever);
+					TecUserTitle.ATUDAI, lastMining, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+			userToServerList.add(userToSever);
+			return connector.addUsers(userToServerList);
 
 		}
 
@@ -393,13 +389,15 @@ public class MainActivity extends CoolieActivity {
 
 	}
 
+
+
 	class ServerRemoveUser extends AsyncTask<Void, Void, ReturnCode> {
 
 		@Override
 		protected ReturnCode doInBackground(Void... arg0) {
 			Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
 			TecUser userToSever = new TecUser("574717953", null, null,
-					lastMining, 0, 0, 0, 0, 0, 0);
+					lastMining, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 			return connector.removeUser(userToSever);
 
 		}

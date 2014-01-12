@@ -1,12 +1,10 @@
 package com.technion.coolie.tecmind.BL;
 
-import java.util.Date;
 
 public class Like extends UserActivity {
-	  String id;
-	  Date date;
 	  int technionValue = 1;
-	  int userID;
+	  String userID;
+	  String postId;
 
 	  /**
 	   * @param id1
@@ -14,9 +12,12 @@ public class Like extends UserActivity {
 	   * @param technionValue1
 	   * @param userID1
 	   */
-	  public Like(String id1, Date date1, int userID1) {
-	    this.id = id1;
-	    this.date = date1;
+	  public Like(String userID1, String postId1) {
 	    this.userID = userID1;
+	    this.postId = postId1;
+	  }
+	  
+	  public void setId(String id1) {
+		  id = id1;
 	  }
 }

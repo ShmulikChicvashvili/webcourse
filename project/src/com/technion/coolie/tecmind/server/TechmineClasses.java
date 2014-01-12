@@ -1,5 +1,4 @@
 package com.technion.coolie.tecmind.server;
-
 /**
  * 
  * Created on 8/12/2013

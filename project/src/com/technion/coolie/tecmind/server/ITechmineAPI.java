@@ -1,5 +1,4 @@
 package com.technion.coolie.tecmind.server;
-
 import java.util.List;
 
 /**
@@ -10,129 +9,133 @@ import java.util.List;
  * 
  */
 public interface ITechmineAPI {
-	  /**
-	   * 
-	   * @param user
-	   *          - the user to add with all the necessary fields initialized
-	   * @return - SUCCESS if went well, error code otherwise
-	   */
-	  public ReturnCode addUser(TecUser user);
 
-	  /**
-	   * 
-	   * @param user
-	   *          - the user to remove with the id field initialized correctly
-	   * @return - SUCCESS if went well, error code otherwise
-	   */
-	  public ReturnCode removeUser(TecUser user);
+  /**
+   * 
+   * @param users
+   *          - the list of users to add with all the necessary fields
+   *          initialized
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode addUsers(List<TecUser> users);
 
-	  /**
-	   * @param user
-	   *          - the user to get with the id field initialized correctly
-	   * @return - the requested user
-	   */
-	  public TecUser getUser(TecUser user);
+  /**
+   * 
+   * @param users
+   *          - the list of users to update with all the necessary fields
+   *          initialized
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode updateUsers(List<TecUser> users);
 
-	  /**
-	   * @return - top 10 TopBestPost by their technionValue field
-	   */
-	  public List<TecPost> getTopBestPosts();
+  /**
+   * 
+   * @param user
+   *          - the user to remove with the id field initialized correctly
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode removeUser(TecUser user);
 
-	  /**
-	   * @return - top 10 TecTopBestComment by their technionValue field
-	   */
-	  public List<TecComment> getTopBestComments();
+  /**
+   * @param user
+   *          - the user to get with the id field initialized correctly
+   * @return - the requested user
+   */
+  public TecUser getUser(TecUser user);
 
-	  /**
-	   * 
-	   * @param tecPost
-	   *          - the tecPost to add with all the necessary fields initialized
-	   * @return - SUCCESS if went well, error code otherwise
-	   */
-	  public ReturnCode addTecPost(TecPost tecPost);
+  /**
+   * @return - top 10 TecPost by their technionValue field
+   */
+  public List<TecPost> getTopBestPosts();
 
-	  /**
-	   * 
-	   * @param tecPost
-	   *          - the tecPost to remove with the id field initialized correctly
-	   * @return - SUCCESS if went well, error code otherwise
-	   */
-	  public ReturnCode removeTecPost(TecPost tecPost);
+  /**
+   * @return - top 10 TecComment by their technionValue field
+   */
+  public List<TecComment> getTopBestComments();
 
-	  /**
-	   * @param tecPost
-	   *          - the tecPost to get with the id field initialized correctly
-	   * @return - the requested tecPost
-	   */
-	  public TecPost getTecPost(TecPost tecPost);
+  /**
+   * @return - top 10 TecUser by their totalTechoins field
+   */
+  public List<TecComment> getTopBestMiners();
 
-	  /**
-	   * 
-	   * @param tecComment
-	   *          - the tecComment to add with all the necessary fields initialized
-	   * @return - SUCCESS if went well, error code otherwise
-	   */
-	  public ReturnCode addTecComment(TecComment tecComment);
+  /**
+   * 
+   * @param tecPosts
+   *          - the list of tecPosts to add with all the necessary fields
+   *          initialized
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode addTecPosts(List<TecPost> tecPosts);
 
-	  /**
-	   * 
-	   * @param tecComment
-	   *          - the tecComment to remove with the id field initialized correctly
-	   * @return - SUCCESS if went well, error code otherwise
-	   */
-	  public ReturnCode removeTecComment(TecComment tecComment);
+  /**
+   * 
+   * @param tecPost
+   *          - the tecPost to remove with the id field initialized correctly
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode removeTecPost(TecPost tecPost);
 
-	  /**
-	   * @param tecComment
-	   *          - the tecComment to get with the id field initialized correctly
-	   * @return - the requested tecComment
-	   */
-	  public TecComment getTecComment(TecComment tecComment);
+  /**
+   * @param tecPost
+   *          - the tecPost to get with the id field initialized correctly
+   * @return - the requested tecPost
+   */
+  public TecPost getTecPost(TecPost tecPost);
 
-	  /**
-	   * 
-	   * @param tecLike
-	   *          - the tecLike to add with all the necessary fields initialized
-	   * @return - SUCCESS if went well, error code otherwise
-	   */
-	  public ReturnCode addTecLike(TecLike tecLike);
+  /**
+   * 
+   * @param tecComments
+   *          - the list of tecComments to add with all the necessary fields
+   *          initialized
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode addTecComments(List<TecComment> tecComments);
 
-	  /**
-	   * 
-	   * @param tecLike
-	   *          - the tecLike to remove with the id field initialized correctly
-	   * @return - SUCCESS if went well, error code otherwise
-	   */
-	  public ReturnCode removeTecLike(TecLike tecLike);
+  /**
+   * 
+   * @param tecComment
+   *          - the tecComment to remove with the id field initialized correctly
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode removeTecComment(TecComment tecComment);
 
-	  /**
-	   * @param tecLike
-	   *          - the tecLike to get with the id field initialized correctly
-	   * @return - the requested tecLike
-	   */
-	  public TecLike getTecLike(TecLike tecLike);
+  /**
+   * @param tecComment
+   *          - the tecComment to get with the id field initialized correctly
+   * @return - the requested tecComment
+   */
+  public TecComment getTecComment(TecComment tecComment);
 
-	  /**
-	   * 
-	   * @param user
-	   *          - the user look for his posts
-	   * @return - List<TecPost> which includes all user's posts
-	   */
-	  public List<TecPost> getAllUserPosts(TecUser user);
+  /**
+   * 
+   * @param tecLikes
+   *          - the list of tecLikes to add with all the necessary fields
+   *          initialized
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode addTecLikes(List<TecLike> tecLikes);
 
-	  /**
-	   * 
-	   * @param posts
-	   *          - the list of TecPost to add
-	   * @return - SUCCESS if went well, error code otherwise
-	   */
-	  public ReturnCode addTecPostList(List<TecPost> posts);
+  /**
+   * 
+   * @param tecLike
+   *          - the tecLike to remove with the id field initialized correctly
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode removeTecLike(TecLike tecLike);
 
-	  /**
-	   * 
-	   * @param comments
-	   *          - the list of TecComment to add
-	   * @return - SUCCESS if went well, error code otherwise
-	   */
-	  public ReturnCode addTecCommentList(List<TecComment> comments);
-	}
+  /**
+   * @param tecLike
+   *          - the tecLike to get with the id field initialized correctly
+   * @return - the requested tecLike
+   */
+  public TecLike getTecLike(TecLike tecLike);
+
+  /**
+   * 
+   * @param user
+   *          - the user look for his posts
+   * @return - List<TecPost> which includes all user's posts
+   */
+  public List<TecPost> getAllUserPosts(TecUser user);
+
+}

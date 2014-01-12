@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.TimeZone;
 
 import junit.framework.Assert;
@@ -22,7 +23,9 @@ import android.util.Log;
 import com.facebook.model.GraphObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.technion.coolie.tecmind.MineActivity;
 import com.technion.coolie.tecmind.BL.Utilities;
+import com.technion.coolie.tecmind.server.TecUser;
 
 
 public class Mine implements IMine {
@@ -37,6 +40,9 @@ public class Mine implements IMine {
 	private HashMap<String, Date> mPostsDates;
 	private HashMap<String, String> mPostsContent;
 	
+	private LinkedList<TecUser> mOtherUsersList;
+
+	
 	public Mine(String userId) {	 
 		mUserId = userId;
 		mTechGroups = new LinkedList<String>();
@@ -45,6 +51,7 @@ public class Mine implements IMine {
 		mPostsUrls = new HashMap<String, String>();
 		mPostsDates = new HashMap<String, Date>();
 		mPostsContent = new HashMap<String, String>();
+		mOtherUsersList = new LinkedList<TecUser>();
 	}
 	
 	/* Return Mine Instance if already have been created, initiate new one otherwise */
@@ -109,6 +116,7 @@ public class Mine implements IMine {
 			         
 			         /* mines all user's comments */
 		        	 mineUserComments(json_obj, postId);
+		        	 
 	            }
 	        }
 	        
@@ -155,7 +163,7 @@ public class Mine implements IMine {
 	   
 	    /* adds the post to the user's posts list */
 	    Post newPost = new Post(postId, createTimeDate, mUserId, 0, 0, 
-			   postContent,  url, postGroupName, 0, null);
+			   postContent,  url, postGroupName);
 	    User.getUserInstance(null).posts.add(newPost);
 	   
 	    /* adds the url to the list by postId */
@@ -178,26 +186,31 @@ public class Mine implements IMine {
 		
 		// counts all comments of the post
         String comments = null;
-        ArrayList<Utilities.CommentObject> commentsArr;
+        ArrayList<Utilities.CommentObject> commentsArr = null;
         int commentsOfPostsCounter = 0;
         
+        String userId = null;
  	    if (json_obj.toString().contains("\"comments\":")){
           	comments = ((JSONArray)((JSONObject)json_obj.get("comments")).get("data")).toString();
-          	
           	commentsArr = new Gson().fromJson(comments, new TypeToken<ArrayList<Utilities.CommentObject>>() 
           			{}.getType());
           	commentsOfPostsCounter += commentsArr.size();
 
          } 
  	    Post post = User.getUserInstance(null).getPostById(postId);
- 	    Utilities.calculateComments(post, commentsOfPostsCounter);
+ 	    
+ 	   /* mines other users comments and insert to the commentsList and otherUsersList to update at server */
+	    mineOtherUsersComments(commentsArr, post, json_obj);
+	    
+	    Utilities.calculateComments(post, commentsOfPostsCounter);
 	}
 
+	
 	private void mineUserLikes(JSONObject json_obj, String postId) throws JSONException {
 		
    	 // counts all likes of the post in the certain group
 		String likes = null;
-		ArrayList<Utilities.LikesObject> likesArr;
+		ArrayList<Utilities.LikesObject> likesArr = null;
 		int likesOfPostsCounter = 0;
 		
 	    if (json_obj.toString().contains("\"likes\":")){
@@ -208,7 +221,97 @@ public class Mine implements IMine {
 	    }
 	    
 	    Post post = User.getUserInstance(null).getPostById(postId);
+	    
+	    /* mines other users likes and insert to the likesList and otherUsersList to update at server */
+	    mineOtherUsersLikes(likesArr, post);
+	    
 	    Utilities.calculateLikes(post, likesOfPostsCounter);
+	}
+
+	private void mineOtherUsersLikes(ArrayList<Utilities.LikesObject> likesArr, Post post) {
+		if (likesArr == null) {
+			return;
+		}
+		if (post.likesCount < likesArr.size()) {
+			int diff = likesArr.size() - post.likesCount;
+			if (diff == 0) {
+				return;
+			}
+			for (int l = 0; l < diff; l++) {
+				if (likesArr.get(l).id.equals(User.getUserInstance(null).id)) {
+					continue;
+				}
+				TecUser otherUser = getOtheUserById(likesArr.get(l).id);
+				if (otherUser == null) {
+					otherUser = new TecUser();
+					otherUser.setId(likesArr.get(l).id);
+					otherUser.setLikesOthers(1);
+					mOtherUsersList.add(otherUser);
+				}
+				else{
+					otherUser.setLikesOthers(otherUser.getLikesOthers() + 1);
+				}
+			}
+		}
+		
+	}
+	
+	
+	private void mineOtherUsersComments(ArrayList<Utilities.CommentObject> commentsArr, Post post, JSONObject json_obj) throws JSONException {
+		if (commentsArr == null) {
+			return;
+		}
+		if (post.commentCount < commentsArr.size()) {
+			int diff = commentsArr.size() - post.commentCount;
+			if (diff == 0) {
+				return;
+			}
+			String userId = null;
+			for (int c = post.commentCount; c < commentsArr.size()  ; c++) {
+				if (commentsArr.get(c).id.equals(User.getUserInstance(null).id)) {
+					continue;
+				}
+				userId = ((JSONObject)(((JSONArray)((JSONObject)json_obj.get("comments")).get("data"))).
+	          			getJSONObject(c).get("from")).get("id").toString();
+				TecUser otherUser = getOtheUserById(userId);
+				if (otherUser == null) {
+		          	otherUser = new TecUser();
+		          	otherUser.setId(userId);
+					otherUser.setCommentsOthers(1);
+					mOtherUsersList.add(otherUser);
+				}
+				else{
+					otherUser.setCommentsOthers(otherUser.getCommentsOthers() + 1);
+				}
+			}
+		}
+	}
+	
+	private boolean getCommentById(String id) {
+		for (Comment c : MineActivity.commentsFromServer) {
+			if (c.id.equals(id)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private TecUser getOtheUserById(String id) {
+		for (TecUser u : mOtherUsersList) {
+			if (u.getId().equals(id)) {
+				return u;
+			}
+		}
+		return null;
+	}
+	
+	private boolean getLikeByUserIdAndPostId(String userId, String postId) {
+		for (Like l : MineActivity.likesFromServer) {
+			if (l.userID.equals(userId) && l.postId.equals(postId)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private Date getCorrectTime(JSONObject obj, String action) throws JSONException {
@@ -242,17 +345,6 @@ public class Mine implements IMine {
 		User.getUserInstance(null).lastMining = new Date();
 	}
 
-	@Override
-	public void mineUserComments(GraphObject gO) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mineUserLikes(GraphObject gO) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Override
 	public  HashMap<String, String> getPostsUrls() {
@@ -272,6 +364,11 @@ public class Mine implements IMine {
 	@Override
 	public  HashMap<String, String> getPostsContent() {
 		return mPostsContent;
+	}
+
+	@Override
+	public LinkedList<TecUser> getOtherUsersList() {
+		return mOtherUsersList;
 	}
  
  
