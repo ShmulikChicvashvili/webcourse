@@ -529,7 +529,7 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 			serializeArr[i].imageResource = c[i].getImageResource();
 			serializeArr[i].name = c[i].getName();
 			serializeArr[i].password = c[i].getPassword();
-			serializeArr[i].preference = c[i].getPreference(CoolieActivity.this);
+			//serializeArr[i].preference = c[i].getPreference(CoolieActivity.this);
 			serializeArr[i].username = c[i].getUsername();
 		}
 
@@ -595,8 +595,8 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 					PrivateCoolieAccount.valueOf(c[i].name()).setAlreadyLoggedIn(serializeArr[i].alreadyConnected);
 
 				PrivateCoolieAccount.valueOf(c[i].name()).setImageResource(serializeArr[i].imageResource);
-				if (serializeArr[i].preference != null)
-					PrivateCoolieAccount.valueOf(c[i].name()).setPreference(serializeArr[i].preference);
+				//if (serializeArr[i].preference != null)
+				//	PrivateCoolieAccount.valueOf(c[i].name()).setPreference(serializeArr[i].preference);
 				
 				PrivateCoolieAccount.valueOf(c[i].name()).setName(serializeArr[i].name);
 				PrivateCoolieAccount.valueOf(c[i].name()).setUsername(serializeArr[i].username);

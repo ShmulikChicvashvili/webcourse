@@ -157,7 +157,7 @@ public enum PrivateCoolieAccount {
 		public int imageResource;
 		public String username;
 		public String password;
-		public AccountPreference preference;
+		//public AccountPreference preference;
 		public boolean alreadyConnected;
 	}
 
