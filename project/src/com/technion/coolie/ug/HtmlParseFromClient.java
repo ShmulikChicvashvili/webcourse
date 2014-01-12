@@ -28,19 +28,19 @@ import com.technion.coolie.ug.db.UGDatabase;
 public class HtmlParseFromClient {
 
 	// holds current semester
-	public Semester currentSemester;
+	public static Semester currentSemester;
 
 	/**
 	 * Gets current semesters
 	 * 
 	 * @return array of current semesters
 	 */
-	public Semester[] getSemesters() {
+	static public Semester[] getSemesters(Document ug) {
 		Semester[] semesters = new Semester[3];
 		// TODO: Matvey - Call you get method inside Jsoup.parse(...)
 		// in your get use the following url:
 		// http://ug.technion.ac.il/rishum/search.php
-		Document ug = Jsoup.parse("CALL YOUR GET METHOD HERE");
+		//Document ug = Jsoup.parse("CALL YOUR GET METHOD HERE");
 		Elements inputs = ug.select("input[type=radio]");
 		Element checked = inputs.select("input[checked= ]").first();
 		for (int i = 0; i < inputs.size(); i++) {
@@ -50,7 +50,7 @@ public class HtmlParseFromClient {
 		return semesters;
 	}
 
-	public Semester stringToSemester(String s) {
+	public static Semester stringToSemester(String s) {
 		int year = Integer.valueOf(s.substring(0, 4));
 		SemesterSeason ss = null;
 		String season = s.substring(4, 6);

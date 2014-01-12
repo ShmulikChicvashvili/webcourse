@@ -182,13 +182,13 @@ public class UGDatabase {
 	private void initializeSemesters() {
 
 		currentSeason = SemesterSeason.WINTER;
-		currentSemesters = new Semester[3];
+		/*currentSemesters = new Semester[3];
 		currentSemesters[SemesterSeason.SPRING.getIdx()] = new Semester(2013,
 				SemesterSeason.SPRING);
 		currentSemesters[SemesterSeason.SUMMER.getIdx()] = new Semester(2013,
 				SemesterSeason.SUMMER);
 		currentSemesters[SemesterSeason.WINTER.getIdx()] = new Semester(2013,
-				SemesterSeason.WINTER);
+				SemesterSeason.WINTER);*/
 
 	}
 
@@ -201,11 +201,26 @@ public class UGDatabase {
 	}
 
 	public Semester getRelevantSemester(final SemesterSeason season) {
-		return currentSemesters[season.getIdx()];
+		//return currentSemesters[season.getIdx()];
+		if (currentSemesters==null || currentSemesters.length !=3)
+		{
+			return new Semester(2013, SemesterSeason.SPRING);
+		}
+		else
+		{
+			return currentSemesters[0];
+		}
 	}
 
 	public Semester getCurrentSemester() {
-		return currentSemesters[currentSeason.getIdx()];
+		if (currentSemesters==null || currentSemesters.length !=3)
+		{
+			return new Semester(2013, SemesterSeason.SPRING);
+		}
+		else
+		{
+			return currentSemesters[0];
+		}
 	}
 
 	public List<CourseKey> getTrackingCourses() {
