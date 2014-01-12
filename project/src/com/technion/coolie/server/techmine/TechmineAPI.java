@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
+import com.technion.coolie.server.techmine.manager.TecGroup;
 
 /**
  * 
@@ -65,6 +66,16 @@ public class TechmineAPI implements ITechmineAPI {
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TOP_BEST_COMMENTS.toString()),
         new TypeToken<List<TecComment>>() {
+          // default usage
+        }.getType());
+  }
+
+  @Override
+  public List<TecGroup> getValidGroups() {
+    return gson.fromJson(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.GET_VALID_GROUPS.toString()),
+        new TypeToken<List<TecGroup>>() {
           // default usage
         }.getType());
   }
