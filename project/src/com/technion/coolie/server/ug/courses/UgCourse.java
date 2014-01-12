@@ -1,5 +1,6 @@
 package com.technion.coolie.server.ug.courses;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -23,7 +24,7 @@ public class UgCourse implements IUgCourse {
   private static final String FUNCTION = "function";
 
   @Override
-  public List<ServerCourse> getAllCourses(Semester semester) {
+  public List<ServerCourse> getAllCourses(Semester semester) throws IOException {
     String $ = Communicator.execute(servletName, FUNCTION,
         UgCourseFunctions.GET_COURSES_BY_SEMESTER.value(), "semester",
         toJson(semester));
@@ -32,7 +33,8 @@ public class UgCourse implements IUgCourse {
   }
 
   @Override
-  public List<ServerCourse> getCourses(List<CourseKey> courseKeys) {
+  public List<ServerCourse> getCourses(List<CourseKey> courseKeys)
+      throws IOException {
     String $ = Communicator.execute(servletName, FUNCTION,
         UgCourseFunctions.GET_COURSES_BY_KEY.value(), "courseKeys",
         toJson(courseKeys));
@@ -42,7 +44,7 @@ public class UgCourse implements IUgCourse {
 
   @Override
   public List<ServerCourse> getStudentCurrentCourses(Student student,
-      Semester semester) {
+      Semester semester) throws IOException {
     String $ = Communicator.execute(servletName, FUNCTION,
         UgCourseFunctions.GET_STUDENT_COURSES.value(), "student",
         toJson(student), "semester", toJson(semester));

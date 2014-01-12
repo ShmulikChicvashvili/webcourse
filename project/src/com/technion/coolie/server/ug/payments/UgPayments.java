@@ -1,5 +1,6 @@
 package com.technion.coolie.server.ug.payments;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -19,7 +20,7 @@ public class UgPayments implements IUgPayments {
   private static final String servletName = "UGPayment";
 
   @Override
-  public List<Payment> getStudentPayments(Student student) {
+  public List<Payment> getStudentPayments(Student student) throws IOException {
     String $ = Communicator.execute(servletName, "student", toJson(student));
 
     return convertJsonToList($);

@@ -1,5 +1,6 @@
 package com.technion.coolie.server;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -18,28 +19,23 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class Communicator {
 
-  public static String execute(String... strs) {
+  public static String execute(String... strs) throws IOException {
     String $ = "";
-    try {
-      URL url = new URL("https://symmetric-card-417.appspot.com/" + strs[0]);
-      String param = encodeParams(strs);
-      HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
-      con.setDoOutput(true);
-      con.setRequestMethod("POST");
-      con.setFixedLengthStreamingMode(param.getBytes().length);
-      con.setRequestProperty("Content-Type",
-          "application/x-www-form-urlencoded");
-      con.addRequestProperty("Auth", "123");
-      PrintWriter out = new PrintWriter(con.getOutputStream());
-      out.print(param);
-      out.close();
-      Scanner inStream = new Scanner(con.getInputStream());
-      while (inStream.hasNextLine())
-        $ += (inStream.nextLine());
-      inStream.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    URL url = new URL("https://symmetric-card-417.appspot.com/" + strs[0]);
+    String param = encodeParams(strs);
+    HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+    con.setDoOutput(true);
+    con.setRequestMethod("POST");
+    con.setFixedLengthStreamingMode(param.getBytes().length);
+    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+    con.addRequestProperty("Auth", "123");
+    PrintWriter out = new PrintWriter(con.getOutputStream());
+    out.print(param);
+    out.close();
+    Scanner inStream = new Scanner(con.getInputStream());
+    while (inStream.hasNextLine())
+      $ += (inStream.nextLine());
+    inStream.close();
     return $;
   }
 

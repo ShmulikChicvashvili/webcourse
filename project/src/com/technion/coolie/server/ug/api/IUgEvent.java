@@ -1,5 +1,6 @@
 package com.technion.coolie.server.ug.api;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
@@ -14,6 +15,7 @@ public interface IUgEvent {
   /**
    * 
    * @return list of academic calendar event
+   * @throws IOException
    */
-  public List<AcademicCalendarEvent> getAllAcademicEvents();
+  public List<AcademicCalendarEvent> getAllAcademicEvents() throws IOException;
 }

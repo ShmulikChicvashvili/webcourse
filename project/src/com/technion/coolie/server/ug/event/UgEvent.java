@@ -1,5 +1,6 @@
 package com.technion.coolie.server.ug.event;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -18,7 +19,7 @@ public class UgEvent implements IUgEvent {
   private static final String servletName = "UGEvent";
 
   @Override
-  public List<AcademicCalendarEvent> getAllAcademicEvents() {
+  public List<AcademicCalendarEvent> getAllAcademicEvents() throws IOException {
     String $ = Communicator.execute(servletName);
     return convertJsonToList($);
   }

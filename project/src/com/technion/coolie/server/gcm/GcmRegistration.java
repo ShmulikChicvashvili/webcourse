@@ -166,7 +166,13 @@ public class GcmRegistration extends Activity {
    */
   void sendRegistrationIdToBackend() {
     Log.i(TAG, "sendRegistrationIdToBackend: " + regid);
-    Communicator.execute("GcmServlet", "regId", regid, "message", "coooooooo");
+    try {
+      Communicator
+          .execute("GcmServlet", "regId", regid, "message", "coooooooo");
+    } catch (IOException e) {
+      Log.v(TAG, "error while register to backend");
+      e.printStackTrace();
+    }
   }
 
   /**

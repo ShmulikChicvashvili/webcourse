@@ -1,8 +1,10 @@
 package com.technion.coolie.server.techoins;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
 
@@ -18,7 +20,8 @@ public class TechoinsAPI implements ITechoinsAPI {
   Gson gson = new Gson();
 
   @Override
-  public ReturnCode addAccount(BankAccount account, String password) {
+  public ReturnCode addAccount(BankAccount account, String password)
+      throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.ADD_ACCOUNT.toString(), TechoinsEnum.BANK_ACCOUNT.value(),
@@ -26,7 +29,7 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public ReturnCode removeAccount(BankAccount account) {
+  public ReturnCode removeAccount(BankAccount account) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.REMOVE_ACCOUNT.toString(),
@@ -34,7 +37,8 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public BankAccount getAccount(BankAccount account) {
+  public BankAccount getAccount(BankAccount account)
+      throws JsonSyntaxException, IOException {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.GET_ACCOUNT.toString(), TechoinsEnum.BANK_ACCOUNT.value(),
@@ -42,7 +46,7 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public ReturnCode moveMoney(TechoinsTransfer transfer) {
+  public ReturnCode moveMoney(TechoinsTransfer transfer) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.MOVE_MONEY.toString(),
@@ -50,7 +54,8 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public List<TechoinsTransfer> getHistory(BankAccount account) {
+  public List<TechoinsTransfer> getHistory(BankAccount account)
+      throws JsonSyntaxException, IOException {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.GET_HISTORY.toString(), TechoinsEnum.BANK_ACCOUNT.value(),
@@ -60,7 +65,7 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public ReturnCode addProduct(Product product) {
+  public ReturnCode addProduct(Product product) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.ADD_PRODUCT.toString(), TechoinsEnum.PRODUCT.value(),
@@ -68,7 +73,7 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public ReturnCode removeProduct(Product product) {
+  public ReturnCode removeProduct(Product product) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.REMOVE_PRODUCT.toString(), TechoinsEnum.PRODUCT.value(),
@@ -76,7 +81,7 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public ReturnCode buyProduct(Product product) {
+  public ReturnCode buyProduct(Product product) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.BUY_PRODUCT.toString(), TechoinsEnum.PRODUCT.value(),
@@ -84,7 +89,8 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public List<Product> getProductsByName(Product product) {
+  public List<Product> getProductsByName(Product product)
+      throws JsonSyntaxException, IOException {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.GET_PRODUCTS_BY_NAME.toString(),
@@ -95,7 +101,8 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public List<Product> getProductsByCategory(Product product) {
+  public List<Product> getProductsByCategory(Product product)
+      throws JsonSyntaxException, IOException {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.GET_PRODUCTS_BY_CATEGORY.toString(),
@@ -106,7 +113,8 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public List<Product> getXRecentProducts(int x) {
+  public List<Product> getXRecentProducts(int x) throws JsonSyntaxException,
+      IOException {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.GET_X_RECENT_PRODUCTS.toString(), "num",
@@ -116,7 +124,8 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public List<Product> getXRandomProducts(int x) {
+  public List<Product> getXRandomProducts(int x) throws JsonSyntaxException,
+      IOException {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.GET_X_RANDOM_PRODUCTS.toString(), "num",
@@ -126,7 +135,8 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public List<Product> getSoldProductsBySellerID(Product product) {
+  public List<Product> getSoldProductsBySellerID(Product product)
+      throws JsonSyntaxException, IOException {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.GET_SOLD_PRODUCTS_BY_SELLER_ID.toString(),
@@ -137,7 +147,8 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public List<Product> getPurchasedProductsByBuyerID(Product product) {
+  public List<Product> getPurchasedProductsByBuyerID(Product product)
+      throws JsonSyntaxException, IOException {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.GET_PURCHASED_PRODUCTS_BY_BUYER_ID.toString(),
@@ -148,7 +159,8 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public List<Product> getPublishedProductsBySellerID(Product product) {
+  public List<Product> getPublishedProductsBySellerID(Product product)
+      throws JsonSyntaxException, IOException {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.GET_PUBLISHED_PRODUCTS_BY_SELLER_ID.toString(),
@@ -159,7 +171,8 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public List<Product> getByName(String s) {
+  public List<Product> getByName(String s) throws JsonSyntaxException,
+      IOException {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.FIND_BY_NAME.toString(), "name", s),
@@ -169,7 +182,8 @@ public class TechoinsAPI implements ITechoinsAPI {
   }
 
   @Override
-  public List<Product> getByDescription(String s) {
+  public List<Product> getByDescription(String s) throws JsonSyntaxException,
+      IOException {
     return gson.fromJson(Communicator.execute(
         TechoinsEnum.TECHOINS_SERVLET.value(), "function",
         TechoinsEnum.FIND_BY_DESC.toString(), "desc", s),

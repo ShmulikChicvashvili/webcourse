@@ -1,8 +1,7 @@
 package com.technion.coolie.server.webcourse.manager;
 
+import java.io.IOException;
 import java.util.List;
-
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,17 +23,18 @@ public class WebcourseManager implements IWebcourseManager {
   private static final String FUNCTION = "function";
 
   @Override
-  public List<StaffData> getStaffInfo(CourseData courseData) {
+  public List<StaffData> getStaffInfo(CourseData courseData) throws IOException {
     String $ = Communicator.execute(servletName, FUNCTION,
         WebcourseFunctions.GET_STAFF_INFO.value(), "courseData",
         toJson(courseData));
-   // Log.v("tag",$);
+    // Log.v("tag",$);
     return new Gson().fromJson($, new TypeToken<List<StaffData>>() {
     }.getType());
   }
 
   @Override
-  public List<AnnouncementsData> getAnnouncement(CourseData courseData) {
+  public List<AnnouncementsData> getAnnouncement(CourseData courseData)
+      throws IOException {
     String $ = Communicator.execute(servletName, FUNCTION,
         WebcourseFunctions.GET_ANNOUNCEMENT.value(), "courseData",
         toJson(courseData));
@@ -43,7 +43,8 @@ public class WebcourseManager implements IWebcourseManager {
   }
 
   @Override
-  public List<AssignmentData> getAssignment(CourseData courseData) {
+  public List<AssignmentData> getAssignment(CourseData courseData)
+      throws IOException {
     String $ = Communicator.execute(servletName, FUNCTION,
         WebcourseFunctions.GET_ASSIGNMENT.value(), "courseData",
         toJson(courseData));

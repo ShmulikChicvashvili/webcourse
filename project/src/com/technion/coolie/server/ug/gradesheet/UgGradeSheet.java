@@ -1,5 +1,6 @@
 package com.technion.coolie.server.ug.gradesheet;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -19,7 +20,8 @@ public class UgGradeSheet implements IUgGradeSheet {
   private static final String servletName = "UGGradeSheet";
 
   @Override
-  public List<AccomplishedCourse> getMyGradesSheet(UGLoginObject student) {
+  public List<AccomplishedCourse> getMyGradesSheet(UGLoginObject student)
+      throws IOException {
     String $ = Communicator.execute(servletName, "student", toJson(student));
     return convertJsonToList($);
   }

@@ -1,5 +1,6 @@
 package com.technion.coolie.server.webcourse.api;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.technion.coolie.webcourse.AnnouncementsData;
@@ -20,10 +21,13 @@ public interface IWebcourseManager {
    *          the course's data
    * @return list of staff's data. All members in the list are teaching the
    *         course.
+   * @throws IOException
    */
-  public List<StaffData> getStaffInfo(CourseData courseData);
+  public List<StaffData> getStaffInfo(CourseData courseData) throws IOException;
 
-  public List<AnnouncementsData> getAnnouncement(CourseData course);
+  public List<AnnouncementsData> getAnnouncement(CourseData course)
+      throws IOException;
 
-  public List<AssignmentData> getAssignment(CourseData course);
+  public List<AssignmentData> getAssignment(CourseData course)
+      throws IOException;
 }

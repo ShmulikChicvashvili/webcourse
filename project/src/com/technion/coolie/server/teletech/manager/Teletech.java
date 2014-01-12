@@ -1,5 +1,6 @@
 package com.technion.coolie.server.teletech.manager;
 
+import java.io.IOException;
 import java.util.List;
 
 import android.util.Log;
@@ -24,7 +25,7 @@ public class Teletech implements ITeletech {
   Gson gson = new Gson();
 
   @Override
-  public List<ContactInformation> getAllContacts() {
+  public List<ContactInformation> getAllContacts() throws IOException {
     String serverResult = communicator.execute(servletName, FUNCTION,
         TeletechFunctions.GET_ALL_CONTACTS.value());
     Log.v("tag", serverResult);

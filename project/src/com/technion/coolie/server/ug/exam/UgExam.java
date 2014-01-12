@@ -1,5 +1,6 @@
 package com.technion.coolie.server.ug.exam;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -21,7 +22,7 @@ public class UgExam implements IUgExam {
 
   @Override
   public List<CourseItem> getStudentExams(UGLoginObject student,
-      Semester semester) {
+      Semester semester) throws IOException {
     String $ = Communicator.execute(servletName, "student", toJson(student),
         "semester", toJson(semester));
     return convertJsonToList($);

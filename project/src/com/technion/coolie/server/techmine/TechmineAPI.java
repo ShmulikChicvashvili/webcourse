@@ -1,8 +1,10 @@
 package com.technion.coolie.server.techmine;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
 import com.technion.coolie.server.techmine.manager.TecGroup;
@@ -19,7 +21,7 @@ public class TechmineAPI implements ITechmineAPI {
   Gson gson = new Gson();
 
   @Override
-  public ReturnCode addUsers(List<TecUser> users) {
+  public ReturnCode addUsers(List<TecUser> users) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.ADD_USERS.toString(), TechmineEnum.TEC_USER.value(),
@@ -27,7 +29,7 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public ReturnCode updateUsers(List<TecUser> users) {
+  public ReturnCode updateUsers(List<TecUser> users) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.UPDATE_USERS.toString(), TechmineEnum.TEC_USER.value(),
@@ -35,7 +37,7 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public ReturnCode removeUser(TecUser user) {
+  public ReturnCode removeUser(TecUser user) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.REMOVE_USER.toString(), TechmineEnum.TEC_USER.value(),
@@ -43,7 +45,7 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public TecUser getUser(TecUser user) {
+  public TecUser getUser(TecUser user) throws JsonSyntaxException, IOException {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TEC_USER.toString(), TechmineEnum.TEC_USER.value(),
@@ -51,7 +53,8 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public List<TecPost> getTopBestPosts() {
+  public List<TecPost> getTopBestPosts() throws JsonSyntaxException,
+      IOException {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TOP_BEST_POSTS.toString()),
@@ -61,7 +64,8 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public List<TecComment> getTopBestComments() {
+  public List<TecComment> getTopBestComments() throws JsonSyntaxException,
+      IOException {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TOP_BEST_COMMENTS.toString()),
@@ -71,7 +75,8 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public List<TecGroup> getValidGroups() {
+  public List<TecGroup> getValidGroups() throws JsonSyntaxException,
+      IOException {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_VALID_GROUPS.toString()),
@@ -81,7 +86,8 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public List<TecUser> getTopBestMiners() {
+  public List<TecUser> getTopBestMiners() throws JsonSyntaxException,
+      IOException {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TOP_BEST_MINERS.toString()),
@@ -91,7 +97,8 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public List<TecUser> getTopBestMinersOfTheWeek() {
+  public List<TecUser> getTopBestMinersOfTheWeek() throws JsonSyntaxException,
+      IOException {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TOP_BEST_MINERS_OF_THE_WEEK.toString()),
@@ -101,7 +108,7 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public ReturnCode addTecPosts(List<TecPost> tecPosts) {
+  public ReturnCode addTecPosts(List<TecPost> tecPosts) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.ADD_TEC_POSTS.toString(), TechmineEnum.TEC_POST.value(),
@@ -109,7 +116,7 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public ReturnCode removeTecPost(TecPost tecPost) {
+  public ReturnCode removeTecPost(TecPost tecPost) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.REMOVE_TEC_POST.toString(), TechmineEnum.TEC_POST.value(),
@@ -117,7 +124,8 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public TecPost getTecPost(TecPost tecPost) {
+  public TecPost getTecPost(TecPost tecPost) throws JsonSyntaxException,
+      IOException {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TEC_POST.toString(), TechmineEnum.TEC_POST.value(),
@@ -125,7 +133,8 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public ReturnCode addTecComments(List<TecComment> tecComments) {
+  public ReturnCode addTecComments(List<TecComment> tecComments)
+      throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.ADD_TEC_COMMENTS.toString(),
@@ -133,7 +142,7 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public ReturnCode removeTecComment(TecComment tecComment) {
+  public ReturnCode removeTecComment(TecComment tecComment) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.REMOVE_TEC_COMMENT.toString(),
@@ -141,7 +150,8 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public TecComment getTecComment(TecComment tecComment) {
+  public TecComment getTecComment(TecComment tecComment)
+      throws JsonSyntaxException, IOException {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TEC_COMMENT.toString(),
@@ -150,7 +160,7 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public ReturnCode addTecLikes(List<TecLike> tecLikes) {
+  public ReturnCode addTecLikes(List<TecLike> tecLikes) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.ADD_TEC_LIKES.toString(), TechmineEnum.TEC_LIKE.value(),
@@ -158,7 +168,7 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public ReturnCode removeTecLike(TecLike tecLike) {
+  public ReturnCode removeTecLike(TecLike tecLike) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.REMOVE_TEC_LIKE.toString(),
@@ -166,7 +176,8 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public TecLike getTecLike(TecLike tecLike) {
+  public TecLike getTecLike(TecLike tecLike) throws JsonSyntaxException,
+      IOException {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TEC_LIKE.toString(), TechmineEnum.TEC_COMMENT.value(),
@@ -174,7 +185,8 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public List<TecPost> getAllUserPosts(TecUser user) {
+  public List<TecPost> getAllUserPosts(TecUser user)
+      throws JsonSyntaxException, IOException {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_ALL_USER_POSTS.toString(),

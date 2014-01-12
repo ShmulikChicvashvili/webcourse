@@ -1,5 +1,7 @@
 package com.technion.coolie.server.ug.api;
 
+import java.io.IOException;
+
 import com.technion.coolie.server.ug.ReturnCodesUg;
 import com.technion.coolie.ug.UGLoginObject;
 import com.technion.coolie.ug.model.CourseKey;
@@ -21,9 +23,10 @@ public interface IUgTracking {
    * @return COURSE_DOES_NOT_EXSIST if the course doesn't exist,
    *         STUDENT_ALREADY_TRACKING if the student is tracking the course
    *         already, SUCCESS if the student was added, otherwise ERROR.
+   * @throws IOException
    */
   public ReturnCodesUg addTrackingStudent(UGLoginObject student,
-      CourseKey courseKey);
+      CourseKey courseKey) throws IOException;
 
   /**
    * Remove the student from the tracking list of the course.
@@ -36,7 +39,8 @@ public interface IUgTracking {
    *         COURSE_DOES_NOT_ON_TRACK if the course isn't on tracking right now,
    *         STUDENT_NOT_TRACKING if the student isn't tracking on the course
    *         ,SUCCESS otherwise.
+   * @throws IOException
    */
   public ReturnCodesUg removeTrackingStudentFromCourse(UGLoginObject student,
-      CourseKey courseKey);
+      CourseKey courseKey) throws IOException;
 }

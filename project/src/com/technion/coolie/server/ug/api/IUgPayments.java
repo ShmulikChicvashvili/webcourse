@@ -1,5 +1,6 @@
 package com.technion.coolie.server.ug.api;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.technion.coolie.ug.model.Payment;
@@ -17,6 +18,7 @@ public interface IUgPayments {
    * @param student
    *          the student
    * @return list of the student's payments
+   * @throws IOException
    */
-  public List<Payment> getStudentPayments(Student student);
+  public List<Payment> getStudentPayments(Student student) throws IOException;
 }

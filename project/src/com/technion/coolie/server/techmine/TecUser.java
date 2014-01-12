@@ -53,6 +53,36 @@ public class TecUser implements IGetters {
     this.totalWorld = 0;
   }
 
+  /**
+   * @return the likesNum
+   */
+  public int getLikesNum() {
+    return likesNum;
+  }
+
+  /**
+   * @param likesNum
+   *          the likesNum to set
+   */
+  public void setLikesNum(int likesNum) {
+    this.likesNum = likesNum;
+  }
+
+  /**
+   * @return the likeOnPostsNum
+   */
+  public int getLikeOnPostsNum() {
+    return likeOnPostsNum;
+  }
+
+  /**
+   * @param likeOnPostsNum
+   *          the likeOnPostsNum to set
+   */
+  public void setLikeOnPostsNum(int likeOnPostsNum) {
+    this.likeOnPostsNum = likeOnPostsNum;
+  }
+
   TecUser() {
   }
 

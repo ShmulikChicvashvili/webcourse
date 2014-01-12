@@ -1,5 +1,6 @@
 package com.technion.coolie.server.ug.api;
 
+import java.io.IOException;
 import java.util.List;
 
 import com.technion.coolie.ug.UGLoginObject;
@@ -18,7 +19,8 @@ public interface IUgExam {
    * @param student
    *          the student
    * @return list of the student's exams
+   * @throws IOException
    */
   public List<CourseItem> getStudentExams(UGLoginObject student,
-      Semester semester);
+      Semester semester) throws IOException;
 }
