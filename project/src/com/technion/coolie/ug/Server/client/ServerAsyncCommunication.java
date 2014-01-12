@@ -537,7 +537,7 @@ public class ServerAsyncCommunication {
 			HttpResponse response = httpclient.execute(httppost);
 			HttpEntity responseEntity = response.getEntity();
 			String s = EntityUtils.toString(responseEntity,"ISO-8859-8"); //
-			return HtmlParseFromClient.getStudentDetails(s);
+			return HtmlParseFromClient.getStudentDetails(s,username);
 
 		} catch (Exception e) {
 			return null;

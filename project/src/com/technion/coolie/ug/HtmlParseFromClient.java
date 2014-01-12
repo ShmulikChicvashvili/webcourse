@@ -135,21 +135,40 @@ public class HtmlParseFromClient {
 			calendarDate = null;
 		return calendarDate;
 	}
+	
+	
+	static public Student getStudentDetails(String s, String username) {
+		Document doc = Jsoup.parse(s);
+		final Elements details = doc.select("table").get(2).select("td");
+		final String studentName = doc.select("table").get(1).select("td").get(4).text();
+		final double avg = Double.valueOf(details.get(5).text());
+		final double success = Double.valueOf(details.get(4).text());
+		final double points = Double.valueOf(details.get(3).text());
+		
+		Student student = new Student(username, new StringBuilder(studentName).reverse().toString(), avg, points, null, success);
+		return student;
+	}
+	
+	static public String getGradesSheetUrl(Document doc)
+	{
+		return doc.select("form").first().attr("action");
+	}
+	
 
-	static public Student getStudentDetails(String username, String password) {
+	/*static public Student getStudentDetails(String username, String password) {
 		Student student;
 		// TODO: Matvey - firstly need to get real url (like done in the
 		// following commented line with JSOUP). Send this get request to the
 		// following url:
 		// "http://techmvs.technion.ac.il:80/cics/wmn/wmngrad?ORD=1"
-		/* Document doc = Jsoup.connect(url).get(); */
+		 Document doc = Jsoup.connect(url).get(); 
 
 		Document doc = Jsoup.parse("CALL YOUR GET METHOD HERE");
 		String gradesUrl = doc.select("form").first().attr("action");
 
 		// TODO: Matvey - after you get the real url (which will be saved in
 		// "gradesUrl", post request...like in following commented line:
-		/* gradesHtmlPost(url, username, password) */
+		 gradesHtmlPost(url, username, password) 
 
 		doc = Jsoup.parse("CALL YOUR POST METHOD HERE");
 		final Elements details = doc.select("table").get(2).select("td");
@@ -160,7 +179,7 @@ public class HtmlParseFromClient {
 		
 		student = new Student(username, new StringBuilder(studentName).reverse().toString(), avg, points, null, success);
 		return student;
-	}
+	}*/
 
 	public static boolean handleRegistrationRequest(Document doc) {
 		if (doc == null || !doc.select("img[alt*=Rejected]").isEmpty()) {
