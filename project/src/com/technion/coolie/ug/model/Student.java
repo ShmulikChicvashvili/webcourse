@@ -1,12 +1,14 @@
 package com.technion.coolie.ug.model;
 
+import com.technion.coolie.ug.model.StudentDetails;
+
 import java.io.Serializable;
 import java.util.Calendar;
 
 public class Student implements Serializable {
 
 	public Student(final String id, final String name, final double avg,
-			final double points, final Calendar registrationDate
+			final double points, final Calendar registrationDate, final double successPercentage
 	/*
 	 * ,final List<Payment> payments, final List<AccomplishedCourse>
 	 * accomplishedCourses, final List<Exam> exams, final List<Exam> tests,
@@ -18,6 +20,7 @@ public class Student implements Serializable {
 		this.name = name;
 		this.avg = avg;
 		this.points = points;
+		this.successPercentage = successPercentage;
 		this.registrationDate = registrationDate;
 		// this.payments = payments;
 		// this.accomplishedCourses = accomplishedCourses;
@@ -27,12 +30,14 @@ public class Student implements Serializable {
 		// this.basket = basket;
 		// this.trackList = trackList;
 	}
-
+	
+	
 	public Student(String StudentId) {
 		this.id = StudentId;
 		this.name = "";
 		this.avg = 0.0;
 		this.points = 0;
+		this.successPercentage = 0;
 		this.registrationDate = Calendar.getInstance();
 	}
 
@@ -40,6 +45,7 @@ public class Student implements Serializable {
 	private String name;
 	private double avg;
 	private double points;
+	private double successPercentage;
 	private Calendar registrationDate;
 
 	// private List<Payment> payments;
@@ -90,7 +96,15 @@ public class Student implements Serializable {
 	public void setRegistrationDate(final Calendar registrationDate) {
 		this.registrationDate = registrationDate;
 	}
+	
+	public double getSuccessPercentage() {
+		return successPercentage;
+	}
 
+
+	public void setSuccessPercentage(double successPercentage) {
+		this.successPercentage = successPercentage;
+	}
 	// public List<Payment> getPayments() {
 	// return payments;
 	// }

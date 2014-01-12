@@ -42,7 +42,7 @@ public class UGInitializer {
 		
 		ServerAsyncCommunication.getGradesSheetfromServer(context,studentId,password);
 		ServerAsyncCommunication.getAllExamsFromClient(studentId, password,	context);
-		//ServerAsyncCommunication.getCurentSemestersFromClient();
+		ServerAsyncCommunication.getCurentSemestersFromClient(context);
 		
 		
 		//Download student details
