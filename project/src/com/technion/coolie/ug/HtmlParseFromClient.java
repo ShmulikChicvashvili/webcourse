@@ -142,7 +142,7 @@ public class HtmlParseFromClient {
 		return calendarDate;
 	}
 
-	public StudentDetails getStudentDetails(String username, String password) {
+	static public StudentDetails getStudentDetails(String username, String password) {
 		StudentDetails studentDetailsList;
 		// TODO: Matvey - firstly need to get real url (like done in the
 		// following commented line with JSOUP). Send this get request to the
