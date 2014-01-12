@@ -44,6 +44,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.technion.coolie.CoolieNotification;
 import com.technion.coolie.CoolieActivity;
+import com.technion.coolie.CooliePriority;
 import com.technion.coolie.R;
 import com.technion.coolie.assignmentor.EnhancedListView.Undoable;
 import com.technion.coolie.assignmentor.TaskSettings.TaskSettingsFragment;
@@ -518,7 +519,7 @@ public class MainActivity extends CoolieActivity implements MenuItem.OnMenuItemC
 				// If notifications are on, pop a notification that a new task was found.
 				String notificationText = fetchedTask.taskName + " - " + fetchedTask.courseName;
 				CoolieNotification cn = new CoolieNotification("New H.W!", notificationText, 
-						MainActivity.this, CoolieNotification.Priority.IMMEDIATELY, 
+						MainActivity.this, CooliePriority.IMMEDIATELY, 
 						true, getApplicationContext());
 				cn.sendNotification();
 			}
