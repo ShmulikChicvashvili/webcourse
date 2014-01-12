@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="get_main_activity_random_list_title">Random Products</string>
+    <string name="get_transactions_my_purchases">My Purchases</string>
+    <string name="get_transactions_my_sales">My Sales</string>
+    <string name="get_transactions_my_products">My Products</string>
+    <string name="get_transactions_remove_all">Remove All</string>
+    <string name="title_activity_search_prodcut">SearchProdcutActivity</string>
+    <string name="title_activity_search_result">SearchResultActivity</string>
+    <string name="title_activity_browse_by_catagory">BrowseByCatagory</string>
+    <string name="title_activity_main_product_screen">MainProductScreenActivity</string>
+    <string name="title_activity_product_screen">ProductScreenActivity</string>
+    <string name="title_activity_main_product_page">MainProductPageActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="get_main_page_activity_most_recent">Recently Added</string>
+    <string name="get_main_page_activity_random">View Products</string>
+    <string name="get_transfer_funds_activity_product_name">Product</string>
+    <string name="get_transfer_funds_activity_enter_product_name"></string>
+    <string name="get_transfer_funds_activity_buyer_name">Your Name</string>
+    <string name="get_transfer_funds_activity_enter_buyer_name"></string>
+    <string name="get_transfer_funds_activity_buyer_phone_number">Phone Number</string>
+    <string name="get_transfer_funds_activity_enter_buyer_phone_number"></string>
+    <string name="get_transfer_funds_activity_seller_name">Seller Name</string>
+    <string name="get_transfer_funds_activity_enter_seller_name"></string>
+    <string name="get_transfer_funds_activity_amount">Amount</string>
+    <string name="get_transfer_funds_activity_enter_amount"></string>
+    <string name="get_transfer_funds_activity_Ts">Ts</string>
+	<string name="get_transfer_funds_activity_btn">Submit</string>
+    <string name="get_upload_product_activity_img_btn">Upload Picture</string>
+    <string name="get_upload_product_activity_category_spinner">Category</string>
+    <string name="get_upload_product_activity_product_name">Product Name</string>
+    <string name="get_upload_product_activity_enter_product_name"></string>
+    <string name="get_upload_product_activity_price">Price</string>
+    <string name="get_upload_product_activity_enter_price"></string>
+	<string name="get_upload_product_activity_seller_name">Your Name</string>
+    <string name="get_upload_product_activity_enter_seller_name"></string>
+    <string name="get_upload_product_activity_seller_number">Your Number</string>
+    <string name="get_upload_product_activity_enter_seller_number"></string>
+    <string name="get_upload_product_activity_description">Description</string>
+    <string name="get_upload_product_activity_enter_description"></string>
+    <string name="get_upload_product_activity_button">Submit</string>
+    <string-array name="Categories_Spinner">
+        <item>Lecture Summaries</item>
+        <item>Tutorial Summaries</item>
+        <item>General Summaries</item>
+        <item>Books</item>
+        <item>Clothing</item>
+        <item>Electronics</item>
+        <item>Office Supplies</item>
+        <item>Other</item>
+    </string-array>
+    <string name="get_main_activity_most_recent_title">Most Recent</string>
+    <string name="get_main_activity_random_title">Random</string>
+	<string name="get_transactions_fragment_description_title">Description</string>
+    <string name="get_transactions_fragment_edit">Edit</string>
+	<string name="get_transactions_fragment_price_title">"Price: "</string>
+    <string name="get_transactions_fragment_sell_date_title">"Sell Date: "</string>
+    <string name="get_transactions_my_sales_fragment_buyer_name_title">"Bought By: "</string>
+    <string name="get_transactions_fragment_call">Call</string>
+    <string name="get_transactions_fragment_remove">Remove</string>
+    <string name="get_transactions_fragment_sms">SMS</string>
+    <string name="get_transactions_my_purchases_seller_name_title">"Sold By: "</string>
+    <string name="get_transactions_fragment_category_title">"Category: "</string>
+    <string name="get_transactions_fragment_publish_date_title">"Publish Date: "</string>
+    <string name="get_transactions_fragment_contact_phone_title">"Contact Phone: "</string>
+	<string name="get_abs_main_menu_home">Home</string>
+	<string name="get_abs_main_menu_publish_a_product">publish a product</string>
+    <string name="get_abs_main_menu_make_techion_transaction">make techion transaction</string>
+	<string name="get_abs_main_menu_your_transaction">your transactions</string>
+    <string name="get_catagory_lecture_summeries">lecture summeries</string>
+    <string name="get_catagory_toturial_summeries">tutorial summeries</string>
+    <string name="get_catagory_clothing">clothing</string>
+    <string name="get_catagory_electronics">electronics</string>
+	<string name="get_catagory_office_supplies">office supplies</string>
+    <string name="get_catagory_other">other</string>
+    <string name="get_catagory_general_summeries">general summeries</string>
+    <string name="get_catagory_books">books</string>
+    <string name="get_product_buy_button">Buy</string>
+    <string name="get_search_string">Search</string>
+	<string name="get_search_in_category">Search in Category</string>
+	<string name="get_search_in_all">search in all</string>
+	<string name="you_need_to_log_in_n_to_view_this_page_s_content">get_not_logged_in_login</string>
+	<string name="get_not_logged_in_login_text">You need to log in \n to view this page content</string>
+	<string name="get_not_logeed_in_login">Login</string>
+	<string name="get_not_logged_in_cancel">Cancel</string>
+	<string name="get_no_items_to_show">No items to show.</string>
+</resources>

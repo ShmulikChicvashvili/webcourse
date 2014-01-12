@@ -19,11 +19,12 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.google.android.gcm.GCMRegistrar;
 import com.technion.coolie.CoolieActivity;
+import com.technion.coolie.FBClientAccount;
+import com.technion.coolie.FacebookLogin;
+import com.technion.coolie.LoginDialog;
 import com.technion.coolie.R;
-import com.technion.coolie.joinin.data.ClientAccount;
+import com.technion.coolie.FacebookLogin.OnLoginDone;
 import com.technion.coolie.joinin.data.ClientEvent;
-import com.technion.coolie.joinin.facebook.FacebookLogin;
-import com.technion.coolie.joinin.facebook.FacebookLogin.OnLoginDone;
 import com.technion.coolie.joinin.gui.ExpandableListAdapter;
 import com.technion.coolie.joinin.subactivities.CategoriesActivity;
 import com.technion.coolie.joinin.subactivities.CreateEventActivity;
@@ -40,7 +41,7 @@ public class MainActivity extends CoolieActivity {
 	private   final int REQUEST_CATEGORIES_ACTIVITY    = BASE_REQUEST + 3;
 
 	//Private members	
-	private ClientAccount mLoggedAccount = null;
+	private FBClientAccount mLoggedAccount = null;
 	private SharedPreferences mJoinInPref = null;
 	private LoginDialog mLoginDialog = null;
 
@@ -90,7 +91,7 @@ public class MainActivity extends CoolieActivity {
      //After login attempt callback 
      private final FacebookLogin.OnLoginDone afterLogin = new OnLoginDone() {
     	 @Override 
-    	 public void loginCallback(final ClientAccount account) {
+    	 public void loginCallback(final FBClientAccount account) {
     		 //Login success
     		 if (account != null) {
     			 mLoggedAccount = account;

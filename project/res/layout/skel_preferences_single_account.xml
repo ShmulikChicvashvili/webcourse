@@ -32,15 +32,6 @@
         android:textSize="12sp" >
     </TextView>
     
-    <Button
-        android:id="@+id/skel_preference_account_status_button"
-        android:layout_width="150dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        style="@style/Button.Small"
-        android:gravity="center_vertical"
-        android:focusable="false"
-        android:textAlignment="center"
-        android:scaleType="fitXY" />
+    
 
 </RelativeLayout>

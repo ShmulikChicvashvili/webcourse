@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.technion.coolie.CoolieModuleManager;
 import com.technion.coolie.CoolieNotification;
+import com.technion.coolie.CoolieNotification.Priority;
 import com.technion.coolie.R;
 
 import android.app.Activity;
@@ -21,39 +22,32 @@ import android.support.v4.app.TaskStackBuilder;
 
 public class CoolieNotificationManager {
 
+	public final static String CALLED_BY_SINGLE_NOTIFICATION = "CALLED_BY_SINGLE_NOTIFICATION";
+	public final static String CALLER_SINGLE_NOTIFICATION_ID = "CALLER_SINGLE_NOTIFICATION_ID";
+	
+	public final static String CALLED_BY_STACKED_NOTIFICATION = "CALLED_BY_STACKED_NOTIFICATION";
+	public final static String CALLED_STACKED_NOTIFICATION_IDS = "CALLED_STACKED_NOTIFICATION_IDS";
+
+	
+	
+	
 	private static List<Notif> waitingNotifications = new ArrayList<Notif>();
-	private static List<Feed> feeds = new ArrayList<Feed>();
+	private static List<Notif> feeds = new ArrayList<Notif>();
 	private static Context mContext;
 	
 	public static int nextId = 1;
 	
-	private static class Notif
+	public static class Notif
 	{
+		Activity resultActivity;
 		String title;
 		String text;
 		
 		CoolieModule module;
-		CoolieNotification.Priority priority;
-		Date date;
-		
-		public Notif(CoolieModule module, String title, String text, CoolieNotification.Priority p)
-		{
-			this.title = title;
-			this.text = text;
-			this.priority = p;
-			this.module = module;
-			this.date = Calendar.getInstance().getTime();
-		}
-	}
-	
-	public static class Feed
-	{
-		String title;
-		String text;
-		
-		CoolieModule module;
-		CoolieNotification.Priority priority;
+		Priority priority;
 
+		int id;
+		
 		int day;
 		int month;
 		int year;
@@ -62,8 +56,11 @@ public class CoolieNotificationManager {
 		int minutes;
 		int seconds;
 		
-		public Feed(CoolieModule module, String title, String text)
+		public Notif(CoolieModule module, String title, String text, Priority p, Activity resultActivity)
 		{
+			this.resultActivity = resultActivity;
+			id = getNextId();
+			this.priority = p;
 			this.title = title;
 			this.text = text;
 			this.module = module;
@@ -77,18 +74,43 @@ public class CoolieNotificationManager {
 		}
 	}
 	
-	public static void pushNotification(NotificationCompat.Builder builder, Activity resultActivity, Context c)
+	public static void addNewNotif(String title, String text, Activity resultActivity, boolean showInFeed, Priority p, Context c)
 	{
 		mContext = c;
-		Intent resultIntent = new Intent(c, resultActivity.getClass());
+		Notif n = new Notif(CoolieModuleManager.getMyModule(resultActivity.getClass()), title, text, p, resultActivity);
+		
+		if(showInFeed)
+		{
+			CoolieNotificationManager.addToFeedList(n);
+		}
+		/*if(p == Priority.IMMEDIATELY)
+		{*/
+			NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
+		    .setSmallIcon(n.module.getPhotoRes())
+		    .setContentTitle(title)
+		    .setContentText(text);
+			
+			CoolieNotificationManager.pushNotification(n, mBuilder);
+		//}
+		/*else
+		{
+			CoolieNotificationManager.addToNotificationList(mTitle, mText, mPriority, mContext);
+		}*/
+	}
+	
+	private static void pushNotification(Notif n, NotificationCompat.Builder builder)
+	{
+		Intent resultIntent = new Intent(mContext, n.resultActivity.getClass());
+		resultIntent.putExtra(CALLED_BY_SINGLE_NOTIFICATION, true);
+		resultIntent.putExtra(CALLER_SINGLE_NOTIFICATION_ID, n.id);
 		
 		// The stack builder object will contain an artificial back stack for the
 		// started Activity.
 		// This ensures that navigating backward from the Activity leads out of
 		// your application to the Home screen.
-		TaskStackBuilder stackBuilder = TaskStackBuilder.create(c);
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(mContext);
 		// Adds the back stack for the Intent (but not the Intent itself)
-		stackBuilder.addParentStack(resultActivity.getClass());
+		stackBuilder.addParentStack(n.resultActivity.getClass());
 		// Adds the Intent that starts the Activity to the top of the stack
 		stackBuilder.addNextIntent(resultIntent);
 		
@@ -99,23 +121,19 @@ public class CoolieNotificationManager {
 		        );
 		builder.setContentIntent(resultPendingIntent);
 		NotificationManager mNotificationManager =
-		    (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+		    (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 		// mId allows you to update the notification later on.
 		Notification notif = builder.build();
 		notif.flags = Notification.FLAG_AUTO_CANCEL | Notification.DEFAULT_LIGHTS;
-		mNotificationManager.notify(getNextId(), notif);
+		mNotificationManager.notify(n.id, notif);
 	}
 	
-	public static int addToNotificationList(String title, String text, CoolieNotification.Priority priority, Context c)
+	private static void pushBigNotificationList()
 	{
-		mContext = c;
+		/**Intent resultIntent = new Intent(c, ourResultActivity.getClass());
+		resultIntent.putExtra(CALLED_BY_STACKED_NOTIFICATION, true);
+		resultIntent.putExtra(CALLER_STACKED_NOTIFICATION_IDS, );*/
 		
-		
-		return getNextId();
-	}
-	
-	public static void pushBigNotificationList()
-	{
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
 		.setSmallIcon(R.drawable.ic_launcher)	//TODO CHANGE
 		.setContentTitle(mContext.getString(R.string.skel_group_notif_title))
@@ -132,17 +150,31 @@ public class CoolieNotificationManager {
 		
 		builder.notify();
 	}
-	public static void addToFeedList(String title, String text, Activity resultActivity)
+	
+	private static void addToFeedList(Notif n)
 	{
-		feeds.add(new Feed(CoolieModuleManager.getMyModule(resultActivity.getClass()), title, text));
+		feeds.add(n);
 	}
 	
-	public static List<Feed> getFeedList()
+	public static void removeFromFeedList(int id)
+	{
+		for(int i=0; i<feeds.size(); i++)
+			if(feeds.get(i).id == id)
+				feeds.remove(i);
+	}
+	
+	
+	private static void addToNotificationList(Notif n)
+	{
+		feeds.add(n);
+	}
+	
+	public static List<Notif> getFeedList()
 	{
 		return feeds;
 	}
 	
-	public static int getNextId()
+	private static int getNextId()
 	{
 		return nextId++;
 	}

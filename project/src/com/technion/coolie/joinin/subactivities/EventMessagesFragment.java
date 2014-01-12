@@ -30,11 +30,11 @@ import android.widget.TextView;
 import com.facebook.widget.ProfilePictureView;
 import com.technion.coolie.joinin.GCMActions;
 import com.technion.coolie.joinin.GCMIntentService;
+import com.technion.coolie.FBClientAccount;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.communication.ClientProxy;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
 import com.technion.coolie.joinin.communication.ClientProxy.OnError;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.EventDate;
 import com.technion.coolie.joinin.data.EventMessage;
@@ -52,7 +52,7 @@ public class EventMessagesFragment extends Fragment implements OnFragmentRefresh
    * 
    * @return the logged account
    */
-  ClientAccount getAccount() {
+  FBClientAccount getAccount() {
     return ((EventActivity) getActivity()).getAccount();
   }
   

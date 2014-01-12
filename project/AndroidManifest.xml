@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="9"
+        android:minSdkVersion="11"
         android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -421,17 +421,58 @@
         </service>
 
         <!-- TechTrade -->
+        <!--
+        android:configChanges="orientation|screenSize" 
+        add this to stuff that doesn't change on orientation if exists. saves a ton of time
+        -->
         <activity
             android:name="com.technion.coolie.techtrade.MainActivity"
             android:label="@string/app_name"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
             android:theme="@style/Theme.Sherlock.Light" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
+        <activity
+            android:name="com.technion.coolie.techtrade.TransactionsActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.techtrade.ProductActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.techtrade.SearchActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.techtrade.BrowseActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.techtrade.UploadProduct"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.techtrade.TransferFundsActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+        </activity>
 
-        <!-- TecMind -->
+        <!-- TecMine -->
         <activity
             android:name="com.technion.coolie.tecmind.MainActivity"
             android:label="@string/app_name"

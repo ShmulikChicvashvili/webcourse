@@ -30,10 +30,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.technion.coolie.FBClientAccount;
+import com.technion.coolie.FacebookLogin;
 import com.technion.coolie.R;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.SerializableSparseBooleanArrayContainer;
-import com.technion.coolie.joinin.facebook.FacebookLogin;
 import com.technion.coolie.joinin.facebook.FacebookQueries;
 import com.technion.coolie.joinin.facebook.FacebookQueries.OnGetUserFriendsReturns;
 import com.technion.coolie.joinin.facebook.PickFriendsActivity;
@@ -51,7 +51,7 @@ public class EventFilterActivity extends Activity {
   ListView mainListView;
   CategoryItem[] categories;
   ArrayAdapter<CategoryItem> listAdapter;
-  ClientAccount mLoggedAccount;
+  FBClientAccount mLoggedAccount;
   ArrayList<CategoryItem> categoriesList;
   SharedPreferences mTeamAppPref;
   
@@ -60,7 +60,7 @@ public class EventFilterActivity extends Activity {
     setContentView(R.layout.ji_activity_event_filter);
     // Find the ListView resource.
     mainListView = (ListView) findViewById(R.id.mainListView);
-    mLoggedAccount = (ClientAccount) getIntent().getExtras().get("account");
+    mLoggedAccount = (FBClientAccount) getIntent().getExtras().get("account");
     checked = ((SerializableSparseBooleanArrayContainer) getIntent().getExtras().get("categories")).getSparseArray();
     // When item is tapped, toggle checked properties of CheckBox and
     // CategoryItem.

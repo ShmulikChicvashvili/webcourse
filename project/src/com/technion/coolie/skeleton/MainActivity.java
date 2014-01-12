@@ -30,9 +30,10 @@ import com.technion.coolie.CoolieNotification;
 import com.technion.coolie.R;
 import com.technion.coolie.server.gcm.GcmFactory;
 
+
 @SuppressLint("ValidFragment")
 public class MainActivity extends CoolieActivity {
-
+static boolean firstRunFlag = true;
   /**gcm vars*/
   private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
   /**end of gcm vars */
@@ -53,7 +54,7 @@ public class MainActivity extends CoolieActivity {
         checkPlayServices());
     /** end of gcm check **/
 
-    if (savedInstanceState == null) {
+    if (firstRunFlag == true) {
       // this means that its the first time we run the app
       // so its ok to display these demo notifications..
       CoolieNotification c1;
@@ -68,6 +69,7 @@ public class MainActivity extends CoolieActivity {
             CoolieNotification.Priority.IN_A_DAY, true, this);
         c1.sendNotification();
         c2.sendNotification();
+        firstRunFlag = false;
       } catch (InstantiationException e) {
         // TODO Auto-generated catch block
         e.printStackTrace();
@@ -129,7 +131,10 @@ public class MainActivity extends CoolieActivity {
 
       @Override
       public void onTabSelected(Tab tab, FragmentTransaction ft) {
-
+    	if (navbarIsOpen == true)
+    	{
+    		mDrawerLayout.closeDrawers();
+    	}
         getSupportActionBar().setSelectedNavigationItem(tab.getPosition());
         mViewPager.setCurrentItem(tab.getPosition(), true);
       }
@@ -249,13 +254,13 @@ public class MainActivity extends CoolieActivity {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
         Bundle savedInstanceState) {
       View view = null;
-      if (adp == null) {
+    
         view = inflater.inflate(R.layout.skel_feeds_screen, container, false);
         ListView listView = (ListView) view.findViewById(R.id.skel_feeds_list);
 
         adp = new FeedsAdapter(getActivity());
         listView.setAdapter(adp);
-      }
+      
 
       return view;
     }

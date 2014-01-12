@@ -6,12 +6,12 @@ import java.util.List;
 import android.app.Activity;
 import android.app.ProgressDialog;
 
+import com.technion.coolie.FacebookLogin;
+import com.technion.coolie.FacebookUser;
 import com.technion.coolie.joinin.communication.ClientProxy;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
 import com.technion.coolie.joinin.communication.ClientProxy.OnError;
 import com.technion.coolie.joinin.data.ClientEvent;
-import com.technion.coolie.joinin.facebook.FacebookLogin;
-import com.technion.coolie.joinin.facebook.FacebookUser;
 import com.technion.coolie.joinin.map.EventType;
 
 public enum EventsDB {

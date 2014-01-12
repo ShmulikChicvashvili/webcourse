@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/get_transactions_my_sales_fragment_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Product Name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/get_transactions_my_sales_fragment_price_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/get_transactions_my_sales_fragment_product_name"
+        android:text="@string/get_transactions_fragment_price_title" />
+
+    <TextView
+        android:id="@+id/get_transactions_my_sales_fragment_sell_date_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/get_transactions_my_sales_fragment_price_title"
+        android:text="@string/get_transactions_fragment_sell_date_title" />
+
+    <TextView
+        android:id="@+id/get_transactions_my_sales_fragment_buyer_name_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/get_transactions_my_sales_fragment_sell_date_title"
+        android:text="@string/get_transactions_my_sales_fragment_buyer_name_title" />
+
+    <Button
+        android:id="@+id/get_transactions_my_sales_fragment_call_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/get_transactions_my_sales_fragment_buyer_name_title"
+        android:text="@string/get_transactions_fragment_call" />
+
+    <Button
+        android:id="@+id/get_transactions_my_sales_fragment_sms_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/get_transactions_my_sales_fragment_call_button"
+        android:layout_alignBottom="@id/get_transactions_my_sales_fragment_call_button"
+        android:layout_toRightOf="@id/get_transactions_my_sales_fragment_sell_date_title"
+        android:text="@string/get_transactions_fragment_sms" />
+    
+    <Button
+        android:id="@+id/get_transactions_my_sales_fragment_remove_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/get_transactions_my_sales_fragment_sms_button"
+        android:layout_alignBottom="@id/get_transactions_my_sales_fragment_sms_button"
+        android:layout_alignParentRight="true"
+        android:text="@string/get_transactions_fragment_remove" />
+
+    <TextView
+        android:id="@+id/get_transactions_my_sales_fragment_sell_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/get_transactions_my_sales_fragment_price_title"
+        android:layout_alignBottom="@id/get_transactions_my_sales_fragment_price_title"
+        android:layout_toRightOf="@id/get_transactions_my_sales_fragment_price_title"
+        android:text="0.0" />
+
+    <TextView
+        android:id="@+id/get_transactions_my_sales_fragment_sell_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/get_transactions_my_sales_fragment_sell_date_title"
+        android:layout_alignBottom="@id/get_transactions_my_sales_fragment_sell_date_title"
+        android:layout_toRightOf="@id/get_transactions_my_sales_fragment_sell_date_title"
+        android:text="01/01/1970" />
+
+    <TextView
+        android:id="@+id/get_transactions_my_sales_fragment_buyer_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/get_transactions_my_sales_fragment_buyer_name_title"
+        android:layout_alignBottom="@id/get_transactions_my_sales_fragment_buyer_name_title"
+        android:layout_toRightOf="@id/get_transactions_my_sales_fragment_buyer_name_title"
+        android:text="Guy Wildman" />
+
+</RelativeLayout>

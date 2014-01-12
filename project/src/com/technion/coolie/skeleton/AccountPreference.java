@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.technion.coolie.skeleton.PrivateCoolieAccount;
 import com.technion.coolie.R;
 
-public class AccountPreference extends DialogPreference
+public class AccountPreference extends Preference
 {
 	Context mContext;
 	PrivateCoolieAccount account;
@@ -25,7 +25,7 @@ public class AccountPreference extends DialogPreference
 		super(context, null);
 		mContext = context;
 		this.account = account;
-		this.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+		/*this.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			
 			@Override
 			public boolean onPreferenceClick(Preference arg0) {
@@ -39,7 +39,7 @@ public class AccountPreference extends DialogPreference
 				//dialog.show(, "bla");
 				return false;
 			}
-		  });
+		  });*/
 
 	}
 	
@@ -55,24 +55,25 @@ public class AccountPreference extends DialogPreference
 		ImageView image = (ImageView) layout.findViewById(R.id.skel_preference_account_image);
 		image.setImageResource(account.getImageResource());
 		
-		Button status = (Button) layout.findViewById(R.id.skel_preference_account_status_button);
 		
-		if(account.isAlreadyConnected())
+		if(account.isAlreadyLoggedIn())
 		{
 			TextView info = (TextView) layout.findViewById(R.id.skel_preference_account_info);
 			info.setText(mContext.getString(R.string.skel_preference_account_logged_in_as) + account.getUsername());
 			
-			status.setText(R.string.skel_logout);
+			
 		}
 		else
 		{
-			status.setText(R.string.skel_signin);
+			TextView info = (TextView) layout.findViewById(R.id.skel_preference_account_info);
+			info.setText(mContext.getString(R.string.skel_click_to_signin));
+			
 		}
 		
 		return layout;
 	}
 	
-	@Override
+	/*@Override
 	protected void onPrepareDialogBuilder(Builder builder) {
 		LayoutInflater inflater = (LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
@@ -85,7 +86,7 @@ public class AccountPreference extends DialogPreference
 		SingonDialogBuilder.setDialogAppearance(builder, inflater, mContext, account, cancelListener);
 		
 		super.onPrepareDialogBuilder(builder);
-	}
+	}*/
 	
 	/*@Override
 	protected void onClick() {

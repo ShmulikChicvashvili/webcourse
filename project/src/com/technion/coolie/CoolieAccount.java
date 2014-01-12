@@ -30,9 +30,9 @@ public enum CoolieAccount {
     	return mAccount.getUsername();
     }
     
-    public boolean isAlreadyConnected()
+    public boolean isAlreadyLoggedIn()
     {
-    	return mAccount.isAlreadyConnected();
+    	return mAccount.isAlreadyLoggedIn();
     }
     
     public void openSigninDialog(FragmentActivity activity)
