@@ -3,7 +3,6 @@ package com.technion.coolie.server.techmine;
 import java.util.Date;
 
 public class TecUser implements IGetters {
-
   String id;
   String name;
   TecUserTitle title;
@@ -16,16 +15,91 @@ public class TecUser implements IGetters {
   int likeOnPostsNum;
 
   /**
+   * @return the likesOthers
+   */
+  public int getLikesOthers() {
+    return likesOthers;
+  }
+
+  /**
+   * @param likesOthers
+   *          the likesOthers to set
+   */
+  public void setLikesOthers(int likesOthers) {
+    this.likesOthers = likesOthers;
+  }
+
+  /**
+   * @return the commentsOthers
+   */
+  public int getCommentsOthers() {
+    return commentsOthers;
+  }
+
+  /**
+   * @param commentsOthers
+   *          the commentsOthers to set
+   */
+  public void setCommentsOthers(int commentsOthers) {
+    this.commentsOthers = commentsOthers;
+  }
+
+  /**
+   * @return the weeklyTotal
+   */
+  public int getWeeklyTotal() {
+    return weeklyTotal;
+  }
+
+  /**
+   * @param weeklyTotal
+   *          the weeklyTotal to set
+   */
+  public void setWeeklyTotal(int weeklyTotal) {
+    this.weeklyTotal = weeklyTotal;
+  }
+
+  /**
+   * @return the spamCount
+   */
+  public int getSpamCount() {
+    return spamCount;
+  }
+
+  /**
+   * @param spamCount
+   *          the spamCount to set
+   */
+  public void setSpamCount(int spamCount) {
+    this.spamCount = spamCount;
+  }
+
+  int likesOthers;
+  int commentsOthers;
+  int weeklyTotal;
+  int spamCount;
+
+  /**
+   * 
    * @param id1
    * @param name1
    * @param title1
    * @param lastMining1
    * @param totalTechoins1
    * @param bankAccount1
+   * @param commentsNum1
+   * @param postsNum1
+   * @param likesNum1
+   * @param likeOnPostsNum1
+   * @param likesOthers
+   * @param commentsOthers
+   * @param weeklyTotal
+   * @param spamCount
    */
   public TecUser(String id1, String name1, TecUserTitle title1,
       Date lastMining1, int totalTechoins1, int bankAccount1, int commentsNum1,
-      int postsNum1, int likesNum1, int likeOnPostsNum1) {
+      int postsNum1, int likesNum1, int likeOnPostsNum1, int likesOthers,
+      int commentsOthers, int weeklyTotal, int spamCount) {
     this.id = id1;
     this.name = name1;
     this.title = title1;
@@ -36,6 +110,10 @@ public class TecUser implements IGetters {
     this.postsNum = postsNum1;
     this.likesNum = likesNum1;
     this.likeOnPostsNum = likeOnPostsNum1;
+    this.likesOthers = likesOthers;
+    this.commentsOthers = commentsOthers;
+    this.weeklyTotal = weeklyTotal;
+    this.spamCount = spamCount;
   }
 
   TecUser() {

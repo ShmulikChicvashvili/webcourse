@@ -17,7 +17,8 @@ public enum TechmineEnum {
       "getTecLike"), TECHMINE_SERVLET("Techmine"), TEC_USER("tecUser"), TEC_POST(
       "tecPost"), TEC_COMMENT("tecComment"), TEC_LIKE("tecLike"), GET_ALL_USER_POSTS(
       "getAllUserPosts"), GET_TOP_BEST_MINERS("getTopBestMiners"), UPDATE_USERS(
-      "updateUsers");
+      "updateUsers"), GET_TOP_BEST_MINERS_OF_THE_WEEK(
+      "getTopBestMinersOfTheWeek");
 
   private final String value;
 

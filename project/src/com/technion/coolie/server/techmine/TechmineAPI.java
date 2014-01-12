@@ -80,6 +80,16 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
+  public List<TecUser> getTopBestMinersOfTheWeek() {
+    return gson.fromJson(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.GET_TOP_BEST_MINERS_OF_THE_WEEK.toString()),
+        new TypeToken<List<TecUser>>() {
+          // default usage
+        }.getType());
+  }
+
+  @Override
   public ReturnCode addTecPosts(List<TecPost> tecPosts) {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",

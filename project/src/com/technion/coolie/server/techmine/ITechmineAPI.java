@@ -60,6 +60,11 @@ public interface ITechmineAPI {
   public List<TecUser> getTopBestMiners();
 
   /**
+   * @return - top 10 TecUser of the week by their totalTechoins field
+   */
+  public List<TecUser> getTopBestMinersOfTheWeek();
+
+  /**
    * 
    * @param tecPosts
    *          - the list of tecPosts to add with all the necessary fields
