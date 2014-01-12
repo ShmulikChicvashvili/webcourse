@@ -348,7 +348,7 @@ public class UGDatabase {
 		dataProvider.setCoursesAndExams(courses, studentId);
 		coursesAndExamsList = courses;
 	}
-
+	
 	public void setStudentInfo(Student student) {
 		if (student == null)
 			throw new NullPointerException();

@@ -65,7 +65,7 @@ public class HtmlParseFromClient {
 	}
 
 	private String examsUrl = "http://techmvs.technion.ac.il:100/cics/wmn/wmnnut02";
-	private static List<CourseItem> coursesAndExamsList = new ArrayList<CourseItem>();
+	
 	private final static int FIRST_COURSE_OFFSET = 2;
 
 	/**
@@ -76,15 +76,7 @@ public class HtmlParseFromClient {
 	 * @return
 	 */
 	static public List<CourseItem> parseStudentExams(Document doc, Semester semester) {
-		// TODO: Matvey - call your post method inside Jsoup.parse(...) -
-		// pass it at least "semester.getYear() + semester.getSs().getId()" and
-		// student info
-		// (password + username). In next comment is my previous post call
-		/*
-		 * ugHtmlPost(examsUrl, student.getStudentId(), student.getPassword(),
-		 * "SEM", semester.getYear() + semester.getSs().getId(), "WK");
-		 */
-		// Document doc = Jsoup.parse("CALL YOUR POST METHOD HERE");
+		List<CourseItem> coursesAndExamsList = new ArrayList<CourseItem>();
 		final Elements coursesTable = doc.select("table");
 		// in case we aren't registered to any course
 		if (coursesTable.size() == 3) {
@@ -95,7 +87,7 @@ public class HtmlParseFromClient {
 		final Elements trElems = coursesTable.last().select("tr");
 		final int numOfColumns = getNumOfColumns(trElems);
 		for (int i = FIRST_COURSE_OFFSET; i < trElems.size(); i++)
-			getCourseExam(trElems.get(i), numOfColumns, semester);
+			getCourseExam(coursesAndExamsList, trElems.get(i), numOfColumns, semester);
 		return coursesAndExamsList;
 
 	}
@@ -105,7 +97,7 @@ public class HtmlParseFromClient {
 				+ trElems.get(1).children().size();
 	}
 
-	static private void getCourseExam(final Element trElem,
+	static private void getCourseExam(List<CourseItem> coursesAndExamsList, final Element trElem,
 			final int numOfColumns, Semester semester) {
 		final int shiftFromExamColumns = numOfColumns - 3; // number of columns
 		// could

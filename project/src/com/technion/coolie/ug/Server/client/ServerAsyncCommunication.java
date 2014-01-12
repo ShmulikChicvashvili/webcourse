@@ -277,7 +277,7 @@ public class ServerAsyncCommunication {
 			        HttpEntity responseEntity = response.getEntity();
 			        String s = EntityUtils.toString(responseEntity,"ISO-8859-8"); // <----- s is a html of exams page
 					
-			        List<CourseItem> x = HtmlParseFromClient.parseStudentExams(Jsoup.parse(s));
+			        List<CourseItem> x = HtmlParseFromClient.parseStudentExams(Jsoup.parse(s), semester);
 			        UGDatabase db = UGDatabase.getInstance(context);
 			        db.setCoursesAndExams(x);
 			        Math.random();
