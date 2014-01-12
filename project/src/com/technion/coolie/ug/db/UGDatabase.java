@@ -205,6 +205,7 @@ public class UGDatabase {
 					return semester;
 		}
 		// when no semester is found!
+		log("no semester was found for season" + season.toString());
 		return new Semester(2013, season);
 	}
 
@@ -389,6 +390,9 @@ public class UGDatabase {
 		if (currentSemesters == null)
 			throw new IllegalArgumentException(
 					"null array is overriding database");
+		log("setting current semesters with " + currentSemesters[0].toString()
+				+ " and " + currentSemesters[1].toString() + " and"
+				+ currentSemesters[2].toString());
 		dataProvider.setSemesters(currentSemesters);
 		this.currentSemesters = currentSemesters;
 

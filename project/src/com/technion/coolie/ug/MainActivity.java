@@ -191,7 +191,7 @@ public class MainActivity extends CoolieActivity implements
 				"HISTABRUT",
 				2.0f,
 				"During the class we will talk about the high level design and your personal roles. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
-				new Semester(2013, SemesterSeason.SPRING), Faculty.CS,
+				new Semester(2014, SemesterSeason.SPRING), Faculty.CS,
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
 						2, 11), kdamim, tsmudim, reg);
 
@@ -259,6 +259,10 @@ public class MainActivity extends CoolieActivity implements
 		// UGDatabase.getInstance(this).setTrackingCourses(trackingList);
 		// UGDatabase.getInstance(this).setCoursesAndExams(coursesExamsList);
 		UGDatabase.getInstance(this).setStudentInfo(student);
+		UGDatabase.getInstance(this).setCurrentSemesters(
+				new Semester[] { new Semester(2013, SemesterSeason.SPRING),
+						new Semester(2013, SemesterSeason.SUMMER),
+						new Semester(2013, SemesterSeason.WINTER) });
 
 		UGDatabase.getInstance(this).getCourses();
 		UGDatabase.getInstance(this).getTrackingCourses();
