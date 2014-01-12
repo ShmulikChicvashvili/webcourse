@@ -39,7 +39,7 @@ public class GradesSheetFragment extends Fragment {
 		items = UGDatabase.getInstance(getActivity()).getGradesSheet();
 
 		avg.setText(HtmlParser.avg);
-		success.setText(HtmlParser.success);
+		success.setText(HtmlParser.success + "%");
 		points.setText(HtmlParser.points);
 
 		listview = (ListView) view.findViewById(R.id.listView_main);
