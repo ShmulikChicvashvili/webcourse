@@ -250,9 +250,9 @@ public class MainActivity extends CoolieActivity implements
 		UGDatabase.getInstance(this).getStudentInfo();
 
 		UGDatabase.getInstance(this).updateCourses(courses);
-		UGDatabase.getInstance(this).setAcademicCalendar(academicList);
-		UGDatabase.getInstance(this).setGradesSheet(accomplishedList);
-		UGDatabase.getInstance(this).setTrackingCourses(trackingList);
+		// UGDatabase.getInstance(this).setAcademicCalendar(academicList);
+		// UGDatabase.getInstance(this).setGradesSheet(accomplishedList);
+		// UGDatabase.getInstance(this).setTrackingCourses(trackingList);
 		UGDatabase.getInstance(this).setCoursesAndExams(coursesExamsList);
 		UGDatabase.getInstance(this).setStudentInfo(student);
 
