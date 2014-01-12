@@ -36,6 +36,9 @@ public class UGDatabase {
 
 	private Student currentStudent;
 	private Semester[] currentSemesters;
+	
+	
+
 	private SemesterSeason currentSeason;
 
 	private List<CourseItem> coursesAndExamsList;
@@ -212,7 +215,12 @@ public class UGDatabase {
 		return trackingCourses;
 
 	}
+	
+	public Semester[] getCurrentSemesters() {
+		return currentSemesters;
+	}
 
+	
 	public List<CourseItem> getCoursesAndExams() {
 		Log.i("1", "coursesAndExamsList :" + coursesAndExamsList.size());
 		if (coursesAndExamsList == null)
@@ -364,6 +372,10 @@ public class UGDatabase {
 		// GET THE CURRENT STUDENT ID FROM UG LOGIN and use it with the
 		// provider! TODO
 		return "22";
+	}
+	
+	public void setCurrentSemesters(Semester[] currentSemesters) {
+		this.currentSemesters = currentSemesters;
 	}
 
 	public UGLoginObject getCurrentLoginObject() {
