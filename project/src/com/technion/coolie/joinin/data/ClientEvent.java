@@ -10,8 +10,8 @@ import android.os.Parcelable;
 
 import com.google.android.maps.GeoPoint;
 import com.google.gson.Gson;
+import com.technion.coolie.FacebookUser;
 import com.technion.coolie.joinin.directions.TravelWay;
-import com.technion.coolie.joinin.facebook.FacebookUser;
 import com.technion.coolie.joinin.map.EventType;
 
 public class ClientEvent extends Event implements Parcelable {

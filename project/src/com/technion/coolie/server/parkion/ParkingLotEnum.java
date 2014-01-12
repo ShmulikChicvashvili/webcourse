@@ -13,7 +13,7 @@ public enum ParkingLotEnum {
       "getParkingLot"), SET_OCCUPANCY("setOccupancy"), GET_IDS("getIds"), USER_PARKED_IN_LOT(
       "userParkedInLot"), USER_REPORT_PARKING_LOT_BUSY(
       "userReportParkingLotBusy"), USER_LEFT_PARKING_LOT("userLeftParkingLot"), GET_FREE_PARKING_LOTS(
-      "getFreeParkingLots");
+      "getFreeParkingLots"), GET_PRECENT("getPrecent");
 
   private final String value;
 

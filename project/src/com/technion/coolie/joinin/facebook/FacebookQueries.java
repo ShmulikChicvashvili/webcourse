@@ -18,6 +18,8 @@ import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphObject;
+import com.technion.coolie.FacebookLogin;
+import com.technion.coolie.FacebookUser;
 
 /**
  * Class for performing Facebook Queries in FQL language.

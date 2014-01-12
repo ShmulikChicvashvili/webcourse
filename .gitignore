@@ -1,13 +1,44 @@
-.metadata/
-project/bin
-project/gen
-actionbarsherlock/bin
-android-support-v7-appcompat/
-actionbarsherlock/bin/*
+
+#generated files
+**/bin
+**/gen
+
+#deleted projects
+
 android-support-v7-appcompat/
 SherlockNavigationDrawer/
-actionbarsherlock/gen
-facebook-android-sdk-3.5.2\facebook\gen\com\facebook\android\R.java
-lib_ViewPagerIndicator\gen\com\viewpagerindicator\R.java
-libproject\google-play-services_lib\gen\com\google\android\gms\R.java
-project\project.properties
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Local configuration file (sdk path, etc)
+local.properties
+project.properties
+.metadata
+.properties
+
+*.tmp
+*.bak
+*.swp
+*~.nib
+
+*.pydevproject
+.classpath
+.settings/
+.loadpath
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath

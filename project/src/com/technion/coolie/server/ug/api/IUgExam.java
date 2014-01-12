@@ -13,11 +13,12 @@ import com.technion.coolie.ug.model.UGLoginObject;
  * 
  */
 public interface IUgExam {
-  /**
-   * 
-   * @param student
-   *          the student
-   * @return list of the student's exams
-   */
-  public List<CourseItem> getStudentExams(UGLoginObject student, Semester semester);
+	/**
+	 * 
+	 * @param student
+	 *            the student
+	 * @return list of the student's exams
+	 */
+	public List<CourseItem> getStudentExams(UGLoginObject student,
+			Semester semester);
 }

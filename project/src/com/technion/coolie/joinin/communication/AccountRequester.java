@@ -3,11 +3,11 @@ package com.technion.coolie.joinin.communication;
 
 import java.util.List;
 
+import com.technion.coolie.FBClientAccount;
 import com.technion.coolie.joinin.communication.ClientProxy.Executer;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDoneAsyncTask;
 import com.technion.coolie.joinin.communication.ClientProxy.OnError;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.Event;
 
@@ -42,10 +42,10 @@ public class AccountRequester {
    *          connecting to remote server. This action will be called before a
    *          dialog message will be shown.
    */
-  public void login(final String username, final OnDone<ClientAccount> onDone, final OnError onError) {
-    new OnDoneAsyncTask<ClientAccount>(new Executer<ClientAccount>() {
-      @Override public ClientAccount execute() {
-        return ClientAccount.toClientAccount(HttpRequester.httpGet(SERVER_BASE_ADDRESS + ACCOUNT_SERVLET + "/login?username="
+  public void login(final String username, final OnDone<FBClientAccount> onDone, final OnError onError) {
+    new OnDoneAsyncTask<FBClientAccount>(new Executer<FBClientAccount>() {
+      @Override public FBClientAccount execute() {
+        return FBClientAccount.toClientAccount(HttpRequester.httpGet(SERVER_BASE_ADDRESS + ACCOUNT_SERVLET + "/login?username="
             + username));
       }
     }, onDone, onError).execute();
@@ -65,7 +65,7 @@ public class AccountRequester {
    *          connecting to remote server. This action will be called before a
    *          dialog message will be shown.
    */
-  public void addAccount(final ClientAccount a, final OnDone<String> onDone, final OnError onError) {
+  public void addAccount(final FBClientAccount a, final OnDone<String> onDone, final OnError onError) {
     new OnDoneAsyncTask<String>(new Executer<String>() {
       @Override public String execute() {
         return HttpRequester.httpPut(SERVER_BASE_ADDRESS + ACCOUNT_SERVLET, a.toString());
@@ -96,10 +96,10 @@ public class AccountRequester {
     }, onDone, onError).execute();
   }
   
-  public void getAccountByUserName(final String username, final OnDone<ClientAccount> onDone, final OnError onError) {
-    new OnDoneAsyncTask<ClientAccount>(new Executer<ClientAccount>() {
-      @Override public ClientAccount execute() {
-        return ClientAccount.toClientAccount(HttpRequester.httpGet(SERVER_BASE_ADDRESS + ACCOUNT_SERVLET + "?username=" + username));
+  public void getAccountByUserName(final String username, final OnDone<FBClientAccount> onDone, final OnError onError) {
+    new OnDoneAsyncTask<FBClientAccount>(new Executer<FBClientAccount>() {
+      @Override public FBClientAccount execute() {
+        return FBClientAccount.toClientAccount(HttpRequester.httpGet(SERVER_BASE_ADDRESS + ACCOUNT_SERVLET + "?username=" + username));
       }
     }, onDone, onError).execute();
   }

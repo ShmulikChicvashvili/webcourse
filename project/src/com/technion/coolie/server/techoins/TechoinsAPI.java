@@ -158,4 +158,24 @@ public class TechoinsAPI implements ITechoinsAPI {
         }.getType());
   }
 
+  @Override
+  public List<Product> getByName(String s) {
+    return gson.fromJson(Communicator.execute(
+        TechoinsEnum.TECHOINS_SERVLET.value(), "function",
+        TechoinsEnum.FIND_BY_NAME.toString(), "name", s),
+        new TypeToken<List<Product>>() {
+          // default usage
+        }.getType());
+  }
+
+  @Override
+  public List<Product> getByDescription(String s) {
+    return gson.fromJson(Communicator.execute(
+        TechoinsEnum.TECHOINS_SERVLET.value(), "function",
+        TechoinsEnum.FIND_BY_DESC.toString(), "desc", s),
+        new TypeToken<List<Product>>() {
+          // default usage
+        }.getType());
+  }
+
 }

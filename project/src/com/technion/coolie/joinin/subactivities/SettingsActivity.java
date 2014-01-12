@@ -25,17 +25,17 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.technion.coolie.FBClientAccount;
 import com.technion.coolie.R;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.map.MainMapActivity;
 
 public class SettingsActivity extends PreferenceActivity {
   Context thisOne = this;
-  ClientAccount mLoggedAccount;
+  FBClientAccount mLoggedAccount;
   
   @SuppressWarnings("deprecation") @Override protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mLoggedAccount = (ClientAccount) getIntent().getExtras().get("account");
+    mLoggedAccount = (FBClientAccount) getIntent().getExtras().get("account");
     // Add 'general' preferences - calendar prefrences
     addPreferencesFromResource(R.xml.ji_pref_general);
     // Add 'notifications' preferences, and a corresponding header.
@@ -53,7 +53,7 @@ public class SettingsActivity extends PreferenceActivity {
     setMyFavButoon.setOnClickListener(new OnClickListener() {
       @Override public void onClick(final View v) {
         final Intent i = new Intent(thisOne, MyFavoritesActivity.class);
-        i.putExtra("account", (ClientAccount) getIntent().getExtras().get("account"));
+        i.putExtra("account", (FBClientAccount) getIntent().getExtras().get("account"));
         startActivityForResult(i, MainMapActivity.RESULT_FAVORITE);
       }
     });
@@ -154,7 +154,7 @@ public class SettingsActivity extends PreferenceActivity {
     super.onActivityResult(requestCode, resultCode, data);
     if (resultCode != MainMapActivity.RESULT_FAVORITE)
       return;
-    mLoggedAccount = (ClientAccount) getIntent().getExtras().get("account");
+    mLoggedAccount = (FBClientAccount) getIntent().getExtras().get("account");
     setResult(MainMapActivity.RESULT_FAVORITE, new Intent().putExtra("account", mLoggedAccount));
     finish();
   }

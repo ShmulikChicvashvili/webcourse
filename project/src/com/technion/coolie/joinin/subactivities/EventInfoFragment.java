@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.technion.coolie.FBClientAccount;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.EventsDB;
 import com.technion.coolie.joinin.MainActivity;
@@ -24,7 +25,6 @@ import com.technion.coolie.joinin.calander.CalendarHandler;
 import com.technion.coolie.joinin.communication.ClientProxy;
 import com.technion.coolie.joinin.communication.ClientProxy.OnDone;
 import com.technion.coolie.joinin.communication.ClientProxy.OnError;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.OnTabRefresh;
 import com.technion.coolie.joinin.map.MainMapActivity;
@@ -50,7 +50,7 @@ public class EventInfoFragment extends Fragment implements OnFragmentRefresh {
    * 
    * @return the logged account
    */
-  ClientAccount getAccount() {
+  FBClientAccount getAccount() {
     return ((EventActivity) getActivity()).getAccount();
   }
   

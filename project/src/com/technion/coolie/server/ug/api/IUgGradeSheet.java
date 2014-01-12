@@ -12,11 +12,11 @@ import com.technion.coolie.ug.model.UGLoginObject;
  * 
  */
 public interface IUgGradeSheet {
-  /**
-   * 
-   * @param student
-   *          the student
-   * @return list of student's accomplished courses
-   */
-  public List<AccomplishedCourse> getMyGradesSheet(UGLoginObject student);
+	/**
+	 * 
+	 * @param student
+	 *            the student
+	 * @return list of student's accomplished courses
+	 */
+	public List<AccomplishedCourse> getMyGradesSheet(UGLoginObject student);
 }

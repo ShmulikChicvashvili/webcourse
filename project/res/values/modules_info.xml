@@ -14,7 +14,8 @@
     	
     <string name="web_name">Webcourse</string>
     <string name="skel_name">Skeleton</string>
-
+    <string name="web_name">Web Course</string>
+    
     <string-array name="modules">
         <item name="skeletonActivity">skeletonActivity</item>
         <item name="techLibraryActivity">techLibraryActivity</item>

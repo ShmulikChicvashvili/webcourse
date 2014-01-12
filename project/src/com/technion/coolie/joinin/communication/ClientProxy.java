@@ -9,12 +9,12 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.technion.coolie.FBClientAccount;
+import com.technion.coolie.FacebookUser;
 import com.technion.coolie.R;
-import com.technion.coolie.joinin.data.ClientAccount;
 import com.technion.coolie.joinin.data.ClientEvent;
 import com.technion.coolie.joinin.data.EventMessage;
 import com.technion.coolie.joinin.data.TeamAppFacebookEvent;
-import com.technion.coolie.joinin.facebook.FacebookUser;
 
 /**
  * Class used to encapsulate the communication with the server. The public
@@ -280,7 +280,7 @@ public abstract class ClientProxy {
    *          dialog message will be shown.
    * 
    */
-  public static void login(final String username, final OnDone<ClientAccount> onDone, final OnError onError) {
+  public static void login(final String username, final OnDone<FBClientAccount> onDone, final OnError onError) {
     aq.login(username, onDone, onError);
   }
   
@@ -299,7 +299,7 @@ public abstract class ClientProxy {
    *          dialog message will be shown.
    * 
    */
-  public static void addAccount(final ClientAccount a, final OnDone<String> onDone, final OnError onError) {
+  public static void addAccount(final FBClientAccount a, final OnDone<String> onDone, final OnError onError) {
     aq.addAccount(a, onDone, onError);
   }
   
@@ -322,7 +322,7 @@ public abstract class ClientProxy {
     aq.getEventsAttending(username, onDone, onError);
   }
   
-  public static void getAccountByUserName(final String username, final OnDone<ClientAccount> onDone, final OnError onError) {
+  public static void getAccountByUserName(final String username, final OnDone<FBClientAccount> onDone, final OnError onError) {
     aq.getAccountByUserName(username, onDone, onError);
   }
   

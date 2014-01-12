@@ -1,5 +1,7 @@
 package com.technion.coolie.joinin.data;
 
+import com.technion.coolie.FBClientAccount;
+
 import android.app.NotificationManager;
 import android.content.Context;
 
@@ -26,6 +28,6 @@ public interface SendNotification {
    * @param notifMang
    *          a notification manager
    */
-  public void send(final ClientAccount loggedAccount, final ClientAccount otherAccount, final ClientEvent event,
+  public void send(final FBClientAccount loggedAccount, final FBClientAccount otherAccount, final ClientEvent event,
       final String message, final Context context, final NotificationManager notifMang);
 }

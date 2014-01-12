@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 
+import com.technion.coolie.FBClientAccount;
 import com.technion.coolie.R;
 import com.technion.coolie.joinin.calander.CalendarEventDatabase.NotFoundException;
 import com.technion.coolie.joinin.calander.CalendarHandler;
@@ -41,7 +42,7 @@ public class NotificationsClass extends Application {
    *          - the logged account
    */
   @SuppressWarnings("deprecation") public static void createInterestingEventNotification(final ClientEvent e,
-      final ClientAccount a, final Context context, final NotificationManager nm) {
+      final FBClientAccount a, final Context context, final NotificationManager nm) {
     final Notification myNotification = new Notification(icon, "A new Event near you!", System.currentTimeMillis());
     final Intent myIntent = new Intent(context, EventActivity.class);
     myIntent.putExtra("event", e);
@@ -67,8 +68,8 @@ public class NotificationsClass extends Application {
    *          - the newly joined member to the event ( can be transformed into
    *          only string )
    */
-  @SuppressWarnings("deprecation") public static void createJoinToMyEventNotification(final ClientEvent e, final ClientAccount me,
-      final ClientAccount joined, final Context context, final NotificationManager nm) {
+  @SuppressWarnings("deprecation") public static void createJoinToMyEventNotification(final ClientEvent e, final FBClientAccount me,
+      final FBClientAccount joined, final Context context, final NotificationManager nm) {
     if (!SettingsActivity.EnabledNotifications(context) || !SettingsActivity.isJoinEnabledNotifications(context))
       return;
     final Notification myNotification = new Notification(icon, "Someone joined your event!", System.currentTimeMillis());
@@ -97,7 +98,7 @@ public class NotificationsClass extends Application {
    * @param a
    *          - the currently logged account
    */
-  @SuppressWarnings("deprecation") public static void createUpdatedEventNotification(final ClientEvent e, final ClientAccount a,
+  @SuppressWarnings("deprecation") public static void createUpdatedEventNotification(final ClientEvent e, final FBClientAccount a,
       final Context context, final NotificationManager nm) {
     try {
       new CalendarHandler(context).updateEvent(context, e);
@@ -132,7 +133,7 @@ public class NotificationsClass extends Application {
    * @param me
    *          - the currently logged account
    */
-  @SuppressWarnings("deprecation") public static void createCanceledEventNotification(final ClientEvent e, final ClientAccount me,
+  @SuppressWarnings("deprecation") public static void createCanceledEventNotification(final ClientEvent e, final FBClientAccount me,
       final Context context, final NotificationManager nm) {
     new CalendarHandler(context).deleteEvent(context, e);
     if (!SettingsActivity.EnabledNotifications(context) || !SettingsActivity.isCancelEnabledNotifications(context))
@@ -164,8 +165,8 @@ public class NotificationsClass extends Application {
    * @param left
    *          - the one that left
    */
-  @SuppressWarnings("deprecation") public static void createLeftMyEventNotification(final ClientEvent e, final ClientAccount me,
-      final ClientAccount left, final Context context, final NotificationManager nm) {
+  @SuppressWarnings("deprecation") public static void createLeftMyEventNotification(final ClientEvent e, final FBClientAccount me,
+      final FBClientAccount left, final Context context, final NotificationManager nm) {
     if (!SettingsActivity.EnabledNotifications(context) || !SettingsActivity.isLeaveEnabledNotifications(context))
       return;
     final Notification myNotification = new Notification(icon, "Someone left your event!=(", System.currentTimeMillis());
@@ -186,7 +187,7 @@ public class NotificationsClass extends Application {
   }
   
   @SuppressWarnings("deprecation") public static void createReminderForEventNotification(final ClientEvent e,
-      final ClientAccount a, final Context context, final NotificationManager nm) {
+      final FBClientAccount a, final Context context, final NotificationManager nm) {
     final Notification myNotification = new Notification(icon, "Event is about to begin", System.currentTimeMillis());
     final Intent myIntent = new Intent(context, EventActivity.class);
     myIntent.putExtra("event", e);
@@ -217,7 +218,7 @@ public class NotificationsClass extends Application {
    * @param e
    *          - the event which the message was sent on its wall.
    */
-  @SuppressWarnings("deprecation") public static void createMessageNotification(final ClientAccount me, final ClientAccount sender,
+  @SuppressWarnings("deprecation") public static void createMessageNotification(final FBClientAccount me, final FBClientAccount sender,
       final String message, final ClientEvent e, final Context context, final NotificationManager mm) {
     if (!SettingsActivity.EnabledNotifications(context) || !SettingsActivity.isMessageEnabledNotifications(context))
       return;

@@ -7,7 +7,7 @@ import java.util.Set;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.technion.coolie.joinin.facebook.FacebookUser;
+import com.technion.coolie.FacebookUser;
 import com.technion.coolie.joinin.map.EventType;
 
 /**
