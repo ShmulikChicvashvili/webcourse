@@ -97,7 +97,7 @@ public class HtmlParser {
 		// TODO: Get points from DB by course number...
 		list.add(new CourseItem(new StringBuilder(courseName).reverse()
 				.toString(), courseId.substring(0, courseId.indexOf("-")),
-				"3.0", l));
+				"3.0", l,courseId.substring(courseId.indexOf("-")+1), null));
 	}
 
 	private static Calendar setExam(final Elements tdElems,

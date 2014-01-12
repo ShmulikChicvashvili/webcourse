@@ -36,6 +36,9 @@ public class UGDatabase {
 
 	private Student currentStudent;
 	private Semester[] currentSemesters;
+	
+	
+
 	private SemesterSeason currentSeason;
 
 	private List<CourseItem> coursesAndExamsList;
@@ -179,13 +182,13 @@ public class UGDatabase {
 	private void initializeSemesters() {
 
 		currentSeason = SemesterSeason.WINTER;
-		currentSemesters = new Semester[3];
+		/*currentSemesters = new Semester[3];
 		currentSemesters[SemesterSeason.SPRING.getIdx()] = new Semester(2013,
 				SemesterSeason.SPRING);
 		currentSemesters[SemesterSeason.SUMMER.getIdx()] = new Semester(2013,
 				SemesterSeason.SUMMER);
 		currentSemesters[SemesterSeason.WINTER.getIdx()] = new Semester(2013,
-				SemesterSeason.WINTER);
+				SemesterSeason.WINTER);*/
 
 	}
 
@@ -198,11 +201,26 @@ public class UGDatabase {
 	}
 
 	public Semester getRelevantSemester(final SemesterSeason season) {
-		return currentSemesters[season.getIdx()];
+		//return currentSemesters[season.getIdx()];
+		if (currentSemesters==null || currentSemesters.length !=3)
+		{
+			return new Semester(2013, SemesterSeason.SPRING);
+		}
+		else
+		{
+			return currentSemesters[0];
+		}
 	}
 
 	public Semester getCurrentSemester() {
-		return currentSemesters[currentSeason.getIdx()];
+		if (currentSemesters==null || currentSemesters.length !=3)
+		{
+			return new Semester(2013, SemesterSeason.SPRING);
+		}
+		else
+		{
+			return currentSemesters[0];
+		}
 	}
 
 	public List<CourseKey> getTrackingCourses() {
@@ -212,7 +230,12 @@ public class UGDatabase {
 		return trackingCourses;
 
 	}
+	
+	public Semester[] getCurrentSemesters() {
+		return currentSemesters;
+	}
 
+	
 	public List<CourseItem> getCoursesAndExams() {
 		Log.i("1", "coursesAndExamsList :" + coursesAndExamsList.size());
 		if (coursesAndExamsList == null)
@@ -348,7 +371,7 @@ public class UGDatabase {
 		dataProvider.setCoursesAndExams(courses, studentId);
 		coursesAndExamsList = courses;
 	}
-
+	
 	public void setStudentInfo(Student student) {
 		if (student == null)
 			throw new NullPointerException();
@@ -364,6 +387,10 @@ public class UGDatabase {
 		// GET THE CURRENT STUDENT ID FROM UG LOGIN and use it with the
 		// provider! TODO
 		return "22";
+	}
+	
+	public void setCurrentSemesters(Semester[] currentSemesters) {
+		this.currentSemesters = currentSemesters;
 	}
 
 	public UGLoginObject getCurrentLoginObject() {

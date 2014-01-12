@@ -74,5 +74,6 @@
     <!-- Tracking -->
     <string name="rishum">רישום</string>
     <string name="free_places">מקומות פנויים</string>
+    <string name="group_number">מספר קבוצה</string>
 
 </resources>

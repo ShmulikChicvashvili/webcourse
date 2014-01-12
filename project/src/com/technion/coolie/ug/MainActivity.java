@@ -17,7 +17,6 @@ import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.Enums.LandscapeLeftMenuItems;
 import com.technion.coolie.ug.Enums.SemesterSeason;
-import com.technion.coolie.ug.Server.client.ServerAsyncCommunication;
 import com.technion.coolie.ug.calendar.AcademicCalendarFragment;
 import com.technion.coolie.ug.calendar.AcademicCalendarListFragment;
 import com.technion.coolie.ug.coursesAndExams.CoursesAndExamsFragment;
@@ -57,7 +56,7 @@ public class MainActivity extends CoolieActivity implements
 		// ServerAsyncCommunication.mainActivity = this;
 		setContentView(R.layout.ug_main_screen);
 
-		updateData();
+		// updateData();
 
 		// ServerAsyncCommunication.getCalendarEventsFromServer(); // Will not
 		// be here
@@ -69,9 +68,9 @@ public class MainActivity extends CoolieActivity implements
 		// ServerAsyncCommunication.getCurentSemestersFromClient(null);
 		// ServerAsyncCommunication.registrate("094412", "11", "1636",
 		// "11111100");
-		Semester s = new Semester(2013, SemesterSeason.SPRING);
-		ServerAsyncCommunication.getAllExamsFromClient(s, "1636", "11111100",
-				this);
+		// Semester s = new Semester(2013, SemesterSeason.SPRING);
+		// ServerAsyncCommunication.getAllExamsFromClient(s, "1636", "11111100",
+		// this);
 
 		// ServerAsyncCommunication.registrate("094412", "11", "1636",
 		// "11111100");
@@ -239,7 +238,7 @@ public class MainActivity extends CoolieActivity implements
 										new ExamItem(Calendar.getInstance(),
 												"טאוב 10"), new ExamItem(
 												Calendar.getInstance(),
-												"טאוב 100"))))));
+												"טאוב 100"))), "11", null)));
 
 		Student student = new Student(UGDatabase.getInstance(this)
 				.getCurrentStudentId());
@@ -253,7 +252,7 @@ public class MainActivity extends CoolieActivity implements
 		// UGDatabase.getInstance(this).setAcademicCalendar(academicList);
 		// UGDatabase.getInstance(this).setGradesSheet(accomplishedList);
 		// UGDatabase.getInstance(this).setTrackingCourses(trackingList);
-		UGDatabase.getInstance(this).setCoursesAndExams(coursesExamsList);
+		// UGDatabase.getInstance(this).setCoursesAndExams(coursesExamsList);
 		UGDatabase.getInstance(this).setStudentInfo(student);
 
 		UGDatabase.getInstance(this).getCourses();
