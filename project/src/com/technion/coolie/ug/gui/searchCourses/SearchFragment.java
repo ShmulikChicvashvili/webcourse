@@ -453,7 +453,7 @@ public class SearchFragment extends Fragment {
 				final String semesterString = spinnerSemester.getSelectedItem()
 						.toString();
 				filters.setSemester(UGDatabase.getInstance(getActivity())
-						.getRelevantSemester(
+						.getSemesterBySeason(
 								SemesterSeason.valueByName(semesterString,
 										mcontext)));
 

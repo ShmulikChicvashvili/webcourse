@@ -475,7 +475,7 @@ public class CourseDisplayFragment extends SherlockFragment {
 	private Course getCourseOfSemester(SemesterSeason ss) {
 		CourseKey newKey = new CourseKey(chosenCourse.getCourseNumber(),
 				new Semester(UGDatabase.getInstance(context)
-						.getRelevantSemester(ss).getYear(), ss));
+						.getSemesterBySeason(ss).getYear(), ss));
 		Course course = UGDatabase.getInstance(context).getCourseByKey(newKey);
 		if (course == null)
 			course = new Course(newKey);
