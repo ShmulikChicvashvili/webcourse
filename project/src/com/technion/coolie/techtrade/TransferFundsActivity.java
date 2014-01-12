@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+import com.technion.coolie.CooliePriority;
 import com.technion.coolie.R;
+import com.technion.coolie.skeleton.CoolieAsyncRequest;
 
 public class TransferFundsActivity extends TechTradeActivity {
 	private EditText buyerName;
@@ -35,10 +37,12 @@ public class TransferFundsActivity extends TechTradeActivity {
 
 		productToPurchase = (Product) getIntent().getSerializableExtra("product");
 		
+		//TODO remove
 		if (productToPurchase == null)
 		{
 			Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
 		}
+		//TODO remove
 
 		productName.setText(productToPurchase.getName());
 		sellerName.setText(productToPurchase.getSellerName());
@@ -49,8 +53,32 @@ public class TransferFundsActivity extends TechTradeActivity {
 	public void transferButtonWasPressed(View view){
 		if(buyerPhoneNumber.getText().toString()==null || buyerPhoneNumber.getText().toString().length()==0){
 			Toast.makeText(getApplicationContext(), "please supply your phone number", Toast.LENGTH_SHORT).show();
-		}else{
-			Toast.makeText(getApplicationContext(), "phone number inserted", Toast.LENGTH_SHORT).show();
+			return;
 		}
+
+		CoolieAsyncRequest BuyProduct = new CoolieAsyncRequest(this,CooliePriority.IMMEDIATELY){
+			@Override
+			public Void actionOnServer(Void... params) {
+				TechTradeServer ttServer = new TechTradeServer();
+				//TODO maybe complicate this
+				Product boughtProduct = new Product(productToPurchase);
+				boughtProduct.setBuyerName(UserOperations.getUserName());
+				boughtProduct.setBuyerId(UserOperations.getUserId());
+				boughtProduct.setBuyerPhoneNumber(buyerPhoneNumber.getText().toString());
+				boughtProduct.setSold(true);
+				Product p = new Product(productToPurchase);
+				ReturnCode rc = ttServer.removeProduct(p);
+				rc = ttServer.addProduct(boughtProduct);
+				return null;
+			}
+
+			@Override
+			public Void onResult(Void result) {
+				return null;
+			}
+		};
+		BuyProduct.run();		
+		Intent homeIntent = new Intent(this, MainActivity.class);
+		startActivity(homeIntent);
 	}
 }

@@ -78,15 +78,20 @@ public class ProductFragment extends Fragment{
 	}
 	
 	public void setProduct(Product thisProduct){
+		if(thisProduct==null){
+			myProduct = new Product();
+			return;
+		}
+		
+		//save the product
+		myProduct = thisProduct;
+		
 		//set it's stuff into this place		
 		productName.setText(thisProduct.getName());
 		sellerName.setText("Seller Name: "+thisProduct.getSellerId());
 		price.setText("Price: " + thisProduct.getPrice().toString());
 		if(thisProduct.getImage() != null) picture.setImageBitmap(thisProduct.getImage());
 		description.setText("Description\r\n"+thisProduct.getDescripstion());
-		
-		//save the product
-		myProduct = thisProduct;
 	}
 
 	public void wakeUp(){

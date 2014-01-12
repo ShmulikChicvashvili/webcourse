@@ -64,11 +64,9 @@ public class TransactionsActivity extends TechTradeActivity {
 			@Override
 			public Void actionOnServer(Void... params) {
 				TechTradeServer ttServer = new TechTradeServer();
-
-				fillMySalesVector();
-				fillMyPurchasesVector();
-				fillMyProductsVector();
-
+				fillMySalesVector(ttServer);
+				fillMyPurchasesVector(ttServer);
+				fillMyProductsVector(ttServer);
 				return null;
 			}
 			
@@ -79,10 +77,10 @@ public class TransactionsActivity extends TechTradeActivity {
 				return null;
 			}
 
-			private void fillMyProductsVector() {
+			private void fillMyProductsVector(TechTradeServer ttServer) {
 				Product myProductsProduct = new Product(null, UserOperations.getUserId(), null, null, null, null, (byte[])null, null);
-				//List<Product> myProductsList = (List<Product>) ttServer.getPublishedProductsBySellerID(products[0]);
-				List<Product> myProductsList = Utils.getProductVectorStub(getApplicationContext(), 20);
+				List<Product> myProductsList = (List<Product>) ttServer.getPublishedProductsBySellerID(myProductsProduct);
+//				List<Product> myProductsList = Utils.getProductVectorStub(getApplicationContext(), 20);
 				if(myProductsList == null){
 					myProductsList = new Vector<Product>();
 				}
@@ -91,11 +89,11 @@ public class TransactionsActivity extends TechTradeActivity {
 				}
 			}
 
-			private void fillMyPurchasesVector() {
+			private void fillMyPurchasesVector(TechTradeServer ttServer) {
 				Product myPurchasesProduct = new Product(null, null, null, null, null, null, (byte[])null, null);
 				myPurchasesProduct.setBuyerId(UserOperations.getUserId());
-				//List<Product> myPurchasesList = (List<Product>) ttServer.getPurchasedProductsByBuyerID(products[0]);
-				List<Product> myPurchasesList = Utils.getProductVectorStub(getApplicationContext(), 10);
+				List<Product> myPurchasesList = (List<Product>) ttServer.getPurchasedProductsByBuyerID(myPurchasesProduct);
+//				List<Product> myPurchasesList = Utils.getProductVectorStub(getApplicationContext(), 10);
 				if(myPurchasesList == null){
 					myPurchasesList = new Vector<Product>();
 				}
@@ -104,10 +102,10 @@ public class TransactionsActivity extends TechTradeActivity {
 				}
 			}
 
-			private void fillMySalesVector() {
+			private void fillMySalesVector(TechTradeServer ttServer) {
 				Product mySalesProduct = new Product(null, UserOperations.getUserId(), null, null, null, null, (byte[])null, null);
-				//List<Product> mySalesList = (List<Product>) ttServer.getSoldProductsBySellerID(products[0]);
-				List<Product> mySalesList = Utils.getProductVectorStub(getApplicationContext(), 0);
+				List<Product> mySalesList = (List<Product>) ttServer.getSoldProductsBySellerID(mySalesProduct);
+//				List<Product> mySalesList = Utils.getProductVectorStub(getApplicationContext(), 0);
 				if(mySalesList == null){
 					mySalesList = new Vector<Product>();
 				}

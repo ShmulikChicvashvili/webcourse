@@ -1,21 +1,53 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/get_search_result_screen_activity_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-    <fragment
-        android:id="@+id/productFragment"
+    <RelativeLayout
+        android:id="@+id/get_search_screen_pbar"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="3"
-        class="com.technion.coolie.techtrade.ProductFragment" />
+        android:layout_height="match_parent"
+        android:visibility="gone" >
 
-    <fragment
-        android:id="@+id/searchHorizontalFragment"
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/get_search_no_result_messege"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"
-        class="com.technion.coolie.techtrade.SearchFragment" />
+        android:layout_height="match_parent"
+        android:visibility="gone" >
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="search not found"
+            android:textSize="40sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/get_search_activity_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <fragment
+            android:id="@+id/searchProductFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            class="com.technion.coolie.techtrade.ProductFragment" />
+
+        <fragment
+            android:id="@+id/searchProductListFragment"
+            android:layout_width="match_parent"
+            android:layout_height="200dip"
+            class="com.technion.coolie.techtrade.ProductListFragment" />
+    </LinearLayout>
+
+</RelativeLayout>
