@@ -12,18 +12,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.widget.Toast;
-
-import com.actionbarsherlock.R;
 import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.ExamItem;
 import com.technion.coolie.ug.model.Semester;
+import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.model.StudentDetails;
-import com.technion.coolie.ug.model.UGLoginObject;
-import com.technion.coolie.ug.db.UGDatabase;
 
 public class HtmlParseFromClient {
 
@@ -142,8 +136,8 @@ public class HtmlParseFromClient {
 		return calendarDate;
 	}
 
-	static public StudentDetails getStudentDetails(String username, String password) {
-		StudentDetails studentDetailsList;
+	static public Student getStudentDetails(String username, String password) {
+		Student student;
 		// TODO: Matvey - firstly need to get real url (like done in the
 		// following commented line with JSOUP). Send this get request to the
 		// following url:
@@ -159,9 +153,13 @@ public class HtmlParseFromClient {
 
 		doc = Jsoup.parse("CALL YOUR POST METHOD HERE");
 		final Elements details = doc.select("table").get(2).select("td");
-		studentDetailsList = new StudentDetails(details.get(5).text(), details
-				.get(4).text(), details.get(3).text());
-		return studentDetailsList;
+		final String studentName = doc.select("table").get(1).select("td").get(4).text();
+		final double avg = Double.valueOf(details.get(5).text());
+		final double success = Double.valueOf(details.get(4).text());
+		final double points = Double.valueOf(details.get(3).text());
+		
+		student = new Student(username, new StringBuilder(studentName).reverse().toString(), avg, points, null, success);
+		return student;
 	}
 
 	public static boolean handleRegistrationRequest(Document doc) {
