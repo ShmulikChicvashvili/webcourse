@@ -2,6 +2,8 @@ package com.technion.coolie.server.techmine;
 
 import java.util.List;
 
+import com.technion.coolie.server.techmine.manager.TecGroup;
+
 /**
  * 
  * Created on 8/12/2013
@@ -57,7 +59,12 @@ public interface ITechmineAPI {
   /**
    * @return - top 10 TecUser by their totalTechoins field
    */
-  public List<TecComment> getTopBestMiners();
+  public List<TecUser> getTopBestMiners();
+
+  /**
+   * @return - top 10 TecUser of the week by their totalTechoins field
+   */
+  public List<TecUser> getTopBestMinersOfTheWeek();
 
   /**
    * 
@@ -138,5 +145,11 @@ public interface ITechmineAPI {
    * @return - List<TecPost> which includes all user's posts
    */
   public List<TecPost> getAllUserPosts(TecUser user);
+
+  /**
+   * 
+   * @return - List<TecGroup> which includes all valid goups
+   */
+  public List<TecGroup> getValidGroups();
 
 }

@@ -13,18 +13,29 @@ public class TecUser implements IGetters {
   int postsNum;
   int likesNum;
   int likeOnPostsNum;
+  int totalWorld;
 
   /**
+   * 
    * @param id1
    * @param name1
    * @param title1
    * @param lastMining1
    * @param totalTechoins1
    * @param bankAccount1
+   * @param commentsNum1
+   * @param postsNum1
+   * @param likesNum1
+   * @param likeOnPostsNum1
+   * @param likesOthers
+   * @param commentsOthers
+   * @param weeklyTotal
+   * @param spamCount
    */
   public TecUser(String id1, String name1, TecUserTitle title1,
       Date lastMining1, int totalTechoins1, int bankAccount1, int commentsNum1,
-      int postsNum1, int likesNum1, int likeOnPostsNum1) {
+      int postsNum1, int likesNum1, int likeOnPostsNum1, int likesOthers,
+      int commentsOthers, int weeklyTotal, int spamCount) {
     this.id = id1;
     this.name = name1;
     this.title = title1;
@@ -35,10 +46,97 @@ public class TecUser implements IGetters {
     this.postsNum = postsNum1;
     this.likesNum = likesNum1;
     this.likeOnPostsNum = likeOnPostsNum1;
+    this.likesOthers = likesOthers;
+    this.commentsOthers = commentsOthers;
+    this.weeklyTotal = weeklyTotal;
+    this.spamCount = spamCount;
+    this.totalWorld = 0;
   }
 
   TecUser() {
   }
+
+  /**
+   * @return the totalWorld
+   */
+  public int getTotalWorld() {
+    return totalWorld;
+  }
+
+  /**
+   * @param totalWorld
+   *          the totalWorld to set
+   */
+  public void setTotalWorld(int totalWorld) {
+    this.totalWorld = totalWorld;
+  }
+
+  /**
+   * @return the likesOthers
+   */
+  public int getLikesOthers() {
+    return likesOthers;
+  }
+
+  /**
+   * @param likesOthers
+   *          the likesOthers to set
+   */
+  public void setLikesOthers(int likesOthers) {
+    this.likesOthers = likesOthers;
+    updatesTotalWorld();
+  }
+
+  /**
+   * @return the commentsOthers
+   */
+  public int getCommentsOthers() {
+    return commentsOthers;
+  }
+
+  /**
+   * @param commentsOthers
+   *          the commentsOthers to set
+   */
+  public void setCommentsOthers(int commentsOthers) {
+    this.commentsOthers = commentsOthers;
+    updatesTotalWorld();
+  }
+
+  /**
+   * @return the weeklyTotal
+   */
+  public int getWeeklyTotal() {
+    return weeklyTotal;
+  }
+
+  /**
+   * @param weeklyTotal
+   *          the weeklyTotal to set
+   */
+  public void setWeeklyTotal(int weeklyTotal) {
+    this.weeklyTotal = weeklyTotal;
+  }
+
+  /**
+   * @return the spamCount
+   */
+  public int getSpamCount() {
+    return spamCount;
+  }
+
+  /**
+   * @param spamCount
+   *          the spamCount to set
+   */
+  public void setSpamCount(int spamCount) {
+    this.spamCount = spamCount;
+  }
+
+  int likesOthers;
+  int commentsOthers;
+  int weeklyTotal;
+  int spamCount;
 
   /**
    * @return the id
@@ -128,6 +226,7 @@ public class TecUser implements IGetters {
    */
   public void setTotalTechoins(int totalTechoins1) {
     this.totalTechoins = totalTechoins1;
+    updatesTotalWorld();
   }
 
   /**
@@ -159,6 +258,14 @@ public class TecUser implements IGetters {
    */
   public void setBankAccount(int bankAccount1) {
     this.bankAccount = bankAccount1;
+  }
+
+  /**
+   * updates the totalWorld field
+   */
+  private void updatesTotalWorld() {
+    this.totalWorld = getTotalTechoins() + getLikesOthers()
+        + getCommentsOthers();
   }
 
 }

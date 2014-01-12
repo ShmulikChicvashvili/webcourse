@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+        <TextView
+            android:id="@+id/get_transfer_funds_activity_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="50sp"
+            android:layout_marginRight="30sp"
+            android:layout_marginTop="8dp"
+            android:text="@string/get_transfer_funds_activity_product_name"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/get_transfer_funds_activity_enter_product_name"
+            android:layout_width="fill_parent"
+            android:layout_height="22dp"
+            android:layout_marginLeft="100sp"
+            android:layout_marginRight="100sp"
+            android:background="@drawable/get_border"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/get_transfer_funds_activity_buyer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="50sp"
+            android:layout_marginRight="30sp"
+            android:layout_marginTop="8dp"
+            android:text="@string/get_transfer_funds_activity_buyer_name"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/get_transfer_funds_activity_enter_buyer_name"
+            android:layout_width="fill_parent"
+            android:layout_height="22dp"
+            android:layout_marginLeft="100sp"
+            android:layout_marginRight="100sp"
+            android:background="@drawable/get_border"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/get_transfer_funds_activity_buyer_phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="50sp"
+            android:layout_marginRight="30sp"
+            android:layout_marginTop="8dp"
+            android:text="@string/get_transfer_funds_activity_buyer_phone_number"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/get_transfer_funds_activity_enter_buyer_phone_number"
+            android:layout_width="fill_parent"
+            android:layout_height="22dp"
+            android:layout_marginLeft="100sp"
+            android:layout_marginRight="100sp"
+            android:background="@drawable/get_border"
+            android:gravity="center"
+            android:height="17dp"
+            android:inputType="phone"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/get_transfer_funds_activity_seller_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="50sp"
+            android:layout_marginRight="30sp"
+            android:layout_marginTop="8dp"
+            android:text="@string/get_transfer_funds_activity_seller_name"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/get_transfer_funds_activity_enter_seller_name"
+            android:layout_width="fill_parent"
+            android:layout_height="22dp"
+            android:layout_marginLeft="100sp"
+            android:layout_marginRight="100sp"
+            android:background="@drawable/get_border"
+            android:gravity="center"
+            android:height="17dp"
+            android:inputType="textPersonName"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/get_transfer_funds_activity_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="50sp"
+            android:layout_marginRight="30sp"
+            android:layout_marginTop="8dp"
+            android:text="@string/get_transfer_funds_activity_amount"
+            android:textSize="15sp" />
+
+        <EditText
+            android:id="@+id/get_transfer_funds_activity_enter_amount"
+            android:layout_width="fill_parent"
+            android:layout_height="22dp"
+            android:layout_marginLeft="100sp"
+            android:layout_marginRight="100sp"
+            android:background="@drawable/get_border"
+            android:gravity="center"
+            android:height="17dp"
+            android:inputType="number"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/get_transfer_funds_activity_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="5dp"
+            android:background="#3ADF00"
+            android:text="@string/get_transfer_funds_activity_btn"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</ScrollView>
