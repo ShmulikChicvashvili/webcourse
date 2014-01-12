@@ -8,7 +8,7 @@ import android.content.Context;
 import android.support.v4.app.NotificationCompat;
 
 public class CoolieNotification {
-	private Priority mPriority;
+	private CooliePriority mPriority;
 	
 	private String mTitle;
 	private String mText;
@@ -16,13 +16,6 @@ public class CoolieNotification {
 	
 	private Context mContext;
 	private boolean mAddToFeeds;
-	
-	public enum Priority
-	{
-		IMMEDIATELY,
-		IN_AN_HOUR,
-		IN_A_DAY
-	}
 	
 	/**
 	 * Creates a notification with given params:
@@ -33,7 +26,7 @@ public class CoolieNotification {
 	 * @param addToFeeds - should the notification should <b>also</b> be displayed in the news feed.
 	 * @param context
 	 */
-	public CoolieNotification(String title, String text, Activity resultActivity, Priority priority, boolean addToFeeds, Context context)
+	public CoolieNotification(String title, String text, Activity resultActivity, CooliePriority priority, boolean addToFeeds, Context context)
 	{
 		 mTitle = title;
 		 mText = text;

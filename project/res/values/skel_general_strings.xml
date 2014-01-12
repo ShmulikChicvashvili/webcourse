@@ -15,10 +15,13 @@
     <string name="skel_logout">Logout</string>
     <string name="skel_signin">Sign in</string>
     <string name="skel_click_to_signin">Click to sign in</string>
-     
+    <string name="skel_click_to_signout">Click to sign out</string>
+    
     <string name="skel_cancel">Cancel</string>
     
     <string name="skel_preference_account_logged_in_as">Logged in with&#160;</string>
     
+    <string name="skel_notification_from">New notifications from: </string>
+    <string name="skel_notification_click_to_view">Click to view your news feed.</string>
 
 </resources>
