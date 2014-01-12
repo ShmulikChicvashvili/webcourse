@@ -322,7 +322,7 @@ public class MainActivity extends CoolieActivity {
 				tecUser.getLastMining(), tecUser.getTotalTechoins(),
 				tecUser.getBankAccount(), tecUser.getPostsNum(),
 				tecUser.getCommentsNum(), tecUser.getLikesNum(),
-				tecUser.getLikesOnPostsNum(), tecUser.getLikesOthers(), 
+				tecUser.getLikeOnPostsNum(), tecUser.getLikesOthers(), 
 				tecUser.getCommentsOthers(), tecUser.getWeeklyTotal(),
 				tecUser.getSpamCount());
 	}
@@ -356,7 +356,7 @@ public class MainActivity extends CoolieActivity {
 		@Override
 		protected TecUser doInBackground(Void... arg0) {
 			TecUser userToServer = new TecUser(userId, null, null, null, 0, 0,
-					0, 0, 0, 0, 0, 0, 0);
+					0, 0, 0, 0, 0, 0, 0, 0);
 			return connector.getUser(userToServer);
 
 		}
@@ -376,7 +376,7 @@ public class MainActivity extends CoolieActivity {
 			List<TecUser> userToServerList = new LinkedList<TecUser>();
 			Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
 			TecUser userToSever = new TecUser(userId, userName,
-					TecUserTitle.ATUDAI, lastMining, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+					TecUserTitle.ATUDAI, lastMining, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 			userToServerList.add(userToSever);
 			return connector.addUsers(userToServerList);
 
@@ -397,7 +397,7 @@ public class MainActivity extends CoolieActivity {
 		protected ReturnCode doInBackground(Void... arg0) {
 			Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
 			TecUser userToSever = new TecUser("574717953", null, null,
-					lastMining, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+					lastMining, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 			return connector.removeUser(userToSever);
 
 		}

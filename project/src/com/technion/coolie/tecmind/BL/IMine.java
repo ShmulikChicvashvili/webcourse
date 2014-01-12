@@ -3,6 +3,7 @@ package com.technion.coolie.tecmind.BL;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import com.facebook.model.GraphObject;
 import com.technion.coolie.tecmind.server.TecUser;
@@ -28,7 +29,7 @@ public interface IMine {
 	
 	public  HashMap<String, String> getPostsContent();
 	
-	public  LinkedList<TecUser> getOtherUsersList();
+	public  List<TecUser> getOtherUsersList();
 	
 
 }

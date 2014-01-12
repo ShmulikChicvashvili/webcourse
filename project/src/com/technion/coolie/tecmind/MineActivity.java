@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
@@ -266,7 +267,7 @@ public class MineActivity extends CoolieActivity {
 			String[] userDetails = readString.split("\\n");
 			
 			otherUser = new TecUser(userId, null, null, null,
-					0, 0, 0, 0, 0, 0, 0, 0, 0);
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 			
 			String[] userCounters = userDetails[5].split("\\*");
 
@@ -380,7 +381,7 @@ public class MineActivity extends CoolieActivity {
 
 		@Override
 		protected ReturnCode doInBackground(Void... arg0) {
-			List<TecUser> userToServerList = new LinkedList<TecUser>();
+			List<TecUser> userToServerList = new ArrayList<TecUser>();
 			TecUserTitle titleToServer = TecUserTitle.valueOf(User
 					.getUserInstance(null).title.value());
 			TecUser userToSever = new TecUser(User.getUserInstance(null).id,
@@ -394,7 +395,9 @@ public class MineActivity extends CoolieActivity {
 					User.getUserInstance(null).likesOnPostsNum,
 					User.getUserInstance(null).likesOthers,
 					User.getUserInstance(null).commentsOthers,
-					User.getUserInstance(null).weeklyTotlal);
+					User.getUserInstance(null).weeklyTotlal,
+					User.getUserInstance(null).spamCount);
+			
 			userToServerList.add(userToSever);
 			addUserMessage = connector.addUsers(userToServerList);
 
@@ -403,7 +406,7 @@ public class MineActivity extends CoolieActivity {
 				
 				TecPost newTecPost = new TecPost(p.id, p.date,
 						p.technionValue, p.userID, p.likesCount, p.commentCount, 
-						p.url, p.groupName,p.content,0,null);
+						p.url, p.groupName, p.content);
 				postsToServer.add(newTecPost);
 			}
 			updatePostsMessage = connector.addTecPosts(postsToServer);
@@ -438,7 +441,7 @@ public class MineActivity extends CoolieActivity {
 		protected List<TecPost> doInBackground(Void... arg0) {
 			Date lastMining = Utilities.parseDate("2013-08-30T16:30:00+0000");
 			TecUser userToSever = new TecUser(userId, null, null, lastMining,
-					0, 0, 0, 0, 0, 0, 0, 0, 0);
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 			return connector.getAllUserPosts(userToSever);
 
 		}
@@ -450,7 +453,7 @@ public class MineActivity extends CoolieActivity {
 		@Override
 		protected TecUser doInBackground(Void... arg0) {
 			TecUser userToServer = new TecUser(userId, null, null, null, 0, 0,
-					0, 0, 0, 0, 0, 0, 0);
+					0, 0, 0, 0, 0, 0, 0, 0);
 			return connector.getUser(userToServer);
 
 		}

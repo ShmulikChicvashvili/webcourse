@@ -56,7 +56,8 @@ public class TopMinersActivity extends Activity {
 		TecUser user = new TecUser(me.id, me.name,
 				TecUserTitle.valueOf(me.title.value()), me.lastMining,
 				me.totalTechoins, me.bankAccount, me.commentsNum, me.postsNum,
-				me.likesNum, me.likesOnPostsNum);
+				me.likesNum, me.likesOnPostsNum, me.likesOthers, me.commentsOthers, me.weeklyTotlal
+				, me.spamCount);
 		topMiners.add(user);
 		if (savedInstanceState != null) {
 			System.out.println("*****StatusCallback call******");
@@ -79,7 +80,8 @@ public class TopMinersActivity extends Activity {
 
 		@Override
 		protected List<TecUser> doInBackground(Void... params) {
-			 return connector.getTopBestMiners();
+			 //return connector.getTopBestMiners();
+			return null;
 		}
 
 	}

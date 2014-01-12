@@ -40,7 +40,7 @@ public class Mine implements IMine {
 	private HashMap<String, Date> mPostsDates;
 	private HashMap<String, String> mPostsContent;
 	
-	private LinkedList<TecUser> mOtherUsersList;
+	private List<TecUser> mOtherUsersList;
 
 	
 	public Mine(String userId) {	 
@@ -51,7 +51,7 @@ public class Mine implements IMine {
 		mPostsUrls = new HashMap<String, String>();
 		mPostsDates = new HashMap<String, Date>();
 		mPostsContent = new HashMap<String, String>();
-		mOtherUsersList = new LinkedList<TecUser>();
+		mOtherUsersList = new ArrayList<TecUser>();
 	}
 	
 	/* Return Mine Instance if already have been created, initiate new one otherwise */
@@ -367,7 +367,7 @@ public class Mine implements IMine {
 	}
 
 	@Override
-	public LinkedList<TecUser> getOtherUsersList() {
+	public List<TecUser> getOtherUsersList() {
 		return mOtherUsersList;
 	}
  

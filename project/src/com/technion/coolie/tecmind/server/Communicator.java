@@ -1,4 +1,5 @@
 package com.technion.coolie.tecmind.server;
+
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -20,7 +21,7 @@ public class Communicator {
   public static String execute(String... strs) {
     String $ = "";
     try {
-      URL url = new URL("https://coolie-236503.appspot.com/" + strs[0]);
+      URL url = new URL("https://symmetric-card-417.appspot.com/" + strs[0]);
       String param = encodeParams(strs);
       HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
       con.setDoOutput(true);

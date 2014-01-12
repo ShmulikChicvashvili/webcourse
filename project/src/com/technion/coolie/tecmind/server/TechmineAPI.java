@@ -4,7 +4,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.tecmind.server.Communicator;
-
+import com.technion.coolie.tecmind.server.manager.TecGroup;
 /**
  * 
  * Created on 8/12/2013
@@ -69,10 +69,30 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public List<TecComment> getTopBestMiners() {
+  public List<TecGroup> getValidGroups() {
+    return gson.fromJson(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.GET_VALID_GROUPS.toString()),
+        new TypeToken<List<TecGroup>>() {
+          // default usage
+        }.getType());
+  }
+
+  @Override
+  public List<TecUser> getTopBestMiners() {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TOP_BEST_MINERS.toString()),
+        new TypeToken<List<TecUser>>() {
+          // default usage
+        }.getType());
+  }
+
+  @Override
+  public List<TecUser> getTopBestMinersOfTheWeek() {
+    return gson.fromJson(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.GET_TOP_BEST_MINERS_OF_THE_WEEK.toString()),
         new TypeToken<List<TecUser>>() {
           // default usage
         }.getType());

@@ -12,8 +12,6 @@ public class TecPost implements IGetters {
   String content;
   URL url;
   String group;
-  int spamCount;
-  String spamType;
 
   /**
    * @param id1
@@ -30,7 +28,7 @@ public class TecPost implements IGetters {
    */
   public TecPost(String id1, Date date1, int technionValue1, String userID1,
       int likesCount1, int commentCount1, URL url1, String group1,
-      String content1, int spamCount1, String spamType1) {
+      String content1) {
     this.id = id1;
     this.date = date1;
     this.technionValue = technionValue1;
@@ -39,8 +37,6 @@ public class TecPost implements IGetters {
     this.commentCount = commentCount1;
     this.url = url1;
     this.group = group1;
-    this.spamCount = spamCount1;
-    this.spamType = spamType1;
     this.content = content1;
   }
 
@@ -166,36 +162,6 @@ public class TecPost implements IGetters {
    */
   public void setGroup(String group1) {
     this.group = group1;
-  }
-
-  /**
-   * @return the post spamCount
-   */
-  public int getSpamCount() {
-    return spamCount;
-  }
-
-  /**
-   * @return increases the post spam counter by 1 and returns the result
-   */
-  public int increaseSpamCount() {
-    this.spamCount = this.spamCount + 1;
-    return this.spamCount;
-  }
-
-  /**
-   * @return the post spamType
-   */
-  public String getSpamType() {
-    return spamType;
-  }
-
-  /**
-   * @param spamType1
-   *          the post spamType
-   */
-  public void setSpamType(String spamType1) {
-    this.spamType = spamType1;
   }
 
   /**
