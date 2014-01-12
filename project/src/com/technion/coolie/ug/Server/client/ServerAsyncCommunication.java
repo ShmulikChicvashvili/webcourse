@@ -265,42 +265,11 @@ public class ServerAsyncCommunication {
 			List<CourseItem> x;
 
 			@Override
-			protected List<CourseItem> doInBackground(Void... arg0) {
-				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = new HttpPost(
-						"http://techmvs.technion.ac.il:100/cics/WMN/wmnnut02");
-				
-				
-				List<CourseItem> allExams = new ArrayList<CourseItem>();
-				try {
-					Semester[] currentSemesters = UGDatabase.getInstance(context).getCurrentSemesters();
-					if (currentSemesters == null || currentSemesters.length != 3) {
-						currentSemesters = getCurentSemestersFromClientSync();
-					}
-					for (int i=0; i<3;i++)
-					{
-						Semester semester = currentSemesters[i];
-						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-						nameValuePairs.add(new BasicNameValuePair("OP", "LI"));
-						String qws = userName;
-						nameValuePairs.add(new BasicNameValuePair("UID", userName));
-						nameValuePairs.add(new BasicNameValuePair("PWD", password));
-						String sem = semester.getYear() + semester.getSs().getId();
-						nameValuePairs.add(new BasicNameValuePair("SEM", sem));
-						nameValuePairs.add(new BasicNameValuePair("NEXTOP", "WK"));
-						nameValuePairs.add(new BasicNameValuePair("Login.x", "8"));
-						nameValuePairs.add(new BasicNameValuePair("Login.y", "17"));
-						httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-						HttpResponse response = httpclient.execute(httppost);
-						HttpEntity responseEntity = response.getEntity();
-						String s = EntityUtils.toString(responseEntity,"ISO-8859-8"); // <----- s is a html of exams page
-						List<CourseItem> x = HtmlParseFromClient.parseStudentExams(Jsoup.parse(s), semester);
-						allExams.addAll(x);
-					}
-					UGDatabase db = UGDatabase.getInstance(context);
-					db.setCoursesAndExams(allExams);
-				} catch (Exception e) {
-				}
+			protected List<CourseItem> doInBackground(Void... arg0) 
+			{
+				List<CourseItem> allExams = getAllExamsFromClientSync(context,userName,password);		
+				UGDatabase db = UGDatabase.getInstance(context);
+				db.setCoursesAndExams(allExams);
 				return allExams;
 			}
 
@@ -308,9 +277,6 @@ public class ServerAsyncCommunication {
 			protected void onPostExecute(List<CourseItem> result) {
 				Log.i("UG", "Courses and exams events downloaded");
 				Toast.makeText(context, "Courses and exams downloading done", 1000).show();
-				if (result == null || result.size() == 0)
-					return;
-				UGDatabase.getInstance(context).setCoursesAndExams(result);
 				/*
 				 * AcademicCalendarListFragment f =
 				 * mainActivity.getCalendarFragment(); if (f==null) return;
@@ -319,6 +285,44 @@ public class ServerAsyncCommunication {
 			}
 		};
 		ast.execute();
+	}
+	
+	static public List<CourseItem> getAllExamsFromClientSync(Context context,final String userName, final String password) 
+	{
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(
+				"http://techmvs.technion.ac.il:100/cics/WMN/wmnnut02");
+		
+		List<CourseItem> allExams = new ArrayList<CourseItem>();
+		try {
+			Semester[] currentSemesters = UGDatabase.getInstance(context).getCurrentSemesters();
+			if (currentSemesters == null || currentSemesters.length != 3) {
+				currentSemesters = getCurentSemestersFromClientSync();
+			}
+			for (int i=0; i<3;i++)
+			{
+				Semester semester = currentSemesters[i];
+				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+				nameValuePairs.add(new BasicNameValuePair("OP", "LI"));
+				String qws = userName;
+				nameValuePairs.add(new BasicNameValuePair("UID", userName));
+				nameValuePairs.add(new BasicNameValuePair("PWD", password));
+				String sem = semester.getYear() + semester.getSs().getId();
+				nameValuePairs.add(new BasicNameValuePair("SEM", sem));
+				nameValuePairs.add(new BasicNameValuePair("NEXTOP", "WK"));
+				nameValuePairs.add(new BasicNameValuePair("Login.x", "8"));
+				nameValuePairs.add(new BasicNameValuePair("Login.y", "17"));
+				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+				HttpResponse response = httpclient.execute(httppost);
+				HttpEntity responseEntity = response.getEntity();
+				String s = EntityUtils.toString(responseEntity,"ISO-8859-8"); // <----- s is a html of exams page
+				List<CourseItem> x = HtmlParseFromClient.parseStudentExams(Jsoup.parse(s), semester);
+				allExams.addAll(x);
+			}
+		} catch (Exception e) {
+			return null;
+		}
+		return allExams;
 	}
 
 	static public void registrate(final String courseNumber,
@@ -546,26 +550,27 @@ public class ServerAsyncCommunication {
 			@Override
 			protected Void doInBackground(Void... arg0) {
 				Semester[] currentSemesters = null;
-				try {
-					currentSemesters = getCurentSemestersFromClientSync();
-					UGDatabase.getInstance(context).setCurrentSemesters(
-							currentSemesters);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				currentSemesters = getCurentSemestersFromClientSync();
+				UGDatabase.getInstance(context).setCurrentSemesters(currentSemesters);
 				return null;
 			}
 		};
 		ast.execute();
 	}
 
-	private static Semester[] getCurentSemestersFromClientSync()
-			throws IOException {
+	public static Semester[] getCurentSemestersFromClientSync()
+			 {
 		Semester[] currentSemesters;
-		Document doc = Jsoup.connect(
-				"http://www.undergraduate.technion.ac.il/rishum/search.php")
-				.get();
+		Document doc;
+		try {
+			doc = Jsoup.connect(
+					"http://www.undergraduate.technion.ac.il/rishum/search.php")
+					.get();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 		currentSemesters = HtmlParseFromClient.getSemesters(doc);
 		return currentSemesters;
 	}
