@@ -84,7 +84,7 @@ public class ServerAsyncCommunication {
 				UGLoginObject loginObject = new UGLoginObject(studentId, password);
 				List<AccomplishedCourse> l = UgFactory.getUgGradeSheet().getMyGradesSheet(loginObject);
 				//l = HtmlParser.parseGrades("stam");			
-				return super.doInBackground(params);
+				return l;
 			}
 
 			@Override
@@ -100,6 +100,14 @@ public class ServerAsyncCommunication {
 		};
 		a.execute();
 	}
+	
+	/*static public void getGradesSheetfromServerSync(final Context context, final String studentId, final String password) {
+				UGLoginObject loginObject = new UGLoginObject(studentId, password);
+				List<AccomplishedCourse> result = UgFactory.getUgGradeSheet().getMyGradesSheet(loginObject);
+				Log.i("UG","Grades sheetsync  downloaded");				
+				if (result==null || result.size()==0) return;
+				UGDatabase.getInstance(context).setGradesSheet(result);
+	}*/
 	
 
 	static public void getAllCoursesFromServer() {
@@ -137,7 +145,7 @@ public class ServerAsyncCommunication {
 					String... params) {
 				List<AcademicCalendarEvent> l = UgFactory.getUgEvent().getAllAcademicEvents();
 				//l = HtmlParser.parseCalendar();			
-				return super.doInBackground(params); 		
+				return l;		
 			}
 
 			@Override 
