@@ -3,9 +3,11 @@ package com.technion.coolie.ug.coursesAndExams;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,21 +18,33 @@ import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.CourseItem;
 
 public class CoursesAndExamsListFragment extends ListFragment {
-
+	
+	
+	List<CourseItem> coursesList = UGDatabase.getInstance(getActivity()).getCoursesAndExams();
 	@Override
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState) {
 
-		final List<CourseItem> coursesList = UGDatabase.getInstance(
-				getActivity()).getCoursesAndExams();
 		
-		//List<CourseItem> temporaryList = new ArrayList<CourseItem>();
-		//temporaryList.add(new CourseItem("wer", "wer", "coursrId",null));
-		final CoursesAndExamsFragmentListAdapter adapter = new CoursesAndExamsFragmentListAdapter(
-				inflater.getContext(), coursesList);
-		setListAdapter(adapter);
 
 		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+	
+	void updateData()
+	{
+		final CoursesAndExamsFragmentListAdapter adapter = new CoursesAndExamsFragmentListAdapter(
+				getActivity(), coursesList);
+		setListAdapter(adapter);
+	}
+	
+	@Override
+	  public void onResume() 
+	{
+		super.onResume();
+		final List<CourseItem> coursesList = UGDatabase.getInstance(getActivity()).getCoursesAndExams();
+		final CoursesAndExamsFragmentListAdapter adapter = new CoursesAndExamsFragmentListAdapter(
+				getActivity(), coursesList);
+		setListAdapter(adapter);
 	}
 
 	@Override

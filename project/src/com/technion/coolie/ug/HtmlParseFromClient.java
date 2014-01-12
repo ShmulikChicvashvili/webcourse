@@ -12,6 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import android.Manifest.permission;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.StudentDetails;
 import com.technion.coolie.ug.model.UGLoginObject;
 import com.technion.coolie.ug.db.UGDatabase;
+import com.technion.coolie.ug.model.Student;
 
 public class HtmlParseFromClient {
 
@@ -142,26 +144,20 @@ public class HtmlParseFromClient {
 		return calendarDate;
 	}
 
-	static public StudentDetails getStudentDetails(String username, String password) {
-		StudentDetails studentDetailsList;
-		// TODO: Matvey - firstly need to get real url (like done in the
-		// following commented line with JSOUP). Send this get request to the
-		// following url:
-		// "http://techmvs.technion.ac.il:80/cics/wmn/wmngrad?ORD=1"
-		/* Document doc = Jsoup.connect(url).get(); */
-
-		Document doc = Jsoup.parse("CALL YOUR GET METHOD HERE");
-		String gradesUrl = doc.select("form").first().attr("action");
-
-		// TODO: Matvey - after you get the real url (which will be saved in
-		// "gradesUrl", post request...like in following commented line:
-		/* gradesHtmlPost(url, username, password) */
-
-		doc = Jsoup.parse("CALL YOUR POST METHOD HERE");
+	static public Student getStudentDetails(String s) {
+		Document doc = Jsoup.parse(s);
 		final Elements details = doc.select("table").get(2).select("td");
-		studentDetailsList = new StudentDetails(details.get(5).text(), details
-				.get(4).text(), details.get(3).text());
-		return studentDetailsList;
+		double avg = Double.parseDouble(details.get(5).text());
+		double successPercentage = Double.parseDouble(details.get(4).text());
+		double points = Double.parseDouble(details.get(3).text());
+		
+		Student student = new Student("will be filled after", "Amir will suply the name",avg,points,null,successPercentage);
+		return student;
+	}
+	
+	static public String getGradesSheetUrl(Document doc)
+	{
+		return doc.select("form").first().attr("action");
 	}
 
 	public static boolean handleRegistrationRequest(Document doc) {

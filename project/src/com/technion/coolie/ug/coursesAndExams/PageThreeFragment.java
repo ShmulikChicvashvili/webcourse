@@ -15,7 +15,7 @@ public class PageThreeFragment extends BasePage {
 	public void setGroupParents() {
 		
 		Semester s = new Semester(2013, SemesterSeason.SPRING);
-		ServerAsyncCommunication.getAllExamsFromClient(s,  "1636", "11111100",	MainActivity.context);
+		//ServerAsyncCommunication.getAllExamsFromClient(s,  "1636", "11111100",	MainActivity.context);
 		
 //		parentItems = new ArrayList<CourseItem>(UGDatabase.getInstance(
 //				getActivity()).getStudentCourses(SemesterSeason.SPRING));

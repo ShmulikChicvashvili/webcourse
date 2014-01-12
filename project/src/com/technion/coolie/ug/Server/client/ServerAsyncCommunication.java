@@ -3,6 +3,7 @@ package com.technion.coolie.ug.Server.client;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import android.app.AlertDialog;
@@ -11,6 +12,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.technion.coolie.server.ug.ReturnCodesUg;
 import com.technion.coolie.server.ug.api.UgFactory;
@@ -24,7 +26,10 @@ import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
 import com.technion.coolie.ug.model.Semester;
+import com.technion.coolie.ug.model.StudentDetails;
 import com.technion.coolie.ug.model.UGLoginObject;
+import com.technion.coolie.ug.model.Student;
+
 import com.technion.coolie.ug.tracking.TrackingCoursesFragment;
 import com.technion.coolie.ug.utils.UGAsync;
 import com.technion.coolie.ug.*;
@@ -92,6 +97,7 @@ public class ServerAsyncCommunication {
 			@Override
 			protected void onPostExecute(List<AccomplishedCourse> result) {
 				Log.i("UG", "Grades sheet downloaded");
+				Toast.makeText(context, "Grades sheet downloading done", 1000).show();
 				if (result == null || result.size() == 0)
 					return;
 				UGDatabase.getInstance(context).setGradesSheet(result);
@@ -155,6 +161,7 @@ public class ServerAsyncCommunication {
 			@Override
 			protected void onPostExecute(List<AcademicCalendarEvent> result) {
 				Log.i("UG", "Calendar events downloaded");
+				Toast.makeText(context, "Calendar downloading done", 1000).show();
 				if (result == null || result.size() == 0)
 					return;
 				UGDatabase.getInstance(context).setAcademicCalendar(result);
@@ -290,13 +297,9 @@ public class ServerAsyncCommunication {
 						List<CourseItem> x = HtmlParseFromClient.parseStudentExams(Jsoup.parse(s), semester);
 						allExams.addAll(x);
 					}
-
-					
 					UGDatabase db = UGDatabase.getInstance(context);
 					db.setCoursesAndExams(allExams);
-					Math.random();
 				} catch (Exception e) {
-					Math.random();
 				}
 				return allExams;
 			}
@@ -304,6 +307,7 @@ public class ServerAsyncCommunication {
 			@Override
 			protected void onPostExecute(List<CourseItem> result) {
 				Log.i("UG", "Courses and exams events downloaded");
+				Toast.makeText(context, "Courses and exams downloading done", 1000).show();
 				if (result == null || result.size() == 0)
 					return;
 				UGDatabase.getInstance(context).setCoursesAndExams(result);
@@ -416,7 +420,7 @@ public class ServerAsyncCommunication {
 		ast.execute();
 	}
 
-	static public void unRegistrate(final String courseNumber,
+	static public void unRegistrate(final int position, final String courseNumber,
 			final String userName, final String password,
 			final Context context,
 			final TrackingCoursesFragment trackingCoursesFragment) {
@@ -429,7 +433,7 @@ public class ServerAsyncCommunication {
 			protected void onPreExecute() {
 				progressDialog = ProgressDialog.show(context, "Unregistering",
 						"Unregistering from " + courseNumber, true);
-
+				progressDialog.show();
 				// do initialization of required objects objects here
 			};
 
@@ -478,8 +482,7 @@ public class ServerAsyncCommunication {
 
 			@Override
 			protected void onPostExecute(Document c) {
-				trackingCoursesFragment.onCancellationSuccessed(new CourseKey(
-						courseNumber, null));
+				trackingCoursesFragment.onCancellationSuccessed(position);
 				AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 						context);
 				progressDialog.dismiss();
@@ -492,54 +495,49 @@ public class ServerAsyncCommunication {
 		ast.execute();
 	}
 
-	static public void getStudentDetailsFromClient(final Semester semester,
-			final String username, final String password) {
-		// getStudentExams(Student student, Semester semester)
+	static public void getStudentDetailsFromClient(final Context context, final String username, final String password) {
 
-		UGAsync<Exam> a = new UGAsync<Exam>() {
-			// List<ServerCourse> l;
-
+		AsyncTask<Void, Void, Void> ast = new AsyncTask<Void, Void, Void>() {
 			@Override
-			protected List<Exam> doInBackground(String... params) {
-
-				HttpClient httpclient = new DefaultHttpClient();
-				HttpPost httppost = new HttpPost(
-						"http://techmvs.technion.ac.il/cics/wmn/wmngrad?abiipbht&ORD=1&s=1");
-
-				try {
-					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(
-							2);
-					nameValuePairs.add(new BasicNameValuePair("function",
-							"signon"));
-					nameValuePairs.add(new BasicNameValuePair("userid",
-							username));
-					nameValuePairs.add(new BasicNameValuePair("password",
-							password));
-
-					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-					// Execute HTTP Post Request
-					HttpResponse response = httpclient.execute(httppost);
-
-					HttpEntity responseEntity = response.getEntity();
-					if (responseEntity != null) {
-						String s = EntityUtils.toString(responseEntity); //
-						Math.random();
-					}
-
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-				}
-				return super.doInBackground(params);
+			protected Void doInBackground(Void... arg0) {
+				//Student student = getStudentDetailsFromClientSync(username,password);
+				Student student = new Student("demo student", "demo student", 100,   100, new GregorianCalendar(), 100);
+				//UGDatabase.getInstance(context).setStudentInfo(student);
+				return null;
 			}
-
 			@Override
-			protected void onPostExecute(List<Exam> result) {
+			protected void onPostExecute(Void v) {
+				Log.i("UG", "Courses and exams events downloaded");
+				Toast.makeText(context, "Students details downloading done", 1000).show();
 			}
-
 		};
-		a.execute();
+		ast.execute();
+	}
+	
+	public static Student getStudentDetailsFromClientSync(final String username, final String password)
+	{
+		HttpClient httpclient = new DefaultHttpClient();
+		try {
+
+			Document doc1 = Jsoup.connect("http://www.undergraduate.technion.ac.il/Tadpis.html").get();
+			String gradesSheetUrl = HtmlParseFromClient.getGradesSheetUrl(doc1);
+			
+			HttpPost httppost = new HttpPost(gradesSheetUrl);
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+			nameValuePairs.add(new BasicNameValuePair("function","signon"));
+			nameValuePairs.add(new BasicNameValuePair("userid",username));
+			nameValuePairs.add(new BasicNameValuePair("password",password));
+			httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+			// Execute HTTP Post Request
+			HttpResponse response = httpclient.execute(httppost);
+			HttpEntity responseEntity = response.getEntity();
+			String s = EntityUtils.toString(responseEntity,"ISO-8859-8"); //
+			return HtmlParseFromClient.getStudentDetails(s);
+
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	static public void getCurentSemestersFromClient(final Context context) {
@@ -552,7 +550,6 @@ public class ServerAsyncCommunication {
 					currentSemesters = getCurentSemestersFromClientSync();
 					UGDatabase.getInstance(context).setCurrentSemesters(
 							currentSemesters);
-
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

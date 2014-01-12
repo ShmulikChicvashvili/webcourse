@@ -25,14 +25,13 @@ public class UGInitializer {
 	
 	public static void onCoolieStartupInitialization(Context context)
 	{
-	//	if (isAlreadyInitializedAfterFirstInstalling(context)) return;
+		if (startupInitializationDone) return;
 		
 		//Download all courses
 		
-		//Download academic events
 		ServerAsyncCommunication.getCalendarEventsFromServer(context);
 		
-		
+		startupInitializationDone = true;
 	}
 	
 	public static void onUgLoginInitialization(Context context, String studentId, String password)
@@ -43,10 +42,10 @@ public class UGInitializer {
 		ServerAsyncCommunication.getGradesSheetfromServer(context,studentId,password);
 		ServerAsyncCommunication.getAllExamsFromClient(studentId, password,	context);
 		ServerAsyncCommunication.getCurentSemestersFromClient(context);
+		ServerAsyncCommunication.getStudentDetailsFromClient(context, studentId, password);
 		
 		
 		//Download student details
-		//Download current available semesters
 		//Download tracking courses
 		
 		loginInitializationDone=true;
