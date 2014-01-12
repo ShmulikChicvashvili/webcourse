@@ -57,7 +57,7 @@ public interface ITechmineAPI {
   /**
    * @return - top 10 TecUser by their totalTechoins field
    */
-  public List<TecComment> getTopBestMiners();
+  public List<TecUser> getTopBestMiners();
 
   /**
    * 

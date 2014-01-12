@@ -1,5 +1,7 @@
 package com.technion.coolie.server.joinin;
 
+import java.util.List;
+
 /**
  * 
  * Created on 25/12/2013
@@ -43,9 +45,9 @@ public interface IJoininAPI {
 
   /**
    * 
-   * @return - all the events in the system
+   * @return - all events in the system as list
    */
-  public Event getAllEvents();
+  public List<Event> getAllEvents();
 
   /**
    * 

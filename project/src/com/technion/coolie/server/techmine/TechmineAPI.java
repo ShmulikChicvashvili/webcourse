@@ -70,7 +70,7 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public List<TecComment> getTopBestMiners() {
+  public List<TecUser> getTopBestMiners() {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
         TechmineEnum.GET_TOP_BEST_MINERS.toString()),
