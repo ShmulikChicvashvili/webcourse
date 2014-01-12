@@ -16,11 +16,11 @@ public class PageOneFragment extends BasePage {
 		// TODO: need to be UGDatabase.INSTANCE.<name of variable which will
 		// store this list>...
 		Semester s = new Semester(2012, SemesterSeason.SUMMER);
-		ServerAsyncCommunication.getAllExamsFromClient(s, "1636", "11111100",	MainActivity.context);
-//		parentItems = new ArrayList<CourseItem>(UGDatabase.getInstance(
-//				getActivity()).getStudentCourses(SemesterSeason.SUMMER));
+		ServerAsyncCommunication.getAllExamsFromClient(/* s, */"1636",
+				"11111100", MainActivity.context);
+		// parentItems = new ArrayList<CourseItem>(UGDatabase.getInstance(
+		// getActivity()).getStudentCourses(SemesterSeason.SUMMER));
 
-		
 		parentItems = new ArrayList<CourseItem>(UGDatabase.getInstance(
 				getActivity()).getCoursesAndExams());
 	}

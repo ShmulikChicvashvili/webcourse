@@ -25,8 +25,6 @@ import com.technion.coolie.ug.utils.UGAsync;
 
 public class UGDatabase {
 
-	// make loading courses async TODO
-
 	private static UGDatabase INSTANCE;
 
 	UGDBProvider dataProvider;
@@ -36,8 +34,6 @@ public class UGDatabase {
 
 	private Student currentStudent;
 	private Semester[] currentSemesters;
-	
-	
 
 	private SemesterSeason currentSeason;
 
@@ -178,17 +174,18 @@ public class UGDatabase {
 
 	}
 
-	// TODO
 	private void initializeSemesters() {
 
-		currentSeason = SemesterSeason.WINTER;
-		/*currentSemesters = new Semester[3];
-		currentSemesters[SemesterSeason.SPRING.getIdx()] = new Semester(2013,
-				SemesterSeason.SPRING);
-		currentSemesters[SemesterSeason.SUMMER.getIdx()] = new Semester(2013,
-				SemesterSeason.SUMMER);
-		currentSemesters[SemesterSeason.WINTER.getIdx()] = new Semester(2013,
-				SemesterSeason.WINTER);*/
+		currentSemesters = dataProvider.getSemesters();
+		/*
+		 * currentSemesters = new Semester[3];
+		 * currentSemesters[SemesterSeason.SPRING.getIdx()] = new Semester(2013,
+		 * SemesterSeason.SPRING);
+		 * currentSemesters[SemesterSeason.SUMMER.getIdx()] = new Semester(2013,
+		 * SemesterSeason.SUMMER);
+		 * currentSemesters[SemesterSeason.WINTER.getIdx()] = new Semester(2013,
+		 * SemesterSeason.WINTER);
+		 */
 
 	}
 
@@ -200,25 +197,21 @@ public class UGDatabase {
 		return coursesHash.get(key);
 	}
 
-	public Semester getRelevantSemester(final SemesterSeason season) {
-		//return currentSemesters[season.getIdx()];
-		if (currentSemesters==null || currentSemesters.length !=3)
-		{
-			return new Semester(2013, SemesterSeason.SPRING);
+	public Semester getSemesterBySeason(final SemesterSeason season) {
+
+		if (currentSemesters != null && currentSemesters.length == 3) {
+			for (Semester semester : currentSemesters)
+				if (semester.getSs() == season)
+					return semester;
 		}
-		else
-		{
-			return currentSemesters[0];
-		}
+		// when no semester is found!
+		return new Semester(2013, season);
 	}
 
 	public Semester getCurrentSemester() {
-		if (currentSemesters==null || currentSemesters.length !=3)
-		{
+		if (currentSemesters == null || currentSemesters.length != 3) {
 			return new Semester(2013, SemesterSeason.SPRING);
-		}
-		else
-		{
+		} else {
 			return currentSemesters[0];
 		}
 	}
@@ -230,12 +223,11 @@ public class UGDatabase {
 		return trackingCourses;
 
 	}
-	
+
 	public Semester[] getCurrentSemesters() {
 		return currentSemesters;
 	}
 
-	
 	public List<CourseItem> getCoursesAndExams() {
 		Log.i("1", "coursesAndExamsList :" + coursesAndExamsList.size());
 		if (coursesAndExamsList == null)
@@ -301,7 +293,7 @@ public class UGDatabase {
 
 	/**
 	 * adds all the courses to the database and then to the Courses hash. if
-	 * course exists, we update its content.
+	 * course exists, we update its content. call this on the UI thread.
 	 * 
 	 */
 	public void updateCourses(final List<Course> courses) {
@@ -322,6 +314,10 @@ public class UGDatabase {
 
 	}
 
+	/**
+	 * 
+	 * call this function on the UI thread.
+	 */
 	public void setGradesSheet(final List<AccomplishedCourse> courses) {
 		checkListParam(courses);
 		log("setting " + courses.size() + " grades!");
@@ -371,7 +367,7 @@ public class UGDatabase {
 		dataProvider.setCoursesAndExams(courses, studentId);
 		coursesAndExamsList = courses;
 	}
-	
+
 	public void setStudentInfo(Student student) {
 		if (student == null)
 			throw new NullPointerException();
@@ -388,9 +384,14 @@ public class UGDatabase {
 		// provider! TODO
 		return "22";
 	}
-	
+
 	public void setCurrentSemesters(Semester[] currentSemesters) {
+		if (currentSemesters == null)
+			throw new IllegalArgumentException(
+					"null array is overriding database");
+		dataProvider.setSemesters(currentSemesters);
 		this.currentSemesters = currentSemesters;
+
 	}
 
 	public UGLoginObject getCurrentLoginObject() {

@@ -38,7 +38,6 @@ import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
 import com.technion.coolie.ug.tracking.TrackingCoursesFragment;
-import com.technion.coolie.ug.utils.CalendarUtils;
 import com.technion.coolie.ug.utils.FragmentsFactory;
 import com.technion.coolie.ug.utils.UGCurrentState;
 
@@ -56,7 +55,7 @@ public class MainActivity extends CoolieActivity implements
 		// ServerAsyncCommunication.mainActivity = this;
 		setContentView(R.layout.ug_main_screen);
 
-		// updateData();
+		updateFakeCourses();
 
 		// ServerAsyncCommunication.getCalendarEventsFromServer(); // Will not
 		// be here
@@ -165,7 +164,7 @@ public class MainActivity extends CoolieActivity implements
 		finish();
 	}
 
-	private void updateData() {
+	private void updateFakeCourses() {
 		RegistrationGroup group = new RegistrationGroup(3,
 				Arrays.asList(new Meeting("df", "the happy farmer", Calendar
 						.getInstance().getTime(), Calendar.getInstance()
@@ -196,29 +195,35 @@ public class MainActivity extends CoolieActivity implements
 				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
 						2, 11), kdamim, tsmudim, reg);
 
-		/*
-		 * Course course2 = new Course( "273455", "MY HEAD IS A HAMSTER", 2.0f,
-		 * "During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process"
-		 * , new Semester(2013, SemesterSeason.SPRING), Faculty.CS, new
-		 * GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014, 2, 11),
-		 * kdamim, null, null);
-		 * 
-		 * Course course3 = new Course( "094412", "HISTABRUT", 2.0f,
-		 * "During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process"
-		 * , new Semester(2013, SemesterSeason.SPRING), Faculty.CS, new
-		 * GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014, 2, 11),
-		 * kdamim, null, null);
-		 */
+		Course course2 = new Course(
+				"273455",
+				"MY HEAD IS A HAMSTER",
+				2.0f,
+				"During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
+				new Semester(2013, SemesterSeason.SPRING), Faculty.CS,
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), kdamim, null, null);
+
+		Course course3 = new Course(
+				"094412",
+				"HISTABRUT",
+				2.0f,
+				"During the class we design and use roles to acheive happiness. We will also discuss your project topic (with each team). Teams that we already approved will use the time to start the design process",
+				new Semester(2013, SemesterSeason.SPRING), Faculty.CS,
+				new GregorianCalendar(2014, 2, 11), new GregorianCalendar(2014,
+						2, 11), kdamim, null, null);
 
 		List<Course> courses = new ArrayList<Course>();
-		// courses.add(course3);
+		courses.add(course3);
 
-		/*
-		 * for (int i = 0; i < 1000; i++) { Course c = new Course(course);
-		 * c.setCourseNumber((i + 2000) + ""); courses.add(c); }
-		 */
+		for (int i = 0; i < 1000; i++) {
+			Course c = new Course(course);
+			c.setCourseNumber((i + 2000) + "");
+			courses.add(c);
+		}
+
 		courses.add(course);
-		// courses.add(course2);
+		courses.add(course2);
 
 		List<AcademicCalendarEvent> academicList = new ArrayList<AcademicCalendarEvent>(
 				Arrays.asList(new AcademicCalendarEvent(Calendar.getInstance(),
@@ -260,7 +265,7 @@ public class MainActivity extends CoolieActivity implements
 		UGDatabase.getInstance(this).getCoursesAndExams();
 		UGDatabase.getInstance(this).getStudentInfo();
 		UGDatabase.getInstance(this).getGradesSheet();
-		CalendarUtils.addMyCourses(this, coursesExamsList);
+		// CalendarUtils.addMyCourses(this, coursesExamsList);
 	}
 
 	public void onRegistrationClick(View v) {

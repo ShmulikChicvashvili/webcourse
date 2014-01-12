@@ -12,6 +12,7 @@ import com.technion.coolie.ug.db.tablerows.AcademicEventRow;
 import com.technion.coolie.ug.db.tablerows.AccomplishedCourseRow;
 import com.technion.coolie.ug.db.tablerows.CourseRow;
 import com.technion.coolie.ug.db.tablerows.RegisteredCourseRow;
+import com.technion.coolie.ug.db.tablerows.SemestersRow;
 import com.technion.coolie.ug.db.tablerows.StudentRow;
 import com.technion.coolie.ug.db.tablerows.TrackRow;
 import com.technion.coolie.ug.model.AcademicCalendarEvent;
@@ -19,6 +20,7 @@ import com.technion.coolie.ug.model.AccomplishedCourse;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.Semester;
 import com.technion.coolie.ug.model.Student;
 
 /**
@@ -231,6 +233,28 @@ public class UGDBProvider {
 		}
 	}
 
+	void setSemesters(Semester[] semesters) {
+		try {
+			getHelper().getSemesterDao().deleteBuilder().delete();
+			getHelper().getSemesterDao().create(new SemestersRow(semesters));
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public Semester[] getSemesters() {
+		try {
+			List<SemestersRow> list = getHelper().getSemesterDao()
+					.queryForAll();
+			if (list.size() != 1)
+				return null;
+			return list.get(0).getSemesters();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	Dao<CourseRow, String> getCoursesDao() {
 		try {
 			return getHelper().getCoursesDao();
@@ -266,6 +290,15 @@ public class UGDBProvider {
 			throw new NullPointerException("Can't get courses table!");
 		}
 	}
+
+	// Dao<SemestersRow, Long> getSemestersDao() {
+	// try {
+	// return getHelper().getSemesterDao();
+	// } catch (SQLException e) {
+	// e.printStackTrace();
+	// throw new NullPointerException("Can't get semesters table!");
+	// }
+	// }
 
 	// Dao<RegisteredCourseRow, Long> getRegisteredCoursesDao() {
 	// try {
