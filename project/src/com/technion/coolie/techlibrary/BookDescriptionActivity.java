@@ -13,6 +13,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.technion.coolie.CoolieAccount;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.R;
@@ -108,7 +109,7 @@ public class BookDescriptionActivity extends CoolieActivity {
 		String getCopiesUrl = "http://aleph2.technion.ac.il/X?op=circ-status&sys_no="
 				+ le.id + "&library=tec01";
 		Log.d("the url for copies is: ", getCopiesUrl);
-		hg.getHtmlSource(getCopiesUrl, HtmlGrabber.Account.NONE);
+		hg.getHtmlSource(getCopiesUrl, CoolieAccount.NONE);
 	}
 
 	protected void parseAndDisplay(String result) {

@@ -13,8 +13,9 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
-import com.technion.coolie.CollieNotification;
-import com.technion.coolie.CollieNotification.Priority;
+import com.technion.coolie.CoolieAccount;
+import com.technion.coolie.CoolieNotification;
+import com.technion.coolie.CoolieNotification.Priority;
 import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.skeleton.CoolieStatus;
 import com.technion.coolie.techlibrary.BookItems.LoanElement;
@@ -53,7 +54,7 @@ public class UpdateDataService extends IntentService {
 				}
 			}
 		};
-		hg.getHtmlSource(userLoansUrl + userId, HtmlGrabber.Account.NONE);
+		hg.getHtmlSource(userLoansUrl + userId, CoolieAccount.NONE);
 	}
 
 	protected void parseResult(String result) {
@@ -91,7 +92,7 @@ public class UpdateDataService extends IntentService {
 			try {
 				if(curFormater.parse(loan.dueDate).before(todayPlus3)) {
 					//change boody message (library+book name+author+dueDate)
-					new CollieNotification("Book Return",loan.name+" Due date: "+loan.dueDate,new MainActivity(),
+					new CoolieNotification("Book Return",loan.name+" Due date: "+loan.dueDate,new MainActivity(),
 							Priority.IN_A_DAY,false,getApplicationContext()).sendNotification();
 				}
 			} catch (ParseException e) {
@@ -105,7 +106,7 @@ public class UpdateDataService extends IntentService {
 				//TODO: notify when first arrival date is set.
 				if(!hold.arrivalDate.isEmpty() && curFormater.parse(hold.endHoldDate).before(todayPlus3)) {
 					//change boody message (library+book name+author+dueDate)
-					new CollieNotification("Book Return",hold.name+" pick up untill "+hold.endHoldDate,new MainActivity(),
+					new CoolieNotification("Book Return",hold.name+" pick up untill "+hold.endHoldDate,new MainActivity(),
 							Priority.IN_A_DAY,false,getApplicationContext()).sendNotification();
 				}
 			} catch (ParseException e) {

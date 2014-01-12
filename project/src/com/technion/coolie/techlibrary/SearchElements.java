@@ -40,6 +40,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.technion.coolie.CoolieAccount;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.R;
@@ -58,7 +59,7 @@ public class SearchElements {
 		// search Url
 		private static final String searchUrl = "https://aleph2.technion.ac.il/X?op=find&base=tec01&request=";
 		// barcode consts
-		public static final int BARCODE_REQUEST_CODE = 1;
+		public static final int BARCODE_REQUEST_CODE = 13;
 		private static final String BARCODE = "barcode";
 		private static final String FORMAT = "format";
 		private static final String ISBN_FORMAT = "EAN_13";
@@ -189,7 +190,7 @@ public class SearchElements {
 							Intent intent = new Intent(getSherlockActivity(),
 									BarcodeSearchActivity.class);
 							Log.d("searchElement", "strat activity for result");
-							startActivityForResult(intent, BARCODE_REQUEST_CODE);
+							getSherlockActivity().startActivityForResult(intent, BARCODE_REQUEST_CODE);
 							return true;
 						}
 					});
@@ -293,18 +294,12 @@ public class SearchElements {
 						// e.printStackTrace();
 					}
 				}
-
-				@Override
-				public void handleImage(Bitmap b) {
-					// TODO Auto-generated method stub
-
-				}
 			};
 			// TODO
 			Log.d("the url for the second part is: ",
 					URL + searchData.replace(" ", "+"));
 			hg.getHtmlSource(URL + searchData.replace(" ", "+"),
-					HtmlGrabber.Account.NONE);
+					CoolieAccount.NONE);
 		}
 
 		/**
@@ -331,13 +326,6 @@ public class SearchElements {
 					}
 
 				}
-
-				@Override
-				public void handleImage(Bitmap b) {
-					Log.d("in image ", "blaaaaaaaaaaaaaaaaaaaaaaaaa");
-					// imageview.setImageBitmap(b);
-
-				}
 			};
 			// TODO
 			Log.d("the url for the second part is: ",
@@ -346,7 +334,7 @@ public class SearchElements {
 							+ DEFAULT_NUM_OF_ENTERIES);
 			String searchUrl = "https://aleph2.technion.ac.il/X?op=present&set_no="
 					+ setNum + "&set_entry=1-" + DEFAULT_NUM_OF_ENTERIES;
-			hg.getHtmlSource(searchUrl, HtmlGrabber.Account.NONE);
+			hg.getHtmlSource(searchUrl, CoolieAccount.NONE);
 			// hg.getHtmlSource("https://books.google.co.il/books?vid=ISBN9654826356&printsec=frontcover&img=0&zoom=1",
 			// HtmlGrabber.Account.FACEBOOK);
 		}

@@ -9,12 +9,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import com.technion.coolie.HtmlGrabber.Account;
-
 import android.app.IntentService;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
 
 public class HtmlGrabberService extends IntentService {
@@ -36,22 +32,14 @@ public class HtmlGrabberService extends IntentService {
 		try {
 			URL url = new URL(arg0.getStringExtra(URL));
 			URLConnection urlConnection = url.openConnection();
-			InputStream is = urlConnection.getInputStream();
-			if(arg0.getSerializableExtra(ACCOUNT).equals(Account.FACEBOOK)) {
-				Bitmap b = BitmapFactory.decodeStream(is);
-				if(b != null)
-					intent.putExtra("Image", b);
-			}
-			in = new BufferedInputStream(is);
+			in = new BufferedInputStream(urlConnection.getInputStream());
 			
 			String res = readStream(in);
-		
+			in.close();
 			
 //			Log.v("---",res.toString());
 			intent.putExtra(RESULT, res);
 			intent.putExtra(STATUS, CoolieStatus.RESULT_OK);
-			
-			in.close();
 
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block

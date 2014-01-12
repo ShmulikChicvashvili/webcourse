@@ -32,10 +32,17 @@ public class MainActivity extends CoolieActivity implements
 	private String[] droplist = { "Search", "Open Hours", "Library Card" };
 
 	private LibraryCardFragment fLibCard = null;
+	private SearchFragment searchFragment;
+	
+	//barcode request code
+	public static final int BARCODE_REQUEST_CODE = 13;
 
 	// shared pref
 	private SharedPreferences mSharedPref;
 	private SharedPreferences.Editor mSharedPrefEditor;
+
+	//search fragemnt tag
+	private static final String SEARCH_FRAG_TAG = "searchTag";
 
 	public static final String LOGGED_IN = "is_logged";
 	private static final String SHARED_PREF = "lib_pref";
@@ -61,7 +68,7 @@ public class MainActivity extends CoolieActivity implements
 		getSupportActionBar().setSelectedNavigationItem(
 				savedInstanceState != null ? savedInstanceState
 						.getInt(LAST_VIEWED_FRAGMENT_TAG) : 0);
-
+		
 		SharedPreferences sharedPref = getSharedPreferences(SHARED_PREF, 0);
 		if (!sharedPref.contains(LOGGED_IN)) {
 			SharedPreferences.Editor editor = sharedPref.edit();
@@ -94,9 +101,11 @@ public class MainActivity extends CoolieActivity implements
 			currPosition = 1;
 			transaction.replace(R.id.lib_frame_container, frag);
 		} else if (itemPosition == 0) {
-			SherlockFragment frag = new SearchFragment();
+			if(searchFragment == null) {
+				searchFragment = new SearchFragment();
+			}
 			currPosition = 0;
-			transaction.replace(R.id.lib_frame_container, frag);
+			transaction.replace(R.id.lib_frame_container, searchFragment,SEARCH_FRAG_TAG);
 		}
 		transaction.commit();
 		return true;
@@ -139,13 +148,27 @@ public class MainActivity extends CoolieActivity implements
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
+		if(requestCode == BARCODE_REQUEST_CODE) {
+			FragmentTransaction transaction= null;
+			if(searchFragment == null) {
+				transaction = getSupportFragmentManager()
+						.beginTransaction();
+				searchFragment = new SearchFragment();
+				currPosition = 0;
+				transaction.replace(R.id.lib_frame_container, searchFragment,SEARCH_FRAG_TAG);
+				transaction.commit();
+				getSupportFragmentManager().executePendingTransactions();
+				searchFragment = (SearchFragment) getSupportFragmentManager().findFragmentByTag(SEARCH_FRAG_TAG);
+			}
+			searchFragment.onActivityResult(requestCode, resultCode, data);
+			return;
+		}
 		//TODO use request code to identify calls
-		if (data != null && data.getStringExtra("activity") != null && data.getStringExtra("activity").equals("bookDescription")) {
-			Log.d("onnnn reeeesssuult", "YEA");
+//		if (data != null && data.getStringExtra("activity") != null && data.getStringExtra("activity").equals("bookDescription")) {
+//			Log.d("onnnn reeeesssuult", "YEA");
 //			addToWishList((new BookItems()).new LibraryElement("1",
 //					data.getStringExtra("name"), "empty", "book", "C.S"));
-		}
+//		}
 	}
 
 	public void addToWishList(LibraryElement libElement) {
