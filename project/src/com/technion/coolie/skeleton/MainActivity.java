@@ -25,6 +25,7 @@ import com.technion.coolie.CoolieAccount;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.CoolieNotification;
 import com.technion.coolie.R;
+import com.technion.coolie.ug.UGInitializer;
 
 @SuppressLint("ValidFragment")
 public class MainActivity extends CoolieActivity {
@@ -39,6 +40,12 @@ public class MainActivity extends CoolieActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.skel_activity_main);
+		
+		// --------------------------------------------------------------
+		//These 2 lines will be transfered to Coolie main activity
+		UGInitializer.onCoolieStartupInitialization(this);
+		UGInitializer.onUgLoginInitialization(this, "1636", "11111100");
+		//---------------------------------------------------------------
 
 		/*SignonDialog s = new SignonDialog(CoolieAccount.UG);
 		s.show(getSupportFragmentManager(), "dialog");*/
@@ -107,7 +114,7 @@ public class MainActivity extends CoolieActivity {
 		fList.add(new AlphabeticalModulesFragment());
 		fList.add(new MostUsedModulesFragment());
 		fList.add(new FeedsFragment());
-
+		
 		return fList;
 	}
 
