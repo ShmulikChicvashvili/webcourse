@@ -56,6 +56,8 @@ public class UGDatabase {
 	Context appContext;
 	private UGLoginObject currentLoginObject;
 
+	
+
 	/**
 	 * assumes a student is logged in to the application, and we can retrieve
 	 * his id.
@@ -396,6 +398,10 @@ public class UGDatabase {
 		dataProvider.setSemesters(currentSemesters);
 		this.currentSemesters = currentSemesters;
 
+	}
+	
+	public void setCurrentLoginObject(UGLoginObject currentLoginObject) {
+		this.currentLoginObject = currentLoginObject;
 	}
 
 	public UGLoginObject getCurrentLoginObject() {

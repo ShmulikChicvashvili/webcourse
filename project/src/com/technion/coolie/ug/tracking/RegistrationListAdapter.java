@@ -3,6 +3,7 @@ package com.technion.coolie.ug.tracking;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,11 +64,18 @@ public class RegistrationListAdapter extends ArrayAdapter<CourseItem> {
 		        public void onClick(View v) {
 		        	CourseItem ck = items.get(position);
 					UGLoginObject ugLoginObj = UGDatabase.getInstance(context).getCurrentLoginObject();
-					ServerAsyncCommunication.unRegistrate(ck.getCourseId(), ugLoginObj.getStudentId(), ugLoginObj.getPassword(), context,trackingCoursesFragment);
+					ServerAsyncCommunication.unRegistrate(position, ck.getCourseId(), ugLoginObj.getStudentId(), ugLoginObj.getPassword(), context,trackingCoursesFragment);
 		        }
 		    };
 		    ib.setOnClickListener(makeListener);
 		}
 		return convertView;
+	}
+	
+	public void remove(int position) {
+		
+		items.remove(position);
+		UGDatabase.getInstance(context).setCoursesAndExams(items);
+		notifyDataSetChanged();
 	}
 }

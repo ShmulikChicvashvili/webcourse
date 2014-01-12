@@ -259,12 +259,10 @@ public class TrackingCoursesFragment extends SherlockFragment {
 		
 	}
 	
-	public void onCancellationSuccessed(CourseKey c)
+	public void onCancellationSuccessed(int position)
 	{
 		Log.i("2","onCancellationSuccessed");
-		String courseName="HISTABRUT";//UGDatabase.getInstance(getActivity()).getCourseByKey(c).getName();
-		CourseItem ci = new CourseItem(courseName, c.getNumber(), "0", null, null,null);
-		registrationlistAdapter.remove(ci);
+		registrationlistAdapter.remove(position);
 	}
 
 }

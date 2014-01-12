@@ -45,6 +45,7 @@ public class MainActivity extends CoolieActivity {
 		//These 2 lines will be transfered to Coolie main activity
 		UGInitializer.onCoolieStartupInitialization(this);
 		UGInitializer.onUgLoginInitialization(this, "1636", "11111100");
+		//UGInitializer.login(this,"1636","11111100");
 		//---------------------------------------------------------------
 
 		/*SignonDialog s = new SignonDialog(CoolieAccount.UG);
