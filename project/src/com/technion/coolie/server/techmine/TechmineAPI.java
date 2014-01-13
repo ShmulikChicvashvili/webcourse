@@ -29,6 +29,15 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
+  public ReturnCode addWeeklyTotal(List<TecWeeklyValue> weekList)
+      throws IOException {
+    return ReturnCode.valueOf(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.ADD_WEEKLY_TOTAL.toString(),
+        TechmineEnum.TEC_WEEKLY.value(), gson.toJson(weekList)));
+  }
+
+  @Override
   public ReturnCode updateUsers(List<TecUser> users) throws IOException {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",

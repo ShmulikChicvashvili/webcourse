@@ -14,6 +14,9 @@ public class TecUser implements IGetters {
   int likesNum;
   int likeOnPostsNum;
   int totalWorld;
+  int likesOthers;
+  int commentsOthers;
+  int spamCount;
 
   /**
    * 
@@ -29,13 +32,12 @@ public class TecUser implements IGetters {
    * @param likeOnPostsNum1
    * @param likesOthers
    * @param commentsOthers
-   * @param weeklyTotal
    * @param spamCount
    */
   public TecUser(String id1, String name1, TecUserTitle title1,
       Date lastMining1, int totalTechoins1, int bankAccount1, int commentsNum1,
       int postsNum1, int likesNum1, int likeOnPostsNum1, int likesOthers,
-      int commentsOthers, int weeklyTotal, int spamCount) {
+      int commentsOthers, int spamCount) {
     this.id = id1;
     this.name = name1;
     this.title = title1;
@@ -48,9 +50,11 @@ public class TecUser implements IGetters {
     this.likeOnPostsNum = likeOnPostsNum1;
     this.likesOthers = likesOthers;
     this.commentsOthers = commentsOthers;
-    this.weeklyTotal = weeklyTotal;
     this.spamCount = spamCount;
     this.totalWorld = 0;
+  }
+
+  TecUser() {
   }
 
   /**
@@ -81,9 +85,6 @@ public class TecUser implements IGetters {
    */
   public void setLikeOnPostsNum(int likeOnPostsNum) {
     this.likeOnPostsNum = likeOnPostsNum;
-  }
-
-  TecUser() {
   }
 
   /**
@@ -134,21 +135,6 @@ public class TecUser implements IGetters {
   }
 
   /**
-   * @return the weeklyTotal
-   */
-  public int getWeeklyTotal() {
-    return weeklyTotal;
-  }
-
-  /**
-   * @param weeklyTotal
-   *          the weeklyTotal to set
-   */
-  public void setWeeklyTotal(int weeklyTotal) {
-    this.weeklyTotal = weeklyTotal;
-  }
-
-  /**
    * @return the spamCount
    */
   public int getSpamCount() {
@@ -162,11 +148,6 @@ public class TecUser implements IGetters {
   public void setSpamCount(int spamCount) {
     this.spamCount = spamCount;
   }
-
-  int likesOthers;
-  int commentsOthers;
-  int weeklyTotal;
-  int spamCount;
 
   /**
    * @return the id

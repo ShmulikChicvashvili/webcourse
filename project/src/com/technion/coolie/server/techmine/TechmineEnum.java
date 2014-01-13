@@ -19,7 +19,9 @@ public enum TechmineEnum {
       "getAllUserPosts"), GET_TOP_BEST_MINERS("getTopBestMiners"), UPDATE_USERS(
       "updateUsers"), GET_TOP_BEST_MINERS_OF_THE_WEEK(
       "getTopBestMinersOfTheWeek"), ADD_TEC_MANAGER("addTecManager"), GET_VALID_GROUPS(
-      "getValidGroups");
+      "getValidGroups"), ADD_WEEKLY_TOTAL("addWeeklyTotal"), GET_WEEKLY_TOTAL(
+      "getWeeklyTotal"), REMOVE_WEEKLY_TOTAL("removeWeeklyTotal"), TEC_WEEKLY(
+      "weekly");
 
   private final String value;
 

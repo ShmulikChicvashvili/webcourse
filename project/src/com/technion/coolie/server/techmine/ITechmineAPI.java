@@ -176,7 +176,7 @@ public interface ITechmineAPI {
   /**
    * 
    * @param user
-   *          - the user look for his posts
+   *          - the user to look for his posts
    * @return - List<TecPost> which includes all user's posts
    * @throws IOException
    * @throws JsonSyntaxException
@@ -192,5 +192,14 @@ public interface ITechmineAPI {
    */
   public List<TecGroup> getValidGroups() throws JsonSyntaxException,
       IOException;
+
+  /**
+   * 
+   * @param weekList
+   *          - the weeklyValue to add
+   * @return - SUCCESS if went well, error code otherwise
+   * @throws IOException
+   */
+  ReturnCode addWeeklyTotal(List<TecWeeklyValue> weekList) throws IOException;
 
 }
