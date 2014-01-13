@@ -255,7 +255,7 @@ public class Product implements Serializable{
 
 	public boolean canUpload(){
 		return (name != null && price!= null && category != Category.INVALID &&
-				descripstion != null && imageByteArray != null && sellerId != null && 
+				/*descripstion != null && imageByteArray != null &&*/ sellerId != null && 
 				sellerName != null && sellerPhoneNumber != null);
 	}
 

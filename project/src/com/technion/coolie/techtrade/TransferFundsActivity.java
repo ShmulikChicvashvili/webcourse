@@ -1,5 +1,6 @@
 package com.technion.coolie.techtrade;
 
+import java.io.IOException;
 import java.util.Vector;
 
 import android.content.Context;
@@ -67,8 +68,19 @@ public class TransferFundsActivity extends TechTradeActivity {
 				boughtProduct.setBuyerPhoneNumber(buyerPhoneNumber.getText().toString());
 				boughtProduct.setSold(true);
 				Product p = new Product(productToPurchase);
-				ReturnCode rc = ttServer.removeProduct(p);
-				rc = ttServer.addProduct(boughtProduct);
+				ReturnCode rc;
+				try {
+					rc = ttServer.removeProduct(p);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					rc = ttServer.addProduct(boughtProduct);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return null;
 			}
 

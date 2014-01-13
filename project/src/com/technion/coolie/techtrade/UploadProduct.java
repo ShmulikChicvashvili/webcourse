@@ -1,5 +1,6 @@
 package com.technion.coolie.techtrade;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -119,7 +120,12 @@ public class UploadProduct extends TechTradeActivity {
 			public Void actionOnServer(Void... params) {
 				TechTradeServer ttServer = new TechTradeServer();
 				//TODO maybe complicate this
-				ReturnCode rc = ttServer.addProduct(createProductFromData());
+				try {
+					ReturnCode rc = ttServer.addProduct(createProductFromData());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
 				return null;
 			}
 
@@ -172,12 +178,12 @@ public class UploadProduct extends TechTradeActivity {
 		if(product.getCategory() == Category.INVALID || product.getCategory()==null){
 			errorMsg = addToErrorMessge(errorMsg, "catagory");
 		}
-		if(product.getDescripstion().length() == 0 || product.getDescripstion()==null){
+		/*if(product.getDescripstion().length() == 0 || product.getDescripstion()==null){
 			errorMsg = addToErrorMessge(errorMsg, "description");			
 		}
 		if(product.getImage()==null){
 			errorMsg = addToErrorMessge(errorMsg, "image");			
-		}
+		}*/
 		if(product.getSellerName().length() == 0 || product.getSellerName()==null){
 			errorMsg = addToErrorMessge(errorMsg, "seller name");
 		}

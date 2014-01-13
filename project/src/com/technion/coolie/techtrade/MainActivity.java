@@ -1,5 +1,6 @@
 package com.technion.coolie.techtrade;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.gson.JsonSyntaxException;
 import com.technion.coolie.CooliePriority;
 import com.technion.coolie.R;
 import com.technion.coolie.skeleton.CoolieAsyncRequest;
@@ -61,8 +63,24 @@ public class MainActivity extends TechTradeActivity implements ProductListCallba
 			public Void actionOnServer(Void... params) {
 				TechTradeServer ttServer = new TechTradeServer();
 				//TODO change instead of magic number to enum
-				random = ttServer.getXRandomProducts(20);
-				recent = ttServer.getXRecentProducts(20);
+				try {
+					random = ttServer.getXRandomProducts(20);
+				} catch (JsonSyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					recent = ttServer.getXRecentProducts(20);
+				} catch (JsonSyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return null;
 			}
 

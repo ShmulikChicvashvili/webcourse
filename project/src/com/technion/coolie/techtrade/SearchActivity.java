@@ -1,5 +1,6 @@
 package com.technion.coolie.techtrade;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Vector;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.JsonSyntaxException;
 import com.technion.coolie.CooliePriority;
 import com.technion.coolie.R;
 import com.technion.coolie.skeleton.CoolieAsyncRequest;
@@ -68,7 +70,15 @@ public class SearchActivity extends TechTradeActivity implements productCallback
 			@Override
 			public Void actionOnServer(Void... params) {
 				TechTradeServer ttServer = new TechTradeServer();
-				searchedItems = (List<Product>) ttServer.getProductsByName(searchProduct);
+				try {
+					searchedItems = (List<Product>) ttServer.getProductsByName(searchProduct);
+				} catch (JsonSyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return null;
 			}
 

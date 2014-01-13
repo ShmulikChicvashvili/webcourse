@@ -1,10 +1,12 @@
 package com.technion.coolie.techtrade;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Vector;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.gson.JsonSyntaxException;
 import com.technion.coolie.CooliePriority;
 import com.technion.coolie.R;
 import com.technion.coolie.skeleton.CoolieAsyncRequest;
@@ -78,9 +80,20 @@ public class TransactionsActivity extends TechTradeActivity {
 			}
 
 			private void fillMyProductsVector(TechTradeServer ttServer) {
+				Log.v("Eran", "fillMyProductsVector");
 				Product myProductsProduct = new Product(null, UserOperations.getUserId(), null, null, null, null, (byte[])null, null);
-				List<Product> myProductsList = (List<Product>) ttServer.getPublishedProductsBySellerID(myProductsProduct);
-//				List<Product> myProductsList = Utils.getProductVectorStub(getApplicationContext(), 20);
+				List<Product> myProductsList = null;
+				try {
+					myProductsList = (List<Product>) ttServer.getPublishedProductsBySellerID(myProductsProduct);
+					//myProductsList = Utils.getProductVectorStub(getApplicationContext(), 20);
+				} catch (JsonSyntaxException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
+				Log.v("Eran", "fillMyProductsVector return");
 				if(myProductsList == null){
 					myProductsList = new Vector<Product>();
 				}
@@ -90,10 +103,21 @@ public class TransactionsActivity extends TechTradeActivity {
 			}
 
 			private void fillMyPurchasesVector(TechTradeServer ttServer) {
+				Log.v("Eran", "fillMyPurchasesVector");
 				Product myPurchasesProduct = new Product(null, null, null, null, null, null, (byte[])null, null);
 				myPurchasesProduct.setBuyerId(UserOperations.getUserId());
-				List<Product> myPurchasesList = (List<Product>) ttServer.getPurchasedProductsByBuyerID(myPurchasesProduct);
-//				List<Product> myPurchasesList = Utils.getProductVectorStub(getApplicationContext(), 10);
+				List<Product> myPurchasesList = null;
+				try {
+					myPurchasesList = (List<Product>) ttServer.getPurchasedProductsByBuyerID(myPurchasesProduct);
+					//myPurchasesList = Utils.getProductVectorStub(getApplicationContext(), 10);
+				} catch (JsonSyntaxException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
+				Log.v("Eran", "fillMyPurchasesVector return");
 				if(myPurchasesList == null){
 					myPurchasesList = new Vector<Product>();
 				}
@@ -103,9 +127,20 @@ public class TransactionsActivity extends TechTradeActivity {
 			}
 
 			private void fillMySalesVector(TechTradeServer ttServer) {
+				Log.v("Eran", "fillMySalesVector");
 				Product mySalesProduct = new Product(null, UserOperations.getUserId(), null, null, null, null, (byte[])null, null);
-				List<Product> mySalesList = (List<Product>) ttServer.getSoldProductsBySellerID(mySalesProduct);
-//				List<Product> mySalesList = Utils.getProductVectorStub(getApplicationContext(), 0);
+				List<Product> mySalesList = null;
+				try {
+					mySalesList = (List<Product>) ttServer.getSoldProductsBySellerID(mySalesProduct);
+					//mySalesList = Utils.getProductVectorStub(getApplicationContext(), 0);
+				} catch (JsonSyntaxException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
+				}
+				Log.v("Eran", "fillMySalesVector return");
 				if(mySalesList == null){
 					mySalesList = new Vector<Product>();
 				}
