@@ -1,4 +1,3 @@
-
 #generated files
 **/bin
 **/gen
@@ -13,32 +12,32 @@ SherlockNavigationDrawer/
 *.ap_
 
 # files for the dex VM
-*.dex
+#*.dex
 
 # Local configuration file (sdk path, etc)
-local.properties
-project.properties
+#local.properties
+#project.properties
 .metadata
-.properties
+#.properties
 
-*.tmp
-*.bak
-*.swp
-*~.nib
+#*.tmp
+#*.bak
+#*.swp
+#*~.nib
 
-*.pydevproject
-.classpath
-.settings/
-.loadpath
+#*.pydevproject
+#.classpath
+#.settings/
+#.loadpath
 
 # External tool builders
-.externalToolBuilders/
+#.externalToolBuilders/
 
 # Locally stored "Eclipse launch configurations"
-*.launch
+#*.launch
 
 # CDT-specific
-.cproject
+#.cproject
 
 # PDT-specific
-.buildpath
+#.buildpath

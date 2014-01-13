@@ -3,7 +3,10 @@
  */
 package com.technion.coolie.server.joinin;
 
+import java.util.List;
+
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.server.Communicator;
 
 /**
@@ -47,10 +50,12 @@ public class JoininAPI implements IJoininAPI {
   }
 
   @Override
-  public Event getAllEvents() {
+  public List<Event> getAllEvents() {
     return gson.fromJson(Communicator.execute(
         JoininEnum.JOININ_SERVLET.value(), "function",
-        JoininEnum.GET_ALL_EVENTS.toString()), Event.class);
+        JoininEnum.GET_ALL_EVENTS.toString()), new TypeToken<List<Event>>() {
+      // default usage
+    }.getType());
   }
 
   @Override

@@ -4,55 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <View
-        android:id="@+id/transparent1"
+    <FrameLayout
+        android:id="@+id/non_transparent"
         android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:background="#cc000000"
-        android:onClick="transparentClick" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="7"
-        android:orientation="horizontal" >
-
-        <View
-            android:id="@+id/transparent2"
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="#cc000000"
-            android:onClick="transparentClick" />
-
-        <LinearLayout
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="5"
-            android:background="#ffffffff" >
-
-            <FrameLayout
-                android:id="@+id/non_transparent"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" />
-        </LinearLayout>
-
-        <View
-            android:id="@+id/transparent3"
-            android:layout_width="0dip"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:background="#cc000000"
-            android:onClick="transparentClick" />
-    </LinearLayout>
-
-    <View
-        android:id="@+id/transparent4"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"
-        android:background="#cc000000"
-        android:onClick="transparentClick" />
+        android:layout_height="fill_parent" />
 
 </LinearLayout>

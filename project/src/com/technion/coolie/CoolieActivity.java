@@ -30,8 +30,10 @@ import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.skeleton.CoolieModule;
+import com.technion.coolie.skeleton.CoolieNotificationManager;
 import com.technion.coolie.skeleton.NavigationModuleAdapter;
 import com.technion.coolie.skeleton.PreferencesScreen;
+import com.technion.coolie.skeleton.PrivateCoolieAccount;
 
 public abstract class CoolieActivity extends SherlockFragmentActivity {
 	public static boolean navbarIsOpen = false;
@@ -51,6 +53,7 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 		if (!serilizeRestored) {
 			restoreModulesManager();
+			restorePrivateCoolieAccount();
 			serilizeRestored = true;
 		}
 
@@ -512,6 +515,36 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 
 	}
 
+	private void serializePrivateCoolieAccount() {
+
+		Gson gson = new Gson();
+
+		PrivateCoolieAccount[] c = PrivateCoolieAccount.values();
+
+		PrivateCoolieAccount.serializeClass[] serializeArr = new PrivateCoolieAccount.serializeClass[c.length];
+
+		for (int i = 0; i < c.length; i++) {
+			serializeArr[i] = new PrivateCoolieAccount.serializeClass();
+			serializeArr[i].alreadyConnected = c[i].isAlreadyLoggedIn();
+			serializeArr[i].imageResource = c[i].getImageResource();
+			serializeArr[i].name = c[i].getName();
+			serializeArr[i].password = c[i].getPassword();
+			//serializeArr[i].preference = c[i].getPreference(CoolieActivity.this);
+			serializeArr[i].username = c[i].getUsername();
+		}
+
+		Type type = new TypeToken<PrivateCoolieAccount.serializeClass[]>() {
+		}.getType();
+
+		String json = gson.toJson(serializeArr, type);
+
+		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+		editor.putString("serilization_private_accounts", json);
+		editor.commit();
+
+	}
+
+	
 	/*
 	 * used to restore all the data relevant for the module, so we display the
 	 * updated data... data includes name, feeds, usageCount, ... called in
@@ -547,9 +580,44 @@ public abstract class CoolieActivity extends SherlockFragmentActivity {
 			}
 		}
 	}
+	
+
+	private void restorePrivateCoolieAccount() {
+
+		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+		String restoredText = prefs.getString("serilization_private_accounts", null);
+		if (restoredText != null) {
+			PrivateCoolieAccount[] c = PrivateCoolieAccount.values();
+			PrivateCoolieAccount.serializeClass[] serializeArr = new Gson().fromJson(
+					restoredText, PrivateCoolieAccount.serializeClass[].class);
+			for (int i = 0; i < serializeArr.length; i++) {
+				if (serializeArr[i].alreadyConnected)
+					PrivateCoolieAccount.valueOf(c[i].name()).setAlreadyLoggedIn(serializeArr[i].alreadyConnected);
+
+				PrivateCoolieAccount.valueOf(c[i].name()).setImageResource(serializeArr[i].imageResource);
+				//if (serializeArr[i].preference != null)
+				//	PrivateCoolieAccount.valueOf(c[i].name()).setPreference(serializeArr[i].preference);
+				
+				PrivateCoolieAccount.valueOf(c[i].name()).setName(serializeArr[i].name);
+				PrivateCoolieAccount.valueOf(c[i].name()).setUsername(serializeArr[i].username);
+				PrivateCoolieAccount.valueOf(c[i].name()).setPassword(serializeArr[i].password);
+			}
+		}
+	}
+
+	
 	@Override
 	protected void onPause() {
 		serializeModulesManager();
+		serializePrivateCoolieAccount();
 		super.onPause();
+	}
+	
+	protected void checkIfStartFromNotification() {
+		if(getIntent().getBooleanExtra(CoolieNotificationManager.CALLED_BY_SINGLE_NOTIFICATION, false))
+		{
+			CoolieNotificationManager.removeFromFeedList(
+					getIntent().getIntExtra(CoolieNotificationManager.CALLER_SINGLE_NOTIFICATION_ID, -1));
+		}
 	}
 }

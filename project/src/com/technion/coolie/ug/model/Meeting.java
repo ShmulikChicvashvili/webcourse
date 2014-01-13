@@ -3,8 +3,6 @@ package com.technion.coolie.ug.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.technion.coolie.ug.Enums.DayOfWeek;
-
 public class Meeting implements Serializable {
 
 	/**
@@ -14,18 +12,24 @@ public class Meeting implements Serializable {
 
 	private String id;
 	private String lecturerName;
-	private DayOfWeek day;
+	// private DayOfWeek day;
 	private Date startingHour;
 	private Date endingHour;
 	private String place;
 
+	// TODO String differentType; for types that are not lecture or tutorial
+
+	Meeting() {
+
+	}
+
 	public Meeting(final String id, final String lecturerName,
-			final DayOfWeek day, final Date startingHour,
-			final Date endingHour, final String place) {
+	/* final DayOfWeek day, */final Date startingHour, final Date endingHour,
+			final String place) {
 		super();
 		this.id = id;
 		this.lecturerName = lecturerName;
-		this.day = day;
+		// this.day = day;
 		this.startingHour = startingHour;
 		this.endingHour = endingHour;
 		this.place = place;
@@ -47,13 +51,11 @@ public class Meeting implements Serializable {
 		this.lecturerName = lecturerName;
 	}
 
-	public DayOfWeek getDay() {
-		return day;
-	}
-
-	public void setDay(final DayOfWeek day) {
-		this.day = day;
-	}
+	/*
+	 * public DayOfWeek getDay() { return day; }
+	 * 
+	 * public void setDay(final DayOfWeek day) { this.day = day; }
+	 */
 
 	public Date getStartingHour() {
 		return startingHour;
@@ -77,6 +79,12 @@ public class Meeting implements Serializable {
 
 	public void setPlace(final String place) {
 		this.place = place;
+	}
+
+	@Override
+	public String toString() {
+		return (id + " || " + lecturerName + " || " + startingHour + " || "
+				+ endingHour + " || " + place);
 	}
 
 }
