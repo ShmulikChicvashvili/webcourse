@@ -30,6 +30,7 @@ import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.R;
 import com.technion.coolie.skeleton.CoolieStatus;
 import com.technion.coolie.techlibrary.BookItems.HoldElement;
+import com.technion.coolie.techlibrary.BookItems.LibraryElement;
 import com.technion.coolie.techlibrary.BookItems.LoanElement;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.viewpagerindicator.TitlePageIndicator;
@@ -292,6 +293,12 @@ public class LibraryCardFragment extends SherlockFragment {
 			return true;
 		}
 		return false;
+	}
+
+	public void addToWishList(LibraryElement libElement) {
+		Log.d("addddddddddddddding", "YEA");
+		mWishListFragment.addItem(libElement);
+		
 	}
 
 }

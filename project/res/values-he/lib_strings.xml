@@ -1,0 +1,82 @@
+<resources>
+
+    <!-- Strings related to main lib activity -->
+    <string name="lib_module_name">TechLibrary</string>
+
+    <!-- Strings related to login -->
+    <string name="lib_title_activity_login">הכנס</string>
+    
+    <string name="lib_prompt_id">ת"ז</string>
+    <string name="lib_prompt_search">חפש..</string>
+    <string name="lib_prompt_password">סיסמא</string>
+    <string name="lib_action_search">חפש</string>
+    <string name="lib_action_sign_in"><b>הכנס</b></string>
+    <string name="lib_action_sign_in_short">הכנס</string>
+    <string name="lib_action_forgot_password">שחכת ססמא?</string>
+    <string name="lib_action_logout">התנתק</string>
+    <string name="lib_login_progress_signing_in">מתחבר&#8230;</string>
+    <string name="lib_login_no_connection">אין חיבור</string>
+    <string name="lib_error_invalid_id">מספר הזהות אינו חוקי</string>
+    <string name="lib_error_invalid_password">הססמא קצרה מדי</string>
+    <string name="lib_error_incorrect_password">סיסמא שגויה</string>
+    <string name="lib_error_field_required">חובה למלא שדה זה</string>
+
+    <!-- Strings related to profile -->
+    <string name="lib_title_activity_profile">פרופיל</string>
+    <string name="lib_profileMessage">הפרופיל שלך:</string>
+    <string name="lib_profileFields">שם פרטי:\nשם משפחה:\nת"ז:\nכתובת:\nמייל:\nמספר טלפון:\nספרית הבית:\nמצב אקדמאי:</string>
+
+    <!-- Strings related to library card -->
+    <string name="lib_title_activity_library_card">כרטיס קורא</string>
+    <string name="lib_requests">ספרים שהוזמנו</string>
+    <string name="lib_loans">ספרים שהושאלו</string>
+    <string name="lib_wish_list">ספרים שתרצה לקחת</string>
+    
+    <string name="lib_title_duedate">תאריך הגעה</string>
+    <string name="lib_title_books">ספרים</string>
+    <string name="lib_title_position">מיקום</string>
+    <string name="lib_title_book_description">נתוני ספר</string>
+    
+    <string name="lib_title_activity_book_description">נתוני ספר</string>
+    <string name="lib_title_activity_library_description">נתוני ספריה</string>
+
+    <!-- Strings related to barcode scanner -->
+    <string name="title_activity_barcode_search">סריקת ברקוד</string>
+
+    <!-- string for bookDescriptionActivity -->
+    <string name="lib_title_isbn">מסת"ב:</string>
+    <string name="lib_title_author">סופר:</string>
+    <string name="lib_title_library">ספריה:</string>
+    <string name="lib_title_language">שפה:</string>
+    <string name="lib_title_published">פורסם על ידי:</string>
+    <string name="lib_title_edition">מהדורה:</string>
+
+	<!-- Strings related to opening hours -->
+	<!-- Library names -->
+	<string name="lib_library0_name">Elyachar Central Library</string>
+	<string name="lib_library1_name">Aerospace Engineering</string>
+	<string name="lib_library2_name">Architecture and Town Planning</string>
+	<string name="lib_library3_name">Biomedical Engineering</string>
+	<string name="lib_library4_name">Chemical Engineering, Biotechnology and Food Engineering</string>
+	<string name="lib_library5_name">כימיה וביולוגיה</string>
+	<string name="lib_library6_name">Civil and Environmental Engineering</string>
+	<string name="lib_library7_name">מדעי המחשב</string>
+	<string name="lib_library8_name">Department of Education in Science and Technology</string>
+	<string name="lib_library9_name">הנדסת חשמל</string>
+	<string name="lib_library10_name">Industrial Engineering and Management</string>
+	<string name="lib_library11_name">מתמטיקה</string>
+	<string name="lib_library12_name">Mechanical Engineering</string>
+	<string name="lib_library13_name">רפואה</string>
+	<string name="lib_library14_name">פיזיקה</string>
+	<string name="lib_library15_name">Transportation Research Institute</string>
+    
+    <!--
+             	"lib_isbn"
+				"lib_author"
+				"lib_library"
+				"lib_language"
+                "lib_published
+				"lib_edition"
+    -->
+
+</resources>

@@ -92,6 +92,7 @@ public class LoginActivity extends CoolieActivity {
 
 		// Set up the login form.
 		mUserIdView = (EditText) findViewById(R.id.user_id);
+		mUserIdView.requestFocus();
 
 		mPasswordView = (EditText) findViewById(R.id.password);
 		mPasswordView
@@ -240,8 +241,6 @@ public class LoginActivity extends CoolieActivity {
 		Log.v("LoginActicity:", "end of attemptlogin.....");
 	}
 
-	
-
 	/**
 	 * Shows the progress UI and hides the login form.
 	 */
@@ -381,21 +380,20 @@ public class LoginActivity extends CoolieActivity {
 				throws SAXException {
 			if (currentElement) {
 				currentValue = new String(ch, start, length);
-				currentValue.replace("&apos;", "'");
-				currentValue.replace("&quot;", "\"");
-				currentValue.replace("&amp;", "&");
+				currentValue = currentValue.replace("&apos;", "'")
+						.replace("&quot;", "\"").replace("&amp;", "&");
 				currentElement = false;
 			}
 		}
 	}
 
 	private void toastConnectionError() {
-		Toast toast = Toast.makeText(this, "Connection error, try again later.",
-				Toast.LENGTH_LONG);
+		Toast toast = Toast.makeText(this,
+				"Connection error, try again later.", Toast.LENGTH_LONG);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
 	}
-	
+
 	public boolean isOnline() {
 		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo netInfo = cm.getActiveNetworkInfo();
