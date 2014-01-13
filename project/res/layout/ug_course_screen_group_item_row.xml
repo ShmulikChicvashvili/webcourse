@@ -15,16 +15,15 @@
 		android:layout_height="wrap_content"
 		
 		android:text="הומניסטים 1"
-	android:gravity="center_horizontal"
+	android:gravity="center_horizontal|center_vertical"
 	android:layout_weight="5"
    />
     <TextView
 		android:id="@+id/ug_course_display_group_hour_end"
 		android:layout_width="0dip"
 		android:layout_height="wrap_content"
-		
+	android:gravity="center_horizontal|center_vertical"
 		android:text="14:3"
-android:gravity="right"
 	android:layout_weight="3"
    />
     <TextView
@@ -32,17 +31,16 @@ android:gravity="right"
 		android:layout_width="0dip"
 		android:layout_height="wrap_content"
 		
-		
+		android:gravity="center_horizontal|center_vertical"
 		android:text="10:3"
-	android:gravity="right"
-	android:layout_weight="3"
+	android:layout_weight="4"
    />
     <TextView
 		android:id="@+id/ug_course_display_group_day"
 		android:layout_width="0dip"
 		android:layout_height="wrap_content"
 		android:singleLine="true"
-		android:gravity="center_horizontal"
+		android:gravity="center_horizontal|center_vertical"
 		android:text=""
 	android:layout_weight="2"
    />
@@ -52,7 +50,7 @@ android:gravity="right"
 		android:layout_height="wrap_content"
 		
 		android:text=""
-		android:gravity="center_horizontal"
+		android:gravity="center_horizontal|center_vertical"
 	android:layout_weight="5"
    />
     <TextView
@@ -61,7 +59,7 @@ android:gravity="right"
 		android:layout_height="wrap_content"
 		
 		android:text=""
-		android:gravity="right"
+	android:gravity="right"
 	android:layout_weight="3"
    />
     
@@ -71,7 +69,7 @@ android:gravity="right"
 		android:layout_height="wrap_content"
 
 		android:text=""
-	android:gravity="center"
+android:gravity="center_horizontal|center_vertical"
 	android:layout_weight="3"
    />
      
@@ -81,7 +79,7 @@ android:gravity="right"
 		android:layout_height="wrap_content"
 		android:singleLine="true"
 		android:text=""
-		android:gravity="right"
+android:gravity="center_horizontal|center_vertical"
 	android:layout_weight="1"
    />
     

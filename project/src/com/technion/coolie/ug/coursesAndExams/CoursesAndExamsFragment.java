@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import com.technion.coolie.ug.utils.UGCurrentState;
 
 import com.technion.coolie.R;
 
@@ -50,6 +51,7 @@ public class CoursesAndExamsFragment extends Fragment {
 		if (savedInstanceState != null)
 			mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
 		mTabHost.setCurrentTab(1);
+		UGCurrentState.currentOpenFragment = "AcademicCalendarFragment";
 		return view;
 	}
 

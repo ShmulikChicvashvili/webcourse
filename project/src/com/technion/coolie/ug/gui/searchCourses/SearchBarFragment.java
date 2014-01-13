@@ -10,7 +10,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.technion.coolie.R;
-import com.tecnion.coolie.ug.utils.NavigationUtils;
 
 public class SearchBarFragment extends SearchFragment {
 	@Override
@@ -47,7 +46,7 @@ public class SearchBarFragment extends SearchFragment {
 	protected int onSearchPressed(final String query) {
 		final int results = super.onSearchPressed(query);
 		if (results != 1)
-			NavigationUtils.goToSearchDisplay(query, filters, getActivity());
+			goToSearchDisplay(query, filters, getActivity());
 		return results;
 	}
 

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+       <string name="ug_faculty_all_faculties">כל הפקולטות</string>
+       <string name="ug_faculty_ae">אווירונאוטיקה</string>
+       <string name="ug_faculty_arch">ארכיטקטורה</string>
+       <string name="ug_faculty_biology">ביולוגיה</string>
+       <string name="ug_faculty_indus">ה.אזרחית</string>
+       <string name="ug_faculty_bio">ביו רפואה</string>
+       <string name="ug_faculty_chem_eng">ה.כימית</string>
+       <string name="ug_faculty_chem">כימיה</string>
+       <string name="ug_faculty_farm">ה.חקלאית</string>
+       <string name="ug_faculty_elect">ה.חשמל</string>
+       <string name="ug_faculty_phys">פיסיקה</string>
+       <string name="ug_faculty_biotech">ה.ביוטכנולוגיה</string>
+       <string name="ug_faculty_machine">ה.מכונות</string>
+       <string name="ug_faculty_human">הומניסטים</string>
+       <string name="ug_faculty_comp">מדעי המחשב</string>
+       <string name="ug_faculty_math">מתמטיקה</string>
+       <string name="ug_faculty_medical">רפואה</string>
+       <string name="ug_faculty_manage">ת.וניהול</string>
+       <string name="ug_faculty_educ">הוראה</string>
+       <string name="ug_faculty_materials">חומרים</string>
+       
+       
+       <string name="ug_semester_winter">חורף</string>
+       <string name="ug_semester_spring">אביב</string>
+       <string name="ug_semester_summer">קיץ</string>
+       
+<!--        CourseDisplay GroupTable -->
+       <string name="ug_course_group_id">#</string>
+       <string name="ug_course_group_location">מיקום</string>
+       <string name="ug_course_group_hour_end">שעת סיום</string>
+       <string name="ug_course_group_hour_start">שעת התחלה</string>
+       <string name="ug_course_group_day">יום</string>
+       <string name="ug_course_group_lecturer">שם מורה</string>
+       <string name="ug_course_group_meeting_type">סוג</string>
+       <string name="ug_course_group_free">מקום פנוי</string>
+       
+       <string name="ug_course_group_meeting_type_lecture">הרצאה</string>
+       <string name="ug_course_group_meeting_type_tutorial">תרגול</string>
+       
+       <string name="ug_course_group_day_1">א</string>
+       <string name="ug_course_group_day_2">ב</string>
+       <string name="ug_course_group_day_3">ג</string>
+       <string name="ug_course_group_day_4">ד</string>
+       <string name="ug_course_group_day_5">ה</string>
+       <string name="ug_course_group_day_6">ו</string>
+       <string name="ug_course_group_day_7">ש</string>
+       
+       
+       
+       <string name="ug_add_course_to_tracking">הקורס נוסף לסל</string>
+       
+</resources>
