@@ -27,37 +27,59 @@
   	 	 android:orientation="horizontal"
    		 
     	 >
+    	 <HorizontalScrollView
+    	     android:layout_width="0dip"
+    	     android:layout_height="fill_parent"
+				android:layout_weight="1" 
+				>
         
+            <LinearLayout
+                android:layout_height="fill_parent" 
+                android:layout_width="fill_parent"
+				android:orientation="horizontal"
+				 >
+<!--             android:layout_gravity="right" -->
+             <Button 
+                 android:id="@+id/ug_search_screen_advanced_button"
+                 android:layout_width="70dip"
+			android:layout_height="match_parent" 
+			android:gravity="center_horizontal|center_vertical"
+			android:background="@drawable/ug_course_spinner_container" 
+			android:textColor="#ffffff"
+			android:textSize="12sp"
+            android:text="מתקדם"
+          
+            android:layout_marginRight="5dip"/>   
+<!--             android:layout_marginLeft="15dip"   -->
+                
             <Spinner
                 android:id="@+id/ug_search_faculty_spinner"
-                 android:layout_width="0dp"
+                 android:layout_width="90dip"
 			android:layout_height="match_parent" 
-			android:layout_weight="17"
 			android:gravity="center_horizontal"
 			android:background="@drawable/ug_course_spinner_container" 
 			android:layout_marginRight="5dip"
 			/>
-
-<!--             -->
             
             <Spinner
                 android:id="@+id/ug_search_semester_spinner"
-                 android:layout_width="0dp"
+                 android:layout_width="50dip"
 			android:layout_height="match_parent" 
-			android:layout_weight="12"
 			android:background="@drawable/ug_course_spinner_container"
 			android:gravity="center_horizontal"
 			android:layout_marginRight="5dip"
 			
 			/>
             
+            </LinearLayout>
             
+           </HorizontalScrollView> 
         <RelativeLayout 
     
     		android:layout_width="0dp"
    		 	android:layout_height="match_parent"
     		android:background="@drawable/ug_fragment_border"
-    		android:layout_weight="32" >
+    		android:layout_weight="1" >
     		
 	        <AutoCompleteTextView
 			android:id="@+id/autocompletetextview"

@@ -17,19 +17,23 @@ import com.technion.coolie.ug.model.AccomplishedCourse;
 
 public class GradesSheetListFragment extends ListFragment {
 
-	List<AccomplishedCourse> coursesList = new ArrayList<AccomplishedCourse>();
+	//List<AccomplishedCourse> coursesList = new ArrayList<AccomplishedCourse>();
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState) {
-		final List<Item> tempList = UGDatabase.INSTANCE.getGradesSheet();
-		for (final Item i : tempList)
+		/*final List<AccomplishedCourse> tempList = UGDatabase.getInstance(getActivity()).getGradesSheet();
+		for (final AccomplishedCourse i : tempList)
 			if (i instanceof AccomplishedCourse)
-				coursesList.add((AccomplishedCourse) i);
-		final GradesSheetFragmentListAdapter adapter = new GradesSheetFragmentListAdapter(
-				inflater.getContext(), coursesList);
-		setListAdapter(adapter);
+				coursesList.add((AccomplishedCourse) i);*/
+		updateData();
 		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+	
+	public void updateData()
+	{
+		final GradesSheetFragmentListAdapter adapter = new GradesSheetFragmentListAdapter(getActivity(),UGDatabase.getInstance(getActivity()).getGradesSheet());
+		setListAdapter(adapter);
 	}
 
 	@Override

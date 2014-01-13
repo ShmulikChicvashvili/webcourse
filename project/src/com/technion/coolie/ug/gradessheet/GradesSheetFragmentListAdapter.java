@@ -16,13 +16,24 @@ import com.technion.coolie.ug.model.AccomplishedCourse;
 
 public class GradesSheetFragmentListAdapter extends BaseAdapter {
 
-	private final Context context;
+	private final LayoutInflater vi;
 	private final List<AccomplishedCourse> values = new ArrayList<AccomplishedCourse>();
+
+	static class ViewHolder {
+		TextView courseNameTextView, pointsTextView, gradeTextView;
+	}
 
 	public GradesSheetFragmentListAdapter(final Context context,
 			final List<AccomplishedCourse> list) {
-		this.context = context;
-		values.addAll(list);
+		vi = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		// add to list only grades items
+		for (AccomplishedCourse ac : list)
+			if (ac.getCourseNumber() != null) {
+				values.add(ac);
+			}
+		// values.addAll(list);
 		Collections.sort(values);
 	}
 
@@ -44,27 +55,30 @@ public class GradesSheetFragmentListAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView,
 			final ViewGroup parent) {
+		ViewHolder viewHolder;
+
 		if (convertView == null) {
-			final LayoutInflater inflater = (LayoutInflater) context
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(
+			convertView = vi.inflate(
 					R.layout.ug_list_item_grades_sheet_fragment, parent, false);
+
+			// set up the ViewHolder
+			viewHolder = new ViewHolder();
+			viewHolder.courseNameTextView = (TextView) convertView
+					.findViewById(R.id.ug_grades_sheet_fragment_course_name);
+			viewHolder.pointsTextView = (TextView) convertView
+					.findViewById(R.id.ug_grades_sheet_fragment_points);
+			viewHolder.gradeTextView = (TextView) convertView
+					.findViewById(R.id.ug_grades_sheet_fragment_grade);
+			convertView.setTag(viewHolder);
+		} else {
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		final AccomplishedCourse course = (AccomplishedCourse) getItem(position);
-
-		final TextView courseNameTextView = (TextView) convertView
-				.findViewById(R.id.ug_grades_sheet_fragment_course_name);
-		courseNameTextView.setText(course.getName());
-
-		final TextView pointsTextView = (TextView) convertView
-				.findViewById(R.id.ug_grades_sheet_fragment_points);
-		pointsTextView.setText(course.getPoints());
-
-		final TextView gradeTextView = (TextView) convertView
-				.findViewById(R.id.ug_grades_sheet_fragment_grade);
-		gradeTextView.setText(course.getGrade());
-
+		if (course != null) {
+			viewHolder.courseNameTextView.setText(course.getName());
+			viewHolder.pointsTextView.setText(course.getPoints());
+			viewHolder.gradeTextView.setText(course.getGrade());
+		}
 		return convertView;
 	}
-
 }

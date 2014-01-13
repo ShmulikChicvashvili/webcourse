@@ -1,6 +1,6 @@
 package com.technion.coolie.ug.gradessheet;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,13 +13,13 @@ import android.widget.TextView;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.model.AccomplishedCourse;
 
-public class GradesSheetFragmentAdapter extends ArrayAdapter<Item> {
+public class GradesSheetFragmentAdapter extends ArrayAdapter<AccomplishedCourse> {
 
-	private final ArrayList<Item> items;
+	private final List<AccomplishedCourse> items;
 	private final LayoutInflater vi;
 
 	public GradesSheetFragmentAdapter(final Context context,
-			final ArrayList<Item> items) {
+			final List<AccomplishedCourse> items) {
 		super(context, 0, items);
 		this.items = items;
 		vi = (LayoutInflater) context
@@ -31,20 +31,18 @@ public class GradesSheetFragmentAdapter extends ArrayAdapter<Item> {
 			final ViewGroup parent) {
 		View v = convertView;
 
-		final Item i = items.get(position);
+		final AccomplishedCourse i = items.get(position);
 		if (i != null)
-			if (i.isSection()) {
-				final GradesSectionItem si = (GradesSectionItem) i;
+			if (i.getSection()) {
 				v = vi.inflate(R.layout.ug_grades_list_item_section, null);
 
 				final TextView sectionView = (TextView) v
 						.findViewById(R.id.list_item_section_text);
-				sectionView.setText(si.getTitle());
+				sectionView.setText(i.getSemester());
 				sectionView.setTextColor(Color.parseColor("#FFCC00"));
 				sectionView.setBackgroundColor(Color.parseColor("#0099b3"));
 
-			} else if (i.isFooter()) {
-				final GradesFooterItem si = (GradesFooterItem) i;
+			} else if (i.getAvg()!=null) {
 				v = vi.inflate(R.layout.ug_grades_list_item_footer, null);
 
 				v.setOnClickListener(null);
@@ -55,11 +53,10 @@ public class GradesSheetFragmentAdapter extends ArrayAdapter<Item> {
 						.findViewById(R.id.list_item_footer_average);
 				final TextView footerTotPointsView = (TextView) v
 						.findViewById(R.id.list_item_footer_num_of_point);
-				footerAvgView.setText(si.getSemesterAvg());
-				footerTotPointsView.setText(si.getSemesterTotalPoints());
+				footerAvgView.setText(i.getAvg());
+				footerTotPointsView.setText(i.getPoints());
 
 			} else {
-				final AccomplishedCourse ei = (AccomplishedCourse) i;
 				v = vi.inflate(R.layout.ug_grades_list_item_entry, null);
 				final TextView courseNumber = (TextView) v
 						.findViewById(R.id.list_item_entry_course_number);
@@ -71,13 +68,13 @@ public class GradesSheetFragmentAdapter extends ArrayAdapter<Item> {
 						.findViewById(R.id.list_item_entry_grade);
 
 				if (courseNumber != null)
-					courseNumber.setText(ei.getCourseNumber());
+					courseNumber.setText(i.getCourseNumber());
 				if (courseName != null)
-					courseName.setText(ei.getName());
+					courseName.setText(i.getName());
 				if (points != null)
-					points.setText(ei.getPoints());
+					points.setText(i.getPoints());
 				if (grade != null)
-					grade.setText(ei.getGrade());
+					grade.setText(i.getGrade());
 
 			}
 		return v;

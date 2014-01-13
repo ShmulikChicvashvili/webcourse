@@ -27,7 +27,8 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <!--
      The following two permissions are not required to use
-     Google Maps Android API v2, but are recommended.
+     Google Maps Android API v2, but are recommended.
+
     -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -567,8 +568,7 @@
         <!-- UG -->
         <activity
             android:name="com.technion.coolie.ug.MainActivity"
-            android:label="@string/app_name"
-            android:parentActivityName="com.technion.coolie.skeleton.MainActivity"
+            android:label="@string/ug_app_name"
             android:theme="@style/Theme.Sherlock.Light"
             android:windowSoftInputMode="adjustResize|adjustPan" >
             <meta-data
@@ -579,8 +579,12 @@
             android:name="com.technion.coolie.ug.TransparentActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_transparent"
-            android:theme="@style/Theme.Transparent"
+            android:theme="@style/Theme.Sherlock.Light"
             android:windowSoftInputMode="adjustResize|adjustPan" >
+        </activity>
+        <activity
+            android:name="com.technion.coolie.ug.tracking.TrackingCoursesActivity"
+            android:label="@string/title_activity_tracking" >
         </activity>
         <!-- Webcourse -->
         <activity
