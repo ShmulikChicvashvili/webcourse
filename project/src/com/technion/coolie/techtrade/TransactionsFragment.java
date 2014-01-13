@@ -22,27 +22,24 @@ public abstract class TransactionsFragment extends Fragment {
 	protected LayoutInflater inflater;
 	protected ViewGroup container;
 	protected Vector<Product> productVector;
-	protected RelativeLayout rootView;
-	protected RelativeLayout emptyView;
 	protected TransactionsFragmentAdapter adapter;
 	
+	public TransactionsFragment(Vector<Product> productVector) {
+		this.productVector = productVector;
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
 		this.inflater = inflater;
 		this.container = container;
-		this.productVector = new Vector<Product>();
 		
-		this.initialize();
+		RelativeLayout rootView = (RelativeLayout) inflater.inflate(R.layout.get_transactions_fragment, container, false);
 		
-		emptyView = (RelativeLayout) inflater.inflate(R.layout.get_message_screen, container, false);
-		((TextView)emptyView.findViewById(R.id.get_message_text)).setText("No items to show");
-		rootView = (RelativeLayout) inflater.inflate(R.layout.get_transactions_fragment, container, false);
-		
-		GridView gridView = (GridView) rootView.findViewById(R.id.get_transactions_grid_view);
 		this.adapter = this.getGridAdapter();
-		gridView.setAdapter(adapter);
+		GridView gridView = (GridView) rootView.findViewById(R.id.get_transactions_grid_view);
+		gridView.setEmptyView(rootView.findViewById(R.id.get_transactions_grid_view_empty));
+		gridView.setAdapter(this.adapter);
 	    gridView.setOnItemClickListener(this.getGridOnItemClickListener());
-	    gridView.setEmptyView(emptyView);
 	    
 		return rootView;
 	}
@@ -50,15 +47,8 @@ public abstract class TransactionsFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(NetworkOperations.isNetworkAvailable(container.getContext()) == false) {
-			Toast.makeText(container.getContext(), "connectivity problem.\r\ncheck internet connection and try again", Toast.LENGTH_LONG).show();
-			return;
-		}
-		if(UserOperations.isUserConnected() == false){
-			Toast.makeText(container.getContext(), "Please login and try again.", Toast.LENGTH_LONG).show();
-			return;
-		}
 	}
+	
 	protected void showDialogFragment(Product product){
 		FragmentManager fm = getActivity().getSupportFragmentManager();
 		TransactionsDialogFragment mySalesDialog = this.getDialogFragment();
@@ -69,9 +59,6 @@ public abstract class TransactionsFragment extends Fragment {
         mySalesDialog.show(fm, this.getDialogName());
 	}
 	
-
-
-	protected abstract void initialize();
 	protected abstract TransactionsFragmentAdapter getGridAdapter();
 	protected abstract OnItemClickListener getGridOnItemClickListener();
 	protected abstract TransactionsDialogFragment getDialogFragment();

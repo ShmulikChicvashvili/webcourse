@@ -40,17 +40,33 @@ public class Product implements Serializable{
 		productInitAux(null, null, null, null, null,null,null);		
 		this.imageByteArray = null;
 	};
-	
+
+	Product(Product p){
+		id=p.getId();
+		name=p.getName();
+		price=p.getPrice();
+		category=p.getCategory();
+		descripstion=p.getDescripstion();
+		imageByteArray=p.getImageByteArray();
+		sold=p.isSold();
+		sellerId=p.getSellerId();
+		sellerName=p.getSellerName();
+		sellerPhoneNumber=p.getSellerPhoneNumber();
+		buyerId=p.getBuyerId();
+		buyerName=p.getBuyerName();
+		buyerPhoneNumber=p.getBuyerPhoneNumber();
+	};
+
 	public Product(String name1, String sellerId1, Category category1, Double price1, String descripstion1,String sellerPhoneNumber1, byte[] image1, String sellerName) {
 		productInitAux(name1, sellerId1, category1, price1, descripstion1,sellerPhoneNumber1,sellerName);
 		this.imageByteArray = image1;
 	}
-	
+
 	public Product(String name1, String sellerId1, Category category1, Double price1, String descripstion1,String sellerPhoneNumber1, String url, String sellerName) {
 		productInitAux(name1, sellerId1, category1, price1, descripstion1,sellerPhoneNumber1,sellerName);
 		this.imageByteArray = BitmapOperations.decodeToByteArray(BitmapOperations.decodeBitmapFromFile(url, 0, 0));
 	}
-	
+
 	public Product(String name1, String sellerId1, Category category1, Double price1, String descripstion1,String sellerPhoneNumber1, Bitmap bitmap, String sellerName) {
 		productInitAux(name1, sellerId1, category1, price1, descripstion1,sellerPhoneNumber1,sellerName);
 		this.imageByteArray = BitmapOperations.decodeToByteArray(bitmap);
@@ -68,11 +84,11 @@ public class Product implements Serializable{
 
 		this.sold = false;
 		this.sellDateInMillis = 0;
-		
+
 		this.sellerId = sellerId1;
 		this.sellerName = sellerName;
 		this.sellerPhoneNumber = sellerPhoneNumber1;
-		
+
 		this.buyerId = null;
 		this.buyerName = null;
 		this.buyerPhoneNumber = null;
@@ -125,7 +141,7 @@ public class Product implements Serializable{
 	public long getPublishDateInMillis() {
 		return publishDateInMillis;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -151,18 +167,18 @@ public class Product implements Serializable{
 	}
 
 	public Double getPrice() {
-		return this.price;
+		return price;
 	}
 	
 	public String getPriceString() {
-		return Utils.parseDoubleToString(this.price);
+		return Utils.parseDoubleToString(this.getPrice());
 	}
 
 	public byte[] getImageByteArray() {
 		return imageByteArray;
 	}
-	
-	
+
+
 
 	public String getDescripstion() {
 		return descripstion;
@@ -193,17 +209,17 @@ public class Product implements Serializable{
 	public String getSellDate() {
 		return formatMillisToDate(sellDateInMillis);
 	}
-	
+
 	public String getPublishDate() {
 		return formatMillisToDate(publishDateInMillis);
 	}
-	
+
 	private String formatMillisToDate(Long millis) {
 		String dateFormat = "dd/MM/yyyy";
 		SimpleDateFormat formatter = new SimpleDateFormat(dateFormat);
 		return formatter.format(millis);
 	}
-	
+
 	public long getSellDateInMillis() {
 		return sellDateInMillis;
 	}
@@ -211,12 +227,12 @@ public class Product implements Serializable{
 	public void setSellDateInMillis(long sellDate) {
 		this.sellDateInMillis = sellDate;
 	}
-	
+
 	public Bitmap getImage() {
 		if(this.imageByteArray == null) return null;
 		return BitmapOperations.decodeByteArray(this.imageByteArray);
 	}
-	
+
 	public void setImage(Bitmap image) {
 		this.imageByteArray = BitmapOperations.decodeToByteArray(image);
 	}
@@ -239,10 +255,10 @@ public class Product implements Serializable{
 
 	public boolean canUpload(){
 		return (name != null && price!= null && category != Category.INVALID &&
-				descripstion != null && imageByteArray != null && sellerId != null && 
+				/*descripstion != null && imageByteArray != null &&*/ sellerId != null && 
 				sellerName != null && sellerPhoneNumber != null);
 	}
-	
+
 	// public int numOfViews(){ //TODO
 	// return countViews;
 	// }

@@ -1,5 +1,6 @@
 package com.technion.coolie.techtrade;
 
+import java.io.IOException;
 import java.util.Vector;
 
 import android.content.Context;
@@ -11,19 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
+import com.technion.coolie.CooliePriority;
 import com.technion.coolie.R;
+import com.technion.coolie.skeleton.CoolieAsyncRequest;
 
 public class TransferFundsActivity extends TechTradeActivity {
-
 	private EditText buyerName;
 	private EditText sellerName;
 	private EditText buyerPhoneNumber;
-	private EditText techoins;
+	private EditText price;
 	private EditText productName;
-	private Button subBtn;
-	private Product newProduct;
-
-	@SuppressWarnings("null")
+	private Product productToPurchase;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -34,86 +34,63 @@ public class TransferFundsActivity extends TechTradeActivity {
 		buyerName = (EditText) findViewById(R.id.get_transfer_funds_activity_enter_buyer_name);
 		sellerName = (EditText) findViewById(R.id.get_transfer_funds_activity_enter_seller_name);
 		buyerPhoneNumber = (EditText) findViewById(R.id.get_transfer_funds_activity_enter_buyer_phone_number);
-		techoins = (EditText) findViewById(R.id.get_transfer_funds_activity_enter_amount);
-		subBtn = (Button) findViewById(R.id.get_transfer_funds_activity_btn);
+		price = (EditText) findViewById(R.id.get_transfer_funds_activity_enter_amount);
 
+		productToPurchase = (Product) getIntent().getSerializableExtra("product");
 		
-		 newProduct = (Product)getIntent().getSerializableExtra("product");
-		
-		if (newProduct == null)
+		//TODO remove
+		if (productToPurchase == null)
 		{
-			Toast toast1 = Toast
-					.makeText(getApplicationContext(),
-							"Error",
-							Toast.LENGTH_SHORT);
-			toast1.show();
+			Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
 		}
-		
-		subBtn.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				if (buyerName.getText().toString().length() > 0
+		//TODO remove
 
-				&& buyerPhoneNumber.getText().toString().length() > 0) {
-					Intent goBackHome = new Intent(TransferFundsActivity.this,
-							MainActivity.class);
-					startActivityForResult(goBackHome, 0);
-				} else {
-					Toast toast = Toast
-							.makeText(getApplicationContext(),
-									"Mandatory fields are required",
-									Toast.LENGTH_SHORT);
-					toast.show();
-				}
-			}
-		});
-
+		productName.setText(productToPurchase.getName());
+		sellerName.setText(productToPurchase.getSellerName());
+		price.setText(productToPurchase.getPrice().toString());
+		buyerName.setText(UserOperations.getUserName());
 	}
-	@ Override 
-	protected void onResume()
-	{
-		if (UserOperations.isUserConnected() == true)
-		{
-			super.onResume();
-			newProduct.setBuyerId(UserOperations.getUserId()); // TODO: get real ID
-			newProduct.setBuyerName(UserOperations.getUserName());
-			newProduct.setBuyerPhoneNumber(buyerPhoneNumber.getText().toString());
-			newProduct.setSold();
-			// Set Constant fields:
-			productName.setText(newProduct.getName());
-			productName.setEnabled(false);
-			buyerName.setText(UserOperations.getUserName());
-			buyerName.setEnabled(false);
-			buyerPhoneNumber.setText(buyerPhoneNumber.getText().toString());
-			sellerName.setText(newProduct.getSellerName());
-			sellerName.setEnabled(false);
-			techoins.setText(newProduct.getPriceString());
-			techoins.setEnabled(false);
+	
+	public void transferButtonWasPressed(View view){
+		if(buyerPhoneNumber.getText().toString()==null || buyerPhoneNumber.getText().toString().length()==0){
+			Toast.makeText(getApplicationContext(), "please supply your phone number", Toast.LENGTH_SHORT).show();
+			return;
+		}
 
-			// Update Product Class - buyerName && setAsBuy &&....
-			class BuyProductAsyncTask extends AsyncTask<Void, Void, ReturnCode>{
-
-				@Override
-				protected ReturnCode doInBackground(Void... params) {
-					//TODO second iteration handle errors
-					TechTradeServer ttServer = new TechTradeServer();
-					ReturnCode rc = ttServer.removeProduct(newProduct);
-					if(rc != ReturnCode.SUCCESS){
-						return rc;
-					}
-					rc = ttServer.addProduct(newProduct);
-					return rc;
+		CoolieAsyncRequest BuyProduct = new CoolieAsyncRequest(this,CooliePriority.IMMEDIATELY){
+			@Override
+			public Void actionOnServer(Void... params) {
+				TechTradeServer ttServer = new TechTradeServer();
+				//TODO maybe complicate this
+				Product boughtProduct = new Product(productToPurchase);
+				boughtProduct.setBuyerName(UserOperations.getUserName());
+				boughtProduct.setBuyerId(UserOperations.getUserId());
+				boughtProduct.setBuyerPhoneNumber(buyerPhoneNumber.getText().toString());
+				boughtProduct.setSold(true);
+				Product p = new Product(productToPurchase);
+				ReturnCode rc;
+				try {
+					rc = ttServer.removeProduct(p);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				
+				try {
+					rc = ttServer.addProduct(boughtProduct);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return null;
 			}
-			new BuyProductAsyncTask().execute();
 
-		}
-		else
-		{
-			Toast.makeText(getApplicationContext(), "Please register to view content", Toast.LENGTH_SHORT);
-//			Intent myIntent = new Intent(getBaseContext(), .class);//TODO change to the login activity
-//			startActivity(myIntent);
-		}
+			@Override
+			public Void onResult(Void result) {
+				return null;
+			}
+		};
+		BuyProduct.run();		
+		Intent homeIntent = new Intent(this, MainActivity.class);
+		startActivity(homeIntent);
 	}
 }

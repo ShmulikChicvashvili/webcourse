@@ -1,6 +1,5 @@
 package com.technion.coolie.server.techmine;
 
-
 public class TecWeeklyValue implements IGetters {
 
   Long id;
@@ -8,11 +7,10 @@ public class TecWeeklyValue implements IGetters {
   int weeklyVal;
 
   /**
-   * @param id
    * @param userId
    * @param weeklyVal
    */
-  public TecWeeklyValue(Long id, String userId, int weeklyVal) {
+  public TecWeeklyValue(String userId, int weeklyVal) {
     this.userId = userId;
     this.weeklyVal = 0;
   }
