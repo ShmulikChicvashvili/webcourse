@@ -1,31 +1,39 @@
 package com.technion.coolie.ug.gui.courseDisplay;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import com.technion.coolie.R;
 import com.technion.coolie.ug.MainActivity;
+import com.technion.coolie.ug.Enums.SemesterSeason;
 import com.technion.coolie.ug.db.UGDatabase;
 import com.technion.coolie.ug.model.Course;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.GroupOfCourses;
 import com.technion.coolie.ug.model.Meeting;
 import com.technion.coolie.ug.model.RegistrationGroup;
-
-//TODO onClick radio group
-//TODO kdamim
-//TODO add to maakav
-//TODO selectable group list view
+import com.technion.coolie.ug.model.Semester;
 
 /**
  * activity for searching courses and finding available courses. must supply
@@ -33,9 +41,9 @@ import com.technion.coolie.ug.model.RegistrationGroup;
  * 
  * 
  */
-public class CourseDisplayFragment extends Fragment {
+public class CourseDisplayFragment extends SherlockFragment {
 
-	Course courseToView;
+	Course chosenCourse;
 	Context context;
 	CourseGroupsAdapter groupAdapter;
 	LinearLayout groupsView;
@@ -45,50 +53,161 @@ public class CourseDisplayFragment extends Fragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater,
 			final ViewGroup container, final Bundle savedInstanceState) {
+
 		return inflater.inflate(R.layout.ug_course_screen_layout, container,
 				false);
 	}
 
 	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		int addTrackingCourseButtonId = 936;
+		MenuItem addTrackingCourseButton = menu.add(0,
+				addTrackingCourseButtonId, 0, "new tracking course");
+		addTrackingCourseButton.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		addTrackingCourseButton.setIcon(android.R.drawable.ic_menu_add);
+		addTrackingCourseButton
+				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						if (chosenCourse != null
+								&& chosenCourse.getName() != null) {
+							List<CourseKey> list = UGDatabase.getInstance(
+									context).getTrackingCourses();
+							if (!list.contains(chosenCourse.getCourseKey()))
+								list.add(chosenCourse.getCourseKey());
+							UGDatabase.getInstance(context).setTrackingCourses(
+									list);
+							Toast.makeText(context,
+									R.string.ug_add_course_to_tracking,
+									Toast.LENGTH_SHORT).show();
+
+						}
+						return true;
+
+					}
+				});
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
 	public void onActivityCreated(final Bundle savedInstanceState) {
 
+		setHasOptionsMenu(true);
 		context = getActivity();
 		groupsView = (LinearLayout) getActivity().findViewById(
 				R.id.course_screen_groups_list);
-		recieveCourse(getArguments());
-		updateCourseDisplay();
+		Course courseToView = recieveCourse(getArguments());
+		updateCourseDisplay(courseToView);
+		setRadioButtons();
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	private void updateCourseDisplay() {
-		final SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy",
+	private void setRadioButtons() {
+		RadioGroup rg = (RadioGroup) getActivity().findViewById(
+				R.id.course_screen_semester_radio_group);
+
+		final RadioButton rbWinter = (RadioButton) getActivity().findViewById(
+				R.id.course_screen_lastsemester);
+
+		final RadioButton rbSpring = (RadioButton) getActivity().findViewById(
+				R.id.course_screen_secondlastsemester);
+		final RadioButton rbSummer = (RadioButton) getActivity().findViewById(
+				R.id.course_screen_threelastsemester);
+
+		SemesterSeason ss = chosenCourse.getSemester().getSs();
+		if (ss == SemesterSeason.WINTER)
+			rg.check(rbWinter.getId());
+		if (ss == SemesterSeason.SPRING)
+			rg.check(rbSpring.getId());
+		if (ss == SemesterSeason.SUMMER)
+			rg.check(rbSummer.getId());
+
+		final CourseDisplayFragment fragment = this;
+		rg.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				if (rbWinter.getId() == checkedId)
+					fragment.onClickWinter(null);
+				if (rbSpring.getId() == checkedId)
+					fragment.onClickSpring(null);
+				if (rbSummer.getId() == checkedId)
+					fragment.onClickSummer(null);
+			}
+		});
+	}
+
+	private Course recieveCourse(final Bundle bundle) {
+
+		CourseKey key = null;
+		if (bundle == null) {
+			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE EXTRAS , exisiting");
+			throw new NullPointerException();
+		}
+		key = (CourseKey) bundle.getSerializable(ARGUMENTS_COURSE_KEY);
+		Course course = UGDatabase.getInstance(getActivity()).getCourseByKey(
+				key);
+		if (course == null) {
+			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSEKEY IN DB");
+			return new Course(key); // partial course display
+		}
+		return course;
+
+	}
+
+	private void updateCourseDisplay(Course courseToView) {
+		final TextView notAvailTextView = (TextView) getActivity()
+				.findViewById(R.id.ug_course_screen_not_available_course);
+		notAvailTextView.setVisibility(View.GONE);
+
+		groupsView.removeAllViews();
+		final SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy",
 				Locale.getDefault());
+
+		if (courseToView.getName() == null || courseToView.getName().isEmpty())
+			notAvailTextView.setVisibility(View.VISIBLE);
 
 		final TextView nameTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_name);
-		nameTextView.setText(courseToView.getName());
+		nameTextView.setText("");
+		if (courseToView.getName() != null)
+			nameTextView.setText(courseToView.getName());
+
 		final TextView pointsTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_points);
 		pointsTextView.setText("" + courseToView.getPoints());
+
 		final TextView numberTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_number);
-		numberTextView.setText("" + courseToView.getCourseNumber());
+		numberTextView.setText("");
+		if (courseToView.getCourseNumber() != null)
+			numberTextView.setText("" + courseToView.getCourseNumber());
 
 		final TextView facultyTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_faculty);
-		facultyTextView.setText("" + courseToView.getFaculty().toString());
+		facultyTextView.setText("");
+		if (courseToView.getFaculty() != null)
+			facultyTextView.setText(""
+					+ courseToView.getFaculty().getName(context));
 
 		final TextView descTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_description);
-		descTextView.setText(courseToView.getDescription());
+		descTextView.setText("");
+		if (courseToView.getDescription() != null)
+			descTextView.setText(courseToView.getDescription());
 
 		final TextView examATextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_exam_a);
-		examATextView.setText(df.format(courseToView.getMoedA().getTime()));
+		examATextView.setText("");
+		if (courseToView.getMoedA() != null)
+			examATextView.setText(df.format(courseToView.getMoedA().getTime()));
 
 		final TextView examBTextView = (TextView) getActivity().findViewById(
 				R.id.course_screen_exam_b);
-		examBTextView.setText(df.format(courseToView.getMoedB().getTime()));
+		examBTextView.setText("");
+		if (courseToView.getMoedB() != null)
+			examBTextView.setText(df.format(courseToView.getMoedB().getTime()));
+
+		createAllKdamim(courseToView);
 
 		makeGroupsHeader();
 
@@ -100,6 +219,100 @@ public class CourseDisplayFragment extends Fragment {
 		}
 
 		fixEndOfGroups();
+		chosenCourse = courseToView;
+	}
+
+	private void createAllKdamim(Course courseToView2) {
+
+		createKdamim(R.id.course_screen_list_kdamim, "kdamim",
+				courseToView2.getPrerequisites());
+
+		createKdamim(R.id.course_screen_list_tsmudim, "tsmudim",
+				courseToView2.getAttachedCourses());
+
+		// if (courseToView2.getPrerequisites() == null)
+		// return;
+		//
+		// final ExpandableListView expandableList2 = (ExpandableListView)
+		// getActivity()
+		// .findViewById(R.id.course_screen_list_kdamim);
+		//
+		// expandableList.setDividerHeight(2);
+		// expandableList.setGroupIndicator(null);
+		// expandableList.setClickable(true);
+		//
+		// final CoursesInfoAdapter adapter = new CoursesInfoAdapter(
+		// courseToView2.getPrerequisites(), getActivity(), "kdamim");
+		//
+		// adapter.setInflater(
+		// (LayoutInflater) getActivity().getSystemService(
+		// Context.LAYOUT_INFLATER_SERVICE), getActivity());
+		// expandableList.setAdapter(adapter);
+
+	}
+
+	private void createKdamim(int id, String nameOfList,
+			List<GroupOfCourses> groups) {
+		final LinearLayout expandableList = (LinearLayout) getActivity()
+				.findViewById(id);
+		expandableList.removeAllViews();
+		if (groups == null)
+			return;
+
+		expandableList.setClickable(true);
+		final LayoutInflater inflater = (LayoutInflater) getActivity()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		if (!groups.isEmpty()) {
+			String str = calcStringFromCourses(groups.get(0));
+			createGroupTextView(expandableList, inflater, str, false);
+		}
+
+		for (int i = 1; i < groups.size(); i++) {
+			String str = calcStringFromCourses(groups.get(i));
+			createGroupTextView(
+					expandableList,
+					inflater,
+					context.getString(R.string.ug_course_screen_group_info_or_seperator),
+					true);
+			createGroupTextView(expandableList, inflater, str, false);
+		}
+
+		// final CoursesInfoAdapter adapter = new CoursesInfoAdapter(groups,
+		// getActivity(), nameOfList);
+
+		// adapter.setInflater(
+		// (LayoutInflater) getActivity().getSystemService(
+		// Context.LAYOUT_INFLATER_SERVICE), getActivity());
+		// expandableList.setAdapter(adapter);
+	}
+
+	private void createGroupTextView(final LinearLayout expandableList,
+			final LayoutInflater inflater, String str, boolean isSeperator) {
+		View v = inflater.inflate(R.layout.ug_courses_group_info_child_item,
+				expandableList, false);
+		((TextView) v.findViewById(R.id.ug_course_group_info_names))
+				.setText(str);
+		if (isSeperator) {
+			v.setBackgroundResource(R.drawable.ug_course_group_view_seperator);
+		}
+		expandableList.addView(v);
+	}
+
+	private String calcStringFromCourses(GroupOfCourses group) {
+		String names = "";
+
+		if (!group.getCourses().isEmpty())
+			names = group.getCourses().get(0);
+
+		for (int i = 1; i < group.getCourses().size(); i++) {
+			String str = group.getCourses().get(i);
+			names += " "
+					+ context
+							.getString(R.string.ug_course_screen_group_info_and_seperator)
+					+ " " + str;
+		}
+		return names;
 	}
 
 	private void addSeperatorLine() {
@@ -110,9 +323,15 @@ public class CourseDisplayFragment extends Fragment {
 
 	private void makeGroupsHeader() {
 
-		final MeetingDisplay explanationHeader = new MeetingDisplay("מס",
-				"סוג", "מרצה", "מיקום", "שעת התחלה", "שעת סיום",
-				"מקום פנוי", "יום");
+		final MeetingDisplay explanationHeader = new MeetingDisplay(
+				getString(R.string.ug_course_group_id),
+				getString(R.string.ug_course_group_meeting_type),
+				getString(R.string.ug_course_group_lecturer),
+				getString(R.string.ug_course_group_location),
+				getString(R.string.ug_course_group_hour_start),
+				getString(R.string.ug_course_group_hour_end),
+				getString(R.string.ug_course_group_free),
+				getString(R.string.ug_course_group_day));
 		final View v = addMeeting(explanationHeader);
 		v.setBackgroundResource(R.drawable.ug_course_label_text_container);
 
@@ -129,14 +348,19 @@ public class CourseDisplayFragment extends Fragment {
 		header.number = "" + group.getGroupId();
 		final View v = addMeeting(header);
 		v.setBackgroundColor(Color.LTGRAY);
+		v.setBackgroundResource(R.drawable.ug_course_group_view);
 
 		// do all meetings
 		if (group.getLectures() != null)
 			for (final Meeting meeting : group.getLectures())
-				addMeeting(new MeetingDisplay(meeting, "הרצאה"));
+				addMeeting(new MeetingDisplay(
+						meeting,
+						getString(R.string.ug_course_group_meeting_type_lecture)));
 		if (group.getTutorials() != null)
 			for (final Meeting meeting : group.getTutorials())
-				addMeeting(new MeetingDisplay(meeting, "תרגול"));
+				addMeeting(new MeetingDisplay(
+						meeting,
+						getString(R.string.ug_course_group_meeting_type_tutorial)));
 		addSeperatorLine();
 	}
 
@@ -163,26 +387,10 @@ public class CourseDisplayFragment extends Fragment {
 				.setText(meeting.freeSpace);
 		((TextView) view.findViewById(R.id.ug_course_display_group_day))
 				.setText(meeting.day);
+		view.setBackgroundResource(R.drawable.ug_course_group_view);
 		groupsView.addView(view);
 		inflater.inflate(R.layout.ug_course_display_line, groupsView);
 		return view;
-
-	}
-
-	private void recieveCourse(final Bundle bundle) {
-
-		CourseKey key = null;
-		if (bundle == null) {
-			Log.e(MainActivity.DEBUG_TAG, "CANT FIND COURSE EXTRAS , exisiting");
-			throw new NullPointerException();
-		}
-		key = (CourseKey) bundle.getSerializable(ARGUMENTS_COURSE_KEY);
-		courseToView = UGDatabase.INSTANCE.getCourseByKey(key);
-		if (courseToView == null) {
-			Log.e(MainActivity.DEBUG_TAG,
-					"CANT FIND COURSEKEY IN DB, exisiting");
-			throw new NullPointerException();
-		}
 
 	}
 
@@ -206,12 +414,20 @@ public class CourseDisplayFragment extends Fragment {
 		String freeSpace = "";
 		String day = "";
 
+		String[] dayLetter = { getString(R.string.ug_course_group_day_1),
+				getString(R.string.ug_course_group_day_2),
+				getString(R.string.ug_course_group_day_3),
+				getString(R.string.ug_course_group_day_4),
+				getString(R.string.ug_course_group_day_5),
+				getString(R.string.ug_course_group_day_6),
+				getString(R.string.ug_course_group_day_7) };
+
 		public MeetingDisplay() {
 
 		}
 
 		public MeetingDisplay(final Meeting meeting, final String _meetingType) {
-			final SimpleDateFormat df = new SimpleDateFormat("HH:m",
+			final SimpleDateFormat df = new SimpleDateFormat("HH:mm",
 					Locale.getDefault());
 			meetingType = _meetingType;
 			lecturer = meeting.getLecturerName();
@@ -220,7 +436,9 @@ public class CourseDisplayFragment extends Fragment {
 				hourStart = df.format(meeting.getStartingHour());
 			if (meeting.getEndingHour() != null)
 				hourEnd = df.format(meeting.getEndingHour());
-			day = meeting.getDay().toSingleLetter();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(meeting.getStartingHour());
+			day = dayLetter[cal.get(Calendar.DAY_OF_WEEK) - 1];
 		}
 
 		public MeetingDisplay(final String number, final String meetingType,
@@ -237,6 +455,31 @@ public class CourseDisplayFragment extends Fragment {
 			this.freeSpace = freeSpace;
 			this.day = day;
 		}
+	}
+
+	public void onClickWinter(View v) {
+		Course course = getCourseOfSemester(SemesterSeason.WINTER);
+		updateCourseDisplay(course);
+	}
+
+	public void onClickSpring(View v) {
+		Course course = getCourseOfSemester(SemesterSeason.SPRING);
+		updateCourseDisplay(course);
+	}
+
+	public void onClickSummer(View v) {
+		Course course = getCourseOfSemester(SemesterSeason.SUMMER);
+		updateCourseDisplay(course);
+	}
+
+	private Course getCourseOfSemester(SemesterSeason ss) {
+		CourseKey newKey = new CourseKey(chosenCourse.getCourseNumber(),
+				new Semester(UGDatabase.getInstance(context)
+						.getSemesterBySeason(ss).getYear(), ss));
+		Course course = UGDatabase.getInstance(context).getCourseByKey(newKey);
+		if (course == null)
+			course = new Course(newKey);
+		return course;
 	}
 
 }

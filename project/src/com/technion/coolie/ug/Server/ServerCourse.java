@@ -2,8 +2,8 @@ package com.technion.coolie.ug.Server;
 
 import java.util.List;
 
-import com.technion.coolie.ug.Enums.Faculty;
 import com.technion.coolie.ug.model.CourseKey;
+import com.technion.coolie.ug.model.Faculty;
 import com.technion.coolie.ug.model.GroupOfCourses;
 import com.technion.coolie.ug.model.RegistrationGroup;
 import com.technion.coolie.ug.model.Semester;
@@ -18,7 +18,7 @@ public class ServerCourse {
 	/**
 	 * 
 	 */
-	int id;
+	Long id;
 	private Semester semester;
 	private String courseNumber;
 
@@ -35,6 +35,10 @@ public class ServerCourse {
 	private List<GroupOfCourses> prerequisites; // ���
 	private List<GroupOfCourses> attachedCourses; // ����
 	private List<RegistrationGroup> registrationGroups;
+
+	public ServerCourse() {
+
+	}
 
 	public ServerCourse(final String courseNumber, final String name,
 			final float points, final String description,

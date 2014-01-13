@@ -22,6 +22,10 @@ public class Semester implements Serializable, Comparable<Semester> {
 		this.ss = ss;
 	}
 
+	Semester() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Semester(final int year, final SemesterSeason ss) {
 		super();
 		this.year = year;
@@ -66,5 +70,10 @@ public class Semester implements Serializable, Comparable<Semester> {
 			return year - another.year;
 		else
 			return ss.ordinal() - another.ss.ordinal();
+	}
+
+	@Override
+	public String toString() {
+		return "Semester [year=" + year + ", ss=" + ss + "]";
 	}
 }

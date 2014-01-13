@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Coolie</string>
+    <string name="ug_app_name">UG</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
-    
+
     <!-- MainActivity -->
     <string name="calendar">לוח שנה אקדמי</string>
     <string name="course_and_exam">קורסים ומבחנים</string>
     <string name="grade_sheet">גליון ציונים</string>
     <string name="next_payment">חיוב שכר לימוד הבא : 12/12/2013</string>
-    
-    
-    
+    <string name="registration">רישום ומעקב</string>
+
     <!-- searchFragment -->
-   <string name="serach_course_hint">חפש קורס</string>
+    <string name="serach_course_hint">חפש קורס</string>
     <string name="search_end_results">סוף תוצאות</string>
+
     <color name="ug_search_list_view_color">#539DC2</color>
 
     <!-- GradesSheet activity -->
     <string name="title_activity_grades_sheet">GradesSheetActivity</string>
     <string name="course_name">שם מקצוע</string>
+    <string name="course_number">מספר מקצוע</string>
     <string name="points">נקודות</string>
     <string name="grade">ציון</string>
     <string name="average">ממוצע</string>
@@ -31,13 +32,14 @@
     <string name="semester_points">סה\"כ נקודות</string>
     <string name="semester_avg">ממוצע</string>
     <string name="title_activity_transparent">TransparentActivity</string>
-    
+    <string name="title_activity_tracking">TrackingActivity</string>
+
     <string-array name="landscape_right_menu_buttons">
         <item>גליון ציונים</item>
         <item>קורסים ובחינות</item>
         <item>לוח שנה אקדמי</item>
-       <!-- <item>תשולומים</item> -->
-       <!-- <item>קורסים למעקב</item> -->
+        <!-- <item>תשולומים</item> -->
+        <item>קורסים למעקב</item>
         <item>חיפוש קורסים</item>
     </string-array>
 
@@ -53,5 +55,25 @@
     <string name="day">יום</string>
     <string name="date">תאריך</string>
     <string name="event">אירוע</string>
+
+    <!-- Transparent Activity -->
+    <string name="ug_grades_sheet">גליון ציונים</string>
+    <string name="ug_calendar">לוח שנה</string>
+    <string name="ug_coursesAndExams">לוח קורסים ומבחנים</string>
+    <string name="ug_tracker">קורסים למעקב</string>
+    <string name="ug_search">חיפוש קורס</string>
+    <string name="ug_course_info">פרטי קורס</string>
+    <string name="ug_course_screen_group_info_and_seperator"> ,</string>
+    <string name="ug_course_screen_group_info_or_seperator"> או </string>
+    
+    
+    <!-- ExamsToCalendar -->
+    <string name="ug_calendar_moed_a">מועד א</string>
+    <string name="ug_calendar_moed_b">מועד ב</string>
+
+    <!-- Tracking -->
+    <string name="rishum">רישום</string>
+    <string name="free_places">מקומות פנויים</string>
+    <string name="group_number">מספר קבוצה</string>
 
 </resources>
