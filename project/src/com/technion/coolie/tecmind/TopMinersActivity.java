@@ -22,6 +22,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.Menu;
 import android.widget.ListView;
 
@@ -32,6 +34,11 @@ public class TopMinersActivity extends Activity {
 	static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
 	UiLifecycleHelper mUiHelper;
 
+	String atudai_pic = "https://raw.github.com/techminePhoto/Techmine/master/techmind_atudai.png";
+	String nerd_pic = "https://raw.github.com/techminePhoto/Techmine/master/techmind_cool_nerd.png";
+	String knight_nerd_pic = "https://raw.github.com/techminePhoto/Techmine/master/techmind_solider.png";
+	String super_nerd_pic = "https://raw.github.com/techminePhoto/Techmine/master/techmind_super_nerd.png";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,83 +47,90 @@ public class TopMinersActivity extends Activity {
 		TopMinersListAdapter newPostAdapter = new TopMinersListAdapter(
 				TopMinersActivity.this, topMiners);
 		listView.setAdapter(newPostAdapter);
-		  mUiHelper = new UiLifecycleHelper(this, mCallback);
-	        mUiHelper.onCreate(savedInstanceState);
-//		try {
-//			List<TecUser> list = new ServerTopMiners().execute().get();
-//			for (int i = 0; i < list.size(); i++)
-//				topMiners.add((TecUser) list.get(i));
-//		} catch (InterruptedException e) {
-//
-//		} catch (ExecutionException e) {
-//
-//		}
-		User me = User.getUserInstance(null);
-		// return connector.getTopBestMiners();
-		TecUser user = new TecUser(me.id, me.name,
-				TecUserTitle.valueOf(me.title.value()), me.lastMining,
-				me.totalTechoins, me.bankAccount, me.commentsNum, me.postsNum,
-				me.likesNum, me.likesOnPostsNum, me.likesOthers, me.commentsOthers, me.weeklyTotlal
-				, me.spamCount);
-		topMiners.add(user);
+		mUiHelper = new UiLifecycleHelper(this, mCallback);
+		mUiHelper.onCreate(savedInstanceState);
+		 try {
+		 List<TecUser> list = new ServerTopMiners().execute().get();
+		 for (int i = 0; i < list.size(); i++)
+		 topMiners.add((TecUser) list.get(i));
+		 } catch (InterruptedException e) {
+		
+		 } catch (ExecutionException e) {
+		
+		 }
+//		User me = User.getUserInstance(null);
+//		System.out.println("*****user name is: " + me.name);
+//		// return connector.getTopBestMiners();
+//		TecUser user = new TecUser(me.id, me.name,
+//				TecUserTitle.valueOf(me.title.value()), me.lastMining,
+//				me.totalTechoins, me.bankAccount, me.commentsNum, me.postsNum,
+//				me.likesNum, me.likesOnPostsNum);
+//		topMiners.add(user);
 		if (savedInstanceState != null) {
 			System.out.println("*****StatusCallback call******");
-		    pendingPublishReauthorization = 
-		        savedInstanceState.getBoolean(PENDING_PUBLISH_KEY, false);
+			pendingPublishReauthorization = savedInstanceState.getBoolean(
+					PENDING_PUBLISH_KEY, false);
 		}
 		postTopMinersOnFacebook();
 	}
-	
-	   private Session.StatusCallback mCallback = new Session.StatusCallback() {
-		  
-	        @Override
-	        public void call(Session session, SessionState state, Exception exception) {
-	        	 System.out.println("*****StatusCallback call******");
-	        	 onSessionStateChange(session, state, exception);
-	        }
-	    };
+
+	private Session.StatusCallback mCallback = new Session.StatusCallback() {
+
+		@Override
+		public void call(Session session, SessionState state,
+				Exception exception) {
+			System.out.println("*****StatusCallback call******");
+			onSessionStateChange(session, state, exception);
+		}
+	};
 
 	class ServerTopMiners extends AsyncTask<Void, Void, List<TecUser>> {
 
 		@Override
 		protected List<TecUser> doInBackground(Void... params) {
-			 //return connector.getTopBestMiners();
-			return null;
+			return connector.getTopBestMiners();
 		}
 
 	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		 System.out.println("*****onActivityResult******");
-        super.onActivityResult(requestCode, resultCode, data);
-        mUiHelper.onActivityResult(requestCode, resultCode, data);
+		System.out.println("*****onActivityResult******");
+		super.onActivityResult(requestCode, resultCode, data);
+		mUiHelper.onActivityResult(requestCode, resultCode, data);
 	}
+
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
-	    super.onSaveInstanceState(outState);
-	    System.out.println("*****onSaveInstanceState******");
-	    outState.putBoolean(PENDING_PUBLISH_KEY, pendingPublishReauthorization);
-	    mUiHelper.onSaveInstanceState(outState);
+		super.onSaveInstanceState(outState);
+		System.out.println("*****onSaveInstanceState******");
+		outState.putBoolean(PENDING_PUBLISH_KEY, pendingPublishReauthorization);
+		mUiHelper.onSaveInstanceState(outState);
 	}
-	private void postTopMinersOnFacebook(){
-		for (TecUser user: topMiners){
-			if (user.getId().contentEquals(User.getUserInstance(null).id)){
-				 System.out.println("*****postTopMinersOnFacebook******");
-				publishToTechmind(user.getName() + "is one of the B-E-S-T miners at techmined with " + String.valueOf(user.getTotalTechoins()) + " Techions!");
+
+	private void postTopMinersOnFacebook() {
+		for (TecUser user : topMiners) {
+			if (user.getId().contentEquals(User.getUserInstance(null).id)) {
+				System.out.println("*****postTopMinersOnFacebook******");
+				publishToTechmind(user);
 			}
 		}
 	}
-	   private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-			System.out.println("*****onSessionStateChange******");
-	        if (state.isOpened()) {
-	            if (pendingPublishReauthorization && 
-	                    state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
-	                pendingPublishReauthorization = false;
-	                postTopMinersOnFacebook();	            }
-	        } else if (state.isClosed()) {
-	        }
-	    } 
-	private void publishToTechmind(String message) {
+
+	private void onSessionStateChange(Session session, SessionState state,
+			Exception exception) {
+		System.out.println("*****onSessionStateChange******");
+		if (state.isOpened()) {
+			if (pendingPublishReauthorization
+					&& state.equals(SessionState.OPENED_TOKEN_UPDATED)) {
+				pendingPublishReauthorization = false;
+				postTopMinersOnFacebook();
+			}
+		} else if (state.isClosed()) {
+		}
+	}
+
+	private void publishToTechmind(TecUser user) {
 		Session session = Session.getActiveSession();
 		if (session != null) {
 			System.out.println("*****session != null******");
@@ -128,23 +142,44 @@ public class TopMinersActivity extends Activity {
 				Session.NewPermissionsRequest newPermissionsRequest = new Session.NewPermissionsRequest(
 						this, Arrays.asList("publish_actions"));
 				session.requestNewPublishPermissions(newPermissionsRequest);
-				//return;
+				// return;
 			}
 			System.out.println("*****isSubsetOf******");
 			Bundle postParams = new Bundle();
-			postParams.putString("message", message);
+			String image = finedTitleSetPhoto(user);
+			postParams.putString("name", user.getName()
+					+ " is one of the B-E-S-T miners at coolie ");
+			
+			postParams.putString("caption",
+					"with " + String.valueOf(user.getTotalTechoins())
+							+ " Techions!");
+			postParams.putString("picture", image);
 			Request.Callback callback = new Request.Callback() {
 				public void onCompleted(Response response) {
 					System.out.println("*****onCompleted******");
 				}
 			};
-			Request request = new Request(session,"me/feed", postParams,
+			Request request = new Request(session, "me/feed", postParams,
 					HttpMethod.POST, callback);
 			RequestAsyncTask task = new RequestAsyncTask(request);
 			task.execute();
 		}
 	}
-	
+
+	private String finedTitleSetPhoto(TecUser user) {
+		if (user.getTitle().toString()
+				.contentEquals(TecUserTitle.ATUDAI.value())) {
+			return atudai_pic;
+		} else if (user.getTitle().toString()
+				.contentEquals(TecUserTitle.NERD.value())) {
+			return nerd_pic;
+		} else if (user.getTitle().toString()
+				.contentEquals(TecUserTitle.KNIGHT_NERD.value())) {
+			return knight_nerd_pic;
+		}
+		return super_nerd_pic;
+	}
+
 	private boolean isSubsetOf(List<String> subset, List<String> superset) {
 		for (String string : subset) {
 			if (!superset.contains(string)) {
@@ -153,6 +188,7 @@ public class TopMinersActivity extends Activity {
 		}
 		return true;
 	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
