@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:tools="http://schemas.android.com/tools"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" 
+	    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="Where does my money come from?"
+        style="@style/techmindTitleSmall"/>
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:text="Techoins by groups"
+        android:textColor="#0066cc"
+        android:textSize="14sp"/>
+
+	<ImageView
+	    android:layout_width="280dp"
+	    android:layout_height="280dp" 
+	    android:id="@+id/pie"
+	    android:longClickable="true"
+	    android:layout_gravity="center">
+	</ImageView>
+
+</LinearLayout>

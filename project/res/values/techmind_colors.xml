@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resources>
+    <string-array name="techmindColors">        
+        <item>#0099CC</item>
+        <item>#FF8C00</item>
+        <item>#0066cc</item>
+        <item>#004c99</item>
+        <item>#0080ff</item>
+        <item>#FFA500</item> 
+        <item>#3399ff</item>
+        <item>#000099</item>
+        <item>#FF4500</item>
+        <item>#3333ff</item>
+        <item>#00BFFF</item>
+        <item>#1E90FF</item>
+        <item>#4169E1</item>
+    </string-array>
+</resources>

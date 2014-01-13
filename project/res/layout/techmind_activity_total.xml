@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:tools="http://schemas.android.com/tools"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+    	android:paddingTop="@dimen/activity_vertical_margin"
+    	android:paddingRight="@dimen/activity_horizontal_margin" 
+    	android:paddingLeft="@dimen/activity_horizontal_margin"
+	    android:orientation="vertical"
+    	android:background="#F5F5F5"  >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pager_lay"
+        android:background="@drawable/techmind_popup_back">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/techmind_orange_button"
+        android:onClick="mineNav"
+        android:padding="8dp" >
+
+        <TextView
+            android:id="@+id/mine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Mine"
+            android:shadowColor="#adadad"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1.5"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</LinearLayout>
