@@ -54,6 +54,25 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
+  public ReturnCode removeTecWeeklyTotal(TecWeeklyValue week)
+      throws IOException {
+    return ReturnCode.valueOf(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.REMOVE_WEEKLY_TOTAL.toString(),
+        TechmineEnum.TEC_WEEKLY.value(), gson.toJson(week)));
+  }
+
+  @Override
+  public TecWeeklyValue getTecWeeklyTotal(TecWeeklyValue week)
+      throws JsonSyntaxException, IOException {
+    return gson.fromJson(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.GET_WEEKLY_TOTAL.toString(),
+        TechmineEnum.TEC_WEEKLY.value(), gson.toJson(week)),
+        TecWeeklyValue.class);
+  }
+
+  @Override
   public TecUser getUser(TecUser user) throws JsonSyntaxException, IOException {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",

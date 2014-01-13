@@ -202,4 +202,8 @@ public interface ITechmineAPI {
    */
   ReturnCode addWeeklyTotal(List<TecWeeklyValue> weekList) throws IOException;
 
+  TecWeeklyValue getTecWeeklyTotal(TecWeeklyValue week) throws IOException;
+
+  ReturnCode removeTecWeeklyTotal(TecWeeklyValue week) throws IOException;
+
 }
