@@ -7,7 +7,7 @@
     android:orientation="vertical" 
     android:layout_height="match_parent" 
     android:layout_width="match_parent" 
-    android:background="@drawable/yellow"
+    android:background="#f5f5f5"
     android:id="@+id/mine_layout"
     tools:context=".MineActivity"  >
 

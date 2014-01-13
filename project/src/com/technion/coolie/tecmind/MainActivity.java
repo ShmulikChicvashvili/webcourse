@@ -106,6 +106,7 @@ public class MainActivity extends CoolieActivity {
 		total = (TextView) findViewById(R.id.total_text);
 		Mylevel = (TextView) findViewById(R.id.level_text);
 
+
 		/* start Facebook Login */
 		openActiveSession(this, true, new Session.StatusCallback() {
 
@@ -330,25 +331,49 @@ public class MainActivity extends CoolieActivity {
 
 	
 	private void initiateActivityFields() {
+			
 		User check = User.getUserInstance(null);
-		total.setText(String.valueOf(User.getUserInstance(null).totalTechoins));
+		
+		TextView nextLevel = (TextView) findViewById(R.id.diff_title);
+		TextView diffLevel = (TextView) findViewById(R.id.diff);
+		
+		int totalTech = User.getUserInstance(null).totalTechoins;
+		total.setText(String.valueOf(totalTech));
 		String level = User.getUserInstance(null).title.value();
-		Mylevel.setText(level);
-		if (level.contentEquals("ATUDAI"))
+		String levelView = "Baby Atudai";
+		String nextLevelView = "Cool Nerd!";
+		String diffView = "";
+		int starId = R.id.atudai_star;
+		
+		if (level.contentEquals("ATUDAI")) {
+			Mylevel.setText(levelView);
+			diffLevel.setText("Only " + String.valueOf(1000 - totalTech) + " to ");
+			nextLevel.setText(nextLevelView);
 			return;
+		}
 		ImageView atudaiStar = (ImageView) findViewById(R.id.atudai_star);
 		atudaiStar.setVisibility(ImageView.INVISIBLE);
 		if (level.contentEquals("NERD")) {
-			ImageView nerdStar = (ImageView) findViewById(R.id.cool_nerd_star);
-			nerdStar.setVisibility(ImageView.VISIBLE);
+			levelView = "Cool Nerd!";
+			starId = R.id.cool_nerd_star;
+			diffView = "Only " + String.valueOf(2000 - totalTech) + " to ";
+			nextLevelView = "Knight Nerd!";
 		} else if (level.contentEquals("KNIGHT NERD")) {
-			ImageView soliderNerdStar = (ImageView) findViewById(R.id.solider_nerd_star);
-			soliderNerdStar.setVisibility(ImageView.VISIBLE);
+			levelView = "Knight Nerd";
+			starId = R.id.solider_nerd_star;
+			diffView = "Only " + String.valueOf(3000 - totalTech) + " to ";
+			nextLevelView = "Super Nerd!";
 		} else if (level.contentEquals("SUPER NERD")) {
-			ImageView superNerdStar = (ImageView) findViewById(R.id.super_nerd_star);
-			superNerdStar.setVisibility(ImageView.VISIBLE);
+			levelView = "Super Nerd";
+			starId = R.id.super_nerd_star; 
+			nextLevelView = "You are awesome!";
 		}
-
+		
+		Mylevel.setText(levelView);
+		diffLevel.setText(diffView);
+		nextLevel.setText(nextLevelView);
+		ImageView starView = (ImageView) findViewById(starId);
+		starView.setVisibility(ImageView.VISIBLE);
 	}
 
 	class ServerGetUserData extends AsyncTask<Void, Void, TecUser> {

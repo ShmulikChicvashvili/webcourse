@@ -40,6 +40,17 @@ public class Mine implements IMine {
 	private HashMap<String, Date> mPostsDates;
 	private HashMap<String, String> mPostsContent;
 	
+	private HashMap<String, String> mCommentsGroupsNames;
+	private HashMap<String, Date> mCommentsDates;
+	private HashMap<String, String> mCommentsContent;
+	private HashMap<String, String> mCommentsUserName;
+
+	private HashMap<String, String> mLikesGroupNames;
+	private HashMap<String, String> mLikesPostContent;
+	private HashMap<String, String> mLikesUserName;
+	
+	private HashMap<String, String> mGrouptoCount;
+	
 	private List<TecUser> mOtherUsersList;
 
 	
@@ -47,11 +58,24 @@ public class Mine implements IMine {
 		mUserId = userId;
 		mTechGroups = new LinkedList<String>();
 		mTechGroups.add("244590982367730");
+		
 		mPostsGroupsNames = new HashMap<String, String>();
 		mPostsUrls = new HashMap<String, String>();
 		mPostsDates = new HashMap<String, Date>();
 		mPostsContent = new HashMap<String, String>();
+		
 		mOtherUsersList = new ArrayList<TecUser>();
+		
+		mCommentsGroupsNames = new HashMap<String, String>();
+		mCommentsDates = new HashMap<String, Date>();
+		mCommentsContent = new HashMap<String, String>();
+		mCommentsUserName = new HashMap<String, String>();
+		
+		mGrouptoCount = new HashMap<String, String>();
+		
+		mLikesGroupNames = new HashMap<String, String>();
+		mLikesPostContent = new HashMap<String, String>();
+		mLikesUserName = new HashMap<String, String>();
 	}
 	
 	/* Return Mine Instance if already have been created, initiate new one otherwise */
@@ -178,9 +202,17 @@ public class Mine implements IMine {
 	    /* adds the post content to the list by postId */
 	    mPostsContent.put(postId, postContent);
 	    
+	    addToGroupCount(postGroupName);
+	   
 	    Utilities.calculatePosts(1);
 		
 	}
+	
+	/* gets the post's group name */
+    //String postGroupName = ((JSONArray)((JSONObject)json_obj.get("to")).get("data")).getJSONObject(0).get("name").toString();
+    
+	    /* gets the post's content */
+    //String postContent = json_obj.getString("message");
 
 	private void mineUserComments(JSONObject json_obj, String postId) throws JSONException {
 		
@@ -203,6 +235,7 @@ public class Mine implements IMine {
 	    mineOtherUsersComments(commentsArr, post, json_obj);
 	    
 	    Utilities.calculateComments(post, commentsOfPostsCounter);
+
 	}
 
 	
@@ -251,6 +284,12 @@ public class Mine implements IMine {
 				else{
 					otherUser.setLikesOthers(otherUser.getLikesOthers() + 1);
 				}
+				String id = otherUser.getId();
+				mLikesPostContent.put(id, post.content);
+				mLikesGroupNames.put(id, post.groupName);
+				mLikesPostContent.put(id, post.content);
+				mLikesUserName.put(id, otherUser.getName());				
+				
 			}
 		}
 		
@@ -283,10 +322,36 @@ public class Mine implements IMine {
 				else{
 					otherUser.setCommentsOthers(otherUser.getCommentsOthers() + 1);
 				}
+
+				/* get comments data */
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss+SSSS");
+
+			    long when = 0;
+			    try {
+			        when = dateFormat.parse(commentsArr.get(c).created_time).getTime();
+			    } catch (ParseException e) {
+			        e.printStackTrace();
+			    }
+
+			    String commentId =  commentsArr.get(c).id;
+			    
+			    Date commentDate = new Date(when + TimeZone.getDefault().getRawOffset() + 
+			    		(TimeZone.getDefault().inDaylightTime(new Date()) ? TimeZone.getDefault().getDSTSavings() : 0));
+			    
+				String commentGroupName = ((JSONArray)((JSONObject)json_obj.get("to")).get("data")).getJSONObject(0).get("name").toString();
+				String commentContent = commentsArr.get(c).message;
+				String commentUserName = userId = ((JSONObject)(((JSONArray)((JSONObject)json_obj.get("comments")).get("data"))).
+	          			getJSONObject(c).get("from")).get("name").toString();
+				
+				mCommentsDates.put(commentId, commentDate);
+				mCommentsGroupsNames.put(commentId, commentGroupName);
+				mCommentsContent.put(commentId, commentContent);
+				mCommentsUserName.put(commentId, commentUserName);
+
 			}
 		}
 	}
-	
+
 	private boolean getCommentById(String id) {
 		for (Comment c : MineActivity.commentsFromServer) {
 			if (c.id.equals(id)) {
@@ -336,8 +401,16 @@ public class Mine implements IMine {
 	    Date localDate = new Date(when + TimeZone.getDefault().getRawOffset() + 
 	    		(TimeZone.getDefault().inDaylightTime(new Date()) ? TimeZone.getDefault().getDSTSavings() : 0));
 	    
-	    return localDate;
-       
+	    return localDate;  
+	}
+	
+	private void addToGroupCount(String groupName) {
+		int groupCount = 0;
+	    String groupCountStr = mGrouptoCount.get(groupName);
+	    if ( groupCountStr != null) {
+	    	groupCount = Integer.parseInt(groupCountStr); 		
+	    }
+	    mGrouptoCount.get(String.valueOf(groupCount));
 	}
 
 	@Override

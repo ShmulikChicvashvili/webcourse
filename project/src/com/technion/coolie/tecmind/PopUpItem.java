@@ -11,19 +11,15 @@ public class PopUpItem {
 	private String content;
 	private Pair<String, String> date;
 	private String groupName;
-	private URL urlAdd;
+	private String pId;
 	
-	public PopUpItem(int itemId, String content, Date date, String url, String groupName) {
+	public PopUpItem(int itemId, String content, Date date, String postId, String groupName) {
 		super();
 		this.itemId = itemId;
 		this.content = content;
 		this.date = MineDateView.getInstance().dateToString(date);
-		try {
-			this.urlAdd = new URL(url);
-		} catch (MalformedURLException e) {
-			this.urlAdd= null; 
-		}
 		this.groupName = groupName;
+		this.pId = postId;
 	}
  
 	public int getItemId() {
@@ -40,8 +36,8 @@ public class PopUpItem {
 	public String getDay() {
 		return date.second;
 	}
-	public URL getUrlAdd() {
-		return urlAdd;
+	public String getPId() {
+		return pId;
 	}
 	public String getGroupName() {
 		return groupName;

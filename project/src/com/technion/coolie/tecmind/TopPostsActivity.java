@@ -1,23 +1,20 @@
 package com.technion.coolie.tecmind;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.widget.ListView;
+
 import com.sileria.util.Log;
+import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 import com.technion.coolie.tecmind.server.TecPost;
 import com.technion.coolie.tecmind.server.TechmineAPI;
 
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-import android.widget.ListView;
-import android.widget.Toast;
-
-public class TopPostsActivity extends Activity {
+public class TopPostsActivity extends CoolieActivity {
 	TechmineAPI connector = new TechmineAPI();
 	List<TecPost> topPosts = new ArrayList<TecPost>();
 

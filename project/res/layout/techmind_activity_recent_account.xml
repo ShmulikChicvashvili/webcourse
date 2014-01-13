@@ -216,24 +216,27 @@
 	</RelativeLayout>
 	</LinearLayout>
     <RelativeLayout
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_marginLeft="230dp"
-        android:id="@+id/rec_account_piggy_my_title"
-        android:clickable="true"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="60dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/techmind_orange_button"
         android:onClick="mineNav"
-        android:background="@drawable/piggybank" >
+        android:padding="8dp" >
 
         <TextView
-            android:id="@+id/rec_account_mine"
-            style="@style/techmindMine"
+            android:id="@+id/mine"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="25dp"
-            android:text="mine" />
-
+            android:layout_centerInParent="true"
+            android:text="Mine"
+            android:shadowColor="#adadad"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1.5"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="30sp"
+            android:textStyle="bold" />
     </RelativeLayout>
-
 </LinearLayout>

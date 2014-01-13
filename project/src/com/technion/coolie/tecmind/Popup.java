@@ -53,7 +53,7 @@ public class Popup {
 		        public void onItemClick(AdapterView<?> parent, final View view,
 		            int position, long id) {
 		        	PopUpItem item = (PopUpItem)parent.getItemAtPosition(position);
-		        	onPopupItemClickListener.onItemClick(item.getUrlAdd(), item);
+		        	onPopupItemClickListener.onItemClick(item.getPId(), item);
 
 					popupWindow.dismiss();
 		        }});

@@ -47,7 +47,4 @@ public class MineDateView {
 			dayView.setText(formatedDate.second);
 	}
 
-	
-	
-
 }

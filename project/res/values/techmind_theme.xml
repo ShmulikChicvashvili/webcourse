@@ -20,6 +20,17 @@
 	     <item name ="android:shadowDy">1</item>
     </style> 
     
+   
+   <style name="techmindNotBold">
+	     <item name ="android:textAppearance">?android:attr/textAppearanceSmall</item>
+	     <item name ="android:textColor">#3b5998</item>
+	     <item name ="android:textSize">20sp</item>
+	     <item name ="android:shadowColor">#e0e0e0</item>
+	     <item name ="android:shadowRadius">0.8</item>
+	     <item name ="android:shadowDx">1</item>
+	     <item name ="android:shadowDy">1</item>
+    </style> 
+    
    <style name="techmindSubTitle">
 	     <item name ="android:textAppearance">?android:attr/textAppearanceSmall</item>
 	     <item name ="android:textColor">#3b5998</item>

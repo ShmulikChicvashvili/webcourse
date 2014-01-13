@@ -68,10 +68,11 @@ public class RecentAccountActivity extends SherlockFragment {
 		this.inflater = inflater;
 		inflateView = (LinearLayout) inflater.inflate(
 				R.layout.techmind_activity_recent_account, container, false);
-		//initiateNumViews();
 		iniateViews();		
 		setPopUp();
 		setViewVal();
+
+		
 
 		return inflateView;
 	}
@@ -102,8 +103,7 @@ public class RecentAccountActivity extends SherlockFragment {
 		try {
 			MineDateView.getInstance().setDateView(MineActivity.exMiningDate, month, day);
 		} catch (Exception e) {
-			day.setText("You haven't mined yet");
-			day.setTextSize(12);
+			day.setText("N/A");
 		}
 		
 		
@@ -121,7 +121,7 @@ public class RecentAccountActivity extends SherlockFragment {
 		
 		for (String key : postsGroups.keySet()) {
 			PopUpItem item = new PopUpItem(i, postsContent.get(key), postsDates.get(key),
-					postsUrls.get(key), postsGroups.get(key));
+					key , postsGroups.get(key));
 			items.add(item);
 			i++;
 		}
@@ -130,18 +130,34 @@ public class RecentAccountActivity extends SherlockFragment {
      
         ourNicePopup.setOnItemClickListener(new OnPopupItemClickListener() {
   			@Override
-  			public void onItemClick(URL url, PopUpItem item) {
-  				//startActivity(new Intent(getActivity(), activityClass));
+  			public void onItemClick(String postId, PopUpItem item) {
+  				//String s = "https://m.facebook.com/251685474991614";
+  				String urlStr = "https://m.facebook.com/" + postId.split("_")[1];
+
+			   try {
+			    startActivity( new Intent(Intent.ACTION_VIEW, Uri.parse(urlStr)));
+			   } catch (Exception e) {
+				   try {
+					   startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("m.facebook.com")));
+				   }
+				   catch (Exception ex) {
+					   
+				   }
+			   }  				
+				   //startActivity(new Intent(getActivity(), activityClass));
 //  			  Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.toString()));
  // 			  startActivity(myIntent);
   				
   			}
   		});
+        
           
           inflateView.findViewById(R.id.rec_account_posts_layout).setOnClickListener(new OnClickListener() {
   			@Override
   			public void onClick(View v) {
-  				ourNicePopup.show(v);
+  				if (Integer.parseInt(postNum.getText().toString()) > 0) {
+  					ourNicePopup.show(v);
+  				}
   				
   			}
   		});

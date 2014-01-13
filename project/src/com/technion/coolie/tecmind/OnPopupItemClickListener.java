@@ -3,6 +3,6 @@ package com.technion.coolie.tecmind;
 import java.net.URL;
 
 public interface OnPopupItemClickListener {
-	public abstract void onItemClick(URL url, PopUpItem item);
+	public abstract void onItemClick(String postId, PopUpItem item);
 }
 
