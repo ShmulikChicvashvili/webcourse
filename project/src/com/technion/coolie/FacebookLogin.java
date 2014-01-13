@@ -25,17 +25,8 @@ import com.facebook.model.GraphUser;
  * 
  */
 public class FacebookLogin {
-  static FBClientAccount loggedUser;
-  static boolean isInternalUser;
-  
-  /**
-   * 
-   * @return whether the logged user is an internal (a known account in the
-   *         phone) or an external user
-   */
-  public static boolean isInternalUser() {
-    return isInternalUser;
-  }
+  static FBClientAccount loggedUser = null;
+
   
   /**
    * An interface implementing a function to be called after login is done
@@ -111,16 +102,13 @@ public class FacebookLogin {
    * @param callback
    *          - a callback to perform after login was done.
    */
-  public static void login(final Activity a, final OnLoginDone callback) {
-    
-    final Session s = loggedUser == null ? setNewSession(a) : activeSession(a);
-    isInternalUser = true;
+  public static void login(final Activity a, final OnLoginDone callback) {    
+    final Session s = (loggedUser == null) ? setNewSession(a) : activeSession(a);        
     if (!s.isOpened()){    	
-    	s.openForRead(new Session.OpenRequest(a).setCallback(new MySessionCallback(a, callback)));
+    	s.openForRead(new Session.OpenRequest(a).setCallback(new SessionCallback(a, callback)));
     }else{
-    	callback.loginCallback(loggedUser);
+    	callback.loginCallback(loggedUser);    	
     }    	
-      //performLogin(a, wrapper, loggedUser.getUsername(), loggedUser.getFacebookId(), loggedUser.getName());
   }
   
   /**
@@ -135,10 +123,9 @@ public class FacebookLogin {
    */
   public static void switchUser(final Activity a, final OnLoginDone callback) {
     final OnLoginDone wrapper = showLoadingBar(a, callback, "Switching user");
-    final Session s = setNewSession(a);
-    isInternalUser = false;
+    final Session s = setNewSession(a);     
     s.openForRead(new Session.OpenRequest(a).setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO).setCallback(
-        new MySessionCallback(a, wrapper)));
+        new SessionCallback(a, wrapper)));
   }
   
   /**
@@ -190,27 +177,12 @@ public class FacebookLogin {
   public static boolean hasOpenSession() {
     return Session.getActiveSession() != null && Session.getActiveSession().isOpened();
   }
-  
-  /**
-   * Reauthorizes a user, given that his session was closed.
-   * 
-   * @param a
-   *          - The activity in its context the session will be reopened
-   * @param callback
-   *          - implements what to do after reauthorization was done.
-   */
-  public static void reauthorize(final Activity a, final OnLoginDone callback) {
-    if (loggedUser == null || isInternalUser)
-      login(a, callback);
-    else
-      switchUser(a, callback);
-  }
-  
+    
   /**
    * Implements a callback to perform when a session changes a state.
    * 
    */
-  private static class MySessionCallback implements Session.StatusCallback {
+  private static class SessionCallback implements Session.StatusCallback {
     OnLoginDone finishCallback;
     final Activity a;
     
@@ -221,7 +193,7 @@ public class FacebookLogin {
      * @param callback
      *          - a call back to perform after process is done
      */
-    public MySessionCallback(final Activity ac, final OnLoginDone callback) {
+    public SessionCallback(final Activity ac, final OnLoginDone callback) {
       super();
       finishCallback = callback;
       a = ac;
@@ -235,7 +207,7 @@ public class FacebookLogin {
     @Override public void call(final Session session, final SessionState state, final Exception exception) {
       if (session.isOpened()){
     	  OnLoginDone wrapper = showLoadingBar(a, finishCallback, "Logging to Facebook");
-    	  Request.newMeRequest(session, new setUser(a, wrapper));
+    	  Request.newMeRequest(session, new SetUser(a, wrapper)).executeAsync();
       }        
       if (!session.isClosed())
         return;
@@ -251,14 +223,12 @@ public class FacebookLogin {
    * Implements a callback when detail-mining from facebook is done.
    * 
    */
-  private static class setUser implements Request.GraphUserCallback {
+  private static class SetUser implements Request.GraphUserCallback {
     OnLoginDone finishCallback;
-    Activity a;
     
-    public setUser(final Activity ac, final OnLoginDone callback) {
+    public SetUser(final Activity ac, final OnLoginDone callback) {
       super();
-      finishCallback = callback;
-      a = ac;
+      finishCallback = callback;      
     }
     
     /**
@@ -266,11 +236,12 @@ public class FacebookLogin {
      */
     @Override public void onCompleted(final GraphUser user, final Response response) {
       if (user == null) {// Failed to login
-        loggedUser = null;
-        finishCallback.loginCallback(loggedUser);
-        return;
+        loggedUser = null;               
       }
-      
+      else{
+    	  loggedUser = new FBClientAccount(user.getUsername(), user.getId(), user.getName());
+      }
+      finishCallback.loginCallback(loggedUser);
     }
   }
 }
