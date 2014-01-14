@@ -15,7 +15,7 @@ import org.xml.sax.XMLReader;
 
 import com.technion.coolie.CoolieAccount;
 import com.technion.coolie.CoolieNotification;
-import com.technion.coolie.CoolieNotification.Priority;
+import com.technion.coolie.CooliePriority;
 import com.technion.coolie.HtmlGrabber;
 import com.technion.coolie.skeleton.CoolieStatus;
 import com.technion.coolie.techlibrary.BookItems.LoanElement;
@@ -93,7 +93,7 @@ public class UpdateDataService extends IntentService {
 				if(curFormater.parse(loan.dueDate).before(todayPlus3)) {
 					//change boody message (library+book name+author+dueDate)
 					new CoolieNotification("Book Return",loan.name+" Due date: "+loan.dueDate,new MainActivity(),
-							Priority.IN_A_DAY,false,getApplicationContext()).sendNotification();
+							CooliePriority.IN_A_DAY,false,getApplicationContext()).sendNotification();
 				}
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
@@ -107,7 +107,7 @@ public class UpdateDataService extends IntentService {
 				if(!hold.arrivalDate.isEmpty() && curFormater.parse(hold.endHoldDate).before(todayPlus3)) {
 					//change boody message (library+book name+author+dueDate)
 					new CoolieNotification("Book Return",hold.name+" pick up untill "+hold.endHoldDate,new MainActivity(),
-							Priority.IN_A_DAY,false,getApplicationContext()).sendNotification();
+							CooliePriority.IN_A_DAY,false,getApplicationContext()).sendNotification();
 				}
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block

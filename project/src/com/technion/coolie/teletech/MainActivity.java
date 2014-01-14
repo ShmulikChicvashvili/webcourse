@@ -1,5 +1,6 @@
 package com.technion.coolie.teletech;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -110,7 +111,12 @@ public class MainActivity extends CoolieActivity {
       // publish progress here
       editor.putBoolean("WasTeletechServerRequestSent", true).commit();
       publishProgress("Downloading contacts...");
-      master = teletech.getAllContacts();
+      try {
+		master = teletech.getAllContacts();
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
       Assert.assertNotNull(master);
 
       // publish progress here

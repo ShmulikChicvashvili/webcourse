@@ -1,6 +1,7 @@
 package com.technion.coolie.webcourse;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +74,12 @@ public class AnnouncementsFragmentTab extends SherlockListFragment {
 			protected List<AnnouncementsData> doInBackground(String... params) {
 				// TODO Auto-generated method stub
 		        CourseData course = new CourseData(params[0], "");
-				mAnnouncementsList = WebcourseFactory.getWebcourseManager().getAnnouncement(course);
+				try {
+					mAnnouncementsList = WebcourseFactory.getWebcourseManager().getAnnouncement(course);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return super.doInBackground(params);
 			}
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/get_product_list_layout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="#0000FF"
+    android:layout_width="200dip"
+    android:layout_height="200dip"
+    android:background="#000000"
     android:padding="4dip" >
 
     <ImageView
@@ -11,7 +11,7 @@
         android:layout_width="200dip"
         android:layout_height="200dip"
         android:scaleType="centerInside"
-        android:background="#000000"
+        android:background="#ffffff"
         android:src="@drawable/get_actionbar_menu_logo" />
 
     <TextView

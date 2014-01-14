@@ -3,9 +3,9 @@ package com.technion.coolie.server.ug.api;
 import java.io.IOException;
 import java.util.List;
 
-import com.technion.coolie.ug.UGLoginObject;
 import com.technion.coolie.ug.model.CourseItem;
 import com.technion.coolie.ug.model.Semester;
+import com.technion.coolie.ug.model.UGLoginObject;
 
 /**
  * Created on 7.12.2013

@@ -1,5 +1,6 @@
 package com.technion.coolie.webcourse;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +89,12 @@ public class StaffFragmentTab extends SherlockListFragment {
 				// TODO Auto-generated method stub
 				CourseData course = new CourseData(params[0], "");
 				
-				mStaffList = WebcourseFactory.getWebcourseManager().getStaffInfo(course);
+				try {
+					mStaffList = WebcourseFactory.getWebcourseManager().getStaffInfo(course);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				return super.doInBackground(params);
 			}
 

@@ -20,11 +20,48 @@ public class TechTradeServer implements ITechTradeServerAPI {
 	Gson gson = new Gson();
 
 	@Override
+	public ReturnCode addAccount(BankAccount account, String password)
+			throws IOException {
+		return ReturnCode.valueOf(Communicator.execute(
+				TechoinsEnum.TECHOINS_SERVLET.value(), "function",
+				TechoinsEnum.ADD_ACCOUNT.toString(), TechoinsEnum.BANK_ACCOUNT.value(),
+				gson.toJson(account), "password", password));
+	}
+
+	@Override
+	public ReturnCode removeAccount(BankAccount account) throws IOException {
+		return ReturnCode.valueOf(Communicator.execute(
+				TechoinsEnum.TECHOINS_SERVLET.value(), "function",
+				TechoinsEnum.REMOVE_ACCOUNT.toString(),
+				TechoinsEnum.BANK_ACCOUNT.value(), gson.toJson(account)));
+	}
+
+	@Override
+	public BankAccount getAccount(BankAccount account)
+			throws JsonSyntaxException, IOException {
+		return gson.fromJson(Communicator.execute(
+				TechoinsEnum.TECHOINS_SERVLET.value(), "function",
+				TechoinsEnum.GET_ACCOUNT.toString(), TechoinsEnum.BANK_ACCOUNT.value(),
+				gson.toJson(account)), BankAccount.class);
+	}
+
+	@Override
 	public ReturnCode moveMoney(TechoinsTransfer transfer) throws IOException {
 		return ReturnCode.valueOf(Communicator.execute(
 				TechoinsEnum.TECHOINS_SERVLET.value(), "function",
 				TechoinsEnum.MOVE_MONEY.toString(),
 				TechoinsEnum.TECHOINS_TRANSFER.value(), gson.toJson(transfer)));
+	}
+
+	@Override
+	public List<TechoinsTransfer> getHistory(BankAccount account)
+			throws JsonSyntaxException, IOException {
+		return gson.fromJson(Communicator.execute(
+				TechoinsEnum.TECHOINS_SERVLET.value(), "function",
+				TechoinsEnum.GET_HISTORY.toString(), TechoinsEnum.BANK_ACCOUNT.value(),
+				gson.toJson(account)), new TypeToken<List<TechoinsTransfer>>() {
+			// default usage
+		}.getType());
 	}
 
 	@Override

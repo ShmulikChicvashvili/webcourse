@@ -1,10 +1,9 @@
 package com.technion.coolie.server.ug.api;
 
-import java.io.IOException;
 import java.util.List;
 
-import com.technion.coolie.ug.UGLoginObject;
 import com.technion.coolie.ug.model.AccomplishedCourse;
+import com.technion.coolie.ug.model.UGLoginObject;
 
 /**
  * Created on 7.12.2013
@@ -13,13 +12,11 @@ import com.technion.coolie.ug.model.AccomplishedCourse;
  * 
  */
 public interface IUgGradeSheet {
-  /**
-   * 
-   * @param student
-   *          the student
-   * @return list of student's accomplished courses
-   * @throws IOException
-   */
-  public List<AccomplishedCourse> getMyGradesSheet(UGLoginObject student)
-      throws IOException;
+	/**
+	 * 
+	 * @param student
+	 *            the student
+	 * @return list of student's accomplished courses
+	 */
+	public List<AccomplishedCourse> getMyGradesSheet(UGLoginObject student);
 }
