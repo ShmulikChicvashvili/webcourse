@@ -23,32 +23,20 @@ public class UgTracking implements IUgTracking {
 	@Override
 	public ReturnCodesUg addTrackingStudent(UGLoginObject student,
 			CourseKey courseKey) {
-		String serverResult = null;
-		try {
-			serverResult = Communicator.execute(servletName, FUNCTION,
-					UgTrackingFunctions.ADD_TRACKING_STUDENT.value(), "student",
-					toJson(student), "courseKey", toJson(courseKey));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String serverResult  = Communicator.execute(servletName, FUNCTION,
+				UgTrackingFunctions.ADD_TRACKING_STUDENT.value(), "student",
+				toJson(student), "courseKey", toJson(courseKey));
 		return ReturnCodesUg.valueOf(serverResult);
 	}
 
 	@Override
 	public ReturnCodesUg removeTrackingStudentFromCourse(UGLoginObject student,
 			CourseKey courseKey) {
-		String serverResult = null;
-		try {
-			serverResult = Communicator
-					.execute(servletName, FUNCTION,
-							UgTrackingFunctions.REMOVE_TRACKING_STUDENT_FROM_COURSE
-									.value(), "student", toJson(student),
-							"courseKey", toJson(courseKey));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String serverResult  = Communicator
+				.execute(servletName, FUNCTION,
+						UgTrackingFunctions.REMOVE_TRACKING_STUDENT_FROM_COURSE
+								.value(), "student", toJson(student),
+						"courseKey", toJson(courseKey));
 		return ReturnCodesUg.valueOf(serverResult);
 	}
 

@@ -23,14 +23,8 @@ public class UgExam implements IUgExam {
 	@Override
 	public List<CourseItem> getStudentExams(UGLoginObject student,
 			Semester semester) {
-		String $;
-		try {
-			$ = Communicator.execute(servletName, "student",
-					toJson(student), "semester", toJson(semester));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String $ = Communicator.execute(servletName, "student",
+				toJson(student), "semester", toJson(semester));
 		return convertJsonToList($);
 	}
 

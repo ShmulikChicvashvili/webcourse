@@ -21,14 +21,8 @@ public class UgGradeSheet implements IUgGradeSheet {
 
 	@Override
 	public List<AccomplishedCourse> getMyGradesSheet(UGLoginObject student) {
-		String $;
-		try {
-			$ = Communicator
-					.execute(servletName, "student", toJson(student));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String $ = Communicator
+				.execute(servletName, "student", toJson(student));
 		return convertJsonToList($);
 	}
 
