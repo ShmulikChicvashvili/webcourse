@@ -510,7 +510,7 @@
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>
         <activity
-            android:name="com.technion.coolie.tecmind.TopTenActivity"
+            android:name="com.technion.coolie.tecmind.TopPostsActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.Sherlock.Light" >
         </activity>

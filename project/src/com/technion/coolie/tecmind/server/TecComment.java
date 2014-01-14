@@ -2,7 +2,6 @@ package com.technion.coolie.tecmind.server;
 import java.util.Date;
 
 public class TecComment implements IGetters {
-
   String id;
   Date date;
   int technionValue;

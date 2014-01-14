@@ -15,17 +15,20 @@ public class MyAccountActivity extends CoolieActivity {
 	    Intent intent = new Intent(MyAccountActivity.this, MyAccountActivity.class);
 	    startActivity(intent);
 	    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+	    finish();
 	}
 	
 	public void mineNav(View view) {
 	    Intent intent = new Intent(MyAccountActivity.this, MineActivity.class);
 	    startActivity(intent);
 	    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+	    finish();
 	}
 	public void myTitleNav(View view) {
 	    Intent intent = new Intent(MyAccountActivity.this, MainActivity.class);
 	    startActivity(intent);
 	    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+	    finish();
 	}
 	
 	@Override
