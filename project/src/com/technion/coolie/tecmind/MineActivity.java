@@ -36,6 +36,7 @@ import com.facebook.model.OpenGraphAction;
 import com.facebook.widget.FacebookDialog;
 import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.CoolieNotification;
+import com.technion.coolie.CooliePriority;
 import com.technion.coolie.R;
 import com.technion.coolie.skeleton.CoolieModule;
 import com.technion.coolie.tecmind.BL.Comment;
@@ -230,7 +231,7 @@ public class MineActivity extends CoolieActivity {
 						+ " Techoins for likes on other's posts!",
 						(Activity) CoolieModule.TECMIND.getActivity()
 								.newInstance(),
-						CoolieNotification.Priority.IMMEDIATELY, true,
+						CooliePriority.IMMEDIATELY, true,
 						MineActivity.this);
 			} else { // type == COMMENT
 				notification = new CoolieNotification("TecMine", "You mined "
@@ -238,7 +239,7 @@ public class MineActivity extends CoolieActivity {
 						+ " Techoins for comments on other's posts!",
 						(Activity) CoolieModule.TECMIND.getActivity()
 								.newInstance(),
-						CoolieNotification.Priority.IMMEDIATELY, true,
+								CooliePriority.IMMEDIATELY, true,
 						MineActivity.this);
 			}
 

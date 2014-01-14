@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.technion.coolie.skeleton.PrivateCoolieAccount;
+import com.technion.coolie.FacebookLogin;
 import com.technion.coolie.R;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -83,5 +85,13 @@ public class PreferencesScreen extends SherlockPreferenceActivity {
 			return true;
 		return super.isValidFragment(fragmentName);
 	}
+	   @Override 
+	     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+	    super.onActivityResult(requestCode, resultCode, data);
+		   if (PrivateCoolieAccount.FACEBOOK.mLoggedAccount == null){
+	    		 FacebookLogin.onResult(this, requestCode, resultCode, data);
+	    		 return;
+	    	 }
+	   }
 
 }
