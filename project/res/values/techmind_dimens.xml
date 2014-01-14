@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     
     <dimen name="top_margin">30dp</dimen>
     <dimen name="horiz_space">10dp</dimen>

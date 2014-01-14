@@ -12,10 +12,15 @@ public class User implements IUser{
 	public int totalTechoins = 0;
 	public int bankAccount = 0;
 	
-	public int commentsNum = 0;
 	public int postsNum = 0;
+	public int commentsNum = 0;
 	public int likesNum = 0; // likes that the user did
 	public int likesOnPostsNum = 0; // likes on posts
+	
+	public int likesOthers = 0;
+	public int commentsOthers = 0;
+	public int weeklyTotlal = 0;
+	public int spamCount = 0;
 	
 	public ArrayList<Post> posts = new ArrayList<Post>();
 	
@@ -41,7 +46,7 @@ public class User implements IUser{
 	@Override
 	public void initiateFieldsFromServer(String sName, Title sTitle,
 			Date sLastMining, int sTotalTechoins, int sBankAccount, int sPosts, int sComments,
-			int sLikes, int sLikesOnPosts) {
+			int sLikes, int sLikesOnPosts, int sLikesOthers, int sCommentsOthers, int sWeeklyTotal, int sSpamCount) {
 		name = sName;
 		title = sTitle;
 		lastMining = sLastMining;
@@ -51,12 +56,18 @@ public class User implements IUser{
 		likesNum = sLikes;
 		likesOnPostsNum = sLikesOnPosts;
 		commentsNum = sComments;
+		likesOthers = sLikesOthers;
+		commentsOthers = sCommentsOthers;
+		weeklyTotlal = sWeeklyTotal;
+		spamCount = sSpamCount;
 		
 	}
 	
 	@Override
 	public Post getPostById(String postId) {
 		for (Post p : User.getUserInstance(null).posts) {
+			System.out.println(p.id);
+			System.out.println(postId);
 			if (p.id.equals(postId)) {
 				return p;
 			}

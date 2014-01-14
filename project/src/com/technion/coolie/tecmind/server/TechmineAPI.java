@@ -1,13 +1,10 @@
-/**
- * 
- */
 package com.technion.coolie.tecmind.server;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.technion.coolie.tecmind.server.Communicator;
-
+import com.technion.coolie.tecmind.server.manager.TecGroup;
 /**
  * 
  * Created on 8/12/2013
@@ -20,11 +17,19 @@ public class TechmineAPI implements ITechmineAPI {
   Gson gson = new Gson();
 
   @Override
-  public ReturnCode addUser(TecUser user) {
+  public ReturnCode addUsers(List<TecUser> users) {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.ADD_USER.toString(), TechmineEnum.TEC_USER.value(),
-        gson.toJson(user)));
+        TechmineEnum.ADD_USERS.toString(), TechmineEnum.TEC_USER.value(),
+        gson.toJson(users)));
+  }
+
+  @Override
+  public ReturnCode updateUsers(List<TecUser> users) {
+    return ReturnCode.valueOf(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.UPDATE_USERS.toString(), TechmineEnum.TEC_USER.value(),
+        gson.toJson(users)));
   }
 
   @Override
@@ -44,61 +49,61 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public ReturnCode addTopBestPost(TecTopBestPost topBestPost) {
-    return ReturnCode.valueOf(Communicator.execute(
-        TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.ADD_TOP_BEST_POST.toString(),
-        TechmineEnum.TOP_BEST_POST.value(), gson.toJson(topBestPost)));
-  }
-
-  @Override
-  public ReturnCode removeTopBestPost(TecTopBestPost topBestPost) {
-    return ReturnCode.valueOf(Communicator.execute(
-        TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.REMOVE_TOP_BEST_POST.toString(),
-        TechmineEnum.TOP_BEST_POST.value(), gson.toJson(topBestPost)));
-  }
-
-  @Override
-  public TecTopBestPost getTopBestPost(TecTopBestPost topBestPost) {
+  public List<TecPost> getTopBestPosts() {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.GET_TOP_BEST_POST.toString(),
-        TechmineEnum.TOP_BEST_POST.value(), gson.toJson(topBestPost)),
-        TecTopBestPost.class);
+        TechmineEnum.GET_TOP_BEST_POSTS.toString()),
+        new TypeToken<List<TecPost>>() {
+          // default usage
+        }.getType());
   }
 
   @Override
-  public ReturnCode addTopBestComment(TecTopBestComment topBestComment) {
-    return ReturnCode.valueOf(Communicator.execute(
-        TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.ADD_TOP_BEST_COMMENT.toString(),
-        TechmineEnum.TOP_BEST_COMMENT.value(), gson.toJson(topBestComment)));
-  }
-
-  @Override
-  public ReturnCode removeTopBestComment(TecTopBestComment topBestComment) {
-    return ReturnCode.valueOf(Communicator.execute(
-        TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.REMOVE_TOP_BEST_COMMENT.toString(),
-        TechmineEnum.TOP_BEST_COMMENT.value(), gson.toJson(topBestComment)));
-  }
-
-  @Override
-  public TecTopBestComment getTopBestComment(TecTopBestComment topBestComment) {
+  public List<TecComment> getTopBestComments() {
     return gson.fromJson(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.GET_TOP_BEST_COMMENT.toString(),
-        TechmineEnum.TOP_BEST_COMMENT.value(), gson.toJson(topBestComment)),
-        TecTopBestComment.class);
+        TechmineEnum.GET_TOP_BEST_COMMENTS.toString()),
+        new TypeToken<List<TecComment>>() {
+          // default usage
+        }.getType());
   }
 
   @Override
-  public ReturnCode addTecPost(TecPost tecPost) {
+  public List<TecGroup> getValidGroups() {
+    return gson.fromJson(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.GET_VALID_GROUPS.toString()),
+        new TypeToken<List<TecGroup>>() {
+          // default usage
+        }.getType());
+  }
+
+  @Override
+  public List<TecUser> getTopBestMiners() {
+    return gson.fromJson(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.GET_TOP_BEST_MINERS.toString()),
+        new TypeToken<List<TecUser>>() {
+          // default usage
+        }.getType());
+  }
+
+  @Override
+  public List<TecUser> getTopBestMinersOfTheWeek() {
+    return gson.fromJson(Communicator.execute(
+        TechmineEnum.TECHMINE_SERVLET.value(), "function",
+        TechmineEnum.GET_TOP_BEST_MINERS_OF_THE_WEEK.toString()),
+        new TypeToken<List<TecUser>>() {
+          // default usage
+        }.getType());
+  }
+
+  @Override
+  public ReturnCode addTecPosts(List<TecPost> tecPosts) {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.ADD_TEC_POST.toString(), TechmineEnum.TEC_POST.value(),
-        gson.toJson(tecPost)));
+        TechmineEnum.ADD_TEC_POSTS.toString(), TechmineEnum.TEC_POST.value(),
+        gson.toJson(tecPosts)));
   }
 
   @Override
@@ -118,11 +123,11 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public ReturnCode addTecComment(TecComment tecComment) {
+  public ReturnCode addTecComments(List<TecComment> tecComments) {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.ADD_TEC_COMMENT.toString(),
-        TechmineEnum.TEC_COMMENT.value(), gson.toJson(tecComment)));
+        TechmineEnum.ADD_TEC_COMMENTS.toString(),
+        TechmineEnum.TEC_COMMENT.value(), gson.toJson(tecComments)));
   }
 
   @Override
@@ -143,11 +148,11 @@ public class TechmineAPI implements ITechmineAPI {
   }
 
   @Override
-  public ReturnCode addTecLike(TecLike tecLike) {
+  public ReturnCode addTecLikes(List<TecLike> tecLikes) {
     return ReturnCode.valueOf(Communicator.execute(
         TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.ADD_TEC_LIKE.toString(), TechmineEnum.TEC_LIKE.value(),
-        gson.toJson(tecLike)));
+        TechmineEnum.ADD_TEC_LIKES.toString(), TechmineEnum.TEC_LIKE.value(),
+        gson.toJson(tecLikes)));
   }
 
   @Override
@@ -175,14 +180,6 @@ public class TechmineAPI implements ITechmineAPI {
         new TypeToken<List<TecPost>>() {
           // default usage
         }.getType());
-  }
-
-  @Override
-  public ReturnCode addTecPostList(List<TecPost> posts) {
-    return ReturnCode.valueOf(Communicator.execute(
-        TechmineEnum.TECHMINE_SERVLET.value(), "function",
-        TechmineEnum.ADD_TEC_POST_LIST.toString(),
-        TechmineEnum.TEC_POST.value(), gson.toJson(posts)));
   }
 
 }

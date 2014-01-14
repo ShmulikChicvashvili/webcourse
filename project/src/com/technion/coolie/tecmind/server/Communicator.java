@@ -1,4 +1,5 @@
 package com.technion.coolie.tecmind.server;
+
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;

@@ -4,10 +4,11 @@ import java.util.Date;
 
 public class Comment extends UserActivity {
 	  String id;
-	  Date date;
 	  int technionValue = 2;
-	  int userID;
+	  String userID;
 	  int likesCount = 0;
+	  Date date;
+	  String message;
 	
 	  /**
 	   * @param id1
@@ -16,11 +17,11 @@ public class Comment extends UserActivity {
 	   * @param userID1
 	   * @param likesCount1
 	   */
-	  public Comment(String id1, Date date1, int userID1,
-	      int likesCount1) {
-	    this.id = id1;
-	    this.date = date1;
-	    this.userID = userID1;
+	  public Comment(String id1, String userID1,
+	      int likesCount1, String postId1, String postContent1, String groupName1, String message1) {
+		this.id = id1;
+		this.userID = userID1;
 	    this.likesCount = likesCount1;
+	    this.message = message1;
 	  }
 }

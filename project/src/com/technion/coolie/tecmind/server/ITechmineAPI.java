@@ -1,6 +1,7 @@
 package com.technion.coolie.tecmind.server;
 import java.util.List;
 
+import com.technion.coolie.tecmind.server.manager.TecGroup;
 /**
  * 
  * Created on 8/12/2013
@@ -12,11 +13,21 @@ public interface ITechmineAPI {
 
   /**
    * 
-   * @param user
-   *          - the user to add with all the necessary fields initialized
+   * @param users
+   *          - the list of users to add with all the necessary fields
+   *          initialized
    * @return - SUCCESS if went well, error code otherwise
    */
-  public ReturnCode addUser(TecUser user);
+  public ReturnCode addUsers(List<TecUser> users);
+
+  /**
+   * 
+   * @param users
+   *          - the list of users to update with all the necessary fields
+   *          initialized
+   * @return - SUCCESS if went well, error code otherwise
+   */
+  public ReturnCode updateUsers(List<TecUser> users);
 
   /**
    * 
@@ -34,62 +45,33 @@ public interface ITechmineAPI {
   public TecUser getUser(TecUser user);
 
   /**
-   * 
-   * @param topBestPost
-   *          - the topBestPost to add with all the necessary fields initialized
-   * @return - SUCCESS if went well, error code otherwise
+   * @return - top 10 TecPost by their technionValue field
    */
-  public ReturnCode addTopBestPost(TecTopBestPost topBestPost);
+  public List<TecPost> getTopBestPosts();
+
+  /**
+   * @return - top 10 TecComment by their technionValue field
+   */
+  public List<TecComment> getTopBestComments();
+
+  /**
+   * @return - top 10 TecUser by their totalTechoins field
+   */
+  public List<TecUser> getTopBestMiners();
+
+  /**
+   * @return - top 10 TecUser of the week by their totalTechoins field
+   */
+  public List<TecUser> getTopBestMinersOfTheWeek();
 
   /**
    * 
-   * @param topBestPost
-   *          - the topBestPost to remove with the id field initialized
-   *          correctly
-   * @return - SUCCESS if went well, error code otherwise
-   */
-  public ReturnCode removeTopBestPost(TecTopBestPost topBestPost);
-
-  /**
-   * @param topBestPost
-   *          - the topBestPost to get with the id field initialized correctly
-   * @return - the requested topBestPost
-   */
-  public TecTopBestPost getTopBestPost(TecTopBestPost topBestPost);
-
-  /**
-   * 
-   * @param topBestComment
-   *          - the topBestComment to add with all the necessary fields
+   * @param tecPosts
+   *          - the list of tecPosts to add with all the necessary fields
    *          initialized
    * @return - SUCCESS if went well, error code otherwise
    */
-  public ReturnCode addTopBestComment(TecTopBestComment topBestComment);
-
-  /**
-   * 
-   * @param topBestComment
-   *          - the topBestComment to remove with the id field initialized
-   *          correctly
-   * @return - SUCCESS if went well, error code otherwise
-   */
-  public ReturnCode removeTopBestComment(TecTopBestComment topBestComment);
-
-  /**
-   * @param topBestComment
-   *          - the topBestComment to get with the id field initialized
-   *          correctly
-   * @return - the requested topBestComment
-   */
-  public TecTopBestComment getTopBestComment(TecTopBestComment topBestComment);
-
-  /**
-   * 
-   * @param tecPost
-   *          - the tecPost to add with all the necessary fields initialized
-   * @return - SUCCESS if went well, error code otherwise
-   */
-  public ReturnCode addTecPost(TecPost tecPost);
+  public ReturnCode addTecPosts(List<TecPost> tecPosts);
 
   /**
    * 
@@ -108,11 +90,12 @@ public interface ITechmineAPI {
 
   /**
    * 
-   * @param tecComment
-   *          - the tecComment to add with all the necessary fields initialized
+   * @param tecComments
+   *          - the list of tecComments to add with all the necessary fields
+   *          initialized
    * @return - SUCCESS if went well, error code otherwise
    */
-  public ReturnCode addTecComment(TecComment tecComment);
+  public ReturnCode addTecComments(List<TecComment> tecComments);
 
   /**
    * 
@@ -131,11 +114,12 @@ public interface ITechmineAPI {
 
   /**
    * 
-   * @param tecLike
-   *          - the tecLike to add with all the necessary fields initialized
+   * @param tecLikes
+   *          - the list of tecLikes to add with all the necessary fields
+   *          initialized
    * @return - SUCCESS if went well, error code otherwise
    */
-  public ReturnCode addTecLike(TecLike tecLike);
+  public ReturnCode addTecLikes(List<TecLike> tecLikes);
 
   /**
    * 
@@ -162,9 +146,8 @@ public interface ITechmineAPI {
 
   /**
    * 
-   * @param posts
-   *          - the list of TecPost to add
-   * @return - SUCCESS if went well, error code otherwise
+   * @return - List<TecGroup> which includes all valid goups
    */
-  public ReturnCode addTecPostList(List<TecPost> posts);
+  public List<TecGroup> getValidGroups();
+
 }
