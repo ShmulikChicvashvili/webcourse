@@ -1,21 +1,24 @@
 package com.technion.coolie.webcourse;
 
+
 import java.util.ArrayList;
 
+import com.actionbarsherlock.view.Menu;
+import com.technion.coolie.CoolieActivity;
 import com.technion.coolie.R;
 
+
+import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 
-public class CoursesActivity extends Activity {
+
+public class CoursesActivity extends CoolieActivity {
 
 	
 	CourseData[] courses = new CourseData[] {	new CourseData("Operating Systems", "234123 - bla bla bla"), 
@@ -31,7 +34,7 @@ public class CoursesActivity extends Activity {
 	public ListView mList;
 	public AlertDialog.Builder dlgAlert;
 	
-	public final static String EXTRA_MESSAGE = "com.example.gr_plusplus.MESSAGE";
+	public final static String EXTRA_MESSAGE = "com.technion.coolie.webcourse.MESSAGE";
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +60,11 @@ public class CoursesActivity extends Activity {
         mList.setOnItemClickListener(itemClicked);
         
     }
-
-
+	
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.courses, menu);
+        getSupportMenuInflater().inflate(R.menu.courses, menu);
         return true;
     }
     

@@ -588,27 +588,30 @@
         </activity>
         <!-- Webcourse -->
         <activity
-            android:name="com.technion.coolie.webcourse.gr_plusplus.CoursesActivity"
+            android:name="com.technion.coolie.webcourse.CoursesActivity"
             android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock.Light"
             android:parentActivityName="com.technion.coolie.skeleton.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.technion.coolie.skeleton.MainActivity" />
         </activity>
         <activity
-            android:name="com.technion.coolie.webcourse.gr_plusplus.CourseInformationActivity"
-            android:label="@string/title_activity_course_information" >
+            android:name="com.technion.coolie.webcourse.CourseInformationActivity"
+            android:label="@string/title_activity_course_information"
+            android:theme="@style/Theme.Sherlock.Light" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.gr_plusplus.CoursesActivity" />
+                android:value="com.technion.coolie.webcourse.CoursesActivity" />
         </activity>
         <activity
-            android:name="com.technion.coolie.webcourse.gr_plusplus.AnnouncementActivity"
+            android:name="com.technion.coolie.webcourse.AnnouncementActivity"
             android:label="@string/title_activity_announcement"
-            android:parentActivityName="com.technion.coolie.webcourse.gr_plusplus.CourseInformationActivity" >
+            android:theme="@style/Theme.Sherlock.Light"
+            android:parentActivityName="com.technion.coolie.webcourse.CourseInformationActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.technion.coolie.webcourse.gr_plusplus.CourseInformationActivity" />
+                android:value="com.technion.coolie.webcourse.CourseInformationActivity" />
         </activity>
     </application>
 
